@@ -7,7 +7,7 @@ Welcome to SpinalHDL's documentation!
 =====================================
 
 .. toctree::
-   :maxdepth: -1
+   :maxdepth: 2
    :caption: About SpinalHDL:
 
    rst/introduction
