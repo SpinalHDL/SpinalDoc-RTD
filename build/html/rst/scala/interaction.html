@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/scala/interaction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>In fact, SpinalHDL is not an language, it’s regular Scala library. It could seem strange at the first look, but this is a very powerful combination.</p>
+<p>You can use the whole Scala world to help you in the description of your hardware via the SpinalHDL library, but to do that properly, it’s great to understand how SpinalHDL interact with Scala.</p>
+</div>
+<div class="section" id="how-spinalhdl-work-behind-the-api">
+<h1>How SpinalHDL work behind the API<a class="headerlink" href="#how-spinalhdl-work-behind-the-api" title="Permalink to this headline">¶</a></h1>
+<p>Basically, when you execute your SpinalHDL hardware description, each time you use an SpinalHDL function, operator, classes, it will build into your PC memory an graph that represent the netlist of your design.</p>
+<p>Then, when the elaboration is done (Instantiation of your toplevel Component classes), SpinalHDL will do some passes on the graph that was constructed and if everything is fine, it will flush it into a VHDL or in a Verilog file.</p>
+</div>
+<div class="section" id="everything-is-reference">
+<h1>Everything is reference<a class="headerlink" href="#everything-is-reference" title="Permalink to this headline">¶</a></h1>
+<p>For example, if you define a Scala function which take as parameter a Bits, when you call it, the Bits argument will be passed as a reference. As consequence of that, if you assign that argument inside the function, it will assign it as if you have done it outside the function.</p>
+</div>
+<div class="section" id="hardware-types">
+<h1>Hardware types<a class="headerlink" href="#hardware-types" title="Permalink to this headline">¶</a></h1>
+<p>Hardware data types in SpinalHDL are the combination of two things :</p>
+<ul class="simple">
+<li>An instance of a given Scala type</li>
+<li>The configuration of that instance</li>
+</ul>
+<p>For example <code class="docutils literal notranslate"><span class="pre">Bits(8</span> <span class="pre">bits)</span></code> is the combination of the Scala type Bits and its 8 bits configuration (as construction parameter).</p>
+<div class="section" id="rgb-example">
+<h2>RGB example<a class="headerlink" href="#rgb-example" title="Permalink to this headline">¶</a></h2>
+<p>Let’s take an Rgb bundle class as example :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Rgb</span><span class="o">(</span><span class="n">rWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">gWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">bWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">rWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">gWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">bWidth</span> <span class="n">bits</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>It appear that the hardware data type is the combination of the Scala Rgb classes and its rWidth, gWidth, bWidth parameterization.</p>
+<p>There is some example of usage :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define a Rgb signal</span>
+<span class="k">val</span> <span class="n">myRgbSignal</span> <span class="k">=</span> <span class="nc">Rgb</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+
+<span class="c1">//Define another Rgb signal of the same data type as the precedent one</span>
+<span class="k">val</span> <span class="n">myRgbCloned</span> <span class="k">=</span> <span class="n">cloneOf</span><span class="o">(</span><span class="n">myRgbSignal</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>You can also use functions to define kind of type factory (typedef) :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define a type factory function</span>
+<span class="k">def</span> <span class="n">myRgbTypeDef</span> <span class="k">=</span> <span class="nc">Rgb</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+
+<span class="c1">//Use that type factory to create a Rgb signal</span>
+<span class="k">val</span> <span class="n">myRgbFromTypeDef</span> <span class="k">=</span> <span class="n">myRgbTypeDef</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="names-of-signals-in-the-generated-rtl">
+<h1>Names of signals in the generated RTL<a class="headerlink" href="#names-of-signals-in-the-generated-rtl" title="Permalink to this headline">¶</a></h1>
+<p>To name signals in the generated RTL, SpinalHDL use Java reflections to walk through all your component hierarchy in order to collect all references stored into class attributes and name them with their attribute name.</p>
+<p>It’s why, if you define a function, all signal’s names inside the function are lost :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">arg</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">){</span>
+  <span class="k">val</span> <span class="n">temp</span> <span class="k">=</span> <span class="n">arg</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1">//You will not retrieve the `temp` signal in the generated RTL</span>
+  <span class="k">return</span> <span class="n">temp</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;000001&quot;</span><span class="o">)</span>  <span class="o">+</span> <span class="mi">42</span>
+</pre></div>
+</div>
+<p>One solution if you want to keep function’s internal variable’s names in the generated RTL, is to use Area :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">arg</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span> <span class="k">new</span> <span class="nc">Area</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">temp</span> <span class="k">=</span> <span class="n">arg</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1">//You will not retrieve the temp signal in the generated RTL</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">myFunctionCall</span> <span class="k">=</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;000001&quot;</span><span class="o">)</span>  <span class="c1">//Will generate `temp` with `myFunctionCall_temp` as name</span>
+<span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="n">myFunctionCall</span><span class="o">.</span><span class="n">temp</span>  <span class="o">+</span> <span class="mi">42</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scala-is-for-elaboration-spinalhdl-for-hardware-description">
+<h1>Scala is for elaboration, SpinalHDL for hardware description<a class="headerlink" href="#scala-is-for-elaboration-spinalhdl-for-hardware-description" title="Permalink to this headline">¶</a></h1>
+<p>For example, if you write a scala for loop to generate some hardware, it will generate the unrooled result in VHDL/Verilog.</p>
+<p>Also, you want a constant, you should not use SpinalHDL Hardware literals but the scala ones. For example :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//This is wrong, because you can&#39;t use an hardware Bool as construction parameter, which will do hierarchy violations.</span>
+<span class="k">class</span> <span class="nc">SubComponent</span><span class="o">(</span><span class="n">activeHigh</span><span class="k">:</span> <span class="kt">Bool</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="c1">//...</span>
+<span class="o">}</span>
+
+<span class="c1">//This is right, you can use all the scala world to parameterize your hardware.</span>
+<span class="k">class</span> <span class="nc">SubComponent</span><span class="o">(</span><span class="n">activeHigh</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="c1">//...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scala-elaboration-capabilities-if-for-functional-programming">
+<h1>Scala elaboration capabilities (if, for, functional programming)<a class="headerlink" href="#scala-elaboration-capabilities-if-for-functional-programming" title="Permalink to this headline">¶</a></h1>
+<p>All the scala syntax could be used to elaborate the hardware, as instance a scala if statement could be used to enable or disable the generation of a given hardware :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">if</span><span class="o">(</span><span class="n">generateAClearWhenHit42</span><span class="o">){</span>  <span class="c1">//Elaboration test, like an if generate in vhdl</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">counter</span> <span class="o">===</span> <span class="mi">42</span><span class="o">){</span>       <span class="c1">//Hardware test</span>
+    <span class="n">counter</span> <span class="o">:=</span> <span class="mi">0</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The same is true for scala for loops :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="n">when</span><span class="o">(</span><span class="n">something</span><span class="o">){</span>
+  <span class="c1">//Set all bits of value by using a scala for loop (evaluated during the hardware elaboration)</span>
+  <span class="k">for</span><span class="o">(</span><span class="n">idx</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">7</span><span class="o">){</span>
+    <span class="n">value</span><span class="o">(</span><span class="n">idx</span><span class="o">)</span> <span class="o">:=</span> <span class="nc">True</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Also, all the functionnal programming stuff of SpinalHDL can be used :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">values</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span><span class="mi">4</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">valuesAre42</span>    <span class="k">=</span> <span class="n">vecOfBits</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">===</span> <span class="mi">42</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">valuesAreAll42</span> <span class="k">=</span> <span class="n">valuesAre42</span><span class="o">.</span><span class="n">reduce</span><span class="o">(</span><span class="k">_</span> <span class="o">&amp;&amp;</span> <span class="k">_</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">valuesAreEqualsToTheirIndex</span> <span class="k">=</span> <span class="n">vecOfBits</span><span class="o">.</span><span class="n">zipWithIndex</span><span class="o">.</span><span class="n">map</span><span class="o">{</span><span class="k">case</span> <span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="n">i</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">value</span> <span class="o">===</span> <span class="n">i</span><span class="o">}</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

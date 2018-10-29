@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/rst/lib/com/uart.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>The UART protocol could be used, for instance, to emit an receive RS232 / RS485 frames.</p>
+<p>There is an example of an 8 bits frame, with no parity and one stop bit :
+&lt;img src=”{{ “/images/uart.png” |  prepend: site.baseurl }}” alt=”Miaou”/&gt;</p>
+</div>
+<div class="section" id="bus-definition">
+<h1>Bus definition<a class="headerlink" href="#bus-definition" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Uart</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">txd</span> <span class="k">=</span> <span class="nc">Bool</span>  <span class="c1">// Used to emit frames</span>
+  <span class="k">val</span> <span class="n">rxd</span> <span class="k">=</span> <span class="nc">Bool</span>  <span class="c1">// Used to receive frames</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">out</span><span class="o">(</span><span class="n">txd</span><span class="o">)</span>
+    <span class="n">in</span><span class="o">(</span><span class="n">rxd</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="uartctrl">
+<h1>UartCtrl<a class="headerlink" href="#uartctrl" title="Permalink to this headline">¶</a></h1>
+<p>An Uart controller is implemented in the library. This controller has the specificity to use a sampling window to read the <code class="docutils literal notranslate"><span class="pre">rxd</span></code> pin and then to using an majority vote to filter its value.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">IO name</th>
+<th class="head">direction</th>
+<th class="head">type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>config</td>
+<td>in</td>
+<td>UartCtrlConfig</td>
+<td>Used to set the clock divider/partity/stop/data length of the controller</td>
+</tr>
+<tr class="row-odd"><td>write</td>
+<td>slave</td>
+<td>Stream[Bits]</td>
+<td>Stream port used to request a frame transmission</td>
+</tr>
+<tr class="row-even"><td>read</td>
+<td>master</td>
+<td>Flow[Bits]</td>
+<td>Flow port used to receive decoded frames</td>
+</tr>
+<tr class="row-odd"><td>uart</td>
+<td>master</td>
+<td>Uart</td>
+<td>Interface to the real world</td>
+</tr>
+</tbody>
+</table>
+<p>The controller could be instantiated via an <code class="docutils literal notranslate"><span class="pre">UartCtrlGenerics</span></code> configuration object :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>dataWidthMax</td>
+<td>Int</td>
+<td>Maximal number of bit inside a frame</td>
+</tr>
+<tr class="row-odd"><td>clockDividerWidth</td>
+<td>Int</td>
+<td>Width of the internal clock divider</td>
+</tr>
+<tr class="row-even"><td>preSamplingSize</td>
+<td>Int</td>
+<td>Specify how many samplingTick are drop at the beginning of a UART baud</td>
+</tr>
+<tr class="row-odd"><td>samplingSize</td>
+<td>Int</td>
+<td>Specify how many samplingTick are used to sample <code class="docutils literal notranslate"><span class="pre">rxd</span></code> values in the middle of the UART baud</td>
+</tr>
+<tr class="row-even"><td>postSamplingSize</td>
+<td>Int</td>
+<td>Specify how many samplingTick are drop at the end of a UART baud</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

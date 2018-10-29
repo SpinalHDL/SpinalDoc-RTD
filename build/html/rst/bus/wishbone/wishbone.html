@@ -1,0 +1,455 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/rst/bus/wishbone/wishbone.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>{% include wavedrom.html %}</p>
+<div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>The (Wishbone)[] bus is an open standard for interconnecting IP cores toghether.
+The wishbone supports:</p>
+<ul class="simple">
+<li>pipelined comunication between IPs</li>
+<li>burst</li>
+<li>optional tags</li>
+</ul>
+</div>
+<div class="section" id="wishbone-transactions">
+<h1>Wishbone transactions<a class="headerlink" href="#wishbone-transactions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="classic">
+<h2>Classic<a class="headerlink" href="#classic" title="Permalink to this headline">¶</a></h2>
+<div style="float:left">
+<script type="WaveDrom">
+{signal: [
+  {name:'CLK',         wave: 'p...' },
+  {name:'WE',          wave: 'x1.x' },
+  {name:'CYC',         wave: '01.0' },
+  {name:'STB',         wave: '01.0' },
+  {name:'ACK',         wave: '0.10' },
+  {name:'ADR',         wave: 'x2.x', data: 'addr'},
+  {name:'DAT_MOSI',    wave: 'x2x.', data: 'data'},
+  {name:'DAT_MISO',    wave: 'x...' },
+],
+ head:{
+   text:'',
+   tick:0,
+ },
+ foot:{
+   text:'Classic Write',
+   }
+}
+</script>
+</div><script type="WaveDrom">
+{signal: [
+  {name:'CLK',         wave: 'p...' },
+  {name:'WE',          wave: 'x0.x' },
+  {name:'CYC',         wave: '01.0' },
+  {name:'STB',         wave: '01.0' },
+  {name:'ACK',         wave: '0.10' },
+  {name:'ADR',         wave: 'x2.x', data: 'addr'},
+  {name:'DAT_MOSI',    wave: 'x...' },
+  {name:'DAT_MISO',    wave: 'x.2x', data: 'data'},
+],
+ head:{
+   text:'',
+   tick:0,
+ },
+ foot:{
+   text:'Classic Read',
+   }
+}
+</script></div>
+<div class="section" id="pipelined">
+<h2>Pipelined<a class="headerlink" href="#pipelined" title="Permalink to this headline">¶</a></h2>
+<div style="float:left">
+<script type="WaveDrom">
+{signal: [
+  {name:'CLK',         wave: 'p...' },
+  {name:'WE',          wave: 'x1.x' },
+  {name:'CYC',         wave: '01.0' },
+  {name:'STB',         wave: '010.' },
+  {name:'ACK',         wave: '0.10' },
+  {name:'ADR',         wave: 'x2.x', data: 'addr' },
+  {name:'DAT_MOSI',    wave: 'x2x.', data: 'data' },
+  {name:'DAT_MISO',    wave: 'x...'},
+],
+ head:{
+   text:'',
+   tick:0,
+ },
+ foot:{
+   text:'Pipelined write',
+   }
+}
+</script>
+</div><script type="WaveDrom">
+{signal: [
+  {name:'CLK',         wave: 'p...' },
+  {name:'WE',          wave: 'x0.x' },
+  {name:'CYC',         wave: '01.0' },
+  {name:'STB',         wave: '010.' },
+  {name:'ACK',         wave: '0.10' },
+  {name:'ADR',         wave: 'x2.x', data: 'addr'},
+  {name:'DAT_MOSI',    wave: 'x...'  },
+  {name:'DAT_MISO',    wave: 'x.2x', data: 'data'},
+],
+ head:{
+   text:'',
+   tick:0,
+ },
+ foot:{
+   text:'Pipelined read',
+   }
+}
+</script></div>
+</div>
+<div class="section" id="id1">
+<h1>Introduction<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="configuration-and-instanciation">
+<h1>Configuration and instanciation<a class="headerlink" href="#configuration-and-instanciation" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">Wishbone</span></code> Bundle has a construction argument <code class="docutils literal notranslate"><span class="pre">WishboneConfig</span></code>. For more information the Wishbone spec could be find <a class="reference external" href="http://cdn.opencores.org/downloads/wbspec_b4.pdf">there</a>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">WishboneConfig</span><span class="o">(</span>
+  <span class="k">val</span> <span class="n">addressWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">dataWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">selWidth</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">useSTALL</span> <span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">useLOCK</span> <span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">useERR</span> <span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">useRTY</span> <span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">useCTI</span> <span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">tgaWidth</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">tgcWidth</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">tgdWidth</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span>
+  <span class="k">val</span> <span class="n">useBTE</span> <span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="o">){</span>
+  <span class="k">def</span> <span class="n">useTGA</span> <span class="k">=</span> <span class="n">tgaWidth</span> <span class="o">&gt;</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="n">useTGC</span> <span class="k">=</span> <span class="n">tgcWidth</span> <span class="o">&gt;</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="n">useTGD</span> <span class="k">=</span> <span class="n">tgdWidth</span> <span class="o">&gt;</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="n">useSEL</span> <span class="k">=</span> <span class="n">selWidth</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+  <span class="k">def</span> <span class="n">isPipelined</span> <span class="k">=</span> <span class="n">useSTALL</span>
+
+  <span class="k">def</span> <span class="n">pipelined</span> <span class="k">:</span> <span class="kt">WishboneConfig</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">useSTALL</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="n">withDataTag</span><span class="o">(</span><span class="n">size</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>    <span class="k">:</span> <span class="kt">WishboneConfig</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">tgdWidth</span> <span class="k">=</span> <span class="n">size</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">withAddressTag</span><span class="o">(</span><span class="n">size</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">:</span> <span class="kt">WishboneConfig</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">tgaWidth</span> <span class="k">=</span> <span class="n">size</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">withCycleTag</span><span class="o">(</span><span class="n">size</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>   <span class="k">:</span> <span class="kt">WishboneConfig</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">tgdWidth</span> <span class="k">=</span> <span class="n">size</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">withCycleTypeIdentifier</span>    <span class="k">:</span> <span class="kt">WishboneConfig</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">useCTI</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">withBurstType</span>              <span class="k">:</span> <span class="kt">WishboneConfig</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">useCTI</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">useBTE</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>This configuration object has also some functions to provide some <code class="docutils literal notranslate"><span class="pre">WishboneConfig</span></code> templates :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Return</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>pipelined</td>
+<td>WishboneConfig</td>
+<td>Return a wishbone configuration that support pipelined transaction</td>
+</tr>
+<tr class="row-odd"><td>withDataTag(size : Int)</td>
+<td>WishboneConfig</td>
+<td>Return a wishbone configuration with data tag of specidied size</td>
+</tr>
+<tr class="row-even"><td>withAddressTag(size : Int)</td>
+<td>WishboneConfig</td>
+<td>Return a wishbone configuration with address tag of specidied size</td>
+</tr>
+<tr class="row-odd"><td>withCycleTag(size : Int)</td>
+<td>WishboneConfig</td>
+<td>Return a wishbone configuration with cycle tag of specidied size</td>
+</tr>
+<tr class="row-even"><td>withCycleTypeIdentifier</td>
+<td>WishboneConfig</td>
+<td>Return a wishbone configuration with type identifier enabled</td>
+</tr>
+<tr class="row-odd"><td>withBurstType</td>
+<td>WishboneConfig</td>
+<td>Return a wishbone configuration with type identifier enabled</td>
+</tr>
+</tbody>
+</table>
+<p>You can check the bus configuration with:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Return</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>useTGA</td>
+<td>Boolean</td>
+<td>Return true if the address tag line is used</td>
+</tr>
+<tr class="row-odd"><td>useTGC</td>
+<td>Boolean</td>
+<td>Return true if the cycle tag line is used</td>
+</tr>
+<tr class="row-even"><td>useTGD</td>
+<td>Boolean</td>
+<td>Return true if the data tag lines are used</td>
+</tr>
+<tr class="row-odd"><td>useSEL</td>
+<td>Boolean</td>
+<td>Return true if the selection line is used</td>
+</tr>
+<tr class="row-even"><td>useSTALL</td>
+<td>Boolean</td>
+<td>Return true if the stall line is used (same as isPipelined)</td>
+</tr>
+<tr class="row-odd"><td>useLOCK</td>
+<td>Boolean</td>
+<td>Return true if the lock line is used</td>
+</tr>
+<tr class="row-even"><td>useERR</td>
+<td>Boolean</td>
+<td>Return true if the error line is used</td>
+</tr>
+<tr class="row-odd"><td>useRTY</td>
+<td>Boolean</td>
+<td>Return true if the retry line is used</td>
+</tr>
+<tr class="row-even"><td>useCTI</td>
+<td>Boolean</td>
+<td>Return true if the Cycle Type Identifie tag line is used</td>
+</tr>
+<tr class="row-odd"><td>useBTE</td>
+<td>Boolean</td>
+<td>Return true if the Burst Type Extension tag line is used</td>
+</tr>
+<tr class="row-even"><td>isPipelined</td>
+<td>Boolean</td>
+<td>Return true if the bus support pipelined interfacing (same as use STALL)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// You can define it in this way</span>
+<span class="k">val</span> <span class="n">myWishboneConfig1</span> <span class="k">=</span>  <span class="nc">WishboneConfig</span><span class="o">(</span>
+                          <span class="n">addressWidth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">,</span>
+                          <span class="n">dataWidth</span> <span class="k">=</span> <span class="mi">16</span><span class="o">,</span>
+                          <span class="n">useSTALL</span> <span class="k">=</span> <span class="kc">true</span>
+                        <span class="o">)</span>
+
+<span class="c1">// Or you can define it in this way</span>
+<span class="k">val</span> <span class="n">myWishboneConfig2</span> <span class="k">=</span>  <span class="nc">WishboneConfig</span><span class="o">(</span><span class="mi">8</span><span class="o">,</span><span class="mi">16</span><span class="o">).</span><span class="n">pipelined</span>
+
+<span class="c1">// you can create a wishbone bus in this way</span>
+<span class="k">val</span> <span class="n">wb</span> <span class="k">=</span> <span class="nc">Wishbone</span><span class="o">(</span><span class="n">myWishboneConfig2</span><span class="o">)</span>
+
+<span class="c1">// You can check the configuration like this</span>
+<span class="n">wb</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">isPipelined</span> <span class="c1">// will return true</span>
+<span class="n">wb</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dataWidth</span>   <span class="c1">//will return 8</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

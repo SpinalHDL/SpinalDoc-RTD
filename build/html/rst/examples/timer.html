@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/examples/timer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>A timer module is probably one of the most basic pieces of hardware. But even for a timer, there are some interresting things that you can do with SpinalHDL. This example will define a simple timer component which integrates a bus bridging utile.</p>
+</div>
+<div class="section" id="timer">
+<h1>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h1>
+<p>So let’s start with the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component.</p>
+<div class="section" id="specification">
+<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component will have a single construction parameter:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>width</td>
+<td>Int</td>
+<td>Specify the bit width of the timer counter</td>
+</tr>
+</tbody>
+</table>
+<p>And also some inputs/outputs:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">IO Name</th>
+<th class="head">Direction</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>tick</td>
+<td>in</td>
+<td>Bool</td>
+<td>When <code class="docutils literal notranslate"><span class="pre">tick</span></code> is True, the timer count up until <code class="docutils literal notranslate"><span class="pre">limit</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>clear</td>
+<td>in</td>
+<td>Bool</td>
+<td>When <code class="docutils literal notranslate"><span class="pre">tick</span></code> is True, the timer is set to zero. <code class="docutils literal notranslate"><span class="pre">clear</span></code> has priority over <code class="docutils literal notranslate"><span class="pre">tick</span></code>.</td>
+</tr>
+<tr class="row-even"><td>limit</td>
+<td>in</td>
+<td>UInt(width bits)</td>
+<td>When the timer value is equal to <code class="docutils literal notranslate"><span class="pre">limit</span></code>, the <code class="docutils literal notranslate"><span class="pre">tick</span></code> input is inhibited.</td>
+</tr>
+<tr class="row-odd"><td>full</td>
+<td>out</td>
+<td>Bool</td>
+<td><code class="docutils literal notranslate"><span class="pre">full</span></code> is high when the timer value is equal to <code class="docutils literal notranslate"><span class="pre">limit</span></code> and <code class="docutils literal notranslate"><span class="pre">tick</span></code> is high.</td>
+</tr>
+<tr class="row-even"><td>value</td>
+<td>out</td>
+<td>UInt(width bits)</td>
+<td>Wire out the timer counter value.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Timer</span><span class="o">(</span><span class="n">width</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+    <span class="k">val</span> <span class="n">tick</span>      <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clear</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">limit</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">)</span>
+
+    <span class="k">val</span> <span class="n">full</span>  <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">value</span>     <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">))</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">tick</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">io</span><span class="o">.</span><span class="n">full</span><span class="o">){</span>
+    <span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="o">}</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">clear</span><span class="o">){</span>
+    <span class="n">counter</span> <span class="o">:=</span> <span class="mi">0</span>
+  <span class="o">}</span>
+
+  <span class="n">io</span><span class="o">.</span><span class="n">full</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">===</span> <span class="n">io</span><span class="o">.</span><span class="n">limit</span> <span class="o">&amp;&amp;</span> <span class="n">io</span><span class="o">.</span><span class="n">tick</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">value</span> <span class="o">:=</span> <span class="n">counter</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="bridging-function">
+<h1>Bridging function<a class="headerlink" href="#bridging-function" title="Permalink to this headline">¶</a></h1>
+<p>Now we can start with the main purpose of this example: defining a bus bridging function. To do that we will use two techniques:</p>
+<ul class="simple">
+<li>Using the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> tool documented <a class="reference external" href="/SpinalDoc/spinal/lib/bus_slave_factory/">here</a></li>
+<li>Defining a function inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component which can be called from the parent component to drive the <code class="docutils literal notranslate"><span class="pre">Timer</span></code>’s IO in an abstract way.</li>
+</ul>
+<div class="section" id="id1">
+<h2>Specification<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>This bridging function will take the following parameters:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>busCtrl</td>
+<td>BusSlaveFactory</td>
+<td>The <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> instance that will be used by the function to create the bridging logic.</td>
+</tr>
+<tr class="row-odd"><td>baseAddress</td>
+<td>BigInt</td>
+<td>The base address where the bridging logic should be mapped.</td>
+</tr>
+<tr class="row-even"><td>ticks</td>
+<td>Seq[Bool]</td>
+<td>A list of Bool sources that can be used as a tick signal.</td>
+</tr>
+<tr class="row-odd"><td>clears</td>
+<td>Seq[Bool]</td>
+<td>A list of Bool sources that can be used as a clear signal.</td>
+</tr>
+</tbody>
+</table>
+<p>The register mapping assumes that the bus system is 32 bits wide:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Access</th>
+<th class="head">Width</th>
+<th class="head">Address offset</th>
+<th class="head">Bit offset</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ticksEnable</td>
+<td>RW</td>
+<td>len(ticks)</td>
+<td>0</td>
+<td>0</td>
+<td>Each <code class="docutils literal notranslate"><span class="pre">ticks</span></code> bool can be actived if the corresponding <code class="docutils literal notranslate"><span class="pre">ticksEnable</span></code> bit is high.</td>
+</tr>
+<tr class="row-odd"><td>clearsEnable</td>
+<td>RW</td>
+<td>len(clears)</td>
+<td>0</td>
+<td>16</td>
+<td>Each <code class="docutils literal notranslate"><span class="pre">clears</span></code> bool can be actived if the corresponding <code class="docutils literal notranslate"><span class="pre">clearsEnable</span></code> bit is high.</td>
+</tr>
+<tr class="row-even"><td>limit</td>
+<td>RW</td>
+<td>width</td>
+<td>4</td>
+<td>0</td>
+<td>Access the limit value of the timer component.<span class="raw-html-m2r"><br></span> When this register is written to, the timer is cleared.</td>
+</tr>
+<tr class="row-odd"><td>value</td>
+<td>R</td>
+<td>width</td>
+<td>8</td>
+<td>0</td>
+<td>Access the value of the timer.</td>
+</tr>
+<tr class="row-even"><td>clear</td>
+<td>W</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>8</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>When this register is written to, it clears the timer.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h2>Implementation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Let’s add this bridging function inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Timer</span><span class="o">(</span><span class="n">width</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+    <span class="k">val</span> <span class="n">tick</span>      <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clear</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">limit</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">)</span>
+
+    <span class="k">val</span> <span class="n">full</span>  <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">value</span>     <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="c1">// Logic previously defined</span>
+  <span class="c1">// ....</span>
+
+  <span class="c1">// The function prototype uses Scala currying funcName(arg1,arg2)(arg3,arg3)</span>
+  <span class="c1">// which allow to call the function with a nice syntax later</span>
+  <span class="c1">// This function also returns an area, which allows to keep names of inner signals in the generated VHDL/Verilog.</span>
+  <span class="k">def</span> <span class="n">driveFrom</span><span class="o">(</span><span class="n">busCtrl</span> <span class="k">:</span> <span class="kt">BusSlaveFactory</span><span class="o">,</span><span class="n">baseAddress</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">)(</span><span class="n">ticks</span> <span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Bool</span><span class="o">],</span><span class="n">clears</span> <span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Bool</span><span class="o">])</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="o">{</span>
+    <span class="c1">//Address 0 =&gt; clear/tick masks + bus</span>
+    <span class="k">val</span> <span class="n">ticksEnable</span>  <span class="k">=</span> <span class="n">busCtrl</span><span class="o">.</span><span class="n">createReadWrite</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">ticks</span><span class="o">.</span><span class="n">length</span> <span class="n">bits</span><span class="o">),</span><span class="n">baseAddress</span> <span class="o">+</span> <span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">clearsEnable</span> <span class="k">=</span> <span class="n">busCtrl</span><span class="o">.</span><span class="n">createReadWrite</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">clears</span><span class="o">.</span><span class="n">length</span> <span class="n">bits</span><span class="o">),</span><span class="n">baseAddress</span> <span class="o">+</span> <span class="mi">0</span><span class="o">,</span><span class="mi">16</span><span class="o">)</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">busClearing</span>  <span class="k">=</span> <span class="nc">False</span>
+
+    <span class="n">io</span><span class="o">.</span><span class="n">clear</span> <span class="o">:=</span> <span class="o">(</span><span class="n">clearsEnable</span> <span class="o">&amp;</span> <span class="n">clears</span><span class="o">.</span><span class="n">asBits</span><span class="o">).</span><span class="n">orR</span> <span class="o">|</span> <span class="n">busClearing</span>
+    <span class="n">io</span><span class="o">.</span><span class="n">tick</span>  <span class="o">:=</span> <span class="o">(</span><span class="n">ticksEnable</span>  <span class="o">&amp;</span> <span class="n">ticks</span><span class="o">.</span><span class="n">asBits</span> <span class="o">).</span><span class="n">orR</span>
+
+    <span class="c1">//Address 4 =&gt; read/write limit (+ auto clear)</span>
+    <span class="n">busCtrl</span><span class="o">.</span><span class="n">driveAndRead</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">limit</span><span class="o">,</span><span class="n">baseAddress</span> <span class="o">+</span> <span class="mi">4</span><span class="o">)</span>
+    <span class="n">busClearing</span> <span class="n">setWhen</span><span class="o">(</span><span class="n">busCtrl</span><span class="o">.</span><span class="n">isWriting</span><span class="o">(</span><span class="n">baseAddress</span> <span class="o">+</span> <span class="mi">4</span><span class="o">))</span>
+
+    <span class="c1">//Address 8 =&gt; read timer value / write =&gt; clear timer value</span>
+    <span class="n">busCtrl</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">value</span><span class="o">,</span><span class="n">baseAddress</span> <span class="o">+</span> <span class="mi">8</span><span class="o">)</span>
+    <span class="n">busClearing</span> <span class="n">setWhen</span><span class="o">(</span><span class="n">busCtrl</span><span class="o">.</span><span class="n">isWriting</span><span class="o">(</span><span class="n">baseAddress</span> <span class="o">+</span> <span class="mi">8</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Here is some demonstration code which is very close to the one used in the Pinsec SoC timer module. Basically it instantiates following elements:</p>
+<ul class="simple">
+<li>One 16 bit prescaler</li>
+<li>One 32 bit timer</li>
+<li>Three 16 bit timers</li>
+</ul>
+<p>Then by using an <code class="docutils literal notranslate"><span class="pre">Apb3SlaveFactory</span></code> and functions defined inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code>s, it creates bridging logic between the APB3 bus and all instantiated components.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">apb</span> <span class="k">=</span> <span class="nc">Apb3</span><span class="o">(</span><span class="nc">ApbConfig</span><span class="o">(</span><span class="n">addressWidth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">,</span> <span class="n">dataWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">))</span>
+  <span class="k">val</span> <span class="n">interrupt</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">external</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+    <span class="k">val</span> <span class="n">tick</span>  <span class="k">=</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//Prescaler is very similar to the timer, it mainly integrates a piece of auto reload logic.</span>
+<span class="k">val</span> <span class="n">prescaler</span> <span class="k">=</span> <span class="nc">Prescaler</span><span class="o">(</span><span class="n">width</span> <span class="k">=</span> <span class="mi">16</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">timerA</span> <span class="k">=</span> <span class="nc">Timer</span><span class="o">(</span><span class="n">width</span> <span class="k">=</span> <span class="mi">32</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">timerB</span><span class="o">,</span><span class="n">timerC</span><span class="o">,</span><span class="n">timerD</span> <span class="k">=</span> <span class="nc">Timer</span><span class="o">(</span><span class="n">width</span> <span class="k">=</span> <span class="mi">16</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">busCtrl</span> <span class="k">=</span> <span class="nc">Apb3SlaveFactory</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">apb</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">prescalerBridge</span> <span class="k">=</span> <span class="n">prescaler</span><span class="o">.</span><span class="n">driveFrom</span><span class="o">(</span><span class="n">busCtrl</span><span class="o">,</span><span class="mh">0x00</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">timerABridge</span> <span class="k">=</span> <span class="n">timerA</span><span class="o">.</span><span class="n">driveFrom</span><span class="o">(</span><span class="n">busCtrl</span><span class="o">,</span><span class="mh">0x40</span><span class="o">)(</span>
+  <span class="c1">// The first element is True, which allows you to have a mode where the timer is always counting up.</span>
+  <span class="n">ticks</span>  <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">True</span><span class="o">,</span> <span class="n">prescaler</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">overflow</span><span class="o">),</span>
+  <span class="c1">// By looping the timer full to the clears, it allows you to create an autoreload mode.</span>
+  <span class="n">clears</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="n">timerA</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">full</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">timerBBridge</span> <span class="k">=</span> <span class="n">timerB</span><span class="o">.</span><span class="n">driveFrom</span><span class="o">(</span><span class="n">busCtrl</span><span class="o">,</span><span class="mh">0x50</span><span class="o">)(</span>
+  <span class="c1">//The external.tick could allow to create an impulsion counter mode</span>
+  <span class="n">ticks</span>  <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">True</span><span class="o">,</span> <span class="n">prescaler</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">overflow</span><span class="o">,</span> <span class="n">io</span><span class="o">.</span><span class="n">external</span><span class="o">.</span><span class="n">tick</span><span class="o">),</span>
+  <span class="c1">//external.clear could allow to create an timeout mode.</span>
+  <span class="n">clears</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="n">timerB</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">full</span><span class="o">,</span> <span class="n">io</span><span class="o">.</span><span class="n">external</span><span class="o">.</span><span class="n">clear</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">timerCBridge</span> <span class="k">=</span> <span class="n">timerC</span><span class="o">.</span><span class="n">driveFrom</span><span class="o">(</span><span class="n">busCtrl</span><span class="o">,</span><span class="mh">0x60</span><span class="o">)(</span>
+  <span class="n">ticks</span>  <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">True</span><span class="o">,</span> <span class="n">prescaler</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">overflow</span><span class="o">,</span> <span class="n">io</span><span class="o">.</span><span class="n">external</span><span class="o">.</span><span class="n">tick</span><span class="o">),</span>
+  <span class="n">clears</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="n">timerC</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">full</span><span class="o">,</span> <span class="n">io</span><span class="o">.</span><span class="n">external</span><span class="o">.</span><span class="n">clear</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">timerDBridge</span> <span class="k">=</span> <span class="n">timerD</span><span class="o">.</span><span class="n">driveFrom</span><span class="o">(</span><span class="n">busCtrl</span><span class="o">,</span><span class="mh">0x70</span><span class="o">)(</span>
+  <span class="n">ticks</span>  <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">True</span><span class="o">,</span> <span class="n">prescaler</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">overflow</span><span class="o">,</span> <span class="n">io</span><span class="o">.</span><span class="n">external</span><span class="o">.</span><span class="n">tick</span><span class="o">),</span>
+  <span class="n">clears</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="n">timerD</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">full</span><span class="o">,</span> <span class="n">io</span><span class="o">.</span><span class="n">external</span><span class="o">.</span><span class="n">clear</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">interruptCtrl</span> <span class="k">=</span> <span class="nc">InterruptCtrl</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">interruptCtrlBridge</span> <span class="k">=</span> <span class="n">interruptCtrl</span><span class="o">.</span><span class="n">driveFrom</span><span class="o">(</span><span class="n">busCtrl</span><span class="o">,</span><span class="mh">0x10</span><span class="o">)</span>
+<span class="n">interruptCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">inputs</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">:=</span> <span class="n">timerA</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">full</span>
+<span class="n">interruptCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">inputs</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">:=</span> <span class="n">timerB</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">full</span>
+<span class="n">interruptCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">inputs</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span> <span class="o">:=</span> <span class="n">timerC</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">full</span>
+<span class="n">interruptCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">inputs</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="o">:=</span> <span class="n">timerD</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">full</span>
+<span class="n">io</span><span class="o">.</span><span class="n">interrupt</span> <span class="o">:=</span> <span class="n">interruptCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pendings</span><span class="o">.</span><span class="n">orR</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

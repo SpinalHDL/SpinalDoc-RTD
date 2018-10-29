@@ -1,0 +1,615 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Specification &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Specification</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/lib/stream.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="specification">
+<h1>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h1>
+<p>The Stream interface is a simple handshake protocol to carry payload.<span class="raw-html-m2r"><br></span>
+It could be used for example to push and pop elements into a FIFO, send requests to a UART controller, etc.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Signal</th>
+<th class="head">Type</th>
+<th class="head">Driver</th>
+<th class="head">Description</th>
+<th class="head">Don’t care when</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>valid</td>
+<td>Bool</td>
+<td>Master</td>
+<td>When high =&gt; payload present on the interface</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>ready</td>
+<td>Bool</td>
+<td>Slave</td>
+<td>When low =&gt; transaction are not consumed by the slave</td>
+<td>valid is low</td>
+</tr>
+<tr class="row-even"><td>payload</td>
+<td>T</td>
+<td>Master</td>
+<td>Content of the transaction</td>
+<td>valid is low</td>
+</tr>
+</tbody>
+</table>
+<p>There is an example diagram :<span class="raw-html-m2r"><br></span>
+&lt;img src=”{{ “/images/stream.png” |  prepend: site.baseurl }}” alt=”Company logo”/&gt;</p>
+<p>There is some examples of usage in SpinalHDL :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">StreamFifo</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="n">depth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">push</span> <span class="k">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="o">(</span><span class="n">dataType</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">pop</span> <span class="k">=</span> <span class="n">master</span> <span class="nc">Stream</span> <span class="o">(</span><span class="n">dataType</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">StreamArbiter</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span><span class="n">portCount</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">inputs</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="n">slave</span> <span class="nc">Stream</span> <span class="o">(</span><span class="n">dataType</span><span class="o">),</span><span class="n">portCount</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">output</span> <span class="k">=</span> <span class="n">master</span> <span class="nc">Stream</span> <span class="o">(</span><span class="n">dataType</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>{% include note.html content=”Each slave can or can’t allow the payload to change when valid is high and ready is low. For examples:<span class="raw-html-m2r"><br></span></p>
+<ul class="simple">
+<li>An priority arbiter without lock logic can switch from one input to the other (which will change the payload).<span class="raw-html-m2r"><br></span></li>
+<li>An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission. <span class="raw-html-m2r"><br></span>
+Be careful with that.” %}</li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
+<p>The following code will create this logic :
+<span class="raw-html-m2r"><img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg"   align="middle" width="300"></span></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">RGB</span><span class="o">(</span><span class="n">channelWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">red</span>   <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">channelWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">green</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">channelWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">blue</span>  <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">channelWidth</span> <span class="n">bit</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="n">isBlack</span> <span class="k">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="n">red</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">green</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">blue</span> <span class="o">===</span> <span class="mi">0</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">RGB</span><span class="o">(</span><span class="mi">8</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">sink</span>   <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">RGB</span><span class="o">(</span><span class="mi">8</span><span class="o">))</span>
+<span class="n">sink</span> <span class="o">&lt;-&lt;</span> <span class="n">source</span><span class="o">.</span><span class="n">throwWhen</span><span class="o">(</span><span class="n">source</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">isBlack</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="utils">
+<h1>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h1>
+<p>There is many utils that you can use in your design in conjunction with the Stream bus, This chapter will document them.</p>
+<div class="section" id="streamfifo">
+<h2>StreamFifo<a class="headerlink" href="#streamfifo" title="Permalink to this headline">¶</a></h2>
+<p>On each stream you can call the .queue(size) to get a buffered stream. But you can also instantiate the FIFO component itself :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">streamA</span><span class="o">,</span><span class="n">streamB</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="c1">//...</span>
+<span class="k">val</span> <span class="n">myFifo</span> <span class="k">=</span> <span class="nc">StreamFifo</span><span class="o">(</span>
+  <span class="n">dataType</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span>
+  <span class="n">depth</span>    <span class="k">=</span> <span class="mi">128</span>
+<span class="o">)</span>
+<span class="n">myFifo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span> <span class="o">&lt;&lt;</span> <span class="n">streamA</span>
+<span class="n">myFifo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span>  <span class="o">&gt;&gt;</span> <span class="n">streamB</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">parameter name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>dataType</td>
+<td>T</td>
+<td>Payload data type</td>
+</tr>
+<tr class="row-odd"><td>depth</td>
+<td>Int</td>
+<td>Size of the memory used to store elements</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">io name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>push</td>
+<td>Stream[T]</td>
+<td>Used to push elements</td>
+</tr>
+<tr class="row-odd"><td>pop</td>
+<td>Stream[T]</td>
+<td>Used to pop elements</td>
+</tr>
+<tr class="row-even"><td>flush</td>
+<td>Bool</td>
+<td>Used to remove all elements inside the FIFO</td>
+</tr>
+<tr class="row-odd"><td>occupancy</td>
+<td>UInt of log2Up(depth + 1) bits</td>
+<td>Indicate the internal memory occupancy</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="streamfifocc">
+<h2>StreamFifoCC<a class="headerlink" href="#streamfifocc" title="Permalink to this headline">¶</a></h2>
+<p>You can instanciate the dual clock domain version of the fifo by the following way :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">clockA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
+<span class="k">val</span> <span class="n">clockB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
+<span class="k">val</span> <span class="n">streamA</span><span class="o">,</span><span class="n">streamB</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="c1">//...</span>
+<span class="k">val</span> <span class="n">myFifo</span> <span class="k">=</span> <span class="nc">StreamFifoCC</span><span class="o">(</span>
+  <span class="n">dataType</span>  <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span>
+  <span class="n">depth</span>     <span class="k">=</span> <span class="mi">128</span><span class="o">,</span>
+  <span class="n">pushClock</span> <span class="k">=</span> <span class="n">clockA</span><span class="o">,</span>
+  <span class="n">popClock</span>  <span class="k">=</span> <span class="n">clockB</span>
+<span class="o">)</span>
+<span class="n">myFifo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span> <span class="o">&lt;&lt;</span> <span class="n">streamA</span>
+<span class="n">myFifo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span>  <span class="o">&gt;&gt;</span> <span class="n">streamB</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">parameter name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>dataType</td>
+<td>T</td>
+<td>Payload data type</td>
+</tr>
+<tr class="row-odd"><td>depth</td>
+<td>Int</td>
+<td>Size of the memory used to store elements</td>
+</tr>
+<tr class="row-even"><td>pushClock</td>
+<td>ClockDomain</td>
+<td>Clock domain used by the push side</td>
+</tr>
+<tr class="row-odd"><td>popClock</td>
+<td>ClockDomain</td>
+<td>Clock domain used by the pop side</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">io name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>push</td>
+<td>Stream[T]</td>
+<td>Used to push elements</td>
+</tr>
+<tr class="row-odd"><td>pop</td>
+<td>Stream[T]</td>
+<td>Used to pop elements</td>
+</tr>
+<tr class="row-even"><td>pushOccupancy</td>
+<td>UInt of log2Up(depth + 1) bits</td>
+<td>Indicate the internal memory occupancy (from the push side perspective)</td>
+</tr>
+<tr class="row-odd"><td>popOccupancy</td>
+<td>UInt of log2Up(depth + 1) bits</td>
+<td>Indicate the internal memory occupancy  (from the pop side perspective)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="streamccbytoggle">
+<h2>StreamCCByToggle<a class="headerlink" href="#streamccbytoggle" title="Permalink to this headline">¶</a></h2>
+<p>Component that provide a Stream cross clock domain bridge based on toggling signals.<span class="raw-html-m2r"><br></span>
+This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">clockA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
+<span class="k">val</span> <span class="n">clockB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
+<span class="k">val</span> <span class="n">streamA</span><span class="o">,</span><span class="n">streamB</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="c1">//...</span>
+<span class="k">val</span> <span class="n">bridge</span> <span class="k">=</span> <span class="nc">StreamCCByToggle</span><span class="o">(</span>
+  <span class="n">dataType</span>    <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span>
+  <span class="n">inputClock</span>  <span class="k">=</span> <span class="n">clockA</span><span class="o">,</span>
+  <span class="n">outputClock</span> <span class="k">=</span> <span class="n">clockB</span>
+<span class="o">)</span>
+<span class="n">bridge</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input</span>  <span class="o">&lt;&lt;</span> <span class="n">streamA</span>
+<span class="n">bridge</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output</span> <span class="o">&gt;&gt;</span> <span class="n">streamB</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">parameter name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>dataType</td>
+<td>T</td>
+<td>Payload data type</td>
+</tr>
+<tr class="row-odd"><td>inputClock</td>
+<td>ClockDomain</td>
+<td>Clock domain used by the push side</td>
+</tr>
+<tr class="row-even"><td>outputClock</td>
+<td>ClockDomain</td>
+<td>Clock domain used by the pop side</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">io name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>input</td>
+<td>Stream[T]</td>
+<td>Used to push elements</td>
+</tr>
+<tr class="row-odd"><td>output</td>
+<td>Stream[T]</td>
+<td>Used to pop elements</td>
+</tr>
+</tbody>
+</table>
+<p>But you can also use a this shorter syntax which directly return you the cross clocked stream:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">clockA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
+<span class="k">val</span> <span class="n">clockB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
+<span class="k">val</span> <span class="n">streamA</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">streamB</span> <span class="k">=</span> <span class="nc">StreamCCByToggle</span><span class="o">(</span>
+  <span class="n">input</span>       <span class="k">=</span> <span class="n">streamA</span><span class="o">,</span>
+  <span class="n">inputClock</span>  <span class="k">=</span> <span class="n">clockA</span><span class="o">,</span>
+  <span class="n">outputClock</span> <span class="k">=</span> <span class="n">clockB</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="streamarbiter">
+<h2>StreamArbiter<a class="headerlink" href="#streamarbiter" title="Permalink to this headline">¶</a></h2>
+<p>When you have multiple Streams and you want to arbitrate them to drive a single one, you can use the StreamArbiterFactory.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">streamA</span><span class="o">,</span> <span class="n">streamB</span><span class="o">,</span> <span class="n">streamC</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">arbitredABC</span> <span class="k">=</span> <span class="nc">StreamArbiterFactory</span><span class="o">.</span><span class="n">roundRobin</span><span class="o">.</span><span class="n">onArgs</span><span class="o">(</span><span class="n">streamA</span><span class="o">,</span> <span class="n">streamB</span><span class="o">,</span> <span class="n">streamC</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">streamD</span><span class="o">,</span> <span class="n">streamE</span><span class="o">,</span> <span class="n">streamF</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">arbitredDEF</span> <span class="k">=</span> <span class="nc">StreamArbiterFactory</span><span class="o">.</span><span class="n">lowerFirst</span><span class="o">.</span><span class="n">noLock</span><span class="o">.</span><span class="n">onArgs</span><span class="o">(</span><span class="n">streamD</span><span class="o">,</span> <span class="n">streamE</span><span class="o">,</span> <span class="n">streamF</span><span class="o">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Arbitration functions</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>lowerFirst</td>
+<td>Lower port have priority over higher port</td>
+</tr>
+<tr class="row-odd"><td>roundRobin</td>
+<td>Fair round robin arbitration</td>
+</tr>
+<tr class="row-even"><td>sequentialOrder</td>
+<td>Could be used to retrieve transaction in a sequancial order <span class="raw-html-m2r"><br></span> First transaction should come from port zero, then from port one, …</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Lock functions</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>noLock</td>
+<td>The port selection could change every cycle, even if the transaction on the selected port is not consumed.</td>
+</tr>
+<tr class="row-odd"><td>transactionLock</td>
+<td>The port selection is locked until the transaction on the selected port is consumed.</td>
+</tr>
+<tr class="row-even"><td>fragmentLock</td>
+<td>Could be used to arbitrate Stream[Flow[T]].<span class="raw-html-m2r"><br></span> In this mode, the port selection is locked until the selected port finish is burst (last=True).</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Generation functions</th>
+<th class="head">Return</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>on(inputs : Seq[Stream[T]])</td>
+<td>Stream[T]</td>
+</tr>
+<tr class="row-odd"><td>onArgs(inputs : Stream[T]*)</td>
+<td>Stream[T]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="streamfork">
+<h2>StreamFork<a class="headerlink" href="#streamfork" title="Permalink to this headline">¶</a></h2>
+<p>This utile take its input stream and duplicate it outputCount times.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inputStream</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">dispatchedStreams</span> <span class="k">=</span> <span class="nc">StreamDispatcherSequencial</span><span class="o">(</span>
+  <span class="n">input</span> <span class="k">=</span> <span class="n">inputStream</span><span class="o">,</span>
+  <span class="n">outputCount</span> <span class="k">=</span> <span class="mi">3</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="streamdispatchersequencial">
+<h2>StreamDispatcherSequencial<a class="headerlink" href="#streamdispatchersequencial" title="Permalink to this headline">¶</a></h2>
+<p>This utile take its input stream and route it to <code class="docutils literal notranslate"><span class="pre">outputCount</span></code> stream in a sequential order.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inputStream</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">dispatchedStreams</span> <span class="k">=</span> <span class="nc">StreamDispatcherSequencial</span><span class="o">(</span>
+  <span class="n">input</span> <span class="k">=</span> <span class="n">inputStream</span><span class="o">,</span>
+  <span class="n">outputCount</span> <span class="k">=</span> <span class="mi">3</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

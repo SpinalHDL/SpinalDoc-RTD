@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/examples/jtag.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>{% include important.html content=”The goal of this page is to show the implementation of a JTAG TAP (a slave) by a non-conventional way.” %}</p>
+<p>{% include important.html content=”This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description. <span class="raw-html-m2r"><br></span>Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator” %}</p>
+<p>{% include important.html content=”This page will not explains how JTAG work. A good tutorial could be find <a class="reference external" href="http://www.fpga4fun.com/JTAG.html">there</a>.” %}</p>
+<p>One big difference between commonly used HDL and Spinal, is the fact that SpinalHDL allow you to define hardware generators/builders. It’s very different than describing hardware.
+Let’s take a look into the example bellow because the difference between generate/build/describing could seem “playing with word” or could be interpreted differently.</p>
+<p>The example bellow is a JTAG TAP which allow the JTAG master to read <code class="docutils literal notranslate"><span class="pre">switchs</span></code>/<code class="docutils literal notranslate"><span class="pre">keys</span></code> inputs and write <code class="docutils literal notranslate"><span class="pre">leds</span></code> outputs. This TAP could also be recognized by a master by using the UID 0x87654321.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SimpleJtagTap</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">jtag</span>    <span class="k">=</span> <span class="n">slave</span><span class="o">(</span><span class="nc">Jtag</span><span class="o">())</span>
+    <span class="k">val</span> <span class="n">switchs</span> <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bit</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">keys</span>    <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bits</span><span class="o">(</span><span class="mi">4</span> <span class="n">bit</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">leds</span>    <span class="k">=</span> <span class="n">out</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">val</span> <span class="n">tap</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">JtagTap</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">jtag</span><span class="o">,</span> <span class="mi">8</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">idcodeArea</span>  <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">idcode</span><span class="o">(</span><span class="n">B</span><span class="s">&quot;x87654321&quot;</span><span class="o">)</span> <span class="o">(</span><span class="n">instructionId</span><span class="k">=</span><span class="mi">4</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">switchsArea</span> <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">switchs</span><span class="o">)</span>     <span class="o">(</span><span class="n">instructionId</span><span class="k">=</span><span class="mi">5</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">keysArea</span>    <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">keys</span><span class="o">)</span>        <span class="o">(</span><span class="n">instructionId</span><span class="k">=</span><span class="mi">6</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">ledsArea</span>    <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">write</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">leds</span><span class="o">)</span>       <span class="o">(</span><span class="n">instructionId</span><span class="k">=</span><span class="mi">7</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>As you can see, a JtagTap is created but then some Generator/Builder functions (idcode,read,write) are called to create each JTAG instruction. This is what i call “Hardware generator/builder”, then these Generator/Builder are used by the user to describing an hardware. And there is the point, in commonly HDL you can only describe your hardware, which imply many donkey job.</p>
+<p>This JTAG TAP tutorial is based on <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/tree/master/lib/src/main/scala/spinal/lib/com/jtag">this</a> implementation.</p>
+</div>
+<div class="section" id="jtag-bus">
+<h1>JTAG bus<a class="headerlink" href="#jtag-bus" title="Permalink to this headline">¶</a></h1>
+<p>First we need to define a JTAG bus bundle.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Jtag</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">tms</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">tdi</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">tdo</span> <span class="k">=</span> <span class="nc">Bool</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">out</span><span class="o">(</span><span class="n">tdi</span><span class="o">,</span> <span class="n">tms</span><span class="o">)</span>
+    <span class="n">in</span><span class="o">(</span><span class="n">tdo</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>As you can see this bus don’t contain the TCK pin because it will be provided by the clock domain.</p>
+</div>
+<div class="section" id="jtag-state-machine">
+<h1>JTAG state machine<a class="headerlink" href="#jtag-state-machine" title="Permalink to this headline">¶</a></h1>
+<p>Let’s define the JTAG state machine as explained <a class="reference external" href="http://www.fpga4fun.com/JTAG2.html">here</a></p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">JtagState</span> <span class="k">extends</span> <span class="nc">SpinalEnum</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nc">RESET</span><span class="o">,</span> <span class="nc">IDLE</span><span class="o">,</span>
+      <span class="nc">IR_SELECT</span><span class="o">,</span> <span class="nc">IR_CAPTURE</span><span class="o">,</span> <span class="nc">IR_SHIFT</span><span class="o">,</span> <span class="nc">IR_EXIT1</span><span class="o">,</span> <span class="nc">IR_PAUSE</span><span class="o">,</span> <span class="nc">IR_EXIT2</span><span class="o">,</span> <span class="nc">IR_UPDATE</span><span class="o">,</span>
+      <span class="nc">DR_SELECT</span><span class="o">,</span> <span class="nc">DR_CAPTURE</span><span class="o">,</span> <span class="nc">DR_SHIFT</span><span class="o">,</span> <span class="nc">DR_EXIT1</span><span class="o">,</span> <span class="nc">DR_PAUSE</span><span class="o">,</span> <span class="nc">DR_EXIT2</span><span class="o">,</span> <span class="nc">DR_UPDATE</span> <span class="k">=</span> <span class="n">newElement</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">JtagFsm</span><span class="o">(</span><span class="n">jtag</span><span class="k">:</span> <span class="kt">Jtag</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Area</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">JtagState._</span>
+  <span class="k">val</span> <span class="n">stateNext</span> <span class="k">=</span> <span class="nc">JtagState</span><span class="o">()</span>
+  <span class="k">val</span> <span class="n">state</span> <span class="k">=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">stateNext</span><span class="o">)</span> <span class="n">randBoot</span><span class="o">()</span>
+
+  <span class="n">stateNext</span> <span class="o">:=</span> <span class="n">state</span><span class="o">.</span><span class="n">mux</span><span class="o">(</span>
+    <span class="n">default</span>    <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">RESET</span>     <span class="o">|</span> <span class="nc">IDLE</span><span class="o">),</span>           <span class="c1">//RESET</span>
+    <span class="nc">IDLE</span>       <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">DR_SELECT</span> <span class="o">|</span> <span class="nc">IDLE</span><span class="o">),</span>
+    <span class="nc">IR_SELECT</span>  <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">RESET</span>     <span class="o">|</span> <span class="nc">IR_CAPTURE</span><span class="o">),</span>
+    <span class="nc">IR_CAPTURE</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">IR_EXIT1</span>  <span class="o">|</span> <span class="nc">IR_SHIFT</span><span class="o">),</span>
+    <span class="nc">IR_SHIFT</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">IR_EXIT1</span>  <span class="o">|</span> <span class="nc">IR_SHIFT</span><span class="o">),</span>
+    <span class="nc">IR_EXIT1</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">IR_UPDATE</span> <span class="o">|</span> <span class="nc">IR_PAUSE</span><span class="o">),</span>
+    <span class="nc">IR_PAUSE</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">IR_EXIT2</span>  <span class="o">|</span> <span class="nc">IR_PAUSE</span><span class="o">),</span>
+    <span class="nc">IR_EXIT2</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">IR_UPDATE</span> <span class="o">|</span> <span class="nc">IR_SHIFT</span><span class="o">),</span>
+    <span class="nc">IR_UPDATE</span>  <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">DR_SELECT</span> <span class="o">|</span> <span class="nc">IDLE</span><span class="o">),</span>
+    <span class="nc">DR_SELECT</span>  <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">IR_SELECT</span> <span class="o">|</span> <span class="nc">DR_CAPTURE</span><span class="o">),</span>
+    <span class="nc">DR_CAPTURE</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">DR_EXIT1</span>  <span class="o">|</span> <span class="nc">DR_SHIFT</span><span class="o">),</span>
+    <span class="nc">DR_SHIFT</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">DR_EXIT1</span>  <span class="o">|</span> <span class="nc">DR_SHIFT</span><span class="o">),</span>
+    <span class="nc">DR_EXIT1</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">DR_UPDATE</span> <span class="o">|</span> <span class="nc">DR_PAUSE</span><span class="o">),</span>
+    <span class="nc">DR_PAUSE</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">DR_EXIT2</span>  <span class="o">|</span> <span class="nc">DR_PAUSE</span><span class="o">),</span>
+    <span class="nc">DR_EXIT2</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">DR_UPDATE</span> <span class="o">|</span> <span class="nc">DR_SHIFT</span><span class="o">),</span>
+    <span class="nc">DR_UPDATE</span>  <span class="o">-&gt;</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tms</span> <span class="o">?</span> <span class="nc">DR_SELECT</span> <span class="o">|</span> <span class="nc">IDLE</span><span class="o">)</span>
+  <span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>{% include note.html content=”The <code class="docutils literal notranslate"><span class="pre">randBoot()</span></code> on <code class="docutils literal notranslate"><span class="pre">state</span></code> make it initialized with a random state. It’s only for simulation purpose.” %}</p>
+</div>
+<div class="section" id="jtag-tap">
+<h1>JTAG TAP<a class="headerlink" href="#jtag-tap" title="Permalink to this headline">¶</a></h1>
+<p>Let’s implement the core of the JTAG TAP, without any instruction, just the base manage the instruction register (IR) and the bypass.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">JtagTap</span><span class="o">(</span><span class="k">val</span> <span class="n">jtag</span><span class="k">:</span> <span class="kt">Jtag</span><span class="o">,</span> <span class="n">instructionWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Area</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">fsm</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">JtagFsm</span><span class="o">(</span><span class="n">jtag</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">instruction</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">instructionWidth</span> <span class="n">bit</span><span class="o">))</span>
+  <span class="k">val</span> <span class="n">instructionShift</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">instructionWidth</span> <span class="n">bit</span><span class="o">))</span>
+  <span class="k">val</span> <span class="n">bypass</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bool</span><span class="o">)</span>
+
+  <span class="n">jtag</span><span class="o">.</span><span class="n">tdo</span> <span class="o">:=</span> <span class="n">bypass</span>
+
+  <span class="n">switch</span><span class="o">(</span><span class="n">fsm</span><span class="o">.</span><span class="n">state</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">is</span><span class="o">(</span><span class="nc">JtagState</span><span class="o">.</span><span class="nc">IR_CAPTURE</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">instructionShift</span> <span class="o">:=</span> <span class="n">instruction</span>
+    <span class="o">}</span>
+    <span class="n">is</span><span class="o">(</span><span class="nc">JtagState</span><span class="o">.</span><span class="nc">IR_SHIFT</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">instructionShift</span> <span class="o">:=</span> <span class="o">(</span><span class="n">jtag</span><span class="o">.</span><span class="n">tdi</span> <span class="o">#</span><span class="k">#</span> <span class="n">instructionShift</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span>
+      <span class="n">jtag</span><span class="o">.</span><span class="n">tdo</span> <span class="o">:=</span> <span class="n">instructionShift</span><span class="o">.</span><span class="n">lsb</span>
+    <span class="o">}</span>
+    <span class="n">is</span><span class="o">(</span><span class="nc">JtagState</span><span class="o">.</span><span class="nc">IR_UPDATE</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">instruction</span> <span class="o">:=</span> <span class="n">instructionShift</span>
+    <span class="o">}</span>
+    <span class="n">is</span><span class="o">(</span><span class="nc">JtagState</span><span class="o">.</span><span class="nc">DR_SHIFT</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">bypass</span> <span class="o">:=</span> <span class="n">jtag</span><span class="o">.</span><span class="n">tdi</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jtag-instructions">
+<h1>Jtag instructions<a class="headerlink" href="#jtag-instructions" title="Permalink to this headline">¶</a></h1>
+<p>Now that the JTAG TAP core is done, we can think about how to implement JTAG instructions by an reusable way.</p>
+<div class="section" id="jtag-tap-class-interface">
+<h2>JTAG TAP class interface<a class="headerlink" href="#jtag-tap-class-interface" title="Permalink to this headline">¶</a></h2>
+<p>First we need to define how an instruction could interact with the JTAG TAP core. We could of course directly take the JtagTap area, but it’s not very nice because is some situation the JTAG TAP core is provided by another IP (Altera virtual JTAG for example).</p>
+<p>So let’s define a simple and abstract interface between the JTAG TAP core and instructions :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">JtagTapAccess</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">getTdi</span> <span class="k">:</span> <span class="kt">Bool</span>
+  <span class="k">def</span> <span class="n">getTms</span> <span class="k">:</span> <span class="kt">Bool</span>
+  <span class="k">def</span> <span class="n">setTdo</span><span class="o">(</span><span class="n">value</span> <span class="k">:</span> <span class="kt">Bool</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="k">def</span> <span class="n">getState</span> <span class="k">:</span> <span class="kt">JtagState.T</span>
+  <span class="k">def</span> <span class="n">getInstruction</span><span class="o">()</span> <span class="k">:</span> <span class="kt">Bits</span>
+  <span class="k">def</span> <span class="n">setInstruction</span><span class="o">(</span><span class="n">value</span> <span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Then let’s the JtagTap implement this abstract interface :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">JtagTap</span><span class="o">(</span><span class="k">val</span> <span class="n">jtag</span><span class="k">:</span> <span class="kt">Jtag</span><span class="o">,</span> <span class="o">...)</span> <span class="k">extends</span> <span class="nc">Area</span> <span class="k">with</span> <span class="nc">JtagTapAccess</span><span class="o">{</span>
+  <span class="o">...</span>
+
+  <span class="c1">//JtagTapAccess impl</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">getTdi</span><span class="k">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="n">jtag</span><span class="o">.</span><span class="n">tdi</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">setTdo</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Bool</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">jtag</span><span class="o">.</span><span class="n">tdo</span> <span class="o">:=</span> <span class="n">value</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">getTms</span><span class="k">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="n">jtag</span><span class="o">.</span><span class="n">tms</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">getState</span><span class="k">:</span> <span class="kt">JtagState.T</span> <span class="o">=</span> <span class="n">fsm</span><span class="o">.</span><span class="n">state</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">getInstruction</span><span class="o">()</span><span class="k">:</span> <span class="kt">Bits</span> <span class="o">=</span> <span class="n">instruction</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">setInstruction</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">instruction</span> <span class="o">:=</span> <span class="n">value</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="base-class">
+<h2>Base class<a class="headerlink" href="#base-class" title="Permalink to this headline">¶</a></h2>
+<p>Let’s define a useful base class for JTAG instruction that provide some callback (doCapture/doShift/doUpdate/doReset) depending the selected instruction and the state of the JTAG TAP :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">JtagInstruction</span><span class="o">(</span><span class="n">tap</span><span class="k">:</span> <span class="kt">JtagTapAccess</span><span class="o">,</span><span class="k">val</span> <span class="n">instructionId</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Area</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">doCapture</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{}</span>
+  <span class="k">def</span> <span class="n">doShift</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{}</span>
+  <span class="k">def</span> <span class="n">doUpdate</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{}</span>
+  <span class="k">def</span> <span class="n">doReset</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{}</span>
+
+  <span class="k">val</span> <span class="n">instructionHit</span> <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">getInstruction</span> <span class="o">===</span> <span class="n">instructionId</span>
+
+  <span class="nc">Component</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">addPrePopTask</span><span class="o">(()</span> <span class="k">=&gt;</span> <span class="o">{</span>
+    <span class="n">when</span><span class="o">(</span><span class="n">instructionHit</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">when</span><span class="o">(</span><span class="n">tap</span><span class="o">.</span><span class="n">getState</span> <span class="o">===</span> <span class="nc">JtagState</span><span class="o">.</span><span class="nc">DR_CAPTURE</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">doCapture</span><span class="o">()</span>
+      <span class="o">}</span>
+      <span class="n">when</span><span class="o">(</span><span class="n">tap</span><span class="o">.</span><span class="n">getState</span> <span class="o">===</span> <span class="nc">JtagState</span><span class="o">.</span><span class="nc">DR_SHIFT</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">doShift</span><span class="o">()</span>
+      <span class="o">}</span>
+      <span class="n">when</span><span class="o">(</span><span class="n">tap</span><span class="o">.</span><span class="n">getState</span> <span class="o">===</span> <span class="nc">JtagState</span><span class="o">.</span><span class="nc">DR_UPDATE</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">doUpdate</span><span class="o">()</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">when</span><span class="o">(</span><span class="n">tap</span><span class="o">.</span><span class="n">getState</span> <span class="o">===</span> <span class="nc">JtagState</span><span class="o">.</span><span class="nc">RESET</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">doReset</span><span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">})</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>{% include note.html content=”About the Component.current.addPrePopTask(…) : <span class="raw-html-m2r"><br></span> This  allow you to call the given code at the end of the current component construction. Because of object oriented nature of JtagInstruction, doCapture, doShift, doUpdate and doReset should not be called before children classes construction (because children classes will use it as a callback to do some logic)” %}</p>
+</div>
+<div class="section" id="read-instruction">
+<h2>Read instruction<a class="headerlink" href="#read-instruction" title="Permalink to this headline">¶</a></h2>
+<p>Let’s implement an instruction that allow the JTAG to read a signal.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">JtagInstructionRead</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">data</span><span class="k">:</span> <span class="kt">T</span><span class="o">)</span> <span class="o">(</span><span class="n">tap</span><span class="k">:</span> <span class="kt">JtagTapAccess</span><span class="o">,</span><span class="n">instructionId</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span><span class="k">extends</span> <span class="nc">JtagInstruction</span><span class="o">(</span><span class="n">tap</span><span class="o">,</span><span class="n">instructionId</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">shifter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="n">getBitsWidth</span> <span class="n">bit</span><span class="o">))</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">doCapture</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">shifter</span> <span class="o">:=</span> <span class="n">data</span><span class="o">.</span><span class="n">asBits</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">doShift</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">shifter</span> <span class="o">:=</span> <span class="o">(</span><span class="n">tap</span><span class="o">.</span><span class="n">getTdi</span> <span class="o">#</span><span class="k">#</span> <span class="n">shifter</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span>
+    <span class="n">tap</span><span class="o">.</span><span class="n">setTdo</span><span class="o">(</span><span class="n">shifter</span><span class="o">.</span><span class="n">lsb</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="write-instruction">
+<h2>Write instruction<a class="headerlink" href="#write-instruction" title="Permalink to this headline">¶</a></h2>
+<p>Let’s implement an instruction that allow the JTAG to write a register (and also read its current value).</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">JtagInstructionWrite</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">data</span><span class="k">:</span> <span class="kt">T</span><span class="o">)</span> <span class="o">(</span><span class="n">tap</span><span class="k">:</span> <span class="kt">JtagTapAccess</span><span class="o">,</span><span class="n">instructionId</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">JtagInstruction</span><span class="o">(</span><span class="n">tap</span><span class="o">,</span><span class="n">instructionId</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">shifter</span><span class="o">,</span><span class="n">store</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="n">getBitsWidth</span> <span class="n">bit</span><span class="o">))</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">doCapture</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">shifter</span> <span class="o">:=</span> <span class="n">store</span>
+  <span class="o">}</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">doShift</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">shifter</span> <span class="o">:=</span> <span class="o">(</span><span class="n">tap</span><span class="o">.</span><span class="n">getTdi</span> <span class="o">#</span><span class="k">#</span> <span class="n">shifter</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span>
+    <span class="n">tap</span><span class="o">.</span><span class="n">setTdo</span><span class="o">(</span><span class="n">shifter</span><span class="o">.</span><span class="n">lsb</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">doUpdate</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">store</span> <span class="o">:=</span> <span class="n">shifter</span>
+  <span class="o">}</span>
+
+  <span class="n">data</span><span class="o">.</span><span class="n">assignFromBits</span><span class="o">(</span><span class="n">store</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="idcode-instruction">
+<h2>Idcode instruction<a class="headerlink" href="#idcode-instruction" title="Permalink to this headline">¶</a></h2>
+<p>Let’s implement the instruction that return a idcode to the JTAG and also, when a reset occur, set the instruction register (IR) to it own instructionId.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">JtagInstructionIdcode</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">value</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)(</span><span class="n">tap</span><span class="k">:</span> <span class="kt">JtagTapAccess</span><span class="o">,</span> <span class="n">instructionId</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span><span class="k">extends</span> <span class="nc">JtagInstruction</span><span class="o">(</span><span class="n">tap</span><span class="o">,</span><span class="n">instructionId</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">shifter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bit</span><span class="o">))</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">doShift</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">shifter</span> <span class="o">:=</span> <span class="o">(</span><span class="n">tap</span><span class="o">.</span><span class="n">getTdi</span> <span class="o">#</span><span class="k">#</span> <span class="n">shifter</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span>
+    <span class="n">tap</span><span class="o">.</span><span class="n">setTdo</span><span class="o">(</span><span class="n">shifter</span><span class="o">.</span><span class="n">lsb</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">doReset</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">shifter</span> <span class="o">:=</span> <span class="n">value</span>
+    <span class="n">tap</span><span class="o">.</span><span class="n">setInstruction</span><span class="o">(</span><span class="n">instructionId</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="user-friendly-wrapper">
+<h1>User friendly wrapper<a class="headerlink" href="#user-friendly-wrapper" title="Permalink to this headline">¶</a></h1>
+<p>Let’s add some user friendly function to the JtagTapAccess to make instructions instantiation easier .</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">JtagTapAccess</span> <span class="o">{</span>
+  <span class="o">...</span>
+
+  <span class="k">def</span> <span class="n">idcode</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)(</span><span class="n">instructionId</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span> <span class="k">=</span>
+    <span class="k">new</span> <span class="nc">JtagInstructionIdcode</span><span class="o">(</span><span class="n">value</span><span class="o">)(</span><span class="k">this</span><span class="o">,</span><span class="n">instructionId</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="n">read</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">data</span><span class="k">:</span> <span class="kt">T</span><span class="o">)(</span><span class="n">instructionId</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span>   <span class="k">=</span>
+    <span class="k">new</span> <span class="nc">JtagInstructionRead</span><span class="o">(</span><span class="n">data</span><span class="o">)(</span><span class="k">this</span><span class="o">,</span><span class="n">instructionId</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="n">write</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">data</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span>  <span class="n">cleanUpdate</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">readable</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)(</span><span class="n">instructionId</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span> <span class="k">=</span>
+    <span class="k">new</span> <span class="nc">JtagInstructionWrite</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">data</span><span class="o">,</span><span class="n">cleanUpdate</span><span class="o">,</span><span class="n">readable</span><span class="o">)(</span><span class="k">this</span><span class="o">,</span><span class="n">instructionId</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage-demonstration">
+<h1>Usage demonstration<a class="headerlink" href="#usage-demonstration" title="Permalink to this headline">¶</a></h1>
+<p>And there we are, we can now very easly create an application specific JTAG TAP without having to write any logic or any interconnections.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SimpleJtagTap</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">jtag</span>    <span class="k">=</span> <span class="n">slave</span><span class="o">(</span><span class="nc">Jtag</span><span class="o">())</span>
+    <span class="k">val</span> <span class="n">switchs</span> <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bit</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">keys</span>    <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bits</span><span class="o">(</span><span class="mi">4</span> <span class="n">bit</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">leds</span>    <span class="k">=</span> <span class="n">out</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">val</span> <span class="n">tap</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">JtagTap</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">jtag</span><span class="o">,</span> <span class="mi">8</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">idcodeArea</span>  <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">idcode</span><span class="o">(</span><span class="n">B</span><span class="s">&quot;x87654321&quot;</span><span class="o">)</span> <span class="o">(</span><span class="n">instructionId</span><span class="k">=</span><span class="mi">4</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">switchsArea</span> <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">switchs</span><span class="o">)</span>     <span class="o">(</span><span class="n">instructionId</span><span class="k">=</span><span class="mi">5</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">keysArea</span>    <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">keys</span><span class="o">)</span>        <span class="o">(</span><span class="n">instructionId</span><span class="k">=</span><span class="mi">6</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">ledsArea</span>    <span class="k">=</span> <span class="n">tap</span><span class="o">.</span><span class="n">write</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">leds</span><span class="o">)</span>       <span class="o">(</span><span class="n">instructionId</span><span class="k">=</span><span class="mi">7</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>This way of doing things (Generating hardware) could also be applied to, for example, generating an APB/AHB/AXI bus slave.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

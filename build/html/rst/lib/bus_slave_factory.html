@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/lib/bus_slave_factory.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>In many situation it’s needed to implement a bus register bank. The <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> is a tool that provide an abstract and smooth way to define them.</p>
+<p>To see capabilities of the tool, an simple example use the Apb3SlaveFactory variation to implement an <a class="reference external" href="/SpinalDoc/spinal/examples/memory_mapped_uart/">memory mapped UART</a>. There is also another example with an <a class="reference external" href="/SpinalDoc/spinal/examples/timer/">Timer</a> which contain a memory mapping function.</p>
+<p>You can find more documentation about the internal implementation of the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> tool <a class="reference external" href="/SpinalDoc/spinal/lib/bus_slave_factory_impl/">there</a></p>
+</div>
+<div class="section" id="functionality">
+<h1>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h1>
+<p>Currently there is three implementation of the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> tool : APB3, AXI-lite 3 and Avalon. <span class="raw-html-m2r"><br></span> Each implementation of that tool take as argument one instance of the corresponding bus and then offer following functions to map your hardware into the memory mapping :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Return</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>busDataWidth</td>
+<td>Int</td>
+<td>Return the data width of the bus</td>
+</tr>
+<tr class="row-odd"><td>read(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>When the bus read the <code class="docutils literal notranslate"><span class="pre">address</span></code>, fill the response with <code class="docutils literal notranslate"><span class="pre">that</span></code> at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code></td>
+</tr>
+<tr class="row-even"><td>write(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>When the bus write the <code class="docutils literal notranslate"><span class="pre">address</span></code>, assign <code class="docutils literal notranslate"><span class="pre">that</span></code> with bus’s data from <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code></td>
+</tr>
+<tr class="row-odd"><td>onWrite(address)(doThat)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Call <code class="docutils literal notranslate"><span class="pre">doThat</span></code> when a write transaction occur on <code class="docutils literal notranslate"><span class="pre">address</span></code></td>
+</tr>
+<tr class="row-even"><td>onRead(address)(doThat)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Call <code class="docutils literal notranslate"><span class="pre">doThat</span></code> when a read transaction occur on <code class="docutils literal notranslate"><span class="pre">address</span></code></td>
+</tr>
+<tr class="row-odd"><td>nonStopWrite(that,bitOffset)</td>
+<td>&#160;</td>
+<td>Permanently assign <code class="docutils literal notranslate"><span class="pre">that</span></code> by the bus write data from <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code></td>
+</tr>
+<tr class="row-even"><td>readAndWrite(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Make <code class="docutils literal notranslate"><span class="pre">that</span></code> readable and writable at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-odd"><td>readMultiWord(that,address)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Create the memory mapping to read <code class="docutils literal notranslate"><span class="pre">that</span></code> from ‘address’.<span class="raw-html-m2r"><br></span> If <code class="docutils literal notranslate"><span class="pre">that</span></code> is bigger than one word it extends the register on followings addresses</td>
+</tr>
+<tr class="row-even"><td>writeMultiWord(that,address)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Create the memory mapping to write <code class="docutils literal notranslate"><span class="pre">that</span></code> at ‘address’.<span class="raw-html-m2r"><br></span> If <code class="docutils literal notranslate"><span class="pre">that</span></code> is bigger than one word it extends the register on followings addresses</td>
+</tr>
+<tr class="row-odd"><td>createWriteOnly(dataType,address,bitOffset)</td>
+<td>T</td>
+<td>Create a write only register of type <code class="docutils literal notranslate"><span class="pre">dataType</span></code> at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-even"><td>createReadWrite(dataType,address,bitOffset)</td>
+<td>T</td>
+<td>Create a read write register of type <code class="docutils literal notranslate"><span class="pre">dataType</span></code> at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-odd"><td>createAndDriveFlow(dataType,address,bitOffset)</td>
+<td>Flow[T]</td>
+<td>Create a writable Flow register of type <code class="docutils literal notranslate"><span class="pre">dataType</span></code> at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-even"><td>drive(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Drive <code class="docutils literal notranslate"><span class="pre">that</span></code> with a register writable at <code class="docutils literal notranslate"><span class="pre">address</span></code> placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-odd"><td>driveAndRead(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Drive <code class="docutils literal notranslate"><span class="pre">that</span></code> with a register writable and readable at <code class="docutils literal notranslate"><span class="pre">address</span></code> placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-even"><td>driveFlow(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Emit on <code class="docutils literal notranslate"><span class="pre">that</span></code> a transaction when a write happen at <code class="docutils literal notranslate"><span class="pre">address</span></code> by using data placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-odd"><td>readStreamNonBlocking(that,address,<span class="raw-html-m2r"><br></span>validBitOffset,payloadBitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Read <code class="docutils literal notranslate"><span class="pre">that</span></code> and consume the transaction when a read happen at <code class="docutils literal notranslate"><span class="pre">address</span></code>. <span class="raw-html-m2r"><br></span> valid  &amp;nbsp;  &amp;nbsp; &lt;= validBitOffset bit <span class="raw-html-m2r"><br></span> payload &lt;= payloadBitOffset+widthOf(payload) downto <code class="docutils literal notranslate"><span class="pre">payloadBitOffset</span></code></td>
+</tr>
+<tr class="row-even"><td>doBitsAccumulationAndClearOnRead<span class="raw-html-m2r"><br></span> (that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Instanciate an internal register which at each cycle do :<span class="raw-html-m2r"><br></span> reg := reg | that <span class="raw-html-m2r"><br></span> Then when a read occur, the register is cleared. This register is readable at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

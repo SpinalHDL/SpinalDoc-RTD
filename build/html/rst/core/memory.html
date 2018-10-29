@@ -1,0 +1,507 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Syntax &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Syntax</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/core/memory.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="syntax">
+<h1>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h1>
+<p>To specify memory of your RTL you can use the Mem tool of Spinal. It allow you to define a memory, and than add ports on it.</p>
+<p>The following table show how to instantiate a memory :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Syntax</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Mem(type : Data,size : Int)</td>
+<td>Create a RAM</td>
+</tr>
+<tr class="row-odd"><td>Mem(type : Data,initialContent : Array[Data])</td>
+<td>Create a ROM. If your target is an FPGA, because it can be inferred as a block ram, you can still create write ports on it.</td>
+</tr>
+</tbody>
+</table>
+<p>{% include note.html content=”If you want to define a ROM, elements of the <code class="docutils literal notranslate"><span class="pre">initialContent</span></code> array should only be literal value (no operator, no resize functions). There is an example <a class="reference external" href="/SpinalDoc/spinal/examples/simple/sinus_rom/">here</a>.” %}</p>
+<p>{% include note.html content=”To give an initial content to a RAM, you can also use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function.” %}</p>
+<p>The following table show how to add access ports on a memory :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Syntax</th>
+<th class="head">Description</th>
+<th class="head">Return</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>mem(address) := data</td>
+<td>Synchronous write</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>mem(x)</td>
+<td>Asynchronous read</td>
+<td>T</td>
+</tr>
+<tr class="row-even"><td>mem.write(<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;address<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;data<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[enable]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[mask]<span class="raw-html-m2r"><br></span>)</td>
+<td>Synchronous write with an optional mask. <span class="raw-html-m2r"><br></span> If no enable is specified, it’s automatically inferred from the conditional scope where this function is called</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>mem.readAsync(<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;address<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[readUnderWrite]<span class="raw-html-m2r"><br></span>)</td>
+<td>Asynchronous read with an optional read under write policy</td>
+<td>T</td>
+</tr>
+<tr class="row-even"><td>mem.readSync(<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;address<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[enable]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[readUnderWrite]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[clockCrossing]<span class="raw-html-m2r"><br></span>)</td>
+<td>Synchronous read with an optional enable, read under write policy and clockCrossing mode</td>
+<td>T</td>
+</tr>
+<tr class="row-odd"><td>mem.readWriteSync(<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;address<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;data<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;enable<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;write<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[mask]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[readUnderWrite]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[clockCrossing]<span class="raw-html-m2r"><br></span>)</td>
+<td>Infer a read/write port.<span class="raw-html-m2r"><br></span> <code class="docutils literal notranslate"><span class="pre">data</span></code> is written when <code class="docutils literal notranslate"><span class="pre">enable</span> <span class="pre">&amp;&amp;</span> <span class="pre">write</span></code>.<span class="raw-html-m2r"><br></span> Return the read data, the read occur when <code class="docutils literal notranslate"><span class="pre">enable</span></code></td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<p>{% include note.html content=”If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.” %}</p>
+<p>{% include important.html content=”Memories ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.” %}</p>
+<p>There is a example which infer an simple dual port ram (32 bits * 256):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">wordCount</span> <span class="k">=</span> <span class="mi">256</span><span class="o">)</span>
+<span class="n">mem</span><span class="o">.</span><span class="n">write</span><span class="o">(</span>
+  <span class="n">enable</span>  <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">writeValid</span><span class="o">,</span>
+  <span class="n">address</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">writeAddress</span><span class="o">,</span>
+  <span class="n">data</span>    <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">writeData</span>
+<span class="o">)</span>
+
+<span class="n">io</span><span class="o">.</span><span class="n">readData</span> <span class="o">:=</span> <span class="n">mem</span><span class="o">.</span><span class="n">readSync</span><span class="o">(</span>
+  <span class="n">enable</span>  <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">readValid</span><span class="o">,</span>
+  <span class="n">address</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">readAddress</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-under-write-policy">
+<h1>Read under write policy<a class="headerlink" href="#read-under-write-policy" title="Permalink to this headline">¶</a></h1>
+<p>This policy specify how a read is affected when a write occur in the same cycle on the same address.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Kinds</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">dontCare</span></code></td>
+<td>Don’t care about the read value when the case occur</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">readFirst</span></code></td>
+<td>The read will get the old value (before the write)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeFirst</span></code></td>
+<td>The read will get the new value (provided by the write)</td>
+</tr>
+</tbody>
+</table>
+<p>{% include important.html content=”The generated VHDL/Verilog is always in the ‘readFirst’ mode, which is compatible with ‘dontCare’ but not with ‘writeFirst’. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.” %}</p>
+</div>
+<div class="section" id="mixed-width-ram">
+<h1>Mixed width ram<a class="headerlink" href="#mixed-width-ram" title="Permalink to this headline">¶</a></h1>
+<p>You can specify ports that interface the memory with a data width of a power of two fraction of the memory one.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Syntax</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>mem.writeMixedWidth(<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;address<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;data<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[readUnderWrite]<span class="raw-html-m2r"><br></span>)</td>
+<td>Similar to mem.write</td>
+</tr>
+<tr class="row-odd"><td>mem.readAsyncMixedWidth(<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;address<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;data<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[readUnderWrite]<span class="raw-html-m2r"><br></span>)</td>
+<td>Similar to mem.readAsync, but in place to return the read value, it drive the data structure given as argument</td>
+</tr>
+<tr class="row-even"><td>mem.readSyncMixedWidth(<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;address<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;data<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[enable]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[readUnderWrite]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[clockCrossing]<span class="raw-html-m2r"><br></span>)</td>
+<td>Similar to mem.readSync, but in place to return the read value, it drive the data structure given as argument</td>
+</tr>
+<tr class="row-odd"><td>mem.readWriteSyncMixedWidth(<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;address<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;data<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;enable<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;write<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[mask]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[readUnderWrite]<span class="raw-html-m2r"><br></span>&amp;nbsp;&amp;nbsp;[clockCrossing]<span class="raw-html-m2r"><br></span>)</td>
+<td>Equivalent to mem.readWriteSync</td>
+</tr>
+</tbody>
+</table>
+<p>{% include important.html content=”As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.” %}</p>
+</div>
+<div class="section" id="automatic-blackboxing">
+<h1>Automatic blackboxing<a class="headerlink" href="#automatic-blackboxing" title="Permalink to this headline">¶</a></h1>
+<p>Because it’s impossible to infer all ram kinds by using regular VHDL/Verilog, SpinalHDL integrate an optional automatic blackboxing system. This system look all Mem present in your RTL netlist and replace them by using BlackBox. Then the generated code will rely third party IP to provide memories features like read during write policy and mixed width ports.</p>
+<p>There is an example to enable the default automatic blackboxing.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+  <span class="nc">SpinalConfig</span><span class="o">()</span>
+    <span class="o">.</span><span class="n">addStandardMemBlackboxing</span><span class="o">(</span><span class="n">blackboxAll</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">generateVhdl</span><span class="o">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>If the standard blackboxing tools doesn’t do enough for your design, do not hesitate to do a git issue. There is also a way to define your own blackboxing tool.</p>
+<div class="section" id="blackboxing-policy">
+<h2>Blackboxing policy<a class="headerlink" href="#blackboxing-policy" title="Permalink to this headline">¶</a></h2>
+<p>There is multiple policy that you can use to select which memory you want to blackbox and also what to do when the blackboxing is not feasable :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Kinds</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>blackboxAll</td>
+<td>Blackbox all memory.<span class="raw-html-m2r"><br></span> Throw an error on unblackboxable memory</td>
+</tr>
+<tr class="row-odd"><td>blackboxAllWhatsYouCan</td>
+<td>Blackbox all memory which are blackboxable</td>
+</tr>
+<tr class="row-even"><td>blackboxRequestedAndUninferable</td>
+<td>Blackbox memory specified by the user and memory which are known to be uninferable (mixed width, …). <span class="raw-html-m2r"><br></span> Throw an error on unblackboxable memory</td>
+</tr>
+<tr class="row-odd"><td>blackboxOnlyIfRequested</td>
+<td>Blackbox memory specified by the user<span class="raw-html-m2r"><br></span> Throw an error on unblackboxable memory</td>
+</tr>
+</tbody>
+</table>
+<p>To explicitly set a memory to be blackboxed, you can its <code class="docutils literal notranslate"><span class="pre">generateAsBlackBox</span></code> function.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Rgb</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">),</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="o">)</span>
+<span class="n">mem</span><span class="o">.</span><span class="n">generateAsBlackBox</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>You can also define your own blackboxing policy by extending the MemBlackboxingPolicy class.</p>
+</div>
+<div class="section" id="standard-memory-blackboxes">
+<h2>Standard memory blackboxes<a class="headerlink" href="#standard-memory-blackboxes" title="Permalink to this headline">¶</a></h2>
+<p>There are the VHDL definition of used blackboxes :</p>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Simple asynchronous dual port (1 write port, 1 read port)</span>
+<span class="n">component</span> <span class="n">Ram_1w_1ra</span> <span class="kr">is</span>
+  <span class="kd">generic</span><span class="p">(</span>
+    <span class="n">wordCount</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wordWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">technology</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">wrAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrDataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrMaskWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrMaskEnable</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">rdAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">rdDataWidth</span> <span class="p">:</span> <span class="kt">integer</span>
+  <span class="p">);</span>
+  <span class="n">port</span><span class="p">(</span>
+    <span class="n">clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr_mask</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">wr_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">wr_data</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">rd_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">rd_data</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
+  <span class="p">);</span>
+<span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
+
+<span class="c1">-- Simple synchronous dual port (1 write port, 1 read port)</span>
+<span class="n">component</span> <span class="n">Ram_1w_1rs</span> <span class="kr">is</span>
+  <span class="kd">generic</span><span class="p">(</span>
+    <span class="n">wordCount</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wordWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">clockCrossing</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">technology</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">wrAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrDataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrMaskWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrMaskEnable</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">rdAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">rdDataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">rdEnEnable</span> <span class="p">:</span> <span class="kt">boolean</span>
+  <span class="p">);</span>
+  <span class="n">port</span><span class="p">(</span>
+    <span class="n">wr_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr_mask</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">wr_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">wr_data</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">rd_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">rd_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">rd_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">rd_data</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
+  <span class="p">);</span>
+<span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
+
+<span class="c1">-- Single port (1 readWrite port)</span>
+<span class="n">component</span> <span class="n">Ram_1wrs</span> <span class="kr">is</span>
+  <span class="kd">generic</span><span class="p">(</span>
+    <span class="n">wordCount</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wordWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">technology</span> <span class="p">:</span> <span class="kt">string</span>
+  <span class="p">);</span>
+  <span class="n">port</span><span class="p">(</span>
+    <span class="n">clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">wrData</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">rdData</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
+  <span class="p">);</span>
+<span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
+
+<span class="c1">--True dual port (2 readWrite port)</span>
+<span class="n">component</span> <span class="n">Ram_2wrs</span> <span class="kr">is</span>
+  <span class="kd">generic</span><span class="p">(</span>
+    <span class="n">wordCount</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wordWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">clockCrossing</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">technology</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">portA_readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">portA_addressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portA_dataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portA_maskWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portA_maskEnable</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">portB_readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">portB_addressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portB_dataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portB_maskWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portB_maskEnable</span> <span class="p">:</span> <span class="kt">boolean</span>
+  <span class="p">);</span>
+  <span class="n">port</span><span class="p">(</span>
+    <span class="n">portA_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portA_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portA_wr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portA_mask</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portA_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">portA_wrData</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portA_rdData</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portB_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portB_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portB_wr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portB_mask</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portB_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">portB_wrData</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portB_rdData</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
+  <span class="p">);</span>
+<span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>As you can see, blackboxes have a technology parameter. To set it you can use the setTechnology function on the corresponding memory.
+There is currently 4 kinds of technogy possible :</p>
+<ul class="simple">
+<li>auto</li>
+<li>ramBlock</li>
+<li>distributedLut</li>
+<li>registerFile</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

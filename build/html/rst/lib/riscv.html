@@ -1,0 +1,257 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Features &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Features</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/lib/riscv.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>{% include warning.html content=”This page document the first RISC-V cpu iteration done in SpinalHDL. The second iteration of this CPU is available <a class="reference external" href="https://github.com/SpinalHDL/VexRiscv">there</a> and already offer better perforance/area/features.” %}</p>
+<div class="section" id="features">
+<h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
+<p>RISC-V CPU</p>
+<ul class="simple">
+<li>Pipelined on 5 stages (Fetch Decode Execute0 Execute1 WriteBack)</li>
+<li>Multiple branch prediction modes : (disable, static or dynamic)</li>
+<li>Data path parameterizable between fully bypassed to fully interlocked</li>
+</ul>
+<p>Extensions</p>
+<ul class="simple">
+<li>One cycle multiplication</li>
+<li>34 cycle division</li>
+<li>Iterative shifter (N shift -&gt; N cycles)</li>
+<li>Single cycle shifter</li>
+<li>Interruption controller</li>
+<li>Debugging module (with JTAG bridge, openOCD port and GDB)</li>
+<li>Instruction cache with wrapped burst memory interface, one way</li>
+<li>Data cache with instructions to evict/flush the whole cache or a given address, one way</li>
+</ul>
+<p>Performance/Area (on cyclone II)</p>
+<ul class="simple">
+<li>small core -&gt; 846 LE, 0.6 DMIPS/Mhz</li>
+<li>debug module (without JTAG) -&gt; 240 LE</li>
+<li>JTAG Avalon master -&gt; 238 LE</li>
+<li>big core with MUL/DIV/Full shifter/I$/Interrupt/Debug -&gt; 2200 LE, 1.15 DMIPS/Mhz, at least 100 Mhz (with default synthesis option)</li>
+</ul>
+</div>
+<div class="section" id="base-fpga-project">
+<h1>Base FPGA project<a class="headerlink" href="#base-fpga-project" title="Permalink to this headline">¶</a></h1>
+<p>You can find a DE1-SOC project which integrate two instance of the CPU with MUL/DIV/Full shifter/I$/Interrupt/Debug there :</p>
+<p><a class="reference external" href="https://drive.google.com/folderview?id=0B-CqLXDTaMbKNkktb2k3T3lzcUk&amp;usp=sharing">https://drive.google.com/folderview?id=0B-CqLXDTaMbKNkktb2k3T3lzcUk&amp;usp=sharing</a></p>
+<p>CPU/JTAG/VGA IP are pre-generated.
+Quartus Prime : 15.1.</p>
+</div>
+<div class="section" id="how-to-generate-the-cpu-vhdl">
+<h1>How to generate the CPU VHDL<a class="headerlink" href="#how-to-generate-the-cpu-vhdl" title="Permalink to this headline">¶</a></h1>
+<p>{% include warning.html content=”This avalon version of the CPU isn’t present in recent releases of SpinalHDL. Please considarate the <a class="reference external" href="https://github.com/SpinalHDL/VexRiscv">VexRiscv</a> instead.” %}</p>
+<p>There is an example of a top level which generate an Altera QSys component that contain the CPU with Avalon interfaces and some timing buffer :</p>
+<p><a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/cpu/riscv/impl/CoreQSysAvalon.scala#L97">https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/cpu/riscv/impl/CoreQSysAvalon.scala#L97</a></p>
+<p>If you want to generate it, the easiest way is to get the <a class="reference external" href="https://github.com/SpinalHDL/SpinalTemplateSbt">https://github.com/SpinalHDL/SpinalTemplateSbt</a> and call <code class="docutils literal notranslate"><span class="pre">QSysAvalonCore.main(null)</span></code> from your main function.</p>
+</div>
+<div class="section" id="how-to-debug">
+<h1>How to debug<a class="headerlink" href="#how-to-debug" title="Permalink to this headline">¶</a></h1>
+<p>You can find the openOCD fork there :</p>
+<p><a class="reference external" href="https://github.com/Dolu1990/openocd_riscv">https://github.com/Dolu1990/openocd_riscv</a></p>
+<p>An example target configuration file could be find there :</p>
+<p><a class="reference external" href="https://github.com/Dolu1990/openocd_riscv/blob/riscv_spinal/tcl/target/riscv_spinal.cfg">https://github.com/Dolu1990/openocd_riscv/blob/riscv_spinal/tcl/target/riscv_spinal.cfg</a></p>
+<p>Then you can use the RISCV GDB.</p>
+</div>
+<div class="section" id="todo">
+<h1>Todo<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Documentation</li>
+<li>Optimise instruction/data caches FMax by moving line hit condition forward into combinatorial paths.</li>
+</ul>
+<p>Contact <a class="reference external" href="mailto:spinalhdl&#37;&#52;&#48;gmail&#46;com">spinalhdl<span>&#64;</span>gmail<span>&#46;</span>com</a> for more information</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

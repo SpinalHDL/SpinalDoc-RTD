@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/core/analog_inout.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>You can define native tristates signals by using the Analog/inout features. Those features were added for the following reasons :</p>
+<ul class="simple">
+<li>Being able to add native inout to the toplevel (it avoid having to manualy wrap them with some hand written VHDL/Verilog)</li>
+<li>Allowing the definition of blackbox which contain some inout pins</li>
+<li>Being able to connect a blackbox inout through the hierarchy to a toplevel inout pin.</li>
+</ul>
+<p>As those feature were only added for convenance, do not do other fancy stuff with it and if you want to model a component like an memory mapped GPIO peripheral, please use the TriState/TriStateArray bundles from the spinal lib, which keep the true nature of the tristate driver.</p>
+</div>
+<div class="section" id="analog">
+<h1>Analog<a class="headerlink" href="#analog" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">Analog</span></code> is the keyword which allow to define a signal as something … analog, which in the digital world could mean ‘0’, ‘1’, ‘Z’.</p>
+<p>For instance :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SdramInterface</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">SdramLayout</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
+  <span class="k">val</span> <span class="nc">DQ</span>    <span class="k">=</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Bidirectional data bus</span>
+  <span class="k">val</span> <span class="nc">DQM</span>   <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bytePerWord</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nc">ADDR</span>  <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">chipAddressWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nc">BA</span>    <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bankWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nc">CKE</span><span class="o">,</span> <span class="nc">CSn</span><span class="o">,</span> <span class="nc">CASn</span><span class="o">,</span> <span class="nc">RASn</span><span class="o">,</span> <span class="nc">WEn</span>  <span class="k">=</span> <span class="nc">Bool</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inout">
+<h1>inout<a class="headerlink" href="#inout" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">inout</span></code> is the keyword which allow to set an Analog signal as an component inout.</p>
+<p>For instance :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SdramInterface</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">SdramLayout</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span><span class="o">{</span>
+  <span class="k">val</span> <span class="nc">DQ</span>    <span class="k">=</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Bidirectional data bus</span>
+  <span class="k">val</span> <span class="nc">DQM</span>   <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bytePerWord</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nc">ADDR</span>  <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">chipAddressWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nc">BA</span>    <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bankWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nc">CKE</span><span class="o">,</span> <span class="nc">CSn</span><span class="o">,</span> <span class="nc">CASn</span><span class="o">,</span> <span class="nc">RASn</span><span class="o">,</span> <span class="nc">WEn</span>  <span class="k">=</span> <span class="nc">Bool</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">out</span><span class="o">(</span><span class="nc">ADDR</span><span class="o">,</span><span class="nc">BA</span><span class="o">,</span><span class="nc">CASn</span><span class="o">,</span><span class="nc">CKE</span><span class="o">,</span><span class="nc">CSn</span><span class="o">,</span><span class="nc">DQM</span><span class="o">,</span><span class="nc">RASn</span><span class="o">,</span><span class="nc">WEn</span><span class="o">)</span>
+    <span class="n">inout</span><span class="o">(</span><span class="nc">DQ</span><span class="o">)</span> <span class="c1">//Set the Analog DQ as an inout of the component</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inoutwrapper">
+<h1>InOutWrapper<a class="headerlink" href="#inoutwrapper" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> is a tool which allow you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(…)) signals. It allow you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.</p>
+<p>For instance :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Apb3Gpio</span><span class="o">(</span><span class="n">gpioWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+    <span class="k">val</span> <span class="n">gpio</span> <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">TriStateArray</span><span class="o">(</span><span class="n">gpioWidth</span> <span class="n">bits</span><span class="o">))</span>
+    <span class="k">val</span> <span class="n">apb</span>  <span class="k">=</span> <span class="n">slave</span><span class="o">(</span><span class="nc">Apb3</span><span class="o">(</span><span class="nc">Apb3Gpio</span><span class="o">.</span><span class="n">getApb3Config</span><span class="o">()))</span>
+  <span class="o">}</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+
+<span class="nc">SpinalVhdl</span><span class="o">(</span><span class="nc">InOutWrapper</span><span class="o">(</span><span class="nc">Apb3Gpio</span><span class="o">(</span><span class="mi">32</span><span class="o">)))</span>
+</pre></div>
+</div>
+<p>Will generate :</p>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nc">Apb3Gpio</span> <span class="k">is</span>
+  <span class="k">port</span><span class="p">(</span>
+    <span class="n">io_gpio</span> <span class="o">:</span> <span class="k">inout</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">-- This io_gpio was originaly a TriStateArray Bundle</span>
+    <span class="n">io_apb_PADDR</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PSEL</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">0</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PENABLE</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">io_apb_PREADY</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">io_apb_PWRITE</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">io_apb_PWDATA</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PRDATA</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PSLVERROR</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">clk</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">reset</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span>
+  <span class="p">);</span>
+<span class="k">end</span> <span class="nc">Apb3Gpio</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Instead of :</p>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nc">Apb3Gpio</span> <span class="k">is</span>
+  <span class="k">port</span><span class="p">(</span>
+    <span class="n">io_gpio_read</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_gpio_write</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_gpio_writeEnable</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PADDR</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PSEL</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">0</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PENABLE</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">io_apb_PREADY</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">io_apb_PWRITE</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">io_apb_PWDATA</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PRDATA</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">io_apb_PSLVERROR</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">clk</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
+    <span class="n">reset</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span>
+  <span class="p">);</span>
+<span class="k">end</span> <span class="nc">Apb3Gpio</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

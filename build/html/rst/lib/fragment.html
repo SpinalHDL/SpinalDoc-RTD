@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Specification &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Specification</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/lib/fragment.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="specification">
+<h1>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">Fragment</span></code> bundle is the concept of transmitting a “big” thing by using multiple “small” fragments. For examples :</p>
+<ul class="simple">
+<li>A picture transmitted with width*height transaction on a <code class="docutils literal notranslate"><span class="pre">Stream[Fragment[Pixel]]</span></code></li>
+<li>An UART packet received from an controller without flow control could be transmitted on a <code class="docutils literal notranslate"><span class="pre">Flow[Fragment[Bits]]</span></code></li>
+<li>An AXI read burst could be carried by an <code class="docutils literal notranslate"><span class="pre">Stream[Fragment[AxiReadResponse]]</span></code></li>
+</ul>
+<p>Signals defined by the <code class="docutils literal notranslate"><span class="pre">Fragment</span></code> bundle are :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Signal</th>
+<th class="head">Type</th>
+<th class="head">Driver</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>fragment</td>
+<td>T</td>
+<td>Master</td>
+<td>The “payload” of the current transaction</td>
+</tr>
+<tr class="row-odd"><td>last</td>
+<td>Bool</td>
+<td>Master</td>
+<td>High when the fragment is the last of the current packet</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see with this specification and precedent example, the <code class="docutils literal notranslate"><span class="pre">Fragment</span></code> concept doesn’t specify how transaction are transmitted (You can use Stream,Flow or any other communication protocol). It only add enough information (<code class="docutils literal notranslate"><span class="pre">last</span></code>) to know if the current transaction is the first one, the last one or one in the middle of a given packet.</p>
+<p>{% include note.html content=”The protocol didn’t carry a ‘first’ bit because it can be generated at any place by doing ‘RegNextWhen(bus.last, bus.fire) init(True)’” %}</p>
+</div>
+<div class="section" id="functions">
+<h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
+<p>For <code class="docutils literal notranslate"><span class="pre">Stream[Fragment[T]]</span></code> and <code class="docutils literal notranslate"><span class="pre">Flow[Fragment[T]]</span></code>, following function are presents :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Syntax</th>
+<th class="head">Return</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>x.first</td>
+<td>Bool</td>
+<td>Return True when the next or the current transaction is/would be the first of a packet</td>
+</tr>
+<tr class="row-odd"><td>x.tail</td>
+<td>Bool</td>
+<td>Return True when the next or the current transaction is/would be not the first of a packet</td>
+</tr>
+<tr class="row-even"><td>x.isFirst</td>
+<td>Bool</td>
+<td>Return True when an transaction is present and is the first of a packet</td>
+</tr>
+<tr class="row-odd"><td>x.isTail</td>
+<td>Bool</td>
+<td>Return True when an transaction is present and is the not the first/last of a packet</td>
+</tr>
+<tr class="row-even"><td>x.isLast</td>
+<td>Bool</td>
+<td>Return True when an transaction is present and is the last of a packet</td>
+</tr>
+</tbody>
+</table>
+<p>For <code class="docutils literal notranslate"><span class="pre">Stream[Fragment[T]]</span></code>, following function are also accessible :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Syntax</th>
+<th class="head">Return</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>x.insertHeader(header : T)</td>
+<td>Stream[Fragment[T]]</td>
+<td>Add the <code class="docutils literal notranslate"><span class="pre">header</span></code> to each packet on <code class="docutils literal notranslate"><span class="pre">x</span></code> and return the resulting bus</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

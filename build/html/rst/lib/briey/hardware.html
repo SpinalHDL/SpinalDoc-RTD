@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/rst/lib/briey/hardware.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>There is the Pinsec toplevel hardware diagram :
+<span class="raw-html-m2r"><img src="http://cdn.rawgit.com/SpinalHDL/SpinalDoc/dd17971aa549ccb99168afd55aad274bbdff1e88/asset/picture/pinsec_hardware.svg"   align="middle" width="300"></span></p>
+</div>
+<div class="section" id="riscv">
+<h1>RISCV<a class="headerlink" href="#riscv" title="Permalink to this headline">¶</a></h1>
+<p>The RISCV is a 5 stage pipelined CPU with following features :</p>
+<ul class="simple">
+<li>Instruction cache</li>
+<li>Single cycle Barrel shifter</li>
+<li>Single cycle MUL, 34 cycle DIV</li>
+<li>Interruption support</li>
+<li>Dynamic branch prediction</li>
+<li>Debug port</li>
+</ul>
+</div>
+<div class="section" id="axi4">
+<h1>AXI4<a class="headerlink" href="#axi4" title="Permalink to this headline">¶</a></h1>
+<p>As previously said, Pinsec integrate an AXI4 bus fabric. AXI4 is not the easiest bus on the Earth but has many advantages like :</p>
+<ul class="simple">
+<li>A flexible topology</li>
+<li>High bandwidth potential</li>
+<li>Potential out of order request completion</li>
+<li>Easy methods to meets clocks timings</li>
+<li>Standard used by many IP</li>
+<li>An hand-shaking methodology that fit with SpinalHDL Stream.</li>
+</ul>
+<p>From an Area utilization perspective, AXI4 is for sure not the lightest solution, but some techniques could dramatically reduce that issue :</p>
+<ul class="simple">
+<li>Using Read-Only/Write-Only AXI4 variations where it’s possible</li>
+<li>Introducing an Axi4-Shared variation where a new ARW channel is introduced to replace AR and AW channels. This solution divide resources usage by two for the address decoding and the address arbitration.</li>
+<li>Depending the interconnect implementation, if masters doesn’t use the R/B channels ready, this path will be removed until each slaves at synthesis, which relax timings.</li>
+<li>As the AXI4 spec suggest, the interconnect can expand the transactions ID by aggregating the corresponding input port id. This allow the interconnect to have an infinite number of pending request and also to support out of order completion with a negligible area cost (transaction id expand).</li>
+</ul>
+<p>The Pinsec interconnect doesn’t introduce latency cycles.</p>
+</div>
+<div class="section" id="apb3">
+<h1>APB3<a class="headerlink" href="#apb3" title="Permalink to this headline">¶</a></h1>
+<p>In Pinsec, all peripherals implement an APB3 bus to be interfaced. The APB3 choice was motivated by following reasons :</p>
+<ul class="simple">
+<li>Very simple bus (no burst)</li>
+<li>Use very few resources</li>
+<li>Standard used by many IP</li>
+</ul>
+</div>
+<div class="section" id="generate-the-rtl">
+<h1>Generate the RTL<a class="headerlink" href="#generate-the-rtl" title="Permalink to this headline">¶</a></h1>
+<p>To generate the RTL, you have multiple solutions :</p>
+<p>You can download the SpinalHDL source code, and then run :</p>
+<div class="highlight-sbt notranslate"><div class="highlight"><pre><span></span>sbt &quot;project SpinalHDL-lib&quot; &quot;run-main spinal.lib.soc.pinsec.Pinsec&quot;
+</pre></div>
+</div>
+<p>Or you can create your own main into your own SBT project and then run it :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.lib.soc.pinsec._</span>
+
+<span class="k">object</span> <span class="nc">PinsecMain</span><span class="o">{</span>
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+    <span class="nc">SpinalVhdl</span><span class="o">(</span><span class="k">new</span> <span class="nc">Pinsec</span><span class="o">(</span><span class="mi">100</span> <span class="nc">MHz</span><span class="o">))</span>
+    <span class="nc">SpinalVerilog</span><span class="o">(</span><span class="k">new</span> <span class="nc">Pinsec</span><span class="o">(</span><span class="mi">100</span> <span class="nc">MHz</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>{% include note.html content=”Currently, only the verilog version was tested in simulation and in FPGA because the last release of GHDL is not compatible with cocotb.” %}</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

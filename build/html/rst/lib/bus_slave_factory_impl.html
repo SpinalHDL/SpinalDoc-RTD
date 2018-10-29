@@ -1,0 +1,659 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/lib/bus_slave_factory_impl.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>This page will document the implementation of the BusSlaveFactory tool and one of those variant. You can get more information about the functionality of that tool  <a class="reference external" href="/SpinalDoc/spinal/lib/bus_slave_factory/">there</a>.</p>
+</div>
+<div class="section" id="specification">
+<h1>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h1>
+<p>The class diagram is the following :<span class="raw-html-m2r"><br></span>
+<span class="raw-html-m2r"><img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/d0af059a9b5a00e53acbe50a2e7d1e28ccfdfd9c/asset/picture/bus_slave_factory_classes.svg"  align="middle" width="300"></span></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> abstract class define minimum requirements that each implementation of it should provide :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>busDataWidth</td>
+<td>Return the data width of the bus</td>
+</tr>
+<tr class="row-odd"><td>read(that,address,bitOffset)</td>
+<td>When the bus read the <code class="docutils literal notranslate"><span class="pre">address</span></code>, fill the response with <code class="docutils literal notranslate"><span class="pre">that</span></code> at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code></td>
+</tr>
+<tr class="row-even"><td>write(that,address,bitOffset)</td>
+<td>When the bus write the <code class="docutils literal notranslate"><span class="pre">address</span></code>, assign <code class="docutils literal notranslate"><span class="pre">that</span></code> with bus’s data from <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code></td>
+</tr>
+<tr class="row-odd"><td>onWrite(address)(doThat)</td>
+<td>Call <code class="docutils literal notranslate"><span class="pre">doThat</span></code> when a write transaction occur on <code class="docutils literal notranslate"><span class="pre">address</span></code></td>
+</tr>
+<tr class="row-even"><td>onRead(address)(doThat)</td>
+<td>Call <code class="docutils literal notranslate"><span class="pre">doThat</span></code> when a read transaction occur on <code class="docutils literal notranslate"><span class="pre">address</span></code></td>
+</tr>
+<tr class="row-odd"><td>nonStopWrite(that,bitOffset)</td>
+<td>Permanently assign <code class="docutils literal notranslate"><span class="pre">that</span></code> by the bus write data from <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>By using them the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> should also be able to provide many utilities :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Return</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>readAndWrite(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Make <code class="docutils literal notranslate"><span class="pre">that</span></code> readable and writable at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-odd"><td>readMultiWord(that,address)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Create the memory mapping to read <code class="docutils literal notranslate"><span class="pre">that</span></code> from ‘address’.<span class="raw-html-m2r"><br></span> If <code class="docutils literal notranslate"><span class="pre">that</span></code> is bigger than one word it extends the register on followings addresses</td>
+</tr>
+<tr class="row-even"><td>writeMultiWord(that,address)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Create the memory mapping to write <code class="docutils literal notranslate"><span class="pre">that</span></code> at ‘address’.<span class="raw-html-m2r"><br></span> If <code class="docutils literal notranslate"><span class="pre">that</span></code> is bigger than one word it extends the register on followings addresses</td>
+</tr>
+<tr class="row-odd"><td>createWriteOnly(dataType,address,bitOffset)</td>
+<td>T</td>
+<td>Create a write only register of type <code class="docutils literal notranslate"><span class="pre">dataType</span></code> at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-even"><td>createReadWrite(dataType,address,bitOffset)</td>
+<td>T</td>
+<td>Create a read write register of type <code class="docutils literal notranslate"><span class="pre">dataType</span></code> at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-odd"><td>createAndDriveFlow(dataType,address,bitOffset)</td>
+<td>Flow[T]</td>
+<td>Create a writable Flow register of type <code class="docutils literal notranslate"><span class="pre">dataType</span></code> at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-even"><td>drive(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Drive <code class="docutils literal notranslate"><span class="pre">that</span></code> with a register writable at <code class="docutils literal notranslate"><span class="pre">address</span></code> placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-odd"><td>driveAndRead(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Drive <code class="docutils literal notranslate"><span class="pre">that</span></code> with a register writable and readable at <code class="docutils literal notranslate"><span class="pre">address</span></code> placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-even"><td>driveFlow(that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Emit on <code class="docutils literal notranslate"><span class="pre">that</span></code> a transaction when a write happen at <code class="docutils literal notranslate"><span class="pre">address</span></code> by using data placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+<tr class="row-odd"><td>readStreamNonBlocking(that,address,<span class="raw-html-m2r"><br></span>validBitOffset,payloadBitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Read <code class="docutils literal notranslate"><span class="pre">that</span></code> and consume the transaction when a read happen at <code class="docutils literal notranslate"><span class="pre">address</span></code>. <span class="raw-html-m2r"><br></span> valid  &amp;nbsp;  &amp;nbsp; &lt;= validBitOffset bit <span class="raw-html-m2r"><br></span> payload &lt;= payloadBitOffset+widthOf(payload) downto <code class="docutils literal notranslate"><span class="pre">payloadBitOffset</span></code></td>
+</tr>
+<tr class="row-even"><td>doBitsAccumulationAndClearOnRead<span class="raw-html-m2r"><br></span> (that,address,bitOffset)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>Instanciate an internal register which at each cycle do :<span class="raw-html-m2r"><br></span> reg := reg | that <span class="raw-html-m2r"><br></span> Then when a read occur, the register is cleared. This register is readable at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+</tr>
+</tbody>
+</table>
+<p>About <code class="docutils literal notranslate"><span class="pre">BusSlaveFactoryDelayed</span></code>, it’s still an abstract class, but it capture each primitives (BusSlaveFactoryElement) calls into a data-model. This datamodel is one list that contain all primitives, but also a HashMap that link each address used to a list of primitives that are using it. Then when they all are collected (at the end of the current component), it do a callback that should be implemented by classes that extends it. The implementation of this callback should implement the hardware corresponding to all primitives collected.</p>
+</div>
+<div class="section" id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="busslavefactory">
+<h2>BusSlaveFactory<a class="headerlink" href="#busslavefactory" title="Permalink to this headline">¶</a></h2>
+<p>Let’s describe primitives abstract function :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">BusSlaveFactory</span>  <span class="k">extends</span> <span class="nc">Area</span><span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">busDataWidth</span> <span class="k">:</span> <span class="kt">Int</span>
+
+  <span class="k">def</span> <span class="n">read</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+           <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+           <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="k">def</span> <span class="n">write</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+            <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+            <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="k">def</span> <span class="n">onWrite</span><span class="o">(</span><span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">)(</span><span class="n">doThat</span> <span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>
+  <span class="k">def</span> <span class="n">onRead</span> <span class="o">(</span><span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">)(</span><span class="n">doThat</span> <span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="k">def</span> <span class="n">nonStopWrite</span><span class="o">(</span> <span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                    <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="c1">//...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Then let’s operate the magic to implement all utile based on them :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">BusSlaveFactory</span>  <span class="k">extends</span> <span class="nc">Area</span><span class="o">{</span>
+  <span class="c1">//...</span>
+  <span class="k">def</span> <span class="n">readAndWrite</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                   <span class="n">address</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                   <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">write</span><span class="o">(</span><span class="n">that</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+    <span class="n">read</span><span class="o">(</span><span class="n">that</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">drive</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+            <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+            <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">reg</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="n">that</span><span class="o">)</span>
+    <span class="n">write</span><span class="o">(</span><span class="n">reg</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+    <span class="n">that</span> <span class="o">:=</span> <span class="n">reg</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">driveAndRead</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                   <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                   <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">reg</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="n">that</span><span class="o">)</span>
+    <span class="n">write</span><span class="o">(</span><span class="n">reg</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+    <span class="n">read</span><span class="o">(</span><span class="n">reg</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+    <span class="n">that</span> <span class="o">:=</span> <span class="n">reg</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">driveFlow</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Flow</span><span class="o">[</span><span class="kt">T</span><span class="o">],</span>
+                           <span class="n">address</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                           <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">that</span><span class="o">.</span><span class="n">valid</span> <span class="o">:=</span> <span class="nc">False</span>
+    <span class="n">onWrite</span><span class="o">(</span><span class="n">address</span><span class="o">){</span>
+      <span class="n">that</span><span class="o">.</span><span class="n">valid</span> <span class="o">:=</span> <span class="nc">True</span>
+    <span class="o">}</span>
+    <span class="n">nonStopWrite</span><span class="o">(</span><span class="n">that</span><span class="o">.</span><span class="n">payload</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">createReadWrite</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span>
+                                 <span class="n">address</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                                 <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">reg</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="n">dataType</span><span class="o">)</span>
+    <span class="n">write</span><span class="o">(</span><span class="n">reg</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+    <span class="n">read</span><span class="o">(</span><span class="n">reg</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+    <span class="n">reg</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">createAndDriveFlow</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span> <span class="k">:</span> <span class="kt">T</span><span class="o">,</span>
+                                 <span class="n">address</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                                 <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Flow</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">flow</span> <span class="k">=</span> <span class="nc">Flow</span><span class="o">(</span><span class="n">dataType</span><span class="o">)</span>
+    <span class="n">driveFlow</span><span class="o">(</span><span class="n">flow</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+    <span class="n">flow</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">doBitsAccumulationAndClearOnRead</span><span class="o">(</span>   <span class="n">that</span> <span class="k">:</span> <span class="kt">Bits</span><span class="o">,</span>
+                                          <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                                          <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">assert</span><span class="o">(</span><span class="n">that</span><span class="o">.</span><span class="n">getWidth</span> <span class="o">&lt;=</span> <span class="n">busDataWidth</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">reg</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="n">that</span><span class="o">)</span>
+    <span class="n">reg</span> <span class="o">:=</span> <span class="n">reg</span> <span class="o">|</span> <span class="n">that</span>
+    <span class="n">read</span><span class="o">(</span><span class="n">reg</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+    <span class="n">onRead</span><span class="o">(</span><span class="n">address</span><span class="o">){</span>
+      <span class="n">reg</span> <span class="o">:=</span> <span class="n">that</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">readStreamNonBlocking</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">]</span> <span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Stream</span><span class="o">[</span><span class="kt">T</span><span class="o">],</span>
+                                        <span class="n">address</span><span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                                        <span class="n">validBitOffset</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+                                        <span class="n">payloadBitOffset</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">that</span><span class="o">.</span><span class="n">ready</span> <span class="o">:=</span> <span class="nc">False</span>
+    <span class="n">onRead</span><span class="o">(</span><span class="n">address</span><span class="o">){</span>
+      <span class="n">that</span><span class="o">.</span><span class="n">ready</span> <span class="o">:=</span> <span class="nc">True</span>
+    <span class="o">}</span>
+    <span class="n">read</span><span class="o">(</span><span class="n">that</span><span class="o">.</span><span class="n">valid</span>  <span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">validBitOffset</span><span class="o">)</span>
+    <span class="n">read</span><span class="o">(</span><span class="n">that</span><span class="o">.</span><span class="n">payload</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">payloadBitOffset</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">readMultiWord</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>  <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">wordCount</span> <span class="k">=</span> <span class="o">(</span><span class="n">widthOf</span><span class="o">(</span><span class="n">that</span><span class="o">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">busDataWidth</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">val</span> <span class="n">valueBits</span> <span class="k">=</span> <span class="n">that</span><span class="o">.</span><span class="n">asBits</span><span class="o">.</span><span class="n">resize</span><span class="o">(</span><span class="n">wordCount</span><span class="o">*</span><span class="n">busDataWidth</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">words</span> <span class="k">=</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">wordCount</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">id</span> <span class="k">=&gt;</span> <span class="n">valueBits</span><span class="o">(</span><span class="n">id</span> <span class="o">*</span> <span class="n">busDataWidth</span> <span class="o">,</span> <span class="n">busDataWidth</span> <span class="n">bit</span><span class="o">))</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">wordId</span> <span class="k">&lt;-</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">wordCount</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">read</span><span class="o">(</span><span class="n">words</span><span class="o">(</span><span class="n">wordId</span><span class="o">),</span> <span class="n">address</span> <span class="o">+</span> <span class="n">wordId</span><span class="o">*</span><span class="n">busDataWidth</span><span class="o">/</span><span class="mi">8</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">writeMultiWord</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                 <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>  <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">wordCount</span> <span class="k">=</span> <span class="o">(</span><span class="n">widthOf</span><span class="o">(</span><span class="n">that</span><span class="o">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">busDataWidth</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">wordId</span> <span class="k">&lt;-</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">wordCount</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">write</span><span class="o">(</span>
+        <span class="n">that</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DataWrapper</span><span class="o">{</span>
+          <span class="k">override</span> <span class="k">def</span> <span class="n">getBitsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span>
+            <span class="nc">Math</span><span class="o">.</span><span class="n">min</span><span class="o">(</span><span class="n">busDataWidth</span><span class="o">,</span> <span class="n">widthOf</span><span class="o">(</span><span class="n">that</span><span class="o">)</span> <span class="o">-</span> <span class="n">wordId</span> <span class="o">*</span> <span class="n">busDataWidth</span><span class="o">)</span>
+
+          <span class="k">override</span> <span class="k">def</span> <span class="n">assignFromBits</span><span class="o">(</span><span class="n">value</span> <span class="k">:</span> <span class="kt">Bits</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+            <span class="n">that</span><span class="o">.</span><span class="n">assignFromBits</span><span class="o">(</span>
+              <span class="n">bits</span>     <span class="k">=</span> <span class="n">value</span><span class="o">.</span><span class="n">resized</span><span class="o">,</span>
+              <span class="n">offset</span>   <span class="k">=</span> <span class="n">wordId</span> <span class="o">*</span> <span class="n">busDataWidth</span><span class="o">,</span>
+              <span class="n">bitCount</span> <span class="k">=</span> <span class="n">getBitsWidth</span> <span class="n">bits</span><span class="o">)</span>
+          <span class="o">}</span>
+        <span class="o">},</span><span class="n">address</span> <span class="k">=</span> <span class="n">address</span> <span class="o">+</span> <span class="n">wordId</span> <span class="o">*</span> <span class="n">busDataWidth</span> <span class="o">/</span> <span class="mi">8</span><span class="o">,</span><span class="mi">0</span>
+      <span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="busslavefactorydelayed">
+<h2>BusSlaveFactoryDelayed<a class="headerlink" href="#busslavefactorydelayed" title="Permalink to this headline">¶</a></h2>
+<p>Let’s implement classes that will be used to store primitives :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">BusSlaveFactoryElement</span>
+
+<span class="c1">// Ask to make `that` readable when a access is done on `address`.</span>
+<span class="c1">// bitOffset specify where `that` is placed on the answer</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">BusSlaveFactoryRead</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                               <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                               <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BusSlaveFactoryElement</span>
+
+<span class="c1">// Ask to make `that` writable when a access is done on `address`.</span>
+<span class="c1">// bitOffset specify where `that` get bits from the request</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">BusSlaveFactoryWrite</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                                <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                                <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BusSlaveFactoryElement</span>
+
+<span class="c1">// Ask to execute `doThat` when a write access is done on `address`</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">BusSlaveFactoryOnWrite</span><span class="o">(</span><span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                                  <span class="n">doThat</span> <span class="k">:</span> <span class="o">()</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BusSlaveFactoryElement</span>
+
+<span class="c1">// Ask to execute `doThat` when a read access is done on `address`</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">BusSlaveFactoryOnRead</span><span class="o">(</span> <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+                                  <span class="n">doThat</span> <span class="k">:</span> <span class="o">()</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BusSlaveFactoryElement</span>
+
+<span class="c1">// Ask to constantly drive `that` with the data bus</span>
+<span class="c1">// bitOffset specify where `that` get bits from the request</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">BusSlaveFactoryNonStopWrite</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                                       <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BusSlaveFactoryElement</span>
+</pre></div>
+</div>
+<p>Then let’s implement the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactoryDelayed</span></code> itself :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">BusSlaveFactoryDelayed</span> <span class="k">extends</span> <span class="nc">BusSlaveFactory</span><span class="o">{</span>
+  <span class="c1">// elements is an array of all BusSlaveFactoryElement requested</span>
+  <span class="k">val</span> <span class="n">elements</span> <span class="k">=</span> <span class="nc">ArrayBuffer</span><span class="o">[</span><span class="kt">BusSlaveFactoryElement</span><span class="o">]()</span>
+
+
+  <span class="c1">// elementsPerAddress is more structured than elements, it group all BusSlaveFactoryElement per requested addresses</span>
+  <span class="k">val</span> <span class="n">elementsPerAddress</span> <span class="k">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">mutable</span><span class="o">.</span><span class="nc">HashMap</span><span class="o">[</span><span class="kt">BigInt</span>,<span class="kt">ArrayBuffer</span><span class="o">[</span><span class="kt">BusSlaveFactoryElement</span><span class="o">]]()</span>
+
+  <span class="k">private</span> <span class="k">def</span> <span class="n">addAddressableElement</span><span class="o">(</span><span class="n">e</span> <span class="k">:</span> <span class="kt">BusSlaveFactoryElement</span><span class="o">,</span><span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="n">elements</span> <span class="o">+=</span> <span class="n">e</span>
+    <span class="n">elementsPerAddress</span><span class="o">.</span><span class="n">getOrElseUpdate</span><span class="o">(</span><span class="n">address</span><span class="o">,</span> <span class="nc">ArrayBuffer</span><span class="o">[</span><span class="kt">BusSlaveFactoryElement</span><span class="o">]())</span> <span class="o">+=</span> <span class="n">e</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">read</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+           <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+           <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>  <span class="o">=</span> <span class="o">{</span>
+    <span class="n">assert</span><span class="o">(</span><span class="n">bitOffset</span> <span class="o">+</span> <span class="n">that</span><span class="o">.</span><span class="n">getBitsWidth</span> <span class="o">&lt;=</span> <span class="n">busDataWidth</span><span class="o">)</span>
+    <span class="n">addAddressableElement</span><span class="o">(</span><span class="nc">BusSlaveFactoryRead</span><span class="o">(</span><span class="n">that</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">),</span><span class="n">address</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">write</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+            <span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
+            <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>  <span class="o">=</span> <span class="o">{</span>
+    <span class="n">assert</span><span class="o">(</span><span class="n">bitOffset</span> <span class="o">+</span> <span class="n">that</span><span class="o">.</span><span class="n">getBitsWidth</span> <span class="o">&lt;=</span> <span class="n">busDataWidth</span><span class="o">)</span>
+    <span class="n">addAddressableElement</span><span class="o">(</span><span class="nc">BusSlaveFactoryWrite</span><span class="o">(</span><span class="n">that</span><span class="o">,</span><span class="n">address</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">),</span><span class="n">address</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">onWrite</span><span class="o">(</span><span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">)(</span><span class="n">doThat</span> <span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">addAddressableElement</span><span class="o">(</span><span class="nc">BusSlaveFactoryOnWrite</span><span class="o">(</span><span class="n">address</span><span class="o">,()</span> <span class="k">=&gt;</span> <span class="n">doThat</span><span class="o">),</span><span class="n">address</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="k">def</span> <span class="n">onRead</span> <span class="o">(</span><span class="n">address</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">)(</span><span class="n">doThat</span> <span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">addAddressableElement</span><span class="o">(</span><span class="nc">BusSlaveFactoryOnRead</span><span class="o">(</span><span class="n">address</span><span class="o">,()</span> <span class="k">=&gt;</span> <span class="n">doThat</span><span class="o">),</span><span class="n">address</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">nonStopWrite</span><span class="o">(</span> <span class="n">that</span> <span class="k">:</span> <span class="kt">Data</span><span class="o">,</span>
+                    <span class="n">bitOffset</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">assert</span><span class="o">(</span><span class="n">bitOffset</span> <span class="o">+</span> <span class="n">that</span><span class="o">.</span><span class="n">getBitsWidth</span> <span class="o">&lt;=</span> <span class="n">busDataWidth</span><span class="o">)</span>
+    <span class="n">elements</span> <span class="o">+=</span> <span class="nc">BusSlaveFactoryNonStopWrite</span><span class="o">(</span><span class="n">that</span><span class="o">,</span><span class="n">bitOffset</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="c1">//This is the only thing that should be implement by class that extends BusSlaveFactoryDelayed</span>
+  <span class="k">def</span> <span class="n">build</span><span class="o">()</span> <span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="n">component</span><span class="o">.</span><span class="n">addPrePopTask</span><span class="o">(()</span> <span class="k">=&gt;</span> <span class="n">build</span><span class="o">())</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="avalonmmslavefactory">
+<h2>AvalonMMSlaveFactory<a class="headerlink" href="#avalonmmslavefactory" title="Permalink to this headline">¶</a></h2>
+<p>First let’s implement the companion object that provide the compatible AvalonMM configuration object that correspond to the following table :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Pin name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>read</td>
+<td>Bool</td>
+<td>High one cycle to produce a read request</td>
+</tr>
+<tr class="row-odd"><td>write</td>
+<td>Bool</td>
+<td>High one cycle to produce a write request</td>
+</tr>
+<tr class="row-even"><td>address</td>
+<td>UInt(addressWidth bits)</td>
+<td>Byte granularity but word aligned</td>
+</tr>
+<tr class="row-odd"><td>writeData</td>
+<td>Bits(dataWidth bits)</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>readDataValid</td>
+<td>Bool</td>
+<td>High to respond a read command</td>
+</tr>
+<tr class="row-odd"><td>readData</td>
+<td>Bool(dataWidth bits)</td>
+<td>Valid when readDataValid is high</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">AvalonMMSlaveFactory</span><span class="o">{</span>
+  <span class="k">def</span> <span class="n">getAvalonConfig</span><span class="o">(</span> <span class="n">addressWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+                       <span class="n">dataWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="nc">AvalonMMConfig</span><span class="o">.</span><span class="n">pipelined</span><span class="o">(</span>   <span class="c1">//Create a simple pipelined configuration of the Avalon Bus</span>
+      <span class="n">addressWidth</span> <span class="k">=</span> <span class="n">addressWidth</span><span class="o">,</span>
+      <span class="n">dataWidth</span> <span class="k">=</span> <span class="n">dataWidth</span>
+    <span class="o">).</span><span class="n">copy</span><span class="o">(</span>                    <span class="c1">//Change some parameters of the configuration</span>
+      <span class="n">useByteEnable</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
+      <span class="n">useWaitRequestn</span> <span class="k">=</span> <span class="kc">false</span>
+    <span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">bus</span> <span class="k">:</span> <span class="kt">AvalonMM</span><span class="o">)</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">AvalonMMSlaveFactory</span><span class="o">(</span><span class="n">bus</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Then, let’s implement the AvalonMMSlaveFactory itself.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AvalonMMSlaveFactory</span><span class="o">(</span><span class="n">bus</span> <span class="k">:</span> <span class="kt">AvalonMM</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BusSlaveFactoryDelayed</span><span class="o">{</span>
+  <span class="n">assert</span><span class="o">(</span><span class="n">bus</span><span class="o">.</span><span class="n">c</span> <span class="o">==</span> <span class="nc">AvalonMMSlaveFactory</span><span class="o">.</span><span class="n">getAvalonConfig</span><span class="o">(</span><span class="n">bus</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">addressWidth</span><span class="o">,</span><span class="n">bus</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">dataWidth</span><span class="o">))</span>
+
+  <span class="k">val</span> <span class="n">readAtCmd</span> <span class="k">=</span> <span class="nc">Flow</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">bus</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span>
+  <span class="k">val</span> <span class="n">readAtRsp</span> <span class="k">=</span> <span class="n">readAtCmd</span><span class="o">.</span><span class="n">stage</span><span class="o">()</span>
+
+  <span class="n">bus</span><span class="o">.</span><span class="n">readDataValid</span> <span class="o">:=</span> <span class="n">readAtRsp</span><span class="o">.</span><span class="n">valid</span>
+  <span class="n">bus</span><span class="o">.</span><span class="n">readData</span> <span class="o">:=</span> <span class="n">readAtRsp</span><span class="o">.</span><span class="n">payload</span>
+
+  <span class="n">readAtCmd</span><span class="o">.</span><span class="n">valid</span> <span class="o">:=</span> <span class="n">bus</span><span class="o">.</span><span class="n">read</span>
+  <span class="n">readAtCmd</span><span class="o">.</span><span class="n">payload</span> <span class="o">:=</span> <span class="mi">0</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">build</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">for</span><span class="o">(</span><span class="n">element</span> <span class="k">&lt;-</span> <span class="n">elements</span><span class="o">)</span> <span class="n">element</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">element</span> <span class="k">:</span> <span class="kt">BusSlaveFactoryNonStopWrite</span> <span class="o">=&gt;</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">that</span><span class="o">.</span><span class="n">assignFromBits</span><span class="o">(</span><span class="n">bus</span><span class="o">.</span><span class="n">writeData</span><span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="n">bitOffset</span><span class="o">,</span> <span class="n">element</span><span class="o">.</span><span class="n">that</span><span class="o">.</span><span class="n">getBitsWidth</span> <span class="n">bits</span><span class="o">))</span>
+      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span>
+    <span class="o">}</span>
+
+    <span class="k">for</span><span class="o">((</span><span class="n">address</span><span class="o">,</span><span class="n">jobs</span><span class="o">)</span> <span class="k">&lt;-</span> <span class="n">elementsPerAddress</span><span class="o">){</span>
+      <span class="n">when</span><span class="o">(</span><span class="n">bus</span><span class="o">.</span><span class="n">address</span> <span class="o">===</span> <span class="n">address</span><span class="o">){</span>
+        <span class="n">when</span><span class="o">(</span><span class="n">bus</span><span class="o">.</span><span class="n">write</span><span class="o">){</span>
+          <span class="k">for</span><span class="o">(</span><span class="n">element</span> <span class="k">&lt;-</span> <span class="n">jobs</span><span class="o">)</span> <span class="n">element</span> <span class="k">match</span><span class="o">{</span>
+            <span class="k">case</span> <span class="n">element</span> <span class="k">:</span> <span class="kt">BusSlaveFactoryWrite</span> <span class="o">=&gt;</span> <span class="o">{</span>
+              <span class="n">element</span><span class="o">.</span><span class="n">that</span><span class="o">.</span><span class="n">assignFromBits</span><span class="o">(</span><span class="n">bus</span><span class="o">.</span><span class="n">writeData</span><span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="n">bitOffset</span><span class="o">,</span> <span class="n">element</span><span class="o">.</span><span class="n">that</span><span class="o">.</span><span class="n">getBitsWidth</span> <span class="n">bits</span><span class="o">))</span>
+            <span class="o">}</span>
+            <span class="k">case</span> <span class="n">element</span> <span class="k">:</span> <span class="kt">BusSlaveFactoryOnWrite</span> <span class="o">=&gt;</span> <span class="n">element</span><span class="o">.</span><span class="n">doThat</span><span class="o">()</span>
+            <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">when</span><span class="o">(</span><span class="n">bus</span><span class="o">.</span><span class="n">read</span><span class="o">){</span>
+          <span class="k">for</span><span class="o">(</span><span class="n">element</span> <span class="k">&lt;-</span> <span class="n">jobs</span><span class="o">)</span> <span class="n">element</span> <span class="k">match</span><span class="o">{</span>
+            <span class="k">case</span> <span class="n">element</span> <span class="k">:</span> <span class="kt">BusSlaveFactoryRead</span> <span class="o">=&gt;</span> <span class="o">{</span>
+              <span class="n">readAtCmd</span><span class="o">.</span><span class="n">payload</span><span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="n">bitOffset</span><span class="o">,</span> <span class="n">element</span><span class="o">.</span><span class="n">that</span><span class="o">.</span><span class="n">getBitsWidth</span> <span class="n">bits</span><span class="o">)</span> <span class="o">:=</span> <span class="n">element</span><span class="o">.</span><span class="n">that</span><span class="o">.</span><span class="n">asBits</span>
+            <span class="o">}</span>
+            <span class="k">case</span> <span class="n">element</span> <span class="k">:</span> <span class="kt">BusSlaveFactoryOnRead</span> <span class="o">=&gt;</span> <span class="n">element</span><span class="o">.</span><span class="n">doThat</span><span class="o">()</span>
+            <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">busDataWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">bus</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">dataWidth</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h1>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h1>
+<p>That’s all, you can check one example that use this <code class="docutils literal notranslate"><span class="pre">Apb3SlaveFactory</span></code> to create an Apb3UartCtrl` <a class="reference external" href="/SpinalDoc/spinal/examples/memory_mapped_uart/">there</a>.</p>
+<p>If you want to add the support of a new memory bus, it’s very simple you just need to implement another variation of the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactoryDelayed</span></code> trait. The <code class="docutils literal notranslate"><span class="pre">Apb3SlaveFactory</span></code> is probably a good starting point :D</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

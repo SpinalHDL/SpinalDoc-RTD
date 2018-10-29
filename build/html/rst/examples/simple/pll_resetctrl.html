@@ -1,0 +1,262 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The PLL BlackBox definition &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>The PLL BlackBox definition</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/rst/examples/simple/pll_resetctrl.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>Let’s imagine you want to define a <code class="docutils literal notranslate"><span class="pre">TopLevel</span></code> component which instantiates a PLL <code class="docutils literal notranslate"><span class="pre">BlackBox</span></code>, and create a new clock domain from it which will be used by your core logic. Let’s also imagine that you want to adapt an external asynchronous reset into this core clock domain to a synchronous reset source.</p>
+<p>The following imports will be used in code examples on this page:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.core._</span>
+<span class="k">import</span> <span class="nn">spinal.lib._</span>
+</pre></div>
+</div>
+<div class="section" id="the-pll-blackbox-definition">
+<h1>The PLL BlackBox definition<a class="headerlink" href="#the-pll-blackbox-definition" title="Permalink to this headline">¶</a></h1>
+<p>This is how to define the PLL <code class="docutils literal notranslate"><span class="pre">BlackBox</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PLL</span> <span class="k">extends</span> <span class="nc">BlackBox</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+    <span class="k">val</span> <span class="n">clkIn</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clkOut</span>   <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">isLocked</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+  <span class="o">}</span>
+
+  <span class="n">noIoPrefix</span><span class="o">()</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>This will correspond to the following VHDL component:</p>
+</div>
+<div class="section" id="toplevel-definition">
+<h1>TopLevel definition<a class="headerlink" href="#toplevel-definition" title="Permalink to this headline">¶</a></h1>
+<p>This is how to define your <code class="docutils literal notranslate"><span class="pre">TopLevel</span></code> which instantiates the PLL, creates the new <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>, and also adapts the asynchronous reset input to a synchronous reset:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">aReset</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk100Mhz</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">result</span>    <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="c1">// Create an Area to manage all clocks and reset things</span>
+  <span class="k">val</span> <span class="n">clkCtrl</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="o">{</span>
+    <span class="c1">//Instanciate and drive the PLL</span>
+    <span class="k">val</span> <span class="n">pll</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PLL</span>
+    <span class="n">pll</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">clkIn</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">clk100Mhz</span>
+
+    <span class="c1">//Create a new clock domain named &#39;core&#39;</span>
+    <span class="k">val</span> <span class="n">coreClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">internal</span><span class="o">(</span>
+      <span class="n">name</span> <span class="k">=</span> <span class="s">&quot;core&quot;</span><span class="o">,</span>
+      <span class="n">frequency</span> <span class="k">=</span> <span class="nc">FixedFrequency</span><span class="o">(</span><span class="mi">200</span> <span class="nc">MHz</span><span class="o">)</span>  <span class="c1">// This frequency specification can be used</span>
+    <span class="o">)</span>                                      <span class="c1">// by coreClockDomain users to do some calculations</span>
+
+    <span class="c1">//Drive clock and reset signals of the coreClockDomain previously created</span>
+    <span class="n">coreClockDomain</span><span class="o">.</span><span class="n">clock</span> <span class="o">:=</span> <span class="n">pll</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">clkOut</span>
+    <span class="n">coreClockDomain</span><span class="o">.</span><span class="n">reset</span> <span class="o">:=</span> <span class="nc">ResetCtrl</span><span class="o">.</span><span class="n">asyncAssertSyncDeassert</span><span class="o">(</span>
+      <span class="n">input</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">aReset</span> <span class="o">||</span> <span class="o">!</span> <span class="n">pll</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">isLocked</span><span class="o">,</span>
+      <span class="n">clockDomain</span> <span class="k">=</span> <span class="n">coreClockDomain</span>
+    <span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="c1">//Create a ClockingArea which will be under the effect of the clkCtrl.coreClockDomain</span>
+  <span class="k">val</span> <span class="n">core</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClockingArea</span><span class="o">(</span><span class="n">clkCtrl</span><span class="o">.</span><span class="n">coreClockDomain</span><span class="o">){</span>
+    <span class="c1">//Do your stuff which use coreClockDomain here</span>
+    <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+    <span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">io</span><span class="o">.</span><span class="n">result</span> <span class="o">:=</span> <span class="n">counter</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

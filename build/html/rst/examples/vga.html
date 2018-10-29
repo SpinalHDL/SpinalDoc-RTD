@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/examples/vga.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>VGA interfaces are becoming an endangered species, but implementing a VGA controller is still a good exercise.</p>
+<p>An explanation about the VGA protocol can be found <a class="reference external" href="http://www.xess.com/blog/vga-the-rest-of-the-story/">here</a>.</p>
+<p>This VGA controller tutorial is based on <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/graphic/vga/VgaCtrl.scala">this</a> implementation.</p>
+</div>
+<div class="section" id="data-structures">
+<h1>Data structures<a class="headerlink" href="#data-structures" title="Permalink to this headline">¶</a></h1>
+<p>Before implementing the controller itself we need to define some data structures.</p>
+<div class="section" id="rgb-color">
+<h2>RGB color<a class="headerlink" href="#rgb-color" title="Permalink to this headline">¶</a></h2>
+<p>First, we need a three channel color structure (Red, Green, Blue). This data structure will be used to feed the controller with pixels and also will be used by the VGA bus.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">RgbConfig</span><span class="o">(</span><span class="n">rWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span><span class="n">gWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span><span class="n">bWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">){</span>
+  <span class="k">def</span> <span class="n">getWidth</span> <span class="k">=</span> <span class="n">rWidth</span> <span class="o">+</span> <span class="n">gWidth</span> <span class="o">+</span> <span class="n">bWidth</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Rgb</span><span class="o">(</span><span class="n">c</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="n">rWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="n">gWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="n">bWidth</span> <span class="n">bit</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="vga-bus">
+<h2>VGA bus<a class="headerlink" href="#vga-bus" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">io name</th>
+<th class="head">Driver</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>vSync</td>
+<td>master</td>
+<td>Vertical syncronization, indicate the beginning of a new frame</td>
+</tr>
+<tr class="row-odd"><td>hSync</td>
+<td>master</td>
+<td>Horizontal syncronization, indicate the beginning of a new line</td>
+</tr>
+<tr class="row-even"><td>colorEn</td>
+<td>master</td>
+<td>High when the interface is in the visible part</td>
+</tr>
+<tr class="row-odd"><td>color</td>
+<td>master</td>
+<td>Carry the color, don’t care when colorEn is low</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Vga</span> <span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">vSync</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">hSync</span> <span class="k">=</span> <span class="nc">Bool</span>
+
+  <span class="k">val</span> <span class="n">colorEn</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">color</span>   <span class="k">=</span> <span class="nc">Rgb</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">)</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">asOutput</span><span class="o">()</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>This Vga <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> uses the <code class="docutils literal notranslate"><span class="pre">IMasterSlave</span></code> trait, which allows you to create master/slave VGA interfaces using the following: <span class="raw-html-m2r"><br></span></p>
+</div>
+<div class="section" id="vga-timings">
+<h2>VGA timings<a class="headerlink" href="#vga-timings" title="Permalink to this headline">¶</a></h2>
+<p>The VGA interface is driven by using 8 differents timings. Here is one simple example of a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> that is able to carry them.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimings</span><span class="o">(</span><span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">hSyncStart</span>  <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">hSyncEnd</span>    <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">hColorStart</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">hColorEnd</span>   <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">vSyncStart</span>  <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">vSyncEnd</span>    <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">vColorStart</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">vColorEnd</span>   <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>But this not a very good way to specify it because it is redundant for vertical and horizontal timings.</p>
+<p>Let’s write it in a clearer way:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimingsHV</span><span class="o">(</span><span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">colorStart</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">colorEnd</span>   <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">syncStart</span>  <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">syncEnd</span>    <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimings</span><span class="o">(</span><span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">h</span> <span class="k">=</span> <span class="nc">VgaTimingsHV</span><span class="o">(</span><span class="n">timingsWidth</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="nc">VgaTimingsHV</span><span class="o">(</span><span class="n">timingsWidth</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Then we could add some some functions to set these timings for specific resolutions and frame rates:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimingsHV</span><span class="o">(</span><span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">colorStart</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">colorEnd</span>   <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">syncStart</span>  <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">syncEnd</span>    <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimings</span><span class="o">(</span><span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">h</span> <span class="k">=</span> <span class="nc">VgaTimingsHV</span><span class="o">(</span><span class="n">timingsWidth</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="nc">VgaTimingsHV</span><span class="o">(</span><span class="n">timingsWidth</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="n">setAs_h640_v480_r60</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">syncStart</span> <span class="o">:=</span> <span class="mi">96</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">syncEnd</span> <span class="o">:=</span> <span class="mi">800</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">colorStart</span> <span class="o">:=</span> <span class="mi">96</span> <span class="o">+</span> <span class="mi">16</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">colorEnd</span> <span class="o">:=</span> <span class="mi">800</span> <span class="o">-</span> <span class="mi">48</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">syncStart</span> <span class="o">:=</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">syncEnd</span> <span class="o">:=</span> <span class="mi">525</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">colorStart</span> <span class="o">:=</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">colorEnd</span> <span class="o">:=</span> <span class="mi">525</span> <span class="o">-</span> <span class="mi">33</span> <span class="o">-</span> <span class="mi">1</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">setAs_h64_v64_r60</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">syncStart</span> <span class="o">:=</span> <span class="mi">96</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">syncEnd</span> <span class="o">:=</span> <span class="mi">800</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">colorStart</span> <span class="o">:=</span> <span class="mi">96</span> <span class="o">+</span> <span class="mi">16</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">288</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">colorEnd</span> <span class="o">:=</span> <span class="mi">800</span> <span class="o">-</span> <span class="mi">48</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">288</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">syncStart</span> <span class="o">:=</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">syncEnd</span> <span class="o">:=</span> <span class="mi">525</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">colorStart</span> <span class="o">:=</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">208</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">colorEnd</span> <span class="o">:=</span> <span class="mi">525</span> <span class="o">-</span> <span class="mi">33</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">208</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="vga-controller">
+<h1>VGA Controller<a class="headerlink" href="#vga-controller" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="specification">
+<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">io name</th>
+<th class="head">Direction</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>softReset</td>
+<td>in</td>
+<td>Reset internal counters and keep the VGA interface inactive</td>
+</tr>
+<tr class="row-odd"><td>timings</td>
+<td>in</td>
+<td>Specify VGA horizontal and vertical timings</td>
+</tr>
+<tr class="row-even"><td>pixels</td>
+<td>slave</td>
+<td>Stream of RGB colors that feeds the VGA controller</td>
+</tr>
+<tr class="row-odd"><td>error</td>
+<td>out</td>
+<td>High when the pixels stream is too slow</td>
+</tr>
+<tr class="row-even"><td>frameStart</td>
+<td>out</td>
+<td>High when a new frame starts</td>
+</tr>
+<tr class="row-odd"><td>vga</td>
+<td>master</td>
+<td>VGA interface</td>
+</tr>
+</tbody>
+</table>
+<p>The controller does not integrate any pixel buffering. It directly takes them from the <code class="docutils literal notranslate"><span class="pre">pixels</span></code> <code class="docutils literal notranslate"><span class="pre">Stream</span></code> and puts them on the <code class="docutils literal notranslate"><span class="pre">vga.color</span></code> out at the right time. If <code class="docutils literal notranslate"><span class="pre">pixels</span></code> is not valid then <code class="docutils literal notranslate"><span class="pre">error</span></code> becomes high for one cycle.</p>
+</div>
+<div class="section" id="component-and-io-definition">
+<h2>Component and io definition<a class="headerlink" href="#component-and-io-definition" title="Permalink to this headline">¶</a></h2>
+<p>Let’s define a new VgaCtrl <code class="docutils literal notranslate"><span class="pre">Component</span></code>, which takes as <code class="docutils literal notranslate"><span class="pre">RgbConfig</span></code> and <code class="docutils literal notranslate"><span class="pre">timingsWidth</span></code> as parameters. Let’s give the bit width a default value of 12.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VgaCtrl</span><span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">,</span> <span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">softReset</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">timings</span> <span class="k">=</span> <span class="n">in</span><span class="o">(</span><span class="nc">VgaTimings</span><span class="o">(</span><span class="n">timingsWidth</span><span class="o">))</span>
+    <span class="k">val</span> <span class="n">pixels</span> <span class="k">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="o">(</span><span class="nc">Rgb</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">))</span>
+
+    <span class="k">val</span> <span class="n">error</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">frameStart</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">vga</span> <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">Vga</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">))</span>
+  <span class="o">}</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="horizontal-and-vertical-logic">
+<h2>Horizontal and vertical logic<a class="headerlink" href="#horizontal-and-vertical-logic" title="Permalink to this headline">¶</a></h2>
+<p>The logic that generates horizontal and vertical syncronization signals is quite the same. It kind of resembles ~PWM~. The horizontal one counts up each cycle, while the vertical one use the horizontal syncronization signal as to increment.</p>
+<p>Let’s define <code class="docutils literal notranslate"><span class="pre">HVArea</span></code>, which represents one ~PWM~ and then instantiate it two times: one for both horizontal and vertical syncronization.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VgaCtrl</span><span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">,</span> <span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{...}</span>
+
+  <span class="k">case</span> <span class="k">class</span> <span class="nc">HVArea</span><span class="o">(</span><span class="n">timingsHV</span><span class="k">:</span> <span class="kt">VgaTimingsHV</span><span class="o">,</span> <span class="n">enable</span><span class="k">:</span> <span class="kt">Bool</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Area</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+
+    <span class="k">val</span> <span class="n">syncStart</span>  <span class="k">=</span> <span class="n">counter</span> <span class="o">===</span> <span class="n">timingsHV</span><span class="o">.</span><span class="n">syncStart</span>
+    <span class="k">val</span> <span class="n">syncEnd</span>    <span class="k">=</span> <span class="n">counter</span> <span class="o">===</span> <span class="n">timingsHV</span><span class="o">.</span><span class="n">syncEnd</span>
+    <span class="k">val</span> <span class="n">colorStart</span> <span class="k">=</span> <span class="n">counter</span> <span class="o">===</span> <span class="n">timingsHV</span><span class="o">.</span><span class="n">colorStart</span>
+    <span class="k">val</span> <span class="n">colorEnd</span>   <span class="k">=</span> <span class="n">counter</span> <span class="o">===</span> <span class="n">timingsHV</span><span class="o">.</span><span class="n">colorEnd</span>
+
+    <span class="n">when</span><span class="o">(</span><span class="n">enable</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">when</span><span class="o">(</span><span class="n">syncEnd</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">counter</span> <span class="o">:=</span> <span class="mi">0</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="n">sync</span>    <span class="k">=</span> <span class="nc">RegInit</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span> <span class="n">setWhen</span><span class="o">(</span><span class="n">syncStart</span><span class="o">)</span> <span class="n">clearWhen</span><span class="o">(</span><span class="n">syncEnd</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">colorEn</span> <span class="k">=</span> <span class="nc">RegInit</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span> <span class="n">setWhen</span><span class="o">(</span><span class="n">colorStart</span><span class="o">)</span> <span class="n">clearWhen</span><span class="o">(</span><span class="n">colorEnd</span><span class="o">)</span>
+
+    <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">softReset</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">counter</span> <span class="o">:=</span> <span class="mi">0</span>
+      <span class="n">sync</span>    <span class="o">:=</span> <span class="nc">False</span>
+      <span class="n">colorEn</span> <span class="o">:=</span> <span class="nc">False</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+  <span class="k">val</span> <span class="n">h</span> <span class="k">=</span> <span class="nc">HVArea</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">timings</span><span class="o">.</span><span class="n">h</span><span class="o">,</span> <span class="nc">True</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="nc">HVArea</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">timings</span><span class="o">.</span><span class="n">v</span><span class="o">,</span> <span class="n">h</span><span class="o">.</span><span class="n">syncEnd</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>As you can see, it’s done by using <code class="docutils literal notranslate"><span class="pre">Area</span></code>. This is to avoid the creation of a new <code class="docutils literal notranslate"><span class="pre">Component</span></code> which would have been much more verbose.</p>
+</div>
+<div class="section" id="interconnections">
+<h2>Interconnections<a class="headerlink" href="#interconnections" title="Permalink to this headline">¶</a></h2>
+<p>Now that we have timing generators for horizontal and vertical syncronization, we need to drive the outputs.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VgaCtrl</span><span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">,</span> <span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{...}</span>
+
+  <span class="k">case</span> <span class="k">class</span> <span class="nc">HVArea</span><span class="o">(</span><span class="n">timingsHV</span><span class="k">:</span> <span class="kt">VgaTimingsHV</span><span class="o">,</span> <span class="n">enable</span><span class="k">:</span> <span class="kt">Bool</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Area</span> <span class="o">{...}</span>
+  <span class="k">val</span> <span class="n">h</span> <span class="k">=</span> <span class="nc">HVArea</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">timings</span><span class="o">.</span><span class="n">h</span><span class="o">,</span> <span class="nc">True</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="nc">HVArea</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">timings</span><span class="o">.</span><span class="n">v</span><span class="o">,</span> <span class="n">h</span><span class="o">.</span><span class="n">syncEnd</span><span class="o">)</span>
+
+  <span class="k">val</span> <span class="n">colorEn</span> <span class="k">=</span> <span class="n">h</span><span class="o">.</span><span class="n">colorEn</span> <span class="o">&amp;&amp;</span> <span class="n">v</span><span class="o">.</span><span class="n">colorEn</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">pixels</span><span class="o">.</span><span class="n">ready</span> <span class="o">:=</span> <span class="n">colorEn</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">error</span> <span class="o">:=</span> <span class="n">colorEn</span> <span class="o">&amp;&amp;</span> <span class="o">!</span> <span class="n">io</span><span class="o">.</span><span class="n">pixels</span><span class="o">.</span><span class="n">valid</span>
+
+  <span class="n">io</span><span class="o">.</span><span class="n">frameStart</span> <span class="o">:=</span> <span class="n">v</span><span class="o">.</span><span class="n">syncEnd</span>
+
+  <span class="n">io</span><span class="o">.</span><span class="n">vga</span><span class="o">.</span><span class="n">hSync</span> <span class="o">:=</span> <span class="n">h</span><span class="o">.</span><span class="n">sync</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">vga</span><span class="o">.</span><span class="n">vSync</span> <span class="o">:=</span> <span class="n">v</span><span class="o">.</span><span class="n">sync</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">vga</span><span class="o">.</span><span class="n">colorEn</span> <span class="o">:=</span> <span class="n">colorEn</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">vga</span><span class="o">.</span><span class="n">color</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">pixels</span><span class="o">.</span><span class="n">payload</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bonus">
+<h2>Bonus<a class="headerlink" href="#bonus" title="Permalink to this headline">¶</a></h2>
+<p>The VgaCtrl that was defined above is generic (not application specific).
+We can imagine a case where the system provides a <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of <code class="docutils literal notranslate"><span class="pre">Fragment</span></code> of RGB, which means the system transmits pixels between start/end of picture indications.</p>
+<p>In this case we can automaticly manage the <code class="docutils literal notranslate"><span class="pre">softReset</span></code> input by asserting it when an <code class="docutils literal notranslate"><span class="pre">error</span></code> occurs, then wait for the end of the current <code class="docutils literal notranslate"><span class="pre">pixels</span></code> picture to deassert <code class="docutils literal notranslate"><span class="pre">error</span></code>.</p>
+<p>Let’s add a function to <code class="docutils literal notranslate"><span class="pre">VgaCtrl</span></code> that can be called from the parent component to feed <code class="docutils literal notranslate"><span class="pre">VgaCtrl</span></code> by using this <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of <code class="docutils literal notranslate"><span class="pre">Fragment</span></code> of RGB.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VgaCtrl</span><span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">,</span> <span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="n">feedWith</span><span class="o">(</span><span class="n">that</span> <span class="k">:</span> <span class="kt">Stream</span><span class="o">[</span><span class="kt">Fragment</span><span class="o">[</span><span class="kt">Rgb</span><span class="o">]])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">={</span>
+    <span class="n">io</span><span class="o">.</span><span class="n">pixels</span> <span class="o">&lt;&lt;</span> <span class="n">that</span><span class="o">.</span><span class="n">toStreamOfFragment</span>
+
+    <span class="k">val</span> <span class="n">error</span> <span class="k">=</span> <span class="nc">RegInit</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>
+    <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">error</span><span class="o">){</span>
+      <span class="n">error</span> <span class="o">:=</span> <span class="nc">True</span>
+    <span class="o">}</span>
+    <span class="n">when</span><span class="o">(</span><span class="n">that</span><span class="o">.</span><span class="n">isLast</span><span class="o">){</span>
+      <span class="n">error</span> <span class="o">:=</span> <span class="nc">False</span>
+    <span class="o">}</span>
+
+    <span class="n">io</span><span class="o">.</span><span class="n">softReset</span> <span class="o">:=</span> <span class="n">error</span>
+    <span class="n">when</span><span class="o">(</span><span class="n">error</span><span class="o">){</span>
+      <span class="n">that</span><span class="o">.</span><span class="n">ready</span> <span class="o">:=</span> <span class="nc">True</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

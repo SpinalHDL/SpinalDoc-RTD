@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>General &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>General</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/core/utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="general">
+<h1>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h1>
+<p>Many tools and utilities are present in <a class="reference external" href="/SpinalDoc/spinal/lib/utils/">spinal.lib</a> but some are already present in SpinalHDL Core.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Syntax</th>
+<th class="head">Return</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>widthOf(x : BitVector)</td>
+<td>Int</td>
+<td>Return the width of a Bits/UInt/SInt signal</td>
+</tr>
+<tr class="row-odd"><td>log2Up(x : BigInt)</td>
+<td>Int</td>
+<td>Return the number of bit needed to represent x states</td>
+</tr>
+<tr class="row-even"><td>isPow2(x : BigInt)</td>
+<td>Boolean</td>
+<td>Return true if x is a power of two</td>
+</tr>
+<tr class="row-odd"><td>roundUp(that : BigInt, by : BigInt)</td>
+<td>BigInt</td>
+<td>Return the first <code class="docutils literal notranslate"><span class="pre">by</span></code> multiply from <code class="docutils literal notranslate"><span class="pre">that</span></code> (included)</td>
+</tr>
+<tr class="row-even"><td>Cat(x : Data*)</td>
+<td>Bits</td>
+<td>Concatenate all arguments, the first in MSB, the last in LSB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cloning-hardware-datatypes">
+<h1>Cloning hardware datatypes<a class="headerlink" href="#cloning-hardware-datatypes" title="Permalink to this headline">¶</a></h1>
+<p>You can clone a given hardware data type by using the <code class="docutils literal notranslate"><span class="pre">cloneOf(x)</span></code> function. It will return you a new instance of the same Scala type and the same parameterization than <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<p>For example :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">plusOne</span><span class="o">(</span><span class="n">value</span> <span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span> <span class="k">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="c1">//Will recreate a UInt with the same width than `value`</span>
+  <span class="k">val</span> <span class="n">temp</span> <span class="k">=</span> <span class="n">cloneOf</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+  <span class="n">temp</span> <span class="o">:=</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="k">return</span> <span class="n">temp</span>
+<span class="o">}</span>
+
+<span class="c1">//treePlusOne will become a 8 bits value</span>
+<span class="k">val</span> <span class="n">treePlusOne</span> <span class="k">=</span> <span class="n">plusOne</span><span class="o">(</span><span class="n">U</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+</pre></div>
+</div>
+<p>You can get more information about how hardware data types are managed <a class="reference external" href="/SpinalDoc/scala/interactions/#hardware-types">here</a></p>
+<p>{% include note.html content=”If you use the cloneOf function on a Bundle, this Bundle should be a case class or should override the clone function internally.
+” %}</p>
+</div>
+<div class="section" id="passing-a-datatype-as-construction-parameter">
+<h1>Passing a datatype as construction parameter<a class="headerlink" href="#passing-a-datatype-as-construction-parameter" title="Permalink to this headline">¶</a></h1>
+<p>In many chunk of reusable hardware, we need to give a parameterizable data type. For example if you want to define a FIFO or a shift register, you need a data type parameter to specify which kind of payload you want for the component.</p>
+<p>To do that there is two very similar ways.</p>
+<div class="section" id="the-old-way">
+<h2>The old way<a class="headerlink" href="#the-old-way" title="Permalink to this headline">¶</a></h2>
+<p>There is an example of the old way to do that in the case of a ShiftRegister definition :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">ShiftRegister</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="n">depth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">input</span>  <span class="k">=</span> <span class="n">in</span> <span class="o">(</span><span class="n">cloneOf</span><span class="o">(</span><span class="n">dataType</span><span class="o">))</span>
+    <span class="k">val</span> <span class="n">output</span> <span class="k">=</span> <span class="n">out</span><span class="o">(</span><span class="n">cloneOf</span><span class="o">(</span><span class="n">dataType</span><span class="o">))</span>
+  <span class="o">}</span>
+  <span class="c1">// ...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>And there is how you can instantiate that component :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">shiftReg</span> <span class="k">=</span> <span class="nc">ShiftRegister</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">depth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>As you can see, the raw hardware type is directly passed as a construction parameter. And they each time you want to create an new instance of that kind of hardware data type, you need to use the cloneOf(…) function. But this way of doing things is not ultra safe, because you can forget the cloneOf function easily,</p>
+</div>
+<div class="section" id="the-safe-way">
+<h2>The safe way<a class="headerlink" href="#the-safe-way" title="Permalink to this headline">¶</a></h2>
+<p>There is an example of the safe way to do that in the case of a ShiftRegister definition :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">ShiftRegister</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span> <span class="kt">HardType</span><span class="o">[</span><span class="kt">T</span><span class="o">],</span> <span class="n">depth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">input</span>  <span class="k">=</span> <span class="n">in</span> <span class="o">(</span><span class="n">dataType</span><span class="o">())</span>
+    <span class="k">val</span> <span class="n">output</span> <span class="k">=</span> <span class="n">out</span><span class="o">(</span><span class="n">dataType</span><span class="o">())</span>
+  <span class="o">}</span>
+  <span class="c1">// ...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>And there is how you can instantiate that component (which is exactly the same than before):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">shiftReg</span> <span class="k">=</span> <span class="nc">ShiftRegister</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">depth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>So as you can see, it use an HardType wrapper, which is kind of blueprint definition of an hardware data type. This way of doing things is easier to use than the “old way”, because to create a new instance of the hardware data type you just need to call the <code class="docutils literal notranslate"><span class="pre">apply</span></code> function of that HardType (which mean, just adding brackets after the HardType instance) .</p>
+<p>Also this mechanism is completely transparent from the point of view of the user, an hardware data type could be implicitly converted into an HardType.</p>
+</div>
+</div>
+<div class="section" id="frequency-and-time">
+<h1>Frequency and time<a class="headerlink" href="#frequency-and-time" title="Permalink to this headline">¶</a></h1>
+<p>SpinalHDL HDL has a dedicated syntax to defne frequencies and times value :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">frequency</span> <span class="k">=</span> <span class="mi">100</span> <span class="nc">MHz</span>
+<span class="k">val</span> <span class="n">timeoutLimit</span> <span class="k">=</span> <span class="mi">3</span> <span class="n">ms</span>
+<span class="k">val</span> <span class="n">period</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">us</span>
+
+<span class="k">val</span> <span class="n">periodCycles</span> <span class="k">=</span> <span class="n">frequency</span><span class="o">*</span><span class="n">period</span>
+<span class="k">val</span> <span class="n">timeoutCycles</span> <span class="k">=</span> <span class="n">frequency</span><span class="o">*</span><span class="n">timeoutLimit</span>
+</pre></div>
+</div>
+<p>For time definition you can use following postfixes to get an <code class="docutils literal notranslate"><span class="pre">TimeNumber</span></code>:<span class="raw-html-m2r"><br></span>
+fs, ps, ns, us, ms, sec, mn, hr</p>
+<p>For time definition you can use following postfixes to get an <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code> :<span class="raw-html-m2r"><br></span>
+Hz, KHz, MHz, GHz, THz</p>
+<p><code class="docutils literal notranslate"><span class="pre">TimeNumber</span></code> and <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code> are based on the <code class="docutils literal notranslate"><span class="pre">PhysicalNumber</span></code> class which use  scala <code class="docutils literal notranslate"><span class="pre">BigDecimal</span></code> to store numbers.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

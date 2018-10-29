@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/examples/fractal.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>This example will show a simple implementation (without optimization) of a Mandelbrot fractal calculator by using data streams and fixed point calculations.</p>
+</div>
+<div class="section" id="specification">
+<h1>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h1>
+<p>The component will receive one <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of pixel tasks (which contain the XY coordinates in the Mandelbrot space) and will produce one <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of pixel results (which contain the number of iterations done for the corresponding task).</p>
+<p>Let’s specify the IO of our component:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">IO Name</th>
+<th class="head">Direction</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>cmd</td>
+<td>slave</td>
+<td>Stream[PixelTask]</td>
+<td>Provide XY coordinates to process</td>
+</tr>
+<tr class="row-odd"><td>rsp</td>
+<td>master</td>
+<td>Stream[PixelResult]</td>
+<td>Return iteration count needed for the corresponding cmd transaction</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s specify the PixelTask <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Element Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>x</td>
+<td>SFix</td>
+<td>Coordinate in the Mandelbrot space</td>
+</tr>
+<tr class="row-odd"><td>y</td>
+<td>SFix</td>
+<td>Coordinate in the Mandelbrot space</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s specify the PixelResult <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Element Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>iteration</td>
+<td>UInt</td>
+<td>Number of iterations required to solve the Mandelbrot coordinates</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="elaboration-parameters-generics">
+<h1>Elaboration parameters (Generics)<a class="headerlink" href="#elaboration-parameters-generics" title="Permalink to this headline">¶</a></h1>
+<p>Let’s define the class that will provide construction parameters of our system:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">PixelSolverGenerics</span><span class="o">(</span><span class="n">fixAmplitude</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+                               <span class="n">fixResolution</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+                               <span class="n">iterationLimit</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">){</span>
+  <span class="k">val</span> <span class="n">iterationWidth</span> <span class="k">=</span> <span class="n">log2Up</span><span class="o">(</span><span class="n">iterationLimit</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">iterationType</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">iterationWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">fixType</span> <span class="k">=</span> <span class="nc">SFix</span><span class="o">(</span>
+    <span class="n">peak</span> <span class="k">=</span> <span class="n">fixAmplitude</span> <span class="n">exp</span><span class="o">,</span>
+    <span class="n">resolution</span> <span class="k">=</span> <span class="n">fixResolution</span> <span class="n">exp</span>
+  <span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>{% include note.html content=”iterationType and fixType are functions that you can call to instantiate new signals. It’s like a typedef in C.” %}</p>
+</div>
+<div class="section" id="bundle-definition">
+<h1>Bundle definition<a class="headerlink" href="#bundle-definition" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">PixelTask</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">PixelSolverGenerics</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">x</span><span class="o">,</span><span class="n">y</span> <span class="k">=</span> <span class="n">g</span><span class="o">.</span><span class="n">fixType</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">PixelResult</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">PixelSolverGenerics</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">iteration</span> <span class="k">=</span> <span class="n">g</span><span class="o">.</span><span class="n">iterationType</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="component-implementation">
+<h1>Component implementation<a class="headerlink" href="#component-implementation" title="Permalink to this headline">¶</a></h1>
+<p>And now the implementation. The one below is a very simple one without pipelining / multi-threading.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">PixelSolver</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">PixelSolverGenerics</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+    <span class="k">val</span> <span class="n">cmd</span> <span class="k">=</span> <span class="n">slave</span>  <span class="nc">Stream</span><span class="o">(</span><span class="nc">PixelTask</span><span class="o">(</span><span class="n">g</span><span class="o">))</span>
+    <span class="k">val</span> <span class="n">rsp</span> <span class="k">=</span> <span class="n">master</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">PixelResult</span><span class="o">(</span><span class="n">g</span><span class="o">))</span>
+  <span class="o">}</span>
+
+  <span class="k">import</span> <span class="nn">g._</span>
+
+  <span class="c1">//Define states</span>
+  <span class="k">val</span> <span class="n">x</span><span class="o">,</span><span class="n">y</span>       <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="n">fixType</span><span class="o">)</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">iteration</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="n">iterationType</span><span class="o">)</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+
+  <span class="c1">//Do some shared calculation</span>
+  <span class="k">val</span> <span class="n">xx</span> <span class="k">=</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span>
+  <span class="k">val</span> <span class="n">yy</span> <span class="k">=</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span>
+  <span class="k">val</span> <span class="n">xy</span> <span class="k">=</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+
+  <span class="c1">//Apply default assignement</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">ready</span> <span class="o">:=</span> <span class="nc">False</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">rsp</span><span class="o">.</span><span class="n">valid</span> <span class="o">:=</span> <span class="nc">False</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">rsp</span><span class="o">.</span><span class="n">iteration</span> <span class="o">:=</span> <span class="n">iteration</span>
+
+  <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">valid</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//Is the mandelbrot iteration done ?</span>
+    <span class="n">when</span><span class="o">(</span><span class="n">xx</span> <span class="o">+</span> <span class="n">yy</span> <span class="o">&gt;=</span> <span class="mf">4.0</span> <span class="o">||</span> <span class="n">iteration</span> <span class="o">===</span> <span class="n">iterationLimit</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">io</span><span class="o">.</span><span class="n">rsp</span><span class="o">.</span><span class="n">valid</span> <span class="o">:=</span> <span class="nc">True</span>
+      <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">rsp</span><span class="o">.</span><span class="n">ready</span><span class="o">){</span>
+        <span class="n">io</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">ready</span> <span class="o">:=</span> <span class="nc">True</span>
+        <span class="n">x</span> <span class="o">:=</span> <span class="mi">0</span>
+        <span class="n">y</span> <span class="o">:=</span> <span class="mi">0</span>
+        <span class="n">iteration</span> <span class="o">:=</span> <span class="mi">0</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="n">otherwise</span> <span class="o">{</span>
+      <span class="n">x</span> <span class="o">:=</span> <span class="o">(</span><span class="n">xx</span> <span class="o">-</span> <span class="n">yy</span> <span class="o">+</span> <span class="n">io</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">x</span><span class="o">).</span><span class="n">truncated</span>
+      <span class="n">y</span> <span class="o">:=</span> <span class="o">(((</span><span class="n">xy</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">io</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">y</span><span class="o">).</span><span class="n">truncated</span>
+      <span class="n">iteration</span> <span class="o">:=</span> <span class="n">iteration</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
