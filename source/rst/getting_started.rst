@@ -2,10 +2,13 @@
    :format: html
 
 
+Getting Started
+===============
+
 *SpinalHDL* is a hardware description language written in `Scala <http://scala-lang.org/>`_\ , a static-type functional language using the Java virtual machine (JVM). In order to start programming with *SpinalHDL*\ , you must have a JVM as well as the Scala compiler. In the next section, we will explain how to download those tools if you don't have them already.
 
 Requirements / Things to download to get started {#requirements}
-================================================================
+----------------------------------------------------------------
 
 Before you download the SpinalHDL tools, you need to install:
 
@@ -155,3 +158,5 @@ What to do next?
 ----------------
 
 It's up to you, but why not have a look at what the `types </SpinalDoc/spinal/core/types/TypeIntroduction>`_ are in SpinalHDL or discover what primitives the language provides to describe hardware components? You could also have a look at our `examples </SpinalDoc/spinal/examples/introduction/>`_ to see some samples of what you could do next.
+
+

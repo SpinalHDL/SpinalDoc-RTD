@@ -1,4 +1,7 @@
 
+Assignements
+============
+
 In addition of scala run-time assertion, you can add hardware assertion via the following syntax:
 
 ``assert(assertion : Bool,message : String = null,severity: AssertNodeSeverity = Error)``

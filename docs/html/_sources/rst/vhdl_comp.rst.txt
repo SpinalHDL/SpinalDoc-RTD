@@ -2,6 +2,9 @@
    :format: html
 
 
+VHDL comparison
+===============
+
 Introduction
 ------------
 

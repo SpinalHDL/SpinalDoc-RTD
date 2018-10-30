@@ -1,4 +1,7 @@
 
+Scala guide
+===========
+
 Introduction
 ------------
 

@@ -1,4 +1,7 @@
 
+Coding conventions
+==================
+
 Introduction
 ------------
 

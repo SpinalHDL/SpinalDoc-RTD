@@ -1,4 +1,7 @@
 
+Introduction
+============
+
 The language provides 5 base types and 2 composite types that can be used.
 
 

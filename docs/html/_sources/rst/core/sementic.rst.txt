@@ -1,4 +1,7 @@
 
+Rules
+=====
+
 Introduction
 ------------
 
