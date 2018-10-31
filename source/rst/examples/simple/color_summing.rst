@@ -1,4 +1,7 @@
 
+Color summing
+=============
+
 First let's define a Color ``Bundle`` with an addition operator.
 
 .. code-block:: scala

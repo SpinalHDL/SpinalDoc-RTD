@@ -1,4 +1,7 @@
 
+Introduction
+============
+
 All examples assume that you have the following imports on the top of your scala file:
 
 .. code-block:: scala

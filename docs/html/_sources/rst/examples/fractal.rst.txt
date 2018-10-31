@@ -1,4 +1,7 @@
 
+Fractal calculator
+==================
+
 Introduction
 ------------
 

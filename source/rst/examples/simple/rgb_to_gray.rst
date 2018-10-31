@@ -1,4 +1,7 @@
 
+RGB to gray
+===========
+
 Let's imagine a component that converts an RGB color into a gray one, and then writes it into external memory.
 
 .. list-table::

@@ -1,4 +1,7 @@
 
+Introduction
+============
+
 Examples are split in tree kinds:
 
 

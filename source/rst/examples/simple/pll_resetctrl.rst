@@ -1,4 +1,7 @@
 
+PLL BlackBox and reset controller
+=================================
+
 Let's imagine you want to define a ``TopLevel`` component which instantiates a PLL ``BlackBox``\ , and create a new clock domain from it which will be used by your core logic. Let's also imagine that you want to adapt an external asynchronous reset into this core clock domain to a synchronous reset source.
 
 The following imports will be used in code examples on this page:

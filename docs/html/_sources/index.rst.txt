@@ -114,3 +114,22 @@ Welcome to SpinalHDL's documentation!
    rst/sim/*
 
    rst/sim/examples/*
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples:
+   :glob:
+
+   rst/examples/introduction
+
+   rst/examples/simple/*
+
+   rst/examples/vga
+   rst/examples/uart
+   rst/examples/fractal
+
+   rst/examples/memory_mapped_uart
+   rst/examples/timer
+   rst/examples/htag
+   rst/lib/pinsec/hardware_toplevel
+
