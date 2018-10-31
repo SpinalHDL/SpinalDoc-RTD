@@ -1,4 +1,7 @@
 
+Register defined as component input
+===================================
+
 Introduction
 ------------
 

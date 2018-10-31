@@ -1,4 +1,7 @@
 
+Latch detected
+==============
+
 Introduction
 ------------
 

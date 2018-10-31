@@ -1,4 +1,7 @@
 
+Hierarchy violation
+===================
+
 Introduction
 ------------
 

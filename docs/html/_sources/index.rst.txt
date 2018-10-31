@@ -70,3 +70,10 @@ Welcome to SpinalHDL's documentation!
 
    rst/core/registers
    rst/core/memory
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Design errors:
+   :glob:
+
+   rst/core/checks/*

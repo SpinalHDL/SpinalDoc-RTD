@@ -1,5 +1,8 @@
 
 Introduction
+============
+
+Introduction
 ------------
 
 The SpinalHDL compile will perform many checks on your design to be sure that the generated VHDL/Verilog will be safe for simulation and synthesis. Basicaly, it should not be possible to generate a broken VHDL/Verilog. There is a none exaustive list of SpinalHDL checks :

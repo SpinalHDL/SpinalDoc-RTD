@@ -1,4 +1,7 @@
 
+Spinal can't clone class
+========================
+
 Introduction
 ------------
 

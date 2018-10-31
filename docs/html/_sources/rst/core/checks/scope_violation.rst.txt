@@ -1,4 +1,7 @@
 
+Scope violation
+===============
+
 Introduction
 ------------
 

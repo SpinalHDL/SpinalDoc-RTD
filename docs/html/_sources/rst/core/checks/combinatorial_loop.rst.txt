@@ -1,4 +1,7 @@
 
+Combinational loop
+==================
+
 Introduction
 ------------
 
