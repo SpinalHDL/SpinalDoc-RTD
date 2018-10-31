@@ -1,6 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+VHDL and Verilog generation
+===========================
 
 Generate VHDL and Verilog from an SpinalHDL Component
 -----------------------------------------------------

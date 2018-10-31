@@ -1,4 +1,7 @@
 
+RiscV
+=====
+
 {% include warning.html content="This page document the first RISC-V cpu iteration done in SpinalHDL. The second iteration of this CPU is available `there <https://github.com/SpinalHDL/VexRiscv>`_ and already offer better perforance/area/features." %}
 
 Features

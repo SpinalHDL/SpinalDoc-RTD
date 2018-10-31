@@ -1,4 +1,7 @@
 
+UART
+====
+
 Introduction
 ------------
 

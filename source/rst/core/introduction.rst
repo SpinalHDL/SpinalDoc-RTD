@@ -1,5 +1,8 @@
 
 Introduction
+============
+
+Introduction
 ------------
 
 The core of the language define the syntax that provide many features :

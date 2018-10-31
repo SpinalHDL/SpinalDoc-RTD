@@ -1,4 +1,7 @@
 
+AHB-Lite3
+=========
+
 Configuration and instanciation
 -------------------------------
 

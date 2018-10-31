@@ -1,6 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+Utils
+=====
 
 Some utils are also present in `spinal.core </SpinalDoc/spinal/core/utils/>`_
 

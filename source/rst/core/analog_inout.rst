@@ -1,4 +1,7 @@
 
+Analog and inout
+================
+
 Introduction
 ------------
 

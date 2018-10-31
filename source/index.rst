@@ -77,3 +77,30 @@ Welcome to SpinalHDL's documentation!
    :glob:
 
    rst/core/checks/*
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Other language features:
+
+   rst/core/introduction
+   rst/core/utils
+   rst/core/assertion
+   rst/core/analog_inout
+   rst/core/vhdl_generation
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Libraries:
+   :glob:
+
+   rst/lib/*
+
+   rst/bus/*/*
+
+   rst/lib/com/*
+
+   rst/lib/io/*
+
+   rst/lib/graphic/*
+
+   rst/lib/eda/*/*

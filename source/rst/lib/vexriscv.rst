@@ -1,4 +1,7 @@
 
+VexRiscv (RV32IM CPU)
+=====================
+
 VexRiscv is an fpga friendly RISC-V ISA CPU implementation with following features :
 
 

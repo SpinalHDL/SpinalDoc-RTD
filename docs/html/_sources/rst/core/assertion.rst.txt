@@ -1,6 +1,6 @@
 
-Assignements
-============
+Assertions
+==========
 
 In addition of scala run-time assertion, you can add hardware assertion via the following syntax:
 

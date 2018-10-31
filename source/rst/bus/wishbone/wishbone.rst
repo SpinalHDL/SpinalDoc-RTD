@@ -1,6 +1,9 @@
 
 {% include wavedrom.html %}
 
+Wishbone
+========
+
 Introduction
 ------------
 
