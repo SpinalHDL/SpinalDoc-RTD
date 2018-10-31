@@ -1,4 +1,7 @@
 
+Uart encoder
+============
+
 .. code-block:: scala
 
      //Fork a simulation process which will get char typed into the simulation terminal and transmit them on the simulation uartPin

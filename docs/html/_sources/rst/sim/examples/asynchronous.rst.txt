@@ -1,4 +1,7 @@
 
+Asynchronous adder
+==================
+
 .. code-block:: scala
 
    import spinal.core.sim._

@@ -104,3 +104,13 @@ Welcome to SpinalHDL's documentation!
    rst/lib/graphic/*
 
    rst/lib/eda/*/*
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Simulation:
+   :glob:
+
+   rst/sim/*
+
+   rst/sim/examples/*

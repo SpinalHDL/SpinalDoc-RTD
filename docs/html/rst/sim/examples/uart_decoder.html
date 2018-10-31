@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; SpinalHDL 1.11 documentation</title>
+  <title>Uart decoder &mdash; SpinalHDL 1.11 documentation</title>
   
 
   
@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Uart encoder" href="uart_encoder.html" />
+    <link rel="prev" title="Synchronous adder" href="synchronous.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
@@ -726,6 +728,49 @@
 </ul>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Simulation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#read-and-write-signals">Read and write signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#fork-and-join-simulation-threads">Fork and join simulation threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#sleep-and-waituntil">Sleep and waitUntil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#external-clock-domains">External clock domains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bootstraps.html">Boot a simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../bootstraps.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bootstraps.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bootstraps.html#running-multiple-tests-on-the-same-hardware">Running multiple tests on the same hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bootstraps.html#throw-success-or-failure-of-the-simulation-from-a-thread">Throw Success or Failure of the simulation from a thread</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../continuation.html">Scala continuation (cps)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../continuation.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../continuation.html#suspendable-annotation">&#64;suspendable annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../continuation.html#alternative-foreach-map-statements">Alternative foreach, map statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../continuation.html#weird-type-missmatch">Weird type missmatch</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#id1">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#how-spinalhdl-simulate-the-hardware">How SpinalHDL simulate the hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#performance">Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#scala">Scala</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction.html#windows">Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="asynchronous.html">Asynchronous adder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dual_clock_fifo.html">Dual clock fifo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="single_clock_fifo.html">Single clock fifo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="synchronous.html">Synchronous adder</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Uart decoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uart_encoder.html">Uart encoder</a></li>
+</ul>
 
             
           
@@ -770,7 +815,7 @@
     
       <li><a href="../../../index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Uart decoder</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -789,7 +834,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Fork a simulation process which will analyse the uartPin and print transmited bytes into the simulation terminal</span>
+  <div class="section" id="uart-decoder">
+<h1>Uart decoder<a class="headerlink" href="#uart-decoder" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Fork a simulation process which will analyse the uartPin and print transmited bytes into the simulation terminal</span>
 <span class="n">fork</span><span class="o">{</span>
   <span class="c1">//Wait until the design put the uartPin to true (wait the reset effect)</span>
   <span class="n">waitUntil</span><span class="o">(</span><span class="n">uartPin</span><span class="o">.</span><span class="n">toBoolean</span> <span class="o">==</span> <span class="kc">true</span><span class="o">)</span>
@@ -814,12 +861,22 @@
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="uart_encoder.html" class="btn btn-neutral float-right" title="Uart encoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="synchronous.html" class="btn btn-neutral" title="Synchronous adder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

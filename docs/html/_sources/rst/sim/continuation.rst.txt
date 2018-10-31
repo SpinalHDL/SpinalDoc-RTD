@@ -1,4 +1,7 @@
 
+Scala continuation (cps)
+========================
+
 Introduction
 ------------
 

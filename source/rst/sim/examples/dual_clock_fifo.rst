@@ -1,4 +1,7 @@
 
+Dual clock fifo
+===============
+
 .. code-block:: scala
 
    //Compile the simulator

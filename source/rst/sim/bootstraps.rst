@@ -1,4 +1,7 @@
 
+Boot a simulation
+=================
+
 Introduction
 ------------
 

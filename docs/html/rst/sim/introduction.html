@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Asynchronous adder" href="examples/asynchronous.html" />
+    <link rel="prev" title="Scala continuation (cps)" href="continuation.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -726,6 +728,49 @@
 </ul>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Simulation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#read-and-write-signals">Read and write signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#fork-and-join-simulation-threads">Fork and join simulation threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#sleep-and-waituntil">Sleep and waitUntil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#external-clock-domains">External clock domains</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bootstraps.html">Boot a simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bootstraps.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstraps.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstraps.html#running-multiple-tests-on-the-same-hardware">Running multiple tests on the same hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstraps.html#throw-success-or-failure-of-the-simulation-from-a-thread">Throw Success or Failure of the simulation from a thread</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="continuation.html">Scala continuation (cps)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="continuation.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="continuation.html#suspendable-annotation">&#64;suspendable annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="continuation.html#alternative-foreach-map-statements">Alternative foreach, map statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="continuation.html#weird-type-missmatch">Weird type missmatch</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-spinalhdl-simulate-the-hardware">How SpinalHDL simulate the hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance">Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scala">Scala</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/asynchronous.html">Asynchronous adder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/dual_clock_fifo.html">Dual clock fifo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/single_clock_fifo.html">Single clock fifo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/synchronous.html">Synchronous adder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/uart_decoder.html">Uart decoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/uart_encoder.html">Uart encoder</a></li>
+</ul>
 
             
           
@@ -791,10 +836,12 @@
             
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>Introduction<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>As always you can use your standard simulation tools to simulate the VHDL/Verilog generated out from SpinalHDL, but since SpinalHDL 1.0.0 the language integrate an API to write testbenches and test your hardware directly in Scala. This API provide the capabilities to read and write the DUT signals, fork and join simulation processes, sleep and wait until a given condition is filled.</p>
 </div>
 <div class="section" id="how-spinalhdl-simulate-the-hardware">
-<h1>How SpinalHDL simulate the hardware<a class="headerlink" href="#how-spinalhdl-simulate-the-hardware" title="Permalink to this headline">¶</a></h1>
+<h2>How SpinalHDL simulate the hardware<a class="headerlink" href="#how-spinalhdl-simulate-the-hardware" title="Permalink to this headline">¶</a></h2>
 <p>Behind the scene SpinalHDL is generating a C++ cycle accurate model of your hardware by generating the equivalent Verilog and asking Verilator to convert it into a C++ model. <span class="raw-html-m2r"><br></span>
 Then SpinalHDL ask GCC to compile the C++ model into an shared object (.so) and bind it back to Scala via JNR-FFI. <span class="raw-html-m2r"><br></span>
 Finaly, as the native Verilator API is rude, SpinalHDL abstract it by providing an simulation multi-threaded API to help the user in his testbench implementation.</p>
@@ -810,14 +857,14 @@ Finaly, as the native Verilator API is rude, SpinalHDL abstract it by providing 
 </ul>
 </div>
 <div class="section" id="performance">
-<h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
 <p>As verilator is currently the simulation backend, the simulation speed is realy high. On a little SoC like <a class="reference external" href="https://github.com/SpinalHDL/VexRiscv#murax-soc">Murax</a> my laptop is capable to simulate 1.2 million clock cycles per realtime seconds.</p>
 </div>
 <div class="section" id="setup">
-<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
 <p>The SpinalSim with Verilator as backend is supported on both Linux and Windows platforms.</p>
 <div class="section" id="scala">
-<h2>Scala<a class="headerlink" href="#scala" title="Permalink to this headline">¶</a></h2>
+<h3>Scala<a class="headerlink" href="#scala" title="Permalink to this headline">¶</a></h3>
 <p>Don’t forget to add the following in your build.sbt file</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.11.6&quot;</span>
 <span class="n">addCompilerPlugin</span><span class="o">(</span><span class="s">&quot;org.scala-lang.plugins&quot;</span> <span class="o">%</span> <span class="s">&quot;scala-continuations-plugin_2.11.6&quot;</span> <span class="o">%</span> <span class="s">&quot;1.0.2&quot;</span><span class="o">)</span>
@@ -833,7 +880,7 @@ Finaly, as the native Verilator API is rude, SpinalHDL abstract it by providing 
 </div>
 </div>
 <div class="section" id="linux">
-<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
 <p>You will also need a recent version of Verilator installed :</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install git make autoconf g++ flex bison -y  <span class="c1"># First time prerequisites</span>
 git clone http://git.veripool.org/git/verilator   <span class="c1"># Only first time</span>
@@ -851,7 +898,7 @@ sudo make install
 </div>
 </div>
 <div class="section" id="windows">
-<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <p>In order to get SpinalSim + Verilator working on windows, you have to do the following :</p>
 <ul class="simple">
 <li>Install MSYS2</li>
@@ -888,12 +935,22 @@ make install
 <p>{% include important.html content=”Adding the MSYS2 bin folders into your windows PATH could potentialy have some side effects. It’s why it is safer to add them as last elements of the PATH to reduce their priority.” %}</p>
 </div>
 </div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples/asynchronous.html" class="btn btn-neutral float-right" title="Asynchronous adder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="continuation.html" class="btn btn-neutral" title="Scala continuation (cps)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

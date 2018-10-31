@@ -1,4 +1,7 @@
 
+Uart decoder
+============
+
 .. code-block:: scala
 
    //Fork a simulation process which will analyse the uartPin and print transmited bytes into the simulation terminal

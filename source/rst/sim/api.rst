@@ -1,4 +1,7 @@
 
+API
+===
+
 Introduction
 ------------
 

@@ -1,4 +1,7 @@
 
+Synchronous adder
+=================
+
 .. code-block:: scala
 
    import spinal.sim._
