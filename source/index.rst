@@ -133,3 +133,11 @@ Welcome to SpinalHDL's documentation!
    rst/examples/htag
    rst/lib/pinsec/hardware_toplevel
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Legacy:
+   :glob:
+
+   rst/lib/riscv
+
+   rst/lib/pinsec/*
