@@ -1,10 +1,8 @@
-
-Sinus rom
-=========
-
 .. role:: raw-html-m2r(raw)
    :format: html
 
+Sinus rom
+=========
 
 Let's imagine that you want to generate a sine wave and also have a filtered version of it (which is completely useless in practical, but let's do it as an example).
 

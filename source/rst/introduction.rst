@@ -1,8 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
+
 Introduction
 ============
-
 
 Site purpose and structure
 --------------------------

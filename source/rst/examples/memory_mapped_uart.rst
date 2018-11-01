@@ -1,10 +1,8 @@
-
-Memory mapped UART
-==================
-
 .. role:: raw-html-m2r(raw)
    :format: html
 
+Memory mapped UART
+==================
 
 Introduction
 ------------
