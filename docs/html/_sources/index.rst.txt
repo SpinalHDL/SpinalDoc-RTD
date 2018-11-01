@@ -141,3 +141,11 @@ Welcome to SpinalHDL's documentation!
    rst/lib/riscv
 
    rst/lib/pinsec/*
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Developers area:
+   :glob:
+
+   rst/core/types
+   rst/lib/bus_slave_factory_impl
