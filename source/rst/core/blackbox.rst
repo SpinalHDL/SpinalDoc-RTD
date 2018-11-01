@@ -306,7 +306,7 @@ If you want to get only ``std_logic_vector`` on your blackbox component, you can
      addTag(noNumericType)  // only std_logic_vector
    }
 
-Code generated
+Will generate:
 
 .. code-block:: vhdl
 
