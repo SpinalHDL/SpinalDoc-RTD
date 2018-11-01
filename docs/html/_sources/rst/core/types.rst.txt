@@ -19,7 +19,7 @@ The language provides 5 base types and 2 composite types that can be used.
 
 Those types and their usage (with examples) are explained hereafter.
 
-About the fixed point support it's documented `there </SpinalDoc/spinal/core/utils/#fixed-point>`_
+About the fixed point support it's documented :ref:`there <fixed>`
 
 Bool
 ----
@@ -485,6 +485,8 @@ If you want to specify your bundle as an input or an output of a Component, you 
        val rsp = out(RGB(8))
      }
    }
+
+.. _interface_eaxample_apb:
 
 Interface example (APB)
 ^^^^^^^^^^^^^^^^^^^^^^^

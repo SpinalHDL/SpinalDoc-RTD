@@ -13,9 +13,9 @@ This difference against traditional event driven HDL has a big impact :
 
 
 * You can assign registers and wires in the same scope, you don't have to split your code between process/always blocks
-* It make things much more flexible (see `Functions </SpinalDoc/spinal/core/function/>`_\ )
+* It make things much more flexible (see :ref:`Functions <function>` )
 
-The way how clock and reset wire are managed are explained in the `Clock domain </SpinalDoc/spinal/core/clock_domain/>`_ chapter.
+The way how clock and reset wire are managed are explained in the :ref:`Clock domain <clock_domain>` chapter.
 
 Instantiation
 -------------

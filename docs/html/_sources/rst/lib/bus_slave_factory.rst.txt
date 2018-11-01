@@ -1,6 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _bus_slave_factory:
+
 Bus Slave Factory
 =================
 
@@ -9,9 +11,9 @@ Introduction
 
 In many situation it's needed to implement a bus register bank. The ``BusSlaveFactory`` is a tool that provide an abstract and smooth way to define them.  
 
-To see capabilities of the tool, an simple example use the Apb3SlaveFactory variation to implement an `memory mapped UART </SpinalDoc/spinal/examples/memory_mapped_uart/>`_. There is also another example with an `Timer </SpinalDoc/spinal/examples/timer/>`_ which contain a memory mapping function.
+To see capabilities of the tool, an simple example use the Apb3SlaveFactory variation to implement an :ref:`memory mapped UART <memory_mapped_uart>`. There is also another example with an :ref:`Timer <timer>` which contain a memory mapping function.
 
-You can find more documentation about the internal implementation of the ``BusSlaveFactory`` tool `there </SpinalDoc/spinal/lib/bus_slave_factory_impl/>`_
+You can find more documentation about the internal implementation of the ``BusSlaveFactory`` tool :ref:`there <bus_slave_factory_implementation>`
 
 Functionality
 -------------

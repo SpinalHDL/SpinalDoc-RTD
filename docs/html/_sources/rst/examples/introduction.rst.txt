@@ -1,4 +1,6 @@
 
+.. _example_introduction:
+
 Introduction
 ============
 
@@ -16,5 +18,5 @@ They are all accessible in the sidebar under the corresponding sections.
 
 
 .. note::
-   You can also find a list of repostitories using SpinalHDL `there </SpinalDoc/users#repositories>`_
+   You can also find a list of repostitories using SpinalHDL :ref:`there <users_repositories>`
 

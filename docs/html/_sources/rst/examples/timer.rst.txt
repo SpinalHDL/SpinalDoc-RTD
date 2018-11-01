@@ -1,6 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _Timer:
+
 Timer
 =====
 
@@ -94,7 +96,7 @@ Bridging function
 Now we can start with the main purpose of this example: defining a bus bridging function. To do that we will use two techniques:
 
 
-* Using the ``BusSlaveFactory`` tool documented `here </SpinalDoc/spinal/lib/bus_slave_factory/>`_
+* Using the ``BusSlaveFactory`` tool documented :ref:`here <bus_slave_factory>`
 * Defining a function inside the ``Timer`` component which can be called from the parent component to drive the ``Timer``\ 's IO in an abstract way.
 
 Specification

@@ -5,12 +5,12 @@
 The ``spinal.core`` components
 ==================================
 
-The core components of the language are described in this document. It is part of the general `SpinalHDL user guide <userGuide/>`_.
+The core components of the language are described in this document. It is part of the general :ref:`SpinalHDL user guide <userGuide>`.
 
 The core language components are as follows:
 
 
-* `\ *Clock domains* <#clock_domains>`_\ , which allow to define and interoperate multiple clock domains within a design
+* :ref:`*Clock domains* <core_components_clock_domain_definition>`, which allow to define and interoperate multiple clock domains within a design
 * *Memory instantiation*\ , which permit the automatic instantiation of RAM and ROM memories.
 * *IP instantiation*\ , using either existing VHDL or Verilog component.
 * Assignments
@@ -21,19 +21,23 @@ The core language components are as follows:
 * Utility functions
 * VHDL generator
 
-:raw-html-m2r:`<a href name="clock_domains"></a>`\ Clock domains definitions
-------------------------------------------------------------------------------
+.. _core_components_clock_domain_definition:
+
+Clock domains definitions
+-------------------------
 
 In *Spinal*\ , clock and reset signals can be combined to create a **clock domain**. Clock domains could be applied to some area of the design and then all synchronous elements instantiated into this area will then **implicitly** use this clock domain.
 
 Clock domain application work like a stack, which mean, if you are in a given clock domain, you can still apply another clock domain locally.
+
+
+.. _core_componets_clock_constructor:
 
 Clock domain syntax
 ^^^^^^^^^^^^^^^^^^^
 
 The syntax to define a clock domain is as follows (using EBNF syntax):
 
-:raw-html-m2r:`<a name="clock_constructor"></a>`
 ``ClockDomain(clock : Bool[,reset : Bool[,enable : Bool]]])``
 
 This definition takes three parameters:
@@ -63,7 +67,7 @@ An applied example to define a specific clock domain within the design is as fol
 Clock configuration
 ^^^^^^^^^^^^^^^^^^^
 
-In addition to the constructor parameters given `here <#clock_constructor>`_\ , the following elements of each clock domain are configurable via a ``ClockDomainConfig``\ class :
+In addition to the constructor parameters given :ref:`here <core_componets_clock_constructor>` , the following elements of each clock domain are configurable via a ``ClockDomainConfig`` class :
 
 .. list-table::
    :header-rows: 1

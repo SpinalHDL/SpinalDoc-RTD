@@ -60,7 +60,7 @@ To generate the RTL, you have multiple solutions :
 
 You can download the SpinalHDL source code, and then run :
 
-.. code-block:: sbt
+.. code-block:: scala
 
    sbt "project SpinalHDL-lib" "run-main spinal.lib.soc.pinsec.Pinsec"
 

@@ -1,6 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _getting_started:
+
 Getting Started
 ===============
 
@@ -28,8 +30,10 @@ How to start programming with SpinalHDL
 Once you have downloaded all the requirements, there are two ways to get started with SpinalHDL programming.
 
 
-#. `\ *The SBT way* <#sbtWay>`_\ : if you already are familiar with the SBT build system and/or if you don't need an IDE.
-#. `\ *The IDE way* <#ideWay>`_\ : get a project already setup for you in an IDE and start programming right away.
+#. :ref:` *The SBT way* <getting_started_sbt_way>` : if you already are familiar with the SBT build system and/or if you don't need an IDE.
+#. :ref:` *The IDE way* <getting_started_ide_way>` : get a project already setup for you in an IDE and start programming right away.
+
+.. _getting_started_sbt_way:
 
 The SBT way {#sbtWay}
 ^^^^^^^^^^^^^^^^^^^^^
@@ -65,6 +69,8 @@ Basically, SBT use online repositories to download and cache your projects depen
 You can get an portable SBT setups there : :raw-html-m2r:`<br>`
 http://www.scala-sbt.org/download.html
 
+.. _getting_started_ide_way:
+
 The IDE way, with IntelliJ IDEA and its Scala plugin {#ideWay}
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -78,7 +84,7 @@ And do the following :
 * In addition, you might need to specify some path like where you installed the JDK to *IntelliJ*.
 * In the project (Intellij project GUI), right click on ``src/main/scala/MyCode/TopLevel.scala`` and select "Run MyTopLevel".
 
-Normally, this must generate the output file ``MyTopLevel.vhd`` in the project directory which corresponds to the most `most simple SpinalHDL example <#example>`_.
+Normally, this must generate the output file ``MyTopLevel.vhd`` in the project directory which corresponds to the most :ref:`most simple SpinalHDL example <example_introduction>`.
 
 A very simple SpinalHDL example {#example}
 ------------------------------------------
@@ -156,6 +162,6 @@ Once you have successfully compiled your code, the compiler should have emitted 
 What to do next?
 ----------------
 
-It's up to you, but why not have a look at what the `types </SpinalDoc/spinal/core/types/TypeIntroduction>`_ are in SpinalHDL or discover what primitives the language provides to describe hardware components? You could also have a look at our `examples </SpinalDoc/spinal/examples/introduction/>`_ to see some samples of what you could do next.
+It's up to you, but why not have a look at what the :ref:`types <type_introduction>` are in SpinalHDL or discover what primitives the language provides to describe hardware components? You could also have a look at our :ref:`examples <example_introduction>` to see some samples of what you could do next.
 
 

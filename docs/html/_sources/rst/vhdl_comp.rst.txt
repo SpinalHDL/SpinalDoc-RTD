@@ -1,7 +1,6 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
-
 VHDL comparison
 ===============
 
@@ -426,4 +425,4 @@ VHDL has kind of a closed syntax. You can't add abstraction layers on top of it.
 
 SpinalHDL, because it's built on top of Scala, is very flexible, and allows you to define new abstraction layers very easily.
 
-Some examples of that are the `FSM </SpinalDoc/spinal/lib/fsm/>`_ tool, the `BusSlaveFactory </SpinalDoc/spinal/lib/bus_slave_factory/>`_ tool, and also the `JTAG </SpinalDoc/spinal/examples/jtag/>`_ tool.
+Some examples of that are the :ref:`FSM <state_machine>` tool, the :ref:`BusSlaveFactory <bus_slave_factory>` tool, and also the :ref:`JTAG <jtag>` tool.

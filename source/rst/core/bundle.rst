@@ -1,4 +1,6 @@
 
+.. _Bundle:
+
 Bundle
 ======
 
@@ -31,7 +33,7 @@ For example, an Color Bundle could be :
      val r,g,b = UInt(channelWidth bits)
    }
 
-You can find an APB3 definition example `there </SpinalDoc/spinal/examples/simple/apb3/>`_
+You can find an APB3 definition example :ref:`there <example_apb3>`
 
 Operators
 ^^^^^^^^^

@@ -1,6 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _clock_domain:
+
 Clock domains
 =============
 
@@ -11,12 +13,12 @@ In *SpinalHDL*\ , clock and reset signals can be combined to create a **clock do
 
 Clock domain application work like a stack, which mean, if you are in a given clock domain, you can still apply another clock domain locally.
 
+.. _clock_domain_instantiation:
+
 Instantiation
 -------------
 
 The syntax to define a clock domain is as follows (using EBNF syntax):
-
-:raw-html-m2r:`<a name="clock_constructor"></a>`
 
 .. code-block:: scala
 
@@ -75,7 +77,7 @@ An applied example to define a specific clock domain within the design is as fol
 Configuration
 ^^^^^^^^^^^^^
 
-In addition to the constructor parameters given `here <#clock_constructor>`_\ , the following elements of each clock domain are configurable via a ``ClockDomainConfig``\ class :
+In addition to the constructor parameters given :ref:`here <clock_domain_instantiation>`\ , the following elements of each clock domain are configurable via a ``ClockDomainConfig``\ class :
 
 .. list-table::
    :header-rows: 1

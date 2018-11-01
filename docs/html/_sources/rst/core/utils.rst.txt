@@ -1,13 +1,15 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _utils:
+
 Utils
 =====
 
 General
 -------
 
-Many tools and utilities are present in `spinal.lib </SpinalDoc/spinal/lib/utils/>`_ but some are already present in SpinalHDL Core.
+Many tools and utilities are present in :ref:`spinal.lib <lib_introduction>` but some are already present in SpinalHDL Core.
 
 .. list-table::
    :header-rows: 1
@@ -51,7 +53,7 @@ For example :
    //treePlusOne will become a 8 bits value
    val treePlusOne = plusOne(U(3,8 bits))
 
-You can get more information about how hardware data types are managed `here </SpinalDoc/scala/interactions/#hardware-types>`_
+You can get more information about how hardware data types are managed :ref:`here <hardware_type>`
 
 .. note::
    If you use the cloneOf function on a Bundle, this Bundle should be a case class or should override the clone function internally.

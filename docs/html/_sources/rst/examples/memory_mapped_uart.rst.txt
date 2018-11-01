@@ -1,13 +1,15 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _memory_mapped_uart:
+
 Memory mapped UART
 ==================
 
 Introduction
 ------------
 
-This example will take the ``UartCtrl`` component implemented in the previous `example </SpinalDoc/spinal/examples/uart/>`_ to create a memory mapped UART controller.
+This example will take the ``UartCtrl`` component implemented in the previous :ref:`example <example_uart>` to create a memory mapped UART controller.
 
 Specification
 -------------
@@ -54,7 +56,7 @@ Here is the register mapping table:
 Implementation
 --------------
 
-For this implementation, the Apb3SlaveFactory tool will be used. It allows you to define a APB3 slave with a nice syntax. You can find the documentation of this tool `there </SpinalDoc/spinal/lib/bus_slave_factory/>`_.
+For this implementation, the Apb3SlaveFactory tool will be used. It allows you to define a APB3 slave with a nice syntax. You can find the documentation of this tool :ref:`there <bus_slave_factory>`.
 
 First, we just need to define the ``Apb3Config`` that will be used for the controller. It is defined in a Scala object as a function to be able to get it from everywhere.
 

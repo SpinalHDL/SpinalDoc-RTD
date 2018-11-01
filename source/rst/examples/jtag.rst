@@ -44,6 +44,8 @@ As you can see, a JtagTap is created but then some Generator/Builder functions (
 
 This JTAG TAP tutorial is based on `this <https://github.com/SpinalHDL/SpinalHDL/tree/master/lib/src/main/scala/spinal/lib/com/jtag>`_ implementation.
 
+.. _jtag:
+
 JTAG bus
 --------
 

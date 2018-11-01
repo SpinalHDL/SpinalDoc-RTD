@@ -1,14 +1,15 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _Vec:
+
 Vec
 ===
 
 Description
 ^^^^^^^^^^^
 
-The ``Vec`` is a composite type that defines a group of indexed signals (of any SpinalHDL basic type)
- under a single name.
+The ``Vec`` is a composite type that defines a group of indexed signals (of any SpinalHDL basic type) under a single name.
 
 Declaration
 ^^^^^^^^^^^

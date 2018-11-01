@@ -6,6 +6,8 @@ Compagnies
 
 `QsPin, Belgium <http://www.qspin.be/>`_
 
+.. _users_repositories:
+
 Repositories
 ------------
 

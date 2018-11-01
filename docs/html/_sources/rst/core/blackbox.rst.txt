@@ -171,7 +171,7 @@ For example :
 io prefix
 ---------
 
-In order to avoid the prefix "io_" on each IOs of the blackbox, you can use the function ``noIoPrefix()`` as shown below :
+In order to avoid the prefix "io\_" on each IOs of the blackbox, you can use the function ``noIoPrefix()`` as shown below :
 
 .. code-block:: scala
 
@@ -306,7 +306,9 @@ If you want to get only ``std_logic_vector`` on your blackbox component, you can
      addTag(noNumericType)  // only std_logic_vector
    }
 
-   // Code generated
+Code generated
+
+.. code-block:: vhdl
 
    component MyBlackBox is
      port( 

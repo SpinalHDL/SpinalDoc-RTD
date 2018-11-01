@@ -1,6 +1,7 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _element:
 
 Element
 =======
@@ -23,6 +24,7 @@ Elements could be defined as follows:
    * - default -> y : Boolean/Bool
      - Set all unconnected bits with the y value.\ :raw-html-m2r:`<br>` This feature could only be use to do assignments without the B prefix or with the B prefix combined with the bits specification
 
+.. _range:
 
 Range
 =====

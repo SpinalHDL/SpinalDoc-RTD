@@ -21,6 +21,8 @@ Everything is reference
 
 For example, if you define a Scala function which take as parameter a Bits, when you call it, the Bits argument will be passed as a reference. As consequence of that, if you assign that argument inside the function, it will assign it as if you have done it outside the function.
 
+.. _hardware_type:
+
 Hardware types
 --------------
 

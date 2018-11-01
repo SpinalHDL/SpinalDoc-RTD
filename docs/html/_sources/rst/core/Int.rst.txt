@@ -1,6 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _Int:
+
 Unit/SInt
 =========
 
@@ -32,7 +34,7 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
    * - U"[[size']base]value" :raw-html-m2r:`<br>` S"[[size']base]value"
      - Create an unsigned/signed integer assigned with 'value' (Base : 'h', 'd', 'o', 'b')
      - UInt :raw-html-m2r:`<br>` SInt
-   * - U([x bits,] `element </SpinalDoc/spinal/core/types/elements#element>`_\ , ...)  :raw-html-m2r:`<br>` S([x bits,] `element </SpinalDoc/spinal/core/types/elements#element>`_\ , ...)
+   * - U([x bits,] :ref:`element <element>`\ , ...)  :raw-html-m2r:`<br>` S([x bits,] :ref:`element <element>`\ , ...)
      - Create an unsigned integer assigned with the value specified by elements
      - UInt :raw-html-m2r:`<br>` SInt
 
@@ -286,7 +288,7 @@ Bit extraction
    * - x(offset, width)
      - Read bitfield, offset: UInt, width: Int
      - T(width bits)
-   * - x(\ `range </SpinalDoc/spinal/core/types/elements#range>`_\ )
+   * - x(\ :ref:`range <range>`\ )
      - Read a range of bit. Ex : myBits(4 downto 2)
      - T(range bits)
    * - x(y) := z
@@ -295,7 +297,7 @@ Bit extraction
    * - x(offset, width) := z
      - Assign bitfield, offset: UInt, width: Int
      - T(width bits)
-   * - x(\ `range </SpinalDoc/spinal/core/types/elements#range>`_\ ) := z
+   * - x(\ :ref:`range <range>`\ ) := z
      - Assign a range of bit. Ex : myBits(4 downto 2) := U"010"
      - T(range bits)
 

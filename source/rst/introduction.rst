@@ -55,7 +55,7 @@ SpinalHDL uses two licenses, one for spinal.core, and one for spinal.lib.
 Getting started
 ---------------
 
-Want to try it for yourself? Then jump to the `getting started section </SpinalDoc/spinal_getting_started>`_ and have fun!
+Want to try it for yourself? Then jump to the :ref:`getting started section <getting_started>` and have fun!
 
 Links
 -----

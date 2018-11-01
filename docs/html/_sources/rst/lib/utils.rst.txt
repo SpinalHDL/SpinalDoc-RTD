@@ -4,7 +4,7 @@
 Utils
 =====
 
-Some utils are also present in `spinal.core </SpinalDoc/spinal/core/utils/>`_
+Some utils are also present in :ref:`spinal.core <utils>`
 
 State less utilities
 --------------------

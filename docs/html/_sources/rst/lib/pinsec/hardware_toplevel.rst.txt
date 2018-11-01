@@ -1,13 +1,15 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _pinsec_hardware_toplevel:
+
 SoC toplevel (Pinsec)
 =====================
 
 Introduction
 ------------
 
-``Pinsec`` is a little SoC designed for FPGA. It is available in the SpinalHDL library and some documentation could be find `there </SpinalDoc/spinal/lib/pinsec/introduction/>`_
+``Pinsec`` is a little SoC designed for FPGA. It is available in the SpinalHDL library and some documentation could be find :ref:`there <pinsec_introduction>`
 
 Its toplevel implementation is an interesting example, because it mix some design pattern that make it very easy to modify. Adding a new master or a new peripheral to the bus fabric could be done in the seconde.
 
@@ -440,7 +442,7 @@ Then you need to populate interconnections between slaves and masters :
 Then to reduce combinatorial path length and have a good design FMax, you can ask the factory to insert pipelining stages between itself a given master or slave :
 
 .. note::
-   \ ``halfPipe`` / >> / << / >/->  in the following code are provided by the Stream bus library. :raw-html-m2r:`<br>`\ Some documentation could be find `there </SpinalDoc/spinal/lib/stream/>`_. In short, it's just some pipelining and interconnection stuff.
+   \ ``halfPipe`` / >> / << / >/->  in the following code are provided by the Stream bus library. :raw-html-m2r:`<br>`\ Some documentation could be find :ref:`there <stream>`. In short, it's just some pipelining and interconnection stuff.
 
 .. code-block:: scala
 

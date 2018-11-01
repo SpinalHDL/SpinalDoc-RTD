@@ -850,14 +850,14 @@
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Timer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Timer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Timer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#specification">Specification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#implementation">Implementation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#bridging-function">Bridging function</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Specification</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Specification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Implementation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
 </ul>
 </li>
@@ -1078,13 +1078,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="timer">
-<h1>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>A timer module is probably one of the most basic pieces of hardware. But even for a timer, there are some interresting things that you can do with SpinalHDL. This example will define a simple timer component which integrates a bus bridging utile.</p>
 </div>
-<div class="section" id="id1">
-<h2>Timer<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>Timer<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>So let’s start with the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component.</p>
 <div class="section" id="specification">
 <h3>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h3>
@@ -1183,11 +1183,11 @@
 <h2>Bridging function<a class="headerlink" href="#bridging-function" title="Permalink to this headline">¶</a></h2>
 <p>Now we can start with the main purpose of this example: defining a bus bridging function. To do that we will use two techniques:</p>
 <ul class="simple">
-<li>Using the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> tool documented <a class="reference external" href="/SpinalDoc/spinal/lib/bus_slave_factory/">here</a></li>
+<li>Using the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> tool documented <a class="reference internal" href="../lib/bus_slave_factory.html#bus-slave-factory"><span class="std std-ref">here</span></a></li>
 <li>Defining a function inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component which can be called from the parent component to drive the <code class="docutils literal notranslate"><span class="pre">Timer</span></code>’s IO in an abstract way.</li>
 </ul>
-<div class="section" id="id2">
-<h3>Specification<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Specification<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>This bridging function will take the following parameters:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1284,8 +1284,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="id3">
-<h3>Implementation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>Implementation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Let’s add this bridging function inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Timer</span><span class="o">(</span><span class="n">width</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>

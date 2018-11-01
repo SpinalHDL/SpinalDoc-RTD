@@ -23,7 +23,7 @@ The following table show how to instantiate a memory :
 
 
 .. note::
-   If you want to define a ROM, elements of the ``initialContent`` array should only be literal value (no operator, no resize functions). There is an example `here </SpinalDoc/spinal/examples/simple/sinus_rom/>`_.
+   If you want to define a ROM, elements of the ``initialContent`` array should only be literal value (no operator, no resize functions). There is an example :ref:`here <sinus_rom>`.
 
 .. note::
    To give an initial content to a RAM, you can also use the ``init`` function.

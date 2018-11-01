@@ -1,6 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
+.. _pinsec_introduction:
+
 Introduction
 ============
 
@@ -32,7 +34,7 @@ Pinsec has followings hardware features:
 * Some timer module
 * Some GPIO
 
-The toplevel code explanation could be find `there </SpinalDoc/spinal/lib/pinsec/hardware_toplevel/>`_
+The toplevel code explanation could be find :ref:`there <pinsec_hardware_toplevel>`
 
 Board support
 -------------

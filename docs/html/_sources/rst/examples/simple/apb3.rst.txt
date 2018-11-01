@@ -1,4 +1,6 @@
 
+.. _example_apb3:
+
 APB3 definition
 ===============
 

@@ -59,7 +59,7 @@ Syntax to define in/out is the following :
      - For all other data types, you should add the brackets around it.\ :raw-html-m2r:`<br>` Sorry this is a Scala limitation.
      - T
    * - master/slave(T)
-     - This syntax is provided by the spinal.lib. T should extends IMasterSlave\ :raw-html-m2r:`<br>` Some documentation is available `here </SpinalDoc/spinal/core/types/#interface-example-apb>`_
+     - This syntax is provided by the spinal.lib. T should extends IMasterSlave\ :raw-html-m2r:`<br>` Some documentation is available :ref:`here <interface_eaxample_apb>`
      - T
 
 

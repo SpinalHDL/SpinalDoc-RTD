@@ -1,3 +1,4 @@
+.. _Bits:
 
 Bits
 ====
@@ -30,7 +31,7 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
    * - B"[[size']base]value"
      - Create a BitVector assigned with 'value' (Base: 'h', 'd', 'o', 'b')
      - Bits
-   * - B([x bits,] `element </SpinalDoc/spinal/core/types/elements#element>`_\ , ...)
+   * - B([x bits,] :ref:`element <element>`\ , ...)
      - Create a BitVector assigned with the value specified by elements
      - Bits
 
@@ -229,7 +230,7 @@ Bit extraction
    * - x(offset,width bits)
      - Read bitfield, offset: UInt, width: Int
      - Bits(width bits)
-   * - x(\ `range </SpinalDoc/spinal/core/types/elements#range>`_\ )
+   * - x(\ :ref:`range <range>`\ )
      - Read a range of bit. Ex : myBits(4 downto 2)
      - Bits(range bits)
    * - x(y) := z
@@ -238,7 +239,7 @@ Bit extraction
    * - x(offset, width bits) := z
      - Assign bitfield, offset: UInt, width: Int
      - Bits(width bits)
-   * - x(\ `range </SpinalDoc/spinal/core/types/elements#range>`_\ ) := z
+   * - x(\ :ref:`range <range>`\ ) := z
      - Assign a range of bit. Ex : myBits(4 downto 2) := B"010"
      - Bits(range bits)
 
