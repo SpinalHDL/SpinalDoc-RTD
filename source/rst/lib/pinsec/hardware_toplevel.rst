@@ -441,7 +441,8 @@ Then you need to populate interconnections between slaves and masters :
 
 Then to reduce combinatorial path length and have a good design FMax, you can ask the factory to insert pipelining stages between itself a given master or slave :
 
-{% include note.html content="\ ``halfPipe`` / >> / << / >/->  in the following code are provided by the Stream bus library. :raw-html-m2r:`<br>`\ Some documentation could be find `there </SpinalDoc/spinal/lib/stream/>`_. In short, it's just some pipelining and interconnection stuff." %}
+.. note::
+   \ ``halfPipe`` / >> / << / >/->  in the following code are provided by the Stream bus library. :raw-html-m2r:`<br>`\ Some documentation could be find `there </SpinalDoc/spinal/lib/stream/>`_. In short, it's just some pipelining and interconnection stuff.
 
 .. code-block:: scala
 

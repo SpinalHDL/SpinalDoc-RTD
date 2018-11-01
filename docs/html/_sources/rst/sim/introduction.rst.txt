@@ -117,6 +117,8 @@ From a fresh install of MSYS2 MinGW 64-bits, you will have to run the following 
    echo "DONE"
    #Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to you windows PATH
 
-{% include important.html content="Be sure that your PATH environnement variable is pointing to the JDK 1.8 and don't contain a JRE installation." %}
+.. warning::
+   Be sure that your PATH environnement variable is pointing to the JDK 1.8 and don't contain a JRE installation.
 
-{% include important.html content="Adding the MSYS2 bin folders into your windows PATH could potentialy have some side effects. It's why it is safer to add them as last elements of the PATH to reduce their priority." %}
+.. warning::
+   Adding the MSYS2 bin folders into your windows PATH could potentialy have some side effects. It's why it is safer to add them as last elements of the PATH to reduce their priority.

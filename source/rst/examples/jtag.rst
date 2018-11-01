@@ -9,11 +9,14 @@ JTAG TAP
 Introduction
 ------------
 
-{% include important.html content="The goal of this page is to show the implementation of a JTAG TAP (a slave) by a non-conventional way." %}
+.. warning::
+   The goal of this page is to show the implementation of a JTAG TAP (a slave) by a non-conventional way.
 
-{% include important.html content="This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description. :raw-html-m2r:`<br>`\ Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator" %}
+.. warning::
+   This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description. :raw-html-m2r:`<br>`\ Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator
 
-{% include important.html content="This page will not explains how JTAG work. A good tutorial could be find `there <http://www.fpga4fun.com/JTAG.html>`_." %}
+.. warning::
+   This page will not explains how JTAG work. A good tutorial could be find `there <http://www.fpga4fun.com/JTAG.html>`_.
 
 One big difference between commonly used HDL and Spinal, is the fact that SpinalHDL allow you to define hardware generators/builders. It's very different than describing hardware.
 Let's take a look into the example bellow because the difference between generate/build/describing could seem "playing with word" or could be interpreted differently.
@@ -99,7 +102,8 @@ Let's define the JTAG state machine as explained `here <http://www.fpga4fun.com/
      )
    }
 
-{% include note.html content="The ``randBoot()`` on ``state`` make it initialized with a random state. It's only for simulation purpose." %}
+.. note::
+   The ``randBoot()`` on ``state`` make it initialized with a random state. It's only for simulation purpose.
 
 JTAG TAP
 --------
@@ -207,7 +211,8 @@ Let's define a useful base class for JTAG instruction that provide some callback
      })
    }
 
-{% include note.html content="About the Component.current.addPrePopTask(...) : :raw-html-m2r:`<br>` This  allow you to call the given code at the end of the current component construction. Because of object oriented nature of JtagInstruction, doCapture, doShift, doUpdate and doReset should not be called before children classes construction (because children classes will use it as a callback to do some logic)" %}
+.. note::
+   About the Component.current.addPrePopTask(...) : :raw-html-m2r:`<br>` This  allow you to call the given code at the end of the current component construction. Because of object oriented nature of JtagInstruction, doCapture, doShift, doUpdate and doReset should not be called before children classes construction (because children classes will use it as a callback to do some logic)
 
 Read instruction
 ^^^^^^^^^^^^^^^^

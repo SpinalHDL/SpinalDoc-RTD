@@ -102,7 +102,8 @@ There is an example of different syntaxes which could be used with the Counter t
 
 When a ``Counter`` overflow its end value, it restart to its start value.
 
-{% include note.html content="Currently, only up counter are supported." %}
+.. note::
+   Currently, only up counter are supported.
 
 Timeout
 ^^^^^^^
@@ -131,7 +132,8 @@ There is an example of different syntaxes which could be used with the Counter t
        timeout.clear()           //Ask the timeout to clear its flag
    }
 
-{% include note.html content="If you instanciate an ``Timeout`` with an time or frequancy setup, the implicit ``ClockDomain`` should have an frequency setting." %}
+.. note::
+   If you instanciate an ``Timeout`` with an time or frequancy setup, the implicit ``ClockDomain`` should have an frequency setting.
 
 ResetCtrl
 ^^^^^^^^^

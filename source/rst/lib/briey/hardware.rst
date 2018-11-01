@@ -78,4 +78,5 @@ Or you can create your own main into your own SBT project and then run it :
      }
    }
 
-{% include note.html content="Currently, only the verilog version was tested in simulation and in FPGA because the last release of GHDL is not compatible with cocotb." %}
+.. note::
+   Currently, only the verilog version was tested in simulation and in FPGA because the last release of GHDL is not compatible with cocotb.

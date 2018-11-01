@@ -78,7 +78,8 @@ Let's define the class that will provide construction parameters of our system:
      )
    }
 
-{% include note.html content="iterationType and fixType are functions that you can call to instantiate new signals. It's like a typedef in C." %}
+.. note::
+   iterationType and fixType are functions that you can call to instantiate new signals. It's like a typedef in C.
 
 Bundle definition
 -----------------

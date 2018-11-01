@@ -1,8 +1,12 @@
 
-{% include note.html content="All the following statements will be about describing hardware. Verification is another tasty topic." %}
-{% include note.html content="For simplicity, let's assume that SystemVerilog is a recent revision of Verilog." %}
-{% include note.html content="When reading this, we should not underestimate how much our attachment for our favourite HDL will bias our judgement." %}
-{% include note.html content="A language feature which isn't supported by EDA tools shouldn't be considerate as a language feature, as it is not usable. Look how VHDL 2008 is weakly supported, then look at the calendar." %}
+.. note::
+   All the following statements will be about describing hardware. Verification is another tasty topic.
+.. note::
+   For simplicity, let's assume that SystemVerilog is a recent revision of Verilog.
+.. note::
+   When reading this, we should not underestimate how much our attachment for our favourite HDL will bias our judgement.
+.. note::
+   A language feature which isn't supported by EDA tools shouldn't be considerate as a language feature, as it is not usable. Look how VHDL 2008 is weakly supported, then look at the calendar.
 
 VHDL/Verilog/SystemVerilog aren't Hardware Description Languages
 ----------------------------------------------------------------

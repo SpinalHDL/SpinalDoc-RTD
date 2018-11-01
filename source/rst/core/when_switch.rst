@@ -55,7 +55,8 @@ It's possible to define new signals into a when/switch statement.
      y := 0
    }
 
-{% include note.html content="SpinalHDL check that signals defined into a scope are only assigned inside this one." %}
+.. note::
+   SpinalHDL check that signals defined into a scope are only assigned inside this one.
 
 Mux
 ---

@@ -53,8 +53,9 @@ For example :
 
 You can get more information about how hardware data types are managed `here </SpinalDoc/scala/interactions/#hardware-types>`_
 
-{% include note.html content="If you use the cloneOf function on a Bundle, this Bundle should be a case class or should override the clone function internally.
-" %}
+.. note::
+   If you use the cloneOf function on a Bundle, this Bundle should be a case class or should override the clone function internally.
+
 
 Passing a datatype as construction parameter
 --------------------------------------------

@@ -1081,9 +1081,18 @@
 <h1>JTAG TAP<a class="headerlink" href="#jtag-tap" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>{% include important.html content=”The goal of this page is to show the implementation of a JTAG TAP (a slave) by a non-conventional way.” %}</p>
-<p>{% include important.html content=”This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description. <span class="raw-html-m2r"><br></span>Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator” %}</p>
-<p>{% include important.html content=”This page will not explains how JTAG work. A good tutorial could be find <a class="reference external" href="http://www.fpga4fun.com/JTAG.html">there</a>.” %}</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The goal of this page is to show the implementation of a JTAG TAP (a slave) by a non-conventional way.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description. <span class="raw-html-m2r"><br></span>Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This page will not explains how JTAG work. A good tutorial could be find <a class="reference external" href="http://www.fpga4fun.com/JTAG.html">there</a>.</p>
+</div>
 <p>One big difference between commonly used HDL and Spinal, is the fact that SpinalHDL allow you to define hardware generators/builders. It’s very different than describing hardware.
 Let’s take a look into the example bellow because the difference between generate/build/describing could seem “playing with word” or could be interpreted differently.</p>
 <p>The example bellow is a JTAG TAP which allow the JTAG master to read <code class="docutils literal notranslate"><span class="pre">switchs</span></code>/<code class="docutils literal notranslate"><span class="pre">keys</span></code> inputs and write <code class="docutils literal notranslate"><span class="pre">leds</span></code> outputs. This TAP could also be recognized by a master by using the UID 0x87654321.</p>
@@ -1158,7 +1167,10 @@ Let’s take a look into the example bellow because the difference between gener
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>{% include note.html content=”The <code class="docutils literal notranslate"><span class="pre">randBoot()</span></code> on <code class="docutils literal notranslate"><span class="pre">state</span></code> make it initialized with a random state. It’s only for simulation purpose.” %}</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">randBoot()</span></code> on <code class="docutils literal notranslate"><span class="pre">state</span></code> make it initialized with a random state. It’s only for simulation purpose.</p>
+</div>
 </div>
 <div class="section" id="id1">
 <h2>JTAG TAP<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
@@ -1254,7 +1266,10 @@ Let’s take a look into the example bellow because the difference between gener
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>{% include note.html content=”About the Component.current.addPrePopTask(…) : <span class="raw-html-m2r"><br></span> This  allow you to call the given code at the end of the current component construction. Because of object oriented nature of JtagInstruction, doCapture, doShift, doUpdate and doReset should not be called before children classes construction (because children classes will use it as a callback to do some logic)” %}</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">About the Component.current.addPrePopTask(…) : <span class="raw-html-m2r"><br></span> This  allow you to call the given code at the end of the current component construction. Because of object oriented nature of JtagInstruction, doCapture, doShift, doUpdate and doReset should not be called before children classes construction (because children classes will use it as a callback to do some logic)</p>
+</div>
 </div>
 <div class="section" id="read-instruction">
 <h3>Read instruction<a class="headerlink" href="#read-instruction" title="Permalink to this headline">¶</a></h3>

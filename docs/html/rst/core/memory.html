@@ -1102,8 +1102,14 @@
 </tr>
 </tbody>
 </table>
-<p>{% include note.html content=”If you want to define a ROM, elements of the <code class="docutils literal notranslate"><span class="pre">initialContent</span></code> array should only be literal value (no operator, no resize functions). There is an example <a class="reference external" href="/SpinalDoc/spinal/examples/simple/sinus_rom/">here</a>.” %}</p>
-<p>{% include note.html content=”To give an initial content to a RAM, you can also use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function.” %}</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you want to define a ROM, elements of the <code class="docutils literal notranslate"><span class="pre">initialContent</span></code> array should only be literal value (no operator, no resize functions). There is an example <a class="reference external" href="/SpinalDoc/spinal/examples/simple/sinus_rom/">here</a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To give an initial content to a RAM, you can also use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function.</p>
+</div>
 <p>The following table show how to add access ports on a memory :</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1144,8 +1150,14 @@
 </tr>
 </tbody>
 </table>
-<p>{% include note.html content=”If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.” %}</p>
-<p>{% include important.html content=”Memories ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.” %}</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Memories ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.</p>
+</div>
 <p>There is a example which infer an simple dual port ram (32 bits * 256):</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">wordCount</span> <span class="k">=</span> <span class="mi">256</span><span class="o">)</span>
 <span class="n">mem</span><span class="o">.</span><span class="n">write</span><span class="o">(</span>
@@ -1186,7 +1198,10 @@
 </tr>
 </tbody>
 </table>
-<p>{% include important.html content=”The generated VHDL/Verilog is always in the ‘readFirst’ mode, which is compatible with ‘dontCare’ but not with ‘writeFirst’. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.” %}</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The generated VHDL/Verilog is always in the ‘readFirst’ mode, which is compatible with ‘dontCare’ but not with ‘writeFirst’. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.</p>
+</div>
 </div>
 <div class="section" id="mixed-width-ram">
 <h2>Mixed width ram<a class="headerlink" href="#mixed-width-ram" title="Permalink to this headline">¶</a></h2>
@@ -1216,7 +1231,10 @@
 </tr>
 </tbody>
 </table>
-<p>{% include important.html content=”As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.” %}</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.</p>
+</div>
 </div>
 <div class="section" id="automatic-blackboxing">
 <h2>Automatic blackboxing<a class="headerlink" href="#automatic-blackboxing" title="Permalink to this headline">¶</a></h2>

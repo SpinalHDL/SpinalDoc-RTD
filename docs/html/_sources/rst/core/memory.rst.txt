@@ -22,9 +22,11 @@ The following table show how to instantiate a memory :
      - Create a ROM. If your target is an FPGA, because it can be inferred as a block ram, you can still create write ports on it.
 
 
-{% include note.html content="If you want to define a ROM, elements of the ``initialContent`` array should only be literal value (no operator, no resize functions). There is an example `here </SpinalDoc/spinal/examples/simple/sinus_rom/>`_." %}
+.. note::
+   If you want to define a ROM, elements of the ``initialContent`` array should only be literal value (no operator, no resize functions). There is an example `here </SpinalDoc/spinal/examples/simple/sinus_rom/>`_.
 
-{% include note.html content="To give an initial content to a RAM, you can also use the ``init`` function." %}
+.. note::
+   To give an initial content to a RAM, you can also use the ``init`` function.
 
 The following table show how to add access ports on a memory :
 
@@ -54,9 +56,11 @@ The following table show how to add access ports on a memory :
      - T
 
 
-{% include note.html content="If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it." %}
+.. note::
+   If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.
 
-{% include important.html content="Memories ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory." %}
+.. warning::
+   Memories ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.
 
 There is a example which infer an simple dual port ram (32 bits * 256):
 
@@ -92,7 +96,8 @@ This policy specify how a read is affected when a write occur in the same cycle 
      - The read will get the new value (provided by the write)
 
 
-{% include important.html content="The generated VHDL/Verilog is always in the 'readFirst' mode, which is compatible with 'dontCare' but not with 'writeFirst'. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing." %}
+.. warning::
+   The generated VHDL/Verilog is always in the 'readFirst' mode, which is compatible with 'dontCare' but not with 'writeFirst'. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.
 
 Mixed width ram
 ---------------
@@ -114,7 +119,8 @@ You can specify ports that interface the memory with a data width of a power of 
      - Equivalent to mem.readWriteSync
 
 
-{% include important.html content="As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram." %}
+.. warning::
+   As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.
 
 Automatic blackboxing
 ---------------------

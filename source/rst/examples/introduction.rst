@@ -11,8 +11,10 @@ Examples are split in tree kinds:
 
 They are all accessible in the sidebar under the corresponding sections.
 
-{% include important.html content="The SpinalHDL workshop contains many labs with their solutions. See `here <https://github.com/SpinalHDL/SpinalWorkshop>`_.
-" %}
+.. warning::
+   The SpinalHDL workshop contains many labs with their solutions. See `here <https://github.com/SpinalHDL/SpinalWorkshop>`_.
 
-{% include note.html content="You can also find a list of repostitories using SpinalHDL `there </SpinalDoc/users#repositories>`_
-" %}
+
+.. note::
+   You can also find a list of repostitories using SpinalHDL `there </SpinalDoc/users#repositories>`_
+

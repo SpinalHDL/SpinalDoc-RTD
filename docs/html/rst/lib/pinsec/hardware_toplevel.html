@@ -1473,7 +1473,10 @@ The concept of this factory is to create it, then call many function on it to co
 </pre></div>
 </div>
 <p>Then to reduce combinatorial path length and have a good design FMax, you can ask the factory to insert pipelining stages between itself a given master or slave :</p>
-<p>{% include note.html content=”<code class="docutils literal notranslate"><span class="pre">halfPipe</span></code> / &gt;&gt; / &lt;&lt; / &gt;/-&gt;  in the following code are provided by the Stream bus library. <span class="raw-html-m2r"><br></span>Some documentation could be find <a class="reference external" href="/SpinalDoc/spinal/lib/stream/">there</a>. In short, it’s just some pipelining and interconnection stuff.” %}</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">halfPipe</span></code> / &gt;&gt; / &lt;&lt; / &gt;/-&gt;  in the following code are provided by the Stream bus library. <span class="raw-html-m2r"><br></span>Some documentation could be find <a class="reference external" href="/SpinalDoc/spinal/lib/stream/">there</a>. In short, it’s just some pipelining and interconnection stuff.</p>
+</div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Pipeline the connection between the crossbar and the apbBridge.io.axi</span>
 <span class="n">axiCrossbar</span><span class="o">.</span><span class="n">addPipelining</span><span class="o">(</span><span class="n">apbBridge</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">,(</span><span class="n">crossbar</span><span class="o">,</span><span class="n">bridge</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
   <span class="n">crossbar</span><span class="o">.</span><span class="n">sharedCmd</span><span class="o">.</span><span class="n">halfPipe</span><span class="o">()</span> <span class="o">&gt;&gt;</span> <span class="n">bridge</span><span class="o">.</span><span class="n">sharedCmd</span>

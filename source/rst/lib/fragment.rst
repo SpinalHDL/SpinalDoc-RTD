@@ -33,7 +33,8 @@ Signals defined by the ``Fragment`` bundle are :
 
 As you can see with this specification and precedent example, the ``Fragment`` concept doesn't specify how transaction are transmitted (You can use Stream,Flow or any other communication protocol). It only add enough information (\ ``last``\ ) to know if the current transaction is the first one, the last one or one in the middle of a given packet.
 
-{% include note.html content="The protocol didn't carry a \'first\' bit because it can be generated at any place by doing \'RegNextWhen(bus.last, bus.fire) init(True)\'" %}
+.. note::
+   The protocol didn't carry a \'first\' bit because it can be generated at any place by doing \'RegNextWhen(bus.last, bus.fire) init(True)\'
 
 Functions
 ---------

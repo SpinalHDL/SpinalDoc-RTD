@@ -2,7 +2,7 @@
 RiscV
 =====
 
-{% include warning.html content="This page document the first RISC-V cpu iteration done in SpinalHDL. The second iteration of this CPU is available `there <https://github.com/SpinalHDL/VexRiscv>`_ and already offer better perforance/area/features." %}
+{% include warning.html content="This page document the first RISC-V cpu iteration done in SpinalHDL. The second iteration of this CPU is available `there <https://github.com/SpinalHDL/VexRiscv>`_ and already offer better perforance/area/features.
 
 Features
 --------
@@ -47,7 +47,7 @@ Quartus Prime : 15.1.
 How to generate the CPU VHDL
 ----------------------------
 
-{% include warning.html content="This avalon version of the CPU isn't present in recent releases of SpinalHDL. Please considarate the `VexRiscv <https://github.com/SpinalHDL/VexRiscv>`_ instead." %}
+{% include warning.html content="This avalon version of the CPU isn't present in recent releases of SpinalHDL. Please considarate the `VexRiscv <https://github.com/SpinalHDL/VexRiscv>`_ instead.
 
 There is an example of a top level which generate an Altera QSys component that contain the CPU with Avalon interfaces and some timing buffer :
 

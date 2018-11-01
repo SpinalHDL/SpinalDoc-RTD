@@ -36,9 +36,11 @@ To generate the Verilog, it's exactly the same, but with ``SpinalVerilog`` in pl
      }
    }
 
-{% include important.html content="SpinalVhdl and SpinalVerilog could need to create multiple instance of your component class. It's why its first argument is not a Component reference but a function that return a new component." %}
+.. warning::
+   SpinalVhdl and SpinalVerilog could need to create multiple instance of your component class. It's why its first argument is not a Component reference but a function that return a new component.
 
-{% include important.html content="SpinalVerilog implementation has start the 5 June 2016. This backend pass successfully the same regression tests than the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot,UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, ..). But still, if you have any issue with this young backend, please, make a git issue." %}
+.. warning::
+   SpinalVerilog implementation has start the 5 June 2016. This backend pass successfully the same regression tests than the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot,UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, ..). But still, if you have any issue with this young backend, please, make a git issue.
 
 Parametrization from Scala
 ^^^^^^^^^^^^^^^^^^^^^^^^^^

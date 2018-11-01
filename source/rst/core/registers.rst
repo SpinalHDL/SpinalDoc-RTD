@@ -60,7 +60,8 @@ There is some usage examples :
 The code above will infer the following logic :\ :raw-html-m2r:`<br>`
 :raw-html-m2r:`<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/c7decc7420d1e790aba7c14d8bdc898aa6046869/asset/picture/register.svg"  align="middle" width="300">`
 
-{% include note.html content="The reg3 example show how you can assign the value of a RegInit register. But this it's also right to use the same syntax for all others (Reg,RegNext,RegNextWhen).\ :raw-html-m2r:`<br>` As for combinatorial assignments, the rule is 'Last assignment win', but if no assignment is done, the register keep its value." %}
+.. note::
+   The reg3 example show how you can assign the value of a RegInit register. But this it's also right to use the same syntax for all others (Reg,RegNext,RegNextWhen).\ :raw-html-m2r:`<br>` As for combinatorial assignments, the rule is 'Last assignment win', but if no assignment is done, the register keep its value.
 
 Also, RegNext is an abstraction which is build over the Reg syntax. The two followings sequances of code are strictly equivalents :
 

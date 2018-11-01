@@ -58,12 +58,13 @@ There is some examples of usage in SpinalHDL :
      ...
    }
 
-{% include note.html content="Each slave can or can't allow the payload to change when valid is high and ready is low. For examples:\ :raw-html-m2r:`<br>`
+.. note::
+   Each slave can or can't allow the payload to change when valid is high and ready is low. For examples:\ :raw-html-m2r:`<br>`
 
 
 * An priority arbiter without lock logic can switch from one input to the other (which will change the payload).\ :raw-html-m2r:`<br>`
 * An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission. :raw-html-m2r:`<br>`
-  Be careful with that." %}
+  Be careful with that.
 
 Functions
 ---------
