@@ -74,7 +74,7 @@ VGA bus
 
 This Vga ``Bundle`` uses the ``IMasterSlave`` trait, which allows you to create master/slave VGA interfaces using the following: :raw-html-m2r:`<br>`
 
-.. code-block::
+.. code-block:: text
 
    master(Vga(...))
    slave(Vga(...))

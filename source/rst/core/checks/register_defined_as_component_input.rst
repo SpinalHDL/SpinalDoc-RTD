@@ -22,7 +22,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    REGISTER DEFINED AS COMPONENT INPUT : (toplevel/io_a : in UInt[8 bits]) is defined as a registered input of the toplevel component, but isn't allowed.
      ***

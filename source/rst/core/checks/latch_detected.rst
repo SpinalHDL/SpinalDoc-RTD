@@ -25,7 +25,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    LATCH DETECTED from the combinatorial signal (toplevel/a :  UInt[8 bits]), defined at
      ***

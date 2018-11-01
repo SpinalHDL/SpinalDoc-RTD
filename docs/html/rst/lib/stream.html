@@ -91,6 +91,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#links">Links</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../users.html">Users</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../users.html#compagnies">Compagnies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../users.html#repositories">Repositories</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../support.html#communication-channels">Communication channels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../support.html#commercial-support">Commercial support</a></li>
@@ -858,6 +863,23 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/jtag.html">JTAG TAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/jtag.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/jtag.html#jtag-bus">JTAG bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/jtag.html#jtag-state-machine">JTAG state machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/jtag.html#id1">JTAG TAP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/jtag.html#jtag-instructions">Jtag instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/jtag.html#jtag-tap-class-interface">JTAG TAP class interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/jtag.html#base-class">Base class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/jtag.html#read-instruction">Read instruction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/jtag.html#write-instruction">Write instruction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/jtag.html#idcode-instruction">Idcode instruction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/jtag.html#user-friendly-wrapper">User friendly wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/jtag.html#usage-demonstration">Usage demonstration</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="pinsec/hardware_toplevel.html">SoC toplevel (Pinsec)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pinsec/hardware_toplevel.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pinsec/hardware_toplevel.html#defining-all-io">Defining all IO</a></li>
@@ -1130,6 +1152,105 @@ Be careful with that.” %}</li>
 </div>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Syntax</th>
+<th class="head">Description</th>
+<th class="head">Return</th>
+<th class="head">Latency</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Stream(type : Data)</td>
+<td>Create a Stream of a given type</td>
+<td>Stream[T]</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>master/slave Stream(type : Data)</td>
+<td>Create a Stream of a given type <span class="raw-html-m2r"><br></span> Initialized with corresponding in/out setup</td>
+<td>Stream[T]</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>x.fire</td>
+<td>Return True when a transaction is consumed on the bus (valid &amp;&amp; ready)</td>
+<td>Bool</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>x.isStall</td>
+<td>Return True when a transaction is stall on the bus (valid &amp;&amp; ! ready)</td>
+<td>Bool</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>x.queue(size:Int)</td>
+<td>Return a Stream connected to x through a FIFO</td>
+<td>Stream[T]</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>x.m2sPipe()<span class="raw-html-m2r"><br></span> x.stage()</td>
+<td>Return a Stream drived by x <span class="raw-html-m2r"><br></span>through a register stage that cut valid/payload paths <span class="raw-html-m2r"><br></span> Cost = (payload width + 1) flop flop</td>
+<td>Stream[T]</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>x.s2mPipe()</td>
+<td>Return a Stream drived by x <span class="raw-html-m2r"><br></span> ready paths is cut by a register stage <span class="raw-html-m2r"><br></span> Cost = payload width * (mux2 + 1 flip flop)</td>
+<td>Stream[T]</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>x.halfPipe()</td>
+<td>Return a Stream drived by x <span class="raw-html-m2r"><br></span> valid/ready/payload paths are cut by some register <span class="raw-html-m2r"><br></span> Cost = (payload width + 2) flip flop, bandwidth divided by two</td>
+<td>Stream[T]</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>x &lt;&lt; y <span class="raw-html-m2r"><br></span> y &gt;&gt; x</td>
+<td>Connect y to x</td>
+<td>&#160;</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>x &lt;-&lt; y <span class="raw-html-m2r"><br></span> y &gt;-&gt; x</td>
+<td>Connect y to x through a m2sPipe</td>
+<td>&#160;</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>x &lt;&amp;#47;&lt; y <span class="raw-html-m2r"><br></span> y &gt;&amp;#47;&gt; x</td>
+<td>Connect y to x through a s2mPipe</td>
+<td>&#160;</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>x &lt;-/&lt; y <span class="raw-html-m2r"><br></span> y &gt;&amp;#47;-&gt; x</td>
+<td>Connect y to x through s2mPipe().m2sPipe() <span class="raw-html-m2r"><br></span> Which imply no combinatorial path between x and y</td>
+<td>&#160;</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>x.haltWhen(cond : Bool)</td>
+<td>Return a Stream connected to x <span class="raw-html-m2r"><br></span> Halted when cond is true</td>
+<td>Stream[T]</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>x.throwWhen(cond : Bool)</td>
+<td>Return a Stream connected to x <span class="raw-html-m2r"><br></span> When cond is true, transaction are dropped</td>
+<td>Stream[T]</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
 <p>The following code will create this logic :
 <span class="raw-html-m2r"><img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg"   align="middle" width="300"></span></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">RGB</span><span class="o">(</span><span class="n">channelWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>

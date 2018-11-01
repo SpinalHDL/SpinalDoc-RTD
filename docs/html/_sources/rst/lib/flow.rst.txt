@@ -43,21 +43,22 @@ Functions
    * - Flow(type : Data)
      - Create a Flow of a given type
      - Flow[T]
-     - 
+     - -
    * - master/slave Flow(type : Data)
      - Create a Flow of a given type :raw-html-m2r:`<br>` Initialized with corresponding in/out setup
      - Flow[T]
+     - -
    * - x.m2sPipe()
      - Return a Flow drived by x :raw-html-m2r:`<br>`\ through a register stage that cut valid/payload paths
      - Flow[T]
      - 1
    * - x << y :raw-html-m2r:`<br>` y >> x
      - Connect y to x
-     - 
+     - -
      - 0
    * - x <-< y :raw-html-m2r:`<br>` y >-> x
      - Connect y to x through a m2sPipe
-     - 
+     - -
      - 1
    * - x.throwWhen(cond : Bool)
      - Return a Flow connected to x :raw-html-m2r:`<br>` When cond is high, transaction are dropped
@@ -66,5 +67,5 @@ Functions
    * - x.toReg()
      - Return a register which is loaded with ``payload`` when valid is high
      - T
-     - 
+     - -
 

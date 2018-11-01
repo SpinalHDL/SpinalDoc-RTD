@@ -11,7 +11,7 @@ Welcome to SpinalHDL's documentation!
    :caption: About SpinalHDL:
 
    rst/introduction
-   rst/user
+   rst/users
    rst/support
    rst/faq
 
@@ -130,7 +130,7 @@ Welcome to SpinalHDL's documentation!
 
    rst/examples/memory_mapped_uart
    rst/examples/timer
-   rst/examples/htag
+   rst/examples/jtag
    rst/lib/pinsec/hardware_toplevel
 
 .. toctree::

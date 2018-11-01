@@ -30,7 +30,7 @@ This is how to define the PLL ``BlackBox``\ :
 
 This will correspond to the following VHDL component:
 
-.. code-block::
+.. code-block:: text
 
    component PLL is
      port(

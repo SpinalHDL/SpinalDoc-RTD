@@ -27,7 +27,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    CLOCK CROSSING VIOLATION from (toplevel/regA :  UInt[8 bits]) to (toplevel/regB :  UInt[8 bits]).
    - Register declaration at

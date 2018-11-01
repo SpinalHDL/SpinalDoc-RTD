@@ -23,7 +23,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    Exception in thread "main" java.lang.NullPointerException
      ***

@@ -22,7 +22,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    WIDTH MISMATCH on (toplevel/b :  UInt[4 bits]) := (toplevel/a :  UInt[8 bits]) at
      ***
@@ -54,7 +54,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    WIDTH MISMATCH on (UInt | UInt)[8 bits]
    - Left  operand : (toplevel/a :  UInt[8 bits])

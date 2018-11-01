@@ -98,10 +98,10 @@ Logic
    * - x.andR
      - AND all bits of x
      - Bool
-   * - x &gt;&gt; y
+   * - x \>\> y
      - Arithmetic shift right, y : Int
      - T(w(x) - y bits)
-   * - x &gt;&gt; y
+   * - x \>\> y
      - Arithmetic shift right, y : UInt
      - T(w(x) bits)
    * - x \<\< y
@@ -110,10 +110,10 @@ Logic
    * - x \<\< y
      - Arithmetic shift left, y : UInt
      - T(w(x) + max(y) bits)
-   * - x |&gt;&gt; y
+   * - x \|\>\> y
      - Logical shift right, y : Int/UInt
      - T(w(x) bits)
-   * - x |\<\< y
+   * - x \|\<\< y
      - Logical shift left, y : Int/UInt
      - T(w(x) bits)
    * - x.rotateLeft(y)

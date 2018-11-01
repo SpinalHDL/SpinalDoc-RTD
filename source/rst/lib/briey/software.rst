@@ -18,7 +18,7 @@ About the OpenOCD fork, there is the configuration file that could be used to co
 
 There is an example of arguments used to run the OpenOCD tool :
 
-.. code-block::
+.. code-block:: text
 
    openocd -f ../tcl/interface/ftdi/ft2232h_breakout.cfg -f ../tcl/target/riscv_spinal.cfg -d 3
 
@@ -26,7 +26,7 @@ To debug with eclipse, you will need the Zylin plugin and then create an "Zynlin
 
 Initialize commands :
 
-.. code-block::
+.. code-block:: text
 
    target remote localhost:3333
    monitor reset halt
@@ -34,6 +34,6 @@ Initialize commands :
 
 Run commands :
 
-.. code-block::
+.. code-block:: text
 
    continue

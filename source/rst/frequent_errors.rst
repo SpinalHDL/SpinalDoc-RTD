@@ -12,7 +12,7 @@ Exception in thread "main" java.lang.NullPointerException
 
 :raw-html-m2r:`<b>Console symptoms :</b>`
 
-.. code-block::
+.. code-block:: text
 
    Exception in thread "main" java.lang.NullPointerException
 
@@ -37,7 +37,7 @@ Signal X can't be assigned by Y
 
 :raw-html-m2r:`<b>Console symptoms :</b>`
 
-.. code-block::
+.. code-block:: text
 
    Hierarchy violation : Signal X can't be assigned by Y
 
@@ -85,7 +85,7 @@ Input signal X can't be assigned by Y
 
 :raw-html-m2r:`<b>Console symptoms :</b>`
 
-.. code-block::
+.. code-block:: text
 
    Hierarchy violation : Input signal X can't be assigned by Y
 
@@ -112,7 +112,7 @@ Output signal X can't be assigned by Y
 
 :raw-html-m2r:`<b>Console symptoms :</b>`
 
-.. code-block::
+.. code-block:: text
 
    Hierarchy violation : Output signal X can't be assigned by Y
 

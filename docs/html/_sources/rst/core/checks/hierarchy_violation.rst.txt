@@ -40,7 +40,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    HIERARCHY VIOLATION : (toplevel/io_a : in UInt[8 bits]) is drived by (toplevel/tmp :  UInt[8 bits]), but isn't accessible in the toplevel component.
      ***

@@ -22,7 +22,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    UNASSIGNED REGISTER (toplevel/a :  UInt[8 bits]), defined at
      ***
@@ -58,7 +58,7 @@ In some case, because of the design parameterization, it could make sense to gen
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    UNASSIGNED REGISTER (toplevel/a :  UInt[8 bits]), defined at
      ***

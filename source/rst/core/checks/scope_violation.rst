@@ -26,7 +26,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    SCOPE VIOLATION : (toplevel/tmp :  UInt[8 bits]) is assigned outside its declaration scope at
      ***

@@ -25,7 +25,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    *** Spinal can't clone class spinal.tester.PlayDevMessages$RGB datatype
    *** You have two way to solve that :

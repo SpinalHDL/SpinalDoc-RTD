@@ -28,7 +28,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    COMBINATORIAL LOOP :
      Partial chain :

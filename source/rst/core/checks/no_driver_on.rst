@@ -22,7 +22,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    NO DRIVER ON (toplevel/a :  UInt[8 bits]), defined at
      ***

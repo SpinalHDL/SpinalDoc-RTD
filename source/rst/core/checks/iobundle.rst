@@ -22,7 +22,7 @@ The following code :
 
 will throw :
 
-.. code-block::
+.. code-block:: text
 
    IO BUNDLE ERROR : A direction less (toplevel/io_a :  UInt[8 bits]) signal was defined into toplevel component's io bundle
      ***

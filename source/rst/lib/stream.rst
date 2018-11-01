@@ -78,10 +78,11 @@ Functions
    * - Stream(type : Data)
      - Create a Stream of a given type
      - Stream[T]
-     - 
+     - -
    * - master/slave Stream(type : Data)
      - Create a Stream of a given type :raw-html-m2r:`<br>` Initialized with corresponding in/out setup
      - Stream[T]
+     - -
    * - x.fire
      - Return True when a transaction is consumed on the bus (valid && ready)
      - Bool
