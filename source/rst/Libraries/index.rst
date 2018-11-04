@@ -10,6 +10,7 @@ Libraries
    flow
    fragment
    fsm
+   vexriscv
    bus_slave_factory
    Bus/index
    Com/index

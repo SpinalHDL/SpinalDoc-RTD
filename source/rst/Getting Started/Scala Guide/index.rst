@@ -7,3 +7,4 @@ Scala Guide
    introduction
    basics
    coding_conventions
+   interaction
