@@ -1,0 +1,575 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Scala continuation (cps)" href="continuation.html" />
+    <link rel="prev" title="Boot a simulation" href="bootstraps.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../About SpinalHDL/index.html">About SpinalHDL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/faq.html">FAQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/users.html">Users</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Getting Started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/Scala Guide/index.html">Scala Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Scala Guide/introduction.html">Scala guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Scala Guide/basics.html">Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Scala Guide/coding_conventions.html">Coding conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/Help for VHDL people/index.html">Help for VHDL people</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Help for VHDL people/vhdl_comp.html">VHDL comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Help for VHDL people/vhdl_perspective.html">VHDL equivalences</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Data types/index.html">Data types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/TypeIntroduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/bool.html">Bool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/bits.html">Bits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/Int.html">Unit/SInt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/enum.html">SpinalEnum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/bundle.html">Bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/Vec.html">Vec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/Fix.html">UFix/SFix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/Floating.html">Floating</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Structuring/index.html">Structuring</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/components_hierarchy.html">Component and hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/clock_domain.html">Clock domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Semantic/index.html">Semantic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/assignements.html">Assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/when_switch.html">When/Switch/Mux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/sementic.html">Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Sequential logic/index.html">Sequential logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Sequential logic/registers.html">Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Sequential logic/memory.html">RAM/ROM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Design errors/index.html">Design errors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/assignment_overlap.html">Assignement overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/clock_crossing_violation.html">Clock crossing violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/combinatorial_loop.html">Combinational loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/hierarchy_violation.html">Hierarchy violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/iobundle.html">Io bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/latch_detected.html">Latch detected</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/no_driver_on.html">No driver on</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/nullpointerexception.html">NullPointerException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/register_defined_as_component_input.html">Register defined as component input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/scope_violation.html">Scope violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/spinal_cant_clone.html">Spinal can’t clone class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/unassigned_register.html">Unassigned register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/unreachable_is_statement.html">Unreachable is statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/width_mismatch.html">Width mismatch</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Other language features/index.html">Other language features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/assertion.html">Assertions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/analog_inout.html">Analog and inout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/vhdl_generation.html">VHDL and Verilog generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/stream.html">Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/flow.html">Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/fragment.html">Fragment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/fsm.html">State machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/bus_slave_factory.html">Bus Slave Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/Bus/index.html">Bus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba3/ahblite3.html">AHB-Lite3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba3/apb3.html">Apb3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba4/axi4.html">Axi4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/avalon/avalonmm.html">AvalonMM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/wishbone/wishbone.html">Wishbone</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/Com/index.html">Com</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Com/uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/IO/index.html">IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/IO/readableOpenDrain.html">ReadableOpenDrain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/IO/tristate.html">TriState</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/Graphics/index.html">Graphics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Graphics/colors.html">Colors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Graphics/vga.html">VGA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/EDA/index.html">EDA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/EDA/altera/qsysify.html">QSysify</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Simulation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstraps.html">Boot a simulation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="continuation.html">Scala continuation (cps)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/asynchronous.html">Asynchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/dual_clock_fifo.html">Dual clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/single_clock_fifo.html">Single clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/synchronous.html">Synchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/uart_decoder.html">Uart decoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/uart_encoder.html">Uart encoder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Simple ones/index.html">Simple ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/apb3.html">APB3 definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/carry_adder.html">Carry adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/color_summing.html">Color summing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/counter_with_clear.html">Counter with clear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/pll_resetctrl.html">PLL BlackBox and reset controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/rgb_to_gray.html">RGB to gray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/sinus_rom.html">Sinus rom</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Intermediates ones/index.html">Intermediates ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Intermediates ones/fractal.html">Fractal calculator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Intermediates ones/uart.html">UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Intermediates ones/vga.html">VGA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Advanced ones/index.html">Advanced ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Advanced ones/jtag.html">JTAG TAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Advanced ones/memory_mapped_uart.html">Memory mapped UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Advanced ones/timer.html">Timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Legacy/index.html">Legacy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Legacy/riscv.html">RiscV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html">SoC toplevel (Pinsec)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Developers area/index.html">Developers area</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Developers area/bus_slave_factory_impl.html">Bus Slave Factory Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Developers area/types.html">Types</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Simulation</a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/Simulation/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The simulation api provide the capaibilities to read and write the DUT signals, fork and join simulation processes, sleep and wait until a given condition is filled.</p>
+<p>Don’t forget the following imports :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.sim._</span>
+<span class="k">import</span> <span class="nn">spinal.core.sim._</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-and-write-signals">
+<h2>Read and write signals<a class="headerlink" href="#read-and-write-signals" title="Permalink to this headline">¶</a></h2>
+<p>Each interface signals of the toplevel can be read into scala and write from scala :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Syntax</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Bool.toBoolean</td>
+<td>Read an hardware Bool as a Scala Boolean value</td>
+</tr>
+<tr class="row-odd"><td>Bits/UInt/SInt.toInt</td>
+<td>Read an hardware BitVector as a Scala Int value</td>
+</tr>
+<tr class="row-even"><td>Bits/UInt/SInt.toLong</td>
+<td>Read an hardware BitVector as a Scala Long value</td>
+</tr>
+<tr class="row-odd"><td>Bits/UInt/SInt.toBigInt</td>
+<td>Read an hardware BitVector as a Scala BigInt value</td>
+</tr>
+<tr class="row-even"><td>Bool #= Boolean</td>
+<td>Assign a hardware Bool from an Scala Boolean</td>
+</tr>
+<tr class="row-odd"><td>Bits/UInt/SInt #= Int</td>
+<td>Assign a hardware BitVector from an Scala Int</td>
+</tr>
+<tr class="row-even"><td>Bits/UInt/SInt #= Long</td>
+<td>Assign a hardware BitVector from an Scala Long</td>
+</tr>
+<tr class="row-odd"><td>Bits/UInt/SInt #= BigInt</td>
+<td>Assign a hardware BitVector from an Scala BigInt</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">#</span><span class="k">=</span> <span class="mi">42</span>
+<span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">#</span><span class="k">=</span> <span class="mi">42</span><span class="n">l</span>
+<span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">#</span><span class="k">=</span> <span class="nc">BigInt</span><span class="o">(</span><span class="s">&quot;101010&quot;</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+<span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">#</span><span class="k">=</span> <span class="nc">BigInt</span><span class="o">(</span><span class="s">&quot;0123456789ABCDEF&quot;</span><span class="o">,</span> <span class="mi">16</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">toInt</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fork-and-join-simulation-threads">
+<h2>Fork and join simulation threads<a class="headerlink" href="#fork-and-join-simulation-threads" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Create a new thread</span>
+<span class="k">val</span> <span class="n">myNewThread</span> <span class="k">=</span> <span class="n">fork</span><span class="o">{</span>
+  <span class="c1">//New simulation thread body</span>
+<span class="o">}</span>
+
+<span class="c1">//Wait until `myNewThread` is execution is done.</span>
+<span class="n">myNewThread</span><span class="o">.</span><span class="n">join</span><span class="o">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sleep-and-waituntil">
+<h2>Sleep and waitUntil<a class="headerlink" href="#sleep-and-waituntil" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Sleep 1000 units of time</span>
+<span class="n">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+
+<span class="c1">//waitUntil the dut.io.a value is bigger than 42 before continuing</span>
+<span class="n">waitUntil</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">42</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="external-clock-domains">
+<h2>External clock domains<a class="headerlink" href="#external-clock-domains" title="Permalink to this headline">¶</a></h2>
+<p>In the case you are using an external clock domain to feed your design with clock edges (this include the by default clock domain), you can access them in the simulation by the following way :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Example of thread forking to generate an reset and then toggeling the clock each 5 units of times.</span>
+<span class="c1">//dut.clockDomain refer to the implicit clock domain during the component instanciation.</span>
+<span class="n">fork</span><span class="o">{</span>
+  <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">assertReset</span><span class="o">()</span>
+  <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">fallingEdge</span><span class="o">()</span>
+  <span class="n">sleep</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+  <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+    <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">clockToggle</span><span class="o">()</span>
+    <span class="n">sleep</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>But you can also directly fork a standard reset/clock process :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">forkStimulus</span><span class="o">(</span><span class="n">period</span> <span class="k">=</span> <span class="mi">10</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>And there is an example of how to wait for a rising edge on the clock :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">waitRisingEdge</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>There is a list of ClockDomain simulation functionalities :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ClockDomain stimulus functions</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>forkStimulus(period)</td>
+<td>Fork a simulation process to generate the clockdomain simulus (clock, reset, softReset, clockEnable signals)</td>
+</tr>
+<tr class="row-odd"><td>forkSimSpeedPrinter(printPeriod)</td>
+<td>Fork a simulation process which will periodicaly print the simulation speed in kcycles per real time second. <code class="docutils literal notranslate"><span class="pre">printPeriod</span></code> is in realtime second</td>
+</tr>
+<tr class="row-even"><td>clockToggle()</td>
+<td>Toggle the clock signal</td>
+</tr>
+<tr class="row-odd"><td>fallingEdge()</td>
+<td>Clear the clock signal</td>
+</tr>
+<tr class="row-even"><td>risingEdge()</td>
+<td>Set the clock signal</td>
+</tr>
+<tr class="row-odd"><td>assertReset()</td>
+<td>Set the reset signal to its active level</td>
+</tr>
+<tr class="row-even"><td>disassertReset()</td>
+<td>Set the reset signal to its inactive level</td>
+</tr>
+<tr class="row-odd"><td>assertClockEnable()</td>
+<td>Set the clockEnable signal to its active level</td>
+</tr>
+<tr class="row-even"><td>disassertClockEnable()</td>
+<td>Set the clockEnable signal to its active level</td>
+</tr>
+<tr class="row-odd"><td>assertSoftReset()</td>
+<td>Set the softReset signal to its active level</td>
+</tr>
+<tr class="row-even"><td>disassertSoftReset()</td>
+<td>Set the softReset signal to its active level</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ClockDomain monitoring functions</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>waitSampling([cyclesCount])</td>
+<td>Wait until the ClockDomain made a sampling, (Active clock edge &amp;&amp; disassertReset &amp;&amp; assertClockEnable)</td>
+</tr>
+<tr class="row-odd"><td>waitRisingEdge([cyclesCount])</td>
+<td>Wait cyclesCount rising edges on the clock, if not cycleCount isn’t specified =&gt; 1 cycle, cyclesCount = 0 is legal, not sensitive to reset/softReset/clockEnable</td>
+</tr>
+<tr class="row-even"><td>waitFallingEdge([cyclesCount])</td>
+<td>Same as waitRisingEdge but for the falling edge</td>
+</tr>
+<tr class="row-odd"><td>waitActiveEdge([cyclesCount])</td>
+<td>Same as waitRisingEdge but for the edge level specified by the ClockDomainConfig</td>
+</tr>
+<tr class="row-even"><td>waitRisingEdgeWhere(condition)</td>
+<td>As waitRisingEdge, but to exit, the boolean <code class="docutils literal notranslate"><span class="pre">condition</span></code> must be true when the rising edge occure</td>
+</tr>
+<tr class="row-odd"><td>waitFallingEdgeWhere(condition)</td>
+<td>Same as waitRisingEdgeWhere but for the falling edge</td>
+</tr>
+<tr class="row-even"><td>waitActiveEdgeWhere(condition)</td>
+<td>Same as waitRisingEdgeWhere but for the edge level specified by the ClockDomainConfig</td>
+</tr>
+</tbody>
+</table>
+<p>Note that if you toplevel define some clock and reset inputs which aren’t directly integrated into their clockdomain, you can define their corresponding clockdomain directly in the testbench :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//In the testbench</span>
+<span class="nc">ClockDomain</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">coreClk</span><span class="o">,</span> <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">coreReset</span><span class="o">).</span><span class="n">forkStimulus</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="continuation.html" class="btn btn-neutral float-right" title="Scala continuation (cps)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="bootstraps.html" class="btn btn-neutral" title="Boot a simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, penis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
