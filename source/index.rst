@@ -58,7 +58,7 @@ Welcome to SpinalHDL's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Rules:
+   :caption: Semantic:
 
    rst/core/assignements
    rst/core/when_switch
