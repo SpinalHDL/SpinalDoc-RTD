@@ -64,6 +64,6 @@ An VGA controller is available. It's definition is the following :
      // ...
    }
 
-``frameStart`` is a signals that pulse one cycle at the beginning of each new frame.\ :raw-html-m2r:`<br>`
-``pixels`` is a stream of color used to feed the VGA interface when needed.\ :raw-html-m2r:`<br>`
-``error`` is high when a transaction on the pixels is needed, but nothing is present.
+| ``frameStart`` is a signals that pulse one cycle at the beginning of each new frame.
+| ``pixels`` is a stream of color used to feed the VGA interface when needed.
+| ``error`` is high when a transaction on the pixels is needed, but nothing is present.

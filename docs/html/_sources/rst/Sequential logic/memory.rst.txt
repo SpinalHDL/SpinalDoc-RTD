@@ -42,17 +42,41 @@ The following table show how to add access ports on a memory :
    * - mem(x)
      - Asynchronous read
      - T
-   * - mem.write(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;address\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;data\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[enable]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[mask]\ :raw-html-m2r:`<br>`\ )
-     - Synchronous write with an optional mask. :raw-html-m2r:`<br>` If no enable is specified, it's automatically inferred from the conditional scope where this function is called
+   * - | mem.write(
+       |  address
+       |  data
+       |  [enable]
+       |  [mask]
+       | )
+     - Synchronous write with an optional mask.
+       If no enable is specified, it's automatically inferred from the conditional scope where this function is called
      - 
-   * - mem.readAsync(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;address\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[readUnderWrite]\ :raw-html-m2r:`<br>`\ )
+   * - | mem.readAsync(
+       |  address
+       |  [readUnderWrite]
+       | )
      - Asynchronous read with an optional read under write policy
      - T
-   * - mem.readSync(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;address\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[enable]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[readUnderWrite]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[clockCrossing]\ :raw-html-m2r:`<br>`\ )
+   * - | mem.readSync(
+       |  address
+       |  [enable]
+       |  [readUnderWrite]
+       |  [clockCrossing]
+       | )
      - Synchronous read with an optional enable, read under write policy and clockCrossing mode
      - T
-   * - mem.readWriteSync(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;address\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;data\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;enable\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;write\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[mask]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[readUnderWrite]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[clockCrossing]\ :raw-html-m2r:`<br>`\ )
-     - Infer a read/write port.\ :raw-html-m2r:`<br>` ``data`` is written when ``enable && write``.\ :raw-html-m2r:`<br>` Return the read data, the read occur when ``enable``
+   * - | mem.readWriteSync(
+       |  address
+       |  data
+       |  enable
+       |  write
+       |  [mask]
+       |  [readUnderWrite]
+       |  [clockCrossing]
+       | )
+     - | Infer a read/write port.
+       | ``data`` is written when ``enable && write``.
+       | Return the read data, the read occur when ``enable``
      - T
 
 
@@ -109,13 +133,35 @@ You can specify ports that interface the memory with a data width of a power of 
 
    * - Syntax
      - Description
-   * - mem.writeMixedWidth(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;address\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;data\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[readUnderWrite]\ :raw-html-m2r:`<br>`\ )
+   * - | mem.writeMixedWidth(
+       |  address
+       |  data
+       |  [readUnderWrite]
+       | )
      - Similar to mem.write
-   * - mem.readAsyncMixedWidth(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;address\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;data\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[readUnderWrite]\ :raw-html-m2r:`<br>`\ )
+   * - | mem.readAsyncMixedWidth(
+       |  address
+       |  data
+       |  [readUnderWrite]
+       | )
      - Similar to mem.readAsync, but in place to return the read value, it drive the data structure given as argument
-   * - mem.readSyncMixedWidth(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;address\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;data\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[enable]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[readUnderWrite]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[clockCrossing]\ :raw-html-m2r:`<br>`\ )
+   * - | mem.readSyncMixedWidth(
+       |  address
+       |  data
+       |  [enable]
+       |  [readUnderWrite]
+       |  [clockCrossing]
+       | )
      - Similar to mem.readSync, but in place to return the read value, it drive the data structure given as argument
-   * - mem.readWriteSyncMixedWidth(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;address\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;data\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;enable\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;write\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[mask]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[readUnderWrite]\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;[clockCrossing]\ :raw-html-m2r:`<br>`\ )
+   * - | mem.readWriteSyncMixedWidth(
+       |  address
+       |  data
+       |  enable
+       |  write
+       |  [mask]
+       |  [readUnderWrite]
+       |  [clockCrossing]
+       | )
      - Equivalent to mem.readWriteSync
 
 
@@ -150,13 +196,16 @@ There is multiple policy that you can use to select which memory you want to bla
    * - Kinds
      - Description
    * - blackboxAll
-     - Blackbox all memory.\ :raw-html-m2r:`<br>` Throw an error on unblackboxable memory
+     - | Blackbox all memory.
+       | Throw an error on unblackboxable memory
    * - blackboxAllWhatsYouCan
      - Blackbox all memory which are blackboxable
    * - blackboxRequestedAndUninferable
-     - Blackbox memory specified by the user and memory which are known to be uninferable (mixed width, ...). :raw-html-m2r:`<br>` Throw an error on unblackboxable memory
+     - | Blackbox memory specified by the user and memory which are known to be uninferable (mixed width, ...).
+       | Throw an error on unblackboxable memory
    * - blackboxOnlyIfRequested
-     - Blackbox memory specified by the user\ :raw-html-m2r:`<br>` Throw an error on unblackboxable memory
+     - | Blackbox memory specified by the user
+       | Throw an error on unblackboxable memory
 
 
 To explicitly set a memory to be blackboxed, you can its ``generateAsBlackBox`` function.

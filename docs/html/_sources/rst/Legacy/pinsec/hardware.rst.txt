@@ -8,7 +8,10 @@ Introduction
 ------------
 
 There is the Pinsec toplevel hardware diagram :
-:raw-html-m2r:`<img src="http://cdn.rawgit.com/SpinalHDL/SpinalDoc/dd17971aa549ccb99168afd55aad274bbdff1e88/asset/picture/pinsec_hardware.svg"   align="middle" width="300">`
+
+.. image:: http://cdn.rawgit.com/SpinalHDL/SpinalDoc/dd17971aa549ccb99168afd55aad274bbdff1e88/asset/picture/pinsec_hardware.svg
+   :align: center
+   :width: 300
 
 RISCV
 -----

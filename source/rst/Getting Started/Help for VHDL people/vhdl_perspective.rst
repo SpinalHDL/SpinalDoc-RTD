@@ -59,7 +59,8 @@ SpinalHDL data types are similar to the VHDL ones:
      - SInt
 
 
-While for defining an 8 bit ``unsigned`` in VHDL you have to give the range of bits ``unsigned(7 downto 0)``\ ,\ :raw-html-m2r:`<br>` in SpinalHDL you simply supply the number of bits ``UInt(8 bits)``.
+| While for defining an 8 bit ``unsigned`` in VHDL you have to give the range of bits ``unsigned(7 downto 0)``, 
+| in SpinalHDL you simply supply the number of bits ``UInt(8 bits)``.
 
 .. list-table::
    :header-rows: 1

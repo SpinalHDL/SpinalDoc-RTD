@@ -12,7 +12,7 @@ The AXI4 is a high bandwidth bus defined by ARM.
 Configuration and instanciation
 -------------------------------
 
-First each time you want to create a AXI4 bus, you will need a configuration object. This configuration object is an ``Axi4Config`` and has following arguments : :raw-html-m2r:`<br>`
+First each time you want to create a AXI4 bus, you will need a configuration object. This configuration object is an ``Axi4Config`` and has following arguments :
 
 Note : useXXX specify if the bus has XXX signal present.
 
@@ -24,16 +24,16 @@ Note : useXXX specify if the bus has XXX signal present.
      - Default
    * - addressWidth
      - Int
-     - -
+     - 
    * - dataWidth
      - Int
-     - -
+     - 
    * - idWidth
      - Int
-     - -
+     - 
    * - userWidth
      - Int
-     - -
+     - 
    * - useId
      - Boolean
      - true
@@ -123,7 +123,10 @@ There is 3 other variation of the Axi4 bus :
    * - Axi4WriteOnly
      - Only AW, W and B channels are present
    * - Axi4Shared
-     - This variation is a library initiative.\ :raw-html-m2r:`<br>` It use 4 channels, W, B ,R and also a new one which is named AWR.\ :raw-html-m2r:`<br>` The AWR channel can be used to transmit AR and AW transactions. To dissociate them, a signal ``write`` is present.\ :raw-html-m2r:`<br>` The advantage of this Axi4Shared variation is to use less area, especialy in the interconnect.
+     - | This variation is a library initiative.
+       | It use 4 channels, W, B ,R and also a new one which is named AWR. 
+       | The AWR channel can be used to transmit AR and AW transactions. To dissociate them, a signal ``write`` is present. 
+       | The advantage of this Axi4Shared variation is to use less area, especialy in the interconnect.
 
 
 Functions and operators
@@ -136,10 +139,10 @@ Functions and operators
      - Return
      - Description
    * - X >> Y
-     - -
+     - 
      - Connect X to Y. Able infer default values as specified in the AXI4 specification, and also to adapt some width in a safe manner.
    * - X << Y
-     - -
+     - 
      - Do the reverse of the >> operator
    * - X.toWriteOnly
      - Axi4WriteOnly

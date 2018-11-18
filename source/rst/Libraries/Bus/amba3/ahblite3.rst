@@ -16,11 +16,11 @@ First each time you want to create a AHB-Lite3 bus, you will need a configuratio
      - Description
    * - addressWidth
      - Int
-     - -
+     - 
      - Width of HADDR (byte granularity)
    * - dataWidth
      - Int
-     - -
+     - 
      - Width of HWDATA and HRDATA
 
 

@@ -41,7 +41,7 @@ This definition takes five parameters:
      - Default
    * - ``clock``
      - Clock signal that defines the domain
-     - -
+     - 
    * - ``reset``
      - Reset signal. If a register which need a reset and his clock domain didn't provide one, an error message happen
      - null
@@ -159,7 +159,7 @@ This definition takes six parameters:
      - Default
    * - ``name``
      - Name of clk and reset signal
-     - -
+     - 
    * - ``config``
      - Specify polarity of signals and the nature of the reset
      - Current config

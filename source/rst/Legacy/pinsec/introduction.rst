@@ -19,7 +19,7 @@ Pinsec is the name of a little FPGA SoC fully written in SpinalHDL. Goals of thi
 * Show advantage of SpinalHDL meta-hardware description capabilities in a concrete project.
 * Provide a fully open source SoC.
 
-:raw-html-m2r:`<br>`
+
 Pinsec has followings hardware features:
 
 

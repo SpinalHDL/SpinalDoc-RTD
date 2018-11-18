@@ -36,7 +36,8 @@ Like in VHDL and Verilog, you can define components that could be used to build 
    }
 
 .. note::
-   val io = new Bundle{ ... } :raw-html-m2r:`<br>` Declaring all in/out in a Bundle named io is probably a good pratice. If you call your bundle io, Spinal will check that all elements are defined as input or output
+   | val io = new Bundle{ ... } :
+   | Declaring all in/out in a Bundle named io is probably a good pratice. If you call your bundle io, Spinal will check that all elements are defined as input or output
 
 Input / output definition
 -------------------------
@@ -56,10 +57,12 @@ Syntax to define in/out is the following :
      - Create an input/output of the corresponding type
      - T
    * - in/out(T)
-     - For all other data types, you should add the brackets around it.\ :raw-html-m2r:`<br>` Sorry this is a Scala limitation.
+     - | For all other data types, you should add the brackets around it.
+       | Sorry this is a Scala limitation.
      - T
    * - master/slave(T)
-     - This syntax is provided by the spinal.lib. T should extends IMasterSlave\ :raw-html-m2r:`<br>` Some documentation is available :ref:`here <interface_eaxample_apb>`
+     - | This syntax is provided by the spinal.lib. T should extends IMasterSlave :
+       | Some documentation is available :ref:`here <interface_eaxample_apb>`
      - T
 
 

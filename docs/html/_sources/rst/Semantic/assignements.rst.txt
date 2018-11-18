@@ -15,9 +15,11 @@ There are multiple assignment operator :
    * - Symbole
      - Description
    * - :=
-     - Standard assignment, equivalent to '<=' in VHDL/Verilog :raw-html-m2r:`<br>` last assignment win, value updated one the next simulation delta cycle
+     - | Standard assignment, equivalent to '<=' in VHDL/Verilog :
+       | last assignment win, value updated one the next simulation delta cycle
    * - \=
-     - Equivalent to := in VHDL and = in Verilog :raw-html-m2r:`<br>` value updated instantly
+     - | Equivalent to := in VHDL and = in Verilog
+       | value updated instantly
    * - <>
      - Automatic connection between 2 signals or two bundles of the same type. Direction is inferred by using signal direction (in/out). (Similar behavioral than ``:=``\ )
 

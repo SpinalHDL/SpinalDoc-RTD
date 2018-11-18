@@ -7,9 +7,9 @@ Registers
 Introduction
 ------------
 
-Creating register is very different than VHDL/Verilog.\ :raw-html-m2r:`<br>`
-In Spinal, you don't have process/always blocks. Registers are explicitly defined at the declaration. :raw-html-m2r:`<br>`
-This difference against traditional event driven HDL has a big impact :
+| Creating register is very different than VHDL/Verilog.
+| In Spinal, you don't have process/always blocks. Registers are explicitly defined at the declaration.
+| This difference against traditional event driven HDL has a big impact :
 
 
 * You can assign registers and wires in the same scope, you don't have to split your code between process/always blocks
@@ -57,11 +57,15 @@ There is some usage examples :
    //Register toto when cond is True
    val reg4 = RegNextWhen(reg3,cond)
 
-The code above will infer the following logic :\ :raw-html-m2r:`<br>`
-:raw-html-m2r:`<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/c7decc7420d1e790aba7c14d8bdc898aa6046869/asset/picture/register.svg"  align="middle" width="300">`
+The code above will infer the following logic :
+
+.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/c7decc7420d1e790aba7c14d8bdc898aa6046869/asset/picture/register.svg
+   :align: center
+   :width: 300
 
 .. note::
-   The reg3 example show how you can assign the value of a RegInit register. But this it's also right to use the same syntax for all others (Reg,RegNext,RegNextWhen).\ :raw-html-m2r:`<br>` As for combinatorial assignments, the rule is 'Last assignment win', but if no assignment is done, the register keep its value.
+   | The reg3 example show how you can assign the value of a RegInit register. But this it's also right to use the same syntax for all others (Reg,RegNext,RegNextWhen).
+   | As for combinatorial assignments, the rule is 'Last assignment win', but if no assignment is done, the register keep its value.
 
 Also, RegNext is an abstraction which is build over the Reg syntax. The two followings sequances of code are strictly equivalents :
 

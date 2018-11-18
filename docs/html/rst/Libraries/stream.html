@@ -330,8 +330,10 @@
 <span id="id1"></span><h1>Stream<a class="headerlink" href="#stream" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="specification">
 <h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
-<p>The Stream interface is a simple handshake protocol to carry payload.<span class="raw-html-m2r"><br></span>
-It could be used for example to push and pop elements into a FIFO, send requests to a UART controller, etc.</p>
+<div class="line-block">
+<div class="line">The Stream interface is a simple handshake protocol to carry payload.</div>
+<div class="line">It could be used for example to push and pop elements into a FIFO, send requests to a UART controller, etc.</div>
+</div>
 <table border="1" class="docutils">
 <colgroup>
 <col width="20%" />
@@ -353,10 +355,7 @@ It could be used for example to push and pop elements into a FIFO, send requests
 <td>Bool</td>
 <td>Master</td>
 <td>When high =&gt; payload present on the interface</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>ready</td>
 <td>Bool</td>
@@ -394,11 +393,11 @@ It could be used for example to push and pop elements into a FIFO, send requests
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Each slave can or can’t allow the payload to change when valid is high and ready is low. For examples:<span class="raw-html-m2r"><br></span></p>
+<p class="last">Each slave can or can’t allow the payload to change when valid is high and ready is low. For examples:</p>
 </div>
 <ul class="simple">
-<li>An priority arbiter without lock logic can switch from one input to the other (which will change the payload).<span class="raw-html-m2r"><br></span></li>
-<li>An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission. <span class="raw-html-m2r"><br></span>
+<li>An priority arbiter without lock logic can switch from one input to the other (which will change the payload).</li>
+<li>An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission.
 Be careful with that.</li>
 </ul>
 </div>
@@ -422,89 +421,129 @@ Be careful with that.</li>
 <tr class="row-even"><td>Stream(type : Data)</td>
 <td>Create a Stream of a given type</td>
 <td>Stream[T]</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>master/slave Stream(type : Data)</td>
-<td>Create a Stream of a given type <span class="raw-html-m2r"><br></span> Initialized with corresponding in/out setup</td>
-<td>Stream[T]</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
+<td><div class="first last line-block">
+<div class="line">Create a Stream of a given type</div>
+<div class="line">Initialized with corresponding in/out setup</div>
+</div>
 </td>
+<td>Stream[T]</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>x.fire</td>
 <td>Return True when a transaction is consumed on the bus (valid &amp;&amp; ready)</td>
 <td>Bool</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>x.isStall</td>
 <td>Return True when a transaction is stall on the bus (valid &amp;&amp; ! ready)</td>
 <td>Bool</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>x.queue(size:Int)</td>
 <td>Return a Stream connected to x through a FIFO</td>
 <td>Stream[T]</td>
 <td>2</td>
 </tr>
-<tr class="row-odd"><td>x.m2sPipe()<span class="raw-html-m2r"><br></span> x.stage()</td>
-<td>Return a Stream drived by x <span class="raw-html-m2r"><br></span>through a register stage that cut valid/payload paths <span class="raw-html-m2r"><br></span> Cost = (payload width + 1) flop flop</td>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">x.m2sPipe()</div>
+<div class="line">x.stage()</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Return a Stream drived by x</div>
+<div class="line">through a register stage that cut valid/payload paths</div>
+<div class="line">Cost = (payload width + 1) flop flop</div>
+</div>
+</td>
 <td>Stream[T]</td>
 <td>1</td>
 </tr>
 <tr class="row-even"><td>x.s2mPipe()</td>
-<td>Return a Stream drived by x <span class="raw-html-m2r"><br></span> ready paths is cut by a register stage <span class="raw-html-m2r"><br></span> Cost = payload width * (mux2 + 1 flip flop)</td>
+<td><div class="first last line-block">
+<div class="line">Return a Stream drived by x</div>
+<div class="line">ready paths is cut by a register stage</div>
+<div class="line">Cost = payload width * (mux2 + 1 flip flop)</div>
+</div>
+</td>
 <td>Stream[T]</td>
 <td>0</td>
 </tr>
 <tr class="row-odd"><td>x.halfPipe()</td>
-<td>Return a Stream drived by x <span class="raw-html-m2r"><br></span> valid/ready/payload paths are cut by some register <span class="raw-html-m2r"><br></span> Cost = (payload width + 2) flip flop, bandwidth divided by two</td>
+<td><div class="first last line-block">
+<div class="line">Return a Stream drived by x</div>
+<div class="line">valid/ready/payload paths are cut by some register</div>
+<div class="line">Cost = (payload width + 2) flip flop, bandwidth divided by two</div>
+</div>
+</td>
 <td>Stream[T]</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td>x &lt;&lt; y <span class="raw-html-m2r"><br></span> y &gt;&gt; x</td>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">x &lt;&lt; y</div>
+<div class="line">y &gt;&gt; x</div>
+</div>
+</td>
 <td>Connect y to x</td>
 <td>&#160;</td>
 <td>0</td>
 </tr>
-<tr class="row-odd"><td>x &lt;-&lt; y <span class="raw-html-m2r"><br></span> y &gt;-&gt; x</td>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">x &lt;-&lt; y</div>
+<div class="line">y &gt;-&gt; x</div>
+</div>
+</td>
 <td>Connect y to x through a m2sPipe</td>
 <td>&#160;</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td>x &lt;&amp;#47;&lt; y <span class="raw-html-m2r"><br></span> y &gt;&amp;#47;&gt; x</td>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">x &lt;&amp;#47;&lt; y</div>
+<div class="line">y &gt;&amp;#47;&gt; x</div>
+</div>
+</td>
 <td>Connect y to x through a s2mPipe</td>
 <td>&#160;</td>
 <td>0</td>
 </tr>
-<tr class="row-odd"><td>x &lt;-/&lt; y <span class="raw-html-m2r"><br></span> y &gt;&amp;#47;-&gt; x</td>
-<td>Connect y to x through s2mPipe().m2sPipe() <span class="raw-html-m2r"><br></span> Which imply no combinatorial path between x and y</td>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">x &lt;-/&lt; y</div>
+<div class="line">y &gt;&amp;#47;-&gt; x</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Connect y to x through s2mPipe().m2sPipe()</div>
+<div class="line">Which imply no combinatorial path between x and y</div>
+</div>
+</td>
 <td>&#160;</td>
 <td>1</td>
 </tr>
 <tr class="row-even"><td>x.haltWhen(cond : Bool)</td>
-<td>Return a Stream connected to x <span class="raw-html-m2r"><br></span> Halted when cond is true</td>
+<td><div class="first last line-block">
+<div class="line">Return a Stream connected to x</div>
+<div class="line">Halted when cond is true</div>
+</div>
+</td>
 <td>Stream[T]</td>
 <td>0</td>
 </tr>
 <tr class="row-odd"><td>x.throwWhen(cond : Bool)</td>
-<td>Return a Stream connected to x <span class="raw-html-m2r"><br></span> When cond is true, transaction are dropped</td>
+<td><div class="first last line-block">
+<div class="line">Return a Stream connected to x</div>
+<div class="line">When cond is true, transaction are dropped</div>
+</div>
+</td>
 <td>Stream[T]</td>
 <td>0</td>
 </tr>
 </tbody>
 </table>
-<p>The following code will create this logic :
-<span class="raw-html-m2r"><img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg"   align="middle" width="300"></span></p>
+<p>The following code will create this logic :</p>
+<a class="reference internal image-reference" href="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg"><div align="center" class="align-center"><img alt="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg" src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg" width="300" /></div>
+</a>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">RGB</span><span class="o">(</span><span class="n">channelWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">red</span>   <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">channelWidth</span> <span class="n">bit</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">green</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">channelWidth</span> <span class="n">bit</span><span class="o">)</span>
@@ -672,8 +711,10 @@ Be careful with that.</li>
 </div>
 <div class="section" id="streamccbytoggle">
 <h3>StreamCCByToggle<a class="headerlink" href="#streamccbytoggle" title="Permalink to this headline">¶</a></h3>
-<p>Component that provide a Stream cross clock domain bridge based on toggling signals.<span class="raw-html-m2r"><br></span>
-This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.</p>
+<div class="line-block">
+<div class="line">Component that provide a Stream cross clock domain bridge based on toggling signals.</div>
+<div class="line">This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.</div>
+</div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">clockA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
 <span class="k">val</span> <span class="n">clockB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
 <span class="k">val</span> <span class="n">streamA</span><span class="o">,</span><span class="n">streamB</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
@@ -777,7 +818,11 @@ This way of doing cross clock domain bridge is characterized by a small area usa
 <td>Fair round robin arbitration</td>
 </tr>
 <tr class="row-even"><td>sequentialOrder</td>
-<td>Could be used to retrieve transaction in a sequancial order <span class="raw-html-m2r"><br></span> First transaction should come from port zero, then from port one, …</td>
+<td><div class="first last line-block">
+<div class="line">Could be used to retrieve transaction in a sequancial order</div>
+<div class="line">First transaction should come from port zero, then from port one, …</div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -799,7 +844,11 @@ This way of doing cross clock domain bridge is characterized by a small area usa
 <td>The port selection is locked until the transaction on the selected port is consumed.</td>
 </tr>
 <tr class="row-even"><td>fragmentLock</td>
-<td>Could be used to arbitrate Stream[Flow[T]].<span class="raw-html-m2r"><br></span> In this mode, the port selection is locked until the selected port finish is burst (last=True).</td>
+<td><div class="first last line-block">
+<div class="line">Could be used to arbitrate Stream[Flow[T]].</div>
+<div class="line">In this mode, the port selection is locked until the selected port finish is burst (last=True).</div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -893,7 +942,6 @@ This way of doing cross clock domain bridge is characterized by a small area usa
         <script type="text/javascript" src="../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

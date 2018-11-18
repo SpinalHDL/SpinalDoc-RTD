@@ -383,7 +383,11 @@
 <td>Bool / Bits</td>
 <td>R</td>
 <td>12</td>
-<td>Bits 7 downto 0 =&gt; rx payload <span class="raw-html-m2r"><br></span> Bit 31 =&gt; rx payload valid</td>
+<td><div class="first last line-block">
+<div class="line">Bits 7 downto 0 =&gt; rx payload</div>
+<div class="line">Bit 31 =&gt; rx payload valid</div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -401,7 +405,8 @@
 </pre></div>
 </div>
 <p>Then we can define a <code class="docutils literal notranslate"><span class="pre">Apb3UartCtrl</span></code> component which instantiates a <code class="docutils literal notranslate"><span class="pre">UartCtrl</span></code> and creates the memory mapping logic between it and the APB3 bus:</p>
-<p><span class="raw-html-m2r"><img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/b488520ea0ea5352c59c6e7269ca1d8d92207821/asset/picture/memory_mapped_uart.svg"  align="middle" width="300"></span></p>
+<a class="reference internal image-reference" href="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/b488520ea0ea5352c59c6e7269ca1d8d92207821/asset/picture/memory_mapped_uart.svg"><div align="center" class="align-center"><img alt="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/b488520ea0ea5352c59c6e7269ca1d8d92207821/asset/picture/memory_mapped_uart.svg" src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/b488520ea0ea5352c59c6e7269ca1d8d92207821/asset/picture/memory_mapped_uart.svg" width="300" /></div>
+</a>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Apb3UartCtrl</span><span class="o">(</span><span class="n">uartCtrlConfig</span> <span class="k">:</span> <span class="kt">UartCtrlGenerics</span><span class="o">,</span> <span class="n">rxFifoDepth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
     <span class="k">val</span> <span class="n">bus</span> <span class="k">=</span>  <span class="n">slave</span><span class="o">(</span><span class="nc">Apb3</span><span class="o">(</span><span class="nc">Apb3UartCtrl</span><span class="o">.</span><span class="n">getApb3Config</span><span class="o">))</span>
@@ -440,7 +445,10 @@
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Yes, that’s all it takes. It’s also synthesizable.<span class="raw-html-m2r"><br></span><span class="raw-html-m2r"><br></span> The Apb3SlaveFactory tool is not something hard-coded into the SpinalHDL compiler. It’s something implemented with SpinalHDL regular hardware description syntax.</p>
+<div class="last line-block">
+<div class="line">Yes, that’s all it takes. It’s also synthesizable.</div>
+<div class="line">The Apb3SlaveFactory tool is not something hard-coded into the SpinalHDL compiler. It’s something implemented with SpinalHDL regular hardware description syntax.</div>
+</div>
 </div>
 </div>
 </div>
@@ -490,7 +498,6 @@
         <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

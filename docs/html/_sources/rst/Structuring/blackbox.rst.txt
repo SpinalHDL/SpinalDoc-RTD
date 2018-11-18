@@ -48,8 +48,8 @@ Defining an blackbox
      mapClockDomain(clock=io.clk)
    }
 
-In VHDL, Bool type will be translated into std_logic and Bits into std_logic_vector. If you want to get std_ulogic, you have to use a BlackBoxULogic instead of BlackBox.  :raw-html-m2r:`<br>`
-In Verilog, BlackBoxUlogic has no effect. 
+| In VHDL, Bool type will be translated into std_logic and Bits into std_logic_vector. If you want to get std_ulogic, you have to use a BlackBoxULogic instead of BlackBox.
+| In Verilog, BlackBoxUlogic has no effect. 
 
 .. code-block:: scala
 

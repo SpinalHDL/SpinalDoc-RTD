@@ -128,10 +128,10 @@ SpinalHDL HDL has a dedicated syntax to defne frequencies and times value :
    val periodCycles = frequency*period
    val timeoutCycles = frequency*timeoutLimit
 
-For time definition you can use following postfixes to get an ``TimeNumber``\ :\ :raw-html-m2r:`<br>`
-fs, ps, ns, us, ms, sec, mn, hr
+| For time definition you can use following postfixes to get an ``TimeNumber`` :
+| fs, ps, ns, us, ms, sec, mn, hr
 
-For time definition you can use following postfixes to get an ``HertzNumber`` :\ :raw-html-m2r:`<br>`
-Hz, KHz, MHz, GHz, THz
+| For time definition you can use following postfixes to get an ``HertzNumber`` :
+| Hz, KHz, MHz, GHz, THz
 
 ``TimeNumber`` and ``HertzNumber`` are based on the ``PhysicalNumber`` class which use  scala ``BigDecimal`` to store numbers.

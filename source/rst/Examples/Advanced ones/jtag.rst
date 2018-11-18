@@ -13,7 +13,8 @@ Introduction
    The goal of this page is to show the implementation of a JTAG TAP (a slave) by a non-conventional way.
 
 .. warning::
-   This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description. :raw-html-m2r:`<br>`\ Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator
+   | This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description.
+   | Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator
 
 .. warning::
    This page will not explains how JTAG work. A good tutorial could be find `there <http://www.fpga4fun.com/JTAG.html>`_.
@@ -214,7 +215,8 @@ Let's define a useful base class for JTAG instruction that provide some callback
    }
 
 .. note::
-   About the Component.current.addPrePopTask(...) : :raw-html-m2r:`<br>` This  allow you to call the given code at the end of the current component construction. Because of object oriented nature of JtagInstruction, doCapture, doShift, doUpdate and doReset should not be called before children classes construction (because children classes will use it as a callback to do some logic)
+   | About the Component.current.addPrePopTask(...) : 
+   | This  allow you to call the given code at the end of the current component construction. Because of object oriented nature of JtagInstruction, doCapture, doShift, doUpdate and doReset should not be called before children classes construction (because children classes will use it as a callback to do some logic)
 
 Read instruction
 ^^^^^^^^^^^^^^^^

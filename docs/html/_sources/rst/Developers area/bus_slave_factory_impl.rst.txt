@@ -14,8 +14,11 @@ This page will document the implementation of the BusSlaveFactory tool and one o
 Specification
 -------------
 
-The class diagram is the following :\ :raw-html-m2r:`<br>`
-:raw-html-m2r:`<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/d0af059a9b5a00e53acbe50a2e7d1e28ccfdfd9c/asset/picture/bus_slave_factory_classes.svg"  align="middle" width="300">`
+The class diagram is the following :
+
+.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/d0af059a9b5a00e53acbe50a2e7d1e28ccfdfd9c/asset/picture/bus_slave_factory_classes.svg
+   :align: center
+   :width: 300
 
 The ``BusSlaveFactory`` abstract class define minimum requirements that each implementation of it should provide :
 
@@ -47,14 +50,16 @@ By using them the ``BusSlaveFactory`` should also be able to provide many utilit
      - Return
      - Description
    * - readAndWrite(that,address,bitOffset)
-     - -
+     - 
      - Make ``that`` readable and writable at ``address`` and placed at ``bitOffset`` in the word
    * - readMultiWord(that,address)
-     - -
-     - Create the memory mapping to read ``that`` from 'address'.\ :raw-html-m2r:`<br>` If ``that`` is bigger than one word it extends the register on followings addresses
+     - 
+     - | Create the memory mapping to read ``that`` from 'address'. :
+       | If ``that`` is bigger than one word it extends the register on followings addresses
    * - writeMultiWord(that,address)
-     - -
-     - Create the memory mapping to write ``that`` at 'address'.\ :raw-html-m2r:`<br>` If ``that`` is bigger than one word it extends the register on followings addresses
+     - 
+     - | Create the memory mapping to write ``that`` at 'address'. :
+       | If ``that`` is bigger than one word it extends the register on followings addresses
    * - createWriteOnly(dataType,address,bitOffset)
      - T
      - Create a write only register of type ``dataType`` at ``address`` and placed at ``bitOffset`` in the word
@@ -65,23 +70,29 @@ By using them the ``BusSlaveFactory`` should also be able to provide many utilit
      - Flow[T]
      - Create a writable Flow register of type ``dataType`` at ``address`` and placed at ``bitOffset`` in the word
    * - drive(that,address,bitOffset)
-     - -
+     - 
      - Drive ``that`` with a register writable at ``address`` placed at ``bitOffset`` in the word
    * - driveAndRead(that,address,bitOffset)
-     - -
+     - 
      - Drive ``that`` with a register writable and readable at ``address`` placed at ``bitOffset`` in the word
    * - driveFlow(that,address,bitOffset)
-     - -
+     - 
      - Emit on ``that`` a transaction when a write happen at ``address`` by using data placed at ``bitOffset`` in the word
-   * - readStreamNonBlocking(that,address,\ :raw-html-m2r:`<br>`\ validBitOffset,payloadBitOffset)
-     - -
-     - Read ``that`` and consume the transaction when a read happen at ``address``. :raw-html-m2r:`<br>` valid  &nbsp;  &nbsp; <= validBitOffset bit :raw-html-m2r:`<br>` payload <= payloadBitOffset+widthOf(payload) downto ``payloadBitOffset``
-   * - doBitsAccumulationAndClearOnRead\ :raw-html-m2r:`<br>` (that,address,bitOffset)
-     - -
-     - Instanciate an internal register which at each cycle do :\ :raw-html-m2r:`<br>` reg := reg | that :raw-html-m2r:`<br>` Then when a read occur, the register is cleared. This register is readable at ``address`` and placed at ``bitOffset`` in the word
+   * - | readStreamNonBlocking(that,address,
+       | validBitOffset,payloadBitOffset)
+     - 
+     - | Read ``that`` and consume the transaction when a read happen at ``address``. 
+       | valid <= validBitOffset bit 
+       | payload <= payloadBitOffset+widthOf(payload) downto ``payloadBitOffset``
+   * - | doBitsAccumulationAndClearOnRead
+       | (that,address,bitOffset)
+     - 
+     - | I nstanciate an internal register which at each cycle do :
+       | reg := reg | that
+       | Then when a read occur, the register is cleared. This register is readable at ``address`` and placed at ``bitOffset`` in the word
 
 
-About ``BusSlaveFactoryDelayed``\ , it's still an abstract class, but it capture each primitives (BusSlaveFactoryElement) calls into a data-model. This datamodel is one list that contain all primitives, but also a HashMap that link each address used to a list of primitives that are using it. Then when they all are collected (at the end of the current component), it do a callback that should be implemented by classes that extends it. The implementation of this callback should implement the hardware corresponding to all primitives collected.
+About ``BusSlaveFactoryDelayed``, it's still an abstract class, but it capture each primitives (BusSlaveFactoryElement) calls into a data-model. This datamodel is one list that contain all primitives, but also a HashMap that link each address used to a list of primitives that are using it. Then when they all are collected (at the end of the current component), it do a callback that should be implemented by classes that extends it. The implementation of this callback should implement the hardware corresponding to all primitives collected.
 
 Implementation
 --------------
@@ -334,7 +345,7 @@ First let's implement the companion object that provide the compatible AvalonMM 
      - Byte granularity but word aligned
    * - writeData
      - Bits(dataWidth bits)
-     - -
+     - 
    * - readDataValid
      - Bool
      - High to respond a read command

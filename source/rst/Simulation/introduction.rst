@@ -12,9 +12,9 @@ As always you can use your standard simulation tools to simulate the VHDL/Verilo
 How SpinalHDL simulate the hardware
 -----------------------------------
 
-Behind the scene SpinalHDL is generating a C++ cycle accurate model of your hardware by generating the equivalent Verilog and asking Verilator to convert it into a C++ model. :raw-html-m2r:`<br>`
-Then SpinalHDL ask GCC to compile the C++ model into an shared object (.so) and bind it back to Scala via JNR-FFI. :raw-html-m2r:`<br>`
-Finaly, as the native Verilator API is rude, SpinalHDL abstract it by providing an simulation multi-threaded API to help the user in his testbench implementation.
+| Behind the scene SpinalHDL is generating a C++ cycle accurate model of your hardware by generating the equivalent Verilog and asking Verilator to convert it into a C++ model.
+| Then SpinalHDL ask GCC to compile the C++ model into an shared object (.so) and bind it back to Scala via JNR-FFI.
+| Finaly, as the native Verilator API is rude, SpinalHDL abstract it by providing an simulation multi-threaded API to help the user in his testbench implementation.
 
 This method has several advantage :
 

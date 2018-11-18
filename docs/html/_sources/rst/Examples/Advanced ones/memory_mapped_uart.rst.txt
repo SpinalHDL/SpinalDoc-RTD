@@ -50,7 +50,8 @@ Here is the register mapping table:
      - Bool / Bits
      - R
      - 12
-     - Bits 7 downto 0 => rx payload :raw-html-m2r:`<br>` Bit 31 => rx payload valid
+     - | Bits 7 downto 0 => rx payload 
+       | Bit 31 => rx payload valid
 
 
 Implementation
@@ -71,7 +72,9 @@ First, we just need to define the ``Apb3Config`` that will be used for the contr
 
 Then we can define a ``Apb3UartCtrl`` component which instantiates a ``UartCtrl`` and creates the memory mapping logic between it and the APB3 bus:
 
-:raw-html-m2r:`<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/b488520ea0ea5352c59c6e7269ca1d8d92207821/asset/picture/memory_mapped_uart.svg"  align="middle" width="300">`
+.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/b488520ea0ea5352c59c6e7269ca1d8d92207821/asset/picture/memory_mapped_uart.svg
+   :align: center
+   :width: 300
 
 .. code-block:: scala
 
@@ -111,4 +114,5 @@ Then we can define a ``Apb3UartCtrl`` component which instantiates a ``UartCtrl`
    }
 
 .. warning::
-   Yes, that's all it takes. It's also synthesizable.\ :raw-html-m2r:`<br>`\ :raw-html-m2r:`<br>` The Apb3SlaveFactory tool is not something hard-coded into the SpinalHDL compiler. It's something implemented with SpinalHDL regular hardware description syntax.
+   | Yes, that's all it takes. It's also synthesizable. 
+   | The Apb3SlaveFactory tool is not something hard-coded into the SpinalHDL compiler. It's something implemented with SpinalHDL regular hardware description syntax.

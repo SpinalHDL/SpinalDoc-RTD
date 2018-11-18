@@ -17,7 +17,7 @@ This implementation is characterized by:
 * ClockDivider/Parity/StopBit/DataLength configs are set by the component inputs.
 * RXD input is filtered by using a sampling window of N samples and a majority vote.
 
-:raw-html-m2r:`<br>`
+
 Interfaces of this UartCtrl are:
 
 .. list-table::

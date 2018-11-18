@@ -51,7 +51,8 @@ So let's define the ``Component``\ :
      // Here will come the logic implementation
    }
 
-To play the sine wave on the ``sin`` output, you can define a ROM which contain all samples of a sine period (tt could be just a quarter, but let's do things by the simplest way).\ :raw-html-m2r:`<br>` Then you can read that ROM with an phase counter and this will generate your sine wave.
+| To play the sine wave on the ``sin`` output, you can define a ROM which contain all samples of a sine period (tt could be just a quarter, but let's do things by the simplest way). 
+| Then you can read that ROM with an phase counter and this will generate your sine wave.
 
 .. code-block:: scala
 

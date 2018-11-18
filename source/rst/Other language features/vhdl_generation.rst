@@ -55,10 +55,14 @@ Parametrization from Scala
    * - mode
      - SpinalMode
      - null
-     - Set the SpinalHDL mode.\ :raw-html-m2r:`<br>` Could be set to ``VHDL`` or ``Verilog``
+     - | Set the SpinalHDL mode.
+       | Could be set to ``VHDL`` or ``Verilog``
    * - defaultConfigForClockDomains
      - ClockDomainConfig
-     - RisingEdgeClock :raw-html-m2r:`<br>` AsynchronousReset :raw-html-m2r:`<br>` ResetActiveHigh :raw-html-m2r:`<br>` ClockEnableActiveHigh
+     - | RisingEdgeClock
+       | AsynchronousReset
+       | ResetActiveHigh
+       | ClockEnableActiveHigh
      - Set the clock configuration that will be use as default for all new ``ClockDomain``.
    * - onlyStdLogicVectorAtTopLevelIo
      - Boolean
@@ -275,7 +279,8 @@ VHDL :
 VHDL and Verilog attributes
 ---------------------------
 
-In some situation, it's useful to give some attributes to some signals of a given design to obtain a specific synthesis result. :raw-html-m2r:`<br>`  To do that, on any signals or memory of your design you can call the following functions :
+| In some situation, it's useful to give some attributes to some signals of a given design to obtain a specific synthesis result.
+| To do that, on any signals or memory of your design you can call the following functions :
 
 .. list-table::
    :header-rows: 1

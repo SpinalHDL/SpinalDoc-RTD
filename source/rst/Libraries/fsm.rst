@@ -13,7 +13,9 @@ In SpinalHDL you can define your state machine like in VHDL/Verilog, by using en
 
 The following state machine is implemented in following examples :
 
-:raw-html-m2r:`<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/9c3a3cd928361f2cc93ec90c8727b3903592f970/asset/picture/fsm_simple.svg"  align="middle" width="100">`
+.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/9c3a3cd928361f2cc93ec90c8727b3903592f970/asset/picture/fsm_simple.svg
+   :align: center
+   :width: 300
 
 Style A :
 
@@ -131,13 +133,21 @@ In each of them you have access the following utilities :
 
    * - Name
      - Description
-   * - onEntry{\ :raw-html-m2r:`<br>` &nbsp;&nbsp;yourStatements\ :raw-html-m2r:`<br>`\ }
+   * - | onEntry{
+       |  yourStatements
+       | }
      - yourStatements is executed the cycle before entering the state
-   * - onExit{\ :raw-html-m2r:`<br>` &nbsp;&nbsp;yourStatements\ :raw-html-m2r:`<br>`\ }
+   * - | onExit{
+       |  yourStatements
+       | }
      - yourStatements is executed when the state machine will be in another state the next cycle
-   * - whenIsActive{\ :raw-html-m2r:`<br>` &nbsp;&nbsp;yourStatements\ :raw-html-m2r:`<br>`\ }
+   * - | whenIsActive{
+       |  yourStatements
+       | }
      - yourStatements is executed when the state machine is in the state
-   * - whenIsNext{\ :raw-html-m2r:`<br>` &nbsp;&nbsp;yourStatements\ :raw-html-m2r:`<br>`\ }
+   * - | whenIsNext{
+       |  yourStatements
+       | }
      - yourStatements is executed when the state machine will be in the state the next cycle
    * - goto(nextState)
      - Set the state of the state machine by nextState
@@ -147,7 +157,9 @@ In each of them you have access the following utilities :
 
 For example, the following state could be defined in SpinalHDL by using the following syntax :
 
-:raw-html-m2r:`<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/078d8598cd84600cf83dab86a45a7c5c986706e1/asset/picture/fsm_stateb.svg"  align="middle" width="100">`
+.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/078d8598cd84600cf83dab86a45a7c5c986706e1/asset/picture/fsm_stateb.svg
+   :align: center
+   :width: 300
 
 .. code-block:: scala
 

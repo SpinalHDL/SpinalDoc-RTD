@@ -152,7 +152,8 @@ The register mapping assumes that the bus system is 32 bits wide:
      - width
      - 4
      - 0
-     - Access the limit value of the timer component.\ :raw-html-m2r:`<br>` When this register is written to, the timer is cleared.
+     - | Access the limit value of the timer component. 
+       | When this register is written to, the timer is cleared.
    * - value
      - R
      - width
@@ -161,9 +162,9 @@ The register mapping assumes that the bus system is 32 bits wide:
      - Access the value of the timer.
    * - clear
      - W
-     - -
+     - 
      - 8
-     - -
+     - 
      - When this register is written to, it clears the timer.
 
 

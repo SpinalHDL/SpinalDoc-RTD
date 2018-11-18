@@ -23,7 +23,7 @@ The syntax to declare a boolean value is as follows: (everything between [] are 
      - Description
      - Return
    * - Bool[()]
-     - Create a              Bool
+     - Create a Bool
      - Bool
    * - True
      - Create a Bool assigned with ``true``
@@ -62,10 +62,12 @@ Logic
    * - !x
      - Logical NOT
      - Bool
-   * - x && y :raw-html-m2r:`<br>` x & y
+   * - | x && y
+       | x & y
      - Logical AND
      - Bool
-   * - x || y :raw-html-m2r:`<br>` x | y
+   * - | x || y
+       | x | y
      - Logical OR
      - Bool
    * - x ^ y
@@ -73,10 +75,10 @@ Logic
      - Bool
    * - x.set[()]
      - Set x to True
-     - -
+     - 
    * - x.clear[()]
      - Set x to False
-     - -
+     - 
    * - x.setWhen(cond)
      - Set x when cond is True
      - Bool

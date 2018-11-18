@@ -14,7 +14,9 @@ The ways you can use Scala functions to generate hardware are radically differen
 
 * You can instantiate register, combinatorial logic and component inside them.
 * You don't have to play with ``process``\ /\ ``@always`` that limit the scope of assignment of signals
-* Everything work by reference, which allow many manipulation.\ :raw-html-m2r:`<br>` For example you can give to a function an bus as argument, then the function can internaly read/write it.\ :raw-html-m2r:`<br>`\ You can also return a Component, a Bus, are anything else from scala the scala world.
+* | Everything work by reference, which allow many manipulation.
+  | For example you can give to a function an bus as argument, then the function can internaly read/write it.
+  | You can also return a Component, a Bus, are anything else from scala the scala world.
 
 RGB to gray
 -----------

@@ -12,9 +12,9 @@ The overhead is null, SpinalHDL is not an HLS approach. Its goal is not to trans
 What if SpinalHDL becomes unsupported in the future?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This question has two sides. :raw-html-m2r:`<br>`
-First: SpinalHDL generates VHDL/Verilog files, which means that SpinalHDL will be supported by all EDA tools for many decades.\ :raw-html-m2r:`<br>`
-Second: If there is a bug in SpinalHDL and there is no longer support to fix it, it's not a deadly situation, because the SpinalHDL compiler is fully open source. Maybe you will be able to fix the issue in few hours. Remember how much time it takes to EDA companies to fix issues or to add new features in their closed tools.
+| This question has two sides.
+| First: SpinalHDL generates VHDL/Verilog files, which means that SpinalHDL will be supported by all EDA tools for many decades.
+| Second: If there is a bug in SpinalHDL and there is no longer support to fix it, it's not a deadly situation, because the SpinalHDL compiler is fully open source. Maybe you will be able to fix the issue in few hours. Remember how much time it takes to EDA companies to fix issues or to add new features in their closed tools.
 
 Does SpinalHDL keep comments in generated VHDL/verilog?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,5 +47,7 @@ For instance, if you wanna try the ``dev`` branch, do the following in a dummy f
    cd SpinalHDL
    sbt clean publish-local
 
-Then in your project, don't forget to update the SpinalHDL version specified in the build.sbt file, see\ :raw-html-m2r:`<br>` `https://github.com/SpinalHDL/SpinalTemplateSbt/blob/master/build.sbt#L10 <https://github.com/SpinalHDL/SpinalTemplateSbt/blob/master/build.sbt#L10>`_.\ :raw-html-m2r:`<br>`
-To know which version you have to set, look in\ :raw-html-m2r:`<br>` `https://github.com/SpinalHDL/SpinalHDL/blob/dev/project/Version.scala#L7 <https://github.com/SpinalHDL/SpinalHDL/blob/dev/project/Version.scala#L7>`_\ :raw-html-m2r:`<br>`
+| Then in your project, don't forget to update the SpinalHDL version specified in the build.sbt file, see
+| `https://github.com/SpinalHDL/SpinalTemplateSbt/blob/master/build.sbt#L10 <https://github.com/SpinalHDL/SpinalTemplateSbt/blob/master/build.sbt#L10>`_.
+| To know which version you have to set, look in
+| `https://github.com/SpinalHDL/SpinalHDL/blob/dev/project/Version.scala#L7 <https://github.com/SpinalHDL/SpinalHDL/blob/dev/project/Version.scala#L7>`_

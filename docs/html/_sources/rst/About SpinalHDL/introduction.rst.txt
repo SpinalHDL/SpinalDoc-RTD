@@ -60,23 +60,29 @@ Want to try it for yourself? Then jump to the :ref:`getting started section <get
 Links
 -----
 
-SpinalHDL repository:                     :raw-html-m2r:`<br>` `https://github.com/SpinalHDL/SpinalHDL <https://github.com/SpinalHDL/SpinalHDL>`_
+| SpinalHDL repository:
+| `https://github.com/SpinalHDL/SpinalHDL <https://github.com/SpinalHDL/SpinalHDL>`_
 
-A short show case (PDF): :raw-html-m2r:`<br>`
-`http://spinalhdl.github.io/SpinalDoc/motivation/ <http://spinalhdl.github.io/SpinalDoc/motivation/>`_
+| A short show case (PDF):
+| `http://spinalhdl.github.io/SpinalDoc/motivation/ <http://spinalhdl.github.io/SpinalDoc/motivation/>`_
 
-Presentation of the language (PDF):   :raw-html-m2r:`<br>` `http://spinalhdl.github.io/SpinalDoc/presentation/ <http://spinalhdl.github.io/SpinalDoc/presentation/>`_
+| Presentation of the language (PDF):
+| `http://spinalhdl.github.io/SpinalDoc/presentation/ <http://spinalhdl.github.io/SpinalDoc/presentation/>`_
 
-SBT base project:               :raw-html-m2r:`<br>` `https://github.com/SpinalHDL/SpinalTemplateSbt <https://github.com/SpinalHDL/SpinalTemplateSbt>`_
+| SBT base project:
+| `https://github.com/SpinalHDL/SpinalTemplateSbt <https://github.com/SpinalHDL/SpinalTemplateSbt>`_
 
-Workshop:                       :raw-html-m2r:`<br>` `https://github.com/SpinalHDL/SpinalWorkshop <https://github.com/SpinalHDL/SpinalWorkshop>`_
+| Workshop:
+| `https://github.com/SpinalHDL/SpinalWorkshop <https://github.com/SpinalHDL/SpinalWorkshop>`_
 
-VexRiscv CPU and SoC: :raw-html-m2r:`<br>`
-`https://github.com/SpinalHDL/VexRiscv <https://github.com/SpinalHDL/VexRiscv>`_
+| VexRiscv CPU and SoC:
+| `https://github.com/SpinalHDL/VexRiscv <https://github.com/SpinalHDL/VexRiscv>`_
 
-StackOverflow (tag: SpinalHDL) :    :raw-html-m2r:`<br>` `StackOverflow <https://stackoverflow.com/>`_
+| StackOverflow (tag: SpinalHDL) :
+| `StackOverflow <https://stackoverflow.com/>`_
 
-Google group:                   :raw-html-m2r:`<br>` `https://groups.google.com/forum/#!forum/spinalhdl-hardware-description-language <https://groups.google.com/forum/#!forum/spinalhdl-hardware-description-language>`_
+| Google group:
+| `https://groups.google.com/forum/#!forum/spinalhdl-hardware-description-language <https://groups.google.com/forum/#!forum/spinalhdl-hardware-description-language>`_
 
 
 .. image:: https://badges.gitter.im/SpinalHDL/SpinalHDL.svg

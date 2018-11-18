@@ -17,7 +17,10 @@ This toplevel implementation could be consulted there :
 `https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala <https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala>`_
 
 There is the Pinsec toplevel hardware diagram :
-:raw-html-m2r:`<img src="http://cdn.rawgit.com/SpinalHDL/SpinalDoc/dd17971aa549ccb99168afd55aad274bbdff1e88/asset/picture/pinsec_hardware.svg"   align="middle" width="300">`
+
+.. image:: http://cdn.rawgit.com/SpinalHDL/SpinalDoc/dd17971aa549ccb99168afd55aad274bbdff1e88/asset/picture/pinsec_hardware.svg
+   :align: center
+   :width: 300
 
 Defining all IO
 ---------------
@@ -442,7 +445,8 @@ Then you need to populate interconnections between slaves and masters :
 Then to reduce combinatorial path length and have a good design FMax, you can ask the factory to insert pipelining stages between itself a given master or slave :
 
 .. note::
-   \ ``halfPipe`` / >> / << / >/->  in the following code are provided by the Stream bus library. :raw-html-m2r:`<br>`\ Some documentation could be find :ref:`there <stream>`. In short, it's just some pipelining and interconnection stuff.
+   | ``halfPipe`` / >> / << / >/->  in the following code are provided by the Stream bus library. 
+   | Some documentation could be find :ref:`there <stream>`. In short, it's just some pipelining and interconnection stuff.
 
 .. code-block:: scala
 

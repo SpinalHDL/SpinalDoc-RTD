@@ -43,7 +43,7 @@ The following enumeration encodings are supported :
      - Bit width
      - Description
    * - native
-     - -
+     - 
      - Use the VHDL enumeration system, this is the default encoding
    * - binarySequancial
      - log2Up(stateCount)

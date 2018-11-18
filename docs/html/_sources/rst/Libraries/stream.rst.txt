@@ -9,8 +9,8 @@ Stream
 Specification
 -------------
 
-The Stream interface is a simple handshake protocol to carry payload.\ :raw-html-m2r:`<br>`
-It could be used for example to push and pop elements into a FIFO, send requests to a UART controller, etc.
+| The Stream interface is a simple handshake protocol to carry payload.
+| It could be used for example to push and pop elements into a FIFO, send requests to a UART controller, etc.
 
 .. list-table::
    :header-rows: 1
@@ -24,7 +24,7 @@ It could be used for example to push and pop elements into a FIFO, send requests
      - Bool
      - Master
      - When high => payload present on the interface
-     - -
+     - 
    * - ready
      - Bool
      - Slave
@@ -61,11 +61,11 @@ There is some examples of usage in SpinalHDL :
    }
 
 .. note::
-   Each slave can or can't allow the payload to change when valid is high and ready is low. For examples:\ :raw-html-m2r:`<br>`
+   Each slave can or can't allow the payload to change when valid is high and ready is low. For examples:
 
 
-* An priority arbiter without lock logic can switch from one input to the other (which will change the payload).\ :raw-html-m2r:`<br>`
-* An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission. :raw-html-m2r:`<br>`
+* An priority arbiter without lock logic can switch from one input to the other (which will change the payload).
+* An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission.
   Be careful with that.
 
 Functions
@@ -81,63 +81,81 @@ Functions
    * - Stream(type : Data)
      - Create a Stream of a given type
      - Stream[T]
-     - -
+     - 
    * - master/slave Stream(type : Data)
-     - Create a Stream of a given type :raw-html-m2r:`<br>` Initialized with corresponding in/out setup
+     - | Create a Stream of a given type
+       | Initialized with corresponding in/out setup
      - Stream[T]
-     - -
+     - 
    * - x.fire
      - Return True when a transaction is consumed on the bus (valid && ready)
      - Bool
-     - -
+     - 
    * - x.isStall
      - Return True when a transaction is stall on the bus (valid && ! ready)
      - Bool
-     - -
+     - 
    * - x.queue(size:Int)
      - Return a Stream connected to x through a FIFO
      - Stream[T]
      - 2
-   * - x.m2sPipe()\ :raw-html-m2r:`<br>` x.stage()
-     - Return a Stream drived by x :raw-html-m2r:`<br>`\ through a register stage that cut valid/payload paths :raw-html-m2r:`<br>` Cost = (payload width + 1) flop flop
+   * - | x.m2sPipe()
+       | x.stage()
+     - | Return a Stream drived by x
+       | through a register stage that cut valid/payload paths
+       | Cost = (payload width + 1) flop flop
      - Stream[T]
      - 1
    * - x.s2mPipe()
-     - Return a Stream drived by x :raw-html-m2r:`<br>` ready paths is cut by a register stage :raw-html-m2r:`<br>` Cost = payload width * (mux2 + 1 flip flop)
+     - | Return a Stream drived by x
+       | ready paths is cut by a register stage
+       | Cost = payload width * (mux2 + 1 flip flop)
      - Stream[T]
      - 0
    * - x.halfPipe()
-     - Return a Stream drived by x :raw-html-m2r:`<br>` valid/ready/payload paths are cut by some register :raw-html-m2r:`<br>` Cost = (payload width + 2) flip flop, bandwidth divided by two
+     - | Return a Stream drived by x
+       | valid/ready/payload paths are cut by some register
+       | Cost = (payload width + 2) flip flop, bandwidth divided by two
      - Stream[T]
      - 1
-   * - x << y :raw-html-m2r:`<br>` y >> x
+   * - | x << y
+       | y >> x
      - Connect y to x
      - 
      - 0
-   * - x <-< y :raw-html-m2r:`<br>` y >-> x
+   * - | x <-< y
+       | y >-> x
      - Connect y to x through a m2sPipe
      - 
      - 1
-   * - x <&#47;< y :raw-html-m2r:`<br>` y >&#47;> x
+   * - | x <&#47;< y
+       | y >&#47;> x
      - Connect y to x through a s2mPipe
      - 
      - 0
-   * - x <-/< y :raw-html-m2r:`<br>` y >&#47;-> x
-     - Connect y to x through s2mPipe().m2sPipe() :raw-html-m2r:`<br>` Which imply no combinatorial path between x and y
+   * - | x <-/< y
+       | y >&#47;-> x
+     - | Connect y to x through s2mPipe().m2sPipe()
+       | Which imply no combinatorial path between x and y
      - 
      - 1
    * - x.haltWhen(cond : Bool)
-     - Return a Stream connected to x :raw-html-m2r:`<br>` Halted when cond is true
+     - | Return a Stream connected to x
+       | Halted when cond is true
      - Stream[T]
      - 0
    * - x.throwWhen(cond : Bool)
-     - Return a Stream connected to x :raw-html-m2r:`<br>` When cond is true, transaction are dropped
+     - | Return a Stream connected to x
+       | When cond is true, transaction are dropped
      - Stream[T]
      - 0
 
 
 The following code will create this logic :
-:raw-html-m2r:`<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg"   align="middle" width="300">`
+
+.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg
+   :align: center
+   :width: 300
 
 .. code-block:: scala
 
@@ -271,8 +289,8 @@ You can instanciate the dual clock domain version of the fifo by the following w
 StreamCCByToggle
 ^^^^^^^^^^^^^^^^
 
-Component that provide a Stream cross clock domain bridge based on toggling signals.\ :raw-html-m2r:`<br>`
-This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.
+| Component that provide a Stream cross clock domain bridge based on toggling signals.
+| This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.
 
 .. code-block:: scala
 
@@ -355,7 +373,8 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
    * - roundRobin
      - Fair round robin arbitration
    * - sequentialOrder
-     - Could be used to retrieve transaction in a sequancial order :raw-html-m2r:`<br>` First transaction should come from port zero, then from port one, ...
+     - | Could be used to retrieve transaction in a sequancial order
+       | First transaction should come from port zero, then from port one, ...
 
 
 .. list-table::
@@ -368,7 +387,8 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
    * - transactionLock
      - The port selection is locked until the transaction on the selected port is consumed.
    * - fragmentLock
-     - Could be used to arbitrate Stream[Flow[T]].\ :raw-html-m2r:`<br>` In this mode, the port selection is locked until the selected port finish is burst (last=True).
+     - | Could be used to arbitrate Stream[Flow[T]].
+       | In this mode, the port selection is locked until the selected port finish is burst (last=True).
 
 
 .. list-table::

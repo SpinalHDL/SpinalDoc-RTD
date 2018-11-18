@@ -22,4 +22,5 @@ The spinal.lib package goals are :
 To use features introduced in followings chapter you need, in most of cases, to ``import spinal.lib._`` in your sources.
 
 .. warning::
-   This package is currently under construction. Documented features could be considered as stable.\ :raw-html-m2r:`<br>` Do not hesitate to use github for suggestions/bug/fixes/enhancements
+   | This package is currently under construction. Documented features could be considered as stable. 
+   | Do not hesitate to use github for suggestions/bug/fixes/enhancements

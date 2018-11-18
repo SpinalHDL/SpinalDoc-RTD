@@ -22,21 +22,31 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
    * - Syntax
      - Description
      - Return
-   * - UInt[()]  :raw-html-m2r:`<br>`  SInt[()]
+   * - | UInt[()]
+       | SInt[()]
      - Create an unsigned/signed integer, bits count is inferred
-     - UInt :raw-html-m2r:`<br>` SInt
-   * - UInt(x bits) :raw-html-m2r:`<br>` SInt(x bits)
+     - | UInt
+       | SInt
+   * - | UInt(x bits)
+       | SInt(x bits)
      - Create an unsigned/signed integer with x bits
-     - UInt :raw-html-m2r:`<br>` SInt
-   * - U(value: Int[,x bits]) :raw-html-m2r:`<br>` S(value: Int[,x bits])
+     - | UInt
+       | SInt
+   * - | U(value: Int[,x bits])
+       | S(value: Int[,x bits])
      - Create an unsigned/signed integer assigned with 'value'
-     - UInt :raw-html-m2r:`<br>` SInt
-   * - U"[[size']base]value" :raw-html-m2r:`<br>` S"[[size']base]value"
+     - | UInt
+       | SInt
+   * - | U"[[size']base]value"
+       | S"[[size']base]value"
      - Create an unsigned/signed integer assigned with 'value' (Base : 'h', 'd', 'o', 'b')
-     - UInt :raw-html-m2r:`<br>` SInt
-   * - U([x bits,] :ref:`element <element>`\ , ...)  :raw-html-m2r:`<br>` S([x bits,] :ref:`element <element>`\ , ...)
+     - | UInt
+       | SInt
+   * - | U([x bits,] :ref:`element <element>`, ...)
+       | S([x bits,] :ref:`element <element>`, ...)
      - Create an unsigned integer assigned with the value specified by elements
-     - UInt :raw-html-m2r:`<br>` SInt
+     - | UInt
+       | SInt
 
 
 .. code-block:: scala
@@ -126,16 +136,16 @@ Logic
      - T(w(x) bits)
    * - x.clearAll[()]
      - Clear all bits
-     - -
+     - 
    * - x.setAll[()]
      - Set all bits
-     - -
+     - 
    * - x.setAllTo(value : Boolean)
      - Set all bits to the given Boolean value
-     - -
+     - 
    * - x.setAllTo(value : Bool)
      - Set all bits to the given Bool value
-     - -
+     - 
 
 
 .. code-block:: scala
@@ -354,10 +364,12 @@ Misc
      - Subdivide x in multiple slices of y bits, y: Int
      - Vec(T, w(x)/y)
    * - x.resize(y)
-     - Return a resized copy of x, if enlarged, it is filled with zero :raw-html-m2r:`<br>` for UInt or filled with the sign for SInt, y: Int
+     - | Return a resized copy of x, if enlarged, it is filled with zero
+       | for UInt or filled with the sign for SInt, y: Int
      - T(y bits)
    * - x.resized
-     - Return a version of x which is allowed to be automatically :raw-html-m2r:`<br>` resized were needed
+     - | Return a version of x which is allowed to be automatically 
+       | resized were needed
      - T(w(x) bits)
    * - myUInt.twoComplement(en: Bool)
      - Use the two's complement to transform an UInt into an SInt

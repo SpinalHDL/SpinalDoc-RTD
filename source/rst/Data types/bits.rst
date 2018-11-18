@@ -115,16 +115,16 @@ Logic
      - Bits(w(x) bits)
    * - x.clearAll[()]
      - Clear all bits
-     - -
+     - 
    * - x.setAll[()]
      - Set all bits
-     - -
+     - 
    * - x.setAllTo(value: Boolean)
      - Set all bits to the given Boolean value
-     - -
+     - 
    * - x.setAllTo(value: Bool)
      - Set all bits to the given Bool value
-     - -
+     - 
 
 
 .. code-block:: scala

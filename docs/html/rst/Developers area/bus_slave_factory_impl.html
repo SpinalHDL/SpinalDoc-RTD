@@ -334,8 +334,9 @@
 </div>
 <div class="section" id="specification">
 <h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
-<p>The class diagram is the following :<span class="raw-html-m2r"><br></span>
-<span class="raw-html-m2r"><img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/d0af059a9b5a00e53acbe50a2e7d1e28ccfdfd9c/asset/picture/bus_slave_factory_classes.svg"  align="middle" width="300"></span></p>
+<p>The class diagram is the following :</p>
+<a class="reference internal image-reference" href="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/d0af059a9b5a00e53acbe50a2e7d1e28ccfdfd9c/asset/picture/bus_slave_factory_classes.svg"><div align="center" class="align-center"><img alt="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/d0af059a9b5a00e53acbe50a2e7d1e28ccfdfd9c/asset/picture/bus_slave_factory_classes.svg" src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/d0af059a9b5a00e53acbe50a2e7d1e28ccfdfd9c/asset/picture/bus_slave_factory_classes.svg" width="300" /></div>
+</a>
 <p>The <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> abstract class define minimum requirements that each implementation of it should provide :</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -383,25 +384,24 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>readAndWrite(that,address,bitOffset)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 <td>Make <code class="docutils literal notranslate"><span class="pre">that</span></code> readable and writable at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
 </tr>
 <tr class="row-odd"><td>readMultiWord(that,address)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
+<td>&#160;</td>
+<td><div class="first last line-block">
+<div class="line">Create the memory mapping to read <code class="docutils literal notranslate"><span class="pre">that</span></code> from ‘address’. :</div>
+<div class="line">If <code class="docutils literal notranslate"><span class="pre">that</span></code> is bigger than one word it extends the register on followings addresses</div>
+</div>
 </td>
-<td>Create the memory mapping to read <code class="docutils literal notranslate"><span class="pre">that</span></code> from ‘address’.<span class="raw-html-m2r"><br></span> If <code class="docutils literal notranslate"><span class="pre">that</span></code> is bigger than one word it extends the register on followings addresses</td>
 </tr>
 <tr class="row-even"><td>writeMultiWord(that,address)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
+<td>&#160;</td>
+<td><div class="first last line-block">
+<div class="line">Create the memory mapping to write <code class="docutils literal notranslate"><span class="pre">that</span></code> at ‘address’. :</div>
+<div class="line">If <code class="docutils literal notranslate"><span class="pre">that</span></code> is bigger than one word it extends the register on followings addresses</div>
+</div>
 </td>
-<td>Create the memory mapping to write <code class="docutils literal notranslate"><span class="pre">that</span></code> at ‘address’.<span class="raw-html-m2r"><br></span> If <code class="docutils literal notranslate"><span class="pre">that</span></code> is bigger than one word it extends the register on followings addresses</td>
 </tr>
 <tr class="row-odd"><td>createWriteOnly(dataType,address,bitOffset)</td>
 <td>T</td>
@@ -416,39 +416,42 @@
 <td>Create a writable Flow register of type <code class="docutils literal notranslate"><span class="pre">dataType</span></code> at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
 </tr>
 <tr class="row-even"><td>drive(that,address,bitOffset)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 <td>Drive <code class="docutils literal notranslate"><span class="pre">that</span></code> with a register writable at <code class="docutils literal notranslate"><span class="pre">address</span></code> placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
 </tr>
 <tr class="row-odd"><td>driveAndRead(that,address,bitOffset)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 <td>Drive <code class="docutils literal notranslate"><span class="pre">that</span></code> with a register writable and readable at <code class="docutils literal notranslate"><span class="pre">address</span></code> placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
 </tr>
 <tr class="row-even"><td>driveFlow(that,address,bitOffset)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 <td>Emit on <code class="docutils literal notranslate"><span class="pre">that</span></code> a transaction when a write happen at <code class="docutils literal notranslate"><span class="pre">address</span></code> by using data placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
 </tr>
-<tr class="row-odd"><td>readStreamNonBlocking(that,address,<span class="raw-html-m2r"><br></span>validBitOffset,payloadBitOffset)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">readStreamNonBlocking(that,address,</div>
+<div class="line">validBitOffset,payloadBitOffset)</div>
+</div>
 </td>
-<td>Read <code class="docutils literal notranslate"><span class="pre">that</span></code> and consume the transaction when a read happen at <code class="docutils literal notranslate"><span class="pre">address</span></code>. <span class="raw-html-m2r"><br></span> valid  &amp;nbsp;  &amp;nbsp; &lt;= validBitOffset bit <span class="raw-html-m2r"><br></span> payload &lt;= payloadBitOffset+widthOf(payload) downto <code class="docutils literal notranslate"><span class="pre">payloadBitOffset</span></code></td>
+<td>&#160;</td>
+<td><div class="first last line-block">
+<div class="line">Read <code class="docutils literal notranslate"><span class="pre">that</span></code> and consume the transaction when a read happen at <code class="docutils literal notranslate"><span class="pre">address</span></code>.</div>
+<div class="line">valid &lt;= validBitOffset bit</div>
+<div class="line">payload &lt;= payloadBitOffset+widthOf(payload) downto <code class="docutils literal notranslate"><span class="pre">payloadBitOffset</span></code></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>doBitsAccumulationAndClearOnRead<span class="raw-html-m2r"><br></span> (that,address,bitOffset)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">doBitsAccumulationAndClearOnRead</div>
+<div class="line">(that,address,bitOffset)</div>
+</div>
 </td>
-<td>Instanciate an internal register which at each cycle do :<span class="raw-html-m2r"><br></span> reg := reg | that <span class="raw-html-m2r"><br></span> Then when a read occur, the register is cleared. This register is readable at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</td>
+<td>&#160;</td>
+<td><div class="first last line-block">
+<div class="line">I nstanciate an internal register which at each cycle do :</div>
+<div class="line">reg := reg | that</div>
+<div class="line">Then when a read occur, the register is cleared. This register is readable at <code class="docutils literal notranslate"><span class="pre">address</span></code> and placed at <code class="docutils literal notranslate"><span class="pre">bitOffset</span></code> in the word</div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -702,10 +705,7 @@
 </tr>
 <tr class="row-odd"><td>writeData</td>
 <td>Bits(dataWidth bits)</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>readDataValid</td>
 <td>Bool</td>
@@ -835,7 +835,6 @@
         <script type="text/javascript" src="../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

@@ -12,10 +12,12 @@ Introduction
 The language provides 5 base types and 2 composite types that can be used.
 
 
-* Base types : ``Bool``\ , ``Bits``\ , ``UInt`` for unsigned integers, ``SInt`` for signed integers, ``Enum``.
+* Base types : ``Bool``, ``Bits``, ``UInt`` for unsigned integers, ``SInt`` for signed integers, ``Enum``.
 * Composite types : Bundle, Vec.
 
-:raw-html-m2r:`<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/cacb6e086ff635ca93def01e31aee2da582d991a/asset/picture/types.svg"  align="middle" width="300">`
+.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/cacb6e086ff635ca93def01e31aee2da582d991a/asset/picture/types.svg
+   :align: center
+   :width: 300
 
 Those types and their usage (with examples) are explained hereafter.
 
@@ -73,10 +75,12 @@ The following operators are available for the ``Bool`` type
    * - !x
      - Logical NOT
      - Bool
-   * - x && y :raw-html-m2r:`<br>` x & y
+   * - | x && y 
+       | x & y
      - Logical AND
      - Bool
-   * - x || y :raw-html-m2r:`<br>` x | y
+   * - | x || y
+       | x | y
      - Logical OR
      - Bool
    * - x ^ y
@@ -84,10 +88,10 @@ The following operators are available for the ``Bool`` type
      - Bool
    * - x.set[()]
      - Set x to True
-     - -
+     - 
    * - x.clear[()]
      - Set x to False
-     - -
+     - 
    * - x.rise[()]
      - Return True when x was low at the last cycle and is now high
      - Bool
@@ -108,11 +112,11 @@ The following operators are available for the ``Bool`` type
      - Bool
 
 
-The BitVector family - (\ ``Bits``\ , ``UInt``\ , ``SInt``\ )
+The BitVector family - (``Bits``, ``UInt``, ``SInt``)
 -----------------------------------------------------------------
 
-``BitVector`` is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviours: :raw-html-m2r:`<br>`
-``Bits`` do not convey any sign information whereas the ``UInt`` (unsigned integer) and ``SInt`` (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetics is used.
+| ``BitVector`` is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviours:
+| ``Bits`` do not convey any sign information whereas the ``UInt`` (unsigned integer) and ``SInt`` (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetics is used.
 
 Declaration syntax
 ^^^^^^^^^^^^^^^^^^
@@ -154,11 +158,13 @@ Elements could be defined as follows:
    * - x : Range -> y : T
      - Set bits in range x with y
    * - x : Range -> y : String
-     - Set bits in range x with y :raw-html-m2r:`<br>` The string format follow same rules than B/U/S"xyz" one
+     - | Set bits in range x with y 
+       | The string format follow same rules than B/U/S"xyz" one
    * - x : Range -> y : T
      - Set bits in range x with y
    * - default -> y : Boolean/Bool
-     - Set all unconnected bits with the y value.\ :raw-html-m2r:`<br>` This feature could only be use to do assignements without the U/B/S prefix
+     - | Set all unconnected bits with the y value. 
+       | This feature could only be use to do assignements without the U/B/S prefix
 
 
 You can define a Range values
@@ -271,10 +277,10 @@ Operators
      - T
    * - x.setAllTo(value : Boolean)
      - Set all bits to the given Boolean value
-     - -
+     - 
    * - x.setAllTo(value : Bool)
      - Set all bits to the given Bool value
-     - -
+     - 
    * - x.asBools
      - Cast into a array of Bool
      - Vec(Bool,width(x))
@@ -283,7 +289,8 @@ Operators
 Masked comparison
 ^^^^^^^^^^^^^^^^^
 
-Some time you need to check equality between a ``BitVector`` and a bits constant that contain hole (don't care values).\ :raw-html-m2r:`<br>`
+Some time you need to check equality between a ``BitVector`` and a bits constant that contain hole (don't care values).
+
 There is an example about how to do that :
 
 .. code-block:: scala
@@ -398,7 +405,8 @@ Vec
    * - Vec(type : Data, size : Int)
      - Create a vector of size time the given type
    * - Vec(x,y,..)
-     - Create a vector where indexes point to given elements. :raw-html-m2r:`<br>` this construct support mixed element width
+     - | Create a vector where indexes point to given elements. 
+       | this construct support mixed element width
 
 
 .. list-table::
@@ -412,7 +420,7 @@ Vec
      - T
    * - x(y) := z
      - Assign element y with z, y : Int/UInt
-     - -
+     - 
 
 
 .. code-block:: scala
@@ -433,8 +441,8 @@ Vec
 Bundle
 ------
 
-Bundles could be used to model data structure line buses and interfaces.\ :raw-html-m2r:`<br>`
-All attributes that extends Data (Bool, Bits, UInt, ...) that are defined inside the bundle are considered as part of the bundle.
+| Bundles could be used to model data structure line buses and interfaces.
+| All attributes that extends Data (Bool, Bits, UInt, ...) that are defined inside the bundle are considered as part of the bundle.
 
 Simple example (RGB/VGA)
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -635,7 +643,7 @@ SpinalHDL support enumeration with some encodings :
      - Bit width
      - Description
    * - native
-     - -
+     - 
      - Use the VHDL enumeration system, this is the default encoding
    * - binarySequancial
      - log2Up(stateCount)
@@ -698,7 +706,7 @@ All hardware types extends the Data class, which mean that all of them provide f
      - Bits(width(x) bits)
    * - x.assignFromBits(bits)
      - Assign from Bits
-     - -
+     - 
    * - x.assignFromBits(bits,hi,lo)
      - Assign bitfield, hi : Int, lo : Int
      - T(hi-lo+1 bits)

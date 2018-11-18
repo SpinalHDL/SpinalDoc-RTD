@@ -70,7 +70,7 @@ VGA bus
      override def asMaster() : Unit = this.asOutput()
    }
 
-This Vga ``Bundle`` uses the ``IMasterSlave`` trait, which allows you to create master/slave VGA interfaces using the following: :raw-html-m2r:`<br>`
+This Vga ``Bundle`` uses the ``IMasterSlave`` trait, which allows you to create master/slave VGA interfaces using the following:
 
 .. code-block:: text
 

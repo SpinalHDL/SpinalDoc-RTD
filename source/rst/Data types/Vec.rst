@@ -24,7 +24,8 @@ The syntax to declare a vector is as follows:
    * - Vec(type: Data, size: Int)
      - Create a vector of size time the given type
    * - Vec(x,y,..)
-     - Create a vector where indexes point to given elements. :raw-html-m2r:`<br>` this construct support mixed element width
+     - | Create a vector where indexes point to given elements. 
+       | this construct support mixed element width
 
 
 Examples

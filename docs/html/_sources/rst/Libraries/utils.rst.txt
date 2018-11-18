@@ -24,13 +24,16 @@ State less utilities
    * - Reverse(x : T)
      - T
      - Flip all bits (lsb + n -> msb - n)
-   * - OHToUInt(x : Seq[Bool]) :raw-html-m2r:`<br>` OHToUInt(x : BitVector)
+   * - | OHToUInt(x : Seq[Bool])
+       | OHToUInt(x : BitVector)
      - UInt
      - Return the index of the single bit set (one hot) in ``x``
-   * - CountOne(x : Seq[Bool]) :raw-html-m2r:`<br>` CountOne(x : BitVector)
+   * - | CountOne(x : Seq[Bool])
+       | CountOne(x : BitVector)
      - UInt
      - Return the number of bit set in ``x``
-   * - MajorityVote(x : Seq[Bool]) :raw-html-m2r:`<br>` MajorityVote(x : BitVector)
+   * - | MajorityVote(x : Seq[Bool])
+       | MajorityVote(x : BitVector)
      - Bool
      - Return True if the number of bit set is > x.size / 2
    * - EndiannessSwap(that: T[, base:BitCount])
@@ -42,9 +45,14 @@ State less utilities
    * - OHMasking.last(x : Bits)
      - Bits
      - Apply a mask on x to only keep the last bit set
-   * - OHMasking.roundRobin(\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;requests : Bits,\ :raw-html-m2r:`<br>`\ &nbsp;&nbsp;ohPriority : Bits\ :raw-html-m2r:`<br>`\ )
+   * - | OHMasking.roundRobin(
+       |  requests : Bits,
+       |  ohPriority : Bits
+       | )
      - Bits
-     - Apply a mask on x to only keep the bit set from ``requests``.\ :raw-html-m2r:`<br>` it start looking in ``requests`` from the ``ohPriority`` position :raw-html-m2r:`<br>`.\ :raw-html-m2r:`<br>`\ For example if ``requests`` is "1001" and ``ohPriority`` is "0010", the ``roundRobin function will start looking in``\ requests` from its second bit and will return "1000".
+     - | Apply a mask on x to only keep the bit set from ``requests``.
+       | it start looking in ``requests`` from the ``ohPriority`` position.
+       | For example if ``requests`` is "1001" and ``ohPriority`` is "0010", the ``roundRobin`` function will start looking in `requests` from its second bit and will return "1000".
 
 
 State full utilities
@@ -61,7 +69,9 @@ State full utilities
      - Return ``that`` delayed by ``cycleCount`` cycles
    * - History(that: T, length: Int[,when : Bool])
      - List[T]
-     - Return a Vec of ``length`` elements :raw-html-m2r:`<br>` The first element is ``that``\ , the last one is ``that`` delayed by ``length``\ -1\ :raw-html-m2r:`<br>` The internal shift register sample when ``when`` is asserted
+     - | Return a Vec of ``length`` elements
+       | The first element is ``that``\ , the last one is ``that`` delayed by ``length``\ -1\
+       | The internal shift register sample when ``when`` is asserted
    * - BufferCC(input : T)
      - T
      - Return the input signal synchronized with the current clock domain by using 2 flip flop
@@ -78,7 +88,7 @@ The Counter tool can be used to easly instanciate an hardware counter.
    * - Instanciation syntax
      - Notes
    * - Counter(start: BigInt, end: BigInt[, inc : Bool])
-     - -
+     - 
    * - Counter(range : Ranget[, inc : Bool])
      - Compatible with the  ``x to y`` ``x until y`` syntaxes
    * - Counter(stateCount: BigInt[, inc : Bool])
@@ -181,5 +191,6 @@ Special utilities
      - Description
    * - LatencyAnalysis(paths : Node*)
      - Int
-     - Return the shortest path,in therm of cycle, that travel through all nodes, :raw-html-m2r:`<br>` from the first one to the last one
+     - | Return the shortest path,in therm of cycle, that travel through all nodes,
+       | from the first one to the last one
 

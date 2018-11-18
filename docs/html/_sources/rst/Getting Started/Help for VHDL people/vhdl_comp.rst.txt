@@ -393,8 +393,8 @@ In SpinalHDL you have two ways to do the same:
 Parameterization
 ----------------
 
-VHDL prior to the 2008 revision has many issues with generics. For example, you can't parameterize records, you can't parameterize arrays in the entity, and you can't have types parameters. :raw-html-m2r:`<br>`
-Then VHDL 2008 came and fixed those issues. But RTL tool support for VHDL 2008 is really weak depending the vendor.
+| VHDL prior to the 2008 revision has many issues with generics. For example, you can't parameterize records, you can't parameterize arrays in the entity, and you can't have types parameters.
+| Then VHDL 2008 came and fixed those issues. But RTL tool support for VHDL 2008 is really weak depending the vendor.
 
 SpinalHDL has full support of generics integrated natively in its compiler, and it doesn't rely on the VHDL one.
 

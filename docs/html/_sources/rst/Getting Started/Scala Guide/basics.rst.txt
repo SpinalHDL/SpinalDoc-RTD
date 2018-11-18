@@ -18,7 +18,7 @@ In Scala, there is 5 major types
      - Description
    * - Boolean
      - true, false
-     - -
+     - 
    * - Int
      - 3, 0x32
      - 32 bits integer

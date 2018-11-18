@@ -21,11 +21,11 @@ First each time you want to create a APB3 bus, you will need a configuration obj
      - Description
    * - addressWidth
      - Int
-     - -
+     - 
      - Width of PADDR (byte granularity)
    * - dataWidth
      - Int
-     - -
+     - 
      - Width of PWDATA and PRDATA
    * - selWidth
      - Int
@@ -78,9 +78,9 @@ Functions and operators
      - Return
      - Description
    * - X >> Y
-     - -
+     - 
      - Connect X to Y. Address of Y could be smaller than the one of X
    * - X << Y
-     - -
+     - 
      - Do the reverse of the >> operator
 

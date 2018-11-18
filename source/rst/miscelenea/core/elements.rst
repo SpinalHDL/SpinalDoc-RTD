@@ -20,9 +20,11 @@ Elements could be defined as follows:
    * - x : Range -> y : T
      - Set bits in range x with y
    * - x : Range -> y : String
-     - Set bits in range x with y :raw-html-m2r:`<br>` The string format follow same rules than B"xyz" one
+     - | Set bits in range x with y
+       | The string format follow same rules than B"xyz" one
    * - default -> y : Boolean/Bool
-     - Set all unconnected bits with the y value.\ :raw-html-m2r:`<br>` This feature could only be use to do assignments without the B prefix or with the B prefix combined with the bits specification
+     - | Set all unconnected bits with the y value.
+       | This feature could only be use to do assignments without the B prefix or with the B prefix combined with the bits specification
 
 .. _range:
 

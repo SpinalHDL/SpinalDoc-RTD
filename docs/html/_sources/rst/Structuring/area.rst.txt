@@ -45,7 +45,8 @@ For this kind of cases you can use ``Area`` to define a group of signals/logic.
    }
 
 .. note::
-   Abuse of area !\ :raw-html-m2r:`<br>` No more toto_a, toto_b, toto_c as it so often done in common HDL, any ``Component``\ 's internal module could be an ``Area``\
+   | Abuse of area !
+   | No more toto_a, toto_b, toto_c as it so often done in common HDL, any ``Component``\ 's internal module could be an ``Area``\
 
 .. note::
    \ :ref:`ClockingArea <clock_domain>` are a special kind of ``Area`` which allow to define chunk of hardware which use a given ``ClockDomain``\

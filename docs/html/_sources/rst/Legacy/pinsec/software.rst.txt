@@ -9,9 +9,9 @@ RISCV tool-chain
 
 Binaries executed by the CPU can be defined in ASM/C/C++ and compiled by the GCC RISCV fork. Also, to load binaries and debug the CPU, an OpenOCD fork and RISCV GDB can be used.
 
-RISCV official tools : `https://riscv.org/software-tools/ <https://riscv.org/software-tools/>`_\ :raw-html-m2r:`<br>`
-OpenOCD fork : `https://github.com/Dolu1990/openocd_riscv <https://github.com/Dolu1990/openocd_riscv>`_\ :raw-html-m2r:`<br>`
-Software examples : `https://github.com/Dolu1990/pinsecSoftware <https://github.com/Dolu1990/pinsecSoftware>`_\ :raw-html-m2r:`<br>`
+| RISCV official tools : `https://riscv.org/software-tools/ <https://riscv.org/software-tools/>`_
+| OpenOCD fork : `https://github.com/Dolu1990/openocd_riscv <https://github.com/Dolu1990/openocd_riscv>`_
+| Software examples : `https://github.com/Dolu1990/pinsecSoftware <https://github.com/Dolu1990/pinsecSoftware>`_
 
 OpenOCD/GDB/Eclipse  configuration
 ----------------------------------

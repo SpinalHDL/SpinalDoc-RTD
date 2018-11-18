@@ -32,23 +32,23 @@ The specification from ARM could be interpreted as follows:
    * - PENABLE
      - Bool
      - Master
-     - -
+     - 
    * - PWRITE
      - Bool
      - Master
-     - -
+     - 
    * - PWDATA
      - Bits(dataWidth bits)
      - Master
-     - -
+     - 
    * - PREADY
      - Bool
      - Slave
-     - -
+     - 
    * - PRDATA
      - Bits(dataWidth bits)
      - Slave
-     - -
+     - 
    * - PSLVERROR
      - Bool
      - Slave
