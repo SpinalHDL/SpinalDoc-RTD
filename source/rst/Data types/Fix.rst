@@ -63,7 +63,7 @@ Signed Fixed Point
 Format
 ~~~~~~
 
-The chosen format follows the usual way of defining fixed point number format using Q notation. More information `there <https://en.wikipedia.org/wiki/Q_(number_format>`_\ ).
+The chosen format follows the usual way of defining fixed point number format using Q notation. More information `there <https://en.wikipedia.org/wiki/Q_(number_format)>`_\ ).
 
 For example Q8.2 will mean an fixed point of 8+2 bits, where 8 bit are used for the natural part and 2 bits for the fractional part.
 If the fixed point number is signed, one more bit is used for the sign.
