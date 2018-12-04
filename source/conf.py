@@ -40,6 +40,7 @@ release = '1.11'
 # ones.
 extensions = [
     'sphinx.ext.githubpages',
+    'sphinxcontrib.wavedrom',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
