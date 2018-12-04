@@ -8,7 +8,8 @@ Introduction
 The UART protocol could be used, for instance, to emit an receive RS232 / RS485 frames.
 
 There is an example of an 8 bits frame, with no parity and one stop bit :
-<img src="{{ "/images/uart.png" |  prepend: site.baseurl }}" alt="Miaou"/>
+
+.. image:: /asset/picture/uart.png
 
 Bus definition
 --------------

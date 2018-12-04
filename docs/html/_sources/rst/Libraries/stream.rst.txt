@@ -36,9 +36,14 @@ Specification
      - Content of the transaction
      - valid is low
 
+.. wavedrom::
 
-There is an example diagram :\ :raw-html-m2r:`<br>`
-<img src="{{ "/images/stream.png" |  prepend: site.baseurl }}" alt="Company logo"/>
+   { signal: [
+     {name:'clk',      wave: 'p.........' },
+     {name: 'valid'  , wave: '0101..01.0'},
+     {name: 'ready'  , wave: 'x1x0.1x1.x'},
+     {name: 'payload', wave: 'x=x=..x==x',data:['D0','D1','D2','D3']},
+   ]}
 
 There is some examples of usage in SpinalHDL :
 
@@ -153,9 +158,8 @@ Functions
 
 The following code will create this logic :
 
-.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg
+.. image:: /asset/picture/stream_throw_m2spipe.svg
    :align: center
-   :width: 300
 
 .. code-block:: scala
 

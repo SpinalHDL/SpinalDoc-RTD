@@ -16,9 +16,9 @@ Specification
 
 The class diagram is the following :
 
-.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/d0af059a9b5a00e53acbe50a2e7d1e28ccfdfd9c/asset/picture/bus_slave_factory_classes.svg
+.. image:: /asset/picture/bus_slave_factory_classes.svg
    :align: center
-   :width: 300
+
 
 The ``BusSlaveFactory`` abstract class define minimum requirements that each implementation of it should provide :
 

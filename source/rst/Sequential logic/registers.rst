@@ -59,9 +59,8 @@ There is some usage examples :
 
 The code above will infer the following logic :
 
-.. image:: https://cdn.rawgit.com/SpinalHDL/SpinalDoc/c7decc7420d1e790aba7c14d8bdc898aa6046869/asset/picture/register.svg
+.. image:: /asset/picture/register.svg
    :align: center
-   :width: 300
 
 .. note::
    | The reg3 example show how you can assign the value of a RegInit register. But this it's also right to use the same syntax for all others (Reg,RegNext,RegNextWhen).

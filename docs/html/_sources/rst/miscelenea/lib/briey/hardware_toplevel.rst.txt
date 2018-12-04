@@ -15,9 +15,9 @@ This toplevel implementation could be consulted there :
 
 There is the Briey toplevel hardware diagram :
 
-.. image:: http://cdn.rawgit.com/SpinalHDL/SpinalDoc/dd17971aa549ccb99168afd55aad274bbdff1e88/asset/picture/pinsec_hardware.svg
+.. image:: /asset/picture/pinsec_hardware.svg
    :align: center
-   :width: 300
+
 
 Defining all IO
 ---------------

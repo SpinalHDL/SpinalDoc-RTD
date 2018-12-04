@@ -117,10 +117,9 @@ Also, if all possible values are covered in your mux, you can omit the default v
 ``muxLists(...)`` is another bitwise selection which take as input a sequence of tuple. Below an example of dividing a Bits of 128 bits into 32 bits :
 
 
-.. raw:: html
-
-   <center><img src="/SpinalDoc/images/MuxList.png" style="width: 300px;"></center>
-
+.. image:: /asset/picture/MuxList.png
+   :align: center
+   :width: 300px
 
 .. code-block:: scala
 

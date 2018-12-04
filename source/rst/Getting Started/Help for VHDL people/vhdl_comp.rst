@@ -16,7 +16,7 @@ Processes have no senses when you define RTL, and worst than that, they are very
 
 To produce the following RTL:
 
-<img src="{{ "/images/process_rtl.svg" |  prepend: site.baseurl }}" alt="Company logo"/>
+.. image:: /asset/picture/process_rtl.svg
 
 You will have to write the following VHDL:
 

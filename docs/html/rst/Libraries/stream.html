@@ -372,8 +372,17 @@
 </tr>
 </tbody>
 </table>
-<p>There is an example diagram :<span class="raw-html-m2r"><br></span>
-&lt;img src=”{{ “/images/stream.png” |  prepend: site.baseurl }}” alt=”Company logo”/&gt;</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{ signal: [
+  {name:'clk',      wave: 'p.........' },
+  {name: 'valid'  , wave: '0101..01.0'},
+  {name: 'ready'  , wave: 'x1x0.1x1.x'},
+  {name: 'payload', wave: 'x=x=..x==x',data:['D0','D1','D2','D3']},
+]}
+</script>
+</div>
 <p>There is some examples of usage in SpinalHDL :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">StreamFifo</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="n">depth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
@@ -543,8 +552,7 @@ Be careful with that.</li>
 </tbody>
 </table>
 <p>The following code will create this logic :</p>
-<a class="reference internal image-reference" href="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg"><div align="center" class="align-center"><img alt="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg" src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg" width="300" /></div>
-</a>
+<div align="center" class="align-center"><img alt="../../_images/stream_throw_m2spipe.svg" src="../../_images/stream_throw_m2spipe.svg" /></div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">RGB</span><span class="o">(</span><span class="n">channelWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">red</span>   <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">channelWidth</span> <span class="n">bit</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">green</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">channelWidth</span> <span class="n">bit</span><span class="o">)</span>
@@ -898,6 +906,12 @@ Be careful with that.</li>
 </div>
 </div>
 
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
 
            </div>
            
@@ -943,7 +957,8 @@ Be careful with that.</li>
         <script type="text/javascript" src="../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="http://wavedrom.com/skins/default.js"></script>
+        <script type="text/javascript" src="http://wavedrom.com/WaveDrom.js"></script>
     
 
   
