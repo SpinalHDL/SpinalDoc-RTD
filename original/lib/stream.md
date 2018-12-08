@@ -66,7 +66,7 @@ class StreamArbiter[T <: Data](dataType: T,portCount: Int) extends Component {
 | x.throwWhen(cond : Bool) | Return a Stream connected to x <br> When cond is true, transaction are dropped | Stream[T] | 0 |
 
 The following code will create this logic :
-<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/master/asset/picture/stream_throw_m2spipe.svg"   align="middle" width="300">
+<img src="https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc/asset/picture/stream_throw_m2spipe.svg"   align="middle" width="300">
 
 ```scala
 case class RGB(channelWidth : Int) extends Bundle{

@@ -14,7 +14,7 @@ The language provides 5 base types and 2 composite types that can be used.
 - Base types : `Bool`, `Bits`, `UInt` for unsigned integers, `SInt` for signed integers, `Enum`.
 - Composite types : Bundle, Vec.
 
-<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/cacb6e086ff635ca93def01e31aee2da582d991a/asset/picture/types.svg"  align="middle" width="300">
+<img src="https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@cacb6e086ff635ca93def01e31aee2da582d991a/asset/picture/types.svg"  align="middle" width="300">
 
 Those types and their usage (with examples) are explained hereafter.
 

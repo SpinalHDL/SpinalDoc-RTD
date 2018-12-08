@@ -17,7 +17,7 @@ This toplevel implementation could be consulted there :
 [https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala](https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala)
 
 There is the Pinsec toplevel hardware diagram :
-<img src="http://cdn.rawgit.com/SpinalHDL/SpinalDoc/dd17971aa549ccb99168afd55aad274bbdff1e88/asset/picture/pinsec_hardware.svg"   align="middle" width="300">
+<img src="https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@dd17971aa549ccb99168afd55aad274bbdff1e88/asset/picture/pinsec_hardware.svg"   align="middle" width="300">
 
 
 ## Defining all IO

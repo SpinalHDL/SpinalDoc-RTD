@@ -13,7 +13,7 @@ In SpinalHDL you can define your state machine like in VHDL/Verilog, by using en
 
 The following state machine is implemented in following examples :
 
-<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/9c3a3cd928361f2cc93ec90c8727b3903592f970/asset/picture/fsm_simple.svg"  align="middle" width="100">
+<img src="https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@9c3a3cd928361f2cc93ec90c8727b3903592f970/asset/picture/fsm_simple.svg"  align="middle" width="100">
 
 
 Style A :
@@ -126,7 +126,7 @@ In each of them you have access the following utilities :
 
 For example, the following state could be defined in SpinalHDL by using the following syntax :
 
-<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/078d8598cd84600cf83dab86a45a7c5c986706e1/asset/picture/fsm_stateb.svg"  align="middle" width="100">
+<img src="https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@078d8598cd84600cf83dab86a45a7c5c986706e1/asset/picture/fsm_stateb.svg"  align="middle" width="100">
 
 ```scala
 val stateB : State = new State{

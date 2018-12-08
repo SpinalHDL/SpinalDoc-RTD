@@ -49,7 +49,7 @@ val reg4 = RegNextWhen(reg3,cond)
 ```
 
 The code above will infer the following logic :<br>
-<img src="https://cdn.rawgit.com/SpinalHDL/SpinalDoc/c7decc7420d1e790aba7c14d8bdc898aa6046869/asset/picture/register.svg"  align="middle" width="300">
+<img src="https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@c7decc7420d1e790aba7c14d8bdc898aa6046869/asset/picture/register.svg"  align="middle" width="300">
 
 {% include note.html content="The reg3 example show how you can assign the value of a RegInit register. But this it's also right to use the same syntax for all others (Reg,RegNext,RegNextWhen).<br> As for combinatorial assignments, the rule is 'Last assignment win', but if no assignment is done, the register keep its value." %}
 
