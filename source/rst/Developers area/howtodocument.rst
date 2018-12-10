@@ -12,7 +12,7 @@ Title convention
 ----------------
 Sphinx is very smart, the document structure is deduced from how you use
 non alphanumerical characters (like:  ``= - ` : ' " ~ ^ _ * + # < >``), you only need to be consistent.
-Still, for clarity sakes we use this progression:
+Still, for consistency sakes we use this progression:
 
  * ``=`` over and underline for section titles
  * ``=`` underline for titles
@@ -147,7 +147,7 @@ The only thing remaining to do is to add cheese to the top index file like so:
       rst/Developers area/index
       rst/Cheese/index
 
-that's it, now you can add all you want in cheese and the pages will show up in the documentation.
+that's it, now you can add all you want in cheese and all pages will show up in the documentation.
 
 
 .. _WaveJSON: https://github.com/wavedrom/wavedrom/wiki/WaveJSON
