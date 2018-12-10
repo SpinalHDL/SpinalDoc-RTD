@@ -8,7 +8,7 @@ Description
 ^^^^^^^^^^^
 
 The ``Bundle`` is a composite type that defines a group of named signals (of any SpinalHDL basic type)
- under a single name.
+under a single name.
 
 The Bundle can be used to model data structures, buses and interfaces.
 
