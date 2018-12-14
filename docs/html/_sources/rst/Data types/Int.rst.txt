@@ -9,7 +9,7 @@ Unit/SInt
 Description
 ^^^^^^^^^^^
 
-The ``UInt``\ /\ ``SInt`` type corresponds to a vector of bits that can be used for signed/unsigned integer arithmetic.
+The ``UInt``/``SInt`` type corresponds to a vector of bits that can be used for signed/unsigned integer arithmetic.
 
 Declaration
 ^^^^^^^^^^^
@@ -18,6 +18,7 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 1
 
    * - Syntax
      - Description
@@ -82,6 +83,7 @@ Logic
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 4 2
 
    * - Operator
      - Description
@@ -288,6 +290,7 @@ Bit extraction
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 6 2
 
    * - Operator
      - Description
@@ -332,6 +335,7 @@ Misc
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 1
 
    * - Operator
      - Description

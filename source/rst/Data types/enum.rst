@@ -38,6 +38,7 @@ The following enumeration encodings are supported :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 8
 
    * - Encoding
      - Bit width

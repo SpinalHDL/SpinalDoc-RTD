@@ -15,6 +15,7 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 1
 
    * - Syntax
      - Description
@@ -64,6 +65,7 @@ Logic
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 3 2
 
    * - Operator
      - Description
@@ -217,6 +219,7 @@ Bit extraction
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 2
 
    * - Operator
      - Description
@@ -264,6 +267,7 @@ Misc
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 4 2
 
    * - Operator
      - Description

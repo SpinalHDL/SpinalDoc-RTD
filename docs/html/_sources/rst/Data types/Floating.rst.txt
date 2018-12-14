@@ -120,6 +120,7 @@ Type cast
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 1
 
    * - Operator
      - Description

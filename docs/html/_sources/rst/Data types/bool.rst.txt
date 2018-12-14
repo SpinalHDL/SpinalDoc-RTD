@@ -18,6 +18,7 @@ The syntax to declare a boolean value is as follows: (everything between [] are 
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 3 1
 
    * - Syntax
      - Description
@@ -105,6 +106,7 @@ Edge detection
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 1
 
    * - Operator
      - Description

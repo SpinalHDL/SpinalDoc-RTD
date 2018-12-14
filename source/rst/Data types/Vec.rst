@@ -18,6 +18,7 @@ The syntax to declare a vector is as follows:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 2
 
    * - Declaration
      - Description
@@ -111,6 +112,7 @@ Misc
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 1
 
    * - Operator
      - Description

@@ -19,6 +19,7 @@ Unsigned Fixed Point
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 1 2 3 1
 
    * - Syntax
      - bit width
@@ -42,6 +43,7 @@ Signed Fixed Point
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 1 2 3 1
 
    * - Syntax
      - bit width
@@ -158,6 +160,7 @@ Arithmetic
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 7 4 7
 
    * - Operator
      - Description
@@ -227,6 +230,7 @@ Type cast
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 3 2
 
    * - Operator
      - Description
@@ -262,6 +266,7 @@ Misc
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 2
 
    * - Name
      - Return
