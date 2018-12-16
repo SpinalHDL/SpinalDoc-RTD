@@ -6,6 +6,7 @@ Let's imagine a component that converts an RGB color into a gray one, and then w
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2
 
    * - io name
      - Direction

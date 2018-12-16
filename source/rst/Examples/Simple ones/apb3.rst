@@ -16,6 +16,7 @@ The specification from ARM could be interpreted as follows:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 2 1 3
 
    * - Signal Name
      - Type

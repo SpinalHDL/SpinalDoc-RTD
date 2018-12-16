@@ -40,6 +40,7 @@ VGA bus
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 10
 
    * - io name
      - Driver
@@ -159,6 +160,7 @@ Specification
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 10
 
    * - io name
      - Direction

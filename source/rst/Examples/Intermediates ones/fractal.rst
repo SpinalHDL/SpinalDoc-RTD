@@ -16,6 +16,7 @@ Let's specify the IO of our component:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 10
 
    * - IO Name
      - Direction
@@ -35,6 +36,7 @@ Let's specify the PixelTask ``Bundle``\ :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 5
 
    * - Element Name
      - Type
@@ -51,6 +53,7 @@ Let's specify the PixelResult ``Bundle``\ :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 5
 
    * - Element Name
      - Type

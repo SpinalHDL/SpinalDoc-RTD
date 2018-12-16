@@ -10,6 +10,7 @@ Let's imagine that you want to generate a sine wave and also have a filtered ver
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2
 
    * - Parameters name
      - Type
@@ -24,6 +25,7 @@ Let's imagine that you want to generate a sine wave and also have a filtered ver
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 4 7
 
    * - IO name
      - Direction

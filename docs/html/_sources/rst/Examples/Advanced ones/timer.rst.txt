@@ -23,6 +23,7 @@ The ``Timer`` component will have a single construction parameter:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2
 
    * - Parameter Name
      - Type
@@ -36,6 +37,7 @@ And also some inputs/outputs:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2 4
 
    * - IO Name
      - Direction
@@ -106,6 +108,7 @@ This bridging function will take the following parameters:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 10
 
    * - Parameter Name
      - Type
@@ -128,6 +131,7 @@ The register mapping assumes that the bus system is 32 bits wide:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 1 1 10
 
    * - Name
      - Access

@@ -22,6 +22,7 @@ Interfaces of this UartCtrl are:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 10
 
    * - Name
      - Type
@@ -50,6 +51,7 @@ Controller construction parameters
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 20
 
    * - Name
      - Type
@@ -160,6 +162,7 @@ The interfaces of this ``Component`` are the following :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 10
 
    * - Name
      - Type
@@ -332,6 +335,7 @@ The interfaces of this ``Component`` are the following:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 10
 
    * - Name
      - Type

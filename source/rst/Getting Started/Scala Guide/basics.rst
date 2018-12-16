@@ -12,6 +12,7 @@ In Scala, there is 5 major types
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2
 
    * - Type
      - Literal

@@ -24,6 +24,7 @@ The ``BusSlaveFactory`` abstract class define minimum requirements that each imp
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - Name
      - Description
@@ -45,6 +46,8 @@ By using them the ``BusSlaveFactory`` should also be able to provide many utilit
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 1 10
+
 
    * - Name
      - Return
@@ -330,6 +333,7 @@ First let's implement the companion object that provide the compatible AvalonMM 
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 3 4
 
    * - Pin name
      - Type

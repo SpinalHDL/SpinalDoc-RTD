@@ -20,6 +20,7 @@ Here is the register mapping table:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 1 5
 
    * - Name
      - Type

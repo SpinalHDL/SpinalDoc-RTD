@@ -35,6 +35,7 @@ The syntax to declare such as value is as follows:
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 4 2
 
    * - Syntax
      - Description
@@ -68,6 +69,7 @@ The following operators are available for the ``Bool`` type
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 7 1
 
    * - Operator
      - Description
@@ -123,6 +125,7 @@ Declaration syntax
 
 .. list-table::
    :header-rows: 1
+   :widths: 5 5 1
 
    * - Syntax
      - Description
@@ -148,6 +151,7 @@ Elements could be defined as follows:
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 4
 
    * - Element syntax
      - Description
@@ -214,6 +218,7 @@ Operators
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 4 2
 
    * - Operator
      - Description
@@ -303,6 +308,7 @@ Bits
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 4 2
 
    * - Operator
      - Description
@@ -332,6 +338,7 @@ UInt, SInt
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 4 2
 
    * - Operator
      - Description
@@ -399,6 +406,7 @@ Vec
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 7
 
    * - Declaration
      - Description
@@ -411,6 +419,7 @@ Vec
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 4 1
 
    * - Operator
      - Description
@@ -638,6 +647,7 @@ SpinalHDL support enumeration with some encodings :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 10
 
    * - Encoding
      - Bit width
