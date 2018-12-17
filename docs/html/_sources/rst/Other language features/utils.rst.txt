@@ -13,6 +13,7 @@ Many tools and utilities are present in :ref:`spinal.lib <lib_introduction>` but
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 1 4
 
    * - Syntax
      - Return

@@ -10,6 +10,7 @@ Elements could be defined as follows:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 2
 
    * - Element syntax
      - Description
@@ -35,6 +36,7 @@ You can define a Range values
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1
 
    * - Range syntax
      - Description

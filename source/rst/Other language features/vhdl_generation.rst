@@ -47,6 +47,7 @@ Parametrization from Scala
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 5
 
    * - Argument name
      - Type
@@ -284,6 +285,7 @@ VHDL and Verilog attributes
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 2
 
    * - Syntax
      - Description

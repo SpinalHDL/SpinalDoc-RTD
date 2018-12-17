@@ -103,6 +103,7 @@ The StateMachine class also provide some utils :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 5
 
    * - Name
      - Return
@@ -130,6 +131,7 @@ In each of them you have access the following utilities :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 10
 
    * - Name
      - Description

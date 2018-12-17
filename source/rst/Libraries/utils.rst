@@ -11,6 +11,7 @@ State less utilities
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 1 5
 
    * - Syntax
      - Return
@@ -60,6 +61,7 @@ State full utilities
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 1 5
 
    * - Syntax
      - Return
@@ -84,6 +86,7 @@ The Counter tool can be used to easly instanciate an hardware counter.
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1
 
    * - Instanciation syntax
      - Notes
@@ -122,6 +125,7 @@ The Timeout tool can be used to easly instanciate an hardware timeout.
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1
 
    * - Instanciation syntax
      - Notes
@@ -157,6 +161,7 @@ You can filter an asynchronous reset by using an asynchronously asserted synchro
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 4
 
    * - Argument name
      - Type
@@ -185,6 +190,7 @@ Special utilities
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 1 5
 
    * - Syntax
      - Return

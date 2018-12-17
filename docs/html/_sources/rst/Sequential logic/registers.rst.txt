@@ -24,6 +24,7 @@ There is 4 ways to Instantiate a register :
 
 .. list-table::
    :header-rows: 1
+   :widths: 50 55
 
    * - Syntax
      - Description

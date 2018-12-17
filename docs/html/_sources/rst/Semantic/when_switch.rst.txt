@@ -65,6 +65,7 @@ If you just need a Mux with a Bool selection signal, there is two equivalent syn
 
 .. list-table::
    :header-rows: 1
+   :widths: 4 1 4
 
    * - Syntax
      - Return

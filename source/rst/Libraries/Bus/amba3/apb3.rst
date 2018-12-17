@@ -14,6 +14,7 @@ First each time you want to create a APB3 bus, you will need a configuration obj
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 2
 
    * - Parameter name
      - Type
@@ -73,6 +74,7 @@ Functions and operators
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 5
 
    * - Name
      - Return

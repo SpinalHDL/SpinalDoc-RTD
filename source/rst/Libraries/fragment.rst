@@ -16,6 +16,7 @@ Signals defined by the ``Fragment`` bundle are :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 5
 
    * - Signal
      - Type
@@ -43,6 +44,7 @@ For ``Stream[Fragment[T]]`` and ``Flow[Fragment[T]]``\ , following function are 
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 20
 
    * - Syntax
      - Return
@@ -68,6 +70,7 @@ For ``Stream[Fragment[T]]``\ , following function are also accessible :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1
 
    * - Syntax
      - Return

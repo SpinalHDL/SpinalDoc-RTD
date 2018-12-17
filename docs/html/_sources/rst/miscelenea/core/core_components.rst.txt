@@ -71,6 +71,7 @@ In addition to the constructor parameters given :ref:`here <core_componets_clock
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1
 
    * - Property
      - Valid values
@@ -160,6 +161,7 @@ There are multiple assignment operator :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - Symbole
      - Description
@@ -194,6 +196,7 @@ SpinalHDL check that bitcount of left and right assignment side match. There is 
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 2
 
    * - Resizing ways
      - Description
@@ -207,6 +210,7 @@ There are 2 cases where spinal automaticly resize things :
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 2 1
 
    * - Assignement
      - Problem
@@ -295,6 +299,7 @@ Syntax to define in/out is the following :
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 3 1
 
    * - Syntax
      - Description
@@ -442,6 +447,7 @@ Memory
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 1
 
    * - Syntax
      - Description
@@ -453,6 +459,7 @@ Memory
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 2 1
 
    * - Syntax
      - Description
@@ -506,6 +513,7 @@ The SpinalHDL core contain some utils :
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5 1
 
    * - Syntax
      - Description

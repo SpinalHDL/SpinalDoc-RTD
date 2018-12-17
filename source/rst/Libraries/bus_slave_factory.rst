@@ -23,6 +23,7 @@ Functionality
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 1 10
 
    * - Name
      - Return
@@ -74,12 +75,17 @@ Functionality
    * - driveFlow(that,address,bitOffset)
      - 
      - Emit on ``that`` a transaction when a write happen at ``address`` by using data placed at ``bitOffset`` in the word
-   * - readStreamNonBlocking(that,address,validBitOffset,payloadBitOffset)
+   * - | readStreamNonBlocking(that,
+       |                       address,
+       |                       validBitOffset,
+       |                       payloadBitOffset)
      - 
      - | Read ``that`` and consume the transaction when a read happen at ``address``. 
        | valid <= validBitOffset bit
        | payload <= payloadBitOffset+widthOf(payload) downto ``payloadBitOffset``
-   * - doBitsAccumulationAndClearOnRead(that,address,bitOffset)
+   * - | doBitsAccumulationAndClearOnRead(that,
+       |                                  address,
+       |                                  bitOffset)
      - 
      - | Instanciate an internal register which at each cycle do :
        | reg := reg | that

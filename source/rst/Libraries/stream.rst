@@ -14,6 +14,7 @@ Specification
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 10 1
 
    * - Signal
      - Type
@@ -78,6 +79,7 @@ Functions
 
 .. list-table::
    :header-rows: 1
+   :widths: 5 5 1 1
 
    * - Syntax
      - Description
@@ -133,13 +135,13 @@ Functions
      - Connect y to x through a m2sPipe
      - 
      - 1
-   * - | x <&#47;< y
-       | y >&#47;> x
+   * - | x </< y
+       | y >/> x
      - Connect y to x through a s2mPipe
      - 
      - 0
    * - | x <-/< y
-       | y >&#47;-> x
+       | y >/-> x
      - | Connect y to x through s2mPipe().m2sPipe()
        | Which imply no combinatorial path between x and y
      - 
@@ -198,6 +200,7 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2
 
    * - parameter name
      - Type
@@ -212,6 +215,7 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 4 5
 
    * - io name
      - Type
@@ -252,6 +256,7 @@ You can instanciate the dual clock domain version of the fifo by the following w
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2
 
    * - parameter name
      - Type
@@ -272,6 +277,7 @@ You can instanciate the dual clock domain version of the fifo by the following w
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 4 5
 
    * - io name
      - Type
@@ -312,6 +318,7 @@ StreamCCByToggle
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2
 
    * - parameter name
      - Type
@@ -329,6 +336,7 @@ StreamCCByToggle
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 2
 
    * - io name
      - Type
@@ -369,6 +377,7 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - Arbitration functions
      - Description
@@ -383,6 +392,7 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - Lock functions
      - Description
@@ -397,6 +407,7 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 1
 
    * - Generation functions
      - Return

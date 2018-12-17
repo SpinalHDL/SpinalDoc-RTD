@@ -13,6 +13,7 @@ The following table show how to instantiate a memory :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1
 
    * - Syntax
      - Description
@@ -32,6 +33,7 @@ The following table show how to add access ports on a memory :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 30 1
 
    * - Syntax
      - Description
@@ -109,6 +111,7 @@ This policy specify how a read is affected when a write occur in the same cycle 
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 3
 
    * - Kinds
      - Description
@@ -130,6 +133,7 @@ You can specify ports that interface the memory with a data width of a power of 
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - Syntax
      - Description
@@ -192,6 +196,7 @@ There is multiple policy that you can use to select which memory you want to bla
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5
 
    * - Kinds
      - Description

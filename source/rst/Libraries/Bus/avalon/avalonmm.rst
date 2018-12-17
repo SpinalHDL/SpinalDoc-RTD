@@ -51,6 +51,7 @@ This configuration class has also some functions :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 5
 
    * - Name
      - Return
@@ -67,6 +68,7 @@ This configuration companion object has also some functions to provide some ``Av
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 4
 
    * - Name
      - Return

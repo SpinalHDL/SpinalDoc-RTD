@@ -9,6 +9,7 @@ First each time you want to create a AHB-Lite3 bus, you will need a configuratio
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 2
 
    * - Parameter name
      - Type

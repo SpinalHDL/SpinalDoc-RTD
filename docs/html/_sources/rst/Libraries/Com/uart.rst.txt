@@ -33,6 +33,7 @@ An Uart controller is implemented in the library. This controller has the specif
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 10
 
    * - IO name
      - direction
@@ -60,6 +61,7 @@ The controller could be instantiated via an ``UartCtrlGenerics`` configuration o
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 10
 
    * - Attribute
      - type

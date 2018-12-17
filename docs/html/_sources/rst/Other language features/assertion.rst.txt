@@ -10,6 +10,7 @@ Severity levels are :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 3
 
    * - Name
      - Description

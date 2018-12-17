@@ -46,6 +46,7 @@ Syntax to define in/out is the following :
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 3 1
 
    * - Syntax
      - Description

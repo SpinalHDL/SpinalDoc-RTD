@@ -115,6 +115,7 @@ There is 3 other variation of the Axi4 bus :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - Type
      - Description
@@ -134,6 +135,7 @@ Functions and operators
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 5
 
    * - Name
      - Return

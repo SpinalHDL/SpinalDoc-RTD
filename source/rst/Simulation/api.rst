@@ -21,6 +21,7 @@ Each interface signals of the toplevel can be read into scala and write from sca
 
 .. list-table::
    :header-rows: 1
+   :widths: 3 5
 
    * - Syntax
      - Description
@@ -109,6 +110,7 @@ There is a list of ClockDomain simulation functionalities :
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5
 
    * - ClockDomain stimulus functions
      - Description
@@ -138,6 +140,7 @@ There is a list of ClockDomain simulation functionalities :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - ClockDomain monitoring functions
      - Description

@@ -10,6 +10,7 @@ Specification
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 1 1 10 1
 
    * - Signal
      - Type
@@ -33,6 +34,7 @@ Functions
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 10 1 1
 
    * - Syntax
      - Description

@@ -34,6 +34,7 @@ SimConfig will return your a default simulation configuration instance on which 
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5
 
    * - Syntax
      - Description

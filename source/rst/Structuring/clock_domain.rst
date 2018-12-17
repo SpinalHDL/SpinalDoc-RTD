@@ -35,6 +35,7 @@ This definition takes five parameters:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 10 1
 
    * - Argument
      - Description
@@ -81,6 +82,7 @@ In addition to the constructor parameters given :ref:`here <clock_domain_instant
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - Property
      - Valid values
@@ -153,6 +155,7 @@ This definition takes six parameters:
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5 1
 
    * - Argument
      - Description
@@ -254,6 +257,7 @@ Then the returned instance (which is a ClockDomain one) as following functions t
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5 1
 
    * - name
      - Description

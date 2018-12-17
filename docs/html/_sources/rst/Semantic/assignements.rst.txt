@@ -11,6 +11,7 @@ There are multiple assignment operator :
 
 .. list-table::
    :header-rows: 1
+   :widths: 1 5
 
    * - Symbole
      - Description
@@ -58,6 +59,7 @@ SpinalHDL checks that bit count of left and right assignment side match. There i
 
 .. list-table::
    :header-rows: 1
+   :widths: 2 5
 
    * - Resizing ways
      - Description
@@ -71,6 +73,7 @@ There are one cases where spinal automatically resize things :
 
 .. list-table::
    :header-rows: 1
+   :widths: 7 10 10
 
    * - Assignement
      - Problem
