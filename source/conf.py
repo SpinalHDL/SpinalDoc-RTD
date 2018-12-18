@@ -197,3 +197,7 @@ html_context = {
         '_static/theme_overrides.css',  # override wide tables in RTD theme
         ],
      }
+
+#This is a temporary fix for wavedrom
+offline_skin_js_path = "_static/default.js"
+offline_wavedrom_js_path = "_static/wavedrom.min.js"
