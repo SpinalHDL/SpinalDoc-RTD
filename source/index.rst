@@ -10,19 +10,19 @@ Welcome to SpinalHDL's documentation!
    :maxdepth: 2
    :titlesonly:
 
-   rst/About SpinalHDL/index
-   rst/Getting Started/index
-   rst/Data types/index
-   rst/Structuring/index
-   rst/Semantic/index
-   rst/Sequential logic/index
-   rst/Design errors/index
-   rst/Other language features/index
-   rst/Libraries/index
-   rst/Simulation/index
-   rst/Examples/index
-   rst/Legacy/index
-   rst/Developers area/index
+   SpinalHDL/About SpinalHDL/index
+   SpinalHDL/Getting Started/index
+   SpinalHDL/Data types/index
+   SpinalHDL/Structuring/index
+   SpinalHDL/Semantic/index
+   SpinalHDL/Sequential logic/index
+   SpinalHDL/Design errors/index
+   SpinalHDL/Other language features/index
+   SpinalHDL/Libraries/index
+   SpinalHDL/Simulation/index
+   SpinalHDL/Examples/index
+   SpinalHDL/Legacy/index
+   SpinalHDL/Developers area/index
 
 .. d
     .. toctree::
