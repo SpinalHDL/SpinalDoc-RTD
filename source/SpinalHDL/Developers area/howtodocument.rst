@@ -64,25 +64,25 @@ and you get:
 
 you can describe register mapping with the same syntax:
 
-.. .. code:: javascript
+.. code:: javascript
 
-..    {"reg":[
-..      {"bits": 8, "name": "things"},
-..      {"bits": 2, "name": "stuff" },
-..      {"bits": 6},
-..     ],
-..     "config": { "bits":16,"lanes":1 }
-..     }
+   {"reg":[
+     {"bits": 8, "name": "things"},
+     {"bits": 2, "name": "stuff" },
+     {"bits": 6}
+    ],
+    "config": { "bits":16,"lanes":1 }
+    }
 
-.. .. wavedrom::
+.. wavedrom::
 
-..    {"reg":[
-..       {"bits": 8, "name": "things"},
-..       {"bits": 2, "name": "stuff" },
-..       {"bits": 6},
-..      ],
-..      "config": { "bits":16,"lanes":1 }
-..    }
+   {"reg":[
+      {"bits": 8, "name": "things"},
+      {"bits": 2, "name": "stuff" },
+      {"bits": 6}
+     ],
+     "config": { "bits":16,"lanes":1 }
+   }
 
 New section
 -----------
