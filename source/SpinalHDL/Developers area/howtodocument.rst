@@ -38,7 +38,7 @@ So you can specify a timing diagram, or a register description with the WaveJSON
          { "name": "clk1", "wave": "xhlhLHl." },
          { "name": "clk2", "wave": "hpHplnLn" },
          { "name": "clk3", "wave": "nhNhplPl" },
-         { "name": "clk4", "wave": "xlh.L.Hx" },
+         { "name": "clk4", "wave": "xlh.L.Hx" }
       ]}
 
 and you get:
@@ -55,7 +55,7 @@ and you get:
       { "name": "clk1", "wave": "xhlhLHl." },
       { "name": "clk2", "wave": "hpHplnLn" },
       { "name": "clk3", "wave": "nhNhplPl" },
-      { "name": "clk4", "wave": "xlh.L.Hx" },
+      { "name": "clk4", "wave": "xlh.L.Hx" }
    ]}
 
 .. note::
