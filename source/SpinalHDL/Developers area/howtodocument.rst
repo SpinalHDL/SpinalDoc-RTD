@@ -62,6 +62,9 @@ and you get:
    if you want the Wavedrom diagram to be present in the pdf export, you need to use the "non relaxed" JSON dialect.
    long story short, no javascript code and use ``"`` arround key value (Eg. ``"name"``).
 
+.. warning::
+   the bitfield extension is not yet supported, but is planned.
+
 you can describe register mapping with the same syntax:
 
 .. code:: javascript
@@ -74,15 +77,15 @@ you can describe register mapping with the same syntax:
     "config": { "bits":16,"lanes":1 }
     }
 
-.. wavedrom::
+.. .. wavedrom::
 
-   {"reg":[
-      {"bits": 8, "name": "things"},
-      {"bits": 2, "name": "stuff" },
-      {"bits": 6}
-     ],
-     "config": { "bits":16,"lanes":1 }
-   }
+..    {"reg":[
+..       {"bits": 8, "name": "things"},
+..       {"bits": 2, "name": "stuff" },
+..       {"bits": 6}
+..      ],
+..      "config": { "bits":16,"lanes":1 }
+..    }
 
 New section
 -----------
