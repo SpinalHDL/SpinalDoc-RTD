@@ -12,11 +12,16 @@ stages:
   - build
   - deploy
 
+env:
+  global:
+    - PIPENV_VENV_IN_PROJECT=1
+    - PIPENV_IGNORE_VIRTUALENVS=1
+
 jobs:
   - stage: test-links
-    script: make linkcheck
+    script: pipenv run make linkcheck
   - stage: build
-    script: make html
+    script: pipenv run make html
   - stage: deploy
     deploy:
       provider: pages
