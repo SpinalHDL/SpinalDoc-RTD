@@ -33,4 +33,4 @@ The toplevel code explanation could be find :ref:`there <briey_hardware_toplevel
 Board support
 -------------
 
-A DE1-SOC FPGA project can be find `there <https://drive.google.com/folderview?id=0B-CqLXDTaMbKOGhIU0JGdHVVSk0&usp=sharing>`_ with some demo binaries.
+A DE1-SOC FPGA project can be find `there <https://drive.google.com/drive/folders/0B-CqLXDTaMbKOGhIU0JGdHVVSk0?usp=sharing>`_ with some demo binaries.

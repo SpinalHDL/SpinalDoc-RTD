@@ -40,7 +40,7 @@ Base FPGA project
 
 You can find a DE1-SOC project which integrate two instance of the CPU with MUL/DIV/Full shifter/I$/Interrupt/Debug there :
 
-https://drive.google.com/folderview?id=0B-CqLXDTaMbKNkktb2k3T3lzcUk&usp=sharing
+https://drive.google.com/drive/folders/0B-CqLXDTaMbKNkktb2k3T3lzcUk?usp=sharing
 
 CPU/JTAG/VGA IP are pre-generated.
 Quartus Prime : 15.1.
@@ -51,11 +51,11 @@ How to generate the CPU VHDL
 .. warning::
    This avalon version of the CPU isn't present in recent releases of SpinalHDL. Please considarate the `VexRiscv <https://github.com/SpinalHDL/VexRiscv>`_ instead.
 
-There is an example of a top level which generate an Altera QSys component that contain the CPU with Avalon interfaces and some timing buffer :
+.. There is an example of a top level which generate an Altera QSys component that contain the CPU with Avalon interfaces and some timing buffer :
 
-https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/cpu/riscv/impl/CoreQSysAvalon.scala#L97
+.. https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/cpu/riscv/impl/CoreQSysAvalon.scala#L97
 
-If you want to generate it, the easiest way is to get the https://github.com/SpinalHDL/SpinalTemplateSbt and call ``QSysAvalonCore.main(null)`` from your main function.
+.. If you want to generate it, the easiest way is to get the https://github.com/SpinalHDL/SpinalTemplateSbt and call ``QSysAvalonCore.main(null)`` from your main function.
 
 How to debug
 ------------

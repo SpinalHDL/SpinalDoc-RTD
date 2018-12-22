@@ -11,7 +11,7 @@ Introduction
 Its toplevel implementation is an interesting example, because it mix some design pattern that make it very easy to modify. Adding a new master or a new peripheral to the bus fabric could be done in the seconde.
 
 This toplevel implementation could be consulted there :
-`https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/briey/Briey.scala <https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/briey/Briey.scala>`_
+`https://github.com/SpinalHDL/VexRiscv/blob/master/src/main/scala/vexriscv/demo/Briey.scala <https://github.com/SpinalHDL/VexRiscv/blob/master/src/main/scala/vexriscv/demo/Briey.scala>`_
 
 There is the Briey toplevel hardware diagram :
 

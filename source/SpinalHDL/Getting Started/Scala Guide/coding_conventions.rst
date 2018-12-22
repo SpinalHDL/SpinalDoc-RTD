@@ -5,7 +5,7 @@ Coding conventions
 Introduction
 ------------
 
-The coding conventions used in SpinalHDL is the same than the one documented in the `scala doc <http://docs.scala-lang.org/style/>`_.
+The coding conventions used in SpinalHDL is the same than the one documented in the `scala doc <https://docs.scala-lang.org/style/>`_.
 
 Then some additional practice and practical cases are explained in next chapters.
 
