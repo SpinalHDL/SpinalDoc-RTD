@@ -1,6 +1,6 @@
 CheatSheet Core
 ===============
-Redirection to https://github.com/SpinalHDL/SpinalDoc/blob/master/cheatsheet/en/cheatsheet_core_oo.pdf
+Redirection to https://github.com/SpinalHDL/SpinalDoc/blob/master/cheatsheet/cheatSheet_core_oo.pdf
 
 
 .. raw:: html

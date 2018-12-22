@@ -3,12 +3,12 @@
 
 
 The ``spinal.core`` components
-==================================
+==============================
+The core components of the language are described in this document. It is part of the general
 
-The core components of the language are described in this document. It is part of the general :ref:`SpinalHDL user guide <userGuide>`.
+.. :ref:`SpinalHDL user guide <userGuide>`.
 
 The core language components are as follows:
-
 
 * :ref:`*Clock domains* <core_components_clock_domain_definition>`, which allow to define and interoperate multiple clock domains within a design
 * *Memory instantiation*\ , which permit the automatic instantiation of RAM and ROM memories.

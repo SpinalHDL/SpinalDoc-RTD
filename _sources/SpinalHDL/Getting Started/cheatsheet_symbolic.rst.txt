@@ -1,7 +1,7 @@
 CheatSheet Symbolic
 ===================
 
-Redirection to https://github.com/SpinalHDL/SpinalDoc/blob/master/cheatsheet/en/cheatsheet_symbolic.pdf
+Redirection to https://github.com/SpinalHDL/SpinalDoc/blob/master/cheatsheet/cheatSheet_symbolic.pdf
 
 
 .. raw:: html

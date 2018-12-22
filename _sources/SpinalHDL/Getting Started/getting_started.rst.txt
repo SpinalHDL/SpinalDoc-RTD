@@ -6,7 +6,7 @@
 Getting Started
 ===============
 
-*SpinalHDL* is a hardware description language written in `Scala <http://scala-lang.org/>`_\ , a static-type functional language using the Java virtual machine (JVM). In order to start programming with *SpinalHDL*\ , you must have a JVM as well as the Scala compiler. In the next section, we will explain how to download those tools if you don't have them already.
+*SpinalHDL* is a hardware description language written in `Scala <https://scala-lang.org/>`_\ , a static-type functional language using the Java virtual machine (JVM). In order to start programming with *SpinalHDL*\ , you must have a JVM as well as the Scala compiler. In the next section, we will explain how to download those tools if you don't have them already.
 
 Requirements / Things to download to get started {#requirements}
 ----------------------------------------------------------------
@@ -14,9 +14,9 @@ Requirements / Things to download to get started {#requirements}
 Before you download the SpinalHDL tools, you need to install:
 
 
-* A Java JDK, which can be downloaded from `here <http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_ for instance.
-* A Scala 2.11.X distribution, which can be downloaded `here <http://scala-lang.org/download/>`_ (not required if you use SBT).
-* The SBT build tool, which can be downloaded `here <http://www.scala-sbt.org/download.html>`_.
+* A Java JDK, which can be downloaded from `here <https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_ for instance.
+* A Scala 2.11.X distribution, which can be downloaded `here <https://scala-lang.org/download/>`_ (not required if you use SBT).
+* The SBT build tool, which can be downloaded `here <https://www.scala-sbt.org/download.html>`_.
 
 Optionally:
 
@@ -41,7 +41,7 @@ The SBT way {#sbtWay}
 We have prepared a ready to go project for you on Github.
 
 
-* Either clone or `download <https://github.com/SpinalHDL/SpinalTemplateSbt/archive/master.zip>`_ the `"getting started" repository <https://github.com/SpinalHDL/SpinalTemplateSbt.git>`_.
+* Either clone or `download <https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master>`_ the `"getting started" repository <https://github.com/SpinalHDL/SpinalTemplateSbt>`_.
 * Open a terminal in the root of it and run ``sbt run``. When you execute it for the first time, the process could take some time as it will download all the dependencies required to run *SpinalHDL*.
 
 Normally, this command must generate an output file ``MyTopLevel.vhd``\ , which corresponds to the top level *SpinalHDL* code defined in ``src\main\scala\MyCode.scala``\ , which corresponds to the `most simple SpinalHDL example <#example>`_.
@@ -67,7 +67,7 @@ SBT in a environnement isolated from internet
 Basically, SBT use online repositories to download and cache your projects dependancies, this cache is located in your home/.ivy2 folder. The way to setup an internet free environnement is to copy this cache from an internet-full environnement where the cache was already filled once, and copy it on your internet less environnement.
 
 | You can get an portable SBT setups there :
-| http://www.scala-sbt.org/download.html
+| https://www.scala-sbt.org/download.html
 
 .. _getting_started_ide_way:
 
@@ -79,7 +79,7 @@ In addition to the aforementioned `requirements <#requirements>`_\ , you also ne
 And do the following :
 
 
-* Either clone or `download <https://github.com/SpinalHDL/SpinalTemplateSbt/archive/master.zip>`_ the `"getting started" repository <https://github.com/SpinalHDL/SpinalTemplateSbt.git>`_.
+* Either clone or `download <https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master>`_ the `"getting started" repository <https://github.com/SpinalHDL/SpinalTemplateSbt>`_.
 * In *Intellij IDEA*\ , "import project" with the root of this repository, the choose the *Import project from external model SBT* and be sure to check all boxes.
 * In addition, you might need to specify some path like where you installed the JDK to *IntelliJ*.
 * In the project (Intellij project GUI), right click on ``src/main/scala/MyCode/TopLevel.scala`` and select "Run MyTopLevel".

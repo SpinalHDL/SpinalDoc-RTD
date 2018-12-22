@@ -17,7 +17,7 @@ Introduction
    | Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator
 
 .. important::
-   This page will not explains how JTAG work. A good tutorial could be find `there <http://www.fpga4fun.com/JTAG.html>`_.
+   This page will not explains how JTAG work. A good tutorial could be find `there <https://www.fpga4fun.com/JTAG.html>`_.
 
 One big difference between commonly used HDL and Spinal, is the fact that SpinalHDL allow you to define hardware generators/builders. It's very different than describing hardware.
 Let's take a look into the example bellow because the difference between generate/build/describing could seem "playing with word" or could be interpreted differently.
@@ -70,7 +70,7 @@ As you can see this bus don't contain the TCK pin because it will be provided by
 JTAG state machine
 ------------------
 
-Let's define the JTAG state machine as explained `here <http://www.fpga4fun.com/JTAG2.html>`_
+Let's define the JTAG state machine as explained `here <https://www.fpga4fun.com/JTAG2.html>`_
 
 .. code-block:: scala
 

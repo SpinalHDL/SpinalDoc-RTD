@@ -15,7 +15,7 @@ The AvalonMM bus fit very well in FPGA. It is very flexible :
 Configuration and instanciation
 -------------------------------
 
-The ``AvalonMM`` Bundle has a construction argument ``AvalonMMConfig``. Because of the flexible nature of the Avalon bus, the ``AvalonMMConfig`` as many configuration elements. For more information the Avalon spec could be find `there <https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/manual/mnl_avalon_spec.pdf>`_.
+The ``AvalonMM`` Bundle has a construction argument ``AvalonMMConfig``. Because of the flexible nature of the Avalon bus, the ``AvalonMMConfig`` as many configuration elements. For more information the Avalon spec could be find `there <https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/manual/mnl_avalon_spec.pdf>`_.
 
 .. code-block:: scala
 

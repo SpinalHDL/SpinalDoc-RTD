@@ -4,7 +4,7 @@ Users
 Compagnies
 ----------
 
-`QsPin, Belgium <http://www.qspin.be/>`_
+QsPin, Belgium
 
 .. _users_repositories:
 

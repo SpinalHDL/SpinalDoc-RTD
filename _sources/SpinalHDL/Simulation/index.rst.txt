@@ -44,7 +44,7 @@ And some limitations :
 Performance
 -----------
 
-As verilator is currently the simulation backend, the simulation speed is realy high. On a little SoC like `Murax <https://github.com/SpinalHDL/VexRiscv#murax-soc>`_ my laptop is capable to simulate 1.2 million clock cycles per realtime seconds.
+As verilator is currently the simulation backend, the simulation speed is realy high. On a little SoC like `Murax <https://github.com/SpinalHDL/VexRiscv>`_ my laptop is capable to simulate 1.2 million clock cycles per realtime seconds.
 
 Setup
 -----
