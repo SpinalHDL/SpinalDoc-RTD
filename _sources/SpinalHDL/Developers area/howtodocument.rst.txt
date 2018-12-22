@@ -83,6 +83,7 @@ you can describe register mapping with the same syntax:
      ],
      "config": { "bits":16,"lanes":1 }
    }
+
 New section
 -----------
 if you want to add a new  section you need to specify in the top index, the index file of the new section.
