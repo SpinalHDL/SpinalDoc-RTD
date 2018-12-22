@@ -13,7 +13,7 @@ Examples are split in tree kinds:
 
 They are all accessible in the sidebar under the corresponding sections.
 
-.. warning::
+.. important::
    The SpinalHDL workshop contains many labs with their solutions. See `here <https://github.com/SpinalHDL/SpinalWorkshop>`_.
 
 
