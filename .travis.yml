@@ -6,19 +6,18 @@ python:
 dist: xenial
 sudo: true
 
-install:
-  - pip install pipenv
-  - pipenv install
-
 stages:
   - test-links
   - build
   - deploy
 
-env:
-  global:
-    - PIPENV_VENV_IN_PROJECT=1
-    - PIPENV_IGNORE_VIRTUALENVS=1
+install:
+  - pip install pipenv
+  - pipenv install
+
+cache:
+  directories:
+    - docs/html
 
 jobs:
   include:
