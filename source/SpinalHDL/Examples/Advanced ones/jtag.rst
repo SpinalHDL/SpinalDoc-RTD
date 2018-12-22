@@ -9,14 +9,14 @@ JTAG TAP
 Introduction
 ------------
 
-.. warning::
+.. important::
    The goal of this page is to show the implementation of a JTAG TAP (a slave) by a non-conventional way.
 
-.. warning::
+.. important::
    | This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description.
    | Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator
 
-.. warning::
+.. important::
    This page will not explains how JTAG work. A good tutorial could be find `there <http://www.fpga4fun.com/JTAG.html>`_.
 
 One big difference between commonly used HDL and Spinal, is the fact that SpinalHDL allow you to define hardware generators/builders. It's very different than describing hardware.

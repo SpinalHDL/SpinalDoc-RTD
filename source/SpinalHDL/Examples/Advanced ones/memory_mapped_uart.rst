@@ -113,6 +113,6 @@ Then we can define a ``Apb3UartCtrl`` component which instantiates a ``UartCtrl`
                                    address = 12, validBitOffset = 31, payloadBitOffset = 0)
    }
 
-.. warning::
+.. important::
    | Yes, that's all it takes. It's also synthesizable. 
    | The Apb3SlaveFactory tool is not something hard-coded into the SpinalHDL compiler. It's something implemented with SpinalHDL regular hardware description syntax.

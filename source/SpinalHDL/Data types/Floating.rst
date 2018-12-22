@@ -1,3 +1,6 @@
+.. warning::
+   The SpinalHDL floating point support is under development and only partially used/tested, if you have any bug with it or you think that an functionality is missing, please create a github issue. Please, do not use undocumented features.
+
 .. _Floating:
 
 Floating

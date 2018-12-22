@@ -1,5 +1,5 @@
 
-.. warning::
+.. important::
    Variable and functions should be defined into ``object``\ , ``class``\ , ``function``. You can't define them on the root of a Scala file.
 
 Basics

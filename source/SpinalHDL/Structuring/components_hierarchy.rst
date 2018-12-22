@@ -35,7 +35,7 @@ Like in VHDL and Verilog, you can define components that could be used to build 
      ...
    }
 
-.. note::
+.. tip::
    | val io = new Bundle{ ... } :
    | Declaring all in/out in a Bundle named io is probably a good pratice. If you call your bundle io, Spinal will check that all elements are defined as input or output
 
@@ -73,7 +73,7 @@ There is some rules about component interconnection :
 * Components can only read outputs/inputs signals of children components
 * Components can read their own outputs ports values (unlike VHDL)
 
-.. note::
+.. tip::
    If for some reason, you need to read a signals from far away in the hierarchy (debug, temporal patch) you can do it by using the value returned by some.where.else.theSignal.pull().
 
 Pruned signals
