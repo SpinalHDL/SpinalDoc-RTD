@@ -4,16 +4,20 @@ python:
   - "3.6"
 
 install:
-  - pip install -r requirements.txt
+  - pip install pipenv
+  - pipenv install
 
-script:
-  - make html
-
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep-history: true
-  local-dir: docs/html
-  on:
-    branch: master
+jobs:
+  - stage: test-links
+    script: make linkcheck
+  - stage: build
+    script: make html
+  - stage: deploy
+    deploy:
+      provider: pages
+      skip-cleanup: true
+      github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+      keep-history: true
+      local-dir: docs/html
+      on:
+        branch: master
