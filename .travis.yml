@@ -9,15 +9,12 @@ sudo: true
 stages:
   - test-links
   - build
-  - deploy
+  - name: deploy
+    if: branch = master  # Deploy only on master commits
 
 install:
   - pip install pipenv
   - pipenv install
-
-cache:
-  directories:
-    - docs/html
 
 jobs:
   include:
@@ -26,6 +23,7 @@ jobs:
     - stage: build
       script: pipenv run make html
     - stage: deploy
+      script: pipenv run make html
       deploy:
         provider: pages
         skip-cleanup: true
@@ -33,4 +31,4 @@ jobs:
         keep-history: true
         local-dir: docs/html
         on:
-          branch: master
+          branch: master  # You can't be safe enough <insert double condom joke here>
