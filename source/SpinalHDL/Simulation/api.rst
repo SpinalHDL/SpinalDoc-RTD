@@ -11,7 +11,6 @@ Don't forget the following imports :
 
 .. code-block:: scala
 
-   import spinal.sim._
    import spinal.core.sim._
 
 Read and write signals

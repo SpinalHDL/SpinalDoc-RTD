@@ -8,7 +8,6 @@ Simulation
 
    bootstraps
    api
-   continuation
    examples/index
 
 .. role:: raw-html-m2r(raw)
@@ -58,16 +57,12 @@ Don't forget to add the following in your build.sbt file
 
 .. code-block:: scala
 
-   scalaVersion := "2.11.6"
-   addCompilerPlugin("org.scala-lang.plugins" % "scala-continuations-plugin_2.11.6" % "1.0.2")
-   scalacOptions += "-P:continuations:enable"
    fork := true
 
 And you will always need the following imports in your Scala testbench :
 
 .. code-block:: scala
 
-   import spinal.sim._
    import spinal.core._
    import spinal.core.sim._
 

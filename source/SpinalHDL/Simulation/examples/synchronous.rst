@@ -23,16 +23,14 @@ Synchronous adder
        SimConfig.withWave.compile(new Dut).doSim{ dut =>
          dut.clockDomain.forkStimulus(period = 10)
 
-         var idx = 0
          var resultModel = 0
-         while(idx < 100) {
+         for(idx <- 0 until 100){
            dut.io.a #= Random.nextInt(256)
            dut.io.b #= Random.nextInt(256)
            dut.io.c #= Random.nextInt(256)
            dut.clockDomain.waitSampling()
            assert(dut.io.result.toInt == resultModel)
            resultModel = (dut.io.a.toInt + dut.io.b.toInt - dut.io.c.toInt) & 0xFF
-           idx += 1
          }
        }
      }
