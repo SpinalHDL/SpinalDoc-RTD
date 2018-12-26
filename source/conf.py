@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'SpinalHDL'
-copyright = '2018, penis'
+copyright = '2018, miaou'
 author = 'penis'
 
 # The short X.Y version
