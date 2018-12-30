@@ -2,7 +2,7 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    =
+SPHINXOPTS    = -Dversion=$(shell git describe --tags --abbrev=0)
 SPHINXBUILD   = sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = docs
