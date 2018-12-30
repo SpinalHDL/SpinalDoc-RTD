@@ -35,7 +35,7 @@ Single clock fifo
      //Pop data randomly and check that it match with the queueModel
      val popThread = fork{
        dut.io.pop.ready #= true
-       Suspendable.repeat(1000000){
+       for(i <- 0 until 100000){
          dut.io.pop.ready.randomize()
          dut.clockDomain.waitSampling()
          if(dut.io.pop.valid.toBoolean && dut.io.pop.ready.toBoolean){

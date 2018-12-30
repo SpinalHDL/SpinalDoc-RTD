@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Simulation &mdash; SpinalHDL 1.11 documentation</title>
+  <title>Simulation &mdash; SpinalHDL  documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Boot a simulation" href="bootstraps.html" />
+    <link rel="next" title="Setup and installation" href="install.html" />
     <link rel="prev" title="QSysify" href="../Libraries/EDA/altera/qsysify.html" /> 
 
   
@@ -195,9 +195,13 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html">Setup and installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bootstraps.html">Boot a simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="continuation.html">Scala continuation (cps)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signal.html">Accessing signals of the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clock.html">Clock domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="threadFull.html">Thread-full API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine.html">Simulation engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/asynchronous.html">Asynchronous adder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="examples/dual_clock_fifo.html">Dual clock fifo</a></li>
@@ -323,12 +327,10 @@
 </div>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3>Introduction<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>As always you can use your standard simulation tools to simulate the VHDL/Verilog generated out from SpinalHDL, but since SpinalHDL 1.0.0 the language integrate an API to write testbenches and test your hardware directly in Scala. This API provide the capabilities to read and write the DUT signals, fork and join simulation processes, sleep and wait until a given condition is filled.</p>
 </div>
 <div class="section" id="how-spinalhdl-simulate-the-hardware">
-<h3>How SpinalHDL simulate the hardware<a class="headerlink" href="#how-spinalhdl-simulate-the-hardware" title="Permalink to this headline">¶</a></h3>
+<h2>How SpinalHDL simulate the hardware<a class="headerlink" href="#how-spinalhdl-simulate-the-hardware" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">Behind the scene SpinalHDL is generating a C++ cycle accurate model of your hardware by generating the equivalent Verilog and asking Verilator to convert it into a C++ model.</div>
 <div class="line">Then SpinalHDL ask GCC to compile the C++ model into an shared object (.so) and bind it back to Scala via JNR-FFI.</div>
@@ -346,90 +348,8 @@
 </ul>
 </div>
 <div class="section" id="performance">
-<h3>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h3>
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
 <p>As verilator is currently the simulation backend, the simulation speed is realy high. On a little SoC like <a class="reference external" href="https://github.com/SpinalHDL/VexRiscv">Murax</a> my laptop is capable to simulate 1.2 million clock cycles per realtime seconds.</p>
-</div>
-<div class="section" id="setup">
-<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
-<p>The SpinalSim with Verilator as backend is supported on both Linux and Windows platforms.</p>
-<div class="section" id="scala">
-<h4>Scala<a class="headerlink" href="#scala" title="Permalink to this headline">¶</a></h4>
-<p>Don’t forget to add the following in your build.sbt file</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.11.6&quot;</span>
-<span class="n">addCompilerPlugin</span><span class="o">(</span><span class="s">&quot;org.scala-lang.plugins&quot;</span> <span class="o">%</span> <span class="s">&quot;scala-continuations-plugin_2.11.6&quot;</span> <span class="o">%</span> <span class="s">&quot;1.0.2&quot;</span><span class="o">)</span>
-<span class="n">scalacOptions</span> <span class="o">+=</span> <span class="s">&quot;-P:continuations:enable&quot;</span>
-<span class="n">fork</span> <span class="o">:=</span> <span class="kc">true</span>
-</pre></div>
-</div>
-<p>And you will always need the following imports in your Scala testbench :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.sim._</span>
-<span class="k">import</span> <span class="nn">spinal.core._</span>
-<span class="k">import</span> <span class="nn">spinal.core.sim._</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="linux">
-<h4>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h4>
-<p>You will also need a recent version of Verilator installed :</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install git make autoconf g++ flex bison -y  <span class="c1"># First time prerequisites</span>
-git clone http://git.veripool.org/git/verilator   <span class="c1"># Only first time</span>
-unsetenv VERILATOR_ROOT  <span class="c1"># For csh; ignore error if on bash</span>
-<span class="nb">unset</span> VERILATOR_ROOT  <span class="c1"># For bash</span>
-<span class="nb">cd</span> verilator
-git pull        <span class="c1"># Make sure we&#39;re up-to-date</span>
-git checkout verilator_3_916
-autoconf        <span class="c1"># Create ./configure script</span>
-./configure
-make -j<span class="k">$(</span>nproc<span class="k">)</span>
-sudo make install
-<span class="nb">echo</span> <span class="s2">&quot;DONE&quot;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="windows">
-<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
-<p>In order to get SpinalSim + Verilator working on windows, you have to do the following :</p>
-<ul class="simple">
-<li>Install MSYS2</li>
-<li>Via MSYS2 get gcc/g++/verilator (for verilator you can compile it from the sources)</li>
-<li>Add bin and usrbin of MSYS2 into your windows PATH (ie : C:msys64usrbin;C:msys64mingw64bin)</li>
-</ul>
-<p>Then you should be able to run SpinalSim + verilator from your Scala project without having to use MSYS2 anymore.</p>
-<p>From a fresh install of MSYS2 MinGW 64-bits, you will have to run the following commands inside the MSYS2 MinGW 64-bits shell (enter commands one by one):</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman -Syuu
-<span class="c1">#Close the MSYS2 shell once you&#39;re asked to</span>
-pacman -Syuu
-pacman -S --needed base-devel mingw-w64-x86_64-toolchain <span class="se">\</span>
-                   git flex<span class="se">\</span>
-                   mingw-w64-x86_64-cmake
-
-git clone http://git.veripool.org/git/verilator
-<span class="nb">unset</span> VERILATOR_ROOT
-<span class="nb">cd</span> verilator
-git pull
-git checkout verilator_3_916
-autoconf
-./configure
-<span class="nb">export</span> <span class="nv">CPLUS_INCLUDE_PATH</span><span class="o">=</span>/usr/include:<span class="nv">$CPLUS_INCLUDE_PATH</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/usr/bin/core_perl:<span class="nv">$PATH</span>
-cp /usr/include/FlexLexer.h ./src
-
-make -j<span class="k">$(</span>nproc<span class="k">)</span>
-make install
-<span class="nb">echo</span> <span class="s2">&quot;DONE&quot;</span>
-<span class="c1">#Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to you windows PATH</span>
-</pre></div>
-</div>
-<div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">Be sure that your PATH environnement variable is pointing to the JDK 1.8 and don’t contain a JRE installation.</p>
-</div>
-<div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">Adding the MSYS2 bin folders into your windows PATH could potentialy have some side effects. It’s why it is safer to add them as last elements of the PATH to reduce their priority.</p>
-</div>
-</div>
-</div>
 </div>
 </div>
 
@@ -447,7 +367,7 @@ make install
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="bootstraps.html" class="btn btn-neutral float-right" title="Boot a simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Setup and installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../Libraries/EDA/altera/qsysify.html" class="btn btn-neutral" title="QSysify" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

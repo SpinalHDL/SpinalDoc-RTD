@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Uart decoder &mdash; SpinalHDL 1.11 documentation</title>
+  <title>Uart decoder &mdash; SpinalHDL  documentation</title>
   
 
   
@@ -195,9 +195,13 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Simulation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">Setup and installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../bootstraps.html">Boot a simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api.html">API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../continuation.html">Scala continuation (cps)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signal.html">Accessing signals of the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clock.html">Clock domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../threadFull.html">Thread-full API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../engine.html">Simulation engine</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="asynchronous.html">Asynchronous adder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dual_clock_fifo.html">Dual clock fifo</a></li>
@@ -336,7 +340,7 @@
     <span class="n">sleep</span><span class="o">(</span><span class="n">baudPeriod</span><span class="o">)</span>
 
     <span class="k">var</span> <span class="n">buffer</span> <span class="k">=</span> <span class="mi">0</span>
-    <span class="o">(</span><span class="mi">0</span> <span class="n">to</span> <span class="mi">7</span><span class="o">).</span><span class="n">suspendable</span><span class="o">.</span><span class="n">foreach</span><span class="o">{</span> <span class="n">bitId</span> <span class="k">=&gt;</span>
+    <span class="k">for</span><span class="o">(</span><span class="n">bitId</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">7</span><span class="o">)</span> <span class="o">{</span>
       <span class="k">if</span><span class="o">(</span><span class="n">uartPin</span><span class="o">.</span><span class="n">toBoolean</span><span class="o">)</span>
         <span class="n">buffer</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">bitId</span>
       <span class="n">sleep</span><span class="o">(</span><span class="n">baudPeriod</span><span class="o">)</span>
