@@ -10,6 +10,7 @@ With pipenv
 Requirements (system)
 
 * make
+* git
 
 Requirements (Python 3):
 
@@ -45,11 +46,12 @@ and then you can use ``make`` the usual way
 
 all the outputs will be in docs folder (for html: docs/html)
 
-without pipenv/virtualenv
+Without pipenv/virtualenv
 -------------------------
 Requirements (system):
 
 * make
+* git
 
 Requirements (Python 3):
 
@@ -65,6 +67,17 @@ After installing the requirements you can run
    make latex    # for latex
    make latexpdf # for latex (will require latexpdf installed)
    make          # list all the available output format
+
+Versioning
+==========
+The documentation will show on the top left the last pushed tag.
+The magic is in the makefile:
+
+.. code:: make
+
+   SPHINXOPTS    = -Dversion=$(shell git describe --tags --abbrev=0)
+
+this will ovveride the ``version`` variable in ``conf.py``.
 
 Continuous Integration(CI)
 ==========================
