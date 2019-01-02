@@ -41,6 +41,7 @@ release = ''
 extensions = [
     'sphinx.ext.githubpages',
     'sphinxcontrib.wavedrom',
+    'sphinx.ext.imgconverter',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -98,6 +99,8 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
+
+html_favicon = 'asset/logo/logo3_32x32.png'
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
