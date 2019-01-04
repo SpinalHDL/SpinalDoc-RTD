@@ -160,11 +160,11 @@ To understand it more deeply, there is an SpinalHDL example which do some periph
    val apbDecoder = Apb3Decoder(
      master = apbBridge.io.apb,
      slaves = List(
-       gpioACtrl.io.apb -> (0x00000, 4 kB),
-       gpioBCtrl.io.apb -> (0x01000, 4 kB),
-       uartCtrl.io.apb  -> (0x10000, 4 kB),
-       timerCtrl.io.apb -> (0x20000, 4 kB),
-       vgaCtrl.io.apb   -> (0x30000, 4 kB)
+       gpioACtrl.io.apb -> (0x00000, 4 KiB),
+       gpioBCtrl.io.apb -> (0x01000, 4 KiB),
+       uartCtrl.io.apb  -> (0x10000, 4 KiB),
+       timerCtrl.io.apb -> (0x20000, 4 KiB),
+       vgaCtrl.io.apb   -> (0x30000, 4 KiB)
      )
    )
 

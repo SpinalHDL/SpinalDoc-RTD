@@ -233,7 +233,7 @@ In fact it's not an AXI4 but an Axi4Shared, which mean that a ARW channel replac
 
    val ram = Axi4SharedOnChipRam(
      dataWidth = 32,
-     byteCount = 4 kB,
+     byteCount = 4 KiB,
      idWidth = 4     //Specify the AXI4 ID width.
    )
 
@@ -423,9 +423,9 @@ First you need to populate slaves interfaces :
    //          Slave  -> (base address,  size) ,
 
    axiCrossbar.addSlaves(
-     ram.io.axi       -> (0x00000000L,   4 kB),
-     sdramCtrl.io.axi -> (0x40000000L,  64 MB),
-     apbBridge.io.axi -> (0xF0000000L,   1 MB)
+     ram.io.axi       -> (0x00000000L,   4 KiB),
+     sdramCtrl.io.axi -> (0x40000000L,  64 MiB),
+     apbBridge.io.axi -> (0xF0000000L,   1 MiB)
    )
 
 Then you need to populate interconnections between slaves and masters :
@@ -475,12 +475,12 @@ The interconnection between the APB3 bridge and all peripherals is done via an A
    val apbDecoder = Apb3Decoder(
      master = apbBridge.io.apb,
      slaves = List(
-       gpioACtrl.io.apb -> (0x00000, 4 kB),
-       gpioBCtrl.io.apb -> (0x01000, 4 kB),
-       uartCtrl.io.apb  -> (0x10000, 4 kB),
-       timerCtrl.io.apb -> (0x20000, 4 kB),
-       vgaCtrl.io.apb   -> (0x30000, 4 kB),
-       core.io.debugBus -> (0xF0000, 4 kB)
+       gpioACtrl.io.apb -> (0x00000, 4 KiB),
+       gpioBCtrl.io.apb -> (0x01000, 4 KiB),
+       uartCtrl.io.apb  -> (0x10000, 4 KiB),
+       timerCtrl.io.apb -> (0x20000, 4 KiB),
+       vgaCtrl.io.apb   -> (0x30000, 4 KiB),
+       core.io.debugBus -> (0xF0000, 4 KiB)
      )
    )
 

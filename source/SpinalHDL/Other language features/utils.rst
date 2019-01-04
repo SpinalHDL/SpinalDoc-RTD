@@ -136,3 +136,40 @@ SpinalHDL HDL has a dedicated syntax to defne frequencies and times value :
 | Hz, KHz, MHz, GHz, THz
 
 ``TimeNumber`` and ``HertzNumber`` are based on the ``PhysicalNumber`` class which use  scala ``BigDecimal`` to store numbers.
+
+Binary prefix
+-------------
+
+SpinalHDL allows the definition of integer numbers using binary prefix notation according to IEC.
+
+.. code-block:: scala
+
+   val memSize = 512 MiB
+   val dpRamSize = 4 KiB
+
+The following binary prefix notations are available:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 1 2
+
+   * - Binary Prefix
+     - Value
+   * - B
+     - 1
+   * - KiB
+     - 1024 == 1 << 10
+   * - MiB
+     - 1024\ :sup:`2` == 1 << 20
+   * - GiB
+     - 1024\ :sup:`3` == 1 << 30
+   * - TiB
+     - 1024\ :sup:`4` == 1 << 40
+   * - PiB
+     - 1024\ :sup:`5` == 1 << 50
+   * - EiB
+     - 1024\ :sup:`6` == 1 << 60
+   * - ZiB
+     - 1024\ :sup:`7` == 1 << 70
+   * - YiB
+     - 1024\ :sup:`8` == 1 << 80
