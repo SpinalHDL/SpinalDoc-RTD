@@ -155,7 +155,7 @@ The following binary prefix notations are available:
 
    * - Binary Prefix
      - Value
-   * - B
+   * - Byte
      - 1
    * - KiB
      - 1024 == 1 << 10
