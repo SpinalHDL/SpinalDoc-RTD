@@ -1,5 +1,5 @@
-CheatSheet Core
-===============
+Core
+====
 Redirection to https://github.com/SpinalHDL/SpinalDoc/blob/master/cheatsheet/cheatSheet_core_oo.pdf
 
 
@@ -8,6 +8,6 @@ Redirection to https://github.com/SpinalHDL/SpinalDoc/blob/master/cheatsheet/che
    <head>
       <!-- HTML meta refresh URL redirection -->
       <meta http-equiv="refresh"
-      content="0; url=http://cdn.rawgit.com/SpinalHDL/SpinalDoc/a6ea1a7a92429b27ddbbb091e9fbc8abeffb2bed/cheatsheet/cheatSheet_core_oo.pdf">
+      content="0; url=http://cdn.rawgit.com/SpinalHDL/SpinalDoc/842d4def61c565a411d7bbe06b308d04c37ca6eb/cheatsheet/cheatSheet_core_oo.pdf">
    </head>
 
