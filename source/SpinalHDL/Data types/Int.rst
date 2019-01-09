@@ -3,7 +3,7 @@
 
 .. _Int:
 
-Unit/SInt
+UInt/SInt
 =========
 
 Description
