@@ -8,8 +8,10 @@ Getting Started
 
 *SpinalHDL* is a hardware description language written in `Scala <https://scala-lang.org/>`_\ , a static-type functional language using the Java virtual machine (JVM). In order to start programming with *SpinalHDL*\ , you must have a JVM as well as the Scala compiler. In the next section, we will explain how to download those tools if you don't have them already.
 
-Requirements / Things to download to get started {#requirements}
-----------------------------------------------------------------
+.. _requirements:
+
+Requirements / Things to download to get started
+-------------------------------------------------
 
 Before you download the SpinalHDL tools, you need to install:
 
@@ -30,13 +32,13 @@ How to start programming with SpinalHDL
 Once you have downloaded all the requirements, there are two ways to get started with SpinalHDL programming.
 
 
-#. :ref:` *The SBT way* <getting_started_sbt_way>` : if you already are familiar with the SBT build system and/or if you don't need an IDE.
-#. :ref:` *The IDE way* <getting_started_ide_way>` : get a project already setup for you in an IDE and start programming right away.
+#. :ref:`The SBT way <getting_started_sbt_way>` : if you already are familiar with the SBT build system and/or if you don't need an IDE.
+#. :ref:`The IDE way <getting_started_ide_way>` : get a project already setup for you in an IDE and start programming right away.
 
 .. _getting_started_sbt_way:
 
-The SBT way {#sbtWay}
-^^^^^^^^^^^^^^^^^^^^^
+The SBT way 
+^^^^^^^^^^^^
 
 We have prepared a ready to go project for you on Github.
 
@@ -44,7 +46,7 @@ We have prepared a ready to go project for you on Github.
 * Either clone or `download <https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master>`_ the `"getting started" repository <https://github.com/SpinalHDL/SpinalTemplateSbt>`_.
 * Open a terminal in the root of it and run ``sbt run``. When you execute it for the first time, the process could take some time as it will download all the dependencies required to run *SpinalHDL*.
 
-Normally, this command must generate an output file ``MyTopLevel.vhd``\ , which corresponds to the top level *SpinalHDL* code defined in ``src\main\scala\MyCode.scala``\ , which corresponds to the `most simple SpinalHDL example <#example>`_.
+Normally, this command must generate an output file ``MyTopLevel.vhd``\ , which corresponds to the top level *SpinalHDL* code defined in ``src\main\scala\MyCode.scala``\ , which corresponds to the :ref:`most simple SpinalHDL example <example>`
 
 From a clean Debian distribution you can type followings commands in the shell. It will install java, scala, sbt, download the base project and generate the corresponding VHDL file. Don't worry if it takes time the first time that you run it.
 
@@ -71,10 +73,10 @@ Basically, SBT use online repositories to download and cache your projects depen
 
 .. _getting_started_ide_way:
 
-The IDE way, with IntelliJ IDEA and its Scala plugin {#ideWay}
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The IDE way, with IntelliJ IDEA and its Scala plugin
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In addition to the aforementioned `requirements <#requirements>`_\ , you also need to download the IntelliJ IDEA (the free *Community edition* is enough). When you have installed IntelliJ, also check that you have enabled its Scala plugin (\ `install information <https://www.jetbrains.com/help/idea/2016.1/enabling-and-disabling-plugins.html?origin=old_help>`_ can be found here).
+In addition to the aforementioned :ref:`requirements <requirements>` , you also need to download the IntelliJ IDEA (the free *Community edition* is enough). When you have installed IntelliJ, also check that you have enabled its Scala plugin (\ `install information <https://www.jetbrains.com/help/idea/2016.1/enabling-and-disabling-plugins.html?origin=old_help>`_ can be found here).
 
 And do the following :
 
@@ -84,10 +86,12 @@ And do the following :
 * In addition, you might need to specify some path like where you installed the JDK to *IntelliJ*.
 * In the project (Intellij project GUI), right click on ``src/main/scala/MyCode/TopLevel.scala`` and select "Run MyTopLevel".
 
-Normally, this must generate the output file ``MyTopLevel.vhd`` in the project directory which corresponds to the most :ref:`most simple SpinalHDL example <example_introduction>`.
+Normally, this must generate the output file ``MyTopLevel.vhd`` in the project directory which corresponds to the most :ref:`most simple SpinalHDL example <example>`.
 
-A very simple SpinalHDL example {#example}
-------------------------------------------
+.. _example:
+
+A very simple SpinalHDL example
+-------------------------------
 
 The following code generates an ``and`` gate between two one bit inputs.
 
