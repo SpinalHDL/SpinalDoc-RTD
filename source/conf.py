@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'SpinalHDL'
-copyright = '2018, miaou'
-author = 'penis'
+copyright = '2018, SpinalHDL'
+author = 'Spinal'
 
 # The short X.Y version
 version = ''
