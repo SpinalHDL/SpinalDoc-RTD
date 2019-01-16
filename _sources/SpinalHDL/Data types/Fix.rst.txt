@@ -54,15 +54,15 @@ Signed Fixed Point
      - max
      - min
    * - SFix(peak:ExpNumber, resolution:ExpNumber)
-     - peak-resolution
+     - peak-resolution+1
      - 2^resolution
      - 2^peak-2^resolution
-     - 0
+     - -(2^peak-2^resolution)
    * - SFix(peak:ExpNumber, width:BitCount)
      - width
-     - 2^(peak-width)
-     - 2^peak-2^(peak-width)
-     - 0
+     - 2^(peak-width-1)
+     - 2^peak-2^(peak-width-1)
+     - -(2^peak-2^(peak-width-1))
 
 
 Format
