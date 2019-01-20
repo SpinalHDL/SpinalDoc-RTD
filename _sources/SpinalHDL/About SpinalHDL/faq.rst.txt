@@ -45,7 +45,7 @@ For instance, if you wanna try the ``dev`` branch, do the following in a dummy f
 
    git clone https://github.com/SpinalHDL/SpinalHDL.git -b dev
    cd SpinalHDL
-   sbt clean publish-local
+   sbt clean publishLocal
 
 | Then in your project, don't forget to update the SpinalHDL version specified in the build.sbt file, see
 | `https://github.com/SpinalHDL/SpinalTemplateSbt/blob/master/build.sbt#L10 <https://github.com/SpinalHDL/SpinalTemplateSbt/blob/master/build.sbt#L10>`_.
