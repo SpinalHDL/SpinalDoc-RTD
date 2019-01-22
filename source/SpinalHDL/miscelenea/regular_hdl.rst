@@ -1,3 +1,9 @@
+:orphan:
+
+.. _regular_hdl:
+
+Why moving from traditional HDL to something else
+=================================================
 
 .. note::
    All the following statements will be about describing hardware. Verification is another tasty topic.
