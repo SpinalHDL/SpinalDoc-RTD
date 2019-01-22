@@ -18,7 +18,7 @@ There are multiple assignment operator :
    * - :=
      - | Standard assignment, equivalent to '<=' in VHDL/Verilog :
        | last assignment win, value updated one the next simulation delta cycle
-   * - \=
+   * - \\=
      - | Equivalent to := in VHDL and = in Verilog
        | value updated instantly
    * - <>
