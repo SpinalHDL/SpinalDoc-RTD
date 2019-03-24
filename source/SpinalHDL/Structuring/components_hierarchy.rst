@@ -7,7 +7,7 @@ Component and hierarchy
 Introduction
 ------------
 
-Like in VHDL and Verilog, you can define components that could be used to build a design hierarchy.  But unlike them, you don't need to bind them at instantiation.
+Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy.  However, in SpinalHDL, you don't need to bind their ports at instantiation
 
 .. code-block:: scala
 
@@ -37,12 +37,12 @@ Like in VHDL and Verilog, you can define components that could be used to build 
 
 .. tip::
    | val io = new Bundle{ ... } :
-   | Declaring all in/out in a Bundle named io is probably a good pratice. If you call your bundle io, Spinal will check that all elements are defined as input or output
+   | Declaring all inputs and outputs in a Bundle named `io` is probably a good pratice. If you call your bundle `io`, Spinal will check that all elements are defined as input or output.
 
 Input / output definition
 -------------------------
 
-Syntax to define in/out is the following :
+The syntax to define inputs and outputs is the following:
 
 .. list-table::
    :header-rows: 1
@@ -62,26 +62,26 @@ Syntax to define in/out is the following :
        | Sorry this is a Scala limitation.
      - T
    * - master/slave(T)
-     - | This syntax is provided by the spinal.lib. T should extends IMasterSlave :
+     - | This syntax is provided by the spinal.lib. T should extend IMasterSlave :
        | Some documentation is available :ref:`here <interface_eaxample_apb>`
      - T
 
 
-There is some rules about component interconnection :
+There are some rules to follow with component interconnection:
 
 
-* Components can only read outputs/inputs signals of children components
-* Components can read their own outputs ports values (unlike VHDL)
+* Components can only read output and input signals of child components
+* Components can read their own output port values (unlike VHDL)
 
 .. tip::
-   If for some reason, you need to read a signals from far away in the hierarchy (debug, temporal patch) you can do it by using the value returned by some.where.else.theSignal.pull().
+   If for some reason, you need to read signals from far away in the hierarchy (debug, temporal patch) you can do it by using the value returned by `some.where.else.theSignal.pull()`.
 
 Pruned signals
 --------------
 
-SpinalHDL only generate things which are required to drive outputs of your toplevel (directly or indirectly).
+SpinalHDL only generates things which are required to drive the outputs of your top level entity (directly or indirectly).
 
-All other signals (the useless ones) are removed from the RTL generations and are indexed into a list of pruned signals. You can get this list via the ``printPruned`` and the ``printPrunedIo`` function on the generated ``SpinalReport``.
+All other signals (the useless ones) are removed from the RTL generation and are inserted into a list of pruned signals. You can get this list via the ``printPruned`` and the ``printPrunedIo`` function on the generated ``SpinalReport``.
 
 .. code-block:: scala
 
@@ -108,7 +108,7 @@ All other signals (the useless ones) are removed from the RTL generations and ar
      }
    }
 
-If you want to keep a pruned signals into the generated RTL for debug reasons, you can use the ``keep`` function of that signal :
+If you want to keep a pruned signal into the generated RTL for debug reasons, you can use the ``keep`` function of that signal:
 
 .. code-block:: scala
 
@@ -137,7 +137,7 @@ If you want to keep a pruned signals into the generated RTL for debug reasons, y
 Generic(VHDL) / Parameter(Verilog)
 ----------------------------------
 
-If you want to parameterize your component, you can give parameters to the constructor of the component as follow :  
+If you want to parameterize your component, you can give parameters to the constructor of the component as follows: 
 
 .. code-block:: scala
 
@@ -155,7 +155,7 @@ If you want to parameterize your component, you can give parameters to the const
      }
    }
 
-I you have several parameters, it is a good practice to give a specific configuration class as follow :
+I you have several parameters, it is a good practice to give a specific configuration class as follows:
 
 .. code-block:: scala
 
