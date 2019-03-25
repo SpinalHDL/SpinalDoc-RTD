@@ -6,4 +6,4 @@ Semantic
 
    assignements
    when_switch
-   sementic
+   rules
