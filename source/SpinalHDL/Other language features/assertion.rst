@@ -2,11 +2,11 @@
 Assertions
 ==========
 
-In addition of scala run-time assertion, you can add hardware assertion via the following syntax:
+In addition to scala run-time assertions, you can add hardware assertions using the following syntax:
 
 ``assert(assertion : Bool,message : String = null,severity: AssertNodeSeverity = Error)``
 
-Severity levels are :
+Severity levels are:
 
 .. list-table::
    :header-rows: 1
@@ -24,7 +24,7 @@ Severity levels are :
      - Used to report a fatal situation and close the simulation
 
 
-One practical example could be to check that the ``valid`` of a handshake protocol never drop when ``ready`` is low :
+One practical example could be to check that the ``valid`` signal of a handshake protocol never drops when ``ready`` is low:
 
 .. code-block:: scala
 

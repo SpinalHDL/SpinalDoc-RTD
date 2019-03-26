@@ -4,12 +4,12 @@
 VHDL and Verilog generation
 ===========================
 
-Generate VHDL and Verilog from an SpinalHDL Component
+Generate VHDL and Verilog from a SpinalHDL Component
 -----------------------------------------------------
 
-To generate the VHDL from an SpinalHDL component you just need to call ``SpinalVhdl(new YourComponent)`` in a Scala ``main``.
+To generate the VHDL from a SpinalHDL component you just need to call ``SpinalVhdl(new YourComponent)`` in a Scala ``main``.
 
-To generate the Verilog, it's exactly the same, but with ``SpinalVerilog`` in place of ``SpinalVHDL``
+Generating Verilog is exactly the same, but with ``SpinalVerilog`` in place of ``SpinalVHDL``
 
 .. code-block:: scala
 
@@ -28,7 +28,7 @@ To generate the Verilog, it's exactly the same, but with ``SpinalVerilog`` in pl
      io.c := io.a & io.b
    }
 
-   //This is the main that generate the VHDL and the Verilog corresponding to MyTopLevel
+   //This is the main that generates the VHDL and the Verilog corresponding to MyTopLevel
    object MyMain {
      def main(args: Array[String]) {
        SpinalVhdl(new MyTopLevel)
@@ -37,10 +37,10 @@ To generate the Verilog, it's exactly the same, but with ``SpinalVerilog`` in pl
    }
 
 .. important::
-   SpinalVhdl and SpinalVerilog could need to create multiple instance of your component class. It's why its first argument is not a Component reference but a function that return a new component.
+   SpinalVhdl and SpinalVerilog may need to create multiple instance of your component class, therefore the first argument is not a Component reference but a function that return a new component.
 
 .. important::
-   SpinalVerilog implementation has start the 5 June 2016. This backend pass successfully the same regression tests than the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot,UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, ..). But still, if you have any issue with this young backend, please, make a git issue.
+   SpinalVerilog implementation began the 5th of June 2016. This backend successfully passes the same regression tests as the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot,UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, ..). However, if you have any issues with this new backend, please make a git issue describing the problem.
 
 Parametrization from Scala
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -56,15 +56,15 @@ Parametrization from Scala
    * - mode
      - SpinalMode
      - null
-     - | Set the SpinalHDL mode.
-       | Could be set to ``VHDL`` or ``Verilog``
+     - | Set the SpinalHDL hdl generation mode.
+       | Can be set to ``VHDL`` or ``Verilog``
    * - defaultConfigForClockDomains
      - ClockDomainConfig
      - | RisingEdgeClock
        | AsynchronousReset
        | ResetActiveHigh
        | ClockEnableActiveHigh
-     - Set the clock configuration that will be use as default for all new ``ClockDomain``.
+     - Set the clock configuration that will be used as the default value for all new ``ClockDomain``.
    * - onlyStdLogicVectorAtTopLevelIo
      - Boolean
      - false
@@ -79,7 +79,7 @@ Parametrization from Scala
      - Directory where files are generated
 
 
-And there is the syntax to specify them :
+And here is the syntax to specify them:
 
 .. code-block:: scala
 
@@ -102,7 +102,7 @@ You can also specify generation parameters by using command line arguments.
      SpinalConfig.shell(args)(new UartCtrl)
    }
 
-Arguments syntax is :
+The syntax for command line arguments is:
 
 .. code-block:: text
 
@@ -131,23 +131,23 @@ The way how a SpinalHDL RTL description is translated into VHDL and Verilog is i
 Organization
 ^^^^^^^^^^^^
 
-When you use the VHDL generation, stuff are generated into a single file which contain tree section :
+When you use the VHDL generator, all modules are generated into a single file which contain three sections:
 
 
-#. A package that contain enumeration's definitions
-#. A package that contain function used by architectures
+#. A package that contains the definition of all Enums 
+#. A package that contains functions used by architectures
 #. All components needed by your design
 
-When you use the Verilog generation, stuff are generated into a single file which contain two section :
+When you use the Verilog generation, all modules are generated into a single file which contains two sections:
 
 
-#. All enumeration defines
+#. All enumeration definitions used
 #. All modules needed by your design
 
 Combinatorial logic
 ^^^^^^^^^^^^^^^^^^^
 
-Scala :
+Scala:
 
 .. code-block:: scala
 
@@ -175,7 +175,7 @@ Scala :
      }
    }
 
-VHDL :
+VHDL:
 
 .. code-block:: vhdl
 
@@ -207,10 +207,10 @@ VHDL :
      end process;
    end arch;
 
-Flipflop
-^^^^^^^^
+Sequential Logic
+^^^^^^^^^^^^^^^^
 
-Scala :
+Scala:
 
 .. code-block:: scala
 
@@ -235,7 +235,7 @@ Scala :
      io.resultB := regWithoutReset
    }
 
-VHDL :
+VHDL:
 
 .. code-block:: vhdl
 
@@ -280,8 +280,8 @@ VHDL :
 VHDL and Verilog attributes
 ---------------------------
 
-| In some situation, it's useful to give some attributes to some signals of a given design to obtain a specific synthesis result.
-| To do that, on any signals or memory of your design you can call the following functions :
+| In some situations, it is useful to give attributes to some signals of a given design to modify synthesis.
+| To do that, you can call the following functions on any signals or memories in the design:
 
 .. list-table::
    :header-rows: 1
@@ -295,14 +295,14 @@ VHDL and Verilog attributes
      - Add a string attribute with the given ``name`` set to ``value``
 
 
-Example :
+Example:
 
 .. code-block:: scala
 
    val pcPlus4 = pc + 4
    pcPlus4.addAttribute("keep")
 
-Produced declaration in VHDL :
+Produced declaration in VHDL:
 
 .. code-block:: vhdl
 
@@ -310,7 +310,7 @@ Produced declaration in VHDL :
    signal pcPlus4 : unsigned(31 downto 0);
    attribute keep of pcPlus4: signal is true;
 
-Produced declaration in Verilog :
+Produced declaration in Verilog:
 
 .. code-block:: verilog
 
