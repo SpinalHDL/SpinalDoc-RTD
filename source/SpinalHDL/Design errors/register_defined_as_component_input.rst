@@ -5,7 +5,7 @@ Register defined as component input
 Introduction
 ------------
 
-In SpinalHDL, it is not allowed to define an component input as a register. The reason of that is for the user to avoid having surprise when he drive sub components inputs.
+In SpinalHDL, you are not allowed to define a component that has a register as an input. The reasoning behind this is to prevent surprises when the user tries to drive the inputs of child components with the registered signal. If a registered input is desired, you will need to declare the unregistered input in the `io` bundle, and register the signal in the body of the component.
 
 Example
 -------
@@ -20,7 +20,7 @@ The following code :
      }
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -37,4 +37,15 @@ A fix could be :
      val io = new Bundle {
        val a = in UInt(8 bits)
      }
+   }
+
+If a registered `a` is really wanted, it can be done like so:
+
+.. code-block:: scala
+
+   class TopLevel extends Component {
+     val io = new Bundle {
+       val a = in UInt(8 bits)
+     }
+     val a = RegNext(io.a)
    }

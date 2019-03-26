@@ -5,28 +5,28 @@ Hierarchy violation
 Introduction
 ------------
 
-SpinalHDL will check that you never access a signal which is outside the current component range.
+SpinalHDL will check that signals are never accessed outside of the current component's boundaries.
 
-There is the list of signal which can be read within a component :
+The following signals can be read inside a component:
 
 
-* All direction less signals defined in the same component
+* All directionless signals defined in the current component
 * All in/out/inout signals of the current component
 * All in/out/inout signals of children components
 
-There is the list of signals which can be assigned within a component :
+In addition, the following signals can be assigned to inside a component:
 
 
-* All direction less signals defined in the same component
+* All directionless signals defined in the current component
 * All out/inout signals of the current component
 * All in/inout signals of children components
 
-If an ``HIERARCHY VIOLATION`` appear, it mean that one of the above rules was violated.
+If a ``HIERARCHY VIOLATION`` error appears, it means that one of the above rules was violated.
 
 Example
 -------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -38,7 +38,7 @@ The following code :
      io.a := tmp
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -53,8 +53,8 @@ A fix could be :
 
    class TopLevel extends Component {
      val io = new Bundle {
-       val a = out UInt(8 bits)
+       val a = out UInt(8 bits) // changed from in to out
      }
-
-     io.a := 42
+     val tmp = U"x42"
+     io.a := tmp
    }

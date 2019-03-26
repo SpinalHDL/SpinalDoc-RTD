@@ -5,12 +5,12 @@ Scope violation
 Introduction
 ------------
 
-SpinalHDL will check that there no signals assigned outside it's declaration scope. This error isn't easy to trigger as it require some specific meta hardware description tricks.
+SpinalHDL will check that there no signals assigned outside the scope they are defined in. This error isn't easy to trigger as it requires some specific meta hardware description tricks.
 
 Example
 -------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -24,7 +24,7 @@ The following code :
      tmp := U"x42"
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -33,7 +33,7 @@ will throw :
      Source file location of the tmp := U"x42" via the stack trace
      ***
 
-A fix could be :
+A fix could be:
 
 .. code-block:: scala
 
