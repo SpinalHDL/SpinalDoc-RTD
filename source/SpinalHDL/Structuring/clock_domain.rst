@@ -397,7 +397,7 @@ An even simpler method is to use the cross clock domain buffer ``BufferCC(input:
    }
 
 Special clocking Areas
----------------------
+----------------------
 
 Slow Area
 ^^^^^^^^^

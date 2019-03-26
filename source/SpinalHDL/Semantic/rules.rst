@@ -42,7 +42,7 @@ Is equivalent to:
 More generally, when you use the ``:=`` assignement operator, it's like specifying a new rule for the left side signal/register.
 
 Last valid assignement wins
---------------------------
+---------------------------
 
 If a combinatorial signal or register is assigned multiple times, the last valid one wins.
 
