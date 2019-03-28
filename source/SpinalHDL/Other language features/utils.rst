@@ -38,7 +38,7 @@ Many tools and utilities are present in :ref:`spinal.lib <lib_introduction>` but
 Cloning hardware datatypes
 --------------------------
 
-You can clone a given hardware data type by using the ``cloneOf(x)`` function. It will return a new instance of the same Scala type and the same parameterization as its argument.
+You can clone a given hardware data type by using the ``cloneOf(x)`` function. It will return a new instance of the same Scala type and parameters.
 
 For example :
 

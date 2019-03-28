@@ -5,7 +5,7 @@ Combinational loop
 Introduction
 ------------
 
-SpinalHDL will check that there arare no combinatorial loops in the design.
+SpinalHDL will check that there are no combinatorial loops in the design.
 
 Example
 -------

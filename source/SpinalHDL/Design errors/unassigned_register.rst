@@ -5,7 +5,7 @@ Unassigned register
 Introduction
 ------------
 
-SpinalHDL will check that all registers which impact the design are assigned somewhere.
+SpinalHDL will check that all registers which impact the design have been assigned somewhere.
 
 Example
 -------

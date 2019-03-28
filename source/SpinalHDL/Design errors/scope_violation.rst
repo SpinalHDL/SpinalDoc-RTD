@@ -5,7 +5,7 @@ Scope violation
 Introduction
 ------------
 
-SpinalHDL will check that there no signals assigned outside the scope they are defined in. This error isn't easy to trigger as it requires some specific meta hardware description tricks.
+SpinalHDL will check that there are no signals assigned outside the scope they are defined in. This error isn't easy to trigger as it requires some specific meta hardware description tricks.
 
 Example
 -------

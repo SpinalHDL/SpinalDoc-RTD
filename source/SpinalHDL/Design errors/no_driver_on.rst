@@ -5,7 +5,7 @@ No driver on
 Introduction
 ------------
 
-SpinalHDL will check that all combinatorial signals which have impact the design are assigned by something.
+SpinalHDL will check that all combinatorial signals which have an impact on the design are assigned by something.
 
 Example
 -------

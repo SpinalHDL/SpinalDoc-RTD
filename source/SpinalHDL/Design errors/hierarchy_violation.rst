@@ -5,7 +5,7 @@ Hierarchy violation
 Introduction
 ------------
 
-SpinalHDL will check that signals are never accessed outside of the current component's boundaries.
+SpinalHDL will check that signals are never accessed outside of the current component's scope.
 
 The following signals can be read inside a component:
 
