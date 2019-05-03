@@ -17,7 +17,7 @@ Introduction
 Introduction
 ------------
 
-The core of the language define the syntax that provide many features :
+The core of the language defines the syntax that provides many features :
 
 
 * Types / Literals
@@ -28,8 +28,8 @@ The core of the language define the syntax that provide many features :
 * BlackBox (to integrate VHDL or Verilog IP inside Spinal)
 * SpinalHDL to VHDL converter
 
-Then, by using these features, you can of course define your digital hardware, but also build powerful libraries and abstractions. It's one of the biggest advantages of SpinalHDL over commonly used HDL, the language is not stuck in the rock, you can extend it without having knowledge about the compiler.
+Then, by using these features, you can of course define digital hardware, but also build powerful libraries and abstractions. It's one of the major advantages of SpinalHDL over other commonly used HDLs, because you can extend the language without having knowledge about the compiler.
 
-One example of that is the :ref:`SpinalHDL lib <lib_introduction>` which add many utils, tools, buses and methodology.
+One good example of this is the :ref:`SpinalHDL lib <lib_introduction>` which adds many utilities, tools, buses and methodologies.
 
-To use features introduced in followings chapter you need to ``import spinal.core._`` in your sources.
+To use features introduced in the following chapter you need to ``import spinal.core._`` in your sources.

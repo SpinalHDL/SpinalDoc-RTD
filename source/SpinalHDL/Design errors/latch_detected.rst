@@ -5,12 +5,12 @@ Latch detected
 Introduction
 ------------
 
-SpinalHDL will check that no combinatorial signal will infer a latch in synthesis. In other words, that no combinatorial are partialy assigned.
+SpinalHDL will check that no combinatorial signal will infer a latch during synthesis. In other words, that no combinatorial signals are partialy assigned.
 
 Example
 -------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -23,7 +23,7 @@ The following code :
      }
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -32,7 +32,7 @@ will throw :
      Source file location of the toplevel/io_a definition via the stack trace
      ***
 
-A fix could be :
+A fix could be:
 
 .. code-block:: scala
 

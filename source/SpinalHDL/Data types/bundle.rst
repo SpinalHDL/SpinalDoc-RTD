@@ -10,7 +10,7 @@ Description
 The ``Bundle`` is a composite type that defines a group of named signals (of any SpinalHDL basic type)
 under a single name.
 
-The Bundle can be used to model data structures, buses and interfaces.
+A Bundle can be used to model data structures, buses and interfaces.
 
 Declaration
 ^^^^^^^^^^^
@@ -25,7 +25,7 @@ The syntax to declare a bundle is as follows:
      val bundleItemN = AnyType
    }
 
-For example, an Color Bundle could be :
+For example, a bundle holding a color could be defined as:
 
 .. code-block:: scala
 
@@ -82,7 +82,7 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
 
 
@@ -91,8 +91,8 @@ Type cast
    val color1 = Color(8)
    val myBits := color1.asBits
 
-Elements direction
-^^^^^^^^^^^^^^^^^^
+IO Element direction
+^^^^^^^^^^^^^^^^^^^^
 
 When you define an Bundle inside the IO definition of your component, you need to specify its direction.
 

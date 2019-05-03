@@ -9,7 +9,7 @@ Vec
 Description
 ^^^^^^^^^^^
 
-The ``Vec`` is a composite type that defines a group of indexed signals (of any SpinalHDL basic type) under a single name.
+A ``Vec`` is a composite type that defines a group of indexed signals (of any SpinalHDL basic type) under a single name.
 
 Declaration
 ^^^^^^^^^^^
@@ -23,10 +23,10 @@ The syntax to declare a vector is as follows:
    * - Declaration
      - Description
    * - Vec(type: Data, size: Int)
-     - Create a vector of size time the given type
+     - Create a vector capable of holding ``size`` elements of type ``Data``
    * - Vec(x,y,..)
      - | Create a vector where indexes point to given elements. 
-       | this construct support mixed element width
+       | this constructor supports mixed element width
 
 
 Examples
@@ -96,7 +96,7 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
 
 

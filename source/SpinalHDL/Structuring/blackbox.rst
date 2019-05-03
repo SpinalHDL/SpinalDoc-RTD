@@ -1,7 +1,7 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
-Instanciate VHDL and Verilog IP
+Instantiate VHDL and Verilog IP
 ===============================
 
 Description
@@ -13,7 +13,7 @@ interfaces. It's up to the simulator or synthesizer to do the elaboration correc
 Defining an blackbox
 --------------------
 
- The example show how to define an blackbox.
+ An example of how to define a blackbox is shown below:
 
 .. code-block:: scala
 
@@ -48,7 +48,7 @@ Defining an blackbox
      mapClockDomain(clock=io.clk)
    }
 
-| In VHDL, Bool type will be translated into std_logic and Bits into std_logic_vector. If you want to get std_ulogic, you have to use a BlackBoxULogic instead of BlackBox.
+| In VHDL, signals of type ``Bool`` will be translated into std_logic and ``Bits`` into std_logic_vector. If you want to get std_ulogic, you have to use a BlackBoxULogic instead of BlackBox.
 | In Verilog, BlackBoxUlogic has no effect. 
 
 .. code-block:: scala
@@ -60,7 +60,7 @@ Defining an blackbox
 Generics
 --------
 
-There are two different ways to declare generic : 
+There are two different ways to declare generics:
 
 .. code-block:: scala
 
@@ -80,7 +80,7 @@ There are two different ways to declare generic : 
 Instantiating a blackbox
 ------------------------
 
-To instantiate an blackbox, it's the same than for Component :
+Instantiating a blackbox is just like instantiating a Component:
 
 .. code-block:: scala
 
@@ -102,7 +102,7 @@ To instantiate an blackbox, it's the same than for Component :
      //Instantiate the blackbox
      val ram = new Ram_1w_1r(8,16)
 
-     //Interconnect all that stuff
+     //Connect all the signals
      io.wr.en   <> ram.io.wr.en
      io.wr.addr <> ram.io.wr.addr
      io.wr.data <> ram.io.wr.data
@@ -120,7 +120,7 @@ To instantiate an blackbox, it's the same than for Component :
 Clock and reset mapping
 -----------------------
 
-In your blackbox definition you have to explicitly define clock and reset wires. To map signals of a ClockDomain to corresponding inputs of the blackbox you can use the ``mapClockDomain`` or ``mapCurrentClockDomain`` function. ``mapClockDomain`` has the following parameters :
+In your blackbox definition you have to explicitly define clock and reset wires. To map signals of a ClockDomain to corresponding inputs of the blackbox you can use the ``mapClockDomain`` or ``mapCurrentClockDomain`` function. ``mapClockDomain`` has the following parameters:
 
 .. list-table::
    :header-rows: 1
@@ -133,7 +133,7 @@ In your blackbox definition you have to explicitly define clock and reset wires.
    * - clockDomain
      - ClockDomain
      - ClockDomain.current
-     - Specify the clockDomain which provide signals
+     - Specify the clockDomain which provides the signals
    * - clock
      - Bool
      - Nothing
@@ -148,9 +148,9 @@ In your blackbox definition you have to explicitly define clock and reset wires.
      - Blackbox input which should be connected to the clockDomain enable
 
 
-``mapCurrentClockDomain`` has almost the same parameters than the ``mapClockDomain`` but without the clockDomain.
+``mapCurrentClockDomain`` has almost the same parameters as ``mapClockDomain`` but without the clockDomain.
 
-For example :
+For example:
 
 .. code-block:: scala
 
@@ -158,7 +158,7 @@ For example :
 
      val io = new Bundle {
        val clkA = in Bool     
-       .. 
+       ...
        val clkB = in Bool 
        ...
      }
@@ -172,7 +172,7 @@ For example :
 io prefix
 ---------
 
-In order to avoid the prefix "io\_" on each IOs of the blackbox, you can use the function ``noIoPrefix()`` as shown below :
+In order to avoid the prefix "io\_" on each of the IOs of the blackbox, you can use the function ``noIoPrefix()`` as shown below :
 
 .. code-block:: scala
 
@@ -253,7 +253,7 @@ Rename all io of a blackbox
 Add RTL source
 --------------
 
-With the function ``addRTLPath()`` you can associate your RTL sources with the blackbox. After the generation of your Spinal code you can call the fonction ``mergeRTLSource`` for merging all sources together. 
+With the function ``addRTLPath()`` you can associate your RTL sources with the blackbox. After the generation of your Spinal code you can call the fonction ``mergeRTLSource`` to merge all sources together. 
 
 .. code-block:: scala
 
@@ -288,7 +288,7 @@ With the function ``addRTLPath()`` you can associate your RTL sources with the 
 VHDL - No numeric type
 ----------------------
 
-If you want to get only ``std_logic_vector`` on your blackbox component, you can add the tag ``noNumericType`` to the blackbox. 
+If you want to use only ``std_logic_vector`` on your blackbox component, you can add the tag ``noNumericType`` to the blackbox. 
 
 .. code-block:: scala
 
@@ -307,7 +307,7 @@ If you want to get only ``std_logic_vector`` on your blackbox component, you can
      addTag(noNumericType)  // only std_logic_vector
    }
 
-Will generate:
+The code above will generate the following VHDL:
 
 .. code-block:: vhdl
 

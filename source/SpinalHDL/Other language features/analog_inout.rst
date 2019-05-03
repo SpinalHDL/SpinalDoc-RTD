@@ -5,11 +5,11 @@ Analog and inout
 Introduction
 ------------
 
-You can define native tristates signals by using the Analog/inout features. Those features were added for the following reasons :
+You can define native tristate signals by using the Analog/inout features. These features were added for the following reasons:
 
 
-* Being able to add native inout to the toplevel (it avoid having to manualy wrap them with some hand written VHDL/Verilog)
-* Allowing the definition of blackbox which contain some inout pins
+* Being able to add native tristate signals to the toplevel (it avoid having to manualy wrap them with some hand written VHDL/Verilog)
+* Allowing the definition of blackbox which contains some inout pins
 * Being able to connect a blackbox inout through the hierarchy to a toplevel inout pin.
 
 As those feature were only added for convenance, do not do other fancy stuff with it and if you want to model a component like an memory mapped GPIO peripheral, please use the TriState/TriStateArray bundles from the spinal lib, which keep the true nature of the tristate driver.
@@ -17,7 +17,7 @@ As those feature were only added for convenance, do not do other fancy stuff wit
 Analog
 ------
 
-``Analog`` is the keyword which allow to define a signal as something ... analog, which in the digital world could mean '0', '1', 'Z'.
+``Analog`` is the keyword which allows a signal to be defined as something ... analog, which in the digital world could mean '0', '1', or 'Z'.
 
 For instance :
 
@@ -34,9 +34,9 @@ For instance :
 inout
 -----
 
-``inout`` is the keyword which allow to set an Analog signal as an component inout.
+``inout`` is the keyword which allows you to set an Analog signal as a component inout.
 
-For instance :
+For instance:
 
 .. code-block:: scala
 
@@ -56,9 +56,9 @@ For instance :
 InOutWrapper
 ------------
 
-``InOutWrapper`` is a tool which allow you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(...)) signals. It allow you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.
+``InOutWrapper`` is a tool which allows you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(...)) signals. It allow you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.
 
-For instance :
+For instance:
 
 .. code-block:: scala
 
@@ -72,7 +72,7 @@ For instance :
 
    SpinalVhdl(InOutWrapper(Apb3Gpio(32)))
 
-Will generate :
+Will generate:
 
 .. code-block:: vhdl
 
@@ -92,7 +92,7 @@ Will generate :
      );
    end Apb3Gpio;
 
-Instead of :
+Instead of:
 
 .. code-block:: vhdl
 
