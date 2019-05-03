@@ -7,13 +7,13 @@ Area
 Area
 ----
 
-Sometime, creating a ``Component`` to define some logic is overkill :
+Sometimes, creating a ``Component`` to define some logic is overkill because you:
 
 
 * Need to define all construction parameters and IO (verbosity, duplication)
 * Split your code (more than needed)
 
-For this kind of cases you can use ``Area`` to define a group of signals/logic.
+For this kind of case you can use an ``Area`` to define a group of signals/logic.
 
 .. code-block:: scala
 
@@ -45,8 +45,7 @@ For this kind of cases you can use ``Area`` to define a group of signals/logic.
    }
 
 .. tip::
-   | Abuse of area !
-   | No more toto_a, toto_b, toto_c as it so often done in common HDL, any ``Component``\ 's internal module could be an ``Area``\
+   | In VHDL and Verilog, sometimes prefixes are used to separate variables into logical sections. It is suggested that you use ``Area`` instead  of this in SpinalHDL.
 
 .. note::
-   \ :ref:`ClockingArea <clock_domain>` are a special kind of ``Area`` which allow to define chunk of hardware which use a given ``ClockDomain``\
+   \ :ref:`ClockingArea <clock_domain>` is a special kind of ``Area`` that allows you to define chunks of hardware which use a given ``ClockDomain``\

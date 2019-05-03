@@ -9,13 +9,12 @@ Floating
 Description
 ^^^^^^^^^^^
 
-The ``Floating`` type corresponds to IEEE-754 encoded numbers. A second type called ``RecFloating`` helps simplifying design by recoding
-the floating point value.
+The ``Floating`` type corresponds to IEEE-754 encoded numbers. A second type called ``RecFloating`` helps in simplifying your design by recoding the floating point value simplify some edge cases in IEEE-754 floating point
 
 It's composed of a sign bit, an exponent field and a mantissa field. The widths of the different fields are defined in the IEEE-754 or
 de-facto standards.
 
-This type can be used by using the following import
+This type can be used with the following import
 
 .. code-block:: scala
 
@@ -84,13 +83,13 @@ IEEE-754 Number
    * - Floating(exponentSize: Int, mantissaSize: Int)
      - IEEE-754 Floating point value with a custom exponent and mantissa size
    * - Floating16()
-     - IEEE-754 Half floating point number
+     - IEEE-754 Half precision floating point number
    * - Floating32()
-     - IEEE-754 Single floating point number
+     - IEEE-754 Single precision floating point number
    * - Floating64()
-     - IEEE-754 Double floating point number
+     - IEEE-754 Double precision floating point number
    * - Floating128()
-     - IEEE-754 Quad floating point number
+     - IEEE-754 Quad precision floating point number
 
 
 Recoded floating point number
@@ -104,13 +103,13 @@ Recoded floating point number
    * - RecFloating(exponentSize: Int, mantissaSize: Int)
      - Recoded Floating point value with a custom exponent and mantissa size
    * - RecFloating16()
-     - Recoded Half floating point number
+     - Recoded Half precision floating point number
    * - RecFloating32()
-     - Recoded Single floating point number
+     - Recoded Single precision floating point number
    * - RecFloating64()
-     - Recoded Double floating point number
+     - Recoded Double precision floating point number
    * - RecFloating128()
-     - Recoded Quad floating point number
+     - Recoded Quad precision floating point number
 
 
 Operators
@@ -129,7 +128,7 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
    * - x.asBools
      - Cast into a array of Bool

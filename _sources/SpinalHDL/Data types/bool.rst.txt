@@ -14,7 +14,7 @@ The ``Bool`` type corresponds to a boolean value (True or False).
 Declaration
 ^^^^^^^^^^^
 
-The syntax to declare a boolean value is as follows: (everything between [] are optional)
+The syntax to declare a boolean value is as follows: (everything between [] is optional)
 
 .. list-table::
    :header-rows: 1
@@ -49,7 +49,7 @@ The syntax to declare a boolean value is as follows: (everything between [] are 
 Operators
 ^^^^^^^^^
 
-The following operators are available for the ``Bool`` type
+The following operators are available for the ``Bool`` type:
 
 Logic
 ~~~~~
@@ -133,7 +133,7 @@ Edge detection
      - Return a bundle (rise, fall, toggle)
      - BoolEdges
    * - x.edges(initAt: Bool)
-     - Same as x.edges but with a reste value
+     - Same as x.edges but with a reset value
      - BoolEdges
 
 
@@ -192,19 +192,19 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
    * - x.asUInt
-     - Binary cast in UInt
+     - Binary cast to UInt
      - UInt(w(x) bits)
    * - x.asSInt
-     - Binary cast in SInt
+     - Binary cast to SInt
      - SInt(w(x) bits)
    * - x.asUInt(bitCount)
-     - Binary cast in UInt + resize
+     - Binary cast to UInt and resize
      - UInt(bitCount bits)
    * - x.asBits(bitCount)
-     - Binary cast in Bits + resize
+     - Binary cast to Bits and resize
      - Bits(bitCount bits)
 
 

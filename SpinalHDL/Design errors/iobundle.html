@@ -129,13 +129,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/clock_domain.html">Clock domains</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instantiate VHDL and Verilog IP</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Semantic/index.html">Semantic</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/assignements.html">Assignments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/when_switch.html">When/Switch/Mux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Semantic/sementic.html">Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/rules.html">Rules</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Sequential logic/index.html">Sequential logic</a><ul>
@@ -335,11 +335,11 @@
 <h1>Io bundle<a class="headerlink" href="#io-bundle" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL will check that in each io bundle there only in/out/inout signals.</p>
+<p>SpinalHDL will check that each io bundle contains only in/out/inout signals.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>The following code :</p>
+<p>The following code:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
@@ -347,14 +347,14 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>will throw :</p>
+<p>will throw:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>IO BUNDLE ERROR : A direction less (toplevel/io_a :  UInt[8 bits]) signal was defined into toplevel component&#39;s io bundle
   ***
   Source file location of the toplevel/io_a definition via the stack trace
   ***
 </pre></div>
 </div>
-<p>A fix could be :</p>
+<p>A fix could be:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
@@ -362,7 +362,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>But if for meta hardware description reasons you realy want io.a to be direction less, you can do :</p>
+<p>But if for meta hardware description reasons you realy want io.a to be directionless, you can do:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>

@@ -5,7 +5,7 @@ When/Switch/Mux
 When
 ----
 
-As VHDL and Verilog, signals can be conditionally assigned when a special condition is met.
+As in VHDL and Verilog, signals can be conditionally assigned when a specified condition is met:
 
 .. code-block:: scala
 
@@ -20,7 +20,7 @@ As VHDL and Verilog, signals can be conditionally assigned when a special condit
 Switch
 ------
 
-As VHDL and Verilog, signals can be conditionally assigned when a signal has a defined value.
+As in VHDL and Verilog, signals can be conditionally assigned when a signal has a defined value:
 
 .. code-block:: scala
 
@@ -39,7 +39,7 @@ As VHDL and Verilog, signals can be conditionally assigned when a signal has a d
 Local declaration
 -----------------
 
-It's possible to define new signals into a when/switch statement.
+It is possible to define new signals into a when/switch statement:
 
 .. code-block:: scala
 
@@ -56,12 +56,12 @@ It's possible to define new signals into a when/switch statement.
    }
 
 .. note::
-   SpinalHDL check that signals defined into a scope are only assigned inside this one.
+   SpinalHDL checks that signals defined inside a scope are only assigned inside the scope they are defined in.
 
 Mux
 ---
 
-If you just need a Mux with a Bool selection signal, there is two equivalent syntaxes :
+If you just need a Mux with a Bool selection signal, there are two equivalent syntaxes:
 
 .. list-table::
    :header-rows: 1
@@ -103,7 +103,7 @@ Example
      default -> (io.src0)
    )
 
-Also, if all possible values are covered in your mux, you can omit the default value :
+Also, if all possible values are covered in your mux, you can omit the default value:
 
 .. code-block:: scala
 
@@ -115,7 +115,7 @@ Also, if all possible values are covered in your mux, you can omit the default v
      3 -> (io.src0)
    )
 
-``muxLists(...)`` is another bitwise selection which take as input a sequence of tuple. Below an example of dividing a Bits of 128 bits into 32 bits :
+``muxLists(...)`` is another bitwise selection which take as input a sequence of tuples. Below an example of dividing a Bits of 128 bits into 32 bits:
 
 
 .. image:: /asset/picture/MuxList.png

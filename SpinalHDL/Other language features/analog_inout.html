@@ -129,13 +129,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/clock_domain.html">Clock domains</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instantiate VHDL and Verilog IP</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Semantic/index.html">Semantic</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/assignements.html">Assignments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/when_switch.html">When/Switch/Mux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Semantic/sementic.html">Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/rules.html">Rules</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Sequential logic/index.html">Sequential logic</a><ul>
@@ -335,17 +335,17 @@
 <h1>Analog and inout<a class="headerlink" href="#analog-and-inout" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>You can define native tristates signals by using the Analog/inout features. Those features were added for the following reasons :</p>
+<p>You can define native tristate signals by using the Analog/inout features. These features were added for the following reasons:</p>
 <ul class="simple">
-<li>Being able to add native inout to the toplevel (it avoid having to manualy wrap them with some hand written VHDL/Verilog)</li>
-<li>Allowing the definition of blackbox which contain some inout pins</li>
+<li>Being able to add native tristate signals to the toplevel (it avoid having to manualy wrap them with some hand written VHDL/Verilog)</li>
+<li>Allowing the definition of blackbox which contains some inout pins</li>
 <li>Being able to connect a blackbox inout through the hierarchy to a toplevel inout pin.</li>
 </ul>
 <p>As those feature were only added for convenance, do not do other fancy stuff with it and if you want to model a component like an memory mapped GPIO peripheral, please use the TriState/TriStateArray bundles from the spinal lib, which keep the true nature of the tristate driver.</p>
 </div>
 <div class="section" id="analog">
 <h2>Analog<a class="headerlink" href="#analog" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">Analog</span></code> is the keyword which allow to define a signal as something … analog, which in the digital world could mean ‘0’, ‘1’, ‘Z’.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Analog</span></code> is the keyword which allows a signal to be defined as something … analog, which in the digital world could mean ‘0’, ‘1’, or ‘Z’.</p>
 <p>For instance :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SdramInterface</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">SdramLayout</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
   <span class="k">val</span> <span class="nc">DQ</span>    <span class="k">=</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Bidirectional data bus</span>
@@ -359,8 +359,8 @@
 </div>
 <div class="section" id="inout">
 <h2>inout<a class="headerlink" href="#inout" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">inout</span></code> is the keyword which allow to set an Analog signal as an component inout.</p>
-<p>For instance :</p>
+<p><code class="docutils literal notranslate"><span class="pre">inout</span></code> is the keyword which allows you to set an Analog signal as a component inout.</p>
+<p>For instance:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SdramInterface</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">SdramLayout</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span><span class="o">{</span>
   <span class="k">val</span> <span class="nc">DQ</span>    <span class="k">=</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Bidirectional data bus</span>
   <span class="k">val</span> <span class="nc">DQM</span>   <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bytePerWord</span> <span class="n">bits</span><span class="o">)</span>
@@ -378,8 +378,8 @@
 </div>
 <div class="section" id="inoutwrapper">
 <h2>InOutWrapper<a class="headerlink" href="#inoutwrapper" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> is a tool which allow you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(…)) signals. It allow you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.</p>
-<p>For instance :</p>
+<p><code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> is a tool which allows you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(…)) signals. It allow you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.</p>
+<p>For instance:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Apb3Gpio</span><span class="o">(</span><span class="n">gpioWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
     <span class="k">val</span> <span class="n">gpio</span> <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">TriStateArray</span><span class="o">(</span><span class="n">gpioWidth</span> <span class="n">bits</span><span class="o">))</span>
@@ -391,7 +391,7 @@
 <span class="nc">SpinalVhdl</span><span class="o">(</span><span class="nc">InOutWrapper</span><span class="o">(</span><span class="nc">Apb3Gpio</span><span class="o">(</span><span class="mi">32</span><span class="o">)))</span>
 </pre></div>
 </div>
-<p>Will generate :</p>
+<p>Will generate:</p>
 <div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nc">Apb3Gpio</span> <span class="k">is</span>
   <span class="k">port</span><span class="p">(</span>
     <span class="n">io_gpio</span> <span class="o">:</span> <span class="k">inout</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">-- This io_gpio was originaly a TriStateArray Bundle</span>
@@ -409,7 +409,7 @@
 <span class="k">end</span> <span class="nc">Apb3Gpio</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Instead of :</p>
+<p>Instead of:</p>
 <div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nc">Apb3Gpio</span> <span class="k">is</span>
   <span class="k">port</span><span class="p">(</span>
     <span class="n">io_gpio_read</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>

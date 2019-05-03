@@ -51,7 +51,7 @@ The following enumeration encodings are supported :
      - Use Bits to store states in declaration order (value from 0 to n-1)
    * - binaryOneHot
      - stateCount
-     - Use Bits to store state. Each bit correspond to one state
+     - Use Bits to store state. Each bit corresponds to one state
 
 
 Custom encoding can be performed in two different ways: static or dynamic. 
@@ -154,13 +154,13 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
    * - x.asUInt
-     - Binary cast in UInt
+     - Binary cast to UInt
      - UInt(w(x) bits)
    * - x.asSInt
-     - Binary cast in SInt
+     - Binary cast to SInt
      - SInt(w(x) bits)
 
 

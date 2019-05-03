@@ -129,13 +129,13 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Area</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function.html">Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="clock_domain.html">Clock domains</a></li>
-<li class="toctree-l2"><a class="reference internal" href="blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blackbox.html">Instantiate VHDL and Verilog IP</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Semantic/index.html">Semantic</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/assignements.html">Assignments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/when_switch.html">When/Switch/Mux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Semantic/sementic.html">Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/rules.html">Rules</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Sequential logic/index.html">Sequential logic</a><ul>
@@ -335,12 +335,12 @@
 <h1>Area<a class="headerlink" href="#area" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>Area<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>Sometime, creating a <code class="docutils literal notranslate"><span class="pre">Component</span></code> to define some logic is overkill :</p>
+<p>Sometimes, creating a <code class="docutils literal notranslate"><span class="pre">Component</span></code> to define some logic is overkill because you:</p>
 <ul class="simple">
 <li>Need to define all construction parameters and IO (verbosity, duplication)</li>
 <li>Split your code (more than needed)</li>
 </ul>
-<p>For this kind of cases you can use <code class="docutils literal notranslate"><span class="pre">Area</span></code> to define a group of signals/logic.</p>
+<p>For this kind of case you can use an <code class="docutils literal notranslate"><span class="pre">Area</span></code> to define a group of signals/logic.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">UartCtrl</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="o">...</span>
   <span class="k">val</span> <span class="n">timer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="o">{</span>
@@ -372,13 +372,12 @@
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <div class="last line-block">
-<div class="line">Abuse of area !</div>
-<div class="line">No more toto_a, toto_b, toto_c as it so often done in common HDL, any <code class="docutils literal notranslate"><span class="pre">Component</span></code>’s internal module could be an <code class="docutils literal notranslate"><span class="pre">Area</span></code></div>
+<div class="line">In VHDL and Verilog, sometimes prefixes are used to separate variables into logical sections. It is suggested that you use <code class="docutils literal notranslate"><span class="pre">Area</span></code> instead  of this in SpinalHDL.</div>
 </div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a class="reference internal" href="clock_domain.html#clock-domain"><span class="std std-ref">ClockingArea</span></a> are a special kind of <code class="docutils literal notranslate"><span class="pre">Area</span></code> which allow to define chunk of hardware which use a given <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code></p>
+<p class="last"><a class="reference internal" href="clock_domain.html#clock-domain"><span class="std std-ref">ClockingArea</span></a> is a special kind of <code class="docutils literal notranslate"><span class="pre">Area</span></code> that allows you to define chunks of hardware which use a given <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code></p>
 </div>
 </div>
 </div>

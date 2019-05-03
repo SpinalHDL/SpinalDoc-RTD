@@ -129,13 +129,13 @@
 <li class="toctree-l2"><a class="reference internal" href="area.html">Area</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="clock_domain.html">Clock domains</a></li>
-<li class="toctree-l2"><a class="reference internal" href="blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blackbox.html">Instantiate VHDL and Verilog IP</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Semantic/index.html">Semantic</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/assignements.html">Assignments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/when_switch.html">When/Switch/Mux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Semantic/sementic.html">Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/rules.html">Rules</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Sequential logic/index.html">Sequential logic</a><ul>
@@ -337,21 +337,21 @@
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>The ways you can use Scala functions to generate hardware are radically different than VHDL/Verilog for many reasons:</p>
 <ul>
-<li><p class="first">You can instantiate register, combinatorial logic and component inside them.</p>
+<li><p class="first">You can instantiate registers, combinatorial logic and components inside them.</p>
 </li>
 <li><p class="first">You don’t have to play with <code class="docutils literal notranslate"><span class="pre">process</span></code>/<code class="docutils literal notranslate"><span class="pre">&#64;always</span></code> that limit the scope of assignment of signals</p>
 </li>
 <li><div class="first line-block">
-<div class="line">Everything work by reference, which allow many manipulation.</div>
-<div class="line">For example you can give to a function an bus as argument, then the function can internaly read/write it.</div>
-<div class="line">You can also return a Component, a Bus, are anything else from scala the scala world.</div>
+<div class="line">Everything is passed by reference, which allows easy manipulation.</div>
+<div class="line">For example you can give a bus to a function as an argument, then the function can internaly read/write to it.</div>
+<div class="line">You can also return a Component, a Bus, or anything else from scala and the scala world.</div>
 </div>
 </li>
 </ul>
 </div>
 <div class="section" id="rgb-to-gray">
 <h2>RGB to gray<a class="headerlink" href="#rgb-to-gray" title="Permalink to this headline">¶</a></h2>
-<p>For example if you want to convert a Red/Green/Blue color into a gray one by using coefficient, you can use functions to apply them :</p>
+<p>For example if you want to convert a Red/Green/Blue color into greyscale by using coefficients, you can use functions to apply them:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Input RGB color</span>
 <span class="k">val</span> <span class="n">r</span><span class="o">,</span> <span class="n">g</span><span class="o">,</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
 
@@ -365,7 +365,7 @@
 </div>
 <div class="section" id="valid-ready-payload-bus">
 <h2>Valid Ready Payload bus<a class="headerlink" href="#valid-ready-payload-bus" title="Permalink to this headline">¶</a></h2>
-<p>For instance if you define a simple Valid Ready Payload bus, you can then define usefull function inside it.</p>
+<p>For instance if you define a simple Valid Ready Payload bus, you can then define some useful functions inside of it.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBus</span><span class="o">(</span><span class="n">payloadWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span>
   <span class="k">val</span> <span class="n">ready</span>   <span class="k">=</span> <span class="nc">Bool</span>
@@ -392,14 +392,14 @@
   <span class="o">}</span>
 <span class="o">}</span>
 
-<span class="k">class</span> <span class="nc">MyBusFifo</span><span class="o">(</span><span class="n">payloadWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">deepth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+<span class="k">class</span> <span class="nc">MyBusFifo</span><span class="o">(</span><span class="n">payloadWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">depth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
 
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">push</span> <span class="k">=</span> <span class="n">slave</span><span class="o">(</span><span class="nc">MyBus</span><span class="o">(</span><span class="n">payloadWidth</span><span class="o">))</span>
     <span class="k">val</span> <span class="n">pop</span>  <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">MyBus</span><span class="o">(</span><span class="n">payloadWidth</span><span class="o">))</span>
   <span class="o">}</span>
 
-  <span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">payloadWidth</span> <span class="n">bits</span><span class="o">),</span> <span class="n">deepth</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">payloadWidth</span> <span class="n">bits</span><span class="o">),</span> <span class="n">depth</span><span class="o">)</span>
 
   <span class="c1">// ...</span>
 

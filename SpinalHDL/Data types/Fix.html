@@ -129,13 +129,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/clock_domain.html">Clock domains</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instantiate VHDL and Verilog IP</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Semantic/index.html">Semantic</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/assignements.html">Assignments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/when_switch.html">When/Switch/Mux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Semantic/sementic.html">Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/rules.html">Rules</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Sequential logic/index.html">Sequential logic</a><ul>
@@ -333,14 +333,13 @@
             
   <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">The SpinalHDL fixed point support is only partially used/tested, if you have any bug with it or you think that an functionality is missing, please create a github issue. Please, do not use undocumented features.</p>
+<p class="last">The SpinalHDL fixed point support is only partially used/tested, if you find any bugs with it or you think that some functionality is missing, please create a github issue. Also, please do not use undocumented features in production code.</p>
 </div>
 <div class="section" id="ufix-sfix">
 <span id="fixed"></span><h1>UFix/SFix<a class="headerlink" href="#ufix-sfix" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">UFix</span></code> and <code class="docutils literal notranslate"><span class="pre">SFix</span></code> types correspond to a vector of bits that can be used for fixed point
-arithmetic.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">UFix</span></code> and <code class="docutils literal notranslate"><span class="pre">SFix</span></code> types correspond to a vector of bits that can be used for fixed point arithmetic.</p>
 </div>
 <div class="section" id="declaration">
 <h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
@@ -443,8 +442,7 @@ If the fixed point number is signed, one more bit is used for the sign.</p>
 <h2>Assignments<a class="headerlink" href="#assignments" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="valid-assignments">
 <h3>Valid Assignments<a class="headerlink" href="#valid-assignments" title="Permalink to this headline">¶</a></h3>
-<p>An assignment to a fixed point value is valid when there is no bit loss. A bit loss occurrence
-will result in an error.</p>
+<p>An assignment to a fixed point value is valid when there is no bit loss. Any bit loss will result in an error.</p>
 <p>If the source fixed point value is too big, the .truncated function will allow you to
 resize the source number to match the destination size.</p>
 <div class="section" id="example">
@@ -467,7 +465,7 @@ resize the source number to match the destination size.</p>
 </div>
 <div class="section" id="from-a-scala-constant">
 <h3>From a Scala constant<a class="headerlink" href="#from-a-scala-constant" title="Permalink to this headline">¶</a></h3>
-<p>It is allowed to assign a Scala Double or a Scala BigInt into a fixed point.</p>
+<p>Scala BigInts or Doubles can be used as constants when assigning to UFix or SFix signals.</p>
 <div class="section" id="id1">
 <h4>Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">i4_m2</span> <span class="k">=</span> <span class="nc">SFix</span><span class="o">(</span><span class="mi">4</span> <span class="n">exp</span><span class="o">,-</span><span class="mi">2</span> <span class="n">exp</span><span class="o">)</span>
@@ -607,15 +605,15 @@ resize the source number to match the destination size.</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>x.asBits</td>
-<td>Binary cast in Bits</td>
+<td>Binary cast to Bits</td>
 <td>Bits(w(x) bits)</td>
 </tr>
 <tr class="row-odd"><td>x.asUInt</td>
-<td>Binary cast in UInt</td>
+<td>Binary cast to UInt</td>
 <td>UInt(w(x) bits)</td>
 </tr>
 <tr class="row-even"><td>x.asSInt</td>
-<td>Binary cast in SInt</td>
+<td>Binary cast to SInt</td>
 <td>SInt(w(x) bits)</td>
 </tr>
 <tr class="row-odd"><td>x.asBools</td>

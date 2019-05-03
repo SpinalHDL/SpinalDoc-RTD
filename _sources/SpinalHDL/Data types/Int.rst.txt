@@ -156,11 +156,11 @@ Logic
    val a, b, c = SInt(32 bits)
    c := ~(a & b) //  Inverse(a AND b)
 
-   val all_1 = a.andR // Check that all bit are equal to 1
+   val all_1 = a.andR // Check that all bits are equal to 1
 
    // Logical shift
-   val uint_10bits = uint_8bits << 2  // shift left (result on 10 bits)
-   val shift_8bits = uint_8bits |<< 2 // shift left (result on 8 bits)
+   val uint_10bits = uint_8bits << 2  // shift left (resulting in 10 bits)
+   val shift_8bits = uint_8bits |<< 2 // shift left (resulting in 8 bits)
 
    // Logical rotation
    val myBits = uint_8bits.rotateLeft(3) // left bit rotation
@@ -236,7 +236,7 @@ Comparison
    // Comparaison between two SInt
    myBool := mySInt_1 > mySInt_2
 
-   // Comparaison between UInt and a literal
+   // Comparaison between a UInt and a literal
    myBool := myUInt_8bits >= U(3, 8 bits)
 
    when(myUInt_8bits === 3){
@@ -253,13 +253,13 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
    * - x.asUInt
-     - Binary cast in UInt
+     - Binary cast to UInt
      - UInt(w(x) bits)
    * - x.asSInt
-     - Binary cast in SInt
+     - Binary cast to SInt
      - SInt(w(x) bits)
    * - x.asBools
      - Cast into a array of Bool
@@ -302,7 +302,7 @@ Bit extraction
      - Read bitfield, offset: UInt, width: Int
      - T(width bits)
    * - x(\ :ref:`range <range>`\ )
-     - Read a range of bit. Ex : myBits(4 downto 2)
+     - Read a range of bits. Ex : myBits(4 downto 2)
      - T(range bits)
    * - x(y) := z
      - Assign bits, y : Int/UInt
@@ -317,10 +317,10 @@ Bit extraction
 
 .. code-block:: scala
 
-   // get the element at the index 4
+   // get the bit at index 4
    val myBool = myUInt(4)
 
-   // assign
+   // assign bit 1 to True
    mySInt(1) := True
 
    // Range
@@ -362,10 +362,10 @@ Misc
      - Concatenate x:T with y:Bool/SInt/UInt
      - T(w(x) + w(y) bits)
    * - x.subdivideIn(y slices)
-     - Subdivide x in y slices, y: Int
+     - Subdivide x into y slices, y: Int
      - Vec(T,  y)
    * - x.subdivideIn(y bits)
-     - Subdivide x in multiple slices of y bits, y: Int
+     - Subdivide x into multiple slices of y bits, y: Int
      - Vec(T, w(x)/y)
    * - x.resize(y)
      - | Return a resized copy of x, if enlarged, it is filled with zero
@@ -373,7 +373,7 @@ Misc
      - T(y bits)
    * - x.resized
      - | Return a version of x which is allowed to be automatically 
-       | resized were needed
+       | resized where needed
      - T(w(x) bits)
    * - myUInt.twoComplement(en: Bool)
      - Use the two's complement to transform an UInt into an SInt

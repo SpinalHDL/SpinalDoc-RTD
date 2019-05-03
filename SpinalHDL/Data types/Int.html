@@ -129,13 +129,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/clock_domain.html">Clock domains</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instantiate VHDL and Verilog IP</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Semantic/index.html">Semantic</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/assignements.html">Assignments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Semantic/when_switch.html">When/Switch/Mux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Semantic/sementic.html">Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/rules.html">Rules</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Sequential logic/index.html">Sequential logic</a><ul>
@@ -542,11 +542,11 @@
 <span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span> <span class="k">=</span> <span class="nc">SInt</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)</span>
 <span class="n">c</span> <span class="o">:=</span> <span class="o">~(</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span><span class="o">)</span> <span class="c1">//  Inverse(a AND b)</span>
 
-<span class="k">val</span> <span class="n">all_1</span> <span class="k">=</span> <span class="n">a</span><span class="o">.</span><span class="n">andR</span> <span class="c1">// Check that all bit are equal to 1</span>
+<span class="k">val</span> <span class="n">all_1</span> <span class="k">=</span> <span class="n">a</span><span class="o">.</span><span class="n">andR</span> <span class="c1">// Check that all bits are equal to 1</span>
 
 <span class="c1">// Logical shift</span>
-<span class="k">val</span> <span class="n">uint_10bits</span> <span class="k">=</span> <span class="n">uint_8bits</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>  <span class="c1">// shift left (result on 10 bits)</span>
-<span class="k">val</span> <span class="n">shift_8bits</span> <span class="k">=</span> <span class="n">uint_8bits</span> <span class="o">|&lt;&lt;</span> <span class="mi">2</span> <span class="c1">// shift left (result on 8 bits)</span>
+<span class="k">val</span> <span class="n">uint_10bits</span> <span class="k">=</span> <span class="n">uint_8bits</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>  <span class="c1">// shift left (resulting in 10 bits)</span>
+<span class="k">val</span> <span class="n">shift_8bits</span> <span class="k">=</span> <span class="n">uint_8bits</span> <span class="o">|&lt;&lt;</span> <span class="mi">2</span> <span class="c1">// shift left (resulting in 8 bits)</span>
 
 <span class="c1">// Logical rotation</span>
 <span class="k">val</span> <span class="n">myBits</span> <span class="k">=</span> <span class="n">uint_8bits</span><span class="o">.</span><span class="n">rotateLeft</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="c1">// left bit rotation</span>
@@ -645,7 +645,7 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Comparaison between two SInt</span>
 <span class="n">myBool</span> <span class="o">:=</span> <span class="n">mySInt_1</span> <span class="o">&gt;</span> <span class="n">mySInt_2</span>
 
-<span class="c1">// Comparaison between UInt and a literal</span>
+<span class="c1">// Comparaison between a UInt and a literal</span>
 <span class="n">myBool</span> <span class="o">:=</span> <span class="n">myUInt_8bits</span> <span class="o">&gt;=</span> <span class="n">U</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
 
 <span class="n">when</span><span class="o">(</span><span class="n">myUInt_8bits</span> <span class="o">===</span> <span class="mi">3</span><span class="o">){</span>
@@ -670,15 +670,15 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>x.asBits</td>
-<td>Binary cast in Bits</td>
+<td>Binary cast to Bits</td>
 <td>Bits(w(x) bits)</td>
 </tr>
 <tr class="row-odd"><td>x.asUInt</td>
-<td>Binary cast in UInt</td>
+<td>Binary cast to UInt</td>
 <td>UInt(w(x) bits)</td>
 </tr>
 <tr class="row-even"><td>x.asSInt</td>
-<td>Binary cast in SInt</td>
+<td>Binary cast to SInt</td>
 <td>SInt(w(x) bits)</td>
 </tr>
 <tr class="row-odd"><td>x.asBools</td>
@@ -731,7 +731,7 @@
 <td>T(width bits)</td>
 </tr>
 <tr class="row-even"><td>x(<a class="reference internal" href="../miscelenea/core/elements.html#range"><span class="std std-ref">range</span></a>)</td>
-<td>Read a range of bit. Ex : myBits(4 downto 2)</td>
+<td>Read a range of bits. Ex : myBits(4 downto 2)</td>
 <td>T(range bits)</td>
 </tr>
 <tr class="row-odd"><td>x(y) := z</td>
@@ -748,10 +748,10 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// get the element at the index 4</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// get the bit at index 4</span>
 <span class="k">val</span> <span class="n">myBool</span> <span class="k">=</span> <span class="n">myUInt</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
 
-<span class="c1">// assign</span>
+<span class="c1">// assign bit 1 to True</span>
 <span class="n">mySInt</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">:=</span> <span class="nc">True</span>
 
 <span class="c1">// Range</span>
@@ -807,11 +807,11 @@
 <td>T(w(x) + w(y) bits)</td>
 </tr>
 <tr class="row-odd"><td>x.subdivideIn(y slices)</td>
-<td>Subdivide x in y slices, y: Int</td>
+<td>Subdivide x into y slices, y: Int</td>
 <td>Vec(T,  y)</td>
 </tr>
 <tr class="row-even"><td>x.subdivideIn(y bits)</td>
-<td>Subdivide x in multiple slices of y bits, y: Int</td>
+<td>Subdivide x into multiple slices of y bits, y: Int</td>
 <td>Vec(T, w(x)/y)</td>
 </tr>
 <tr class="row-odd"><td>x.resize(y)</td>
@@ -825,7 +825,7 @@
 <tr class="row-even"><td>x.resized</td>
 <td><div class="first last line-block">
 <div class="line">Return a version of x which is allowed to be automatically</div>
-<div class="line">resized were needed</div>
+<div class="line">resized where needed</div>
 </div>
 </td>
 <td>T(w(x) bits)</td>

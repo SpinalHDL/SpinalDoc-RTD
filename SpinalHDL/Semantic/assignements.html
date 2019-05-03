@@ -129,13 +129,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/clock_domain.html">Clock domains</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instantiate VHDL and Verilog IP</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Semantic</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Assignments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="when_switch.html">When/Switch/Mux</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sementic.html">Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html">Rules</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Sequential logic/index.html">Sequential logic</a><ul>
@@ -335,7 +335,7 @@
 <h1>Assignments<a class="headerlink" href="#assignments" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>Assignments<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>There are multiple assignment operator :</p>
+<p>There are multiple assignment operators:</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="17%" />
@@ -350,23 +350,23 @@
 <tr class="row-even"><td>:=</td>
 <td><div class="first last line-block">
 <div class="line">Standard assignment, equivalent to ‘&lt;=’ in VHDL/Verilog :</div>
-<div class="line">last assignment win, value updated one the next simulation delta cycle</div>
+<div class="line">the last assignment to a variable wins, the value is not updated until the next simulation delta cycle</div>
 </div>
 </td>
 </tr>
 <tr class="row-odd"><td>\=</td>
 <td><div class="first last line-block">
 <div class="line">Equivalent to := in VHDL and = in Verilog</div>
-<div class="line">value updated instantly</div>
+<div class="line">the value is updated instantly</div>
 </div>
 </td>
 </tr>
 <tr class="row-even"><td>&lt;&gt;</td>
-<td>Automatic connection between 2 signals or two bundles of the same type. Direction is inferred by using signal direction (in/out). (Similar behavioral than <code class="docutils literal notranslate"><span class="pre">:=</span></code>)</td>
+<td>Automatic connection between 2 signals or two bundles of the same type. Direction is inferred by using signal direction (in/out). (Similar behavioral to <code class="docutils literal notranslate"><span class="pre">:=</span></code>)</td>
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Because of hardware concurrency, `a` is always read with the value &#39;1&#39; by b and c</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Because of hardware concurrency, `a` is always read as &#39;1&#39; by b and c</span>
 <span class="k">val</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
 <span class="n">a</span> <span class="o">:=</span> <span class="mi">0</span>
 <span class="n">b</span> <span class="o">:=</span> <span class="n">a</span>
@@ -384,16 +384,16 @@
 <span class="n">uartCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">uart</span> <span class="o">&lt;&gt;</span> <span class="n">io</span><span class="o">.</span><span class="n">uart</span>
 </pre></div>
 </div>
-<p>It is important to understand that in SpinalHDL, the nature of a signal (combinatorial/sequancial) is defined in its declaration and not by the way it is assigned. All datatype instances will define a cominatorial signal, while a datatype instance wrapped into a Reg(…) sementic will define a sequancial (register) signal.</p>
+<p>It is important to understand that in SpinalHDL, the nature of a signal (combinatorial/sequential) is defined in its declaration, not by the way it is assigned. All datatype instances will define a cominatorial signal, while a datatype instance wrapped with a Reg(…) will define a sequential (register) signal.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span> <span class="c1">//Define a combinatorial signal</span>
-<span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Define a registred signal</span>
-<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="c1">//Define a registred signal which is set to 0 when a reset occure</span>
+<span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Define a registered signal</span>
+<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="c1">//Define a registered signal which is set to 0 when a reset occurs</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="width-checking">
 <h2>Width checking<a class="headerlink" href="#width-checking" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL checks that bit count of left and right assignment side match. There is multiple ways to adapt the width of a given BitVector (Bits, UInt, SInt) :</p>
+<p>SpinalHDL checks that the bit count of the left side and the right side of an assigmnet matches. There are multiple ways to adapt the width of a given BitVector (Bits, UInt, SInt):</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="29%" />
@@ -413,7 +413,7 @@
 </tr>
 </tbody>
 </table>
-<p>There are one cases where spinal automatically resize things :</p>
+<p>There is one case where Spinal automatically resizes a value:</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="26%" />
@@ -428,15 +428,15 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>myUIntOf_8bit := U(3)</td>
-<td>U(3) create an UInt of 2 bits, which don’t match with left side</td>
-<td>Because  U(3) is a “weak” bits count inferred signal, SpinalHDL resizes it automatically</td>
+<td>U(3) creates an UInt of 2 bits, which doesn’t match the left side (8 bits)</td>
+<td>Because  U(3) is a “weak” bit count inferred signal, SpinalHDL resizes it automatically</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="combinatorial-loops">
 <h2>Combinatorial loops<a class="headerlink" href="#combinatorial-loops" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL check that there is no combinatorial loops (latch) in your design. If one is detected, it rises an error and SpinalHDL will print you the path of the loop.</p>
+<p>SpinalHDL checks that there are no combinatorial loops (latches) in your design. If one is detected, it raises an error and SpinalHDL will print the path of the loop.</p>
 </div>
 </div>
 

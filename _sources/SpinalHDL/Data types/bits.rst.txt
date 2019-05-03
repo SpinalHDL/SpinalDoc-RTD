@@ -135,11 +135,11 @@ Logic
    val a, b, c = Bits(32 bits)
    c := ~(a & b) //  Inverse(a AND b)
 
-   val all_1 = a.andR // Check that all bit are equal to 1
+   val all_1 = a.andR // Check that all bits are equal to 1
 
    // Logical shift
-   val bits_10bits = bits_8bits << 2  // shift left (result on 10 bits)
-   val shift_8bits = bits_8bits |<< 2 // shift left (result on 8 bits)
+   val bits_10bits = bits_8bits << 2  // shift left (results in 10 bits)
+   val shift_8bits = bits_8bits |<< 2 // shift left (results in 8 bits)
 
    // Logical rotation
    val myBits = bits_8bits.rotateLeft(3) // left bit rotation
@@ -185,19 +185,19 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
    * - x.asUInt
-     - Binary cast in UInt
+     - Binary cast to UInt
      - UInt(w(x) bits)
    * - x.asSInt
-     - Binary cast in SInt
+     - Binary cast to SInt
      - SInt(w(x) bits)
    * - x.asBools
-     - Cast into a array of Bool
+     - Cast to an array of Bools
      - Vec(Bool, w(x))
    * - B(x: T)
-     - Cast a Data into Bits
+     - Cast Data to Bits
      -  Bits(w(x) bits)
 
 
