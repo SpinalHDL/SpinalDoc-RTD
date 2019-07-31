@@ -17,33 +17,37 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../_static/default.js"></script>
+        <script type="text/javascript" src="../../../_static/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -332,16 +336,16 @@
 <p>The core components of the language are described in this document. It is part of the general</p>
 <p>The core language components are as follows:</p>
 <ul class="simple">
-<li><a class="reference internal" href="#core-components-clock-domain-definition"><span class="std std-ref">*Clock domains*</span></a>, which allow to define and interoperate multiple clock domains within a design</li>
-<li><em>Memory instantiation</em>, which permit the automatic instantiation of RAM and ROM memories.</li>
-<li><em>IP instantiation</em>, using either existing VHDL or Verilog component.</li>
-<li>Assignments</li>
-<li>When / Switch</li>
-<li>Component hierarchy</li>
-<li>Area</li>
-<li>Functions</li>
-<li>Utility functions</li>
-<li>VHDL generator</li>
+<li><p><a class="reference internal" href="#core-components-clock-domain-definition"><span class="std std-ref">*Clock domains*</span></a>, which allow to define and interoperate multiple clock domains within a design</p></li>
+<li><p><em>Memory instantiation</em>, which permit the automatic instantiation of RAM and ROM memories.</p></li>
+<li><p><em>IP instantiation</em>, using either existing VHDL or Verilog component.</p></li>
+<li><p>Assignments</p></li>
+<li><p>When / Switch</p></li>
+<li><p>Component hierarchy</p></li>
+<li><p>Area</p></li>
+<li><p>Functions</p></li>
+<li><p>Utility functions</p></li>
+<li><p>VHDL generator</p></li>
 </ul>
 <div class="section" id="clock-domains-definitions">
 <span id="core-components-clock-domain-definition"></span><h2>Clock domains definitions<a class="headerlink" href="#clock-domains-definitions" title="Permalink to this headline">¶</a></h2>
@@ -353,9 +357,9 @@
 <p><code class="docutils literal notranslate"><span class="pre">ClockDomain(clock</span> <span class="pre">:</span> <span class="pre">Bool[,reset</span> <span class="pre">:</span> <span class="pre">Bool[,enable</span> <span class="pre">:</span> <span class="pre">Bool]]])</span></code></p>
 <p>This definition takes three parameters:</p>
 <ol class="arabic simple">
-<li>The clock signal that defines the domain</li>
-<li>An optional <code class="docutils literal notranslate"><span class="pre">reset</span></code>signal. If a register which need a reset and his clock domain didn’t provide one, an error message happen</li>
-<li>An optional <code class="docutils literal notranslate"><span class="pre">enable</span></code> signal. The goal of this signal is to disable the clock on the whole clock domain without having to  manually implement that on each synchronous element.</li>
+<li><p>The clock signal that defines the domain</p></li>
+<li><p>An optional <code class="docutils literal notranslate"><span class="pre">reset</span></code>signal. If a register which need a reset and his clock domain didn’t provide one, an error message happen</p></li>
+<li><p>An optional <code class="docutils literal notranslate"><span class="pre">enable</span></code> signal. The goal of this signal is to disable the clock on the whole clock domain without having to  manually implement that on each synchronous element.</p></li>
 </ol>
 <p>An applied example to define a specific clock domain within the design is as follows:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">coreClock</span> <span class="k">=</span> <span class="nc">Bool</span>
@@ -376,28 +380,28 @@
 <div class="section" id="clock-configuration">
 <h3>Clock configuration<a class="headerlink" href="#clock-configuration" title="Permalink to this headline">¶</a></h3>
 <p>In addition to the constructor parameters given <a class="reference internal" href="#core-componets-clock-constructor"><span class="std std-ref">here</span></a> , the following elements of each clock domain are configurable via a <code class="docutils literal notranslate"><span class="pre">ClockDomainConfig</span></code> class :</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col style="width: 50%" />
+<col style="width: 50%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Property</th>
-<th class="head">Valid values</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Valid values</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">clockEdge</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">RISING</span></code>, <code class="docutils literal notranslate"><span class="pre">FALLING</span></code></td>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clockEdge</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RISING</span></code>, <code class="docutils literal notranslate"><span class="pre">FALLING</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">ResetKind</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">ASYNC</span></code>, <code class="docutils literal notranslate"><span class="pre">SYNC</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ResetKind</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ASYNC</span></code>, <code class="docutils literal notranslate"><span class="pre">SYNC</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">resetActiveHigh</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">false</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">resetActiveHigh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">clockEnableActiveHigh</span></code></td>
-<td><code class="docutils literal notranslate"><span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">false</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clockEnableActiveHigh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -424,9 +428,9 @@
 </div>
 <p>By default, a ClockDomain is applied to the whole design. The configuration of this one is :</p>
 <ul class="simple">
-<li>clock : rising edge</li>
-<li>reset: asynchronous, active high</li>
-<li>no enable signal</li>
+<li><p>clock : rising edge</p></li>
+<li><p>reset: asynchronous, active high</p></li>
+<li><p>no enable signal</p></li>
 </ul>
 </div>
 <div class="section" id="external-clock">
@@ -468,33 +472,33 @@
 <div class="section" id="assignments">
 <h2>Assignments<a class="headerlink" href="#assignments" title="Permalink to this headline">¶</a></h2>
 <p>There are multiple assignment operator :</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="17%" />
-<col width="83%" />
+<col style="width: 17%" />
+<col style="width: 83%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Symbole</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbole</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>:=</td>
-<td><div class="first last line-block">
+<tbody>
+<tr class="row-even"><td><p>:=</p></td>
+<td><div class="line-block">
 <div class="line">Standard assignment, equivalent to ‘&lt;=’ in VHDL/Verilog</div>
 <div class="line">last assignment win, value updated at next delta cycle</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>/=</td>
-<td><div class="first last line-block">
+<tr class="row-odd"><td><p>/=</p></td>
+<td><div class="line-block">
 <div class="line">Equivalent to := in VHDL and = in Verilog</div>
 <div class="line">value updated instantly</div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>&lt;&gt;</td>
-<td><div class="first last line-block">
+<tr class="row-even"><td><p>&lt;&gt;</p></td>
+<td><div class="line-block">
 <div class="line">Automatic connection between 2 signals. Direction is inferred by using signal direction (in/out)</div>
 <div class="line">Similar behavioural than :=</div>
 </div>
@@ -518,46 +522,46 @@
 </pre></div>
 </div>
 <p>SpinalHDL check that bitcount of left and right assignment side match. There is multiple ways to adapt bitcount of BitVector (Bits, UInt, SInt) :</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="33%" />
-<col width="67%" />
+<col style="width: 33%" />
+<col style="width: 67%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Resizing ways</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Resizing ways</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>x := y.resized</td>
-<td>Assign x wit a resized copy of y, resize value is automatically inferred to match x</td>
+<tbody>
+<tr class="row-even"><td><p>x := y.resized</p></td>
+<td><p>Assign x wit a resized copy of y, resize value is automatically inferred to match x</p></td>
 </tr>
-<tr class="row-odd"><td>x := y.resize(newWidth)</td>
-<td>Assign x with a resized copy of y, size is manually calculated</td>
+<tr class="row-odd"><td><p>x := y.resize(newWidth)</p></td>
+<td><p>Assign x with a resized copy of y, size is manually calculated</p></td>
 </tr>
 </tbody>
 </table>
 <p>There are 2 cases where spinal automaticly resize things :</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="50%" />
-<col width="33%" />
-<col width="17%" />
+<col style="width: 50%" />
+<col style="width: 33%" />
+<col style="width: 17%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Assignement</th>
-<th class="head">Problem</th>
-<th class="head">SpinalHDL action</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Assignement</p></th>
+<th class="head"><p>Problem</p></th>
+<th class="head"><p>SpinalHDL action</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>myUIntOf_8bit := U(3)</td>
-<td>U(3) create an UInt of 2 bits, which don’t match with left side</td>
-<td>Because  U(3) is a “weak” bit inferred signal, SpinalHDL resize it automatically</td>
+<tbody>
+<tr class="row-even"><td><p>myUIntOf_8bit := U(3)</p></td>
+<td><p>U(3) create an UInt of 2 bits, which don’t match with left side</p></td>
+<td><p>Because  U(3) is a “weak” bit inferred signal, SpinalHDL resize it automatically</p></td>
 </tr>
-<tr class="row-odd"><td>myUIntOf_8bit := U(2 -&gt; False default -&gt; true)</td>
-<td>The right part infer a 3 bit UInt, which doesn’t match with the left part</td>
-<td>SpinalHDL reapply the default value to bit that are missing</td>
+<tr class="row-odd"><td><p>myUIntOf_8bit := U(2 -&gt; False default -&gt; true)</p></td>
+<td><p>The right part infer a 3 bit UInt, which doesn’t match with the left part</p></td>
+<td><p>SpinalHDL reapply the default value to bit that are missing</p></td>
 </tr>
 </tbody>
 </table>
@@ -628,38 +632,38 @@
 </pre></div>
 </div>
 <p>Syntax to define in/out is the following :</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="33%" />
-<col width="50%" />
-<col width="17%" />
+<col style="width: 33%" />
+<col style="width: 50%" />
+<col style="width: 17%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Syntax</th>
-<th class="head">Description</th>
-<th class="head">Return</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Return</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>in/out(x : Data)</td>
-<td>Set x an input/output</td>
-<td>x</td>
+<tbody>
+<tr class="row-even"><td><p>in/out(x : Data)</p></td>
+<td><p>Set x an input/output</p></td>
+<td><p>x</p></td>
 </tr>
-<tr class="row-odd"><td>in/out Bool</td>
-<td>Create an input/output Bool</td>
-<td>Bool</td>
+<tr class="row-odd"><td><p>in/out Bool</p></td>
+<td><p>Create an input/output Bool</p></td>
+<td><p>Bool</p></td>
 </tr>
-<tr class="row-even"><td>in/out Bits/UInt/SInt[(x bit)]</td>
-<td>Create an input/output of the corresponding type</td>
-<td>T</td>
+<tr class="row-even"><td><p>in/out Bits/UInt/SInt[(x bit)]</p></td>
+<td><p>Create an input/output of the corresponding type</p></td>
+<td><p>T</p></td>
 </tr>
 </tbody>
 </table>
 <p>There is some rules about component interconnection :</p>
 <ul class="simple">
-<li>Components can only read outputs/inputs signals of children components</li>
-<li>Components can read outputs/inputs ports values</li>
-<li>If for some reason, you need to read a signals from far away in the hierarchy (debug, temporal patch) you can do it by using the value returned by some.where.else.theSignal.pull().</li>
+<li><p>Components can only read outputs/inputs signals of children components</p></li>
+<li><p>Components can read outputs/inputs ports values</p></li>
+<li><p>If for some reason, you need to read a signals from far away in the hierarchy (debug, temporal patch) you can do it by using the value returned by some.where.else.theSignal.pull().</p></li>
 </ul>
 </div>
 <div class="section" id="area">
@@ -696,11 +700,9 @@
 <h2>Function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h2>
 <p>The ways you can use Scala functions to generate hardware are radically different than VHDL/Verilog for many reasons:</p>
 <ul>
-<li><p class="first">You can instantiate register, combinatorial logic and component inside them.</p>
-</li>
-<li><p class="first">You don’t have to play with <code class="docutils literal notranslate"><span class="pre">process</span></code>/<code class="docutils literal notranslate"><span class="pre">&#64;always</span></code> that limit the scope of assignment of signals</p>
-</li>
-<li><div class="first line-block">
+<li><p>You can instantiate register, combinatorial logic and component inside them.</p></li>
+<li><p>You don’t have to play with <code class="docutils literal notranslate"><span class="pre">process</span></code>/<code class="docutils literal notranslate"><span class="pre">&#64;always</span></code> that limit the scope of assignment of signals</p></li>
+<li><div class="line-block">
 <div class="line">Everything work by reference, which allow many manipulation.</div>
 <div class="line">For example you can give to a function an bus as argument, then the function can internaly read/write it.</div>
 <div class="line">You can also return a Component, a Bus, are anything else from scala the scala world.</div>
@@ -780,49 +782,49 @@
 </div>
 <div class="section" id="memory">
 <h2>Memory<a class="headerlink" href="#memory" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="67%" />
-<col width="33%" />
+<col style="width: 67%" />
+<col style="width: 33%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Syntax</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>Mem(type : Data,size : Int)</td>
-<td>Create a RAM</td>
+<tbody>
+<tr class="row-even"><td><p>Mem(type : Data,size : Int)</p></td>
+<td><p>Create a RAM</p></td>
 </tr>
-<tr class="row-odd"><td>Mem(type : Data,initialContent : Array[Data])</td>
-<td>Create a ROM</td>
+<tr class="row-odd"><td><p>Mem(type : Data,initialContent : Array[Data])</p></td>
+<td><p>Create a ROM</p></td>
 </tr>
 </tbody>
 </table>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="50%" />
-<col width="33%" />
-<col width="17%" />
+<col style="width: 50%" />
+<col style="width: 33%" />
+<col style="width: 17%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Syntax</th>
-<th class="head">Description</th>
-<th class="head">Return</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Return</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>mem(x)</td>
-<td>Asynchronous read</td>
-<td>T</td>
+<tbody>
+<tr class="row-even"><td><p>mem(x)</p></td>
+<td><p>Asynchronous read</p></td>
+<td><p>T</p></td>
 </tr>
-<tr class="row-odd"><td>mem(x) := y</td>
-<td>Synchronous write</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>mem(x) := y</p></td>
+<td><p>Synchronous write</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>mem.readSync(address,enable)</td>
-<td>Synchronous read</td>
-<td>T</td>
+<tr class="row-even"><td><p>mem.readSync(address,enable)</p></td>
+<td><p>Synchronous read</p></td>
+<td><p>T</p></td>
 </tr>
 </tbody>
 </table>
@@ -830,7 +832,8 @@
 <div class="section" id="instanciate-vhdl-and-verilog-ip">
 <h2>Instanciate VHDL and Verilog IP<a class="headerlink" href="#instanciate-vhdl-and-verilog-ip" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div>In some cases, it could be usefull to instanciate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.</div></blockquote>
+<div><p>In some cases, it could be usefull to instanciate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.</p>
+</div></blockquote>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Ram_1w_1r</span><span class="o">(</span><span class="nc">_wordWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="nc">_wordCount</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BlackBox</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">generic</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Generic</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">wordCount</span> <span class="k">=</span> <span class="nc">_wordCount</span>
@@ -860,26 +863,26 @@
 <div class="section" id="utils">
 <h2>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
 <p>The SpinalHDL core contain some utils :</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="25%" />
-<col width="63%" />
-<col width="13%" />
+<col style="width: 25%" />
+<col style="width: 63%" />
+<col style="width: 13%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Syntax</th>
-<th class="head">Description</th>
-<th class="head">Return</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Return</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>log2Up(x : BigInt)</td>
-<td>Return the number of bit needed to represent x states</td>
-<td>Int</td>
+<tbody>
+<tr class="row-even"><td><p>log2Up(x : BigInt)</p></td>
+<td><p>Return the number of bit needed to represent x states</p></td>
+<td><p>Int</p></td>
 </tr>
-<tr class="row-odd"><td>isPow2(x : BigInt)</td>
-<td>Return true if x is a power of two</td>
-<td>Boolean</td>
+<tr class="row-odd"><td><p>isPow2(x : BigInt)</p></td>
+<td><p>Return true if x is a power of two</p></td>
+<td><p>Boolean</p></td>
 </tr>
 </tbody>
 </table>
@@ -921,27 +924,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/default.js"></script>
-        <script type="text/javascript" src="../../../_static/wavedrom.min.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

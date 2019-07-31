@@ -17,13 +17,22 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../_static/default.js"></script>
+        <script type="text/javascript" src="../../../_static/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
@@ -31,21 +40,16 @@
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Coding conventions" href="coding_conventions.html" />
     <link rel="prev" title="Scala Guide" href="index.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -334,46 +338,46 @@
            <div itemprop="articleBody">
             
   <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">Variable and functions should be defined into <code class="docutils literal notranslate"><span class="pre">object</span></code>, <code class="docutils literal notranslate"><span class="pre">class</span></code>, <code class="docutils literal notranslate"><span class="pre">function</span></code>. You can’t define them on the root of a Scala file.</p>
+<p class="admonition-title">Important</p>
+<p>Variable and functions should be defined into <code class="docutils literal notranslate"><span class="pre">object</span></code>, <code class="docutils literal notranslate"><span class="pre">class</span></code>, <code class="docutils literal notranslate"><span class="pre">function</span></code>. You can’t define them on the root of a Scala file.</p>
 </div>
 <div class="section" id="basics">
 <h1>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="types">
 <h2>Types<a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h2>
 <p>In Scala, there is 5 major types</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="25%" />
-<col width="25%" />
-<col width="50%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 50%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Type</th>
-<th class="head">Literal</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Literal</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>Boolean</td>
-<td>true, false</td>
-<td>&#160;</td>
+<tbody>
+<tr class="row-even"><td><p>Boolean</p></td>
+<td><p>true, false</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>Int</td>
-<td>3, 0x32</td>
-<td>32 bits integer</td>
+<tr class="row-odd"><td><p>Int</p></td>
+<td><p>3, 0x32</p></td>
+<td><p>32 bits integer</p></td>
 </tr>
-<tr class="row-even"><td>Float</td>
-<td>3.14f</td>
-<td>32 bits floating point</td>
+<tr class="row-even"><td><p>Float</p></td>
+<td><p>3.14f</p></td>
+<td><p>32 bits floating point</p></td>
 </tr>
-<tr class="row-odd"><td>Double</td>
-<td>3.14</td>
-<td>64 bits floating point</td>
+<tr class="row-odd"><td><p>Double</p></td>
+<td><p>3.14</p></td>
+<td><p>64 bits floating point</p></td>
 </tr>
-<tr class="row-even"><td>String</td>
-<td>“Hello world”</td>
-<td>UTF-16 string</td>
+<tr class="row-even"><td><p>String</p></td>
+<td><p>“Hello world”</p></td>
+<td><p>UTF-16 string</p></td>
 </tr>
 </tbody>
 </table>
@@ -554,8 +558,8 @@
 </div>
 <p>Then there is some differences between <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code> and <code class="docutils literal notranslate"><span class="pre">class</span></code> :</p>
 <ul class="simple">
-<li>case class doesn’t need the <code class="docutils literal notranslate"><span class="pre">new</span></code> keyword to be instantiated</li>
-<li>construction parameters are accessible from the outside, you don’t need to define them as <code class="docutils literal notranslate"><span class="pre">val</span></code>.</li>
+<li><p>case class doesn’t need the <code class="docutils literal notranslate"><span class="pre">new</span></code> keyword to be instantiated</p></li>
+<li><p>construction parameters are accessible from the outside, you don’t need to define them as <code class="docutils literal notranslate"><span class="pre">val</span></code>.</p></li>
 </ul>
 <p>In SpinalHDL, for some reason explains into the coding conventions, it’s in general recommended to use case class instead of class to have less typing and more coherency.</p>
 </div>
@@ -605,7 +609,7 @@
         <a href="coding_conventions.html" class="btn btn-neutral float-right" title="Coding conventions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Scala Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Scala Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -631,27 +635,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/default.js"></script>
-        <script type="text/javascript" src="../../../_static/wavedrom.min.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

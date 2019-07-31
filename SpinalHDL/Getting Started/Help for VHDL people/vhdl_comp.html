@@ -17,13 +17,22 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../_static/default.js"></script>
+        <script type="text/javascript" src="../../../_static/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
@@ -31,21 +40,16 @@
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="VHDL equivalences" href="vhdl_perspective.html" />
     <link rel="prev" title="Help for VHDL people" href="index.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -450,10 +454,10 @@
 <h2>Functions and procedures<a class="headerlink" href="#functions-and-procedures" title="Permalink to this headline">¶</a></h2>
 <p>Function and procedures are not used very often in VHDL, probably because they are very limited:</p>
 <ul class="simple">
-<li>You can only define a chunk of combinatorial hardware, or only a chunk of registers (if you call the function/procedure inside a clocked process).</li>
-<li>You can’t define a process inside them.</li>
-<li>You can’t instantiate a component inside them.</li>
-<li>The scope of what you can read/write inside them are limited.</li>
+<li><p>You can only define a chunk of combinatorial hardware, or only a chunk of registers (if you call the function/procedure inside a clocked process).</p></li>
+<li><p>You can’t define a process inside them.</p></li>
+<li><p>You can’t instantiate a component inside them.</p></li>
+<li><p>The scope of what you can read/write inside them are limited.</p></li>
 </ul>
 <p>In spinalHDL, all those limitation are removed.</p>
 <p>An example that mixes combinatorial logic and a register in a single function:</p>
@@ -502,7 +506,7 @@
 <h2>Buses and Interfaces<a class="headerlink" href="#buses-and-interfaces" title="Permalink to this headline">¶</a></h2>
 <p>VHDL is very boring when it comes to buses and interfaces. You have two options:</p>
 <ol class="arabic simple">
-<li>Define buses and interfaces wire by wire, each time and everywhere:</li>
+<li><p>Define buses and interfaces wire by wire, each time and everywhere:</p></li>
 </ol>
 <div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="n">PADDR</span>   <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">(</span><span class="n">addressWidth</span><span class="o">-</span><span class="mi">1</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
 <span class="n">PSEL</span>    <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span>
@@ -514,7 +518,7 @@
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>Use records but lose parameterization (statically fixed in package), and you have to define one for each directions:</li>
+<li><p>Use records but lose parameterization (statically fixed in package), and you have to define one for each directions:</p></li>
 </ol>
 <div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="n">P_m</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">APB_M</span><span class="p">;</span>
 <span class="n">P_s</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">APB_S</span><span class="p">;</span>
@@ -636,8 +640,8 @@
 <h2>Casting<a class="headerlink" href="#casting" title="Permalink to this headline">¶</a></h2>
 <p>There are two annoying casting methods in VHDL:</p>
 <ul class="simple">
-<li>boolean &lt;&gt; std_logic (ex: To assign a signal using a condition such as <code class="docutils literal notranslate"><span class="pre">mySignal</span> <span class="pre">&lt;=</span> <span class="pre">myValue</span> <span class="pre">&lt;</span> <span class="pre">10</span></code> is not legal)</li>
-<li>unsigned &lt;&gt; integer  (ex: To access an array)</li>
+<li><p>boolean &lt;&gt; std_logic (ex: To assign a signal using a condition such as <code class="docutils literal notranslate"><span class="pre">mySignal</span> <span class="pre">&lt;=</span> <span class="pre">myValue</span> <span class="pre">&lt;</span> <span class="pre">10</span></code> is not legal)</p></li>
+<li><p>unsigned &lt;&gt; integer  (ex: To access an array)</p></li>
 </ul>
 <p>SpinalHDL removes these casts by unifying things.</p>
 <p>boolean/std_logic:</p>
@@ -717,7 +721,7 @@
         <a href="vhdl_perspective.html" class="btn btn-neutral float-right" title="VHDL equivalences" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Help for VHDL people" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Help for VHDL people" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -743,27 +747,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/default.js"></script>
-        <script type="text/javascript" src="../../../_static/wavedrom.min.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

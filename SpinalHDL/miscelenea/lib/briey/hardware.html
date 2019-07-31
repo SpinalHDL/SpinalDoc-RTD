@@ -17,33 +17,37 @@
   
 
   
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../_static/default.js"></script>
+        <script type="text/javascript" src="../../../../_static/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
-
-  
-  <script src="../../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -336,31 +340,31 @@
 <h1>RISCV<a class="headerlink" href="#riscv" title="Permalink to this headline">¶</a></h1>
 <p>The RISCV is a 5 stage pipelined CPU with following features :</p>
 <ul class="simple">
-<li>Instruction cache</li>
-<li>Single cycle Barrel shifter</li>
-<li>Single cycle MUL, 34 cycle DIV</li>
-<li>Interruption support</li>
-<li>Dynamic branch prediction</li>
-<li>Debug port</li>
+<li><p>Instruction cache</p></li>
+<li><p>Single cycle Barrel shifter</p></li>
+<li><p>Single cycle MUL, 34 cycle DIV</p></li>
+<li><p>Interruption support</p></li>
+<li><p>Dynamic branch prediction</p></li>
+<li><p>Debug port</p></li>
 </ul>
 </div>
 <div class="section" id="axi4">
 <h1>AXI4<a class="headerlink" href="#axi4" title="Permalink to this headline">¶</a></h1>
 <p>As previously said, Pinsec integrate an AXI4 bus fabric. AXI4 is not the easiest bus on the Earth but has many advantages like :</p>
 <ul class="simple">
-<li>A flexible topology</li>
-<li>High bandwidth potential</li>
-<li>Potential out of order request completion</li>
-<li>Easy methods to meets clocks timings</li>
-<li>Standard used by many IP</li>
-<li>An hand-shaking methodology that fit with SpinalHDL Stream.</li>
+<li><p>A flexible topology</p></li>
+<li><p>High bandwidth potential</p></li>
+<li><p>Potential out of order request completion</p></li>
+<li><p>Easy methods to meets clocks timings</p></li>
+<li><p>Standard used by many IP</p></li>
+<li><p>An hand-shaking methodology that fit with SpinalHDL Stream.</p></li>
 </ul>
 <p>From an Area utilization perspective, AXI4 is for sure not the lightest solution, but some techniques could dramatically reduce that issue :</p>
 <ul class="simple">
-<li>Using Read-Only/Write-Only AXI4 variations where it’s possible</li>
-<li>Introducing an Axi4-Shared variation where a new ARW channel is introduced to replace AR and AW channels. This solution divide resources usage by two for the address decoding and the address arbitration.</li>
-<li>Depending the interconnect implementation, if masters doesn’t use the R/B channels ready, this path will be removed until each slaves at synthesis, which relax timings.</li>
-<li>As the AXI4 spec suggest, the interconnect can expand the transactions ID by aggregating the corresponding input port id. This allow the interconnect to have an infinite number of pending request and also to support out of order completion with a negligible area cost (transaction id expand).</li>
+<li><p>Using Read-Only/Write-Only AXI4 variations where it’s possible</p></li>
+<li><p>Introducing an Axi4-Shared variation where a new ARW channel is introduced to replace AR and AW channels. This solution divide resources usage by two for the address decoding and the address arbitration.</p></li>
+<li><p>Depending the interconnect implementation, if masters doesn’t use the R/B channels ready, this path will be removed until each slaves at synthesis, which relax timings.</p></li>
+<li><p>As the AXI4 spec suggest, the interconnect can expand the transactions ID by aggregating the corresponding input port id. This allow the interconnect to have an infinite number of pending request and also to support out of order completion with a negligible area cost (transaction id expand).</p></li>
 </ul>
 <p>The Pinsec interconnect doesn’t introduce latency cycles.</p>
 </div>
@@ -368,9 +372,9 @@
 <h1>APB3<a class="headerlink" href="#apb3" title="Permalink to this headline">¶</a></h1>
 <p>In Pinsec, all peripherals implement an APB3 bus to be interfaced. The APB3 choice was motivated by following reasons :</p>
 <ul class="simple">
-<li>Very simple bus (no burst)</li>
-<li>Use very few resources</li>
-<li>Standard used by many IP</li>
+<li><p>Very simple bus (no burst)</p></li>
+<li><p>Use very few resources</p></li>
+<li><p>Standard used by many IP</p></li>
 </ul>
 </div>
 <div class="section" id="generate-the-rtl">
@@ -392,8 +396,8 @@
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Currently, only the verilog version was tested in simulation and in FPGA because the last release of GHDL is not compatible with cocotb.</p>
+<p class="admonition-title">Note</p>
+<p>Currently, only the verilog version was tested in simulation and in FPGA because the last release of GHDL is not compatible with cocotb.</p>
 </div>
 </div>
 
@@ -431,27 +435,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../../_static/default.js"></script>
-        <script type="text/javascript" src="../../../../_static/wavedrom.min.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

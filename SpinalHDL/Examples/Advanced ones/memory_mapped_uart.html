@@ -17,13 +17,22 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../_static/default.js"></script>
+        <script type="text/javascript" src="../../../_static/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
@@ -31,21 +40,16 @@
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Pinesec" href="pinesec.html" />
     <link rel="prev" title="JTAG TAP" href="jtag.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -343,52 +347,52 @@
 <h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
 <p>The implementation will be based on the APB3 bus with a RX FIFO.</p>
 <p>Here is the register mapping table:</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="56%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 56%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Name</th>
-<th class="head">Type</th>
-<th class="head">Access</th>
-<th class="head">Address</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Access</p></th>
+<th class="head"><p>Address</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>clockDivider</td>
-<td>UInt</td>
-<td>RW</td>
-<td>0</td>
-<td>Set the UartCtrl clock divider</td>
+<tbody>
+<tr class="row-even"><td><p>clockDivider</p></td>
+<td><p>UInt</p></td>
+<td><p>RW</p></td>
+<td><p>0</p></td>
+<td><p>Set the UartCtrl clock divider</p></td>
 </tr>
-<tr class="row-odd"><td>frame</td>
-<td>UartCtrlFrameConfig</td>
-<td>RW</td>
-<td>4</td>
-<td>Set the dataLength, the parity and the stop bit configuration</td>
+<tr class="row-odd"><td><p>frame</p></td>
+<td><p>UartCtrlFrameConfig</p></td>
+<td><p>RW</p></td>
+<td><p>4</p></td>
+<td><p>Set the dataLength, the parity and the stop bit configuration</p></td>
 </tr>
-<tr class="row-even"><td>writeCmd</td>
-<td>Bits</td>
-<td>W</td>
-<td>8</td>
-<td>Send a write command to UartCtrl</td>
+<tr class="row-even"><td><p>writeCmd</p></td>
+<td><p>Bits</p></td>
+<td><p>W</p></td>
+<td><p>8</p></td>
+<td><p>Send a write command to UartCtrl</p></td>
 </tr>
-<tr class="row-odd"><td>writeBusy</td>
-<td>Bool</td>
-<td>R</td>
-<td>8</td>
-<td>Bit 0 =&gt; zero when a new writeCmd can be sent</td>
+<tr class="row-odd"><td><p>writeBusy</p></td>
+<td><p>Bool</p></td>
+<td><p>R</p></td>
+<td><p>8</p></td>
+<td><p>Bit 0 =&gt; zero when a new writeCmd can be sent</p></td>
 </tr>
-<tr class="row-even"><td>read</td>
-<td>Bool / Bits</td>
-<td>R</td>
-<td>12</td>
-<td><div class="first last line-block">
+<tr class="row-even"><td><p>read</p></td>
+<td><p>Bool / Bits</p></td>
+<td><p>R</p></td>
+<td><p>12</p></td>
+<td><div class="line-block">
 <div class="line">Bits 7 downto 0 =&gt; rx payload</div>
 <div class="line">Bit 31 =&gt; rx payload valid</div>
 </div>
@@ -448,8 +452,8 @@
 </pre></div>
 </div>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<div class="last line-block">
+<p class="admonition-title">Important</p>
+<div class="line-block">
 <div class="line">Yes, that’s all it takes. It’s also synthesizable.</div>
 <div class="line">The Apb3SlaveFactory tool is not something hard-coded into the SpinalHDL compiler. It’s something implemented with SpinalHDL regular hardware description syntax.</div>
 </div>
@@ -474,7 +478,7 @@
         <a href="pinesec.html" class="btn btn-neutral float-right" title="Pinesec" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="jtag.html" class="btn btn-neutral" title="JTAG TAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="jtag.html" class="btn btn-neutral float-left" title="JTAG TAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -500,27 +504,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/default.js"></script>
-        <script type="text/javascript" src="../../../_static/wavedrom.min.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

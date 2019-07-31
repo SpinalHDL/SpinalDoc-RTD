@@ -17,13 +17,22 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../_static/default.js"></script>
+        <script type="text/javascript" src="../../_static/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
@@ -31,21 +40,16 @@
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Design errors" href="../Design errors/index.html" />
     <link rel="prev" title="Registers" href="registers.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -337,56 +341,56 @@
 <h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
 <p>To create a memory in SpinalHDL, the Mem class should be used. It allows you to define a memory and add read and write ports to it.</p>
 <p>The following table shows how to instantiate a memory:</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col style="width: 50%" />
+<col style="width: 50%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Syntax</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>Mem(type : Data,size : Int)</td>
-<td>Create a RAM</td>
+<tbody>
+<tr class="row-even"><td><p>Mem(type : Data,size : Int)</p></td>
+<td><p>Create a RAM</p></td>
 </tr>
-<tr class="row-odd"><td>Mem(type : Data,initialContent : Array[Data])</td>
-<td>Create a ROM. If your target is an FPGA, because the memory can be inferred as a block ram, you can still create write ports on it.</td>
+<tr class="row-odd"><td><p>Mem(type : Data,initialContent : Array[Data])</p></td>
+<td><p>Create a ROM. If your target is an FPGA, because the memory can be inferred as a block ram, you can still create write ports on it.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If you want to define a ROM, elements of the <code class="docutils literal notranslate"><span class="pre">initialContent</span></code> array should only be literal values (no operator, no resize functions). There is an example <a class="reference internal" href="../Examples/Simple ones/sinus_rom.html#sinus-rom"><span class="std std-ref">here</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>If you want to define a ROM, elements of the <code class="docutils literal notranslate"><span class="pre">initialContent</span></code> array should only be literal values (no operator, no resize functions). There is an example <a class="reference internal" href="../Examples/Simple ones/sinus_rom.html#sinus-rom"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">To give an initial content to a RAM, you can also use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function.</p>
+<p class="admonition-title">Note</p>
+<p>To give an initial content to a RAM, you can also use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function.</p>
 </div>
 <p>The following table show how to add access ports on a memory :</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="3%" />
-<col width="94%" />
-<col width="3%" />
+<col style="width: 3%" />
+<col style="width: 94%" />
+<col style="width: 3%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Syntax</th>
-<th class="head">Description</th>
-<th class="head">Return</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Return</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>mem(address) := data</td>
-<td>Synchronous write</td>
-<td>&#160;</td>
+<tbody>
+<tr class="row-even"><td><p>mem(address) := data</p></td>
+<td><p>Synchronous write</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>mem(x)</td>
-<td>Asynchronous read</td>
-<td>T</td>
+<tr class="row-odd"><td><p>mem(x)</p></td>
+<td><p>Asynchronous read</p></td>
+<td><p>T</p></td>
 </tr>
-<tr class="row-even"><td><div class="first last line-block">
+<tr class="row-even"><td><div class="line-block">
 <div class="line">mem.write(</div>
 <div class="line-block">
 <div class="line">address</div>
@@ -397,11 +401,11 @@
 <div class="line">)</div>
 </div>
 </td>
-<td>Synchronous write with an optional mask.
-If no enable is specified, it’s automatically inferred from the conditional scope where this function is called</td>
-<td>&#160;</td>
+<td><p>Synchronous write with an optional mask.
+If no enable is specified, it’s automatically inferred from the conditional scope where this function is called</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><div class="first last line-block">
+<tr class="row-odd"><td><div class="line-block">
 <div class="line">mem.readAsync(</div>
 <div class="line-block">
 <div class="line">address</div>
@@ -410,10 +414,10 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td>Asynchronous read with an optional read under write policy</td>
-<td>T</td>
+<td><p>Asynchronous read with an optional read under write policy</p></td>
+<td><p>T</p></td>
 </tr>
-<tr class="row-even"><td><div class="first last line-block">
+<tr class="row-even"><td><div class="line-block">
 <div class="line">mem.readSync(</div>
 <div class="line-block">
 <div class="line">address</div>
@@ -424,10 +428,10 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td>Synchronous read with an optional enable, read under write policy and clockCrossing mode</td>
-<td>T</td>
+<td><p>Synchronous read with an optional enable, read under write policy and clockCrossing mode</p></td>
+<td><p>T</p></td>
 </tr>
-<tr class="row-odd"><td><div class="first last line-block">
+<tr class="row-odd"><td><div class="line-block">
 <div class="line">mem.readWriteSync(</div>
 <div class="line-block">
 <div class="line">address</div>
@@ -441,23 +445,23 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td><div class="first last line-block">
+<td><div class="line-block">
 <div class="line">Infer a read/write port.</div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">data</span></code> is written when <code class="docutils literal notranslate"><span class="pre">enable</span> <span class="pre">&amp;&amp;</span> <span class="pre">write</span></code>.</div>
 <div class="line">Return the read data, the read occurs when <code class="docutils literal notranslate"><span class="pre">enable</span></code> is true</div>
 </div>
 </td>
-<td>T</td>
+<td><p>T</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.</p>
+<p class="admonition-title">Note</p>
+<p>If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.</p>
 </div>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">Memory ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.</p>
+<p class="admonition-title">Important</p>
+<p>Memory ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.</p>
 </div>
 <p>Here is a example which infers a simple dual port ram (32 bits * 256):</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">wordCount</span> <span class="k">=</span> <span class="mi">256</span><span class="o">)</span>
@@ -477,48 +481,48 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="section" id="read-under-write-policy">
 <h2>Read under write policy<a class="headerlink" href="#read-under-write-policy" title="Permalink to this headline">¶</a></h2>
 <p>This policy specifies how a read is affected when a write occurs in the same cycle to the same address.</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="25%" />
-<col width="75%" />
+<col style="width: 25%" />
+<col style="width: 75%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Kinds</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kinds</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">dontCare</span></code></td>
-<td>Don’t care about the read value when the case occurs</td>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dontCare</span></code></p></td>
+<td><p>Don’t care about the read value when the case occurs</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">readFirst</span></code></td>
-<td>The read will get the old value (before the write)</td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">readFirst</span></code></p></td>
+<td><p>The read will get the old value (before the write)</p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">writeFirst</span></code></td>
-<td>The read will get the new value (provided by the write)</td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">writeFirst</span></code></p></td>
+<td><p>The read will get the new value (provided by the write)</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">The generated VHDL/Verilog is always in the ‘readFirst’ mode, which is compatible with ‘dontCare’ but not with ‘writeFirst’. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.</p>
+<p class="admonition-title">Important</p>
+<p>The generated VHDL/Verilog is always in the ‘readFirst’ mode, which is compatible with ‘dontCare’ but not with ‘writeFirst’. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.</p>
 </div>
 </div>
 <div class="section" id="mixed-width-ram">
 <h2>Mixed width ram<a class="headerlink" href="#mixed-width-ram" title="Permalink to this headline">¶</a></h2>
 <p>You can specify ports that access the memory with a width that is a power of two fraction of the memory width using these functions:</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="17%" />
-<col width="83%" />
+<col style="width: 17%" />
+<col style="width: 83%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Syntax</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td><div class="first last line-block">
+<tbody>
+<tr class="row-even"><td><div class="line-block">
 <div class="line">mem.writeMixedWidth(</div>
 <div class="line-block">
 <div class="line">address</div>
@@ -528,9 +532,9 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td>Similar to mem.write</td>
+<td><p>Similar to mem.write</p></td>
 </tr>
-<tr class="row-odd"><td><div class="first last line-block">
+<tr class="row-odd"><td><div class="line-block">
 <div class="line">mem.readAsyncMixedWidth(</div>
 <div class="line-block">
 <div class="line">address</div>
@@ -540,9 +544,9 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td>Similar to mem.readAsync, but in place to return the read value, it drive the data structure given as argument</td>
+<td><p>Similar to mem.readAsync, but in place to return the read value, it drive the data structure given as argument</p></td>
 </tr>
-<tr class="row-even"><td><div class="first last line-block">
+<tr class="row-even"><td><div class="line-block">
 <div class="line">mem.readSyncMixedWidth(</div>
 <div class="line-block">
 <div class="line">address</div>
@@ -554,9 +558,9 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td>Similar to mem.readSync, but in place to return the read value, it drive the data structure given as argument</td>
+<td><p>Similar to mem.readSync, but in place to return the read value, it drive the data structure given as argument</p></td>
 </tr>
-<tr class="row-odd"><td><div class="first last line-block">
+<tr class="row-odd"><td><div class="line-block">
 <div class="line">mem.readWriteSyncMixedWidth(</div>
 <div class="line-block">
 <div class="line">address</div>
@@ -570,13 +574,13 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td>Equivalent to mem.readWriteSync</td>
+<td><p>Equivalent to mem.readWriteSync</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.</p>
+<p class="admonition-title">Important</p>
+<p>As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.</p>
 </div>
 </div>
 <div class="section" id="automatic-blackboxing">
@@ -594,36 +598,36 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="section" id="blackboxing-policy">
 <h3>Blackboxing policy<a class="headerlink" href="#blackboxing-policy" title="Permalink to this headline">¶</a></h3>
 <p>There are multiple policies that you can use to select which memory you want to blackbox and also what to do when the blackboxing is not feasible:</p>
-<table border="1" class="colwidths-given docutils">
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="29%" />
-<col width="71%" />
+<col style="width: 29%" />
+<col style="width: 71%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Kinds</th>
-<th class="head">Description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kinds</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>blackboxAll</td>
-<td><div class="first last line-block">
+<tbody>
+<tr class="row-even"><td><p>blackboxAll</p></td>
+<td><div class="line-block">
 <div class="line">Blackbox all memory.</div>
 <div class="line">Throw an error on unblackboxable memory</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>blackboxAllWhatsYouCan</td>
-<td>Blackbox all memory that is blackboxable</td>
+<tr class="row-odd"><td><p>blackboxAllWhatsYouCan</p></td>
+<td><p>Blackbox all memory that is blackboxable</p></td>
 </tr>
-<tr class="row-even"><td>blackboxRequestedAndUninferable</td>
-<td><div class="first last line-block">
+<tr class="row-even"><td><p>blackboxRequestedAndUninferable</p></td>
+<td><div class="line-block">
 <div class="line">Blackbox memory specified by the user and memory that is known to be uninferable (mixed width, …).</div>
 <div class="line">Throw an error on unblackboxable memory</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>blackboxOnlyIfRequested</td>
-<td><div class="first last line-block">
+<tr class="row-odd"><td><p>blackboxOnlyIfRequested</p></td>
+<td><div class="line-block">
 <div class="line">Blackbox memory specified by the user</div>
 <div class="line">Throw an error on unblackboxable memory</div>
 </div>
@@ -753,10 +757,10 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <p>As you can see, blackboxes have a technology parameter. To set it you can use the setTechnology function on the corresponding memory.
 There are currently 4 kinds of technogy possible:</p>
 <ul class="simple">
-<li>auto</li>
-<li>ramBlock</li>
-<li>distributedLut</li>
-<li>registerFile</li>
+<li><p>auto</p></li>
+<li><p>ramBlock</p></li>
+<li><p>distributedLut</p></li>
+<li><p>registerFile</p></li>
 </ul>
 </div>
 </div>
@@ -779,7 +783,7 @@ There are currently 4 kinds of technogy possible:</p>
         <a href="../Design errors/index.html" class="btn btn-neutral float-right" title="Design errors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="registers.html" class="btn btn-neutral" title="Registers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="registers.html" class="btn btn-neutral float-left" title="Registers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -805,27 +809,16 @@ There are currently 4 kinds of technogy possible:</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/default.js"></script>
-        <script type="text/javascript" src="../../_static/wavedrom.min.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
