@@ -374,7 +374,7 @@ SpinalHDL checks at compile time that there is no unwanted/unspecified cross clo
    }
 
 In general, just use 2 filp-flops with dest-clock to prevent metastability. you can use  ``BufferCC(input: T, init: T = null, bufferDepth: Int = 2)`` provided by ``spinal.lib._`` instead.  
-more infos about [metastablity](https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/wp/wp-01082-quartus-ii-metastability.pdf)
+more infos about `metastablity <https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/wp/wp-01082-quartus-ii-metastability.pdf>`_
 
 .. code-block:: scala
 

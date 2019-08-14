@@ -82,9 +82,11 @@ You can also specify that two clock domains are syncronous together.
 
 BufferCC
 ^^^^^^^^
+
 Signal Bits or Gray-coded Bits can use BufferCC to cross different clockDomain 
 
 .. code-block:: scala
+
    class AsyncFifo extends Component {
       val popToPushGray = Bits(ptrWidth bits)
       val pushToPopGray = Bits(ptrWidth bits)
