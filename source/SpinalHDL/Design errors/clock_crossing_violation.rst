@@ -82,22 +82,5 @@ You can also specify that two clock domains are syncronous together.
 
 BufferCC
 ^^^^^^^^
-
-Finally, as mentioned under :ref:`Clock Domains <clock_domain>` you can use BufferCC to create a synchronizer between signals of different clock domains 
-
-.. code-block:: scala
-
-   class TopLevel extends Component {
-     val clkA = ClockDomain.external("clkA")
-     val clkB = ClockDomain.external("clkB")
-
-     val regA = clkA(Reg(UInt(8 bits)))
-     val regB = clkB(Reg(UInt(8 bits)))
-
-     val area_clkB = new ClockingArea(clkB){
-       val syncA = BufferCC(regA, U(0))
-
-       val tmp = syncA + syncA
-       regB := tmp
-     }
-   }
+Signal Bits or Gray-coded Bits can BufferCC to cross different clockDomain, 
+But BufferCC can't be used for general multi-Bits cross-domain process !

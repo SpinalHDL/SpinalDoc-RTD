@@ -373,28 +373,6 @@ SpinalHDL checks at compile time that there is no unwanted/unspecified cross clo
      io.dataOut := area_clkB.buf1
    }
 
-An even simpler method is to use the cross clock domain buffer ``BufferCC(input: T, init: T = null, bufferDepth: Int = 2)`` provided by ``spinal.lib._`` to prevent metastability
-
-.. code-block:: scala
-
-   class CrossingExample(clkA : ClockDomain,clkB : ClockDomain) extends Component {
-     val io = new Bundle {
-       val dataIn  = in Bool
-       val dataOut = out Bool
-     }
-
-     // sample dataIn with clkA
-     val area_clkA = new ClockingArea(clkA){  
-       val reg = RegNext(io.dataIn) init(False)
-     }
-
-     // BufferCC to avoid metastability issues
-     val area_clkB = new ClockingArea(clkB){  
-       val buf1   = BufferCC(area_clkA.reg, False)
-     }
-
-     io.dataOut := area_clkB.buf1
-   }
 
 Special clocking Areas
 ----------------------
