@@ -373,6 +373,32 @@ SpinalHDL checks at compile time that there is no unwanted/unspecified cross clo
      io.dataOut := area_clkB.buf1
    }
 
+In general, just use 2 filp-flops with dest-clock to prevent metastability. you can use  ``BufferCC(input: T, init: T = null, bufferDepth: Int = 2)`` provided by ``spinal.lib._`` instead.  
+more infos about [metastablity](https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/wp/wp-01082-quartus-ii-metastability.pdf)
+
+.. code-block:: scala
+
+   class CrossingExample(clkA : ClockDomain,clkB : ClockDomain) extends Component {
+     val io = new Bundle {
+       val dataIn  = in Bool
+       val dataOut = out Bool
+     }
+
+     // sample dataIn with clkA
+     val area_clkA = new ClockingArea(clkA){  
+       val reg = RegNext(io.dataIn) init(False)
+     }
+
+     // BufferCC to avoid metastability issues
+     val area_clkB = new ClockingArea(clkB){  
+       val buf1   = BufferCC(area_clkA.reg, False)
+     }
+
+     io.dataOut := area_clkB.buf1
+   }
+
+.. warning::
+   The BufferCC is only for signal Bit, or Bits with Gray-coded(Only 1 bit flip per clock cycle), Can not used for Multi-bits cross-domain process.
 
 Special clocking Areas
 ----------------------
