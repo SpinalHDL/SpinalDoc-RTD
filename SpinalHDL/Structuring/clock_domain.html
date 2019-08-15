@@ -727,7 +727,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>An even simpler method is to use the cross clock domain buffer <code class="docutils literal notranslate"><span class="pre">BufferCC(input:</span> <span class="pre">T,</span> <span class="pre">init:</span> <span class="pre">T</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">bufferDepth:</span> <span class="pre">Int</span> <span class="pre">=</span> <span class="pre">2)</span></code> provided by <code class="docutils literal notranslate"><span class="pre">spinal.lib._</span></code> to prevent metastability</p>
+<p>In general you can use 2 or more flip-flop driven by the destination clock domain to prevent metastability. The <code class="docutils literal notranslate"><span class="pre">BufferCC(input:</span> <span class="pre">T,</span> <span class="pre">init:</span> <span class="pre">T</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">bufferDepth:</span> <span class="pre">Int</span> <span class="pre">=</span> <span class="pre">2)</span></code> function provided in <code class="docutils literal notranslate"><span class="pre">spinal.lib._</span></code> will instantiate the necessary flip-flop (the number of flip flop will depends on the bufferDepth) to mitigate the phenomena.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CrossingExample</span><span class="o">(</span><span class="n">clkA</span> <span class="k">:</span> <span class="kt">ClockDomain</span><span class="o">,</span><span class="n">clkB</span> <span class="k">:</span> <span class="kt">ClockDomain</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">dataIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
@@ -747,6 +747,10 @@
   <span class="n">io</span><span class="o">.</span><span class="n">dataOut</span> <span class="o">:=</span> <span class="n">area_clkB</span><span class="o">.</span><span class="n">buf1</span>
 <span class="o">}</span>
 </pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The BufferCC is only for signal Bit, or Bits with Gray-coded(Only 1 bit flip per clock cycle), Can not used for Multi-bits cross-domain process.</p>
 </div>
 </div>
 <div class="section" id="special-clocking-areas">

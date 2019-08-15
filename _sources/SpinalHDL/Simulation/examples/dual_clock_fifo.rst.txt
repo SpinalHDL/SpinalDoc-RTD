@@ -23,16 +23,16 @@ Dual clock fifo
        //Clear clock domains signals, to be sure the simulation capture their first edge.
        dut.pushClock.fallingEdge()
        dut.popClock.fallingEdge()
-       dut.pushClock.disassertReset()
-       dut.popClock.disassertReset()
+       dut.pushClock.deassertReset()
+       dut.popClock.deassertReset()
        sleep(0)
 
        //Do the resets
        dut.pushClock.assertReset()
        dut.popClock.assertReset()
        sleep(10)
-       dut.pushClock.disassertReset()
-       dut.popClock.disassertReset()
+       dut.pushClock.deassertReset()
+       dut.popClock.deassertReset()
        sleep(1)
 
        //Forever, randomly toggle one of the clocks (will create asynchronous clocks without fixed frequencies)

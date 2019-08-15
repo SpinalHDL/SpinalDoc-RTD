@@ -406,22 +406,32 @@
 </div>
 <div class="section" id="buffercc">
 <h3>BufferCC<a class="headerlink" href="#buffercc" title="Permalink to this headline">¶</a></h3>
-<p>Finally, as mentioned under <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock Domains</span></a> you can use BufferCC to create a synchronizer between signals of different clock domains</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">clkA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkA&quot;</span><span class="o">)</span>
-  <span class="k">val</span> <span class="n">clkB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkB&quot;</span><span class="o">)</span>
+<p>Signal Bits or Gray-coded Bits can use BufferCC to cross different clockDomain</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AsyncFifo</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+   <span class="k">val</span> <span class="n">popToPushGray</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">ptrWidth</span> <span class="n">bits</span><span class="o">)</span>
+   <span class="k">val</span> <span class="n">pushToPopGray</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">ptrWidth</span> <span class="n">bits</span><span class="o">)</span>
 
-  <span class="k">val</span> <span class="n">regA</span> <span class="k">=</span> <span class="n">clkA</span><span class="o">(</span><span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)))</span>
-  <span class="k">val</span> <span class="n">regB</span> <span class="k">=</span> <span class="n">clkB</span><span class="o">(</span><span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)))</span>
+   <span class="k">val</span> <span class="n">pushCC</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClockingArea</span><span class="o">(</span><span class="n">pushClock</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">val</span> <span class="n">pushPtr</span>     <span class="k">=</span> <span class="nc">Counter</span><span class="o">(</span><span class="n">depth</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="o">)</span>
+     <span class="k">val</span> <span class="n">pushPtrGray</span> <span class="k">=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">toGray</span><span class="o">(</span><span class="n">pushPtr</span><span class="o">.</span><span class="n">valueNext</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+     <span class="k">val</span> <span class="n">popPtrGray</span>  <span class="k">=</span> <span class="nc">BufferCC</span><span class="o">(</span><span class="n">popToPushGray</span><span class="o">,</span> <span class="n">B</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">ptrWidth</span> <span class="n">bits</span><span class="o">))</span>
+     <span class="k">val</span> <span class="n">full</span>        <span class="k">=</span> <span class="n">isFull</span><span class="o">(</span><span class="n">pushPtrGray</span><span class="o">,</span> <span class="n">popPtrGray</span><span class="o">)</span>
+     <span class="o">...</span>
+   <span class="o">}</span>
 
-  <span class="k">val</span> <span class="n">area_clkB</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClockingArea</span><span class="o">(</span><span class="n">clkB</span><span class="o">){</span>
-    <span class="k">val</span> <span class="n">syncA</span> <span class="k">=</span> <span class="nc">BufferCC</span><span class="o">(</span><span class="n">regA</span><span class="o">,</span> <span class="n">U</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
-
-    <span class="k">val</span> <span class="n">tmp</span> <span class="k">=</span> <span class="n">syncA</span> <span class="o">+</span> <span class="n">syncA</span>
-    <span class="n">regB</span> <span class="o">:=</span> <span class="n">tmp</span>
-  <span class="o">}</span>
+   <span class="k">val</span> <span class="n">popCC</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClockingArea</span><span class="o">(</span><span class="n">popClock</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">val</span> <span class="n">popPtr</span>      <span class="k">=</span> <span class="nc">Counter</span><span class="o">(</span><span class="n">depth</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="o">)</span>
+     <span class="k">val</span> <span class="n">popPtrGray</span>  <span class="k">=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">toGray</span><span class="o">(</span><span class="n">popPtr</span><span class="o">.</span><span class="n">valueNext</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+     <span class="k">val</span> <span class="n">pushPtrGray</span> <span class="k">=</span> <span class="nc">BufferCC</span><span class="o">(</span><span class="n">pushToPopGray</span><span class="o">,</span> <span class="n">B</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">ptrWidth</span> <span class="n">bit</span><span class="o">))</span>
+     <span class="k">val</span> <span class="n">empty</span>       <span class="k">=</span> <span class="n">isEmpty</span><span class="o">(</span><span class="n">popPtrGray</span><span class="o">,</span> <span class="n">pushPtrGray</span><span class="o">)</span>
+     <span class="o">...</span>
+   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not use BufferCC for general multi-Bits cross-domain process as mentioned under <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock Domains</span></a></p>
 </div>
 </div>
 </div>
