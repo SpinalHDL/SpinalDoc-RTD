@@ -83,21 +83,30 @@ You can also specify that two clock domains are syncronous together.
 BufferCC
 ^^^^^^^^
 
-Finally, as mentioned under :ref:`Clock Domains <clock_domain>` you can use BufferCC to create a synchronizer between signals of different clock domains 
+Signal Bits or Gray-coded Bits can use BufferCC to cross different clockDomain 
 
 .. code-block:: scala
 
-   class TopLevel extends Component {
-     val clkA = ClockDomain.external("clkA")
-     val clkB = ClockDomain.external("clkB")
-
-     val regA = clkA(Reg(UInt(8 bits)))
-     val regB = clkB(Reg(UInt(8 bits)))
-
-     val area_clkB = new ClockingArea(clkB){
-       val syncA = BufferCC(regA, U(0))
-
-       val tmp = syncA + syncA
-       regB := tmp
-     }
+   class AsyncFifo extends Component {
+      val popToPushGray = Bits(ptrWidth bits)
+      val pushToPopGray = Bits(ptrWidth bits)
+     
+      val pushCC = new ClockingArea(pushClock) {
+        val pushPtr     = Counter(depth << 1)
+        val pushPtrGray = RegNext(toGray(pushPtr.valueNext)) init(0)
+        val popPtrGray  = BufferCC(popToPushGray, B(0, ptrWidth bits))
+        val full        = isFull(pushPtrGray, popPtrGray)
+        ...
+      }
+     
+      val popCC = new ClockingArea(popClock) {
+        val popPtr      = Counter(depth << 1)
+        val popPtrGray  = RegNext(toGray(popPtr.valueNext)) init(0)
+        val pushPtrGray = BufferCC(pushToPopGray, B(0, ptrWidth bit))
+        val empty       = isEmpty(popPtrGray, pushPtrGray)   
+        ...
+      }
    }
+
+.. warning::
+   Do not use BufferCC for general multi-Bits cross-domain process as mentioned under :ref:`Clock Domains <clock_domain>`  
