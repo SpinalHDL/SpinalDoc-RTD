@@ -58,9 +58,6 @@ From a fresh install of MSYS2 MinGW 64-bits, you will have to run the following 
 from the minGW packet manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from the minGW packet manager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 .. code-block:: sh
 
    pacman -Syuu
@@ -73,6 +70,9 @@ from the minGW packet manager
    pacman -S mingw-w64-x86_64-verilator
    
    #Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to you windows PATH
+   
+from source
+~~~~~~~~~~~
 
 .. code-block:: sh
 
