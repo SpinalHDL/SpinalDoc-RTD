@@ -64,6 +64,19 @@ From a fresh install of MSYS2 MinGW 64-bits, you will have to run the following 
                       git flex\
                       mingw-w64-x86_64-cmake
 
+   pacman -S mingw-w64-x86_64-verilator
+   
+   #Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to you windows PATH
+
+.. code-block:: sh
+
+   pacman -Syuu
+   #Close the MSYS2 shell once you're asked to
+   pacman -Syuu
+   pacman -S --needed base-devel mingw-w64-x86_64-toolchain \
+                      git flex\
+                      mingw-w64-x86_64-cmake
+
    git clone http://git.veripool.org/git/verilator  
    unset VERILATOR_ROOT
    cd verilator
