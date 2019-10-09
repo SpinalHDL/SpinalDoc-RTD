@@ -55,6 +55,9 @@ Then you should be able to run SpinalSim + verilator from your Scala project wit
 
 From a fresh install of MSYS2 MinGW 64-bits, you will have to run the following commands inside the MSYS2 MinGW 64-bits shell (enter commands one by one):
 
+from the minGW packet manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: sh
 
    pacman -Syuu
