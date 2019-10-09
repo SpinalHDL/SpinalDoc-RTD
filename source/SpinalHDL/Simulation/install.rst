@@ -58,6 +58,9 @@ From a fresh install of MSYS2 MinGW 64-bits, you will have to run the following 
 from the minGW packet manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+from the minGW packet manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: sh
 
    pacman -Syuu
