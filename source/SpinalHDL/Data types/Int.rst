@@ -443,7 +443,7 @@ Misc
 
 
 fixPoint operation
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^
 For fixed-point, we can divide it into two parts.
  - LowerBit Operation(round methods)
  - HighBit Operation(saturation operations)
@@ -472,7 +472,7 @@ About Rounding: https://en.wikipedia.org/wiki/Rounding
 the "RoundToEven RoundToOdd" are very special ,Used in some statistical fields with high accuracy concerd,
 SpinalHDL is no support yet. if it is really necessary, will be supported in the future.
 
-RoundType  difference see here: https://upload.wikimedia.org/wikipedia/commons/8/8a/comparison_rounding_graphs_smil.svg
+RoundType  difference see `here <https://upload.wikimedia.org/wikipedia/commons/8/8a/comparison_rounding_graphs_smil.svg>`_
 
 You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOODD** are very close,
 RoundToInf is most common. the api of round in different Programing-language may different.
