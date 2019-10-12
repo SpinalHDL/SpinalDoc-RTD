@@ -472,25 +472,19 @@ About Rounding: https://en.wikipedia.org/wiki/Rounding
 the "RoundToEven RoundToOdd" are very special ,Used in some statistical fields with high accuracy concerd,
 SpinalHDL is no support yet. if it is really necessary, will be supported in the future.
 
-RoundType  difference see `here <https://upload.wikimedia.org/wikipedia/commons/8/8a/comparison_rounding_graphs_smil.svg>`_
-
 You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOODD** are very close,
 RoundToInf is most common. the api of round in different Programing-language may different.
 In spinal we chose type of RoundToInf as Default RoundType, Api `round = roundToInf`
 
-============= =========== ============================ ===================== ====================
- API           UInt/SInt   description                  Return(align=false)   Return(align=true)
-============= =========== ============================ ===================== ====================
- floor         Both                                     w(x)-n   bits         w(x)-n bits
- floorToZero   SInt        equal to floor  in UInt      w(x)-n   bits         w(x)-n bits
- ceil          Both                                     w(x)-n+1 bits         w(x)-n bits
- ceilToInf     SInt        equal to ceil   in UInt      w(x)-n+1 bits         w(x)-n bits
- roundUp       Both        simple for HW                w(x)-n+1 bits         w(x)-n bits
- roundDown     Both                                     w(x)-n+1 bits         w(x)-n bits
- roundToInf    SInt        most Common                  w(x)-n+1 bits         w(x)-n bits
- roundToZero   SInt        equal to roundDown in UInt   w(x)-n+1 bits         w(x)-n bits
- round         Both        SpinalHDL chose roundToInf   w(x)-n+1 bits         w(x)-n bits
-============= =========== ============================ ===================== ====================
+===================== ======= =================== ========================================================= =====================
+ Programing-language   api     RoundType(spinal)   Example                                                   comments
+===================== ======= =================== ========================================================= =====================
+ Matlab                round   RoundToInf          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+ python2               round   RoundToInf          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+ python3               round   RoundToEven         round(1.5)=round(2.5)=2;  round(-1.5)=round(-2.5)=-2      close to Even
+ Scala.math            round   RoundToUp           round(1.5)=2,round(2.5)=3;round(-1.5)=-1,round(-2.5)=-2   always to +Infinity
+ SpinalHDL             round   RoundToInf          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+===================== ======= =================== ========================================================= =====================
 
 .. code-block:: scala
 
@@ -507,6 +501,21 @@ In spinal we chose type of RoundToInf as Default RoundType, Api `round = roundTo
    val B  = roundToInf(6 bits)
    val B  = roundToZero(6 bits)
    val B  = round(6 bits)       //spinalHDL use roundToInf as default round
+
+**round Api**
+============= =========== ============================ ===================== ====================
+ API           UInt/SInt   description                  Return(align=false)   Return(align=true)
+============= =========== ============================ ===================== ====================
+ floor         Both                                     w(x)-n   bits         w(x)-n bits
+ floorToZero   SInt        equal to floor  in UInt      w(x)-n   bits         w(x)-n bits
+ ceil          Both                                     w(x)-n+1 bits         w(x)-n bits
+ ceilToInf     SInt        equal to ceil   in UInt      w(x)-n+1 bits         w(x)-n bits
+ roundUp       Both        simple for HW                w(x)-n+1 bits         w(x)-n bits
+ roundDown     Both                                     w(x)-n+1 bits         w(x)-n bits
+ roundToInf    SInt        most Common                  w(x)-n+1 bits         w(x)-n bits
+ roundToZero   SInt        equal to roundDown in UInt   w(x)-n+1 bits         w(x)-n bits
+ round         Both        SpinalHDL chose roundToInf   w(x)-n+1 bits         w(x)-n bits
+============= =========== ============================ ===================== ====================
 
 although `roundToInf` is very common.
 but `roundUp` with lowerest cost and good timing, almost no performance lost.
