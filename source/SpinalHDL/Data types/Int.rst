@@ -449,8 +449,8 @@ For fixed-point, we can divide it into two parts.
  - HighBit Operation(saturation operations)
 
 Lower Bit operation
--------------------
-.. image:: https://user-images.githubusercontent.com/6213885/64547263-ceb70c00-d35e-11e9-8971-b2077d922b30.png
+~~~~~~~~~~~~~~~~~~~
+.. image:: /assert/imag/fixpoint/lowBitOperation.png
 
 About Rounding: https://en.wikipedia.org/wiki/Rounding
 
@@ -469,21 +469,22 @@ About Rounding: https://en.wikipedia.org/wiki/Rounding
  ROUNDTOODD       RoundHalfToOdd    roundToOdd                                                    No
 ================ ================= ============= ======================== ====================== ===========
 
-the **RoundToEven RoundToOdd** are very special ,Used in some statistical fields with high accuracy concerd,
-SpinalHDL is no support yet. if it is really necessary, will be supported in the future.
+.. note::
+   | the **RoundToEven RoundToOdd** are very special ,Used in some big data statistical fields with high accuracy concern,
+   | SpinalHDL don't support them yet.
 
 You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOODD** are very close,
 `ROUNDTOINF` is most common. the api of round in different Programing-language may different.
 
-===================== ======= =================== ========================================================= =====================
- Programing-language   api     RoundType(spinal)   Example                                                   comments
-===================== ======= =================== ========================================================= =====================
- Matlab                round   ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
- python2               round   ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
- python3               round   ROUNDTOEVEN         round(1.5)=round(2.5)=2;  round(-1.5)=round(-2.5)=-2      close to Even
- Scala.math            round   ROUNDTOUP           round(1.5)=2,round(2.5)=3;round(-1.5)=-1,round(-2.5)=-2   always to +Infinity
- SpinalHDL             round   ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
-===================== ======= =================== ========================================================= =====================
+===================== =================== ========================================================= =====================
+ Programing-language   default-RoundType   Example                                                   comments
+===================== =================== ========================================================= =====================
+ Matlab                ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+ python2               ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+ python3               ROUNDTOEVEN         round(1.5)=round(2.5)=2;  round(-1.5)=round(-2.5)=-2      close to Even
+ Scala.math            ROUNDTOUP           round(1.5)=2,round(2.5)=3;round(-1.5)=-1,round(-2.5)=-2   always to +Infinity
+ SpinalHDL             ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+===================== =================== ========================================================= =====================
 
 In spinal we chose type of `ROUNDTOINF` as Default RoundType, Api `round = roundToInf`
 
@@ -503,12 +504,13 @@ In spinal we chose type of `ROUNDTOINF` as Default RoundType, Api `round = round
    val B  = A.roundToZero(6 bits)
    val B  = A.round(6 bits)             //spinalHDL use roundToInf as default round
 
-   val B0 = roundToInf(6 bits, align=true)          ---+
-                                                       |--> equal
-   val B1 = roundToInf(6 bits, align=false).sat(1)  ---+
+   val B0 = A.roundToInf(6 bits, align=true)          ---+
+                                                         |--> equal
+   val B1 = A.roundToInf(6 bits, align=false).sat(1)  ---+
 
-only `floor` and `floorToZero` without align option, they do not need carry bit.
-other round operation need carry bit.
+.. note::
+   | only `floor` and `floorToZero` without align option, they do not need carry bit.
+   | other round operation default with carry bit.
 
 **round Api**
 
@@ -526,13 +528,14 @@ other round operation need carry bit.
  round         Both        SpinalHDL chose roundToInf   w(x)-n+1 bits         w(x)-n bits
 ============= =========== ============================ ===================== ====================
 
-although `roundToInf` is very common.
-but `roundUp` with lowerest cost and good timing, almost no performance lost.   
-so `roundUp` is very recommended in your work.
+.. note::
+   | although `roundToInf` is very common.
+   | but `roundUp` with lowerest cost and good timing, almost no performance lost.
+   | so `roundUp` is very recommended in your work.
 
 High Bit operation
-------------------
-.. image:: https://user-images.githubusercontent.com/6213885/64547332-eee6cb00-d35e-11e9-80f9-cd1b97327915.png
+~~~~~~~~~~~~~~~~~~
+.. image:: /assert/imag/fixpoint/highBitOperation.png
 
 ========== ============ ===================================== ====================================== ===========
  function   Operation    Postive-Op                            Negtive-Op                             supported
@@ -555,20 +558,20 @@ Symmetric is only valid for SInt.
    val C  = A.sat(3).symmetry  //return 5 bits and symmetry as (-16~15 to -15~15)
 
 fixTo function
---------------
+~~~~~~~~~~~~~~
 two way are provided in UInt/SInt do fixpoint:
 
-.. image:: https://user-images.githubusercontent.com/6213885/66693665-d828f080-ecdd-11e9-83e6-893b839b54a2.png
+.. image:: /assert/imag/fixpoint/fixPoint.png
 
 fixTo is strongly recommended in your RTL work, you don't need handle carry bit align and bit width calculate manually like Way1.
 
 Factory Fix function with Auto Saturation
 
-=================================== ===================== =================== ========
- fuction                             description           Return              others
-=================================== ===================== =================== ========
+=================================== ===================== ===================
+ fuction                             description           Return
+=================================== ===================== ===================
  fixTo(section,roundType,symmetric)   Factory FixFunction   section.size bits
-=================================== ===================== =================== ========
+=================================== ===================== ===================
 
 .. code-block:: scala
 
