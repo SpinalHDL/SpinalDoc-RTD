@@ -476,17 +476,18 @@ About Rounding: https://en.wikipedia.org/wiki/Rounding
 You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOODD** are very close,
 `ROUNDTOINF` is most common. the api of round in different Programing-language may different.
 
-===================== =================== ========================================================= =====================
+===================== =================== ========================================================= ====================
  Programing-language   default-RoundType   Example                                                   comments
-===================== =================== ========================================================= =====================
+===================== =================== ========================================================= ====================
  Matlab                ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
  python2               ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
  python3               ROUNDTOEVEN         round(1.5)=round(2.5)=2;  round(-1.5)=round(-2.5)=-2      close to Even
  Scala.math            ROUNDTOUP           round(1.5)=2,round(2.5)=3;round(-1.5)=-1,round(-2.5)=-2   always to +Infinity
  SpinalHDL             ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
-===================== =================== ========================================================= =====================
+===================== =================== ========================================================= ====================
 
-In spinal we chose type of `ROUNDTOINF` as Default RoundType, Api `round = roundToInf`
+.. note::
+   In SpinalHDL `ROUNDTOINF` is the default RoundType (`round = roundToInf`)
 
 .. code-block:: scala
 
