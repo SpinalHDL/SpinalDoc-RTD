@@ -449,7 +449,7 @@ For fixed-point, we can divide it into two parts.
  - HighBit Operation(saturation operations)
 
 Lower Bit operation
--------------------
+~~~~~~~~~~~~~~~~~~~
 .. image:: https://user-images.githubusercontent.com/6213885/64547263-ceb70c00-d35e-11e9-8971-b2077d922b30.png
 
 About Rounding: https://en.wikipedia.org/wiki/Rounding
@@ -470,7 +470,7 @@ About Rounding: https://en.wikipedia.org/wiki/Rounding
 ================ ================= ============= ======================== ====================== ===========
 
 the **RoundToEven RoundToOdd** are very special ,Used in some statistical fields with high accuracy concerd,
-SpinalHDL is no support yet. if it is really necessary, will be supported in the future.
+SpinalHDL don't support them yet.
 
 You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOODD** are very close,
 `ROUNDTOINF` is most common. the api of round in different Programing-language may different.
@@ -485,7 +485,8 @@ You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOO
  SpinalHDL             round   ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
 ===================== ======= =================== ========================================================= =====================
 
-In spinal we chose type of `ROUNDTOINF` as Default RoundType, Api `round = roundToInf`
+.. note::
+   In SpinalHDL `ROUNDTOINF` is the default RoundType (`round = roundToInf`)
 
 .. code-block:: scala
 
@@ -531,7 +532,7 @@ but `roundUp` with lowerest cost and good timing, almost no performance lost.
 so `roundUp` is very recommended in your work.
 
 High Bit operation
-------------------
+~~~~~~~~~~~~~~~~~~
 .. image:: https://user-images.githubusercontent.com/6213885/64547332-eee6cb00-d35e-11e9-80f9-cd1b97327915.png
 
 ========== ============ ===================================== ====================================== ===========
@@ -555,7 +556,7 @@ Symmetric is only valid for SInt.
    val C  = A.sat(3).symmetry  //return 5 bits and symmetry as (-16~15 to -15~15)
 
 fixTo function
---------------
+~~~~~~~~~~~~~~
 two way are provided in UInt/SInt do fixpoint:
 
 .. image:: https://user-images.githubusercontent.com/6213885/66693665-d828f080-ecdd-11e9-83e6-893b839b54a2.png
