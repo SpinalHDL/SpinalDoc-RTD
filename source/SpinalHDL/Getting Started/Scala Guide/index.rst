@@ -15,6 +15,6 @@ Scala guide
 
 Introduction
 ------------
-Scala is a very capable programming language that was influenced by a set of language, but often, this set of language doesn't cross the ones that people use. That doesn't help the understanding of concepts and design choice behind Scala.
+Scala is a very capable programming language that was influenced by a set of languages, but often, this set of languages doesn't cross the ones that people use. That doesn't help the understanding of concepts and design choices behind Scala.
 
-Followings chapters will present Scala, and try to provide enough information about it to be comfortable with SpinalHDL.
+The following chapters will present Scala, and try to provide enough information about it to be comfortable with SpinalHDL.
