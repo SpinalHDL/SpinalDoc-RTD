@@ -1,6 +1,6 @@
 
 .. important::
-   Variable and functions should be defined into ``object``\ , ``class``\ , ``function``. You can't define them on the root of a Scala file.
+   Variables and functions should be defined into ``object``\ , ``class``\ , ``function``. You can't define them on the root of a Scala file.
 
 Basics
 ======
@@ -8,7 +8,7 @@ Basics
 Types
 -----
 
-In Scala, there is 5 major types
+In Scala, there are 5 major types
 
 .. list-table::
    :header-rows: 1
@@ -34,10 +34,10 @@ In Scala, there is 5 major types
      - UTF-16 string
 
 
-Variable
---------
+Variables
+---------
 
-In scala, you can define variable by using the var keyword :
+In scala, you can define a variable by using the ``var`` keyword:
 
 .. code-block:: scala
 
@@ -52,7 +52,7 @@ Scala is able to infer the type automatically. You don't need to specify it if t
 
    var number = 0   //The type of 'number' is inferred as a Int during the compilation.
 
-But in fact, it's not very common to use ``var`` in Scala. In place of ``var``\ , the ``val`` is very often used. ``val`` allow you to define a constant value :
+But, in fact, it's not very common to use ``var`` in Scala. Instead, constant values defined by ``val`` are often used:
 
 .. code-block:: scala
 
@@ -60,10 +60,10 @@ But in fact, it's not very common to use ``var`` in Scala. In place of ``var``\ 
    val three = 3
    val six   = two * three
 
-Function
---------
+Functions
+---------
 
-For example, if you want to define a function which return true if the sum of its two arguments is bigger than zero, you can do as following :
+For example, if you want to define a function which returns ``true`` if the sum of its two arguments is bigger than zero, you can do as follows:
 
 .. code-block:: scala
 
@@ -71,13 +71,13 @@ For example, if you want to define a function which return true if the sum of it
      return (a + b) > 0
    }
 
-Then to call this function you can do as following :
+Then, to call this function, you can just write:
 
 .. code-block:: scala
 
    sumBiggerThanZero(2.3f, 5.4f)
 
-You can also specify arguements by name, which is useful if you have many arguements :
+You can also specify arguements by name, which is useful if you have many arguements:
 
 .. code-block:: scala
 
@@ -89,7 +89,7 @@ You can also specify arguements by name, which is useful if you have many arguem
 Return
 ^^^^^^
 
-The return keyword is not necessary. In absence of it, Scala take the last statement of your function as returned value.
+The ``return`` keyword is not necessary. In absence of it, Scala takes the last statement of your function as the returned value.
 
 .. code-block:: scala
 
@@ -100,7 +100,7 @@ The return keyword is not necessary. In absence of it, Scala take the last state
 Return type inferation
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Scala is able to automatically infer the return type. You don't need to specify it :
+Scala is able to automatically infer the return type. You don't need to specify it:
 
 .. code-block:: scala
 
@@ -111,14 +111,14 @@ Scala is able to automatically infer the return type. You don't need to specify 
 Curly braces
 ^^^^^^^^^^^^
 
-Scala function doesn't require to have curly braces if your function contain only one statement :
+Scala function doesn't require to have curly braces if your function contains only one statement:
 
 .. code-block:: scala
 
    def sumBiggerThanZero(a: Float, b: Float) = (a + b) > 0
 
-Function that return nothing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Function that returns nothing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you want a function to return nothing, the return type should be set to ``Unit``. It's equivalent to the C/C++ void.
 
@@ -132,7 +132,7 @@ If you want a function to return nothing, the return type should be set to ``Uni
 Arguements default value
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can specify a default value to each arguements of a function :
+You can specify a default value for each arguement of a function:
 
 .. code-block:: scala
 
@@ -143,7 +143,7 @@ You can specify a default value to each arguements of a function :
 Apply
 ^^^^^
 
-Functions named apply are special because you can call them without having to type their name :
+Functions named apply are special because you can call them without having to type their name:
 
 .. code-block:: scala
 
@@ -169,7 +169,7 @@ Object
 
 In scala, there is no ``static`` keyword. In place of that, there is ``object``. Everything defined into an ``object`` is static.
 
-The following example define a static function named pow2 which take as parameter an floating point value and return a floating point as well.
+The following example defines a static function named ``pow2`` which takes a floating point value as parameter and returns a floating point as well.
 
 .. code-block:: scala
 
@@ -177,7 +177,7 @@ The following example define a static function named pow2 which take as paramete
      def pow2(value: Float): Float = value*value
    }
 
-Then you can call it by writing :
+Then you can call it by writing:
 
 .. code-block:: scala
 
@@ -186,7 +186,7 @@ Then you can call it by writing :
 Entry point (main)
 ------------------
 
-The entry point of a Scala program (the main function) should be defined into an object as a function named ``main``.
+The entry point of a Scala program (the main function) should be defined inside an object as a function named ``main``.
 
 .. code-block:: scala
 
@@ -199,7 +199,7 @@ The entry point of a Scala program (the main function) should be defined into an
 Class
 -----
 
-The class syntax is very similar to the Java one. Imagine you want to define an Color class which take as construction parameter three Float value (r,g,b) :
+The class syntax is very similar to Java. Imagine that you want to define a ``Color`` class which takes as construction parameters three Float values (r,g,b) :
 
 .. code-block:: scala
 
@@ -207,18 +207,18 @@ The class syntax is very similar to the Java one. Imagine you want to define an 
      def getGrayLevel(): Float = r * 0.3f + g * 0.4f + b *0.4f
    }
 
-Then to instantiate a the class from the previous example and use its gray function :
+Then, to instantiate the class from the previous example and use its ``getGrayLevel`` function:
 
 .. code-block:: scala
 
    val blue = new Color(0, 0, 1)
    val grayLevelOfBlue = blue.getGrayLevel()
 
-Be careful, if you want to access a construction parameter of the class from the outside, this construction parameter should be defined as a val :
+Be careful, if you want to access a construction parameter of the class from the outside, this construction parameter should be defined as a ``val``:
 
 .. code-block:: scala
 
-   class Color(valr : Float, val g: Float, val b: Float){ ... }
+   class Color(val r: Float, val g: Float, val b: Float){ ... }
    ...
    val blue = new Color(0, 0, 1)
    val redLevelOfBlue = blue.r
@@ -226,7 +226,7 @@ Be careful, if you want to access a construction parameter of the class from the
 Inheritance
 ^^^^^^^^^^^
 
-As an example, imagine you want to define an class Rectangle and a class Square which extends the class Shape :
+As an example, suppose that you want to define two classes, ``Rectangle`` and ``Square``, which extend the class ``Shape``:
 
 .. code-block:: scala
 
@@ -253,18 +253,17 @@ Case class is an alternative way of declaring classes.
      override def getArea() = width * height
    }
 
-Then there is some differences between ``case class`` and ``class`` :
+Then there are some differences between ``case class`` and ``class`` :
 
+* case classes don't need the ``new`` keyword to be instantiated
+* construction parameters are accessible from outside, you don't need to define them as ``val``.
 
-* case class doesn't need the ``new`` keyword to be instantiated
-* construction parameters are accessible from the outside, you don't need to define them as ``val``.
-
-In SpinalHDL, for some reason explains into the coding conventions, it's in general recommended to use case class instead of class to have less typing and more coherency.
+In SpinalHDL, this explains the reasoning behind the coding conventions: it's in general recommended to use ``case class`` instead of ``class`` in order to have less typing and more coherency.
 
 Templates / Type parameterization
 ---------------------------------
 
-Imagine you want to design a class which is a queue of a given datatype, in that case you need to provide a type parameter to the class :
+Imagine you want to design a class which is a queue of a given datatype, in that case you need to provide a type parameter to the class:
 
 .. code-block:: scala
 
@@ -273,7 +272,7 @@ Imagine you want to design a class which is a queue of a given datatype, in that
      def pop(): T = ...
    }
 
-If you want to restrict the ``T`` type to be a sub class of a given type (for example Shape), you can use the ``<: Shape`` syntax :
+If you want to restrict the ``T`` type to be a sub class of a given type (for example ``Shape``), you can use the ``<: Shape`` syntax :
 
 .. code-block:: scala
 
@@ -287,7 +286,7 @@ If you want to restrict the ``T`` type to be a sub class of a given type (for ex
      def pop(): T = ...
    }
 
-The same is possible for functions :
+The same is possible for functions:
 
 .. code-block:: scala
 

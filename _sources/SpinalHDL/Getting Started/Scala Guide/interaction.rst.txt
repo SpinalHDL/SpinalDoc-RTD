@@ -5,28 +5,28 @@ Interaction
 Introduction
 ------------
 
-In fact, SpinalHDL is not an language, it's regular Scala library. It could seem strange at the first look, but this is a very powerful combination.
+SpinalHDL is, in fact, not an language, it's regular Scala library. It could seem strange at first glance, but this is a very powerful combination.
 
-You can use the whole Scala world to help you in the description of your hardware via the SpinalHDL library, but to do that properly, it's great to understand how SpinalHDL interact with Scala.
+You can use the whole Scala world to help you in the description of your hardware via the SpinalHDL library, but to do that properly, it's important to understand how SpinalHDL interacts with Scala.
 
-How SpinalHDL work behind the API
----------------------------------
+How SpinalHDL works behind the API
+----------------------------------
 
-Basically, when you execute your SpinalHDL hardware description, each time you use an SpinalHDL function, operator, classes, it will build into your PC memory an graph that represent the netlist of your design.
+Basically, when you execute your SpinalHDL hardware description, each time you use an SpinalHDL function, operator, classes, it will build in your PC memory a graph that represents the netlist of your design.
 
-Then, when the elaboration is done (Instantiation of your toplevel Component classes), SpinalHDL will do some passes on the graph that was constructed and if everything is fine, it will flush it into a VHDL or in a Verilog file.
+Then, when the elaboration is done (Instantiation of your toplevel Component classes), SpinalHDL will do some passes on the graph that was constructed and, if everything is fine, it will flush it into a VHDL or a Verilog file.
 
-Everything is reference
------------------------
+Everything is a reference
+-------------------------
 
-For example, if you define a Scala function which take as parameter a Bits, when you call it, the Bits argument will be passed as a reference. As consequence of that, if you assign that argument inside the function, it will assign it as if you have done it outside the function.
+For example, if you define a Scala function which takes a parameter of type ``Bits``, when you call it, it will be passed as a reference. As consequence of that, if you assign that argument inside the function, it will assign it as if you would have done it outside the function.
 
 .. _hardware_type:
 
 Hardware types
 --------------
 
-Hardware data types in SpinalHDL are the combination of two things :
+Hardware data types in SpinalHDL are the combination of two things:
 
 
 * An instance of a given Scala type
@@ -47,16 +47,16 @@ Let's take an Rgb bundle class as example :
      val b = UInt(bWidth bits)
    }
 
-It appear that the hardware data type is the combination of the Scala Rgb classes and its rWidth, gWidth, bWidth parameterization.
+It appears that the hardware data type is the combination of the Scala Rgb classes and its rWidth, gWidth, bWidth parameterization.
 
-There is some example of usage :
+Here is an example of usage:
 
 .. code-block:: scala
 
    //Define a Rgb signal
    val myRgbSignal = Rgb(5, 6, 5)               
 
-   //Define another Rgb signal of the same data type as the precedent one
+   //Define another Rgb signal of the same data type as the preceding one
    val myRgbCloned = cloneOf(myRgbSignal)
 
 You can also use functions to define kind of type factory (typedef) :
@@ -72,9 +72,9 @@ You can also use functions to define kind of type factory (typedef) :
 Names of signals in the generated RTL
 -------------------------------------
 
-To name signals in the generated RTL, SpinalHDL use Java reflections to walk through all your component hierarchy in order to collect all references stored into class attributes and name them with their attribute name.
+To name signals in the generated RTL, SpinalHDL uses Java reflections to walk through all your component hierarchy, collecting all references stored inside the class attributes and naming them with their attribute name.
 
-It's why, if you define a function, all signal's names inside the function are lost :
+This is why, the names of every signal defined inside a function are lost:
 
 .. code-block:: scala
 
@@ -85,7 +85,7 @@ It's why, if you define a function, all signal's names inside the function are l
 
    val value = myFunction(U"000001")  + 42
 
-One solution if you want to keep function's internal variable's names in the generated RTL, is to use Area :
+One solution if you want preserve the names of the internal variables in the generated RTL, is to use Area:
 
 .. code-block:: scala
 
@@ -99,9 +99,9 @@ One solution if you want to keep function's internal variable's names in the gen
 Scala is for elaboration, SpinalHDL for hardware description
 ------------------------------------------------------------
 
-For example, if you write a scala for loop to generate some hardware, it will generate the unrooled result in VHDL/Verilog.
+For example, if you write a scala for loop to generate some hardware, it will generate the unrolled result in VHDL/Verilog.
 
-Also, you want a constant, you should not use SpinalHDL Hardware literals but the scala ones. For example :
+Also, if you want a constant, you should not use SpinalHDL Hardware literals but the scala ones. For example:
 
 .. code-block:: scala
 
@@ -118,7 +118,7 @@ Also, you want a constant, you should not use SpinalHDL Hardware literals but th
 Scala elaboration capabilities (if, for, functional programming)
 ----------------------------------------------------------------
 
-All the scala syntax could be used to elaborate the hardware, as instance a scala if statement could be used to enable or disable the generation of a given hardware :
+All the scala syntax can be used to elaborate the hardware, for instance, a scala ``if`` statement could be used to enable or disable the generation of hardware:
 
 .. code-block:: scala
 
@@ -130,7 +130,7 @@ All the scala syntax could be used to elaborate the hardware, as instance a scal
      }
    }
 
-The same is true for scala for loops :
+The same is true for Scala ``for`` loops:
 
 .. code-block:: scala
 
@@ -142,7 +142,7 @@ The same is true for scala for loops :
      }
    }
 
-Also, all the functionnal programming stuff of SpinalHDL can be used :
+Also, all the functionnal programming stuff of SpinalHDL can be used:
 
 .. code-block:: scala
 

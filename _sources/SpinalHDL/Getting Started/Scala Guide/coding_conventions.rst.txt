@@ -5,26 +5,25 @@ Coding conventions
 Introduction
 ------------
 
-The coding conventions used in SpinalHDL is the same than the one documented in the `scala doc <https://docs.scala-lang.org/style/>`_.
+The coding conventions used in SpinalHDL are the same as the ones documented in the `scala doc <https://docs.scala-lang.org/style/>`_.
 
-Then some additional practice and practical cases are explained in next chapters.
+Some additional practical details and cases are explained in next chapters.
 
 class vs case class
 -------------------
 
-When you need to define a Bundle or a Component, have a preference to declare them as case class.
+When you define a ``Bundle`` or a ``Component``, have a preference to declare them as case class.
 
-Reasons are :
+The reasons are:
 
-
-* It avoid the use of the new keywords. Never having to use it is better than sometime in some condition.
-* The case class provide an clone function. This is useful when SpinalHDL need to clone one Bundle. For example when you define a new Reg or a new Stream of something.
+* It avoids the use of ``new`` keywords. Never having to use it is better than sometimes under some conditions.
+* A ``case class`` provides an ``clone`` function. This is useful in SpinalHDL where there is a need to clone one Bundle. For example, when you define a new ``Reg`` or a new ``Stream`` of some kind.
 * Construction parameters are directly visible from outside.
 
 [case] class
 ^^^^^^^^^^^^
 
-All class's names should start with a upper case letter
+All classes names should start with a upper case letter
 
 .. code-block:: scala
 
@@ -43,7 +42,7 @@ All class's names should start with a upper case letter
 companion object
 ^^^^^^^^^^^^^^^^
 
-Companion object should start with a upper case letter.
+A companion object should start with a upper case letter.
 
 .. code-block:: scala
 
@@ -55,7 +54,7 @@ Companion object should start with a upper case letter.
      def apply(that: Bits): UInt = {...}
    }
 
-A exception to this rule is be when the compagnion object is used as a function (only ``apply`` inside), and these ``apply`` functions doesn't generate hardware :
+An exception to this rule is when the companion object is used as a function (only ``apply`` inside), and these ``apply`` functions don't generate hardware:
 
 .. code-block:: scala
 
@@ -66,7 +65,7 @@ A exception to this rule is be when the compagnion object is used as a function 
 function
 ^^^^^^^^
 
-Function should always start with a lower case letter :
+A function should always start with a lower case letter:
 
 .. code-block:: scala
 
@@ -80,7 +79,7 @@ Function should always start with a lower case letter :
 instances
 ^^^^^^^^^
 
-Instances of classes should always start with lower case letter :
+Instances of classes should always start with a lower case letter:
 
 .. code-block:: scala
 
@@ -90,7 +89,7 @@ Instances of classes should always start with lower case letter :
 if / when
 ^^^^^^^^^
 
-Scala ``if`` and SpinalHDL ``when`` should normally be written by the following way :
+Scala ``if`` and SpinalHDL ``when`` should normally be written in the following way:
 
 .. code-block:: scala
 
@@ -110,16 +109,15 @@ Scala ``if`` and SpinalHDL ``when`` should normally be written by the following 
 
    }
 
-Exceptions could be :
+Exceptions could be:
 
-
-* It's fine to omit the dot before otherwise.
-* It's fine to compress a whole ``if``\ /\ ``when`` statements on a single line if it make the code more readable
+* It's fine to omit the dot before ``otherwise``.
+* It's fine to compress a whole ``if``\ /\ ``when`` statements on a single line if it makes the code more readable.
 
 switch
 ^^^^^^
 
-SpinalHDL switch should normally be written by the following way :
+SpinalHDL switch should normally be written in the following way:
 
 .. code-block:: scala
 
@@ -135,12 +133,12 @@ SpinalHDL switch should normally be written by the following way :
      }
    }
 
-It's fine to compress a ``is``\ /\ ``default`` statements on a single line if it make the code more readable
+It's fine to compress a ``is``\ /\ ``default`` statement on a single line if it makes the code more readable.
 
 Parameters
 ^^^^^^^^^^
 
-Grouping parameters of a component/bundle inside a case class is in general welcome :
+Grouping parameters of a component/bundle inside a case class is in general welcome:
 
 
 * Easier to carry/manipulate to configure the design
@@ -158,7 +156,7 @@ Grouping parameters of a component/bundle inside a case class is in general welc
      val b = UInt(c.bWidth bit)
    }
 
-But this should not be applied in all cases, for example for a Fifo, it doesn't make sense to group the dataType parameter with the depth of the fifo because in general the dataType is something related to the design while the depth is something related to the configuration of the design.
+But this should not be applied in all cases. For example: in a Fifo, it doesn't make sense to group the dataType parameter with the depth of the fifo because, in general, the dataType is something related to the design, while the depth is something related to the configuration of the design.
 
 .. code-block:: scala
 

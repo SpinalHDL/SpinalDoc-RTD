@@ -341,21 +341,21 @@
 <h1>Coding conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>The coding conventions used in SpinalHDL is the same than the one documented in the <a class="reference external" href="https://docs.scala-lang.org/style/">scala doc</a>.</p>
-<p>Then some additional practice and practical cases are explained in next chapters.</p>
+<p>The coding conventions used in SpinalHDL are the same as the ones documented in the <a class="reference external" href="https://docs.scala-lang.org/style/">scala doc</a>.</p>
+<p>Some additional practical details and cases are explained in next chapters.</p>
 </div>
 <div class="section" id="class-vs-case-class">
 <h2>class vs case class<a class="headerlink" href="#class-vs-case-class" title="Permalink to this headline">¶</a></h2>
-<p>When you need to define a Bundle or a Component, have a preference to declare them as case class.</p>
-<p>Reasons are :</p>
+<p>When you define a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> or a <code class="docutils literal notranslate"><span class="pre">Component</span></code>, have a preference to declare them as case class.</p>
+<p>The reasons are:</p>
 <ul class="simple">
-<li><p>It avoid the use of the new keywords. Never having to use it is better than sometime in some condition.</p></li>
-<li><p>The case class provide an clone function. This is useful when SpinalHDL need to clone one Bundle. For example when you define a new Reg or a new Stream of something.</p></li>
+<li><p>It avoids the use of <code class="docutils literal notranslate"><span class="pre">new</span></code> keywords. Never having to use it is better than sometimes under some conditions.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code> provides an <code class="docutils literal notranslate"><span class="pre">clone</span></code> function. This is useful in SpinalHDL where there is a need to clone one Bundle. For example, when you define a new <code class="docutils literal notranslate"><span class="pre">Reg</span></code> or a new <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of some kind.</p></li>
 <li><p>Construction parameters are directly visible from outside.</p></li>
 </ul>
 <div class="section" id="case-class">
 <h3>[case] class<a class="headerlink" href="#case-class" title="Permalink to this headline">¶</a></h3>
-<p>All class’s names should start with a upper case letter</p>
+<p>All classes names should start with a upper case letter</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Fifo</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
 
 <span class="o">}</span>
@@ -372,7 +372,7 @@
 </div>
 <div class="section" id="companion-object">
 <h3>companion object<a class="headerlink" href="#companion-object" title="Permalink to this headline">¶</a></h3>
-<p>Companion object should start with a upper case letter.</p>
+<p>A companion object should start with a upper case letter.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">Fifo</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">that</span><span class="k">:</span> <span class="kt">Stream</span><span class="o">[</span><span class="kt">Bits</span><span class="o">])</span><span class="k">:</span> <span class="kt">Stream</span><span class="o">[</span><span class="kt">Bits</span><span class="o">]</span> <span class="k">=</span> <span class="o">{...}</span>
 <span class="o">}</span>
@@ -382,7 +382,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>A exception to this rule is be when the compagnion object is used as a function (only <code class="docutils literal notranslate"><span class="pre">apply</span></code> inside), and these <code class="docutils literal notranslate"><span class="pre">apply</span></code> functions doesn’t generate hardware :</p>
+<p>An exception to this rule is when the companion object is used as a function (only <code class="docutils literal notranslate"><span class="pre">apply</span></code> inside), and these <code class="docutils literal notranslate"><span class="pre">apply</span></code> functions don’t generate hardware:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">log2</span><span class="o">{</span>
   <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{...}</span>
 <span class="o">}</span>
@@ -391,7 +391,7 @@
 </div>
 <div class="section" id="function">
 <h3>function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h3>
-<p>Function should always start with a lower case letter :</p>
+<p>A function should always start with a lower case letter:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">sinTable</span> <span class="k">=</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">sampleCount</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">sampleIndex</span> <span class="k">=&gt;</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">sinValue</span> <span class="k">=</span> <span class="nc">Math</span><span class="o">.</span><span class="n">sin</span><span class="o">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nc">Math</span><span class="o">.</span><span class="nc">PI</span> <span class="o">*</span> <span class="n">sampleIndex</span> <span class="o">/</span> <span class="n">sampleCount</span><span class="o">)</span>
   <span class="n">S</span><span class="o">((</span><span class="n">sinValue</span> <span class="o">*</span> <span class="o">((</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">resolutionWidth</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)).</span><span class="n">toInt</span><span class="o">,</span> <span class="n">resolutionWidth</span> <span class="n">bits</span><span class="o">)</span>
@@ -403,7 +403,7 @@
 </div>
 <div class="section" id="instances">
 <h3>instances<a class="headerlink" href="#instances" title="Permalink to this headline">¶</a></h3>
-<p>Instances of classes should always start with lower case letter :</p>
+<p>Instances of classes should always start with a lower case letter:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">fifo</span>   <span class="k">=</span> <span class="k">new</span> <span class="nc">Fifo</span><span class="o">()</span>
 <span class="k">val</span> <span class="n">buffer</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
 </pre></div>
@@ -411,7 +411,7 @@
 </div>
 <div class="section" id="if-when">
 <h3>if / when<a class="headerlink" href="#if-when" title="Permalink to this headline">¶</a></h3>
-<p>Scala <code class="docutils literal notranslate"><span class="pre">if</span></code> and SpinalHDL <code class="docutils literal notranslate"><span class="pre">when</span></code> should normally be written by the following way :</p>
+<p>Scala <code class="docutils literal notranslate"><span class="pre">if</span></code> and SpinalHDL <code class="docutils literal notranslate"><span class="pre">when</span></code> should normally be written in the following way:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="o">(</span><span class="n">cond</span><span class="o">){</span>
   <span class="o">...</span>
 <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">cond</span><span class="o">){</span>
@@ -429,15 +429,15 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Exceptions could be :</p>
+<p>Exceptions could be:</p>
 <ul class="simple">
-<li><p>It’s fine to omit the dot before otherwise.</p></li>
-<li><p>It’s fine to compress a whole <code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">when</span></code> statements on a single line if it make the code more readable</p></li>
+<li><p>It’s fine to omit the dot before <code class="docutils literal notranslate"><span class="pre">otherwise</span></code>.</p></li>
+<li><p>It’s fine to compress a whole <code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">when</span></code> statements on a single line if it makes the code more readable.</p></li>
 </ul>
 </div>
 <div class="section" id="switch">
 <h3>switch<a class="headerlink" href="#switch" title="Permalink to this headline">¶</a></h3>
-<p>SpinalHDL switch should normally be written by the following way :</p>
+<p>SpinalHDL switch should normally be written in the following way:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="o">(</span><span class="n">value</span><span class="o">){</span>
   <span class="n">is</span><span class="o">(</span><span class="n">key</span><span class="o">){</span>
 
@@ -451,11 +451,11 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>It’s fine to compress a <code class="docutils literal notranslate"><span class="pre">is</span></code>/<code class="docutils literal notranslate"><span class="pre">default</span></code> statements on a single line if it make the code more readable</p>
+<p>It’s fine to compress a <code class="docutils literal notranslate"><span class="pre">is</span></code>/<code class="docutils literal notranslate"><span class="pre">default</span></code> statement on a single line if it makes the code more readable.</p>
 </div>
 <div class="section" id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
-<p>Grouping parameters of a component/bundle inside a case class is in general welcome :</p>
+<p>Grouping parameters of a component/bundle inside a case class is in general welcome:</p>
 <ul class="simple">
 <li><p>Easier to carry/manipulate to configure the design</p></li>
 <li><p>Better maintainability</p></li>
@@ -471,7 +471,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>But this should not be applied in all cases, for example for a Fifo, it doesn’t make sense to group the dataType parameter with the depth of the fifo because in general the dataType is something related to the design while the depth is something related to the configuration of the design.</p>
+<p>But this should not be applied in all cases. For example: in a Fifo, it doesn’t make sense to group the dataType parameter with the depth of the fifo because, in general, the dataType is something related to the design, while the depth is something related to the configuration of the design.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Fifo</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="n">depth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
 
 <span class="o">}</span>
