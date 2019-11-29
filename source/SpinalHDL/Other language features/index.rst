@@ -7,6 +7,7 @@ Other language features
 
    utils
    assertion
+   formal
    analog_inout
    vhdl_generation
 
