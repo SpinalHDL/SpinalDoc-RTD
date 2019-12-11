@@ -30,6 +30,10 @@ The enumeration encoding can be forced by defining the enumeration as follows:
    object Enumeration extends SpinalEnum(defaultEncoding=encodingOfYouChoice) {
      val element0, element1, ..., elementN = newElement()
    }
+   
+.. note::
+   If you want to define a enumeration as in/out of a given component, you have to do as following : in(MyEnum())  out(MyEnum())
+.. _fixed:
 
 Encoding
 ~~~~~~~~
@@ -62,7 +66,7 @@ Custom encoding can be performed in two different ways: static or dynamic.
     * Static encoding 
     */
    object MyEnumStatic extends SpinalEnum{
-     val e0, e1, e2, e3 = new Element()
+     val e0, e1, e2, e3 = newElement()
      defaultEncoding = SpinalEnumEncoding("staticEncoding")(
        e0 -> 0,
        e1 -> 2, 
@@ -80,7 +84,7 @@ Custom encoding can be performed in two different ways: static or dynamic.
    val encoding = SpinalEnumEncoding("dynamicEncoding", _ * 2 + 1)
 
    object MyEnumDynamic extends SpinalEnum(encoding){
-     val e0, e1, e2, e3 = new Element()
+     val e0, e1, e2, e3 = newElement()
    }
 
 Example
