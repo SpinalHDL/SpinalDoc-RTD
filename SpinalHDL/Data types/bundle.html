@@ -437,7 +437,7 @@ under a single name.</p>
 <p>When you define an Bundle inside the IO definition of your component, you need to specify its direction.</p>
 <div class="section" id="in-out">
 <h3>in/out<a class="headerlink" href="#in-out" title="Permalink to this headline">¶</a></h3>
-<p>If all elements of your bundle go in the same direction you can use in(MyBundle()) or out(MyBundle()).</p>
+<p>If all elements of your bundle go in the same direction you can use <code class="docutils literal notranslate"><span class="pre">in(MyBundle())</span></code> or <code class="docutils literal notranslate"><span class="pre">out(MyBundle())</span></code>.</p>
 <p>For example :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">input</span>  <span class="k">=</span> <span class="n">in</span> <span class="o">(</span><span class="nc">Color</span><span class="o">(</span><span class="mi">8</span><span class="o">))</span>
@@ -448,7 +448,7 @@ under a single name.</p>
 </div>
 <div class="section" id="master-slave">
 <h3>master/slave<a class="headerlink" href="#master-slave" title="Permalink to this headline">¶</a></h3>
-<p>If your interface obey to an master/slave topology, you can use the <code class="docutils literal notranslate"><span class="pre">IMasterSlave</span></code> trait. Then you have to implement the function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">asMaster(): Unit</span></code> to set the direction of each elements from an master perspective. Then you can use the <code class="docutils literal notranslate"><span class="pre">master(MyBundle())</span></code> and <code class="docutils literal notranslate"><span class="pre">slave(MyBundle())</span></code> syntax in the IO defintion.</p>
+<p>If your interface obeys to a master/slave topology, you can use the <code class="docutils literal notranslate"><span class="pre">IMasterSlave</span></code> trait. Then you have to implement the function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">asMaster(): Unit</span></code> to set the direction of each elements from an master perspective. Then you can use the <code class="docutils literal notranslate"><span class="pre">master(MyBundle())</span></code> and <code class="docutils literal notranslate"><span class="pre">slave(MyBundle())</span></code> syntax in the IO defintion.</p>
 <p>For example :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">HandShake</span><span class="o">(</span><span class="n">payloadWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span>

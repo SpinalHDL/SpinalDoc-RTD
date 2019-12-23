@@ -5,7 +5,7 @@ Assignement overlap
 Introduction
 ------------
 
-SpinalHDL will check that no signal assignement completly erases a previous one.
+SpinalHDL will check that no signal assignement completely erases a previous one.
 
 Example
 -------
