@@ -5,7 +5,7 @@ Spinal can't clone class
 Introduction
 ------------
 
-This error happens when SpinalHDL wants to create a new datatype via the cloneOf function but isn't able to do it. The reasons for this is nearly always because it can't retreive the construction parameters of a Bundle.
+This error happens when SpinalHDL wants to create a new datatype via the ``cloneOf`` function but isn't able to do it. The reasons for this is nearly always because it can't retreive the construction parameters of a Bundle.
 
 Example
 -------

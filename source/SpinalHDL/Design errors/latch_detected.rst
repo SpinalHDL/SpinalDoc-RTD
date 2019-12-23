@@ -5,7 +5,7 @@ Latch detected
 Introduction
 ------------
 
-SpinalHDL will check that no combinatorial signal will infer a latch during synthesis. In other words, that no combinatorial signals are partialy assigned.
+SpinalHDL will check that no combinatorial signal will infer a latch during synthesis. In other words, that no combinatorial signals are partially assigned.
 
 Example
 -------

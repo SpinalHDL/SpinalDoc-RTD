@@ -22,7 +22,7 @@ The following code:
        is(1){ result := 6 }
        is(2){ result := 8 }
        is(3){ result := 9 }
-       is(0){ result := 2 } //Duplicated statement is statement !
+       is(0){ result := 2 } //Duplicated is statement!
      }
    }
 
