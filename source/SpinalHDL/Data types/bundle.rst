@@ -99,7 +99,7 @@ When you define an Bundle inside the IO definition of your component, you need t
 in/out
 ~~~~~~
 
-If all elements of your bundle go in the same direction you can use in(MyBundle()) or out(MyBundle()).
+If all elements of your bundle go in the same direction you can use ``in(MyBundle())`` or ``out(MyBundle())``.
 
 For example :
 
@@ -113,7 +113,7 @@ For example :
 master/slave
 ~~~~~~~~~~~~
 
-If your interface obey to an master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each elements from an master perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO defintion.
+If your interface obeys to a master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each elements from an master perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO defintion.
 
 For example :
 
