@@ -18,7 +18,7 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
 
 .. list-table::
    :header-rows: 1
-   :widths: 2 5 1
+   :widths: 5 10 2
 
    * - Syntax
      - Description
@@ -34,7 +34,9 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
      - | UInt
        | SInt
    * - | U(value: Int[,x bits])
+       | U(value: BigInt[,x bits])
        | S(value: Int[,x bits])
+       | S(value: BigInt[,x bits])
      - Create an unsigned/signed integer assigned with 'value'
      - | UInt
        | SInt
