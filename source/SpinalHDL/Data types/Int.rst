@@ -18,7 +18,7 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
 
 .. list-table::
    :header-rows: 1
-   :widths: 2 5 1
+   :widths: 5 10 2
 
    * - Syntax
      - Description
@@ -34,7 +34,9 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
      - | UInt
        | SInt
    * - | U(value: Int[,x bits])
+       | U(value: BigInt[,x bits])
        | S(value: Int[,x bits])
+       | S(value: BigInt[,x bits])
      - Create an unsigned/signed integer assigned with 'value'
      - | UInt
        | SInt
@@ -444,13 +446,15 @@ Misc
 
 fixPoint operation
 ^^^^^^^^^^^^^^^^^^
+
 For fixed-point, we can divide it into two parts.
  - LowerBit Operation(round methods)
  - HighBit Operation(saturation operations)
 
 Lower Bit operation
 ~~~~~~~~~~~~~~~~~~~
-.. image:: /assert/imag/fixpoint/lowBitOperation.png
+
+.. image:: /asset/imag/fixpoint/lowerBitOperation.png
 
 About Rounding: https://en.wikipedia.org/wiki/Rounding
 
@@ -470,8 +474,7 @@ About Rounding: https://en.wikipedia.org/wiki/Rounding
 ================ ================= ============= ======================== ====================== ===========
 
 .. note::
-   | the **RoundToEven RoundToOdd** are very special ,Used in some big data statistical fields with high accuracy concern,
-   | SpinalHDL don't support them yet.
+   the **RoundToEven RoundToOdd** are very special ,Used in some big data statistical fields with high accuracy concern, SpinalHDL don't support them yet.
 
 You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOODD** are very close,
 `ROUNDTOINF` is most common. the api of round in different Programing-language may different.
@@ -510,8 +513,7 @@ You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOO
    val B1 = A.roundToInf(6 bits, align=false).sat(1)  ---+
 
 .. note::
-   | only `floor` and `floorToZero` without align option, they do not need carry bit.
-   | other round operation default with carry bit.
+   only `floor` and `floorToZero` without align option, they do not need carry bit. other round operation default with carry bit.
 
 **round Api**
 
@@ -536,15 +538,16 @@ You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOO
 
 High Bit operation
 ~~~~~~~~~~~~~~~~~~
-.. image:: /assert/imag/fixpoint/highBitOperation.png
 
-========== ============ ===================================== ====================================== ===========
- function   Operation    Postive-Op                            Negtive-Op                             supported
-========== ============ ===================================== ====================================== ===========
- sat        Saturation   when(Top[w-1,w-n].orR) set maxValue   When(Top[w-1,w-n].andR) set minValue   Yes
- trim       Discard      N/A                                   N/A                                    Yes
- symmetry   Symmetric    N/A                                   minValue = -maxValue                   Yes
-========== ============ ===================================== ====================================== ===========
+.. image:: /asset/imag/fixpoint/highBitOperation.png
+
+========== ============ ===================================== ======================================
+ function   Operation    Postive-Op                            Negtive-Op                           
+========== ============ ===================================== ======================================
+ sat        Saturation   when(Top[w-1,w-n].orR) set maxValue   When(Top[w-1,w-n].andR) set minValue 
+ trim       Discard      N/A                                   N/A                                  
+ symmetry   Symmetric    N/A                                   minValue = -maxValue                 
+========== ============ ===================================== ======================================
 
 Symmetric is only valid for SInt.
 
@@ -560,9 +563,10 @@ Symmetric is only valid for SInt.
 
 fixTo function
 ~~~~~~~~~~~~~~
+
 two way are provided in UInt/SInt do fixpoint:
 
-.. image:: /assert/imag/fixpoint/fixPoint.png
+.. image:: /asset/imag/fixpoint/fixPoint.png
 
 fixTo is strongly recommended in your RTL work, you don't need handle carry bit align and bit width calculate manually like Way1.
 
