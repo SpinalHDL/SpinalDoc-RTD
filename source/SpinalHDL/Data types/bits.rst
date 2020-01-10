@@ -15,7 +15,7 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
 
 .. list-table::
    :header-rows: 1
-   :widths: 2 5 1
+   :widths: 5 10 2
 
    * - Syntax
      - Description
@@ -26,7 +26,8 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
    * - Bits(x bits)
      - Create a BitVector with x bits
      - Bits
-   * - B(value: Int[, x bits])
+   * - | B(value: Int[, x bits])
+       | B(value: BigInt[, x bits])
      - Create a BitVector with x bits assigned with 'value'
      - Bits
    * - B"[[size']base]value"

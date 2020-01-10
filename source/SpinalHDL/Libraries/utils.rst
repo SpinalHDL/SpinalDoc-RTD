@@ -54,6 +54,12 @@ State less utilities
      - | Apply a mask on x to only keep the bit set from ``requests``.
        | it start looking in ``requests`` from the ``ohPriority`` position.
        | For example if ``requests`` is "1001" and ``ohPriority`` is "0010", the ``roundRobin`` function will start looking in `requests` from its second bit and will return "1000".
+   * - | `MuxOH <http://spinalhdl.github.io/SpinalHDL/#spinal.lib.MuxOH$>`_ (
+       |   oneHot : IndexedSeq[Bool],
+       |   inputs : Iterable[T]
+       | )
+     - T
+     - Returns the muxed ``T`` from the ``inputs`` based on the ``oneHot`` vector.
 
 
 State full utilities

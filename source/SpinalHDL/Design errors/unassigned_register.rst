@@ -43,7 +43,7 @@ A fix could be:
 Register with only init
 -----------------------
 
-In some case, because of the design parameterization, it could make sense to generate a register which has no assignement but only a init statement.
+In some cases, because of the design parametrization, it could make sense to generate a register which has no assignment but only a init statement.
 
 .. code-block:: scala
 
