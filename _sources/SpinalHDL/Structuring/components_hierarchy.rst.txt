@@ -12,7 +12,7 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
 .. code-block:: scala
 
    class AdderCell extends Component {
-     //Declaring all in/out in an io Bundle is probably a good practice
+     //Declaring external ports in a Bundle called `io` is recommended
      val io = new Bundle {
        val a, b, cin = in Bool
        val sum, cout = out Bool
@@ -37,7 +37,7 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
 
 .. tip::
    | val io = new Bundle{ ... } :
-   | Declaring all inputs and outputs in a Bundle named `io` is probably a good pratice. If you call your bundle `io`, Spinal will check that all elements are defined as input or output.
+   | Declaring external ports in a Bundle called `io` is recommended. If you call your bundle `io`, Spinal will check that all elements are defined as input or output.
 
 Input / output definition
 -------------------------
@@ -51,19 +51,21 @@ The syntax to define inputs and outputs is the following:
    * - Syntax
      - Description
      - Return
-   * - in/out Bool
-     - Create an input/output Bool
+   * - in Bool/out Bool
+     - Create an input Bool/output Bool
      - Bool
    * - in/out Bits/UInt/SInt[(x bit)]
      - Create an input/output of the corresponding type
-     - T
+     - Bits/UInt/SInt
    * - in/out(T)
-     - | For all other data types, you should add the brackets around it.
-       | Sorry this is a Scala limitation.
+     - | For all other data types, you may have to add some brackets
+       | around it. Sorry this is a Scala limitation.
      - T
    * - master/slave(T)
-     - | This syntax is provided by the spinal.lib. T should extend IMasterSlave :
-       | Some documentation is available :ref:`here <interface_eaxample_apb>`
+     - | This syntax is provided by the `spinal.lib` (If you call your object `slave`,
+       | then call `spinal.lib.slave` instead). T should extend IMasterSlave –
+       | Some documentation is available :ref:`here <interface_eaxample_apb>`.
+       | You may not actually need the brackets, so `master T` is fine as well.
      - T
 
 
@@ -134,8 +136,8 @@ If you want to keep a pruned signal into the generated RTL for debug reasons, yo
      }
    }
 
-Generic(VHDL) / Parameter(Verilog)
-----------------------------------
+Parametrized Hardware ("Generic" in VHDL, "Parameter" in Verilog)
+-----------------------------------------------------------------
 
 If you want to parameterize your component, you can give parameters to the constructor of the component as follows: 
 
@@ -168,6 +170,12 @@ I you have several parameters, it is a good practice to give a specific configur
        ...
    }
 
+Synthesized component names
+---------------------------
+
+Within a module, each component has a name, called "partial name". The "full" name is built by joining every component's parent's name on "_": "io_clockDomain_reset". You can use `setName` to replace this convention with a custom name. This is especially useful when interfacing with external components. The other methods are called `getName`, `setPartialName`, `getPartialName` respectively.
+
+When synthesized, each module gets the name of the Scala class defining it. You can override this as well with `setDefinitionName`.
 
 .. raw:: html
 
