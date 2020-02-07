@@ -139,7 +139,7 @@ If you want to keep a pruned signal into the generated RTL for debug reasons, yo
 Parametrized Hardware ("Generic" in VHDL, "Parameter" in Verilog)
 -----------------------------------------------------------------
 
-If you want to parameterize your component, you can give parameters to the constructor of the component as follows: 
+If you want to parameterize your component, you can give parameters to the constructor of the component as follows:
 
 .. code-block:: scala
 
@@ -162,7 +162,7 @@ I you have several parameters, it is a good practice to give a specific configur
 .. code-block:: scala
 
    case class MySocConfig(axiFrequency  : HertzNumber,
-                          onChipRamSize : BigInt, 
+                          onChipRamSize : BigInt,
                           cpu           : RiscCoreConfig,
                           iCache        : InstructionCacheConfig)
 
@@ -173,7 +173,11 @@ I you have several parameters, it is a good practice to give a specific configur
 Synthesized component names
 ---------------------------
 
-Within a module, each component has a name, called "partial name". The "full" name is built by joining every component's parent's name on "_": "io_clockDomain_reset". You can use `setName` to replace this convention with a custom name. This is especially useful when interfacing with external components. The other methods are called `getName`, `setPartialName`, `getPartialName` respectively.
+Within a module, each component has a name, called "partial name".
+The "full" name is built by joining every component's parent name with "_", for example: `io_clockDomain_reset`.
+You can use `setName` to replace this convention with a custom name.
+This is especially useful when interfacing with external components.
+The other methods are called `getName`, `setPartialName`, `getPartialName` respectively.
 
 When synthesized, each module gets the name of the Scala class defining it. You can override this as well with `setDefinitionName`.
 
