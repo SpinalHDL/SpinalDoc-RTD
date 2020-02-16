@@ -59,8 +59,8 @@ From a clean Debian distribution you can type followings commands in the shell. 
    sudo apt-get update
    sudo apt-get install sbt
    git clone https://github.com/SpinalHDL/SpinalTemplateSbt.git
-   cd SpinalBaseProject/
-   sbt run
+   cd SpinalTemplateSbt/
+   sbt run   # select "mylib.MyTopLevelVhdl" in the menu
    ls MyTopLevel.vhd
 
 SBT in a environnement isolated from internet
