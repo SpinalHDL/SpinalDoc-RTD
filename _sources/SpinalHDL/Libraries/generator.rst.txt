@@ -20,6 +20,8 @@ The framework is mainly composed of :
 - Handle[T], which allow to refer about something, as for example the result of a generator, before this thing even exist
 
 
+Warning, this is realy not usual RTL description and aim large system generation.
+
 Simple dummy example
 --------------------
 
