@@ -1,0 +1,152 @@
+.. role:: raw-html-m2r(raw)
+   :format: html
+
+.. _generator:
+
+Generator framework
+====================
+
+The generator framework allow to specify and run the hardware elaboration in a out of order manner, a bit similarly to Makefile, where you can define rules and dependencies which will then be solved when you run a make command. 
+
+Such framework complexify simple things but provide some strong feature for complex cases :
+
+- You can define things before even knowing all their requirements, ex : instanciating a interruption controller, before knowing how many lines of interrupt you need
+- Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for futher specialisations
+- Automatic requirements negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus
+
+The framework is mainly composed of : 
+
+- Generator, which will run its tasks as soon all its dependencies are loaded.
+- Handle[T], which allow to refer about something, as for example the result of a generator, before this thing even exist
+
+
+Simple dummy example
+--------------------
+
+There is a simple example which define two Handle[Int] (a,b) and when loaded, will print the sum of them : 
+
+.. code-block:: scala
+
+  import spinal.lib.generator._
+
+  class Root() extends Generator{
+    //Define some Handle which will be later loaded with real values
+    val a,b = Handle[Int]
+
+    //Print a + b
+    val calculator = new Generator{
+      //Specify that this generator need a and b before executing his tasks
+      dependencies += a
+      dependencies += b
+
+      //Create a new task that will run when all the dependencies are loaded
+      add task{
+        val sum = a.get + b.get
+        println(s"a + b = $sum") //Will print a + b = 7
+      }
+    }
+
+    //load a and b with values, which will then unlock the calculator generator
+    a.load(3)
+    b.load(4)
+  }
+
+
+So, the main point of that example is to show that we kind of overcome the sequancial execution of things, as a and b are loaded after the definition of the calculator.
+
+Then you can also chain generators via their handles. For instance we could add the following after the calculator definition : 
+
+.. code-block:: scala
+
+    //Generate a signal of signalWidth bits
+    val rtl = new Generator{
+      dependencies += signalWidth
+
+      val signal = Handle[UInt]
+      add task{
+        println(s"rtlSignal will have ${signalWidth.get} bits") //Will print "rtlSignal will have 7 bits"
+        signal.load(UInt(signalWidth.get bits))
+      }
+    }
+
+
+
+Handle[T]
+--------------------
+
+Handle[T] are a bit like scala's Future[T], they allow to talk about something before it is even existing, and wait on it.
+
+.. code-block:: scala
+    
+    val x,y = Handle[Int]
+    val xPlus2 : Handle[Int] = x.produce(x.get + 2) //x.produce can be used to generate a new Handle when x is loaded
+    val xPlus3 : Handle[Int] = x.derivate(_ + 3)    //x.derivate is as x.produce, but also provide the x.get as arguement of the lambda function
+    val xPlusY : Handle[Int] = List(x,y).produce(x.get + y.get) //As x.produce, but wait all the element of the list.
+    x.load(3) //x will now contain the value 3
+
+Generator
+--------------------
+
+
+A Generator is composed of : 
+
+- dependencies : List of Handles that should be loaded before executing the generator's tasks
+- tasks : List of lambda function which should run once all depedencies are loaded
+- products : List of Handles which are loaded by the generator's tasks
+
+dependencies
+^^^^^^^^^^^^^^^^^^^^
+
+There is muliple ways to add/create new depedencies : 
+
+.. code-block:: scala
+
+  class MyGenerator() extends Generator{
+    dependencies += somebodyElseHandle
+
+    val myHandle : Handle[Int] = createDependency[Int] //Create a unloaded Handle[Int]
+  }
+
+
+tasks
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: scala
+
+  class MyGenerator() extends Generator{
+    val width = createDependency[Int]
+    val logic = add task new Area{
+      val a,b,c = UInt(width.get bits)
+      val result = a + b + c
+    }
+  }
+
+products
+^^^^^^^^^^^^^^^^^^^^
+
+Telling the generator all your products isn't mendatory but help debuging. 
+
+
+.. code-block:: scala
+
+  //At a low level API :
+  class MyGenerator() extends Generator{
+    val interface = Handle[Apb3]
+    products += interface
+    val rtl = add task new Area{
+      val bus = Apb3(32,32)
+      interface.load(bus)
+    }
+  }
+  
+  //The same but less verbose
+  class MyGenerator() extends Generator{
+    val interface = this.produce(rtl.bus)
+    val rtl = add task new Area{
+      val bus = Apb3(32,32)
+    }
+  }
+
+
+
+
