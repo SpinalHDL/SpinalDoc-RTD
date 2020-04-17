@@ -416,19 +416,39 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
    * - onArgs(inputs : Stream[T]*)
      - Stream[T]
 
+StreamJoin
+^^^^^^^^^^
+
+This utile takes multiple input streams and wait until all of them fire before letting all of them through.
+
+.. code-block:: scala
+
+   val cmdJoin = Stream(Cmd())
+   cmdJoin.arbitrationFrom(StreamJoin.arg(cmdABuffer, cmdBBuffer))
+
 
 StreamFork
 ^^^^^^^^^^
 
-This utile take its input stream and duplicate it outputCount times.
+A StreamFork will clone each incoming data to all its output streams. If synchronous is true,
+all output streams will always fire together, which means that the stream will halt until all output streams are ready. 
+If synchronous is false, output streams may be ready one at a time,
+at the cost of an additional flip flop (1 bit per output). The input stream will block until
+all output streams have processed each item regardlessly.
+
 
 .. code-block:: scala
 
    val inputStream = Stream(Bits(8 bits))
-   val dispatchedStreams = StreamDispatcherSequencial(
-     input = inputStream,
-     outputCount = 3
-   )
+   val (outputstream1, outputstream2) = StreamFork2(inputStream, synchronous=false)
+
+or
+
+.. code-block:: scala
+
+   val inputStream = Stream(Bits(8 bits))
+   val outputStreams = StreamFork(inputStream,portCount=2, synchronous=true)
+
 
 StreamDispatcherSequencial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
