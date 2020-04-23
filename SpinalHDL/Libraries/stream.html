@@ -891,14 +891,28 @@ Be careful with that.</p></li>
 </tbody>
 </table>
 </div>
+<div class="section" id="streamjoin">
+<h3>StreamJoin<a class="headerlink" href="#streamjoin" title="Permalink to this headline">¶</a></h3>
+<p>This utile takes multiple input streams and wait until all of them fire before letting all of them through.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">cmdJoin</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Cmd</span><span class="o">())</span>
+<span class="n">cmdJoin</span><span class="o">.</span><span class="n">arbitrationFrom</span><span class="o">(</span><span class="nc">StreamJoin</span><span class="o">.</span><span class="n">arg</span><span class="o">(</span><span class="n">cmdABuffer</span><span class="o">,</span> <span class="n">cmdBBuffer</span><span class="o">))</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="streamfork">
 <h3>StreamFork<a class="headerlink" href="#streamfork" title="Permalink to this headline">¶</a></h3>
-<p>This utile take its input stream and duplicate it outputCount times.</p>
+<p>A StreamFork will clone each incoming data to all its output streams. If synchronous is true,
+all output streams will always fire together, which means that the stream will halt until all output streams are ready.
+If synchronous is false, output streams may be ready one at a time,
+at the cost of an additional flip flop (1 bit per output). The input stream will block until
+all output streams have processed each item regardlessly.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inputStream</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
-<span class="k">val</span> <span class="n">dispatchedStreams</span> <span class="k">=</span> <span class="nc">StreamDispatcherSequencial</span><span class="o">(</span>
-  <span class="n">input</span> <span class="k">=</span> <span class="n">inputStream</span><span class="o">,</span>
-  <span class="n">outputCount</span> <span class="k">=</span> <span class="mi">3</span>
-<span class="o">)</span>
+<span class="k">val</span> <span class="o">(</span><span class="n">outputstream1</span><span class="o">,</span> <span class="n">outputstream2</span><span class="o">)</span> <span class="k">=</span> <span class="nc">StreamFork2</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="n">synchronous</span><span class="k">=</span><span class="kc">false</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inputStream</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">outputStreams</span> <span class="k">=</span> <span class="nc">StreamFork</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span><span class="n">portCount</span><span class="k">=</span><span class="mi">2</span><span class="o">,</span> <span class="n">synchronous</span><span class="k">=</span><span class="kc">true</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
