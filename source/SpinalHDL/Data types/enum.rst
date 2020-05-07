@@ -33,7 +33,6 @@ The enumeration encoding can be forced by defining the enumeration as follows:
    
 .. note::
    If you want to define a enumeration as in/out of a given component, you have to do as following : in(MyEnum())  out(MyEnum())
-.. _fixed:
 
 Encoding
 ~~~~~~~~
