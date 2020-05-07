@@ -33,7 +33,7 @@ Site purpose and structure
 
 This site presents the *SpinalHDL* language and how to use it on concrete examples.
 
-If you are learning the language from scratch, `this presentation <http://spinalhdl.github.io/SpinalDoc/presentation/>`_ is probably a good starting point.
+If you are learning the language from scratch, `this presentation <https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@master/presentation/en/presentation.pdf>`_ is probably a good starting point.
 
 
 What is SpinalHDL ?
@@ -89,10 +89,10 @@ Links
 | `https://github.com/SpinalHDL/SpinalHDL <https://github.com/SpinalHDL/SpinalHDL>`_
 
 | A short show case (PDF):
-| `http://spinalhdl.github.io/SpinalDoc/motivation/ <http://spinalhdl.github.io/SpinalDoc/motivation/>`_
+| `motivation.pdf <https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@master/presentation/en/motivation.pdf>`_
 
 | Presentation of the language (PDF):
-| `http://spinalhdl.github.io/SpinalDoc/presentation/ <http://spinalhdl.github.io/SpinalDoc/presentation/>`_
+| `presentation.pdf <https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@master/presentation/en/presentation.pdf>`_
 
 | SBT base project:
 | `https://github.com/SpinalHDL/SpinalTemplateSbt <https://github.com/SpinalHDL/SpinalTemplateSbt>`_
@@ -116,7 +116,7 @@ Links
 
 
 
-.. image:: https://travis-ci.org/SpinalHDL/SpinalHDL.svg?branch=master
+.. image:: https://api.travis-ci.org/SpinalHDL/SpinalHDL.svg?branch=master
    :target: https://travis-ci.org/SpinalHDL/SpinalHDL
    :alt: Build Status
 
