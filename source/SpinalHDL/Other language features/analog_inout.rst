@@ -1,4 +1,6 @@
 
+.. _section-analog_and_inout:
+
 Analog and inout
 ================
 
@@ -7,12 +9,11 @@ Introduction
 
 You can define native tristate signals by using the Analog/inout features. These features were added for the following reasons:
 
+* Being able to add native tristate signals to the toplevel (it avoids having to manually wrap them with some hand-written VHDL/Verilog)
+* Allowing the definition of blackboxes which contain inout pins
+* Being able to connect a blackbox's inout pin through the hierarchy to a toplevel inout pin.
 
-* Being able to add native tristate signals to the toplevel (it avoid having to manualy wrap them with some hand written VHDL/Verilog)
-* Allowing the definition of blackbox which contains some inout pins
-* Being able to connect a blackbox inout through the hierarchy to a toplevel inout pin.
-
-As those feature were only added for convenance, do not do other fancy stuff with it and if you want to model a component like an memory mapped GPIO peripheral, please use the TriState/TriStateArray bundles from the spinal lib, which keep the true nature of the tristate driver.
+As those feature were only added for convenience, do not do other fancy stuff with it. If you want to model a component like an memory mapped GPIO peripheral, please use the :ref:`TriState/TriStateArray <section-tristate>` bundles from the spinal lib, which keep the true nature of the tristate driver.
 
 Analog
 ------
@@ -56,7 +57,7 @@ For instance:
 InOutWrapper
 ------------
 
-``InOutWrapper`` is a tool which allows you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(...)) signals. It allow you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.
+``InOutWrapper`` is a tool which allows you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(...)) signals. It allows you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.
 
 For instance:
 
@@ -113,3 +114,21 @@ Instead of:
        reset : in std_logic
      );
    end Apb3Gpio;
+
+Manually driving Analog bundles
+-------------------------------
+
+If an Analog bundle is not driven, it will default to being high-Z.
+Therefore to manually implement a tristate driver (in case the ``InOutWrapper`` can't be used for some reason) you have to
+conditionally drive the signal. To manually connect a ``TriState`` signal to an Analog bundle:
+
+.. code-block:: scala
+
+    case class Example extends Component {
+      val io = new Bundle {
+        val tri = slave(TriState(Bits(16 bit)))
+        val analog = inout Analog(Bits(16 bit))
+      }
+      tri.read := analog
+      when(tri.writeEnable) { analog := tri.write }
+    }
