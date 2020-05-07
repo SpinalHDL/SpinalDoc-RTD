@@ -340,16 +340,23 @@
            <div itemprop="articleBody">
             
   <div class="section" id="tristate">
-<h1>TriState<a class="headerlink" href="#tristate" title="Permalink to this headline">¶</a></h1>
+<span id="section-tristate"></span><h1>TriState<a class="headerlink" href="#tristate" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL doesn’t support natively tristates (inout) signals at the moment. The reason of that are :</p>
+<p>Tri-state signals are weird to handle in many cases:</p>
 <ul class="simple">
 <li><p>They are not really kind of digital things</p></li>
 <li><p>And except for IO, they aren’t used for digital design</p></li>
 <li><p>The tristate concept doesn’t fit naturally in the SpinalHDL internal graph.</p></li>
 </ul>
-<p>Of course it’s possible to add a native tristate support, but for the moment, the clean solution to manage them is to use an Tristate Bundle bus defined in the spinal.lib :</p>
+<p>SpinalHDL provides two different abstractions for tristate signals. The <code class="docutils literal notranslate"><span class="pre">TriState</span></code> bundle and <a class="reference internal" href="../../Other language features/analog_inout.html#section-analog-and-inout"><span class="std std-ref">Analog and inout</span></a> signals.
+Both serve different purposes:</p>
+<ul class="simple">
+<li><p>TriState should be used for most purposes, especially within a design. The bundle contains an additional signal to carry the current direction.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Analog</span></code> and <code class="docutils literal notranslate"><span class="pre">inout</span></code> should be used for drivers on the device boundary and in some other special cases. See the referenced documentation page for more details.</p></li>
+</ul>
+<p>As stated above, the recommended approach is to use <code class="docutils literal notranslate"><span class="pre">TriState</span></code> within a design. On the top-level the <code class="docutils literal notranslate"><span class="pre">TriState</span></code> bundle is then assigned to an analog inout to get the
+synthesis tools to infer the correct I/O driver. This can be done automatically done via the <a class="reference internal" href="../../Other language features/analog_inout.html#section-analog-and-inout"><span class="std std-ref">InOutWrapper</span></a> or manually if needed.</p>
 </div>
 <div class="section" id="id1">
 <h2>TriState<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
@@ -365,8 +372,9 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Then, as a master, you can use the <code class="docutils literal notranslate"><span class="pre">read</span></code> signal to read the outside value, you can use the <code class="docutils literal notranslate"><span class="pre">writeEnable</span></code> to enable your output, and finally use the <code class="docutils literal notranslate"><span class="pre">write</span></code> to set the value that you want to drive on the output.</p>
-<p>There is an example of usage :</p>
+<p>A master can use the <code class="docutils literal notranslate"><span class="pre">read</span></code> signal to read the outside value, the <code class="docutils literal notranslate"><span class="pre">writeEnable</span></code> to enable the output,
+and finally use <code class="docutils literal notranslate"><span class="pre">write</span></code> to set the value that is driven on the output.</p>
+<p>There is an example of usage:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">dataBus</span> <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">TriState</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)))</span>
 <span class="o">}</span>

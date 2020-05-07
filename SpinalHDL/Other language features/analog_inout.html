@@ -338,16 +338,16 @@
            <div itemprop="articleBody">
             
   <div class="section" id="analog-and-inout">
-<h1>Analog and inout<a class="headerlink" href="#analog-and-inout" title="Permalink to this headline">¶</a></h1>
+<span id="section-analog-and-inout"></span><h1>Analog and inout<a class="headerlink" href="#analog-and-inout" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>You can define native tristate signals by using the Analog/inout features. These features were added for the following reasons:</p>
 <ul class="simple">
-<li><p>Being able to add native tristate signals to the toplevel (it avoid having to manualy wrap them with some hand written VHDL/Verilog)</p></li>
-<li><p>Allowing the definition of blackbox which contains some inout pins</p></li>
-<li><p>Being able to connect a blackbox inout through the hierarchy to a toplevel inout pin.</p></li>
+<li><p>Being able to add native tristate signals to the toplevel (it avoids having to manually wrap them with some hand-written VHDL/Verilog)</p></li>
+<li><p>Allowing the definition of blackboxes which contain inout pins</p></li>
+<li><p>Being able to connect a blackbox’s inout pin through the hierarchy to a toplevel inout pin.</p></li>
 </ul>
-<p>As those feature were only added for convenance, do not do other fancy stuff with it and if you want to model a component like an memory mapped GPIO peripheral, please use the TriState/TriStateArray bundles from the spinal lib, which keep the true nature of the tristate driver.</p>
+<p>As those feature were only added for convenience, do not do other fancy stuff with it. If you want to model a component like an memory mapped GPIO peripheral, please use the <a class="reference internal" href="../Libraries/IO/tristate.html#section-tristate"><span class="std std-ref">TriState/TriStateArray</span></a> bundles from the spinal lib, which keep the true nature of the tristate driver.</p>
 </div>
 <div class="section" id="analog">
 <h2>Analog<a class="headerlink" href="#analog" title="Permalink to this headline">¶</a></h2>
@@ -384,7 +384,7 @@
 </div>
 <div class="section" id="inoutwrapper">
 <h2>InOutWrapper<a class="headerlink" href="#inoutwrapper" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> is a tool which allows you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(…)) signals. It allow you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.</p>
+<p><code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> is a tool which allows you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(…)) signals. It allows you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.</p>
 <p>For instance:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Apb3Gpio</span><span class="o">(</span><span class="n">gpioWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
@@ -433,6 +433,22 @@
     <span class="n">reset</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span>
   <span class="p">);</span>
 <span class="k">end</span> <span class="nc">Apb3Gpio</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="manually-driving-analog-bundles">
+<h2>Manually driving Analog bundles<a class="headerlink" href="#manually-driving-analog-bundles" title="Permalink to this headline">¶</a></h2>
+<p>If an Analog bundle is not driven, it will default to being high-Z.
+Therefore to manually implement a tristate driver (in case the <code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> can’t be used for some reason) you have to
+conditionally drive the signal. To manually connect a <code class="docutils literal notranslate"><span class="pre">TriState</span></code> signal to an Analog bundle:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Example</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">tri</span> <span class="k">=</span> <span class="n">slave</span><span class="o">(</span><span class="nc">TriState</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">16</span> <span class="n">bit</span><span class="o">)))</span>
+    <span class="k">val</span> <span class="n">analog</span> <span class="k">=</span> <span class="n">inout</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">16</span> <span class="n">bit</span><span class="o">))</span>
+  <span class="o">}</span>
+  <span class="n">tri</span><span class="o">.</span><span class="n">read</span> <span class="o">:=</span> <span class="n">analog</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">tri</span><span class="o">.</span><span class="n">writeEnable</span><span class="o">)</span> <span class="o">{</span> <span class="n">analog</span> <span class="o">:=</span> <span class="n">tri</span><span class="o">.</span><span class="n">write</span> <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 </div>
 </div>
