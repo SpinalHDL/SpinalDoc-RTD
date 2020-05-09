@@ -421,6 +421,17 @@
 Be careful with that.</p></li>
 </ul>
 </div>
+<div class="section" id="semantics">
+<h2>Semantics<a class="headerlink" href="#semantics" title="Permalink to this headline">¶</a></h2>
+<p>When manually reading/driving the signals of a Stream keep in mind that:</p>
+<ul class="simple">
+<li><p>After being asserted, <code class="docutils literal notranslate"><span class="pre">valid</span></code> may only be deasserted once the current payload was acknowleged. This means <code class="docutils literal notranslate"><span class="pre">valid</span></code> can only toggle to 0 the cycle after a the slave did a read by asserting <code class="docutils literal notranslate"><span class="pre">ready</span></code>.</p></li>
+<li><p>In contrast to that <code class="docutils literal notranslate"><span class="pre">ready</span></code> may change at any time.</p></li>
+<li><p>A transfer is only done on cycles where both <code class="docutils literal notranslate"><span class="pre">valid</span></code> and <code class="docutils literal notranslate"><span class="pre">ready</span></code> are asserted.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">valid</span></code> of a Stream must not depend on <code class="docutils literal notranslate"><span class="pre">ready</span></code> in a combinatorial way and any path between the two must be registered.</p></li>
+<li><p>It is recommended that <code class="docutils literal notranslate"><span class="pre">valid</span></code> does not depend on <code class="docutils literal notranslate"><span class="pre">ready</span></code> at all.</p></li>
+</ul>
+</div>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <table class="colwidths-given docutils align-default">
@@ -578,7 +589,7 @@ Be careful with that.</p></li>
 </div>
 <div class="section" id="utils">
 <h2>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
-<p>There is many utils that you can use in your design in conjunction with the Stream bus, This chapter will document them.</p>
+<p>There is many utils that you can use in your design in conjunction with the Stream bus, this chapter will document them.</p>
 <div class="section" id="streamfifo">
 <h3>StreamFifo<a class="headerlink" href="#streamfifo" title="Permalink to this headline">¶</a></h3>
 <p>On each stream you can call the .queue(size) to get a buffered stream. But you can also instantiate the FIFO component itself :</p>
@@ -649,7 +660,7 @@ Be careful with that.</p></li>
 </div>
 <div class="section" id="streamfifocc">
 <h3>StreamFifoCC<a class="headerlink" href="#streamfifocc" title="Permalink to this headline">¶</a></h3>
-<p>You can instanciate the dual clock domain version of the fifo by the following way :</p>
+<p>You can instanciate the dual clock domain version of the fifo the following way :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">clockA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
 <span class="k">val</span> <span class="n">clockB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
 <span class="k">val</span> <span class="n">streamA</span><span class="o">,</span><span class="n">streamB</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
@@ -730,8 +741,8 @@ Be careful with that.</p></li>
 <div class="section" id="streamccbytoggle">
 <h3>StreamCCByToggle<a class="headerlink" href="#streamccbytoggle" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
-<div class="line">Component that provide a Stream cross clock domain bridge based on toggling signals.</div>
-<div class="line">This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.</div>
+<div class="line">Component that connects Streams across clock domains based on toggling signals.</div>
+<div class="line">This way of implementing a cross clock domain bridge is characterized by a small area usage but also a low bandwidth.</div>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">clockA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
 <span class="k">val</span> <span class="n">clockB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
@@ -796,7 +807,7 @@ Be careful with that.</p></li>
 </tr>
 </tbody>
 </table>
-<p>But you can also use a this shorter syntax which directly return you the cross clocked stream:</p>
+<p>Alternatively you can also use a this shorter syntax which directly return you the cross clocked stream:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">clockA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
 <span class="k">val</span> <span class="n">clockB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(???)</span>
 <span class="k">val</span> <span class="n">streamA</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
@@ -917,7 +928,7 @@ all output streams have processed each item regardlessly.</p>
 </div>
 <div class="section" id="streamdispatchersequencial">
 <h3>StreamDispatcherSequencial<a class="headerlink" href="#streamdispatchersequencial" title="Permalink to this headline">¶</a></h3>
-<p>This utile take its input stream and route it to <code class="docutils literal notranslate"><span class="pre">outputCount</span></code> stream in a sequential order.</p>
+<p>This util take its input stream and routes it to <code class="docutils literal notranslate"><span class="pre">outputCount</span></code> stream in a sequential order.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inputStream</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
 <span class="k">val</span> <span class="n">dispatchedStreams</span> <span class="k">=</span> <span class="nc">StreamDispatcherSequencial</span><span class="o">(</span>
   <span class="n">input</span> <span class="k">=</span> <span class="n">inputStream</span><span class="o">,</span>
