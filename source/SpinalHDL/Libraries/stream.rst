@@ -74,6 +74,17 @@ There is some examples of usage in SpinalHDL :
 * An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission.
   Be careful with that.
 
+Semantics
+---------
+
+When manually reading/driving the signals of a Stream keep in mind that:
+
+* After being asserted, ``valid`` may only be deasserted once the current payload was acknowleged. This means ``valid`` can only toggle to 0 the cycle after a the slave did a read by asserting ``ready``.
+* In contrast to that ``ready`` may change at any time. 
+* A transfer is only done on cycles where both ``valid`` and ``ready`` are asserted.
+* ``valid`` of a Stream must not depend on ``ready`` in a combinatorial way and any path between the two must be registered.
+* It is recommended that ``valid`` does not depend on ``ready`` at all.
+
 Functions
 ---------
 
@@ -180,7 +191,7 @@ The following code will create this logic :
 Utils
 -----
 
-There is many utils that you can use in your design in conjunction with the Stream bus, This chapter will document them.
+There is many utils that you can use in your design in conjunction with the Stream bus, this chapter will document them.
 
 StreamFifo
 ^^^^^^^^^^
@@ -237,7 +248,7 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
 StreamFifoCC
 ^^^^^^^^^^^^
 
-You can instanciate the dual clock domain version of the fifo by the following way :
+You can instanciate the dual clock domain version of the fifo the following way :
 
 .. code-block:: scala
 
@@ -299,8 +310,8 @@ You can instanciate the dual clock domain version of the fifo by the following w
 StreamCCByToggle
 ^^^^^^^^^^^^^^^^
 
-| Component that provide a Stream cross clock domain bridge based on toggling signals.
-| This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.
+| Component that connects Streams across clock domains based on toggling signals.
+| This way of implementing a cross clock domain bridge is characterized by a small area usage but also a low bandwidth.
 
 .. code-block:: scala
 
@@ -349,7 +360,7 @@ StreamCCByToggle
      - Used to pop elements
 
 
-But you can also use a this shorter syntax which directly return you the cross clocked stream:
+Alternatively you can also use a this shorter syntax which directly return you the cross clocked stream:
 
 .. code-block:: scala
 
@@ -453,7 +464,7 @@ or
 StreamDispatcherSequencial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This utile take its input stream and route it to ``outputCount`` stream in a sequential order.
+This util take its input stream and routes it to ``outputCount`` stream in a sequential order.
 
 .. code-block:: scala
 
