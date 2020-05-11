@@ -30,7 +30,7 @@ To be able to simulate user-defined components, SpinalHDL uses external HDL simu
 - `GHDL <http://ghdl.free.fr/>`_ **(experimental)**
 - `Icarus Verilog <http://iverilog.icarus.com/>`_ **(experimental)**
 
-Using external HDL simulators it is possible to directly test the generated HDL sources without increasing the SpinalHDL codebase complexity. 
+With external HDL simulators it is possible to directly test the generated HDL sources without increasing the SpinalHDL codebase complexity. 
 
 How SpinalHDL simulates the hardware with Verilator backend
 -----------------------------------------------------------
