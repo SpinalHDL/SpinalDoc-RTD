@@ -6,7 +6,7 @@ Simulation
    :hidden:
    :glob:
    
-   install
+   install/index
    bootstraps
    signal
    clock
@@ -27,8 +27,8 @@ As always, you can use your standard simulation tools to simulate the VHDL/Veril
 To be able to simulate user-defined components, SpinalHDL uses external HDL simulators as backend. Currently, three simulators are supported:
 
 - `Verilator <https://www.veripool.org/wiki/verilator>`_
-- `GHDL <http://ghdl.free.fr/>`_ **(experimental)**
-- `Icarus Verilog <http://iverilog.icarus.com/>`_ **(experimental)**
+- `GHDL <http://ghdl.free.fr/>`_ **(experimental, since SpinalHDL 1.4.1)**
+- `Icarus Verilog <http://iverilog.icarus.com/>`_ **(experimental, since SpinalHDL 1.4.1)**
 
 With external HDL simulators it is possible to directly test the generated HDL sources without increasing the SpinalHDL codebase complexity. 
 
