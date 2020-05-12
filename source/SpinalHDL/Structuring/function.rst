@@ -12,16 +12,16 @@ Introduction
 The ways you can use Scala functions to generate hardware are radically different than VHDL/Verilog for many reasons:
 
 
-* You can instantiate register, combinatorial logic and component inside them.
+* You can instantiate registers, combinatorial logic and components inside them.
 * You don't have to play with ``process``\ /\ ``@always`` that limit the scope of assignment of signals
-* | Everything work by reference, which allow many manipulation.
-  | For example you can give to a function an bus as argument, then the function can internaly read/write it.
-  | You can also return a Component, a Bus, are anything else from scala the scala world.
+* | Everything is passed by reference, which allows easy manipulation.
+  | For example you can give a bus to a function as an argument, then the function can internaly read/write to it.
+  | You can also return a Component, a Bus, or anything else from scala and the scala world.
 
 RGB to gray
 -----------
 
-For example if you want to convert a Red/Green/Blue color into a gray one by using coefficient, you can use functions to apply them :
+For example if you want to convert a Red/Green/Blue color into greyscale by using coefficients, you can use functions to apply them:
 
 .. code-block:: scala
 
@@ -37,7 +37,7 @@ For example if you want to convert a Red/Green/Blue color into a gray one by usi
 Valid Ready Payload bus
 -----------------------
 
-For instance if you define a simple Valid Ready Payload bus, you can then define usefull function inside it.
+For instance if you define a simple Valid Ready Payload bus, you can then define some useful functions inside of it.
 
 .. code-block:: scala
 
@@ -67,14 +67,14 @@ For instance if you define a simple Valid Ready Payload bus, you can then define
      }
    }
 
-   class MyBusFifo(payloadWidth: Int, deepth: Int) extends Component {
+   class MyBusFifo(payloadWidth: Int, depth: Int) extends Component {
 
      val io = new Bundle {
        val push = slave(MyBus(payloadWidth))
        val pop  = master(MyBus(payloadWidth))
      }
 
-     val mem = Mem(Bits(payloadWidth bits), deepth)
+     val mem = Mem(Bits(payloadWidth bits), depth)
 
      // ...
 

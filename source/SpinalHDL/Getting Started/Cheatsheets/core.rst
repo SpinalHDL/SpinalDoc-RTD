@@ -1,5 +1,5 @@
-CheatSheet Core
-===============
+Core
+====
 Redirection to https://github.com/SpinalHDL/SpinalDoc/blob/master/cheatsheet/cheatSheet_core_oo.pdf
 
 

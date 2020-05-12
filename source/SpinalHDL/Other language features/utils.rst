@@ -23,7 +23,7 @@ Many tools and utilities are present in :ref:`spinal.lib <lib_introduction>` but
      - Return the width of a Bits/UInt/SInt signal
    * - log2Up(x : BigInt)
      - Int
-     - Return the number of bit needed to represent x states
+     - Return the number of bits needed to represent x states
    * - isPow2(x : BigInt)
      - Boolean
      - Return true if x is a power of two
@@ -38,14 +38,14 @@ Many tools and utilities are present in :ref:`spinal.lib <lib_introduction>` but
 Cloning hardware datatypes
 --------------------------
 
-You can clone a given hardware data type by using the ``cloneOf(x)`` function. It will return you a new instance of the same Scala type and the same parameterization than ``x``.
+You can clone a given hardware data type by using the ``cloneOf(x)`` function. It will return a new instance of the same Scala type and parameters.
 
 For example :
 
 .. code-block:: scala
 
    def plusOne(value : UInt) : UInt = {
-     //Will recreate a UInt with the same width than `value`
+     //Will recreate a UInt with the same width than ``value``
      val temp = cloneOf(value)
      temp := value + 1
      return temp
@@ -63,14 +63,14 @@ You can get more information about how hardware data types are managed :ref:`her
 Passing a datatype as construction parameter
 --------------------------------------------
 
-In many chunk of reusable hardware, we need to give a parameterizable data type. For example if you want to define a FIFO or a shift register, you need a data type parameter to specify which kind of payload you want for the component.
+Many pieces of reusable hardware need to be parameterized by some data type. For example if you want to define a FIFO or a shift register, you need a parameter to specify which kind of payload you want for the component.
 
-To do that there is two very similar ways.
+There are two similar ways to do this.
 
 The old way
 ^^^^^^^^^^^
 
-There is an example of the old way to do that in the case of a ShiftRegister definition :
+A good example of the old way to do that is in this definition of a ShiftRegister:
 
 .. code-block:: scala
 
@@ -82,18 +82,18 @@ There is an example of the old way to do that in the case of a ShiftRegister def
      // ...
    }
 
-And there is how you can instantiate that component :
+And here is how you can instantiate the component:
 
 .. code-block:: scala
 
    val shiftReg = ShiftRegister(Bits(32 bits),depth = 8)
 
-As you can see, the raw hardware type is directly passed as a construction parameter. And they each time you want to create an new instance of that kind of hardware data type, you need to use the cloneOf(...) function. But this way of doing things is not ultra safe, because you can forget the cloneOf function easily,
+As you can see, the raw hardware type is directly passed as a construction parameter. Then each time you want to create an new instance of that kind of hardware data type, you need to use the cloneOf(...) function. Doing things this way is not super safe as it's easy to forget to use cloneOf().
 
 The safe way
 ^^^^^^^^^^^^
 
-There is an example of the safe way to do that in the case of a ShiftRegister definition :
+An example of the safe way to pass a data type parameter is as follows:
 
 .. code-block:: scala
 
@@ -105,20 +105,20 @@ There is an example of the safe way to do that in the case of a ShiftRegister de
      // ...
    }
 
-And there is how you can instantiate that component (which is exactly the same than before):
+And here is how you instantiate the component (exactly the same as before):
 
 .. code-block:: scala
 
    val shiftReg = ShiftRegister(Bits(32 bits),depth = 8)
 
-So as you can see, it use an HardType wrapper, which is kind of blueprint definition of an hardware data type. This way of doing things is easier to use than the "old way", because to create a new instance of the hardware data type you just need to call the ``apply`` function of that HardType (which mean, just adding brackets after the HardType instance) .
+Notice how the example above uses a HardType wrapper around the raw data type ``T``, which is kind of a blueprint definition of an hardware data type. This way of doing things is easier to use than the "old way", because to create a new instance of the hardware data type you just need to call the ``apply`` function of that HardType (or in other words, just add parentheses after the parameter).
 
-Also this mechanism is completely transparent from the point of view of the user, an hardware data type could be implicitly converted into an HardType.
+Additionally, this mechanism is completely transparent from the point of view of the user, as a hardware data type can be implicitly converted into an HardType.
 
 Frequency and time
 ------------------
 
-SpinalHDL HDL has a dedicated syntax to defne frequencies and times value :
+SpinalHDL HDL has a dedicated syntax to defne frequency and time values:
 
 .. code-block:: scala
 
@@ -129,10 +129,10 @@ SpinalHDL HDL has a dedicated syntax to defne frequencies and times value :
    val periodCycles = frequency*period
    val timeoutCycles = frequency*timeoutLimit
 
-| For time definition you can use following postfixes to get an ``TimeNumber`` :
+| For time definitions you can use following postfixes to get a ``TimeNumber`` :
 | fs, ps, ns, us, ms, sec, mn, hr
 
-| For time definition you can use following postfixes to get an ``HertzNumber`` :
+| For time definitions you can use following postfixes to get a ``HertzNumber`` :
 | Hz, KHz, MHz, GHz, THz
 
 ``TimeNumber`` and ``HertzNumber`` are based on the ``PhysicalNumber`` class which use  scala ``BigDecimal`` to store numbers.

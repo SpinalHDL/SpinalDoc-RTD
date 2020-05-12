@@ -5,12 +5,12 @@ Combinational loop
 Introduction
 ------------
 
-SpinalHDL will check that there is no combinatorial loop across all the design.
+SpinalHDL will check that there are no combinatorial loops in the design.
 
 Example
 -------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -44,7 +44,7 @@ will throw :
        (toplevel/b :  UInt[8 bits])
        (toplevel/a :  UInt[8 bits])
 
-A fix could be :
+A possible fix could be:
 
 .. code-block:: scala
 
@@ -63,7 +63,7 @@ A fix could be :
 False-positive
 --------------
 
-It should be known that currently SpinalHDL is tracking combinatorial loop in a pessimistic way. If it give you a false positive combinatorial loop, you can manualy disable this checks on one signal of the loop.
+It should be said that SpinalHDL's algorithm to detect combinatorial loops can be pessimistic, and it may give false positives. If it is giving a false positive, you can manualy disable loop checking on one signal of the loop like so:
 
 .. code-block:: scala
 
@@ -83,4 +83,4 @@ could be fixed by :
      a(1) := a(0)
    }
 
-It should also be known that this kind of assignements (a(1) := a(0)) could make some tools unhappy (Verilator). It could be preferable to write your logics using an Vec(Bool, 8).
+It should also be said that assignments such as (a(1) := a(0)) can make some tools like Verilator unhappy. It may be better to use a Vec(Bool, 8) in this case.

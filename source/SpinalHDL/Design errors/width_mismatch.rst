@@ -5,12 +5,12 @@ Width mismatch
 Introduction
 ------------
 
-SpinalHDL will checks the correctness of signals bitwidth on assignements and on operators inputs.
+SpinalHDL will check that signals on the left and right side of assignments and operators have the same width.
 
 Assignement example
 -------------------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -20,7 +20,7 @@ The following code :
      b := a
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -29,7 +29,7 @@ will throw :
      Source file location of the OR operator via the stack trace
      ***
 
-A fix could be :
+A fix could be:
 
 .. code-block:: scala
 
@@ -42,7 +42,7 @@ A fix could be :
 Operator example
 ----------------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -52,7 +52,7 @@ The following code :
      val result = a | b
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -64,7 +64,7 @@ will throw :
      Source file location of the OR operator via the stack trace
      ***
 
-A fix could be :
+A fix could be:
 
 .. code-block:: scala
 

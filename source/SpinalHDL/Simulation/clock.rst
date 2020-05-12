@@ -25,7 +25,7 @@ There is a list of ClockDomain stimulation functionalities :
      - Set the clock signal
    * - assertReset()
      - Set the reset signal to its active level
-   * - disassertReset()
+   * - deassertReset()
      - Set the reset signal to its inactive level
    * - assertClockEnable()
      - Set the clockEnable signal to its active level
@@ -48,7 +48,7 @@ There is a list of ClockDomain utilities that you can use to wait a given event 
    * - ClockDomain wait functions
      - Description
    * - waitSampling([cyclesCount])
-     - Wait until the ClockDomain made a sampling, (Active clock edge && disassertReset && assertClockEnable)
+     - Wait until the ClockDomain made a sampling, (Active clock edge && deassertReset && assertClockEnable)
    * - waitRisingEdge([cyclesCount])
      - Wait cyclesCount rising edges on the clock, if not cycleCount isn't specified => 1 cycle, cyclesCount = 0 is legal, not sensitive to reset/softReset/clockEnable
    * - waitFallingEdge([cyclesCount])

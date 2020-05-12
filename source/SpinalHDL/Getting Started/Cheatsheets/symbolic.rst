@@ -1,5 +1,5 @@
-CheatSheet Symbolic
-===================
+Symbolic
+========
 
 Redirection to https://github.com/SpinalHDL/SpinalDoc/blob/master/cheatsheet/cheatSheet_symbolic.pdf
 

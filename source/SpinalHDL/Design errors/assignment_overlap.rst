@@ -5,12 +5,12 @@ Assignement overlap
 Introduction
 ------------
 
-SpinalHDL will check that no signal assignement completly erase a previous one.
+SpinalHDL will check that no signal assignement completely erases a previous one.
 
 Example
 -------
 
-The following code :
+The following code
 
 .. code-block:: scala
 
@@ -20,7 +20,7 @@ The following code :
      a := 66 //Erease the a := 42 :(
    }
 
-will throw :
+will throw the following error:
 
 .. code-block:: text
 
@@ -29,7 +29,7 @@ will throw :
      Source file location of the a := 66 assignement via the stack trace
      ***
 
-A fix could be :
+A fix could be:
 
 .. code-block:: scala
 
@@ -41,7 +41,7 @@ A fix could be :
      }
    }
 
-But in the case you realy want to override the previous assignements (Yes, it could make sense in some cases), you can do as following :
+But in the case you really want to override the previous assignement (Yes, it could make sense in some cases), you can do the following:
 
 .. code-block:: scala
 

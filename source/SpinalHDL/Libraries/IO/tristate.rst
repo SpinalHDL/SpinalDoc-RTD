@@ -1,3 +1,4 @@
+.. _section-tristate:
 
 TriState
 ========
@@ -5,14 +6,20 @@ TriState
 Introduction
 ------------
 
-SpinalHDL doesn't support natively tristates (inout) signals at the moment. The reason of that are :
-
+Tri-state signals are weird to handle in many cases:
 
 * They are not really kind of digital things
 * And except for IO, they aren't used for digital design
 * The tristate concept doesn't fit naturally in the SpinalHDL internal graph.
 
-Of course it's possible to add a native tristate support, but for the moment, the clean solution to manage them is to use an Tristate Bundle bus defined in the spinal.lib :
+SpinalHDL provides two different abstractions for tristate signals. The ``TriState`` bundle and :ref:`section-analog_and_inout` signals.
+Both serve different purposes:
+
+* TriState should be used for most purposes, especially within a design. The bundle contains an additional signal to carry the current direction.
+* ``Analog`` and ``inout`` should be used for drivers on the device boundary and in some other special cases. See the referenced documentation page for more details.
+
+As stated above, the recommended approach is to use ``TriState`` within a design. On the top-level the ``TriState`` bundle is then assigned to an analog inout to get the
+synthesis tools to infer the correct I/O driver. This can be done automatically done via the :ref:`InOutWrapper <section-analog_and_inout>` or manually if needed.
 
 TriState
 --------
@@ -31,9 +38,10 @@ The TriState bundle is defined as following :
      }
    }
 
-Then, as a master, you can use the ``read`` signal to read the outside value, you can use the ``writeEnable`` to enable your output, and finally use the ``write`` to set the value that you want to drive on the output.
+A master can use the ``read`` signal to read the outside value, the ``writeEnable`` to enable the output,
+and finally use ``write`` to set the value that is driven on the output.
 
-There is an example of usage :
+There is an example of usage:
 
 .. code-block:: scala
 

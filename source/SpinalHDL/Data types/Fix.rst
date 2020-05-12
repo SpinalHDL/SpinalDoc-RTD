@@ -1,5 +1,5 @@
 .. warning::
-   The SpinalHDL fixed point support is only partially used/tested, if you have any bug with it or you think that an functionality is missing, please create a github issue. Please, do not use undocumented features.
+   The SpinalHDL fixed point support is only partially used/tested, if you find any bugs with it or you think that some functionality is missing, please create a github issue. Also, please do not use undocumented features in production code.
 
 .. _fixed:
 
@@ -9,8 +9,7 @@ UFix/SFix
 Description
 ^^^^^^^^^^^
 
-The ``UFix`` and ``SFix`` types correspond to a vector of bits that can be used for fixed point
-arithmetic.
+The ``UFix`` and ``SFix`` types correspond to a vector of bits that can be used for fixed point arithmetic.
 
 Declaration
 ^^^^^^^^^^^
@@ -54,15 +53,15 @@ Signed Fixed Point
      - max
      - min
    * - SFix(peak:ExpNumber, resolution:ExpNumber)
-     - peak-resolution
+     - peak-resolution+1
      - 2^resolution
      - 2^peak-2^resolution
-     - 0
+     - -(2^peak)
    * - SFix(peak:ExpNumber, width:BitCount)
      - width
-     - 2^(peak-width)
-     - 2^peak-2^(peak-width)
-     - 0
+     - 2^(peak-width-1)
+     - 2^peak-2^(peak-width-1)
+     - -(2^peak)
 
 
 Format
@@ -100,8 +99,7 @@ Assignments
 Valid Assignments
 ~~~~~~~~~~~~~~~~~
 
-An assignment to a fixed point value is valid when there is no bit loss. A bit loss occurrence
-will result in an error.
+An assignment to a fixed point value is valid when there is no bit loss. Any bit loss will result in an error.
 
 If the source fixed point value is too big, the .truncated function will allow you to
 resize the source number to match the destination size.
@@ -127,7 +125,7 @@ Example
 From a Scala constant
 ~~~~~~~~~~~~~~~~~~~~~
 
-It is allowed to assign a Scala Double or a Scala BigInt into a fixed point.
+Scala BigInts or Doubles can be used as constants when assigning to UFix or SFix signals.
 
 Example
 """""""
@@ -239,13 +237,13 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
    * - x.asUInt
-     - Binary cast in UInt
+     - Binary cast to UInt
      - UInt(w(x) bits)
    * - x.asSInt
-     - Binary cast in SInt
+     - Binary cast to SInt
      - SInt(w(x) bits)
    * - x.asBools
      - Cast into a array of Bool

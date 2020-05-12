@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'SpinalHDL'
-copyright = '2018, miaou'
-author = 'penis'
+copyright = '2018, SpinalHDL'
+author = 'Spinal'
 
 # The short X.Y version
 version = ''
@@ -186,7 +186,6 @@ html_theme_options = {
     'display_version': True,
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
-    'vcs_pageview_mode': '',
     # Toc options
     'collapse_navigation': False,
     'sticky_navigation': True,
@@ -204,3 +203,6 @@ html_context = {
 #This is a temporary fix for wavedrom
 offline_skin_js_path = "_static/default.js"
 offline_wavedrom_js_path = "_static/wavedrom.min.js"
+
+#Option for linkcheck
+linkcheck_anchors=False

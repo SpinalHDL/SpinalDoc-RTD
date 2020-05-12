@@ -5,12 +5,12 @@ Spinal can't clone class
 Introduction
 ------------
 
-This error happen when SpinalHDL want to create a new datatype via the cloneOf feature but isn't able to do it. The reasons of this is nearly always because it can retreive the construction parameters of Bundle.
+This error happens when SpinalHDL wants to create a new datatype via the ``cloneOf`` function but isn't able to do it. The reasons for this is nearly always because it can't retreive the construction parameters of a Bundle.
 
 Example
 -------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -20,10 +20,10 @@ The following code :
     }
 
     class TopLevel extends Component {
-      val tmp = Stream(new RGB(8)) //Stream require the capability to cloneOf(new RGB(8))
+      val tmp = Stream(new RGB(8)) //Stream requires the capability to cloneOf(new RGB(8))
     }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -35,7 +35,7 @@ will throw :
      Source file location of the RGB class definition via the stack trace
      ***
 
-A fix could be :
+A fix could be:
 
 .. code-block:: scala
 

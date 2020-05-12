@@ -9,9 +9,9 @@ Clock domains
 Introduction
 ------------
 
-In *SpinalHDL*\ , clock and reset signals can be combined to create a **clock domain**. Clock domains could be applied to some area of the design and then all synchronous elements instantiated into this area will then **implicitly** use this clock domain.
+In *SpinalHDL*\ , clock and reset signals can be combined to create a **clock domain**. Clock domains can be applied to some areas of the design and then all synchronous elements instantiated into those areas will then **implicitly** use this clock domain.
 
-Clock domain application work like a stack, which mean, if you are in a given clock domain, you can still apply another clock domain locally.
+Clock domain application works like a stack, which means that if you are in a given clock domain you can still apply another clock domain locally.
 
 .. _clock_domain_instantiation:
 
@@ -44,19 +44,19 @@ This definition takes five parameters:
      - Clock signal that defines the domain
      - 
    * - ``reset``
-     - Reset signal. If a register which need a reset and his clock domain didn't provide one, an error message happen
+     - Reset signal. If a register which needs a reset and the clock domain doesn't provide one, an error message will be displayed
      - null
    * - ``softReset``
-     - Reset which infer an additional synchronous reset
+     - Reset which infers an additional synchronous reset
      - null
    * - ``clockEnable``
      - The goal of this signal is to disable the clock on the whole clock domain without having to manually implement that on each synchronous element
      - null
    * - ``frequency``
-     - Allow to specify the frequency of the given clock domain and later get it in your desing
+     - Allows you to specify the frequency of the given clock domain and later read it in your design
      - UnknownFrequency
    * - ``config``
-     - Specify polarity of signals and the nature of the reset
+     - Specify the polarity of signals and the nature of the reset
      - Current config
 
 
@@ -78,7 +78,7 @@ An applied example to define a specific clock domain within the design is as fol
 Configuration
 ^^^^^^^^^^^^^
 
-In addition to the constructor parameters given :ref:`here <clock_domain_instantiation>`\ , the following elements of each clock domain are configurable via a ``ClockDomainConfig``\ class :
+In addition to the constructor parameters given :ref:`here <clock_domain_instantiation>`\ , the following elements of each clock domain are configurable via a ``ClockDomainConfig``\ class:
 
 .. list-table::
    :header-rows: 1
@@ -88,8 +88,8 @@ In addition to the constructor parameters given :ref:`here <clock_domain_instant
      - Valid values
    * - ``clockEdge``
      - ``RISING``\ , ``FALLING``
-   * - ``ResetKind``
-     - ``ASYNC``\ , ``SYNC``\ , ``BOOT`` which is supported by some FPGA (FF values loaded by the bitstream)
+   * - ``resetKind``
+     - ``ASYNC``\ , ``SYNC``\ , ``BOOT`` which is supported by some FPGAs (where FF values loaded by the bitstream)
    * - ``resetActiveLevel``
      - ``HIGH``\ , ``LOW``
    * - ``softResetActiveLevel``
@@ -138,7 +138,7 @@ By default, a ClockDomain is applied to the whole design. The configuration of t
 Internal clock
 ^^^^^^^^^^^^^^
 
-An alternative syntax to create a clock domain is the following : 
+An alternative syntax to create a clock domain is the following: 
 
 .. code-block:: scala
 
@@ -180,7 +180,7 @@ This definition takes six parameters:
      - UnknownFrequency
 
 
-It's advantage is to create clock and reset signals with a specified name inplace of an inherited one. Then you have to assign those ClockDomain's signals as for instance in the example bellow :
+Its advantage is to create clock and reset signals with a specified name instead of an inherited one. Then you have to assign those ``ClockDomain``'s signals as shown in the example below:
 
 .. code-block:: scala
 
@@ -214,7 +214,7 @@ It's advantage is to create clock and reset signals with a specified name inplac
 External clock
 ^^^^^^^^^^^^^^
 
-You can define everywhere a clock domain which is driven by the outside. It will then automatically add clock and reset wire from the top level inputs to all synchronous elements.
+You can define a clock domain which is driven by the outside anywhere in your source. It will then automatically add clock and reset wire from the top level inputs to all synchronous elements.
 
 .. code-block:: scala
 
@@ -227,7 +227,7 @@ You can define everywhere a clock domain which is driven by the outside. It will
      [frequency: IClockDomainFrequency]
    )
 
-Arguments of the ``ClockDomain.external`` function are exactly the sames than for the ``ClockDomain.internal`` one. Below an example of a desing using ``ClockDomain.external``.
+The arguments to the ``ClockDomain.external`` function are exactly the same as in the ``ClockDomain.internal`` function. Below an example of a design using ``ClockDomain.external``.
 
 .. code-block:: scala
 
@@ -251,9 +251,9 @@ Arguments of the ``ClockDomain.external`` function are exactly the sames than fo
 Context
 ^^^^^^^
 
-At any moment you can retrieve in which clock domain you are by calling ``ClockDomain.current``.
+You can retrieve in which clock domain you are by calling ``ClockDomain.current`` anywhere.
 
-Then the returned instance (which is a ClockDomain one) as following functions that you can call :
+The returned ``ClockDomain`` instance has the following functions that can be called:
 
 .. list-table::
    :header-rows: 1
@@ -287,17 +287,17 @@ Then the returned instance (which is a ClockDomain one) as following functions t
      - Return a signal derived by the clock enable signal
      - Bool
    * - isResetActive
-     - Return True when the reset has effect
+     - Return True when the reset is active
      - Bool
    * - isSoftResetActive
-     - Return True when the softReset has effect
+     - Return True when the softReset is active
      - Bool
    * - isClockEnableActive
-     - Return True when the clock enable has effect
+     - Return True when the clock enable is active
      - Bool
 
 
-There is an example with an UART controller that use the frequency specification to set its clock divider :
+An example is included below where a UART controller uses the frequency specification to set its clock divider:
 
 .. code-block:: scala
 
@@ -373,7 +373,7 @@ SpinalHDL checks at compile time that there is no unwanted/unspecified cross clo
      io.dataOut := area_clkB.buf1
    }
 
-Even shorter by importing the lib ``import spinal.lib._`` SpinalHDL offers a cross clock domain buffer ``BufferCC(input: T, init: T = null, bufferDepth: Int = 2)`` to avoid metastability issues.
+In general you can use 2 or more flip-flop driven by the destination clock domain to prevent metastability. The ``BufferCC(input: T, init: T = null, bufferDepth: Int = 2)`` function provided in ``spinal.lib._`` will instantiate the necessary flip-flop (the number of flip flop will depends on the bufferDepth) to mitigate the phenomena.
 
 .. code-block:: scala
 
@@ -396,13 +396,16 @@ Even shorter by importing the lib ``import spinal.lib._`` SpinalHDL offers a cro
      io.dataOut := area_clkB.buf1
    }
 
-Special clocking Area
----------------------
+.. warning::
+   The BufferCC is only for signal Bit, or Bits with Gray-coded(Only 1 bit flip per clock cycle), Can not used for Multi-bits cross-domain process.
+
+Special clocking Areas
+----------------------
 
 Slow Area
 ^^^^^^^^^
 
-``SlowArea`` is used to create a new clock domain area which is slower than the current one. 
+A ``SlowArea`` is used to create a new clock domain area which is slower than the current one. 
 
 .. code-block:: scala
 
@@ -433,7 +436,7 @@ Slow Area
 ResetArea
 ^^^^^^^^^
 
-``ResetArea`` is used to create a new clock domain area where a special reset is combined or not with the current clock domain reset.
+A ``ResetArea`` is used to create a new clock domain area where a special reset signal is combined with the current clock domain reset.
 
 .. code-block:: scala
 
@@ -455,7 +458,7 @@ ResetArea
 ClockEnableArea
 ^^^^^^^^^^^^^^^
 
-``ClockEnableArea`` is used to add one more clock enable in the current clock domain.
+A ``ClockEnableArea`` is used to add an additional clock enable in the current clock domain.
 
 .. code-block:: scala
 

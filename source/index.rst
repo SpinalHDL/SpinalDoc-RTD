@@ -33,7 +33,8 @@ Site purpose and structure
 
 This site presents the *SpinalHDL* language and how to use it on concrete examples.
 
-If you are learning the language from scratch, `this presentation </SpinalDoc/presentation/>`_ is probably a good starting point.
+If you are learning the language from scratch, `this presentation <https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@master/presentation/en/presentation.pdf>`_ is probably a good starting point.
+
 
 What is SpinalHDL ?
 -------------------
@@ -52,14 +53,14 @@ Advantages of using SpinalHDL over VHDL / Verilog
 As SpinalHDL is based on a high-level language, it provides several advantages to improve your hardware coding:
 
 
-#. *No more endless wiring* - Create and connect complex buses like AXI in one single line.
-#. *Evolving capabilities* - Create your own bus definitions and abstraction layers.
-#. *Reduce code size* - By a high factor, especially for wiring. This enables you to have a better overview of your code base, increase your productivity and create fewer headaches.
-#. *Free and user friendly IDE* - Thanks to Scala tools for auto-completion, error highlighting, navigation shortcuts, and many others.
-#. *Powerful and easy type conversions* - Bidirectional translation between any data type and bits. Useful when loading a complex data structure from a CPU interface.
-#. *Loop detection* - Tools check that there are no combinatorial loops / latches.
-#. *Clock domain safety* - The tools inform you that there are no unintentional clock domain crossings.
-#. *Generic design* - There are no restrictions to the genericity of your hardware description by using Scala constructs.
+#. **No more endless wiring** - Create and connect complex buses like AXI in one single line.
+#. **Evolving capabilities** - Create your own bus definitions and abstraction layers.
+#. **Reduce code size** - By a high factor, especially for wiring. This enables you to have a better overview of your code base, increase your productivity and create fewer headaches.
+#. **Free and user friendly IDE** - Thanks to Scala tools for auto-completion, error highlighting, navigation shortcuts, and many others.
+#. **Powerful and easy type conversions** - Bidirectional translation between any data type and bits. Useful when loading a complex data structure from a CPU interface.
+#. **Loop detection** - Tools check that there are no combinatorial loops / latches.
+#. **Clock domain safety** - The tools inform you that there are no unintentional clock domain crossings.
+#. **Generic design** - There are no restrictions to the genericity of your hardware description by using Scala constructs.
 
 License
 ^^^^^^^
@@ -88,10 +89,10 @@ Links
 | `https://github.com/SpinalHDL/SpinalHDL <https://github.com/SpinalHDL/SpinalHDL>`_
 
 | A short show case (PDF):
-| `http://spinalhdl.github.io/SpinalDoc/motivation/ <http://spinalhdl.github.io/SpinalDoc/motivation/>`_
+| `motivation.pdf <https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@master/presentation/en/motivation.pdf>`_
 
 | Presentation of the language (PDF):
-| `http://spinalhdl.github.io/SpinalDoc/presentation/ <http://spinalhdl.github.io/SpinalDoc/presentation/>`_
+| `presentation.pdf <https://cdn.jsdelivr.net/gh/SpinalHDL/SpinalDoc@master/presentation/en/presentation.pdf>`_
 
 | SBT base project:
 | `https://github.com/SpinalHDL/SpinalTemplateSbt <https://github.com/SpinalHDL/SpinalTemplateSbt>`_
@@ -115,7 +116,7 @@ Links
 
 
 
-.. image:: https://travis-ci.org/SpinalHDL/SpinalHDL.svg?branch=master
+.. image:: https://api.travis-ci.org/SpinalHDL/SpinalHDL.svg?branch=master
    :target: https://travis-ci.org/SpinalHDL/SpinalHDL
    :alt: Build Status
 

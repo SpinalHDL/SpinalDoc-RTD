@@ -10,7 +10,7 @@ Description
 The ``Bundle`` is a composite type that defines a group of named signals (of any SpinalHDL basic type)
 under a single name.
 
-The Bundle can be used to model data structures, buses and interfaces.
+A Bundle can be used to model data structures, buses and interfaces.
 
 Declaration
 ^^^^^^^^^^^
@@ -25,7 +25,7 @@ The syntax to declare a bundle is as follows:
      val bundleItemN = AnyType
    }
 
-For example, an Color Bundle could be :
+For example, a bundle holding a color could be defined as:
 
 .. code-block:: scala
 
@@ -82,7 +82,7 @@ Type cast
      - Description
      - Return
    * - x.asBits
-     - Binary cast in Bits
+     - Binary cast to Bits
      - Bits(w(x) bits)
 
 
@@ -91,15 +91,15 @@ Type cast
    val color1 = Color(8)
    val myBits := color1.asBits
 
-Elements direction
-^^^^^^^^^^^^^^^^^^
+IO Element direction
+^^^^^^^^^^^^^^^^^^^^
 
 When you define an Bundle inside the IO definition of your component, you need to specify its direction.
 
 in/out
 ~~~~~~
 
-If all elements of your bundle go in the same direction you can use in(MyBundle()) or out(MyBundle()).
+If all elements of your bundle go in the same direction you can use ``in(MyBundle())`` or ``out(MyBundle())``.
 
 For example :
 
@@ -113,7 +113,7 @@ For example :
 master/slave
 ~~~~~~~~~~~~
 
-If your interface obey to an master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each elements from an master perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO defintion.
+If your interface obeys to a master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each elements from an master perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO defintion.
 
 For example :
 

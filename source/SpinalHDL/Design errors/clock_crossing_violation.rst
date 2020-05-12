@@ -5,12 +5,12 @@ Clock crossing violation
 Introduction
 ------------
 
-SpinalHDL will check that each registers of your design only depend (through some combinatorial logic) on registers which use same clock domain or a syncronus one.
+SpinalHDL will check that every register of your design only depends (through some combinatorial logic) on registers which use the same or a synchronous clock domain.
 
 Example
 -------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -25,7 +25,7 @@ The following code :
      regB := tmp
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -39,12 +39,12 @@ will throw :
          >>> (toplevel/tmp :  UInt[8 bits]) at ***(PlayDev.scala:838) >>>
          >>> (toplevel/regB :  UInt[8 bits]) at ***(PlayDev.scala:835) >>>
 
-There is multiple fixes possible :
+There are multiple possible fixes:
 
 crossClockDomain tag
 ^^^^^^^^^^^^^^^^^^^^
 
-The crossClockDomain can be used to say "It's allright, don't panic" to SpinalHDL
+The crossClockDomain tag can be used to say "It's alright, don't panic" to SpinalHDL
 
 .. code-block:: scala
 
@@ -63,7 +63,7 @@ The crossClockDomain can be used to say "It's allright, don't panic" to SpinalHD
 setSyncronousWith
 ^^^^^^^^^^^^^^^^^
 
-You can specify that two clock domains are syncronous together.
+You can also specify that two clock domains are syncronous together.
 
 .. code-block:: scala
 
@@ -79,3 +79,34 @@ You can specify that two clock domains are syncronous together.
      val tmp = regA + regA
      regB := tmp
    }
+
+BufferCC
+^^^^^^^^
+
+Signal Bits or Gray-coded Bits can use BufferCC to cross different clockDomain 
+
+.. code-block:: scala
+
+   class AsyncFifo extends Component {
+      val popToPushGray = Bits(ptrWidth bits)
+      val pushToPopGray = Bits(ptrWidth bits)
+     
+      val pushCC = new ClockingArea(pushClock) {
+        val pushPtr     = Counter(depth << 1)
+        val pushPtrGray = RegNext(toGray(pushPtr.valueNext)) init(0)
+        val popPtrGray  = BufferCC(popToPushGray, B(0, ptrWidth bits))
+        val full        = isFull(pushPtrGray, popPtrGray)
+        ...
+      }
+     
+      val popCC = new ClockingArea(popClock) {
+        val popPtr      = Counter(depth << 1)
+        val popPtrGray  = RegNext(toGray(popPtr.valueNext)) init(0)
+        val pushPtrGray = BufferCC(pushToPopGray, B(0, ptrWidth bit))
+        val empty       = isEmpty(popPtrGray, pushPtrGray)   
+        ...
+      }
+   }
+
+.. warning::
+   Do not use BufferCC for general multi-Bits cross-domain process as mentioned under :ref:`Clock Domains <clock_domain>`  

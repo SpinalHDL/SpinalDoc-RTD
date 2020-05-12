@@ -5,12 +5,12 @@ Unreachable is statement
 Introduction
 ------------
 
-SpinalHDL will check all switch's is statements are reachable.
+SpinalHDL will check all `is` statements in a switch are reachable.
 
 Example
 -------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -22,11 +22,11 @@ The following code :
        is(1){ result := 6 }
        is(2){ result := 8 }
        is(3){ result := 9 }
-       is(0){ result := 2 } //Duplicated statement is statement !
+       is(0){ result := 2 } //Duplicated is statement!
      }
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -35,7 +35,7 @@ will throw :
      Source file location of the is statement definition via the stack trace
      ***
 
-A fix could be :
+A fix could be:
 
 .. code-block:: scala
 

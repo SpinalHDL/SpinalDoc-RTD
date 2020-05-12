@@ -29,9 +29,9 @@ The language provides 5 base types and 2 composite types that can be used.
    :width: 400px
 
 
-In addition to the base types Spinal supports Fixed point that is documented :ref:`there <fixed>` and floating point that is actually under development :ref:`there <Floating>`.
+In addition to the base types, Spinal supports Fixed point that is documented :ref:`here <fixed>` and floating point that is actually under development :ref:`here <Floating>`.
 
-Finally, a special type is available for checking equality between a BitVector and a bits constant that contain hole (don't care values). Below, there is an example :
+Finally, a special type is available for checking equality between a BitVector and a bits constant that contains holes (don't care values). An example is shown below:
 
 .. code-block:: scala
 

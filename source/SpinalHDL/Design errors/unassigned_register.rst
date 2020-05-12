@@ -5,12 +5,12 @@ Unassigned register
 Introduction
 ------------
 
-SpinalHDL will check that all registers which have impacts on the design are assigned by something.
+SpinalHDL will check that all registers which impact the design have been assigned somewhere.
 
 Example
 -------
 
-The following code :
+The following code:
 
 .. code-block:: scala
 
@@ -20,7 +20,7 @@ The following code :
      result := a
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -29,7 +29,7 @@ will throw :
      Source file location of the toplevel/a definition via the stack trace
      ***
 
-A fix could be :
+A fix could be:
 
 .. code-block:: scala
 
@@ -43,7 +43,7 @@ A fix could be :
 Register with only init
 -----------------------
 
-In some case, because of the design parameterization, it could make sense to generate a register which as no assignement but only a init statement.
+In some cases, because of the design parametrization, it could make sense to generate a register which has no assignment but only a init statement.
 
 .. code-block:: scala
 
@@ -56,7 +56,7 @@ In some case, because of the design parameterization, it could make sense to gen
      result := a
    }
 
-will throw :
+will throw:
 
 .. code-block:: text
 
@@ -65,7 +65,7 @@ will throw :
      Source file location of the toplevel/a definition via the stack trace
      ***
 
-To fix it you can ask SpinalHDL to transform the register into a combinatorial one if no assignement is present but it as a init statement :
+To fix it you can ask SpinalHDL to transform the register into a combinatorial one if no assignement is present but it as a init statement:
 
 .. code-block:: scala
 

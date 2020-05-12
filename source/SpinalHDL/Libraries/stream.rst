@@ -74,6 +74,17 @@ There is some examples of usage in SpinalHDL :
 * An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission.
   Be careful with that.
 
+Semantics
+---------
+
+When manually reading/driving the signals of a Stream keep in mind that:
+
+* After being asserted, ``valid`` may only be deasserted once the current payload was acknowleged. This means ``valid`` can only toggle to 0 the cycle after a the slave did a read by asserting ``ready``.
+* In contrast to that ``ready`` may change at any time. 
+* A transfer is only done on cycles where both ``valid`` and ``ready`` are asserted.
+* ``valid`` of a Stream must not depend on ``ready`` in a combinatorial way and any path between the two must be registered.
+* It is recommended that ``valid`` does not depend on ``ready`` at all.
+
 Functions
 ---------
 
@@ -180,7 +191,7 @@ The following code will create this logic :
 Utils
 -----
 
-There is many utils that you can use in your design in conjunction with the Stream bus, This chapter will document them.
+There is many utils that you can use in your design in conjunction with the Stream bus, this chapter will document them.
 
 StreamFifo
 ^^^^^^^^^^
@@ -237,7 +248,7 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
 StreamFifoCC
 ^^^^^^^^^^^^
 
-You can instanciate the dual clock domain version of the fifo by the following way :
+You can instanciate the dual clock domain version of the fifo the following way :
 
 .. code-block:: scala
 
@@ -299,8 +310,8 @@ You can instanciate the dual clock domain version of the fifo by the following w
 StreamCCByToggle
 ^^^^^^^^^^^^^^^^
 
-| Component that provide a Stream cross clock domain bridge based on toggling signals.
-| This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.
+| Component that connects Streams across clock domains based on toggling signals.
+| This way of implementing a cross clock domain bridge is characterized by a small area usage but also a low bandwidth.
 
 .. code-block:: scala
 
@@ -349,7 +360,7 @@ StreamCCByToggle
      - Used to pop elements
 
 
-But you can also use a this shorter syntax which directly return you the cross clocked stream:
+Alternatively you can also use a this shorter syntax which directly return you the cross clocked stream:
 
 .. code-block:: scala
 
@@ -416,24 +427,44 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
    * - onArgs(inputs : Stream[T]*)
      - Stream[T]
 
+StreamJoin
+^^^^^^^^^^
+
+This utile takes multiple input streams and wait until all of them fire before letting all of them through.
+
+.. code-block:: scala
+
+   val cmdJoin = Stream(Cmd())
+   cmdJoin.arbitrationFrom(StreamJoin.arg(cmdABuffer, cmdBBuffer))
+
 
 StreamFork
 ^^^^^^^^^^
 
-This utile take its input stream and duplicate it outputCount times.
+A StreamFork will clone each incoming data to all its output streams. If synchronous is true,
+all output streams will always fire together, which means that the stream will halt until all output streams are ready. 
+If synchronous is false, output streams may be ready one at a time,
+at the cost of an additional flip flop (1 bit per output). The input stream will block until
+all output streams have processed each item regardlessly.
+
 
 .. code-block:: scala
 
    val inputStream = Stream(Bits(8 bits))
-   val dispatchedStreams = StreamDispatcherSequencial(
-     input = inputStream,
-     outputCount = 3
-   )
+   val (outputstream1, outputstream2) = StreamFork2(inputStream, synchronous=false)
+
+or
+
+.. code-block:: scala
+
+   val inputStream = Stream(Bits(8 bits))
+   val outputStreams = StreamFork(inputStream,portCount=2, synchronous=true)
+
 
 StreamDispatcherSequencial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This utile take its input stream and route it to ``outputCount`` stream in a sequential order.
+This util take its input stream and routes it to ``outputCount`` stream in a sequential order.
 
 .. code-block:: scala
 
