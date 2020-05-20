@@ -10,10 +10,9 @@ Linux
 
 .. code-block:: sh
 
-   sudo apt-get install build-essential libboost-dev iverilog -y
+   sudo apt-get install build-essential libboost-dev iverilog
 
 
 Also the openjdk package that corresponds to your Java version has to be installed.
 Refer to `<https://iverilog.fandom.com/wiki/Installation_Guide>`_ for more informations about Windows and installation from source.
-
 
