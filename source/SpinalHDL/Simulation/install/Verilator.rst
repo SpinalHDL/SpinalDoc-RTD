@@ -1,25 +1,9 @@
 
-Setup and installation
-==========================================
+Setup and installation of Verilator
+===================================
 
 
-The SpinalSim with Verilator as backend is supported on both Linux and Windows platforms.
-
-Scala
-^^^^^
-
-Don't forget to add the following in your build.sbt file
-
-.. code-block:: scala
-
-   fork := true
-
-And you will always need the following imports in your Scala testbench :
-
-.. code-block:: scala
-
-   import spinal.core._
-   import spinal.core.sim._
+The SpinalSim API with Verilator as backend is supported on both Linux and Windows platforms.
 
 Linux
 ^^^^^
@@ -28,7 +12,7 @@ You will also need a recent version of Verilator installed :
 
 .. code-block:: sh
 
-   sudo apt-get install git make autoconf g++ flex bison -y  # First time prerequisites
+   sudo apt-get install git make autoconf g++ flex bison  # First time prerequisites
    git clone http://git.veripool.org/git/verilator   # Only first time
    unsetenv VERILATOR_ROOT  # For csh; ignore error if on bash
    unset VERILATOR_ROOT  # For bash
