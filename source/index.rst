@@ -97,6 +97,9 @@ Links
 | SBT base project:
 | `https://github.com/SpinalHDL/SpinalTemplateSbt <https://github.com/SpinalHDL/SpinalTemplateSbt>`_
 
+| Jupyter bootcamp:
+| `https://github.com/SpinalHDL/Spinal-bootcamp <https://github.com/SpinalHDL/Spinal-bootcamp>`_
+
 | Workshop:
 | `https://github.com/SpinalHDL/SpinalWorkshop <https://github.com/SpinalHDL/SpinalWorkshop>`_
 
