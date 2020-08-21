@@ -8,7 +8,7 @@ Basics
 Types
 -----
 
-In Scala, there are 5 major types
+In Scala, there are 5 major types:
 
 .. list-table::
    :header-rows: 1
@@ -37,7 +37,7 @@ In Scala, there are 5 major types
 Variables
 ---------
 
-In scala, you can define a variable by using the ``var`` keyword:
+In Scala, you can define a variable by using the ``var`` keyword:
 
 .. code-block:: scala
 
@@ -50,9 +50,9 @@ Scala is able to infer the type automatically. You don't need to specify it if t
 
 .. code-block:: scala
 
-   var number = 0   //The type of 'number' is inferred as a Int during the compilation.
+   var number = 0   //The type of 'number' is inferred as an Int during compilation.
 
-But, in fact, it's not very common to use ``var`` in Scala. Instead, constant values defined by ``val`` are often used:
+However, it's not very common to use ``var`` in Scala. Instead, constant values defined by ``val`` are often used:
 
 .. code-block:: scala
 
@@ -71,13 +71,13 @@ For example, if you want to define a function which returns ``true`` if the sum 
      return (a + b) > 0
    }
 
-Then, to call this function, you can just write:
+Then, to call this function, you can write:
 
 .. code-block:: scala
 
    sumBiggerThanZero(2.3f, 5.4f)
 
-You can also specify arguements by name, which is useful if you have many arguements:
+You can also specify arguments by name, which is useful if you have many arguments:
 
 .. code-block:: scala
 
@@ -111,7 +111,7 @@ Scala is able to automatically infer the return type. You don't need to specify 
 Curly braces
 ^^^^^^^^^^^^
 
-Scala function doesn't require to have curly braces if your function contains only one statement:
+Scala functions don't require curly braces if your function contains only one statement:
 
 .. code-block:: scala
 
@@ -120,7 +120,7 @@ Scala function doesn't require to have curly braces if your function contains on
 Function that returns nothing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you want a function to return nothing, the return type should be set to ``Unit``. It's equivalent to the C/C++ void.
+If you want a function to return nothing, the return type should be set to ``Unit``. It's equivalent to the C/C++ ``void`` type.
 
 .. code-block:: scala
 
@@ -129,10 +129,10 @@ If you want a function to return nothing, the return type should be set to ``Uni
      println("5678")
    }
 
-Arguements default value
-^^^^^^^^^^^^^^^^^^^^^^^^
+Argument default values
+^^^^^^^^^^^^^^^^^^^^^^^
 
-You can specify a default value for each arguement of a function:
+You can specify a default value for each argument of a function:
 
 .. code-block:: scala
 
@@ -143,22 +143,22 @@ You can specify a default value for each arguement of a function:
 Apply
 ^^^^^
 
-Functions named apply are special because you can call them without having to type their name:
+Functions named ``apply`` are special because you can call them without having to type their name:
 
 .. code-block:: scala
 
-   class Array(){
+   class Array() {
      def apply(index: Int): Int = index + 3
    }
 
    val array = new Array()
    val value = array(4)   //array(4) is interpreted as array.apply(4) and will return 7
 
-This concept is also applicable for scala ``object`` (static)
+This concept is also applicable for Scala ``object`` (static)
 
 .. code-block:: scala
 
-   object MajorityVote{
+   object MajorityVote {
      def apply(value: Int): Int = ...
    }
 
@@ -167,14 +167,14 @@ This concept is also applicable for scala ``object`` (static)
 Object
 ------
 
-In scala, there is no ``static`` keyword. In place of that, there is ``object``. Everything defined into an ``object`` is static.
+In Scala, there is no ``static`` keyword. In place of that, there is ``object``. Everything defined inside an ``object`` definition is static.
 
-The following example defines a static function named ``pow2`` which takes a floating point value as parameter and returns a floating point as well.
+The following example defines a static function named ``pow2`` which takes a floating point value as parameter and returns a floating point value as well.
 
 .. code-block:: scala
 
-   object MathUtils{
-     def pow2(value: Float): Float = value*value
+   object MathUtils {
+     def pow2(value: Float): Float = value * value
    }
 
 Then you can call it by writing:
@@ -203,8 +203,8 @@ The class syntax is very similar to Java. Imagine that you want to define a ``Co
 
 .. code-block:: scala
 
-   class Color(r: Float, g: Float, b: Float){
-     def getGrayLevel(): Float = r * 0.3f + g * 0.4f + b *0.4f
+   class Color(r: Float, g: Float, b: Float) {
+     def getGrayLevel(): Float = r * 0.3f + g * 0.4f + b * 0.4f
    }
 
 Then, to instantiate the class from the previous example and use its ``getGrayLevel`` function:
@@ -218,7 +218,7 @@ Be careful, if you want to access a construction parameter of the class from the
 
 .. code-block:: scala
 
-   class Color(val r: Float, val g: Float, val b: Float){ ... }
+   class Color(val r: Float, val g: Float, val b: Float) { ... }
    ...
    val blue = new Color(0, 0, 1)
    val redLevelOfBlue = blue.r
@@ -230,7 +230,7 @@ As an example, suppose that you want to define two classes, ``Rectangle`` and ``
 
 .. code-block:: scala
 
-   class Shape{
+   class Shape {
      def getArea(): Float
    }
 
@@ -255,8 +255,8 @@ Case class is an alternative way of declaring classes.
 
 Then there are some differences between ``case class`` and ``class`` :
 
-* case classes don't need the ``new`` keyword to be instantiated
-* construction parameters are accessible from outside, you don't need to define them as ``val``.
+* case classes don't need the ``new`` keyword to be instantiated.
+* construction parameters are accessible from outside; you don't need to define them as ``val``.
 
 In SpinalHDL, this explains the reasoning behind the coding conventions: it's in general recommended to use ``case class`` instead of ``class`` in order to have less typing and more coherency.
 
@@ -281,7 +281,7 @@ If you want to restrict the ``T`` type to be a sub class of a given type (for ex
    }
    class Rectangle() extends Shape { ... }
 
-   class  Queue[T <: Shape](){
+   class  Queue[T <: Shape]() {
      def push(that: T): Unit = ...
      def pop(): T = ...
    }

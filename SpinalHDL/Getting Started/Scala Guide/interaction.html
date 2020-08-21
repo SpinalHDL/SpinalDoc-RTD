@@ -343,17 +343,17 @@
 <h1>Interaction<a class="headerlink" href="#interaction" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL is, in fact, not an language, it’s regular Scala library. It could seem strange at first glance, but this is a very powerful combination.</p>
+<p>SpinalHDL is, in fact, not an language: it’s a regular Scala library. This could seem strange at first glance, but it is a very powerful combination.</p>
 <p>You can use the whole Scala world to help you in the description of your hardware via the SpinalHDL library, but to do that properly, it’s important to understand how SpinalHDL interacts with Scala.</p>
 </div>
 <div class="section" id="how-spinalhdl-works-behind-the-api">
 <h2>How SpinalHDL works behind the API<a class="headerlink" href="#how-spinalhdl-works-behind-the-api" title="Permalink to this headline">¶</a></h2>
-<p>Basically, when you execute your SpinalHDL hardware description, each time you use an SpinalHDL function, operator, classes, it will build in your PC memory a graph that represents the netlist of your design.</p>
-<p>Then, when the elaboration is done (Instantiation of your toplevel Component classes), SpinalHDL will do some passes on the graph that was constructed and, if everything is fine, it will flush it into a VHDL or a Verilog file.</p>
+<p>When you execute your SpinalHDL hardware description, each time you use SpinalHDL functions, operators, or classes, it will build an in-memory graph that represents the netlist of your design.</p>
+<p>Then, when the elaboration is done (instantiation of your top-level <code class="docutils literal notranslate"><span class="pre">Component</span></code> classes), SpinalHDL will do some passes on the graph that was constructed, and if everything is fine, it will flush that graph into a VHDL or Verilog file.</p>
 </div>
 <div class="section" id="everything-is-a-reference">
 <h2>Everything is a reference<a class="headerlink" href="#everything-is-a-reference" title="Permalink to this headline">¶</a></h2>
-<p>For example, if you define a Scala function which takes a parameter of type <code class="docutils literal notranslate"><span class="pre">Bits</span></code>, when you call it, it will be passed as a reference. As consequence of that, if you assign that argument inside the function, it will assign it as if you would have done it outside the function.</p>
+<p>For example, if you define a Scala function which takes a parameter of type <code class="docutils literal notranslate"><span class="pre">Bits</span></code>, when you call it, it will be passed as a reference. As consequence of that, if you assign that argument inside the function, it has the same effect on the underlying <code class="docutils literal notranslate"><span class="pre">Bits</span></code> object as if you had assigned to it outside the function.</p>
 </div>
 <div class="section" id="hardware-types">
 <span id="hardware-type"></span><h2>Hardware types<a class="headerlink" href="#hardware-types" title="Permalink to this headline">¶</a></h2>
@@ -362,10 +362,10 @@
 <li><p>An instance of a given Scala type</p></li>
 <li><p>The configuration of that instance</p></li>
 </ul>
-<p>For example <code class="docutils literal notranslate"><span class="pre">Bits(8</span> <span class="pre">bits)</span></code> is the combination of the Scala type Bits and its 8 bits configuration (as construction parameter).</p>
+<p>For example <code class="docutils literal notranslate"><span class="pre">Bits(8</span> <span class="pre">bits)</span></code> is the combination of the Scala type <code class="docutils literal notranslate"><span class="pre">Bits</span></code> and its <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">bits</span></code> configuration (as a construction parameter).</p>
 <div class="section" id="rgb-example">
 <h3>RGB example<a class="headerlink" href="#rgb-example" title="Permalink to this headline">¶</a></h3>
-<p>Let’s take an Rgb bundle class as example :</p>
+<p>Let’s take an Rgb bundle class as example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Rgb</span><span class="o">(</span><span class="n">rWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">gWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">bWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">rWidth</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">gWidth</span> <span class="n">bits</span><span class="o">)</span>
@@ -373,20 +373,20 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>It appears that the hardware data type is the combination of the Scala Rgb classes and its rWidth, gWidth, bWidth parameterization.</p>
+<p>The hardware data type here is the combination of the Scala <code class="docutils literal notranslate"><span class="pre">Rgb</span></code> class and its <code class="docutils literal notranslate"><span class="pre">rWidth</span></code>, <code class="docutils literal notranslate"><span class="pre">gWidth</span></code>, and <code class="docutils literal notranslate"><span class="pre">bWidth</span></code> parameterization.</p>
 <p>Here is an example of usage:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define a Rgb signal</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an Rgb signal</span>
 <span class="k">val</span> <span class="n">myRgbSignal</span> <span class="k">=</span> <span class="nc">Rgb</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
 
-<span class="c1">//Define another Rgb signal of the same data type as the preceding one</span>
+<span class="c1">// Define another Rgb signal of the same data type as the preceding one</span>
 <span class="k">val</span> <span class="n">myRgbCloned</span> <span class="k">=</span> <span class="n">cloneOf</span><span class="o">(</span><span class="n">myRgbSignal</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>You can also use functions to define kind of type factory (typedef) :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define a type factory function</span>
+<p>You can also use functions to define various kinds of type factories (typedef):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define a type factory function</span>
 <span class="k">def</span> <span class="n">myRgbTypeDef</span> <span class="k">=</span> <span class="nc">Rgb</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
 
-<span class="c1">//Use that type factory to create a Rgb signal</span>
+<span class="c1">// Use that type factory to create an Rgb signal</span>
 <span class="k">val</span> <span class="n">myRgbFromTypeDef</span> <span class="k">=</span> <span class="n">myRgbTypeDef</span>
 </pre></div>
 </div>
@@ -394,49 +394,49 @@
 </div>
 <div class="section" id="names-of-signals-in-the-generated-rtl">
 <h2>Names of signals in the generated RTL<a class="headerlink" href="#names-of-signals-in-the-generated-rtl" title="Permalink to this headline">¶</a></h2>
-<p>To name signals in the generated RTL, SpinalHDL uses Java reflections to walk through all your component hierarchy, collecting all references stored inside the class attributes and naming them with their attribute name.</p>
-<p>This is why, the names of every signal defined inside a function are lost:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">arg</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">){</span>
-  <span class="k">val</span> <span class="n">temp</span> <span class="k">=</span> <span class="n">arg</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1">//You will not retrieve the `temp` signal in the generated RTL</span>
+<p>To name signals in the generated RTL, SpinalHDL uses Java reflections to walk through your entire component hierarchy, collecting all references stored inside the class attributes, and naming them with their attribute name.</p>
+<p>This is why the names of every signal defined inside a function are lost:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">arg</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">temp</span> <span class="k">=</span> <span class="n">arg</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1">// You will not retrieve the `temp` signal in the generated RTL</span>
   <span class="k">return</span> <span class="n">temp</span>
 <span class="o">}</span>
 
-<span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;000001&quot;</span><span class="o">)</span>  <span class="o">+</span> <span class="mi">42</span>
+<span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;000001&quot;</span><span class="o">)</span> <span class="o">+</span> <span class="mi">42</span>
 </pre></div>
 </div>
-<p>One solution if you want preserve the names of the internal variables in the generated RTL, is to use Area:</p>
+<p>One solution if you want preserve the names of the internal variables in the generated RTL, is to use <code class="docutils literal notranslate"><span class="pre">Area</span></code>:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">arg</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span> <span class="k">new</span> <span class="nc">Area</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">temp</span> <span class="k">=</span> <span class="n">arg</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1">//You will not retrieve the temp signal in the generated RTL</span>
+  <span class="k">val</span> <span class="n">temp</span> <span class="k">=</span> <span class="n">arg</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1">// You will not retrieve the temp signal in the generated RTL</span>
 <span class="o">}</span>
 
-<span class="k">val</span> <span class="n">myFunctionCall</span> <span class="k">=</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;000001&quot;</span><span class="o">)</span>  <span class="c1">//Will generate `temp` with `myFunctionCall_temp` as name</span>
+<span class="k">val</span> <span class="n">myFunctionCall</span> <span class="k">=</span> <span class="n">myFunction</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;000001&quot;</span><span class="o">)</span>  <span class="c1">// Will generate `temp` with `myFunctionCall_temp` as the name</span>
 <span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="n">myFunctionCall</span><span class="o">.</span><span class="n">temp</span>  <span class="o">+</span> <span class="mi">42</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="scala-is-for-elaboration-spinalhdl-for-hardware-description">
 <h2>Scala is for elaboration, SpinalHDL for hardware description<a class="headerlink" href="#scala-is-for-elaboration-spinalhdl-for-hardware-description" title="Permalink to this headline">¶</a></h2>
-<p>For example, if you write a scala for loop to generate some hardware, it will generate the unrolled result in VHDL/Verilog.</p>
-<p>Also, if you want a constant, you should not use SpinalHDL Hardware literals but the scala ones. For example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//This is wrong, because you can&#39;t use an hardware Bool as construction parameter, which will do hierarchy violations.</span>
+<p>For example, if you write a Scala for loop to generate some hardware, it will generate the unrolled result in VHDL/Verilog.</p>
+<p>Also, if you want a constant, you should not use SpinalHDL hardware literals but the Scala ones. For example:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// This is wrong, because you can&#39;t use a hardware Bool as construction parameter. (It will cause hierarchy violations.)</span>
 <span class="k">class</span> <span class="nc">SubComponent</span><span class="o">(</span><span class="n">activeHigh</span><span class="k">:</span> <span class="kt">Bool</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-  <span class="c1">//...</span>
+  <span class="c1">// ...</span>
 <span class="o">}</span>
 
-<span class="c1">//This is right, you can use all the scala world to parameterize your hardware.</span>
+<span class="c1">// This is right, you can use all the Scala world to parameterize your hardware.</span>
 <span class="k">class</span> <span class="nc">SubComponent</span><span class="o">(</span><span class="n">activeHigh</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-  <span class="c1">//...</span>
+  <span class="c1">// ...</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="scala-elaboration-capabilities-if-for-functional-programming">
 <h2>Scala elaboration capabilities (if, for, functional programming)<a class="headerlink" href="#scala-elaboration-capabilities-if-for-functional-programming" title="Permalink to this headline">¶</a></h2>
-<p>All the scala syntax can be used to elaborate the hardware, for instance, a scala <code class="docutils literal notranslate"><span class="pre">if</span></code> statement could be used to enable or disable the generation of hardware:</p>
+<p>All of Scala’s syntax can be used to elaborate hardware designs, for instance, a Scala <code class="docutils literal notranslate"><span class="pre">if</span></code> statement could be used to enable or disable the generation of hardware:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
 <span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="k">if</span><span class="o">(</span><span class="n">generateAClearWhenHit42</span><span class="o">){</span>  <span class="c1">//Elaboration test, like an if generate in vhdl</span>
-  <span class="n">when</span><span class="o">(</span><span class="n">counter</span> <span class="o">===</span> <span class="mi">42</span><span class="o">){</span>       <span class="c1">//Hardware test</span>
+<span class="k">if</span><span class="o">(</span><span class="n">generateAClearWhenHit42</span><span class="o">)</span> <span class="o">{</span>  <span class="c1">// Elaboration test, like an if generate in vhdl</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">counter</span> <span class="o">===</span> <span class="mi">42</span><span class="o">)</span> <span class="o">{</span>       <span class="c1">// Hardware test</span>
     <span class="n">counter</span> <span class="o">:=</span> <span class="mi">0</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -444,21 +444,21 @@
 </div>
 <p>The same is true for Scala <code class="docutils literal notranslate"><span class="pre">for</span></code> loops:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
-<span class="n">when</span><span class="o">(</span><span class="n">something</span><span class="o">){</span>
-  <span class="c1">//Set all bits of value by using a scala for loop (evaluated during the hardware elaboration)</span>
-  <span class="k">for</span><span class="o">(</span><span class="n">idx</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">7</span><span class="o">){</span>
+<span class="n">when</span><span class="o">(</span><span class="n">something</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// Set all bits of value by using a Scala for loop (evaluated during hardware elaboration)</span>
+  <span class="k">for</span><span class="o">(</span><span class="n">idx</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">7</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">value</span><span class="o">(</span><span class="n">idx</span><span class="o">)</span> <span class="o">:=</span> <span class="nc">True</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Also, all the functionnal programming stuff of SpinalHDL can be used:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">values</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span><span class="mi">4</span><span class="o">)</span>
+<p>Also, functional programming techniques can be used with many SpinalHDL types:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">values</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span> <span class="mi">4</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="n">valuesAre42</span>    <span class="k">=</span> <span class="n">vecOfBits</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">===</span> <span class="mi">42</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">valuesAre42</span>    <span class="k">=</span> <span class="n">values</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">===</span> <span class="mi">42</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">valuesAreAll42</span> <span class="k">=</span> <span class="n">valuesAre42</span><span class="o">.</span><span class="n">reduce</span><span class="o">(</span><span class="k">_</span> <span class="o">&amp;&amp;</span> <span class="k">_</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="n">valuesAreEqualsToTheirIndex</span> <span class="k">=</span> <span class="n">vecOfBits</span><span class="o">.</span><span class="n">zipWithIndex</span><span class="o">.</span><span class="n">map</span><span class="o">{</span><span class="k">case</span> <span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="n">i</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">value</span> <span class="o">===</span> <span class="n">i</span><span class="o">}</span>
+<span class="k">val</span> <span class="n">valuesAreEqualToTheirIndex</span> <span class="k">=</span> <span class="n">values</span><span class="o">.</span><span class="n">zipWithIndex</span><span class="o">.</span><span class="n">map</span><span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="n">i</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">value</span> <span class="o">===</span> <span class="n">i</span> <span class="o">}</span>
 </pre></div>
 </div>
 </div>
