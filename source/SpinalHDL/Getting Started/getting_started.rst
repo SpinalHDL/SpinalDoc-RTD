@@ -6,7 +6,7 @@
 Getting Started
 ===============
 
-*SpinalHDL* is a hardware description language written in `Scala <https://scala-lang.org/>`_\ , a static-type functional language using the Java virtual machine (JVM). In order to start programming with *SpinalHDL*\ , you must have a JVM as well as the Scala compiler. In the next section, we will explain how to download those tools if you don't have them already.
+*SpinalHDL* is a hardware description language written in `Scala <https://scala-lang.org/>`_\ , a statically-typed functional language using the Java virtual machine (JVM). In order to start programming with *SpinalHDL*\ , you must have a JVM as well as the Scala compiler. In the next section, we will explain how to download those tools if you don't have them already.
 
 .. _requirements:
 
@@ -23,8 +23,8 @@ Before you download the SpinalHDL tools, you need to install:
 Optionally:
 
 
-* An IDE (which is not compulsory) we advise you to get `IntelliJ <https://www.jetbrains.com/idea/>`_ with its scala plugin.
-* `Git <https://git-scm.com/>`_ tool (version control).
+* An IDE (which is not compulsory). We advise you to get `IntelliJ <https://www.jetbrains.com/idea/>`_ with its Scala plugin.
+* `Git <https://git-scm.com/>`_, which is a tool for version control.
 
 How to start programming with SpinalHDL
 ---------------------------------------
@@ -32,15 +32,15 @@ How to start programming with SpinalHDL
 Once you have downloaded all the requirements, there are two ways to get started with SpinalHDL programming.
 
 
-#. :ref:`The SBT way <getting_started_sbt_way>` : if you already are familiar with the SBT build system and/or if you don't need an IDE.
-#. :ref:`The IDE way <getting_started_ide_way>` : get a project already setup for you in an IDE and start programming right away.
+#. :ref:`The SBT way <getting_started_sbt_way>` : If you already are familiar with the SBT build system and/or if you don't need an IDE.
+#. :ref:`The IDE way <getting_started_ide_way>` : Get a project already set up for you in an IDE and start programming right away.
 
 .. _getting_started_sbt_way:
 
 The SBT way 
 ^^^^^^^^^^^^
 
-We have prepared a ready to go project for you on Github.
+We have prepared a ready-to-go project for you on Github.
 
 
 * Either clone or `download <https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master>`_ the `"getting started" repository <https://github.com/SpinalHDL/SpinalTemplateSbt>`_.
@@ -48,7 +48,7 @@ We have prepared a ready to go project for you on Github.
 
 Normally, this command must generate an output file ``MyTopLevel.vhd``\ , which corresponds to the top level *SpinalHDL* code defined in ``src\main\scala\MyCode.scala``\ , which corresponds to the :ref:`most simple SpinalHDL example <example>`
 
-From a clean Debian distribution you can type followings commands in the shell. It will install java, scala, sbt, download the base project and generate the corresponding VHDL file. Don't worry if it takes time the first time that you run it.
+From a clean Debian distribution you can type the following commands into the shell. The commands will install Java, Scala, SBT, download the base project, and generate the corresponding VHDL file. Don't worry if it takes some time the first time that you run it.
 
 .. code-block:: sh
 
@@ -66,9 +66,9 @@ From a clean Debian distribution you can type followings commands in the shell. 
 SBT in a environnement isolated from internet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Basically, SBT use online repositories to download and cache your projects dependancies, this cache is located in your home/.ivy2 folder. The way to setup an internet free environnement is to copy this cache from an internet-full environnement where the cache was already filled once, and copy it on your internet less environnement.
+Normally, SBT uses online repositories to download and cache your projects dependencies, this cache is located in your ``home/.ivy2`` folder. The way to set up an internet-free environnement is to copy this cache from an internet-full environnement where the cache was already filled once, and copy it over to your internet-less environnement.
 
-| You can get an portable SBT setups there :
+| You can get a portable SBT setup here:
 | https://www.scala-sbt.org/download.html
 
 .. _getting_started_ide_way:
@@ -84,16 +84,16 @@ And do the following :
 * Either clone or `download <https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master>`_ the `"getting started" repository <https://github.com/SpinalHDL/SpinalTemplateSbt>`_.
 * In *Intellij IDEA*\ , "import project" with the root of this repository, the choose the *Import project from external model SBT* and be sure to check all boxes.
 * In addition, you might need to specify some path like where you installed the JDK to *IntelliJ*.
-* In the project (Intellij project GUI), right click on ``src/main/scala/MyCode/TopLevel.scala`` and select "Run MyTopLevel".
+* In the project (Intellij project GUI), right click on ``src/main/scala/mylib/MyTopLevel.scala`` and select "Run MyTopLevel".
 
-Normally, this must generate the output file ``MyTopLevel.vhd`` in the project directory which corresponds to the most :ref:`most simple SpinalHDL example <example>`.
+This should generate the output file ``MyTopLevel.vhd`` in the project directory, which implements a simple 8-bit counter.
 
 .. _example:
 
 A very simple SpinalHDL example
 -------------------------------
 
-The following code generates an ``and`` gate between two one bit inputs.
+The following code generates an ``and`` gate between two one-bit inputs.
 
 .. code-block:: scala
 
