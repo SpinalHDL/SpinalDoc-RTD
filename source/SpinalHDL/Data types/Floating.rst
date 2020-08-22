@@ -1,5 +1,5 @@
 .. warning::
-   The SpinalHDL floating point support is under development and only partially used/tested, if you have any bug with it or you think that an functionality is missing, please create a github issue. Please, do not use undocumented features.
+   SpinalHDL floating-point support is under development and only partially used/tested, if you have any bugs with it, or you think that some functionality is missing, please create a `Github issue <https://github.com/SpinalHDL/SpinalHDL/issues>`_. Also, please do not use undocumented features in your code.
 
 .. _Floating:
 
@@ -9,12 +9,11 @@ Floating
 Description
 ^^^^^^^^^^^
 
-The ``Floating`` type corresponds to IEEE-754 encoded numbers. A second type called ``RecFloating`` helps in simplifying your design by recoding the floating point value simplify some edge cases in IEEE-754 floating point
+The ``Floating`` type corresponds to IEEE-754 encoded numbers. A second type called ``RecFloating`` helps in simplifying your design by recoding the floating-point value simplify some edge cases in IEEE-754 floating-point.
 
-It's composed of a sign bit, an exponent field and a mantissa field. The widths of the different fields are defined in the IEEE-754 or
-de-facto standards.
+It's composed of a sign bit, an exponent field and a mantissa field. The widths of the different fields are defined in the IEEE-754 or de-facto standards.
 
-This type can be used with the following import
+This type can be used with the following import:
 
 .. code-block:: scala
 
@@ -23,54 +22,51 @@ This type can be used with the following import
 IEEE-754 floating format
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The numbers are encoded into IEEE-754 `floating point format <https://en.wikipedia.org/wiki/IEEE_floating_point>`_.
+The numbers are encoded into IEEE-754 `floating-point format <https://en.wikipedia.org/wiki/IEEE_floating_point>`_.
 
 Recoded floating format
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Since IEEE-754 has some quirks about denormalized numbers and special values, Berkeley proposed another way of recoding floating
-point values.
+Since IEEE-754 has some quirks about denormalized numbers and special values, Berkeley proposed another way of recoding floating-point values.
 
 The mantissa is modified so that denormalized values can be treated the same as the normalized ones.
 
 The exponent field is one bit larger that one of the IEEE-754 number.
 
-The sign bit is kept unchanged between the two
-encodings.
+The sign bit is kept unchanged between the two encodings.
 
 Examples can be found `here <https://github.com/ucb-bar/berkeley-hardfloat/blob/master/README.md>`_
 
 Zero
 """"
 
-The zero is encoded with the three leading zeros of the exponent field being stuck to zero.
+The zero is encoded with the three leading zeros of the exponent field being set to zero.
 
 Denormalized values
 """""""""""""""""""
 
-Denormalized values are encoded in the same way as a normal floating point number. The mantissa is shifted so that the first one
-becomes implicit. The exponent is encoded as 107 (decimal) plus the index of the highest bit set to 1.
+Denormalized values are encoded in the same way as a normal floating-point number. The mantissa is shifted so that the first one becomes implicit.
+The exponent is encoded as 107 (decimal) plus the index of the highest bit set to 1.
 
 Normalized values
 """""""""""""""""
 
-The recoded mantissa for normalized values is exactly the same as the original IEEE-754 mantissa. The recoded exponent
-is encoded as 130 (decimal) plus the original exponent value.
+The recoded mantissa for normalized values is exactly the same as the original IEEE-754 mantissa. The recoded exponent is encoded as 130 (decimal) plus the original exponent value.
 
 Infinity
 """"""""
 
-The recoded mantissa value is treated as don't care. The recoded exponent three highest bits is 6 (decimal), the rest of the exponent can be treated as don't care.
+The recoded mantissa value is treated as don't care. The recoded exponent three highest bits is 6 (decimal), the rest of the exponent can be treated as don't cares.
 
 NaN
 """
 
-The recoded mantissa for normalized values is exactly the same as the original IEEE-754 mantissa. The recoded exponent three highest bits is 7 (decimal), the rest of the exponent can be treated as don't care.
+The recoded mantissa for normalized values is exactly the same as the original IEEE-754 mantissa. The recoded exponent three highest bits is 7 (decimal), the rest of the exponent can be treated as don't cares.
 
 Declaration
 ^^^^^^^^^^^
 
-The syntax to declare a floating point number is as follows:
+The syntax to declare a floating-point number is as follows:
 
 IEEE-754 Number
 ~~~~~~~~~~~~~~~
@@ -81,18 +77,17 @@ IEEE-754 Number
    * - Syntax
      - Description
    * - Floating(exponentSize: Int, mantissaSize: Int)
-     - IEEE-754 Floating point value with a custom exponent and mantissa size
+     - IEEE-754 Floating-point value with a custom exponent and mantissa size
    * - Floating16()
-     - IEEE-754 Half precision floating point number
+     - IEEE-754 Half precision floating-point number
    * - Floating32()
-     - IEEE-754 Single precision floating point number
+     - IEEE-754 Single precision floating-point number
    * - Floating64()
-     - IEEE-754 Double precision floating point number
+     - IEEE-754 Double precision floating-point number
    * - Floating128()
-     - IEEE-754 Quad precision floating point number
+     - IEEE-754 Quad precision floating-point number
 
-
-Recoded floating point number
+Recoded floating-point number
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
@@ -101,21 +96,20 @@ Recoded floating point number
    * - Syntax
      - Description
    * - RecFloating(exponentSize: Int, mantissaSize: Int)
-     - Recoded Floating point value with a custom exponent and mantissa size
+     - Recoded Floating-point value with a custom exponent and mantissa size
    * - RecFloating16()
-     - Recoded Half precision floating point number
+     - Recoded Half precision floating-point number
    * - RecFloating32()
-     - Recoded Single precision floating point number
+     - Recoded Single precision floating-point number
    * - RecFloating64()
-     - Recoded Double precision floating point number
+     - Recoded Double precision floating-point number
    * - RecFloating128()
-     - Recoded Quad precision floating point number
-
+     - Recoded Quad precision floating-point number
 
 Operators
 ^^^^^^^^^
 
-The following operators are available for the ``Floating`` and ``RecFloating`` types
+The following operators are available for the ``Floating`` and ``RecFloating`` types:
 
 Type cast
 ~~~~~~~~~

@@ -24,9 +24,9 @@ The syntax to declare a vector is as follows:
      - Description
    * - Vec(type: Data, size: Int)
      - Create a vector capable of holding ``size`` elements of type ``Data``
-   * - Vec(x,y,..)
-     - | Create a vector where indexes point to given elements. 
-       | this constructor supports mixed element width
+   * - Vec(x, y, ...)
+     - | Create a vector where indexes point to the provided elements.
+       | This constructor supports mixed element width.
 
 
 Examples
@@ -35,23 +35,23 @@ Examples
 .. code-block:: scala
 
    // Create a vector of 2 signed integers
-   val myVecOfSInt = Vec(SInt(8 bits),2)
+   val myVecOfSInt = Vec(SInt(8 bits), 2)
    myVecOfSInt(0) := 2
    myVecOfSInt(1) := myVecOfSInt(0) + 3
 
    // Create a vector of 3 different type elements
    val myVecOfMixedUInt = Vec(UInt(3 bits), UInt(5 bits), UInt(8 bits))
 
-   val x,y,z = UInt(8 bits)
-   val myVecOf_xyz_ref = Vec(x,y,z)
+   val x, y, z = UInt(8 bits)
+   val myVecOf_xyz_ref = Vec(x, y, z)
 
    // Iterate on a vector
-   for(element <- myVecOf_xyz_ref){
-     element := 0   //Assign x,y,z with the value 0
+   for(element <- myVecOf_xyz_ref) {
+     element := 0   // Assign x, y, z with the value 0
    }
 
    // Map on vector
-   myVecOfMixedUInt.map(_ := 0) // assign all element with value 0 
+   myVecOfMixedUInt.map(_ := 0) // Assign all elements with value 0
 
    // Assign 3 to the first element of the vector
    myVecOf_xyz_ref(1) := 3
@@ -59,7 +59,7 @@ Examples
 Operators
 ^^^^^^^^^
 
-The following operators are available for the ``Bundle`` type
+The following operators are available for the ``Vec`` type:
 
 Comparison
 ~~~~~~~~~~
@@ -84,7 +84,7 @@ Comparison
    val vec2 = Vec(SInt(8 bits), 2)
    val vec1 = Vec(SInt(8 bits), 2)
 
-   myBool := vec2 === vec1 // compare all elemenets
+   myBool := vec2 === vec1  // Compare all elemenets
 
 Type cast
 ~~~~~~~~~
