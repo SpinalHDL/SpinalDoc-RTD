@@ -12,7 +12,7 @@ This page will show the main differences between VHDL and SpinalHDL. Things will
 Process
 -------
 
-Processes have no senses when you define RTL, and worst than that, they are very annoying and force you to split your code and duplicate things.
+Processes are often needed when you write RTL, however, their semantics can be clunky to work with. Due to how they work in VHDL, they can force you to split your code and duplicate things.
 
 To produce the following RTL:
 
@@ -72,7 +72,7 @@ While in SpinalHDL, it's:
 Implicit vs explicit definitions
 --------------------------------
 
-In VHDL, when you declare a signal, you don't specify if this is a combinatorial signal or a register. Where and how you assign to it decides whether it is combinatorial or registered.
+In VHDL, when you declare a signal, you don't specify if it is a combinatorial signal or a register. Where and how you assign to it decides whether it is combinatorial or registered.
 
 In SpinalHDL these kinds of things are explicit. Registers are defined as registers directly in their declaration.
 
@@ -81,7 +81,7 @@ Clock domains
 
 In VHDL, every time you want to define a bunch of registers, you need the carry the clock and the reset wire to them. In addition, you have to hardcode everywhere how those clock and reset signals should be used (clock edge, reset polarity, reset nature (async, sync)).
 
-In SpinalHDL you can define a ClockDomain, and then define the area of your hardware that uses it.
+In SpinalHDL you can define a ``ClockDomain``, and then define the area of your hardware that uses it.
 
 For example:
 
@@ -106,16 +106,16 @@ For example:
 Component's internal organization
 ---------------------------------
 
-In VHDL, you have the ``block`` features that allow you to define sub areas of logic inside your component. But in fact, nobody uses them, because most people don't know about them, and also because all signals defined inside them are not readable from the outside.
+In VHDL, there is a ``block`` feature that allows you to define sub-areas of logic inside your component. However, almost no one uses this feature, because most people don't know about them, and also because all signals defined inside these regions are not readable from the outside.
 
-In SpinalHDL you have an ``Area`` feature that does it correctly:
+In SpinalHDL you have an ``Area`` feature that does this concept much more nicely:
 
 .. code-block:: scala
 
    val timeout = new Area {
      val counter = Reg(UInt(8 bits)) init(0)
      val overflow = False
-     when(counter =/= 100){
+     when(counter =/= 100) {
        counter := counter + 1
      } otherwise {
        overflow := True
@@ -123,42 +123,43 @@ In SpinalHDL you have an ``Area`` feature that does it correctly:
    }
 
    val core = new Area {
-     when(timeout.overflow){
+     when(timeout.overflow) {
        timeout.counter := 0
      }
    }
 
+Variables and signals defined inside of an ``Area`` are accessible elsewhere in the component, including in other ``Area`` regions.
+
 Safety
 ------
 
-In VHDL as in SpinalHDL, it's easy to write combinatorial loops, or to infer a latch by forgetting to drive a signal in paths of a process.
+In VHDL as in SpinalHDL, it's easy to write combinatorial loops, or to infer a latch by forgetting to drive a signal in the path of a process.
 
-Then, to detect those issues, you can use some ``lint`` tools that will analyse your VHDL, but those tools aren't free. In SpinalHDL the ``lint`` process in integrated inside the compiler, and it won't generate the RTL code until everything is fine. It also checks clock domain crossing.
+Then, to detect those issues, you can use some ``lint`` tools that will analyze your VHDL, but those tools aren't free. In SpinalHDL the ``lint`` process in integrated inside the compiler, and it won't generate the RTL code until everything is fine. It also checks clock domain crossing.
 
 Functions and procedures
 ------------------------
 
-Function and procedures are not used very often in VHDL, probably because they are very limited:
+Functions and procedures are not used very often in VHDL, probably because they are very limited:
 
-
-* You can only define a chunk of combinatorial hardware, or only a chunk of registers (if you call the function/procedure inside a clocked process).
+* You can only define a chunk of combinational hardware, or only a chunk of registers (if you call the function/procedure inside a clocked process).
 * You can't define a process inside them.
 * You can't instantiate a component inside them.
-* The scope of what you can read/write inside them are limited.
+* The scope of what you can read/write inside them is limited.
 
-In spinalHDL, all those limitation are removed.
+In SpinalHDL, all those limitations are removed.
 
-An example that mixes combinatorial logic and a register in a single function:
+An example that mixes combinational logic and a register in a single function:
 
 .. code-block:: scala
 
    def simpleAluPipeline(op: Bits, a: UInt, b: UInt): UInt = {
      val result = UInt(8 bits)
 
-     switch(op){
-       is(0){result := a + b}
-       is(1){result := a - b}
-       is(2){result := a * b}
+     switch(op) {
+       is(0){ result := a + b }
+       is(1){ result := a - b }
+       is(2){ result := a * b }
      }
 
      return RegNext(result)
@@ -180,7 +181,7 @@ An example with the queue function inside the Stream Bundle (handshake). This fu
      }
    }
 
-An example where a function assigns a signal defined outside itself:
+An example where a function assigns a signal defined outside of itself:
 
 .. code-block:: scala
 
@@ -191,7 +192,7 @@ An example where a function assigns a signal defined outside itself:
      counter := 0
    }
 
-   when(counter > 42){
+   when(counter > 42) {
      clear()
    }
 
@@ -200,7 +201,7 @@ Buses and Interfaces
 
 VHDL is very boring when it comes to buses and interfaces. You have two options:
 
-1) Define buses and interfaces wire by wire, each time and everywhere:
+1) Define buses and interfaces wire-by-wire, each time and everywhere:
 
 .. code-block:: ada
 
@@ -212,7 +213,7 @@ VHDL is very boring when it comes to buses and interfaces. You have two options:
    PWDATA  : in std_logic_vector(dataWidth-1 downto 0);
    PRDATA  : out std_logic_vector(dataWidth-1 downto 0);
 
-2) Use records but lose parameterization (statically fixed in package), and you have to define one for each directions:
+2) Use records but lose parameterization (statically fixed in the package), and you have to define one for each directions:
 
 .. code-block:: ada
 
@@ -244,16 +245,16 @@ You can also use object oriented programming to define configuration objects:
      dynamicBranchPredictorCacheSizeLog2 = 7
    )
 
-   //The CPU has a system of plugins which allows adding new features into the core.
-   //Those extensions are not directly implemented into the core, but are kind of an additive logic patch defined in a separated area.
+   // The CPU has a system of plugins which allows adding new features into the core.
+   // Those extensions are not directly implemented in the core, but are kind of an additive logic patch defined in a separate area.
    coreConfig.add(new MulExtension)
    coreConfig.add(new DivExtension)
    coreConfig.add(new BarrelShifterFullExtension)
 
    val iCacheConfig = InstructionCacheConfig(
-     cacheSize =4096,
-     bytePerLine =32,
-     wayCount = 1,  //Can only be one for the moment
+     cacheSize = 4096,
+     bytePerLine = 32,
+     wayCount = 1,  // Can only be one for the moment
      wrappedMemAccess = true,
      addressWidth = 32,
      cpuDataWidth = 32,
@@ -271,7 +272,7 @@ You can also use object oriented programming to define configuration objects:
 Signal declaration
 ------------------
 
-VHDL forces you to define all signals on the top of your architecture, which is annoying.
+VHDL forces you to define all signals at the top of your architecture description, which is annoying.
 
 .. code-block:: VHDL
 
@@ -307,7 +308,7 @@ It also allows you to define and assign signals in a single line.
 Component instantiation
 -----------------------
 
-VHDL is very verbose about this as you have to redefine all signals of your sub component entity, and then bind them one by one when you instantiate your component.
+VHDL is very verbose about this, as you have to redefine all signals of your sub-component entity, and then bind them one-by-one when you instantiate your component.
 
 .. code-block:: VHDL
 
@@ -334,13 +335,13 @@ VHDL is very verbose about this as you have to redefine all signals of your sub 
        rsp_remainder   => divider_rsp_remainder
      );
 
-SpinalHDL removes that, and allows you to access the IO of sub components in an object oriented way.
+SpinalHDL removes that, and allows you to access the IO of sub-components in an object-oriented way.
 
 .. code-block:: scala
 
    val divider = new UnsignedDivider()
 
-   //And then if you want to access IO signals of that divider:
+   // And then if you want to access IO signals of that divider:
    divider.io.cmd.valid := True
    divider.io.cmd.numerator := 42
 
@@ -348,7 +349,6 @@ Casting
 -------
 
 There are two annoying casting methods in VHDL:
-
 
 * boolean <> std_logic (ex: To assign a signal using a condition such as ``mySignal <= myValue < 10`` is not legal)
 * unsigned <> integer  (ex: To access an array)
@@ -361,7 +361,7 @@ boolean/std_logic:
 
    val value = UInt(8 bits)
    val valueBiggerThanTwo = Bool
-   valueBiggerThanTwo := value > 2  //value > 2 return a Bool
+   valueBiggerThanTwo := value > 2  // value > 2 return a Bool
 
 unsigned/integer:
 
@@ -369,7 +369,7 @@ unsigned/integer:
 
    val array = Vec(UInt(4 bits),8)
    val sel = UInt(3 bits)
-   val arraySel = array(sel) //Arrays are indexed directly by using UInt
+   val arraySel = array(sel) // Arrays are indexed directly by using UInt
 
 Resizing
 --------
@@ -378,32 +378,32 @@ The fact that VHDL is strict about bit size is probably a good thing.
 
 .. code-block:: ada
 
-   my8BitsSignal <= resize(my4BitsSignal,8);
+   my8BitsSignal <= resize(my4BitsSignal, 8);
 
 In SpinalHDL you have two ways to do the same:
 
 .. code-block:: scala
 
-   //The traditional way
+   // The traditional way
    my8BitsSignal := my4BitsSignal.resize(8)
 
-   //The smart way
+   // The smart way
    my8BitsSignal := my4BitsSignal.resized
 
 Parameterization
 ----------------
 
-| VHDL prior to the 2008 revision has many issues with generics. For example, you can't parameterize records, you can't parameterize arrays in the entity, and you can't have types parameters.
-| Then VHDL 2008 came and fixed those issues. But RTL tool support for VHDL 2008 is really weak depending the vendor.
+| VHDL prior to the 2008 revision has many issues with generics. For example, you can't parameterize records, you can't parameterize arrays in the entity, and you can't have type parameters.
+| Then VHDL 2008 came and fixed those issues. But RTL tool support for VHDL 2008 is really weak depending on the vendor.
 
-SpinalHDL has full support of generics integrated natively in its compiler, and it doesn't rely on the VHDL one.
+SpinalHDL has full support for generics integrated natively in its compiler, and it doesn't rely on VHDL generics.
 
 Here is an example of parameterized data structures:
 
 .. code-block:: scala
 
    val colorStream = Stream(Color(5, 6, 5)))
-   val colorFifo   = StreamFifo(Color(5, 6, 5),depth = 128)
+   val colorFifo   = StreamFifo(Color(5, 6, 5), depth = 128)
    colorFifo.io.push <> colorStream
 
 Here is an example of a parameterized component:
@@ -415,7 +415,7 @@ Here is an example of a parameterized component:
        val sources = Vec(slave(Stream(payloadType)), portCount)
        val sink = master(Stream(payloadType))
      }
-     //...
+     // ...
    }
 
 Meta hardware description
@@ -425,4 +425,4 @@ VHDL has kind of a closed syntax. You can't add abstraction layers on top of it.
 
 SpinalHDL, because it's built on top of Scala, is very flexible, and allows you to define new abstraction layers very easily.
 
-Some examples of that are the :ref:`FSM <state_machine>` tool, the :ref:`BusSlaveFactory <bus_slave_factory>` tool, and also the :ref:`JTAG <jtag>` tool.
+Some examples of this flexibility are the :ref:`FSM <state_machine>` library, the :ref:`BusSlaveFactory <bus_slave_factory>` library, and also the :ref:`JTAG <jtag>` library.
