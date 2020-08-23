@@ -347,7 +347,7 @@
 </div>
 <div class="section" id="process">
 <h2>Process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h2>
-<p>Processes have no senses when you define RTL, and worst than that, they are very annoying and force you to split your code and duplicate things.</p>
+<p>Processes are often needed when you write RTL, however, their semantics can be clunky to work with. Due to how they work in VHDL, they can force you to split your code and duplicate things.</p>
 <p>To produce the following RTL:</p>
 <img alt="../../../_images/process_rtl.svg" src="../../../_images/process_rtl.svg" /><p>You will have to write the following VHDL:</p>
 <div class="highlight-ada notranslate"><div class="highlight"><pre><span></span>  <span class="n">signal</span> <span class="n">mySignal</span> <span class="p">:</span> <span class="n">std_logic</span><span class="p">;</span>
@@ -399,13 +399,13 @@
 </div>
 <div class="section" id="implicit-vs-explicit-definitions">
 <h2>Implicit vs explicit definitions<a class="headerlink" href="#implicit-vs-explicit-definitions" title="Permalink to this headline">¶</a></h2>
-<p>In VHDL, when you declare a signal, you don’t specify if this is a combinatorial signal or a register. Where and how you assign to it decides whether it is combinatorial or registered.</p>
+<p>In VHDL, when you declare a signal, you don’t specify if it is a combinatorial signal or a register. Where and how you assign to it decides whether it is combinatorial or registered.</p>
 <p>In SpinalHDL these kinds of things are explicit. Registers are defined as registers directly in their declaration.</p>
 </div>
 <div class="section" id="clock-domains">
 <h2>Clock domains<a class="headerlink" href="#clock-domains" title="Permalink to this headline">¶</a></h2>
 <p>In VHDL, every time you want to define a bunch of registers, you need the carry the clock and the reset wire to them. In addition, you have to hardcode everywhere how those clock and reset signals should be used (clock edge, reset polarity, reset nature (async, sync)).</p>
-<p>In SpinalHDL you can define a ClockDomain, and then define the area of your hardware that uses it.</p>
+<p>In SpinalHDL you can define a <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>, and then define the area of your hardware that uses it.</p>
 <p>For example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">coreClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(</span>
   <span class="n">clock</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">coreClk</span><span class="o">,</span>
@@ -427,12 +427,12 @@
 </div>
 <div class="section" id="component-s-internal-organization">
 <h2>Component’s internal organization<a class="headerlink" href="#component-s-internal-organization" title="Permalink to this headline">¶</a></h2>
-<p>In VHDL, you have the <code class="docutils literal notranslate"><span class="pre">block</span></code> features that allow you to define sub areas of logic inside your component. But in fact, nobody uses them, because most people don’t know about them, and also because all signals defined inside them are not readable from the outside.</p>
-<p>In SpinalHDL you have an <code class="docutils literal notranslate"><span class="pre">Area</span></code> feature that does it correctly:</p>
+<p>In VHDL, there is a <code class="docutils literal notranslate"><span class="pre">block</span></code> feature that allows you to define sub-areas of logic inside your component. However, almost no one uses this feature, because most people don’t know about them, and also because all signals defined inside these regions are not readable from the outside.</p>
+<p>In SpinalHDL you have an <code class="docutils literal notranslate"><span class="pre">Area</span></code> feature that does this concept much more nicely:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">timeout</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">overflow</span> <span class="k">=</span> <span class="nc">False</span>
-  <span class="n">when</span><span class="o">(</span><span class="n">counter</span> <span class="o">=/=</span> <span class="mi">100</span><span class="o">){</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">counter</span> <span class="o">=/=</span> <span class="mi">100</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
   <span class="o">}</span> <span class="n">otherwise</span> <span class="o">{</span>
     <span class="n">overflow</span> <span class="o">:=</span> <span class="nc">True</span>
@@ -440,36 +440,37 @@
 <span class="o">}</span>
 
 <span class="k">val</span> <span class="n">core</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="o">{</span>
-  <span class="n">when</span><span class="o">(</span><span class="n">timeout</span><span class="o">.</span><span class="n">overflow</span><span class="o">){</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">timeout</span><span class="o">.</span><span class="n">overflow</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">timeout</span><span class="o">.</span><span class="n">counter</span> <span class="o">:=</span> <span class="mi">0</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
+<p>Variables and signals defined inside of an <code class="docutils literal notranslate"><span class="pre">Area</span></code> are accessible elsewhere in the component, including in other <code class="docutils literal notranslate"><span class="pre">Area</span></code> regions.</p>
 </div>
 <div class="section" id="safety">
 <h2>Safety<a class="headerlink" href="#safety" title="Permalink to this headline">¶</a></h2>
-<p>In VHDL as in SpinalHDL, it’s easy to write combinatorial loops, or to infer a latch by forgetting to drive a signal in paths of a process.</p>
-<p>Then, to detect those issues, you can use some <code class="docutils literal notranslate"><span class="pre">lint</span></code> tools that will analyse your VHDL, but those tools aren’t free. In SpinalHDL the <code class="docutils literal notranslate"><span class="pre">lint</span></code> process in integrated inside the compiler, and it won’t generate the RTL code until everything is fine. It also checks clock domain crossing.</p>
+<p>In VHDL as in SpinalHDL, it’s easy to write combinatorial loops, or to infer a latch by forgetting to drive a signal in the path of a process.</p>
+<p>Then, to detect those issues, you can use some <code class="docutils literal notranslate"><span class="pre">lint</span></code> tools that will analyze your VHDL, but those tools aren’t free. In SpinalHDL the <code class="docutils literal notranslate"><span class="pre">lint</span></code> process in integrated inside the compiler, and it won’t generate the RTL code until everything is fine. It also checks clock domain crossing.</p>
 </div>
 <div class="section" id="functions-and-procedures">
 <h2>Functions and procedures<a class="headerlink" href="#functions-and-procedures" title="Permalink to this headline">¶</a></h2>
-<p>Function and procedures are not used very often in VHDL, probably because they are very limited:</p>
+<p>Functions and procedures are not used very often in VHDL, probably because they are very limited:</p>
 <ul class="simple">
-<li><p>You can only define a chunk of combinatorial hardware, or only a chunk of registers (if you call the function/procedure inside a clocked process).</p></li>
+<li><p>You can only define a chunk of combinational hardware, or only a chunk of registers (if you call the function/procedure inside a clocked process).</p></li>
 <li><p>You can’t define a process inside them.</p></li>
 <li><p>You can’t instantiate a component inside them.</p></li>
-<li><p>The scope of what you can read/write inside them are limited.</p></li>
+<li><p>The scope of what you can read/write inside them is limited.</p></li>
 </ul>
-<p>In spinalHDL, all those limitation are removed.</p>
-<p>An example that mixes combinatorial logic and a register in a single function:</p>
+<p>In SpinalHDL, all those limitations are removed.</p>
+<p>An example that mixes combinational logic and a register in a single function:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">simpleAluPipeline</span><span class="o">(</span><span class="n">op</span><span class="k">:</span> <span class="kt">Bits</span><span class="o">,</span> <span class="n">a</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span><span class="k">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
 
-  <span class="n">switch</span><span class="o">(</span><span class="n">op</span><span class="o">){</span>
-    <span class="n">is</span><span class="o">(</span><span class="mi">0</span><span class="o">){</span><span class="n">result</span> <span class="o">:=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">}</span>
-    <span class="n">is</span><span class="o">(</span><span class="mi">1</span><span class="o">){</span><span class="n">result</span> <span class="o">:=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">}</span>
-    <span class="n">is</span><span class="o">(</span><span class="mi">2</span><span class="o">){</span><span class="n">result</span> <span class="o">:=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">}</span>
+  <span class="n">switch</span><span class="o">(</span><span class="n">op</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">is</span><span class="o">(</span><span class="mi">0</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">}</span>
+    <span class="n">is</span><span class="o">(</span><span class="mi">1</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span> <span class="o">}</span>
+    <span class="n">is</span><span class="o">(</span><span class="mi">2</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">}</span>
   <span class="o">}</span>
 
   <span class="k">return</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
@@ -490,7 +491,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>An example where a function assigns a signal defined outside itself:</p>
+<p>An example where a function assigns a signal defined outside of itself:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
 <span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
 
@@ -498,7 +499,7 @@
   <span class="n">counter</span> <span class="o">:=</span> <span class="mi">0</span>
 <span class="o">}</span>
 
-<span class="n">when</span><span class="o">(</span><span class="n">counter</span> <span class="o">&gt;</span> <span class="mi">42</span><span class="o">){</span>
+<span class="n">when</span><span class="o">(</span><span class="n">counter</span> <span class="o">&gt;</span> <span class="mi">42</span><span class="o">)</span> <span class="o">{</span>
   <span class="n">clear</span><span class="o">()</span>
 <span class="o">}</span>
 </pre></div>
@@ -508,7 +509,7 @@
 <h2>Buses and Interfaces<a class="headerlink" href="#buses-and-interfaces" title="Permalink to this headline">¶</a></h2>
 <p>VHDL is very boring when it comes to buses and interfaces. You have two options:</p>
 <ol class="arabic simple">
-<li><p>Define buses and interfaces wire by wire, each time and everywhere:</p></li>
+<li><p>Define buses and interfaces wire-by-wire, each time and everywhere:</p></li>
 </ol>
 <div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="n">PADDR</span>   <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">(</span><span class="n">addressWidth</span><span class="o">-</span><span class="mi">1</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">);</span>
 <span class="n">PSEL</span>    <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span>
@@ -520,7 +521,7 @@
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p>Use records but lose parameterization (statically fixed in package), and you have to define one for each directions:</p></li>
+<li><p>Use records but lose parameterization (statically fixed in the package), and you have to define one for each directions:</p></li>
 </ol>
 <div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="n">P_m</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">APB_M</span><span class="p">;</span>
 <span class="n">P_s</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">APB_S</span><span class="p">;</span>
@@ -546,16 +547,16 @@
   <span class="n">dynamicBranchPredictorCacheSizeLog2</span> <span class="k">=</span> <span class="mi">7</span>
 <span class="o">)</span>
 
-<span class="c1">//The CPU has a system of plugins which allows adding new features into the core.</span>
-<span class="c1">//Those extensions are not directly implemented into the core, but are kind of an additive logic patch defined in a separated area.</span>
+<span class="c1">// The CPU has a system of plugins which allows adding new features into the core.</span>
+<span class="c1">// Those extensions are not directly implemented in the core, but are kind of an additive logic patch defined in a separate area.</span>
 <span class="n">coreConfig</span><span class="o">.</span><span class="n">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">MulExtension</span><span class="o">)</span>
 <span class="n">coreConfig</span><span class="o">.</span><span class="n">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">DivExtension</span><span class="o">)</span>
 <span class="n">coreConfig</span><span class="o">.</span><span class="n">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">BarrelShifterFullExtension</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="n">iCacheConfig</span> <span class="k">=</span> <span class="nc">InstructionCacheConfig</span><span class="o">(</span>
-  <span class="n">cacheSize</span> <span class="k">=</span><span class="mi">4096</span><span class="o">,</span>
-  <span class="n">bytePerLine</span> <span class="k">=</span><span class="mi">32</span><span class="o">,</span>
-  <span class="n">wayCount</span> <span class="k">=</span> <span class="mi">1</span><span class="o">,</span>  <span class="c1">//Can only be one for the moment</span>
+  <span class="n">cacheSize</span> <span class="k">=</span> <span class="mi">4096</span><span class="o">,</span>
+  <span class="n">bytePerLine</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+  <span class="n">wayCount</span> <span class="k">=</span> <span class="mi">1</span><span class="o">,</span>  <span class="c1">// Can only be one for the moment</span>
   <span class="n">wrappedMemAccess</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
   <span class="n">addressWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
   <span class="n">cpuDataWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
@@ -574,7 +575,7 @@
 </div>
 <div class="section" id="signal-declaration">
 <h2>Signal declaration<a class="headerlink" href="#signal-declaration" title="Permalink to this headline">¶</a></h2>
-<p>VHDL forces you to define all signals on the top of your architecture, which is annoying.</p>
+<p>VHDL forces you to define all signals at the top of your architecture description, which is annoying.</p>
 <div class="highlight-VHDL notranslate"><div class="highlight"><pre><span></span>  <span class="p">..</span>
   <span class="p">..</span> <span class="p">(</span><span class="n">many</span> <span class="k">signal</span> <span class="n">declarations</span><span class="p">)</span>
   <span class="p">..</span>
@@ -604,7 +605,7 @@
 </div>
 <div class="section" id="component-instantiation">
 <h2>Component instantiation<a class="headerlink" href="#component-instantiation" title="Permalink to this headline">¶</a></h2>
-<p>VHDL is very verbose about this as you have to redefine all signals of your sub component entity, and then bind them one by one when you instantiate your component.</p>
+<p>VHDL is very verbose about this, as you have to redefine all signals of your sub-component entity, and then bind them one-by-one when you instantiate your component.</p>
 <div class="highlight-VHDL notranslate"><div class="highlight"><pre><span></span><span class="n">divider_cmd_valid</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
 <span class="n">divider_cmd_ready</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">std_logic</span><span class="p">;</span>
 <span class="n">divider_cmd_numerator</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
@@ -629,10 +630,10 @@
   <span class="p">);</span>
 </pre></div>
 </div>
-<p>SpinalHDL removes that, and allows you to access the IO of sub components in an object oriented way.</p>
+<p>SpinalHDL removes that, and allows you to access the IO of sub-components in an object-oriented way.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">divider</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">UnsignedDivider</span><span class="o">()</span>
 
-<span class="c1">//And then if you want to access IO signals of that divider:</span>
+<span class="c1">// And then if you want to access IO signals of that divider:</span>
 <span class="n">divider</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">valid</span> <span class="o">:=</span> <span class="nc">True</span>
 <span class="n">divider</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">numerator</span> <span class="o">:=</span> <span class="mi">42</span>
 </pre></div>
@@ -649,27 +650,27 @@
 <p>boolean/std_logic:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">valueBiggerThanTwo</span> <span class="k">=</span> <span class="nc">Bool</span>
-<span class="n">valueBiggerThanTwo</span> <span class="o">:=</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">2</span>  <span class="c1">//value &gt; 2 return a Bool</span>
+<span class="n">valueBiggerThanTwo</span> <span class="o">:=</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">2</span>  <span class="c1">// value &gt; 2 return a Bool</span>
 </pre></div>
 </div>
 <p>unsigned/integer:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">array</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">),</span><span class="mi">8</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">sel</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">3</span> <span class="n">bits</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">arraySel</span> <span class="k">=</span> <span class="n">array</span><span class="o">(</span><span class="n">sel</span><span class="o">)</span> <span class="c1">//Arrays are indexed directly by using UInt</span>
+<span class="k">val</span> <span class="n">arraySel</span> <span class="k">=</span> <span class="n">array</span><span class="o">(</span><span class="n">sel</span><span class="o">)</span> <span class="c1">// Arrays are indexed directly by using UInt</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="resizing">
 <h2>Resizing<a class="headerlink" href="#resizing" title="Permalink to this headline">¶</a></h2>
 <p>The fact that VHDL is strict about bit size is probably a good thing.</p>
-<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="n">my8BitsSignal</span> <span class="o">&lt;=</span> <span class="n">resize</span><span class="p">(</span><span class="n">my4BitsSignal</span><span class="p">,</span><span class="mi">8</span><span class="p">);</span>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="n">my8BitsSignal</span> <span class="o">&lt;=</span> <span class="n">resize</span><span class="p">(</span><span class="n">my4BitsSignal</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>In SpinalHDL you have two ways to do the same:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//The traditional way</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// The traditional way</span>
 <span class="n">my8BitsSignal</span> <span class="o">:=</span> <span class="n">my4BitsSignal</span><span class="o">.</span><span class="n">resize</span><span class="o">(</span><span class="mi">8</span><span class="o">)</span>
 
-<span class="c1">//The smart way</span>
+<span class="c1">// The smart way</span>
 <span class="n">my8BitsSignal</span> <span class="o">:=</span> <span class="n">my4BitsSignal</span><span class="o">.</span><span class="n">resized</span>
 </pre></div>
 </div>
@@ -677,13 +678,13 @@
 <div class="section" id="parameterization">
 <h2>Parameterization<a class="headerlink" href="#parameterization" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
-<div class="line">VHDL prior to the 2008 revision has many issues with generics. For example, you can’t parameterize records, you can’t parameterize arrays in the entity, and you can’t have types parameters.</div>
-<div class="line">Then VHDL 2008 came and fixed those issues. But RTL tool support for VHDL 2008 is really weak depending the vendor.</div>
+<div class="line">VHDL prior to the 2008 revision has many issues with generics. For example, you can’t parameterize records, you can’t parameterize arrays in the entity, and you can’t have type parameters.</div>
+<div class="line">Then VHDL 2008 came and fixed those issues. But RTL tool support for VHDL 2008 is really weak depending on the vendor.</div>
 </div>
-<p>SpinalHDL has full support of generics integrated natively in its compiler, and it doesn’t rely on the VHDL one.</p>
+<p>SpinalHDL has full support for generics integrated natively in its compiler, and it doesn’t rely on VHDL generics.</p>
 <p>Here is an example of parameterized data structures:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">colorStream</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">(</span><span class="nc">Color</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">5</span><span class="o">)))</span>
-<span class="k">val</span> <span class="n">colorFifo</span>   <span class="k">=</span> <span class="nc">StreamFifo</span><span class="o">(</span><span class="nc">Color</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">5</span><span class="o">),</span><span class="n">depth</span> <span class="k">=</span> <span class="mi">128</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">colorFifo</span>   <span class="k">=</span> <span class="nc">StreamFifo</span><span class="o">(</span><span class="nc">Color</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">5</span><span class="o">),</span> <span class="n">depth</span> <span class="k">=</span> <span class="mi">128</span><span class="o">)</span>
 <span class="n">colorFifo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span> <span class="o">&lt;&gt;</span> <span class="n">colorStream</span>
 </pre></div>
 </div>
@@ -693,7 +694,7 @@
     <span class="k">val</span> <span class="n">sources</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="n">slave</span><span class="o">(</span><span class="nc">Stream</span><span class="o">(</span><span class="n">payloadType</span><span class="o">)),</span> <span class="n">portCount</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">sink</span> <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">Stream</span><span class="o">(</span><span class="n">payloadType</span><span class="o">))</span>
   <span class="o">}</span>
-  <span class="c1">//...</span>
+  <span class="c1">// ...</span>
 <span class="o">}</span>
 </pre></div>
 </div>
@@ -702,7 +703,7 @@
 <h2>Meta hardware description<a class="headerlink" href="#meta-hardware-description" title="Permalink to this headline">¶</a></h2>
 <p>VHDL has kind of a closed syntax. You can’t add abstraction layers on top of it.</p>
 <p>SpinalHDL, because it’s built on top of Scala, is very flexible, and allows you to define new abstraction layers very easily.</p>
-<p>Some examples of that are the <a class="reference internal" href="../../Libraries/fsm.html#state-machine"><span class="std std-ref">FSM</span></a> tool, the <a class="reference internal" href="../../Libraries/bus_slave_factory.html#bus-slave-factory"><span class="std std-ref">BusSlaveFactory</span></a> tool, and also the <a class="reference internal" href="../../Examples/Advanced ones/jtag.html#jtag"><span class="std std-ref">JTAG</span></a> tool.</p>
+<p>Some examples of this flexibility are the <a class="reference internal" href="../../Libraries/fsm.html#state-machine"><span class="std std-ref">FSM</span></a> library, the <a class="reference internal" href="../../Libraries/bus_slave_factory.html#bus-slave-factory"><span class="std std-ref">BusSlaveFactory</span></a> library, and also the <a class="reference internal" href="../../Examples/Advanced ones/jtag.html#jtag"><span class="std std-ref">JTAG</span></a> library.</p>
 </div>
 </div>
 
