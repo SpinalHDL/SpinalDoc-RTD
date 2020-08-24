@@ -201,7 +201,7 @@ Type cast
      -  Bits(w(x) bits)
 
 
-To cast a ``Bool``, ``UInt`` or an ``SInt`` into a ``Bits``, you can use ``B(something)`` as in the example below:
+To cast a ``Bool``, ``UInt`` or an ``SInt`` into a ``Bits``, you can use ``B(something)``:
 
 .. code-block:: scala
 
