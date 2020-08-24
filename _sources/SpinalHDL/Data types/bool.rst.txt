@@ -94,12 +94,12 @@ Logic
    val res = (!a & b) ^ c   // ((NOT a) AND b) XOR c
 
    val d = False
-   when(cond){
+   when(cond) {
      d.set()    // equivalent to d := True
    }
 
    val e = False
-   e.setWhen(cond) // equivalent to when(cond){ d := True }
+   e.setWhen(cond) // equivalent to when(cond) { d := True }
 
 Edge detection
 ~~~~~~~~~~~~~~
@@ -139,19 +139,19 @@ Edge detection
 
 .. code-block:: scala
 
-   when(myBool_1.rise(False)){
+   when(myBool_1.rise(False)) {
        // do something when a rising edge is detected 
    } 
 
 
    val edgeBundle = myBool_2.edges(False)
-   when(edgeBundle.rise){
+   when(edgeBundle.rise) {
        // do something when a rising edge is detected
    }
-   when(edgeBundle.fall){
+   when(edgeBundle.fall) {
        // do something when a falling edge is detected
    }
-   when(edgeBundle.toggle){
+   when(edgeBundle.toggle) {
        // do something at each edge
    }
 
@@ -174,11 +174,11 @@ Comparison
 
 .. code-block:: scala
 
-   when(myBool){ // Equivalent to when(myBool === True)
+   when(myBool) { // Equivalent to when(myBool === True)
        // do something when myBool is True
    }
 
-   when(!myBool){ // Equivalent to when(myBool === False)
+   when(!myBool) { // Equivalent to when(myBool === False)
        // do something when myBool is False
    }
 

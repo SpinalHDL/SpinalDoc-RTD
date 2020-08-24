@@ -339,45 +339,41 @@
             
   <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The SpinalHDL floating point support is under development and only partially used/tested, if you have any bug with it or you think that an functionality is missing, please create a github issue. Please, do not use undocumented features.</p>
+<p>SpinalHDL floating-point support is under development and only partially used/tested, if you have any bugs with it, or you think that some functionality is missing, please create a <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues">Github issue</a>. Also, please do not use undocumented features in your code.</p>
 </div>
 <div class="section" id="floating">
 <span id="id1"></span><h1>Floating<a class="headerlink" href="#floating" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Floating</span></code> type corresponds to IEEE-754 encoded numbers. A second type called <code class="docutils literal notranslate"><span class="pre">RecFloating</span></code> helps in simplifying your design by recoding the floating point value simplify some edge cases in IEEE-754 floating point</p>
-<p>It’s composed of a sign bit, an exponent field and a mantissa field. The widths of the different fields are defined in the IEEE-754 or
-de-facto standards.</p>
-<p>This type can be used with the following import</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Floating</span></code> type corresponds to IEEE-754 encoded numbers. A second type called <code class="docutils literal notranslate"><span class="pre">RecFloating</span></code> helps in simplifying your design by recoding the floating-point value simplify some edge cases in IEEE-754 floating-point.</p>
+<p>It’s composed of a sign bit, an exponent field and a mantissa field. The widths of the different fields are defined in the IEEE-754 or de-facto standards.</p>
+<p>This type can be used with the following import:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.lib.experimental.math._</span>
 </pre></div>
 </div>
 <div class="section" id="ieee-754-floating-format">
 <h3>IEEE-754 floating format<a class="headerlink" href="#ieee-754-floating-format" title="Permalink to this headline">¶</a></h3>
-<p>The numbers are encoded into IEEE-754 <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_floating_point">floating point format</a>.</p>
+<p>The numbers are encoded into IEEE-754 <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_floating_point">floating-point format</a>.</p>
 </div>
 <div class="section" id="recoded-floating-format">
 <h3>Recoded floating format<a class="headerlink" href="#recoded-floating-format" title="Permalink to this headline">¶</a></h3>
-<p>Since IEEE-754 has some quirks about denormalized numbers and special values, Berkeley proposed another way of recoding floating
-point values.</p>
+<p>Since IEEE-754 has some quirks about denormalized numbers and special values, Berkeley proposed another way of recoding floating-point values.</p>
 <p>The mantissa is modified so that denormalized values can be treated the same as the normalized ones.</p>
 <p>The exponent field is one bit larger that one of the IEEE-754 number.</p>
-<p>The sign bit is kept unchanged between the two
-encodings.</p>
+<p>The sign bit is kept unchanged between the two encodings.</p>
 <p>Examples can be found <a class="reference external" href="https://github.com/ucb-bar/berkeley-hardfloat/blob/master/README.md">here</a></p>
 <div class="section" id="zero">
 <h4>Zero<a class="headerlink" href="#zero" title="Permalink to this headline">¶</a></h4>
-<p>The zero is encoded with the three leading zeros of the exponent field being stuck to zero.</p>
+<p>The zero is encoded with the three leading zeros of the exponent field being set to zero.</p>
 </div>
 <div class="section" id="denormalized-values">
 <h4>Denormalized values<a class="headerlink" href="#denormalized-values" title="Permalink to this headline">¶</a></h4>
-<p>Denormalized values are encoded in the same way as a normal floating point number. The mantissa is shifted so that the first one
-becomes implicit. The exponent is encoded as 107 (decimal) plus the index of the highest bit set to 1.</p>
+<p>Denormalized values are encoded in the same way as a normal floating-point number. The mantissa is shifted so that the first one becomes implicit.
+The exponent is encoded as 107 (decimal) plus the index of the highest bit set to 1.</p>
 </div>
 <div class="section" id="normalized-values">
 <h4>Normalized values<a class="headerlink" href="#normalized-values" title="Permalink to this headline">¶</a></h4>
-<p>The recoded mantissa for normalized values is exactly the same as the original IEEE-754 mantissa. The recoded exponent
-is encoded as 130 (decimal) plus the original exponent value.</p>
+<p>The recoded mantissa for normalized values is exactly the same as the original IEEE-754 mantissa. The recoded exponent is encoded as 130 (decimal) plus the original exponent value.</p>
 </div>
 <div class="section" id="infinity">
 <h4>Infinity<a class="headerlink" href="#infinity" title="Permalink to this headline">¶</a></h4>
@@ -391,7 +387,7 @@ is encoded as 130 (decimal) plus the original exponent value.</p>
 </div>
 <div class="section" id="declaration">
 <h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
-<p>The syntax to declare a floating point number is as follows:</p>
+<p>The syntax to declare a floating-point number is as follows:</p>
 <div class="section" id="ieee-754-number">
 <h3>IEEE-754 Number<a class="headerlink" href="#ieee-754-number" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
@@ -406,25 +402,25 @@ is encoded as 130 (decimal) plus the original exponent value.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Floating(exponentSize: Int, mantissaSize: Int)</p></td>
-<td><p>IEEE-754 Floating point value with a custom exponent and mantissa size</p></td>
+<td><p>IEEE-754 Floating-point value with a custom exponent and mantissa size</p></td>
 </tr>
 <tr class="row-odd"><td><p>Floating16()</p></td>
-<td><p>IEEE-754 Half precision floating point number</p></td>
+<td><p>IEEE-754 Half precision floating-point number</p></td>
 </tr>
 <tr class="row-even"><td><p>Floating32()</p></td>
-<td><p>IEEE-754 Single precision floating point number</p></td>
+<td><p>IEEE-754 Single precision floating-point number</p></td>
 </tr>
 <tr class="row-odd"><td><p>Floating64()</p></td>
-<td><p>IEEE-754 Double precision floating point number</p></td>
+<td><p>IEEE-754 Double precision floating-point number</p></td>
 </tr>
 <tr class="row-even"><td><p>Floating128()</p></td>
-<td><p>IEEE-754 Quad precision floating point number</p></td>
+<td><p>IEEE-754 Quad precision floating-point number</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="recoded-floating-point-number">
-<h3>Recoded floating point number<a class="headerlink" href="#recoded-floating-point-number" title="Permalink to this headline">¶</a></h3>
+<h3>Recoded floating-point number<a class="headerlink" href="#recoded-floating-point-number" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 50%" />
@@ -437,19 +433,19 @@ is encoded as 130 (decimal) plus the original exponent value.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>RecFloating(exponentSize: Int, mantissaSize: Int)</p></td>
-<td><p>Recoded Floating point value with a custom exponent and mantissa size</p></td>
+<td><p>Recoded Floating-point value with a custom exponent and mantissa size</p></td>
 </tr>
 <tr class="row-odd"><td><p>RecFloating16()</p></td>
-<td><p>Recoded Half precision floating point number</p></td>
+<td><p>Recoded Half precision floating-point number</p></td>
 </tr>
 <tr class="row-even"><td><p>RecFloating32()</p></td>
-<td><p>Recoded Single precision floating point number</p></td>
+<td><p>Recoded Single precision floating-point number</p></td>
 </tr>
 <tr class="row-odd"><td><p>RecFloating64()</p></td>
-<td><p>Recoded Double precision floating point number</p></td>
+<td><p>Recoded Double precision floating-point number</p></td>
 </tr>
 <tr class="row-even"><td><p>RecFloating128()</p></td>
-<td><p>Recoded Quad precision floating point number</p></td>
+<td><p>Recoded Quad precision floating-point number</p></td>
 </tr>
 </tbody>
 </table>
@@ -457,7 +453,7 @@ is encoded as 130 (decimal) plus the original exponent value.</p>
 </div>
 <div class="section" id="operators">
 <h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
-<p>The following operators are available for the <code class="docutils literal notranslate"><span class="pre">Floating</span></code> and <code class="docutils literal notranslate"><span class="pre">RecFloating</span></code> types</p>
+<p>The following operators are available for the <code class="docutils literal notranslate"><span class="pre">Floating</span></code> and <code class="docutils literal notranslate"><span class="pre">RecFloating</span></code> types:</p>
 <div class="section" id="type-cast">
 <h3>Type cast<a class="headerlink" href="#type-cast" title="Permalink to this headline">¶</a></h3>
 <table class="colwidths-given docutils align-default">

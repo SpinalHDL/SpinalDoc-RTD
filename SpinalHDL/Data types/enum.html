@@ -352,20 +352,20 @@
 </pre></div>
 </div>
 <p>For the example above, the default encoding is used.
-Native enumeration type is used for VHDL and a binary encoding is used for Verilog.</p>
+The native enumeration type is used for VHDL and a binary encoding is used for Verilog.</p>
 <p>The enumeration encoding can be forced by defining the enumeration as follows:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">Enumeration</span> <span class="k">extends</span> <span class="nc">SpinalEnum</span><span class="o">(</span><span class="n">defaultEncoding</span><span class="k">=</span><span class="n">encodingOfYouChoice</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">Enumeration</span> <span class="k">extends</span> <span class="nc">SpinalEnum</span><span class="o">(</span><span class="n">defaultEncoding</span><span class="k">=</span><span class="n">encodingOfYourChoice</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">element0</span><span class="o">,</span> <span class="n">element1</span><span class="o">,</span> <span class="o">...,</span> <span class="n">elementN</span> <span class="k">=</span> <span class="n">newElement</span><span class="o">()</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you want to define a enumeration as in/out of a given component, you have to do as following : in(MyEnum())  out(MyEnum())</p>
+<p>If you want to define an enumeration as in/out for a given component, you have to do as following: <code class="docutils literal notranslate"><span class="pre">in(MyEnum())</span></code> or <code class="docutils literal notranslate"><span class="pre">out(MyEnum())</span></code></p>
 </div>
 <div class="section" id="encoding">
 <h3>Encoding<a class="headerlink" href="#encoding" title="Permalink to this headline">¶</a></h3>
-<p>The following enumeration encodings are supported :</p>
+<p>The following enumeration encodings are supported:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -383,7 +383,7 @@ Native enumeration type is used for VHDL and a binary encoding is used for Veril
 <td></td>
 <td><p>Use the VHDL enumeration system, this is the default encoding</p></td>
 </tr>
-<tr class="row-odd"><td><p>binarySequancial</p></td>
+<tr class="row-odd"><td><p>binarySequential</p></td>
 <td><p>log2Up(stateCount)</p></td>
 <td><p>Use Bits to store states in declaration order (value from 0 to n-1)</p></td>
 </tr>
@@ -393,11 +393,11 @@ Native enumeration type is used for VHDL and a binary encoding is used for Veril
 </tr>
 </tbody>
 </table>
-<p>Custom encoding can be performed in two different ways: static or dynamic.</p>
+<p>Custom encodings can be performed in two different ways: static or dynamic.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm"> * Static encoding</span>
 <span class="cm"> */</span>
-<span class="k">object</span> <span class="nc">MyEnumStatic</span> <span class="k">extends</span> <span class="nc">SpinalEnum</span><span class="o">{</span>
+<span class="k">object</span> <span class="nc">MyEnumStatic</span> <span class="k">extends</span> <span class="nc">SpinalEnum</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">e0</span><span class="o">,</span> <span class="n">e1</span><span class="o">,</span> <span class="n">e2</span><span class="o">,</span> <span class="n">e3</span> <span class="k">=</span> <span class="n">newElement</span><span class="o">()</span>
   <span class="n">defaultEncoding</span> <span class="k">=</span> <span class="nc">SpinalEnumEncoding</span><span class="o">(</span><span class="s">&quot;staticEncoding&quot;</span><span class="o">)(</span>
     <span class="n">e0</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="o">,</span>
@@ -408,14 +408,14 @@ Native enumeration type is used for VHDL and a binary encoding is used for Veril
 
 <span class="cm">/*</span>
 <span class="cm"> * Dynamic encoding with the function :  _ * 2 + 1</span>
-<span class="cm"> *    e.g : e0 =&gt; 0 * 2 + 1 = 1</span>
+<span class="cm"> *   e.g. : e0 =&gt; 0 * 2 + 1 = 1</span>
 <span class="cm"> *          e1 =&gt; 1 * 2 + 1 = 3</span>
 <span class="cm"> *          e2 =&gt; 2 * 2 + 1 = 5</span>
 <span class="cm"> *          e3 =&gt; 3 * 2 + 1 = 7</span>
 <span class="cm"> */</span>
 <span class="k">val</span> <span class="n">encoding</span> <span class="k">=</span> <span class="nc">SpinalEnumEncoding</span><span class="o">(</span><span class="s">&quot;dynamicEncoding&quot;</span><span class="o">,</span> <span class="k">_</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
 
-<span class="k">object</span> <span class="nc">MyEnumDynamic</span> <span class="k">extends</span> <span class="nc">SpinalEnum</span><span class="o">(</span><span class="n">encoding</span><span class="o">){</span>
+<span class="k">object</span> <span class="nc">MyEnumDynamic</span> <span class="k">extends</span> <span class="nc">SpinalEnum</span><span class="o">(</span><span class="n">encoding</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">e0</span><span class="o">,</span> <span class="n">e1</span><span class="o">,</span> <span class="n">e2</span><span class="o">,</span> <span class="n">e3</span> <span class="k">=</span> <span class="n">newElement</span><span class="o">()</span>
 <span class="o">}</span>
 </pre></div>
@@ -423,7 +423,7 @@ Native enumeration type is used for VHDL and a binary encoding is used for Veril
 </div>
 <div class="section" id="example">
 <h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
-<p>Instantiate a enumerated signal and assign a value to it :</p>
+<p>Instantiate an enumerated signal and assign a value to it:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">UartCtrlTxState</span> <span class="k">extends</span> <span class="nc">SpinalEnum</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">sIdle</span><span class="o">,</span> <span class="n">sStart</span><span class="o">,</span> <span class="n">sData</span><span class="o">,</span> <span class="n">sParity</span><span class="o">,</span> <span class="n">sStop</span> <span class="k">=</span> <span class="n">newElement</span><span class="o">()</span>
 <span class="o">}</span>
@@ -431,7 +431,7 @@ Native enumeration type is used for VHDL and a binary encoding is used for Veril
 <span class="k">val</span> <span class="n">stateNext</span> <span class="k">=</span> <span class="nc">UartCtrlTxState</span><span class="o">()</span>
 <span class="n">stateNext</span> <span class="o">:=</span> <span class="nc">UartCtrlTxState</span><span class="o">.</span><span class="n">sIdle</span>
 
-<span class="c1">//You can also import the enumeration to have the visibility on its elements</span>
+<span class="c1">// You can also import the enumeration to have visibility of its elements</span>
 <span class="k">import</span> <span class="nn">UartCtrlTxState._</span>
 <span class="n">stateNext</span> <span class="o">:=</span> <span class="n">sIdle</span>
 </pre></div>
@@ -440,7 +440,7 @@ Native enumeration type is used for VHDL and a binary encoding is used for Veril
 </div>
 <div class="section" id="operators">
 <h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
-<p>The following operators are available for the <code class="docutils literal notranslate"><span class="pre">Enumeration</span></code> type</p>
+<p>The following operators are available for the <code class="docutils literal notranslate"><span class="pre">Enumeration</span></code> type:</p>
 <div class="section" id="comparison">
 <h3>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
@@ -471,16 +471,16 @@ Native enumeration type is used for VHDL and a binary encoding is used for Veril
 <span class="k">val</span> <span class="n">stateNext</span> <span class="k">=</span> <span class="nc">UartCtrlTxState</span><span class="o">()</span>
 <span class="n">stateNext</span> <span class="o">:=</span> <span class="n">sIdle</span>
 
-<span class="n">when</span><span class="o">(</span><span class="n">stateNext</span> <span class="o">===</span> <span class="n">sStart</span><span class="o">){</span>
-
+<span class="n">when</span><span class="o">(</span><span class="n">stateNext</span> <span class="o">===</span> <span class="n">sStart</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">...</span>
 <span class="o">}</span>
 
-<span class="n">switch</span><span class="o">(</span><span class="n">stateNext</span><span class="o">){</span>
-  <span class="n">is</span><span class="o">(</span><span class="n">sIdle</span><span class="o">){</span>
-
+<span class="n">switch</span><span class="o">(</span><span class="n">stateNext</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">is</span><span class="o">(</span><span class="n">sIdle</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">...</span>
   <span class="o">}</span>
-  <span class="n">is</span><span class="o">(</span><span class="n">sStart</span><span class="o">){</span>
-
+  <span class="n">is</span><span class="o">(</span><span class="n">sStart</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">...</span>
   <span class="o">}</span>
   <span class="o">...</span>
 <span class="o">}</span>

@@ -7,10 +7,9 @@ Bundle
 Description
 ^^^^^^^^^^^
 
-The ``Bundle`` is a composite type that defines a group of named signals (of any SpinalHDL basic type)
-under a single name.
+The ``Bundle`` is a composite type that defines a group of named signals (of any SpinalHDL basic type) under a single name.
 
-A Bundle can be used to model data structures, buses and interfaces.
+A ``Bundle`` can be used to model data structures, buses, and interfaces.
 
 Declaration
 ^^^^^^^^^^^
@@ -30,15 +29,15 @@ For example, a bundle holding a color could be defined as:
 .. code-block:: scala
 
    case class Color(channelWidth: Int) extends Bundle {
-     val r,g,b = UInt(channelWidth bits)
+     val r, g, b = UInt(channelWidth bits)
    }
 
-You can find an APB3 definition example :ref:`there <example_apb3>`
+You can find an :ref:`APB3 definition <example_apb3>` among the :ref:`Spinal HDL examples <example_list>`.
 
 Operators
 ^^^^^^^^^
 
-The following operators are available for the ``Bundle`` type
+The following operators are available for the ``Bundle`` type:
 
 Comparison
 ~~~~~~~~~~
@@ -69,7 +68,6 @@ Comparison
    color2.g := 0 
    color2.b := 0
 
-
    myBool := color1 === color2
 
 Type cast
@@ -85,7 +83,6 @@ Type cast
      - Binary cast to Bits
      - Bits(w(x) bits)
 
-
 .. code-block:: scala
 
    val color1 = Color(8)
@@ -94,18 +91,18 @@ Type cast
 IO Element direction
 ^^^^^^^^^^^^^^^^^^^^
 
-When you define an Bundle inside the IO definition of your component, you need to specify its direction.
+When you define a ``Bundle`` inside the IO definition of your component, you need to specify its direction.
 
 in/out
 ~~~~~~
 
 If all elements of your bundle go in the same direction you can use ``in(MyBundle())`` or ``out(MyBundle())``.
 
-For example :
+For example:
 
 .. code-block:: scala
 
-   val io = new Bundle{
+   val io = new Bundle {
      val input  = in (Color(8))
      val output = out(Color(8))
    }
@@ -113,9 +110,9 @@ For example :
 master/slave
 ~~~~~~~~~~~~
 
-If your interface obeys to a master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each elements from an master perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO defintion.
+If your interface obeys to a master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each element from the master's perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO defintion.
 
-For example :
+For example:
 
 .. code-block:: scala
 
@@ -124,15 +121,15 @@ For example :
      val ready   = Bool
      val payload = Bits(payloadWidth bits)
 
-     //You have to implement this asMaster function.
-     //This function should set the direction of each signals from an master point of view
+     // You have to implement this asMaster function.
+     // This function should set the direction of each signals from an master point of view
      override def asMaster(): Unit = {
-       out(valid,payload)
+       out(valid, payload)
        in(ready)
      }
    }
 
-   val io = new Bundle{
+   val io = new Bundle {
      val input  = slave(HandShake(8))
      val output = master(HandShake(8))
    }

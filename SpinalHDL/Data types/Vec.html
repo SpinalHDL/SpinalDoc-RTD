@@ -360,10 +360,10 @@
 <tr class="row-even"><td><p>Vec(type: Data, size: Int)</p></td>
 <td><p>Create a vector capable of holding <code class="docutils literal notranslate"><span class="pre">size</span></code> elements of type <code class="docutils literal notranslate"><span class="pre">Data</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Vec(x,y,..)</p></td>
+<tr class="row-odd"><td><p>Vec(x, y, …)</p></td>
 <td><div class="line-block">
-<div class="line">Create a vector where indexes point to given elements.</div>
-<div class="line">this constructor supports mixed element width</div>
+<div class="line">Create a vector where indexes point to the provided elements.</div>
+<div class="line">This constructor supports mixed element width.</div>
 </div>
 </td>
 </tr>
@@ -372,23 +372,23 @@
 <div class="section" id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a vector of 2 signed integers</span>
-<span class="k">val</span> <span class="n">myVecOfSInt</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">SInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span><span class="mi">2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">myVecOfSInt</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">SInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span> <span class="mi">2</span><span class="o">)</span>
 <span class="n">myVecOfSInt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">:=</span> <span class="mi">2</span>
 <span class="n">myVecOfSInt</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">:=</span> <span class="n">myVecOfSInt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">3</span>
 
 <span class="c1">// Create a vector of 3 different type elements</span>
 <span class="k">val</span> <span class="n">myVecOfMixedUInt</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">3</span> <span class="n">bits</span><span class="o">),</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">5</span> <span class="n">bits</span><span class="o">),</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">,</span><span class="n">z</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">myVecOf_xyz_ref</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">,</span><span class="n">z</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">myVecOf_xyz_ref</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span>
 
 <span class="c1">// Iterate on a vector</span>
-<span class="k">for</span><span class="o">(</span><span class="n">element</span> <span class="k">&lt;-</span> <span class="n">myVecOf_xyz_ref</span><span class="o">){</span>
-  <span class="n">element</span> <span class="o">:=</span> <span class="mi">0</span>   <span class="c1">//Assign x,y,z with the value 0</span>
+<span class="k">for</span><span class="o">(</span><span class="n">element</span> <span class="k">&lt;-</span> <span class="n">myVecOf_xyz_ref</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">element</span> <span class="o">:=</span> <span class="mi">0</span>   <span class="c1">// Assign x, y, z with the value 0</span>
 <span class="o">}</span>
 
 <span class="c1">// Map on vector</span>
-<span class="n">myVecOfMixedUInt</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">:=</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// assign all element with value 0</span>
+<span class="n">myVecOfMixedUInt</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">:=</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// Assign all elements with value 0</span>
 
 <span class="c1">// Assign 3 to the first element of the vector</span>
 <span class="n">myVecOf_xyz_ref</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">:=</span> <span class="mi">3</span>
@@ -398,7 +398,7 @@
 </div>
 <div class="section" id="operators">
 <h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
-<p>The following operators are available for the <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> type</p>
+<p>The following operators are available for the <code class="docutils literal notranslate"><span class="pre">Vec</span></code> type:</p>
 <div class="section" id="comparison">
 <h3>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
@@ -428,7 +428,7 @@
 <span class="k">val</span> <span class="n">vec2</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">SInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span> <span class="mi">2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">vec1</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">SInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">),</span> <span class="mi">2</span><span class="o">)</span>
 
-<span class="n">myBool</span> <span class="o">:=</span> <span class="n">vec2</span> <span class="o">===</span> <span class="n">vec1</span> <span class="c1">// compare all elemenets</span>
+<span class="n">myBool</span> <span class="o">:=</span> <span class="n">vec2</span> <span class="o">===</span> <span class="n">vec1</span>  <span class="c1">// Compare all elemenets</span>
 </pre></div>
 </div>
 </div>

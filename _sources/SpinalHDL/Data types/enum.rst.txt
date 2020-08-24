@@ -21,23 +21,23 @@ The declaration of an enumerated data type is as follows:
    }
 
 For the example above, the default encoding is used.
-Native enumeration type is used for VHDL and a binary encoding is used for Verilog.
+The native enumeration type is used for VHDL and a binary encoding is used for Verilog.
 
 The enumeration encoding can be forced by defining the enumeration as follows:
 
 .. code-block:: scala
 
-   object Enumeration extends SpinalEnum(defaultEncoding=encodingOfYouChoice) {
+   object Enumeration extends SpinalEnum(defaultEncoding=encodingOfYourChoice) {
      val element0, element1, ..., elementN = newElement()
    }
    
 .. note::
-   If you want to define a enumeration as in/out of a given component, you have to do as following : in(MyEnum())  out(MyEnum())
+   If you want to define an enumeration as in/out for a given component, you have to do as following: ``in(MyEnum())`` or ``out(MyEnum())``
 
 Encoding
 ~~~~~~~~
 
-The following enumeration encodings are supported :
+The following enumeration encodings are supported:
 
 .. list-table::
    :header-rows: 1
@@ -49,47 +49,46 @@ The following enumeration encodings are supported :
    * - native
      - 
      - Use the VHDL enumeration system, this is the default encoding
-   * - binarySequancial
+   * - binarySequential
      - log2Up(stateCount)
      - Use Bits to store states in declaration order (value from 0 to n-1)
    * - binaryOneHot
      - stateCount
      - Use Bits to store state. Each bit corresponds to one state
 
-
-Custom encoding can be performed in two different ways: static or dynamic. 
+Custom encodings can be performed in two different ways: static or dynamic.
 
 .. code-block:: scala
 
    /* 
     * Static encoding 
     */
-   object MyEnumStatic extends SpinalEnum{
+   object MyEnumStatic extends SpinalEnum {
      val e0, e1, e2, e3 = newElement()
      defaultEncoding = SpinalEnumEncoding("staticEncoding")(
        e0 -> 0,
-       e1 -> 2, 
+       e1 -> 2,
        e2 -> 3,
        e3 -> 7)
    }
 
    /*
-    * Dynamic encoding with the function :  _ * 2 + 1 
-    *    e.g : e0 => 0 * 2 + 1 = 1 
+    * Dynamic encoding with the function :  _ * 2 + 1
+    *   e.g. : e0 => 0 * 2 + 1 = 1
     *          e1 => 1 * 2 + 1 = 3
-    *          e2 => 2 * 2 + 1 = 5 
-    *          e3 => 3 * 2 + 1 = 7 
+    *          e2 => 2 * 2 + 1 = 5
+    *          e3 => 3 * 2 + 1 = 7
     */
    val encoding = SpinalEnumEncoding("dynamicEncoding", _ * 2 + 1)
 
-   object MyEnumDynamic extends SpinalEnum(encoding){
+   object MyEnumDynamic extends SpinalEnum(encoding) {
      val e0, e1, e2, e3 = newElement()
    }
 
 Example
 ~~~~~~~
 
-Instantiate a enumerated signal and assign a value to it :
+Instantiate an enumerated signal and assign a value to it:
 
 .. code-block:: scala
 
@@ -100,14 +99,14 @@ Instantiate a enumerated signal and assign a value to it :
    val stateNext = UartCtrlTxState()
    stateNext := UartCtrlTxState.sIdle
 
-   //You can also import the enumeration to have the visibility on its elements
+   // You can also import the enumeration to have visibility of its elements
    import UartCtrlTxState._
    stateNext := sIdle
 
 Operators
 ^^^^^^^^^
 
-The following operators are available for the ``Enumeration`` type
+The following operators are available for the ``Enumeration`` type:
 
 Comparison
 ~~~~~~~~~~
@@ -133,16 +132,16 @@ Comparison
    val stateNext = UartCtrlTxState()
    stateNext := sIdle
 
-   when(stateNext === sStart){
-
+   when(stateNext === sStart) {
+     ...
    }
 
-   switch(stateNext){
-     is(sIdle){
-
+   switch(stateNext) {
+     is(sIdle) {
+       ...
      }
-     is(sStart){
-
+     is(sStart) {
+       ...
      }
      ...
    }
@@ -165,7 +164,6 @@ Type cast
    * - x.asSInt
      - Binary cast to SInt
      - SInt(w(x) bits)
-
 
 .. code-block:: scala
 
