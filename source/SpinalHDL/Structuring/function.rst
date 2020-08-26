@@ -11,25 +11,23 @@ Introduction
 
 The ways you can use Scala functions to generate hardware are radically different than VHDL/Verilog for many reasons:
 
-
-* You can instantiate registers, combinatorial logic and components inside them.
-* You don't have to play with ``process``\ /\ ``@always`` that limit the scope of assignment of signals
+* You can instantiate registers, combinational logic, and components inside them.
+* You don't have to play with ``process``\ /\ ``@always`` blocks that limit the scope of assignment of signals.
 * | Everything is passed by reference, which allows easy manipulation.
-  | For example you can give a bus to a function as an argument, then the function can internaly read/write to it.
-  | You can also return a Component, a Bus, or anything else from scala and the scala world.
+  | For example, you can give a bus to a function as an argument, then the function can internaly read/write to it. You can also return a Component, a Bus, or anything else from Scala and the Scala world.
 
 RGB to gray
 -----------
 
-For example if you want to convert a Red/Green/Blue color into greyscale by using coefficients, you can use functions to apply them:
+For example, if you want to convert a Red/Green/Blue color into greyscale by using coefficients, you can use functions to apply them:
 
 .. code-block:: scala
 
    // Input RGB color
    val r, g, b = UInt(8 bits)
 
-   // Define a function to multiply a UInt by a scala Float value.
-   def coef(value: UInt, by: Float): UInt = (value * U((255*by).toInt, 8 bits) >> 8)
+   // Define a function to multiply a UInt by a Scala Float value.
+   def coef(value: UInt, by: Float): UInt = (value * U((255 * by).toInt, 8 bits) >> 8)
 
    // Calculate the gray level
    val gray = coef(r, 0.3f) + coef(g, 0.4f) + coef(b, 0.3f)
@@ -37,7 +35,7 @@ For example if you want to convert a Red/Green/Blue color into greyscale by usin
 Valid Ready Payload bus
 -----------------------
 
-For instance if you define a simple Valid Ready Payload bus, you can then define some useful functions inside of it.
+For instance, if you define a simple bus with ``valid``, ``ready``, and ``payload`` signals, you can then define some useful functions inside of it.
 
 .. code-block:: scala
 
@@ -46,7 +44,7 @@ For instance if you define a simple Valid Ready Payload bus, you can then define
      val ready   = Bool
      val payload = Bits(payloadWidth bits)
 
-     // define the direction of the data in a master mode 
+     // Define the direction of the data in a master mode
      override des asMaster(): Unit = {
        out(valid, payload)
        in(ready)

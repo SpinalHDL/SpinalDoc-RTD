@@ -7,13 +7,13 @@ Instantiate VHDL and Verilog IP
 Description
 -----------
 
-A blackbox allows the user to integrate an existing VHDL/Verilog component into the design by just specifying the
+A blackbox allows the user to integrate an existing VHDL/Verilog component into the design by just specifying its
 interfaces. It's up to the simulator or synthesizer to do the elaboration correctly.
 
 Defining an blackbox
 --------------------
 
- An example of how to define a blackbox is shown below:
+An example of how to define a blackbox is shown below:
 
 .. code-block:: scala
 
@@ -21,15 +21,15 @@ Defining an blackbox
    class Ram_1w_1r(wordWidth: Int, wordCount: Int) extends BlackBox {
 
      // SpinalHDL will look at Generic classes to get attributes which
-     // should be used ad VHDL gererics / Verilog parameter
-     // You can use String Int Double Boolean and all SpinalHDL base types
-     // as generic value
+     // should be used as VHDL generics / Verilog parameters
+     // You can use String, Int, Double, Boolean, and all SpinalHDL base
+     // types as generic values
      val generic = new Generic {
        val wordCount = Ram_1w_1r.this.wordCount
        val wordWidth = Ram_1w_1r.this.wordWidth
      }
 
-     // Define io of the VHDL entiry / Verilog module
+     // Define IO of the VHDL entity / Verilog module
      val io = new Bundle {
        val clk = in Bool
        val wr = new Bundle {
@@ -44,12 +44,12 @@ Defining an blackbox
        }
      }
 
-     //Map the current clock domain to the io.clk pin
+     // Map the current clock domain to the io.clk pin
      mapClockDomain(clock=io.clk)
    }
 
-| In VHDL, signals of type ``Bool`` will be translated into std_logic and ``Bits`` into std_logic_vector. If you want to get std_ulogic, you have to use a BlackBoxULogic instead of BlackBox.
-| In Verilog, BlackBoxUlogic has no effect. 
+| In VHDL, signals of type ``Bool`` will be translated into ``std_logic`` and ``Bits`` into ``std_logic_vector``. If you want to get ``std_ulogic``, you have to use a ``BlackBoxULogic`` instead of ``BlackBox``.
+| In Verilog, ``BlackBoxUlogic`` has no effect.
 
 .. code-block:: scala
 
@@ -80,7 +80,7 @@ There are two different ways to declare generics:
 Instantiating a blackbox
 ------------------------
 
-Instantiating a blackbox is just like instantiating a Component:
+Instantiating a ``BlackBox`` is just like instantiating a ``Component``:
 
 .. code-block:: scala
 
@@ -99,10 +99,10 @@ Instantiating a blackbox is just like instantiating a Component:
        }
      }
 
-     //Instantiate the blackbox
+     // Instantiate the blackbox
      val ram = new Ram_1w_1r(8,16)
 
-     //Connect all the signals
+     // Connect all the signals
      io.wr.en   <> ram.io.wr.en
      io.wr.addr <> ram.io.wr.addr
      io.wr.data <> ram.io.wr.data
@@ -120,7 +120,7 @@ Instantiating a blackbox is just like instantiating a Component:
 Clock and reset mapping
 -----------------------
 
-In your blackbox definition you have to explicitly define clock and reset wires. To map signals of a ClockDomain to corresponding inputs of the blackbox you can use the ``mapClockDomain`` or ``mapCurrentClockDomain`` function. ``mapClockDomain`` has the following parameters:
+In your blackbox definition you have to explicitly define clock and reset wires. To map signals of a ``ClockDomain`` to corresponding inputs of the blackbox you can use the ``mapClockDomain`` or ``mapCurrentClockDomain`` function. ``mapClockDomain`` has the following parameters:
 
 .. list-table::
    :header-rows: 1
@@ -207,6 +207,9 @@ In order to avoid the prefix "io\_" on each of the IOs of the blackbox, you can 
 Rename all io of a blackbox
 ---------------------------
 
+IOs of a ``BlackBox`` or ``Component`` can be renamed at compile-time using the ``addPrePopTask`` function.
+This function takes a no-argument function to be applied during compilation, and is useful for adding renaming passes, as shown in the following example:
+
 .. code-block:: scala
 
    class MyRam() extends Blackbox {
@@ -242,10 +245,10 @@ Rename all io of a blackbox
      }
 
      // Execute the function renameIO after the creation of the component 
-     addPrePostTask(() => renameIO())
+     addPrePopTask(() => renameIO())
    }
 
-   // This code generate those names :
+   // This code generate these names:
    //    clk 
    //    cs_A, rwn_A, dIn_A, dOut_A
    //    cs_B, rwn_B, dIn_B, dOut_B
@@ -253,7 +256,7 @@ Rename all io of a blackbox
 Add RTL source
 --------------
 
-With the function ``addRTLPath()`` you can associate your RTL sources with the blackbox. After the generation of your Spinal code you can call the fonction ``mergeRTLSource`` to merge all sources together. 
+With the function ``addRTLPath()`` you can associate your RTL sources with the blackbox. After the generation of your SpinalHDL code you can call the function ``mergeRTLSource`` to merge all of the sources together.
 
 .. code-block:: scala
 
@@ -277,23 +280,22 @@ With the function ``addRTLPath()`` you can associate your RTL sources with the 
      addRTLPath("./rtl/RegisterBank.v")                         // Add a verilog file 
      addRTLPath(s"./rtl/myDesign.vhd")                          // Add a vhdl file 
      addRTLPath(s"${sys.env("MY_PROJECT")}/myTopLevel.vhd")     // Use an environement variable MY_PROJECT (System.getenv("MY_PROJECT"))
-
    }
 
    ...
 
    val report = SpinalVhdl(new MyBlackBox)
-   report.mergeRTLSource("mergeRTL") // merge all rtl sources into mergeRTL.vhd and mergeRTL.v file
+   report.mergeRTLSource("mergeRTL") // Merge all rtl sources into mergeRTL.vhd and mergeRTL.v files
 
 VHDL - No numeric type
 ----------------------
 
-If you want to use only ``std_logic_vector`` on your blackbox component, you can add the tag ``noNumericType`` to the blackbox. 
+If you want to use only ``std_logic_vector`` in your blackbox component, you can add the tag ``noNumericType`` to the blackbox.
 
 .. code-block:: scala
 
    class MyBlackBox() extends BlackBox{
-     val io = new Bundle{
+     val io = new Bundle {
        val clk       = in  Bool 
        val increment = in  Bool 
        val initValue = in  UInt(8 bits)
@@ -304,7 +306,7 @@ If you want to use only ``std_logic_vector`` on your blackbox component, you can
 
      noIoPrefix()
 
-     addTag(noNumericType)  // only std_logic_vector
+     addTag(noNumericType)  // Only std_logic_vector
    }
 
 The code above will generate the following VHDL:
