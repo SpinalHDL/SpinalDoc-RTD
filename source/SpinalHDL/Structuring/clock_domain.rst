@@ -9,7 +9,7 @@ Clock domains
 Introduction
 ------------
 
-In SpinalHDL, clock and reset signals can be combined to create a **clock domain**. Clock domains can be applied to some areas of the design and then all synchronous elements instantiated into those areas will then `implicitly` use this clock domain.
+In SpinalHDL, clock and reset signals can be combined to create a **clock domain**. Clock domains can be applied to some areas of the design and then all synchronous elements instantiated into those areas will then **implicitly** use this clock domain.
 
 Clock domain application works like a stack, which means that if you are in a given clock domain you can still apply another clock domain locally.
 

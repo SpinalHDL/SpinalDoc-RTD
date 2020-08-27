@@ -69,7 +69,7 @@ The syntax to define inputs and outputs is as follows:
 There are some rules to follow with component interconnection:
 
 
-* Components can only `read` output and input signals of child components.
+* Components can only **read** output and input signals of child components.
 * Components can read their own output port values (unlike in VHDL).
 
 .. tip::
