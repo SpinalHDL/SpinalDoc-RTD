@@ -343,24 +343,23 @@
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>The ways you can use Scala functions to generate hardware are radically different than VHDL/Verilog for many reasons:</p>
 <ul>
-<li><p>You can instantiate registers, combinatorial logic and components inside them.</p></li>
-<li><p>You don’t have to play with <code class="docutils literal notranslate"><span class="pre">process</span></code>/<code class="docutils literal notranslate"><span class="pre">&#64;always</span></code> that limit the scope of assignment of signals</p></li>
+<li><p>You can instantiate registers, combinational logic, and components inside them.</p></li>
+<li><p>You don’t have to play with <code class="docutils literal notranslate"><span class="pre">process</span></code>/<code class="docutils literal notranslate"><span class="pre">&#64;always</span></code> blocks that limit the scope of assignment of signals.</p></li>
 <li><div class="line-block">
 <div class="line">Everything is passed by reference, which allows easy manipulation.</div>
-<div class="line">For example you can give a bus to a function as an argument, then the function can internaly read/write to it.</div>
-<div class="line">You can also return a Component, a Bus, or anything else from scala and the scala world.</div>
+<div class="line">For example, you can give a bus to a function as an argument, then the function can internaly read/write to it. You can also return a Component, a Bus, or anything else from Scala and the Scala world.</div>
 </div>
 </li>
 </ul>
 </div>
 <div class="section" id="rgb-to-gray">
 <h2>RGB to gray<a class="headerlink" href="#rgb-to-gray" title="Permalink to this headline">¶</a></h2>
-<p>For example if you want to convert a Red/Green/Blue color into greyscale by using coefficients, you can use functions to apply them:</p>
+<p>For example, if you want to convert a Red/Green/Blue color into greyscale by using coefficients, you can use functions to apply them:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Input RGB color</span>
 <span class="k">val</span> <span class="n">r</span><span class="o">,</span> <span class="n">g</span><span class="o">,</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
 
-<span class="c1">// Define a function to multiply a UInt by a scala Float value.</span>
-<span class="k">def</span> <span class="n">coef</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">,</span> <span class="n">by</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span><span class="k">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="o">(</span><span class="n">value</span> <span class="o">*</span> <span class="n">U</span><span class="o">((</span><span class="mi">255</span><span class="o">*</span><span class="n">by</span><span class="o">).</span><span class="n">toInt</span><span class="o">,</span> <span class="mi">8</span> <span class="n">bits</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="o">)</span>
+<span class="c1">// Define a function to multiply a UInt by a Scala Float value.</span>
+<span class="k">def</span> <span class="n">coef</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">UInt</span><span class="o">,</span> <span class="n">by</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span><span class="k">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="o">(</span><span class="n">value</span> <span class="o">*</span> <span class="n">U</span><span class="o">((</span><span class="mi">255</span> <span class="o">*</span> <span class="n">by</span><span class="o">).</span><span class="n">toInt</span><span class="o">,</span> <span class="mi">8</span> <span class="n">bits</span><span class="o">)</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="o">)</span>
 
 <span class="c1">// Calculate the gray level</span>
 <span class="k">val</span> <span class="n">gray</span> <span class="k">=</span> <span class="n">coef</span><span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="mf">0.3f</span><span class="o">)</span> <span class="o">+</span> <span class="n">coef</span><span class="o">(</span><span class="n">g</span><span class="o">,</span> <span class="mf">0.4f</span><span class="o">)</span> <span class="o">+</span> <span class="n">coef</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="mf">0.3f</span><span class="o">)</span>
@@ -369,13 +368,13 @@
 </div>
 <div class="section" id="valid-ready-payload-bus">
 <h2>Valid Ready Payload bus<a class="headerlink" href="#valid-ready-payload-bus" title="Permalink to this headline">¶</a></h2>
-<p>For instance if you define a simple Valid Ready Payload bus, you can then define some useful functions inside of it.</p>
+<p>For instance, if you define a simple bus with <code class="docutils literal notranslate"><span class="pre">valid</span></code>, <code class="docutils literal notranslate"><span class="pre">ready</span></code>, and <code class="docutils literal notranslate"><span class="pre">payload</span></code> signals, you can then define some useful functions inside of it.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBus</span><span class="o">(</span><span class="n">payloadWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span>
   <span class="k">val</span> <span class="n">ready</span>   <span class="k">=</span> <span class="nc">Bool</span>
   <span class="k">val</span> <span class="n">payload</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">payloadWidth</span> <span class="n">bits</span><span class="o">)</span>
 
-  <span class="c1">// define the direction of the data in a master mode</span>
+  <span class="c1">// Define the direction of the data in a master mode</span>
   <span class="k">override</span> <span class="n">des</span> <span class="n">asMaster</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
     <span class="n">out</span><span class="o">(</span><span class="n">valid</span><span class="o">,</span> <span class="n">payload</span><span class="o">)</span>
     <span class="n">in</span><span class="o">(</span><span class="n">ready</span><span class="o">)</span>

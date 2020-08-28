@@ -341,28 +341,28 @@
 <h1>Component and hierarchy<a class="headerlink" href="#component-and-hierarchy" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy.  However, in SpinalHDL, you don’t need to bind their ports at instantiation</p>
+<p>Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy. However, in SpinalHDL, you don’t need to bind their ports at instantiation:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AdderCell</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-  <span class="c1">//Declaring external ports in a Bundle called `io` is recommended</span>
+  <span class="c1">// Declaring external ports in a Bundle called `io` is recommended</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">cin</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
     <span class="k">val</span> <span class="n">sum</span><span class="o">,</span> <span class="n">cout</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
   <span class="o">}</span>
-  <span class="c1">//Do some logic</span>
+  <span class="c1">// Do some logic</span>
   <span class="n">io</span><span class="o">.</span><span class="n">sum</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">^</span> <span class="n">io</span><span class="o">.</span><span class="n">b</span> <span class="o">^</span> <span class="n">io</span><span class="o">.</span><span class="n">cin</span>
   <span class="n">io</span><span class="o">.</span><span class="n">cout</span> <span class="o">:=</span> <span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">io</span><span class="o">.</span><span class="n">b</span><span class="o">)</span> <span class="o">|</span> <span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">io</span><span class="o">.</span><span class="n">cin</span><span class="o">)</span> <span class="o">|</span> <span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">b</span> <span class="o">&amp;</span> <span class="n">io</span><span class="o">.</span><span class="n">cin</span><span class="o">)</span>
 <span class="o">}</span>
 
 <span class="k">class</span> <span class="nc">Adder</span><span class="o">(</span><span class="n">width</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="o">...</span>
-  <span class="c1">//Create 2 AdderCell</span>
+  <span class="c1">// Create 2 AdderCell instances</span>
   <span class="k">val</span> <span class="n">cell0</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">AdderCell</span>
   <span class="k">val</span> <span class="n">cell1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">AdderCell</span>
-  <span class="n">cell1</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">cin</span> <span class="o">:=</span> <span class="n">cell0</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">cout</span>   <span class="c1">//Connect cout of cell0 to cin of cell1</span>
+  <span class="n">cell1</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">cin</span> <span class="o">:=</span> <span class="n">cell0</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">cout</span>   <span class="c1">// Connect cout of cell0 to cin of cell1</span>
 
-  <span class="c1">// Another example which create an array of ArrayCell</span>
+  <span class="c1">// Another example which creates an array of ArrayCell instances</span>
   <span class="k">val</span> <span class="n">cellArray</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">.</span><span class="n">fill</span><span class="o">(</span><span class="n">width</span><span class="o">)(</span><span class="k">new</span> <span class="nc">AdderCell</span><span class="o">)</span>
-  <span class="n">cellArray</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">io</span><span class="o">.</span><span class="n">cin</span> <span class="o">:=</span> <span class="n">cellArray</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="n">io</span><span class="o">.</span><span class="n">cout</span>   <span class="c1">//Connect cout of cell(0) to cin of cell(1)</span>
+  <span class="n">cellArray</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">io</span><span class="o">.</span><span class="n">cin</span> <span class="o">:=</span> <span class="n">cellArray</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="n">io</span><span class="o">.</span><span class="n">cout</span>   <span class="c1">// Connect cout of cell(0) to cin of cell(1)</span>
   <span class="o">...</span>
 <span class="o">}</span>
 </pre></div>
@@ -370,14 +370,14 @@
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <div class="line-block">
-<div class="line">val io = new Bundle{ … } :</div>
-<div class="line">Declaring external ports in a Bundle called <cite>io</cite> is recommended. If you call your bundle <cite>io</cite>, Spinal will check that all elements are defined as input or output.</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">io =</span> <span class="pre">new</span> <span class="pre">Bundle</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code></div>
+<div class="line">Declaring external ports in a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> called <code class="docutils literal notranslate"><span class="pre">io</span></code> is recommended. If you name your bundle <code class="docutils literal notranslate"><span class="pre">io</span></code>, SpinalHDL will check that all of its elements are defined as inputs or outputs.</div>
 </div>
 </div>
 </div>
 <div class="section" id="input-output-definition">
 <h2>Input / output definition<a class="headerlink" href="#input-output-definition" title="Permalink to this headline">¶</a></h2>
-<p>The syntax to define inputs and outputs is the following:</p>
+<p>The syntax to define inputs and outputs is as follows:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 33%" />
@@ -400,41 +400,32 @@
 <td><p>Bits/UInt/SInt</p></td>
 </tr>
 <tr class="row-even"><td><p>in/out(T)</p></td>
-<td><div class="line-block">
-<div class="line">For all other data types, you may have to add some brackets</div>
-<div class="line">around it. Sorry this is a Scala limitation.</div>
-</div>
-</td>
+<td><p>For all other data types, you may have to add some brackets around it. Sorry, this is a Scala limitation.</p></td>
 <td><p>T</p></td>
 </tr>
 <tr class="row-odd"><td><p>master/slave(T)</p></td>
-<td><div class="line-block">
-<div class="line">This syntax is provided by the <cite>spinal.lib</cite> (If you call your object <cite>slave</cite>,</div>
-<div class="line">then call <cite>spinal.lib.slave</cite> instead). T should extend IMasterSlave –</div>
-<div class="line">Some documentation is available <a class="reference internal" href="../Developers area/types.html#interface-eaxample-apb"><span class="std std-ref">here</span></a>.</div>
-<div class="line">You may not actually need the brackets, so <cite>master T</cite> is fine as well.</div>
-</div>
-</td>
+<td><p>This syntax is provided by the <code class="docutils literal notranslate"><span class="pre">spinal.lib</span></code> library (If you annotate your object with the <code class="docutils literal notranslate"><span class="pre">slave</span></code> syntax, then import <code class="docutils literal notranslate"><span class="pre">spinal.lib.slave</span></code> instead).
+T should extend <code class="docutils literal notranslate"><span class="pre">IMasterSlave</span></code> – Some documentation is available <a class="reference internal" href="../Developers area/types.html#interface-eaxample-apb"><span class="std std-ref">here</span></a>. You may not actually need the brackets, so <code class="docutils literal notranslate"><span class="pre">master</span> <span class="pre">T</span></code> is fine as well.</p></td>
 <td><p>T</p></td>
 </tr>
 </tbody>
 </table>
 <p>There are some rules to follow with component interconnection:</p>
 <ul class="simple">
-<li><p>Components can only read output and input signals of child components</p></li>
-<li><p>Components can read their own output port values (unlike VHDL)</p></li>
+<li><p>Components can only <strong>read</strong> output and input signals of child components.</p></li>
+<li><p>Components can read their own output port values (unlike in VHDL).</p></li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>If for some reason, you need to read signals from far away in the hierarchy (debug, temporal patch) you can do it by using the value returned by <cite>some.where.else.theSignal.pull()</cite>.</p>
+<p>If for some reason you need to read signals from far away in the hierarchy (such as for debugging or temporal patches), you can do it by using the value returned by <code class="docutils literal notranslate"><span class="pre">some.where.else.theSignal.pull()</span></code></p>
 </div>
 </div>
 <div class="section" id="pruned-signals">
 <h2>Pruned signals<a class="headerlink" href="#pruned-signals" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL only generates things which are required to drive the outputs of your top level entity (directly or indirectly).</p>
-<p>All other signals (the useless ones) are removed from the RTL generation and are inserted into a list of pruned signals. You can get this list via the <code class="docutils literal notranslate"><span class="pre">printPruned</span></code> and the <code class="docutils literal notranslate"><span class="pre">printPrunedIo</span></code> function on the generated <code class="docutils literal notranslate"><span class="pre">SpinalReport</span></code>.</p>
+<p>SpinalHDL only generates things which are directly or indirectly required to drive the outputs of your top-level entity.</p>
+<p>All other signals (the useless ones) are removed from the RTL generation and are inserted into a list of pruned signals. You can get this list via the <code class="docutils literal notranslate"><span class="pre">printPruned</span></code> and the <code class="docutils literal notranslate"><span class="pre">printPrunedIo</span></code> functions on the generated <code class="docutils literal notranslate"><span class="pre">SpinalReport</span></code> object:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
@@ -447,7 +438,7 @@
   <span class="n">unusedSignal2</span> <span class="o">:=</span> <span class="n">unusedSignal</span>
 <span class="o">}</span>
 
-<span class="k">object</span> <span class="nc">Main</span><span class="o">{</span>
+<span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
     <span class="nc">SpinalVhdl</span><span class="o">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="o">).</span><span class="n">printPruned</span><span class="o">()</span>
     <span class="c1">//This will report :</span>
@@ -457,10 +448,10 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>If you want to keep a pruned signal into the generated RTL for debug reasons, you can use the <code class="docutils literal notranslate"><span class="pre">keep</span></code> function of that signal:</p>
+<p>If you want to keep a pruned signal in the generated RTL for debugging reasons, you can use the <code class="docutils literal notranslate"><span class="pre">keep</span></code> function of that signal:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
 
@@ -473,10 +464,10 @@
   <span class="n">unusedSignal2</span> <span class="o">:=</span> <span class="n">unusedSignal</span>
 <span class="o">}</span>
 
-<span class="k">object</span> <span class="nc">Main</span><span class="o">{</span>
+<span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
     <span class="nc">SpinalVhdl</span><span class="o">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="o">).</span><span class="n">printPruned</span><span class="o">()</span>
-    <span class="c1">//This will report nothing</span>
+    <span class="c1">// This will report nothing</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -486,40 +477,40 @@
 <h2>Parametrized Hardware (“Generic” in VHDL, “Parameter” in Verilog)<a class="headerlink" href="#parametrized-hardware-generic-in-vhdl-parameter-in-verilog" title="Permalink to this headline">¶</a></h2>
 <p>If you want to parameterize your component, you can give parameters to the constructor of the component as follows:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyAdder</span><span class="o">(</span><span class="n">width</span><span class="k">:</span> <span class="kt">BitCount</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span><span class="o">)</span>
   <span class="o">}</span>
   <span class="n">io</span><span class="o">.</span><span class="n">result</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">io</span><span class="o">.</span><span class="n">b</span>
 <span class="o">}</span>
 
-<span class="k">object</span> <span class="nc">Main</span><span class="o">{</span>
+<span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
     <span class="nc">SpinalVhdl</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyAdder</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">))</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>I you have several parameters, it is a good practice to give a specific configuration class as follows:</p>
+<p>If you have several parameters, it is a good practice to give a specific configuration class as follows:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">MySocConfig</span><span class="o">(</span><span class="n">axiFrequency</span>  <span class="k">:</span> <span class="kt">HertzNumber</span><span class="o">,</span>
                        <span class="n">onChipRamSize</span> <span class="k">:</span> <span class="kt">BigInt</span><span class="o">,</span>
                        <span class="n">cpu</span>           <span class="k">:</span> <span class="kt">RiscCoreConfig</span><span class="o">,</span>
                        <span class="n">iCache</span>        <span class="k">:</span> <span class="kt">InstructionCacheConfig</span><span class="o">)</span>
 
 <span class="k">class</span> <span class="nc">MySoc</span><span class="o">(</span><span class="n">config</span><span class="k">:</span> <span class="kt">MySocConfig</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-    <span class="o">...</span>
+  <span class="o">...</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="synthesized-component-names">
 <h2>Synthesized component names<a class="headerlink" href="#synthesized-component-names" title="Permalink to this headline">¶</a></h2>
-<p>Within a module, each component has a name, called “partial name”.
-The “full” name is built by joining every component’s parent name with “_”, for example: <cite>io_clockDomain_reset</cite>.
-You can use <cite>setName</cite> to replace this convention with a custom name.
+<p>Within a module, each component has a name, called a “partial name”.
+The “full” name is built by joining every component’s parent name with “_”, for example: <code class="docutils literal notranslate"><span class="pre">io_clockDomain_reset</span></code>.
+You can use <code class="docutils literal notranslate"><span class="pre">setName</span></code> to replace this convention with a custom name.
 This is especially useful when interfacing with external components.
-The other methods are called <cite>getName</cite>, <cite>setPartialName</cite>, <cite>getPartialName</cite> respectively.</p>
-<p>When synthesized, each module gets the name of the Scala class defining it. You can override this as well with <cite>setDefinitionName</cite>.</p>
+The other methods are called <code class="docutils literal notranslate"><span class="pre">getName</span></code>, <code class="docutils literal notranslate"><span class="pre">setPartialName</span></code>, and <code class="docutils literal notranslate"><span class="pre">getPartialName</span></code> respectively.</p>
+<p>When synthesized, each module gets the name of the Scala class defining it. You can override this as well with <code class="docutils literal notranslate"><span class="pre">setDefinitionName</span></code>.</p>
 <!--
 TODO
 ### Input or Output is a basic type
