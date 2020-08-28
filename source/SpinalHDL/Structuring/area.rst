@@ -4,8 +4,8 @@
 Area
 ====
 
-Area
-----
+Introduction
+------------
 
 Sometimes, creating a ``Component`` to define some logic is overkill because you:
 
@@ -13,7 +13,7 @@ Sometimes, creating a ``Component`` to define some logic is overkill because you
 * Need to define all construction parameters and IO (verbosity, duplication)
 * Split your code (more than needed)
 
-For this kind of case you can use an ``Area`` to define a group of signals/logic.
+For this kind of case you can use an ``Area`` to define a group of signals/logic:
 
 .. code-block:: scala
 
