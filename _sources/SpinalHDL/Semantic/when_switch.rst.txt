@@ -9,12 +9,12 @@ As in VHDL and Verilog, signals can be conditionally assigned when a specified c
 
 .. code-block:: scala
 
-   when(cond1){
-     //execute when      cond1 is true
-   }.elsewhen(cond2){
-     //execute when (not cond1) and cond2
-   }.otherwise{
-     //execute when (not cond1) and (not cond2)
+   when(cond1) {
+     // Execute when cond1 is true
+   }.elsewhen(cond2) {
+     // Execute when (not cond1) and cond2
+   }.otherwise {
+     // Execute when (not cond1) and (not cond2)
    }
 
 Switch
@@ -24,29 +24,29 @@ As in VHDL and Verilog, signals can be conditionally assigned when a signal has 
 
 .. code-block:: scala
 
-   switch(x){
-     is(value1){
-       //execute when x === value1
+   switch(x) {
+     is(value1) {
+       // Execute when x === value1
      }
-     is(value2){
-       //execute when x === value2
+     is(value2) {
+       // Execute when x === value2
      }
-     default{
-       //execute if none of precedent condition meet
+     default {
+       // Execute if none of precedent conditions met
      }
    }
 
 Local declaration
 -----------------
 
-It is possible to define new signals into a when/switch statement:
+It is possible to define new signals inside a when/switch statement:
 
 .. code-block:: scala
 
-   val x,y = UInt(4 bits)
-   val a,b = UInt(4 bits)
+   val x, y = UInt(4 bits)
+   val a, b = UInt(4 bits)
 
-   when(cond){
+   when(cond) {
      val tmp = a + b
      x := tmp
      y := tmp + 1
@@ -56,12 +56,12 @@ It is possible to define new signals into a when/switch statement:
    }
 
 .. note::
-   SpinalHDL checks that signals defined inside a scope are only assigned inside the scope they are defined in.
+   SpinalHDL checks that signals defined inside a scope are only assigned inside that scope.
 
 Mux
 ---
 
-If you just need a Mux with a Bool selection signal, there are two equivalent syntaxes:
+If you just need a ``Mux`` with a ``Bool`` selection signal, there are two equivalent syntaxes:
 
 .. list-table::
    :header-rows: 1
@@ -76,7 +76,6 @@ If you just need a Mux with a Bool selection signal, there are two equivalent sy
    * - cond ? whenTrue | whenFalse
      - T
      - Return ``whenTrue`` when ``cond`` is True, ``whenFalse`` otherwise
-
 
 .. code-block:: scala
 
@@ -115,8 +114,7 @@ Also, if all possible values are covered in your mux, you can omit the default v
      3 -> (io.src0)
    )
 
-``muxLists(...)`` is another bitwise selection which take as input a sequence of tuples. Below an example of dividing a Bits of 128 bits into 32 bits:
-
+``muxLists(...)`` is another bitwise selection which takes a sequence of tuples as input. Below is an example of dividing a ``Bits`` of 128 bits into 32 bits:
 
 .. image:: /asset/picture/MuxList.png
    :align: center
@@ -127,7 +125,8 @@ Also, if all possible values are covered in your mux, you can omit the default v
    val sel  = UInt(2 bits)
    val data = Bits(128 bits)
 
-   val dataWord = sel.muxList(for(index <- 0 until 4) yield (index, data(index*32+32-1 downto index*32)))
+   // Dividing a wide Bits type into smaller chunks, using a mux:
+   val dataWord = sel.muxList(for (index <- 0 until 4) yield (index, data(index*32+32-1 downto index*32)))
 
-   // This example can be written shorter.
+   // A shorter way to do the same thing:
    val dataWord = data.subdivideIn(32 bits)(sel)

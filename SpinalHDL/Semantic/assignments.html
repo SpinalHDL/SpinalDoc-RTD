@@ -324,7 +324,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/SpinalHDL/Semantic/assignements.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/SpinalHDL/Semantic/assignments.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -348,71 +348,64 @@
 <col style="width: 83%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Symbole</p></th>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>:=</p></td>
-<td><div class="line-block">
-<div class="line">Standard assignment, equivalent to ‘&lt;=’ in VHDL/Verilog :</div>
-<div class="line">the last assignment to a variable wins, the value is not updated until the next simulation delta cycle</div>
-</div>
-</td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">:=</span></code></p></td>
+<td><p>Standard assignment, equivalent to <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> in VHDL/Verilog. The last assignment to a variable wins; the value is not updated until the next simulation delta cycle.</p></td>
 </tr>
-<tr class="row-odd"><td><p>\=</p></td>
-<td><div class="line-block">
-<div class="line">Equivalent to := in VHDL and = in Verilog</div>
-<div class="line">the value is updated instantly</div>
-</div>
-</td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">\=</span></code></p></td>
+<td><p>Equivalent to <code class="docutils literal notranslate"><span class="pre">:=</span></code> in VHDL and <code class="docutils literal notranslate"><span class="pre">=</span></code> in Verilog. The value is updated instantly in-place.</p></td>
 </tr>
-<tr class="row-even"><td><p>&lt;&gt;</p></td>
-<td><p>Automatic connection between 2 signals or two bundles of the same type. Direction is inferred by using signal direction (in/out). (Similar behavioral to <code class="docutils literal notranslate"><span class="pre">:=</span></code>)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code></p></td>
+<td><p>Automatic connection between 2 signals or two bundles of the same type. Direction is inferred by using signal direction (in/out). (Similar behavior to <code class="docutils literal notranslate"><span class="pre">:=</span></code>)</p></td>
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Because of hardware concurrency, `a` is always read as &#39;1&#39; by b and c</span>
-<span class="k">val</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Because of hardware concurrency, `a` is always read as &#39;1&#39; by b and c</span>
+<span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
 <span class="n">a</span> <span class="o">:=</span> <span class="mi">0</span>
 <span class="n">b</span> <span class="o">:=</span> <span class="n">a</span>
-<span class="n">a</span> <span class="o">:=</span> <span class="mi">1</span>  <span class="c1">//a := 1 win</span>
+<span class="n">a</span> <span class="o">:=</span> <span class="mi">1</span>  <span class="c1">// a := 1 &quot;wins&quot;</span>
 <span class="n">c</span> <span class="o">:=</span> <span class="n">a</span>
 
 <span class="k">var</span> <span class="n">x</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">y</span><span class="o">,</span><span class="n">z</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
 <span class="n">x</span> <span class="o">:=</span> <span class="mi">0</span>
-<span class="n">y</span> <span class="o">:=</span> <span class="n">x</span>      <span class="c1">//y read x with the value 0</span>
+<span class="n">y</span> <span class="o">:=</span> <span class="n">x</span>      <span class="c1">// y read x with the value 0</span>
 <span class="n">x</span> <span class="o">\=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="n">z</span> <span class="o">:=</span> <span class="n">x</span>      <span class="c1">//z read x with the value 1</span>
+<span class="n">z</span> <span class="o">:=</span> <span class="n">x</span>      <span class="c1">// z read x with the value 1</span>
 
 <span class="c1">// Automatic connection between two UART interfaces.</span>
 <span class="n">uartCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">uart</span> <span class="o">&lt;&gt;</span> <span class="n">io</span><span class="o">.</span><span class="n">uart</span>
 </pre></div>
 </div>
-<p>It is important to understand that in SpinalHDL, the nature of a signal (combinatorial/sequential) is defined in its declaration, not by the way it is assigned. All datatype instances will define a cominatorial signal, while a datatype instance wrapped with a Reg(…) will define a sequential (register) signal.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span> <span class="c1">//Define a combinatorial signal</span>
-<span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Define a registered signal</span>
-<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="c1">//Define a registered signal which is set to 0 when a reset occurs</span>
+<p>It is important to understand that in SpinalHDL, the nature of a signal (combinational/sequential) is defined in its declaration, not by the way it is assigned.
+All datatype instances will define a combinational signal, while a datatype instance wrapped with <code class="docutils literal notranslate"><span class="pre">Reg(...)</span></code> will define a sequential (registered) signal.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span> <span class="c1">// Define a combinational signal</span>
+<span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">// Define a registered signal</span>
+<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="c1">// Define a registered signal which is set to 0 when a reset occurs</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="width-checking">
 <h2>Width checking<a class="headerlink" href="#width-checking" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL checks that the bit count of the left side and the right side of an assigmnet matches. There are multiple ways to adapt the width of a given BitVector (Bits, UInt, SInt):</p>
+<p>SpinalHDL checks that the bit count of the left side and the right side of an assigmnet matches. There are multiple ways to adapt the width of a given BitVector (<code class="docutils literal notranslate"><span class="pre">Bits</span></code>, <code class="docutils literal notranslate"><span class="pre">UInt</span></code>, <code class="docutils literal notranslate"><span class="pre">SInt</span></code>):</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 29%" />
 <col style="width: 71%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Resizing ways</p></th>
+<tr class="row-odd"><th class="head"><p>Resizing techniques</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>x := y.resized</p></td>
-<td><p>Assign x wit a resized copy of y, resize value is automatically inferred to match x</p></td>
+<td><p>Assign x with a resized copy of y, resize value is automatically inferred to match x</p></td>
 </tr>
 <tr class="row-odd"><td><p>x := y.resize(newWidth)</p></td>
 <td><p>Assign x with a resized copy of y, size is manually calculated</p></td>
@@ -427,7 +420,7 @@
 <col style="width: 37%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Assignement</p></th>
+<tr class="row-odd"><th class="head"><p>Assignment</p></th>
 <th class="head"><p>Problem</p></th>
 <th class="head"><p>SpinalHDL action</p></th>
 </tr>
@@ -435,14 +428,15 @@
 <tbody>
 <tr class="row-even"><td><p>myUIntOf_8bit := U(3)</p></td>
 <td><p>U(3) creates an UInt of 2 bits, which doesn’t match the left side (8 bits)</p></td>
-<td><p>Because  U(3) is a “weak” bit count inferred signal, SpinalHDL resizes it automatically</p></td>
+<td><p>Because U(3) is a “weak” bit count inferred signal, SpinalHDL resizes it automatically</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="combinatorial-loops">
 <h2>Combinatorial loops<a class="headerlink" href="#combinatorial-loops" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL checks that there are no combinatorial loops (latches) in your design. If one is detected, it raises an error and SpinalHDL will print the path of the loop.</p>
+<p>SpinalHDL checks that there are no combinatorial loops (latches) in your design.
+If one is detected, it raises an error and SpinalHDL will print the path of the loop.</p>
 </div>
 </div>
 

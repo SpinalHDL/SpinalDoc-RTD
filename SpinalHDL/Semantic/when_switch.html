@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Rules" href="rules.html" />
-    <link rel="prev" title="Assignments" href="assignements.html" /> 
+    <link rel="prev" title="Assignments" href="assignments.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -137,7 +137,7 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Semantic</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="assignements.html">Assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignments.html">Assignments</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">When/Switch/Mux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rules.html">Rules</a></li>
 </ul>
@@ -342,12 +342,12 @@
 <div class="section" id="when">
 <h2>When<a class="headerlink" href="#when" title="Permalink to this headline">¶</a></h2>
 <p>As in VHDL and Verilog, signals can be conditionally assigned when a specified condition is met:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="o">(</span><span class="n">cond1</span><span class="o">){</span>
-  <span class="c1">//execute when      cond1 is true</span>
-<span class="o">}.</span><span class="n">elsewhen</span><span class="o">(</span><span class="n">cond2</span><span class="o">){</span>
-  <span class="c1">//execute when (not cond1) and cond2</span>
-<span class="o">}.</span><span class="n">otherwise</span><span class="o">{</span>
-  <span class="c1">//execute when (not cond1) and (not cond2)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="o">(</span><span class="n">cond1</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// Execute when cond1 is true</span>
+<span class="o">}.</span><span class="n">elsewhen</span><span class="o">(</span><span class="n">cond2</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// Execute when (not cond1) and cond2</span>
+<span class="o">}.</span><span class="n">otherwise</span> <span class="o">{</span>
+  <span class="c1">// Execute when (not cond1) and (not cond2)</span>
 <span class="o">}</span>
 </pre></div>
 </div>
@@ -355,15 +355,15 @@
 <div class="section" id="switch">
 <h2>Switch<a class="headerlink" href="#switch" title="Permalink to this headline">¶</a></h2>
 <p>As in VHDL and Verilog, signals can be conditionally assigned when a signal has a defined value:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="o">(</span><span class="n">x</span><span class="o">){</span>
-  <span class="n">is</span><span class="o">(</span><span class="n">value1</span><span class="o">){</span>
-    <span class="c1">//execute when x === value1</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">is</span><span class="o">(</span><span class="n">value1</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Execute when x === value1</span>
   <span class="o">}</span>
-  <span class="n">is</span><span class="o">(</span><span class="n">value2</span><span class="o">){</span>
-    <span class="c1">//execute when x === value2</span>
+  <span class="n">is</span><span class="o">(</span><span class="n">value2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Execute when x === value2</span>
   <span class="o">}</span>
-  <span class="n">default</span><span class="o">{</span>
-    <span class="c1">//execute if none of precedent condition meet</span>
+  <span class="n">default</span> <span class="o">{</span>
+    <span class="c1">// Execute if none of precedent conditions met</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -371,11 +371,11 @@
 </div>
 <div class="section" id="local-declaration">
 <h2>Local declaration<a class="headerlink" href="#local-declaration" title="Permalink to this headline">¶</a></h2>
-<p>It is possible to define new signals into a when/switch statement:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">x</span><span class="o">,</span><span class="n">y</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
+<p>It is possible to define new signals inside a when/switch statement:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">x</span><span class="o">,</span> <span class="n">y</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
 
-<span class="n">when</span><span class="o">(</span><span class="n">cond</span><span class="o">){</span>
+<span class="n">when</span><span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">tmp</span> <span class="k">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
   <span class="n">x</span> <span class="o">:=</span> <span class="n">tmp</span>
   <span class="n">y</span> <span class="o">:=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="mi">1</span>
@@ -387,12 +387,12 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>SpinalHDL checks that signals defined inside a scope are only assigned inside the scope they are defined in.</p>
+<p>SpinalHDL checks that signals defined inside a scope are only assigned inside that scope.</p>
 </div>
 </div>
 <div class="section" id="mux">
 <h2>Mux<a class="headerlink" href="#mux" title="Permalink to this headline">¶</a></h2>
-<p>If you just need a Mux with a Bool selection signal, there are two equivalent syntaxes:</p>
+<p>If you just need a <code class="docutils literal notranslate"><span class="pre">Mux</span></code> with a <code class="docutils literal notranslate"><span class="pre">Bool</span></code> selection signal, there are two equivalent syntaxes:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 44%" />
@@ -447,14 +447,15 @@
 <span class="o">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">muxLists(...)</span></code> is another bitwise selection which take as input a sequence of tuples. Below an example of dividing a Bits of 128 bits into 32 bits:</p>
+<p><code class="docutils literal notranslate"><span class="pre">muxLists(...)</span></code> is another bitwise selection which takes a sequence of tuples as input. Below is an example of dividing a <code class="docutils literal notranslate"><span class="pre">Bits</span></code> of 128 bits into 32 bits:</p>
 <a class="reference internal image-reference" href="../../_images/MuxList.png"><img alt="../../_images/MuxList.png" class="align-center" src="../../_images/MuxList.png" style="width: 300px;" /></a>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">sel</span>  <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">2</span> <span class="n">bits</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">128</span> <span class="n">bits</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="n">dataWord</span> <span class="k">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">muxList</span><span class="o">(</span><span class="k">for</span><span class="o">(</span><span class="n">index</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="mi">4</span><span class="o">)</span> <span class="k">yield</span> <span class="o">(</span><span class="n">index</span><span class="o">,</span> <span class="n">data</span><span class="o">(</span><span class="n">index</span><span class="o">*</span><span class="mi">32</span><span class="o">+</span><span class="mi">32</span><span class="o">-</span><span class="mi">1</span> <span class="n">downto</span> <span class="n">index</span><span class="o">*</span><span class="mi">32</span><span class="o">)))</span>
+<span class="c1">// Dividing a wide Bits type into smaller chunks, using a mux:</span>
+<span class="k">val</span> <span class="n">dataWord</span> <span class="k">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">muxList</span><span class="o">(</span><span class="k">for</span> <span class="o">(</span><span class="n">index</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="mi">4</span><span class="o">)</span> <span class="k">yield</span> <span class="o">(</span><span class="n">index</span><span class="o">,</span> <span class="n">data</span><span class="o">(</span><span class="n">index</span><span class="o">*</span><span class="mi">32</span><span class="o">+</span><span class="mi">32</span><span class="o">-</span><span class="mi">1</span> <span class="n">downto</span> <span class="n">index</span><span class="o">*</span><span class="mi">32</span><span class="o">)))</span>
 
-<span class="c1">// This example can be written shorter.</span>
+<span class="c1">// A shorter way to do the same thing:</span>
 <span class="k">val</span> <span class="n">dataWord</span> <span class="k">=</span> <span class="n">data</span><span class="o">.</span><span class="n">subdivideIn</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)(</span><span class="n">sel</span><span class="o">)</span>
 </pre></div>
 </div>
@@ -479,7 +480,7 @@
         <a href="rules.html" class="btn btn-neutral float-right" title="Rules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="assignements.html" class="btn btn-neutral float-left" title="Assignments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="assignments.html" class="btn btn-neutral float-left" title="Assignments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
