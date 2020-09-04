@@ -369,13 +369,13 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>UFix(peak:ExpNumber, resolution:ExpNumber)</p></td>
+<tr class="row-even"><td><p>UFix(peak: ExpNumber, resolution: ExpNumber)</p></td>
 <td><p>peak-resolution</p></td>
 <td><p>2^resolution</p></td>
 <td><p>2^peak-2^resolution</p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>UFix(peak:ExpNumber, width:BitCount)</p></td>
+<tr class="row-odd"><td><p>UFix(peak: ExpNumber, width: BitCount)</p></td>
 <td><p>width</p></td>
 <td><p>2^(peak-width)</p></td>
 <td><p>2^peak-2^(peak-width)</p></td>
@@ -403,13 +403,13 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>SFix(peak:ExpNumber, resolution:ExpNumber)</p></td>
+<tr class="row-even"><td><p>SFix(peak: ExpNumber, resolution: ExpNumber)</p></td>
 <td><p>peak-resolution+1</p></td>
 <td><p>2^resolution</p></td>
 <td><p>2^peak-2^resolution</p></td>
 <td><p>-(2^peak)</p></td>
 </tr>
-<tr class="row-odd"><td><p>SFix(peak:ExpNumber, width:BitCount)</p></td>
+<tr class="row-odd"><td><p>SFix(peak: ExpNumber, width: BitCount)</p></td>
 <td><p>width</p></td>
 <td><p>2^(peak-width-1)</p></td>
 <td><p>2^peak-2^(peak-width-1)</p></td>
@@ -424,18 +424,23 @@
 <p>For example Q8.2 will mean a fixed-point number of 8+2 bits, where 8 bits are used for the natural part and 2 bits for the fractional part.
 If the fixed-point number is signed, one more bit is used for the sign.</p>
 <p>The resolution is defined as being the smallest power of two that can be represented in this number.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To make representing power-of-two numbers less error prone, there is a numeric type in <code class="docutils literal notranslate"><span class="pre">spinal.core</span></code> called <code class="docutils literal notranslate"><span class="pre">ExpNumber</span></code>, which is used for the fixed-point type constructors.
+A convenience wrapper exists for this type, in the form of the <code class="docutils literal notranslate"><span class="pre">exp</span></code> function (used in the code samples on this page).</p>
+</div>
 </div>
 <div class="section" id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Unsigned Fixed-Point</span>
-<span class="k">val</span> <span class="nc">UQ_8_2</span> <span class="k">=</span> <span class="nc">UFix</span><span class="o">(</span><span class="n">peak</span> <span class="k">=</span> <span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="n">resolution</span> <span class="k">=</span> <span class="o">-</span><span class="mi">2</span> <span class="n">exp</span><span class="o">)</span>
+<span class="k">val</span> <span class="nc">UQ_8_2</span> <span class="k">=</span> <span class="nc">UFix</span><span class="o">(</span><span class="n">peak</span> <span class="k">=</span> <span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="n">resolution</span> <span class="k">=</span> <span class="o">-</span><span class="mi">2</span> <span class="n">exp</span><span class="o">)</span> <span class="c1">// bit width = 8 - (-2) = 10 bits</span>
 <span class="k">val</span> <span class="nc">UQ_8_2</span> <span class="k">=</span> <span class="nc">UFix</span><span class="o">(</span><span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span> <span class="n">exp</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nc">UQ_8_2</span> <span class="k">=</span> <span class="nc">UFix</span><span class="o">(</span><span class="n">peak</span> <span class="k">=</span> <span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="n">width</span> <span class="k">=</span> <span class="mi">10</span> <span class="n">bits</span><span class="o">)</span>
 <span class="k">val</span> <span class="nc">UQ_8_2</span> <span class="k">=</span> <span class="nc">UFix</span><span class="o">(</span><span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="mi">10</span> <span class="n">bits</span><span class="o">)</span>
 
 <span class="c1">// Signed Fixed-Point</span>
-<span class="k">val</span> <span class="nc">Q_8_2</span> <span class="k">=</span> <span class="nc">SFix</span><span class="o">(</span><span class="n">peak</span> <span class="k">=</span> <span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="n">resolution</span> <span class="k">=</span> <span class="o">-</span><span class="mi">2</span> <span class="n">exp</span><span class="o">)</span>
+<span class="k">val</span> <span class="nc">Q_8_2</span> <span class="k">=</span> <span class="nc">SFix</span><span class="o">(</span><span class="n">peak</span> <span class="k">=</span> <span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="n">resolution</span> <span class="k">=</span> <span class="o">-</span><span class="mi">2</span> <span class="n">exp</span><span class="o">)</span> <span class="c1">// bit width = 8 - (-2) + 1 = 11 bits</span>
 <span class="k">val</span> <span class="nc">Q_8_2</span> <span class="k">=</span> <span class="nc">SFix</span><span class="o">(</span><span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span> <span class="n">exp</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nc">Q_8_2</span> <span class="k">=</span> <span class="nc">SFix</span><span class="o">(</span><span class="n">peak</span> <span class="k">=</span> <span class="mi">8</span> <span class="n">exp</span><span class="o">,</span> <span class="n">width</span> <span class="k">=</span> <span class="mi">11</span> <span class="n">bits</span><span class="o">)</span>

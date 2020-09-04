@@ -28,12 +28,12 @@ Unsigned Fixed-Point
      - resolution
      - max
      - min
-   * - UFix(peak:ExpNumber, resolution:ExpNumber)
+   * - UFix(peak: ExpNumber, resolution: ExpNumber)
      - peak-resolution
      - 2^resolution
      - 2^peak-2^resolution
      - 0
-   * - UFix(peak:ExpNumber, width:BitCount)
+   * - UFix(peak: ExpNumber, width: BitCount)
      - width
      - 2^(peak-width)
      - 2^peak-2^(peak-width)
@@ -51,12 +51,12 @@ Signed Fixed-Point
      - resolution
      - max
      - min
-   * - SFix(peak:ExpNumber, resolution:ExpNumber)
+   * - SFix(peak: ExpNumber, resolution: ExpNumber)
      - peak-resolution+1
      - 2^resolution
      - 2^peak-2^resolution
      - -(2^peak)
-   * - SFix(peak:ExpNumber, width:BitCount)
+   * - SFix(peak: ExpNumber, width: BitCount)
      - width
      - 2^(peak-width-1)
      - 2^peak-2^(peak-width-1)
@@ -72,20 +72,24 @@ If the fixed-point number is signed, one more bit is used for the sign.
 
 The resolution is defined as being the smallest power of two that can be represented in this number.
 
+.. note::
+   To make representing power-of-two numbers less error prone, there is a numeric type in ``spinal.core`` called ``ExpNumber``, which is used for the fixed-point type constructors.
+   A convenience wrapper exists for this type, in the form of the ``exp`` function (used in the code samples on this page).
+
 Examples
 ~~~~~~~~
 
 .. code-block:: scala
 
    // Unsigned Fixed-Point
-   val UQ_8_2 = UFix(peak = 8 exp, resolution = -2 exp)
+   val UQ_8_2 = UFix(peak = 8 exp, resolution = -2 exp) // bit width = 8 - (-2) = 10 bits
    val UQ_8_2 = UFix(8 exp, -2 exp)
 
    val UQ_8_2 = UFix(peak = 8 exp, width = 10 bits)
    val UQ_8_2 = UFix(8 exp, 10 bits)
 
    // Signed Fixed-Point
-   val Q_8_2 = SFix(peak = 8 exp, resolution = -2 exp)
+   val Q_8_2 = SFix(peak = 8 exp, resolution = -2 exp) // bit width = 8 - (-2) + 1 = 11 bits
    val Q_8_2 = SFix(8 exp, -2 exp)
 
    val Q_8_2 = SFix(peak = 8 exp, width = 11 bits)
