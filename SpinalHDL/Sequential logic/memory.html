@@ -341,7 +341,8 @@
 <h1>RAM/ROM<a class="headerlink" href="#ram-rom" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="syntax">
 <h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
-<p>To create a memory in SpinalHDL, the Mem class should be used. It allows you to define a memory and add read and write ports to it.</p>
+<p>To create a memory in SpinalHDL, the <code class="docutils literal notranslate"><span class="pre">Mem</span></code> class should be used.
+It allows you to define a memory and add read and write ports to it.</p>
 <p>The following table shows how to instantiate a memory:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -354,10 +355,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Mem(type : Data,size : Int)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Mem(type</span> <span class="pre">:</span> <span class="pre">Data,</span> <span class="pre">size</span> <span class="pre">:</span> <span class="pre">Int)</span></code></p></td>
 <td><p>Create a RAM</p></td>
 </tr>
-<tr class="row-odd"><td><p>Mem(type : Data,initialContent : Array[Data])</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Mem(type</span> <span class="pre">:</span> <span class="pre">Data,</span> <span class="pre">initialContent</span> <span class="pre">:</span> <span class="pre">Array[Data])</span></code></p></td>
 <td><p>Create a ROM. If your target is an FPGA, because the memory can be inferred as a block ram, you can still create write ports on it.</p></td>
 </tr>
 </tbody>
@@ -368,7 +369,7 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>To give an initial content to a RAM, you can also use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function.</p>
+<p>To give a RAM initial values, you can also use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function.</p>
 </div>
 <p>The following table show how to add access ports on a memory :</p>
 <table class="colwidths-given docutils align-default">
@@ -416,7 +417,7 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td><p>Asynchronous read with an optional read under write policy</p></td>
+<td><p>Asynchronous read with an optional read-under-write policy</p></td>
 <td><p>T</p></td>
 </tr>
 <tr class="row-even"><td><div class="line-block">
@@ -430,7 +431,7 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td><p>Synchronous read with an optional enable, read under write policy and clockCrossing mode</p></td>
+<td><p>Synchronous read with an optional enable, read-under-write policy, and <code class="docutils literal notranslate"><span class="pre">clockCrossing</span></code> mode</p></td>
 <td><p>T</p></td>
 </tr>
 <tr class="row-odd"><td><div class="line-block">
@@ -459,14 +460,14 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.</p>
+<p>If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract over your memory by specifying a <a class="reference external" href="blackbox">BlackBox</a> for it.</p>
 </div>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>Memory ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.</p>
+<p>Memory ports in SpinalHDL are not inferred, but are explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.</p>
 </div>
 <p>Here is a example which infers a simple dual port ram (32 bits * 256):</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">wordCount</span> <span class="k">=</span> <span class="mi">256</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span> <span class="n">wordCount</span> <span class="k">=</span> <span class="mi">256</span><span class="o">)</span>
 <span class="n">mem</span><span class="o">.</span><span class="n">write</span><span class="o">(</span>
   <span class="n">enable</span>  <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">writeValid</span><span class="o">,</span>
   <span class="n">address</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">writeAddress</span><span class="o">,</span>
@@ -481,7 +482,7 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 </div>
 </div>
 <div class="section" id="read-under-write-policy">
-<h2>Read under write policy<a class="headerlink" href="#read-under-write-policy" title="Permalink to this headline">¶</a></h2>
+<h2>Read-under-write policy<a class="headerlink" href="#read-under-write-policy" title="Permalink to this headline">¶</a></h2>
 <p>This policy specifies how a read is affected when a write occurs in the same cycle to the same address.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -507,11 +508,11 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 </table>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>The generated VHDL/Verilog is always in the ‘readFirst’ mode, which is compatible with ‘dontCare’ but not with ‘writeFirst’. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.</p>
+<p>The generated VHDL/Verilog is always in the <code class="docutils literal notranslate"><span class="pre">readFirst</span></code> mode, which is compatible with <code class="docutils literal notranslate"><span class="pre">dontCare</span></code> but not with <code class="docutils literal notranslate"><span class="pre">writeFirst</span></code>. To generate a design that contains this kind of feature, you need to enable <a class="reference internal" href="#automatic-memory-blackboxing"><span class="std std-ref">automatic memory blackboxing</span></a>.</p>
 </div>
 </div>
 <div class="section" id="mixed-width-ram">
-<h2>Mixed width ram<a class="headerlink" href="#mixed-width-ram" title="Permalink to this headline">¶</a></h2>
+<h2>Mixed-width ram<a class="headerlink" href="#mixed-width-ram" title="Permalink to this headline">¶</a></h2>
 <p>You can specify ports that access the memory with a width that is a power of two fraction of the memory width using these functions:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -534,7 +535,7 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td><p>Similar to mem.write</p></td>
+<td><p>Similar to <code class="docutils literal notranslate"><span class="pre">mem.write</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><div class="line-block">
 <div class="line">mem.readAsyncMixedWidth(</div>
@@ -546,7 +547,7 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td><p>Similar to mem.readAsync, but in place to return the read value, it drive the data structure given as argument</p></td>
+<td><p>Similar to <code class="docutils literal notranslate"><span class="pre">mem.readAsync</span></code>, but in place of returning the read value, it drives the signal/object given as the <code class="docutils literal notranslate"><span class="pre">data</span></code> argument</p></td>
 </tr>
 <tr class="row-even"><td><div class="line-block">
 <div class="line">mem.readSyncMixedWidth(</div>
@@ -560,7 +561,7 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td><p>Similar to mem.readSync, but in place to return the read value, it drive the data structure given as argument</p></td>
+<td><p>Similar to <code class="docutils literal notranslate"><span class="pre">mem.readSync</span></code>, but in place of returning the read value, it drives the signal/object given as the <code class="docutils literal notranslate"><span class="pre">data</span></code> argument</p></td>
 </tr>
 <tr class="row-odd"><td><div class="line-block">
 <div class="line">mem.readWriteSyncMixedWidth(</div>
@@ -576,18 +577,18 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <div class="line">)</div>
 </div>
 </td>
-<td><p>Equivalent to mem.readWriteSync</p></td>
+<td><p>Equivalent to <code class="docutils literal notranslate"><span class="pre">mem.readWriteSync</span></code></p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.</p>
+<p>As for read-under-write policy, to use this feature you need to enable <a class="reference internal" href="#automatic-memory-blackboxing"><span class="std std-ref">automatic memory blackboxing</span></a>, because there is no universal VHDL/Verilog language template to infer mixed-width ram.</p>
 </div>
 </div>
 <div class="section" id="automatic-blackboxing">
-<h2>Automatic blackboxing<a class="headerlink" href="#automatic-blackboxing" title="Permalink to this headline">¶</a></h2>
-<p>Because it’s impossible to infer all ram kinds by using regular VHDL/Verilog, SpinalHDL integrates an optional automatic blackboxing system. This system looks at all memories present in your RTL netlist and replaces them with blackboxes. Then the generated code will rely on third party IP to provide the memory features, such as read during write policy and mixed width ports.</p>
+<span id="automatic-memory-blackboxing"></span><h2>Automatic blackboxing<a class="headerlink" href="#automatic-blackboxing" title="Permalink to this headline">¶</a></h2>
+<p>Because it’s impossible to infer all ram kinds by using regular VHDL/Verilog, SpinalHDL integrates an optional automatic blackboxing system. This system looks at all memories present in your RTL netlist and replaces them with blackboxes. Then the generated code will rely on third party IP to provide the memory features, such as the read-during-write policy and mixed-width ports.</p>
 <p>Here is an example of how to enable blackboxing of memories by default:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
   <span class="nc">SpinalConfig</span><span class="o">()</span>
@@ -596,7 +597,7 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>If the standard blackboxing tools don’t do enough for your design, do not hesitate to create a git issue. There is also a way to create your own blackboxing tool.</p>
+<p>If the standard blackboxing tools don’t do enough for your design, do not hesitate to create a <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues">Github issue</a>. There is also a way to create your own blackboxing tool.</p>
 <div class="section" id="blackboxing-policy">
 <h3>Blackboxing policy<a class="headerlink" href="#blackboxing-policy" title="Permalink to this headline">¶</a></h3>
 <p>There are multiple policies that you can use to select which memory you want to blackbox and also what to do when the blackboxing is not feasible:</p>
@@ -611,24 +612,24 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>blackboxAll</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">blackboxAll</span></code></p></td>
 <td><div class="line-block">
 <div class="line">Blackbox all memory.</div>
 <div class="line">Throw an error on unblackboxable memory</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>blackboxAllWhatsYouCan</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">blackboxAllWhatsYouCan</span></code></p></td>
 <td><p>Blackbox all memory that is blackboxable</p></td>
 </tr>
-<tr class="row-even"><td><p>blackboxRequestedAndUninferable</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">blackboxRequestedAndUninferable</span></code></p></td>
 <td><div class="line-block">
-<div class="line">Blackbox memory specified by the user and memory that is known to be uninferable (mixed width, …).</div>
+<div class="line">Blackbox memory specified by the user and memory that is known to be uninferable (mixed-width, …).</div>
 <div class="line">Throw an error on unblackboxable memory</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>blackboxOnlyIfRequested</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">blackboxOnlyIfRequested</span></code></p></td>
 <td><div class="line-block">
 <div class="line">Blackbox memory specified by the user</div>
 <div class="line">Throw an error on unblackboxable memory</div>
@@ -638,15 +639,15 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 </tbody>
 </table>
 <p>To explicitly set a memory to be blackboxed, you can use its <code class="docutils literal notranslate"><span class="pre">generateAsBlackBox</span></code> function.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Rgb</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">),</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Rgb</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">),</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="o">)</span>
 <span class="n">mem</span><span class="o">.</span><span class="n">generateAsBlackBox</span><span class="o">()</span>
 </pre></div>
 </div>
-<p>You can also define your own blackboxing policy by extending the MemBlackboxingPolicy class.</p>
+<p>You can also define your own blackboxing policy by extending the <code class="docutils literal notranslate"><span class="pre">MemBlackboxingPolicy</span></code> class.</p>
 </div>
 <div class="section" id="standard-memory-blackboxes">
 <h3>Standard memory blackboxes<a class="headerlink" href="#standard-memory-blackboxes" title="Permalink to this headline">¶</a></h3>
-<p>Here are the VHDL definitions of used blackboxes:</p>
+<p>Shown below are the VHDL definitions of the standard blackboxes used in SpinalHDL:</p>
 <div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Simple asynchronous dual port (1 write port, 1 read port)</span>
 <span class="n">component</span> <span class="n">Ram_1w_1ra</span> <span class="kr">is</span>
   <span class="kd">generic</span><span class="p">(</span>
@@ -756,13 +757,13 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>As you can see, blackboxes have a technology parameter. To set it you can use the setTechnology function on the corresponding memory.
-There are currently 4 kinds of technogy possible:</p>
+<p>As you can see, blackboxes have a technology parameter. To set it, you can use the <code class="docutils literal notranslate"><span class="pre">setTechnology</span></code> function on the corresponding memory.
+There are currently 4 kinds of technologies possible:</p>
 <ul class="simple">
-<li><p>auto</p></li>
-<li><p>ramBlock</p></li>
-<li><p>distributedLut</p></li>
-<li><p>registerFile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">auto</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ramBlock</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distributedLut</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">registerFile</span></code></p></li>
 </ul>
 </div>
 </div>

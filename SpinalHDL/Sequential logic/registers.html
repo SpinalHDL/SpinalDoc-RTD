@@ -341,20 +341,18 @@
 <h1>Registers<a class="headerlink" href="#registers" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line">Creating registers in SpinalHDL is very different than in VHDL or Verilog.</div>
-<div class="line">In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.</div>
-<div class="line">This difference from traditional event driven HDL has a big impact:</div>
-</div>
+<p>Creating registers in SpinalHDL is very different than in VHDL or Verilog.</p>
+<p>In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.
+This difference from traditional event-driven HDL has a big impact:</p>
 <ul class="simple">
 <li><p>You can assign registers and wires in the same scope, meaning the code doesn’t need to be split between process/always blocks</p></li>
-<li><p>It make things much more flexible (see <a class="reference internal" href="../Structuring/function.html#function"><span class="std std-ref">Functions</span></a> )</p></li>
+<li><p>It make things much more flexible (see <a class="reference internal" href="../Structuring/function.html#function"><span class="std std-ref">Functions</span></a>)</p></li>
 </ul>
 <p>Clocks and resets are handled separately, see the <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock domain</span></a> chapter for details.</p>
 </div>
 <div class="section" id="instantiation">
 <h2>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this headline">¶</a></h2>
-<p>There is 4 ways to instantiate a register:</p>
+<p>There are 4 ways to instantiate a register:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 48%" />
@@ -366,53 +364,52 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Reg(type : Data)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Reg(type</span> <span class="pre">:</span> <span class="pre">Data)</span></code></p></td>
 <td><p>Register of the given type</p></td>
 </tr>
-<tr class="row-odd"><td><p>RegInit(resetValue : Data)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RegInit(resetValue</span> <span class="pre">:</span> <span class="pre">Data)</span></code></p></td>
 <td><p>Register loaded with the given <code class="docutils literal notranslate"><span class="pre">resetValue</span></code> when a reset occurs</p></td>
 </tr>
-<tr class="row-even"><td><p>RegNext(nextValue : Data)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RegNext(nextValue</span> <span class="pre">:</span> <span class="pre">Data)</span></code></p></td>
 <td><p>Register that samples the given <code class="docutils literal notranslate"><span class="pre">nextValue</span></code> each cycle</p></td>
 </tr>
-<tr class="row-odd"><td><p>RegNextWhen(nextValue : Data, cond : Bool)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RegNextWhen(nextValue</span> <span class="pre">:</span> <span class="pre">Data,</span> <span class="pre">cond</span> <span class="pre">:</span> <span class="pre">Bool)</span></code></p></td>
 <td><p>Register that samples the given <code class="docutils literal notranslate"><span class="pre">nextValue</span></code> when a condition occurs</p></td>
 </tr>
 </tbody>
 </table>
 <p>Here is an example declaring some registers:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//UInt register of 4 bits</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits</span>
 <span class="k">val</span> <span class="n">reg1</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bit</span><span class="o">))</span>
 
-<span class="c1">//Register that samples reg1 each cycle</span>
+<span class="c1">// Register that samples reg1 each cycle</span>
 <span class="k">val</span> <span class="n">reg2</span> <span class="k">=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">reg1</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
 
-<span class="c1">//UInt register of 4 bits initialized with 0 when the reset occurs</span>
+<span class="c1">// UInt register of 4 bits initialized with 0 when the reset occurs</span>
 <span class="k">val</span> <span class="n">reg3</span> <span class="k">=</span> <span class="nc">RegInit</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;0000&quot;</span><span class="o">)</span>
 <span class="n">reg3</span> <span class="o">:=</span> <span class="n">reg2</span>
-<span class="n">when</span><span class="o">(</span><span class="n">reg2</span> <span class="o">===</span> <span class="mi">5</span><span class="o">){</span>
+<span class="n">when</span><span class="o">(</span><span class="n">reg2</span> <span class="o">===</span> <span class="mi">5</span><span class="o">)</span> <span class="o">{</span>
   <span class="n">reg3</span> <span class="o">:=</span> <span class="mh">0xF</span>
 <span class="o">}</span>
 
-<span class="c1">//Register that samples reg3 when cond is True</span>
-<span class="k">val</span> <span class="n">reg4</span> <span class="k">=</span> <span class="nc">RegNextWhen</span><span class="o">(</span><span class="n">reg3</span><span class="o">,</span><span class="n">cond</span><span class="o">)</span>
+<span class="c1">// Register that samples reg3 when cond is True</span>
+<span class="k">val</span> <span class="n">reg4</span> <span class="k">=</span> <span class="nc">RegNextWhen</span><span class="o">(</span><span class="n">reg3</span><span class="o">,</span> <span class="n">cond</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>The code above will infer the following logic:</p>
 <img alt="../../_images/register.svg" class="align-center" src="../../_images/register.svg" /><div class="admonition note">
 <p class="admonition-title">Note</p>
-<div class="line-block">
-<div class="line">The reg3 example shows how you can assign the value of a RegInit register. But it’s possible to use the same syntax to assign to the other register types as well (Reg,RegNext,RegNextWhen).</div>
-<div class="line">Just like in combinatorial assignments, the rule is ‘Last assignment wins’, but if no assignment is done, the register keeps its value.</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">reg3</span></code> example above shows how you can assign the value of a <code class="docutils literal notranslate"><span class="pre">RegInit</span></code> register.
+It’s possible to use the same syntax to assign to the other register types as well (<code class="docutils literal notranslate"><span class="pre">Reg</span></code>, <code class="docutils literal notranslate"><span class="pre">RegNext</span></code>, <code class="docutils literal notranslate"><span class="pre">RegNextWhen</span></code>).
+Just like in combinational assignments, the rule is ‘Last assignment wins’, but if no assignment is done, the register keeps its value.</p>
 </div>
-</div>
-<p>Also, RegNext is an abstraction which is built over the Reg syntax. The two following sequences of code are strictly equivalent:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Standard way</span>
+<p>Also, <code class="docutils literal notranslate"><span class="pre">RegNext</span></code> is an abstraction which is built over the <code class="docutils literal notranslate"><span class="pre">Reg</span></code> syntax. The two following sequences of code are strictly equivalent:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Standard way</span>
 <span class="k">val</span> <span class="n">something</span> <span class="k">=</span> <span class="nc">Bool</span>
 <span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bool</span><span class="o">)</span>
 <span class="n">value</span> <span class="o">:=</span> <span class="n">something</span>
 
-<span class="c1">//Short way</span>
+<span class="c1">// Short way</span>
 <span class="k">val</span> <span class="n">something</span> <span class="k">=</span> <span class="nc">Bool</span>
 <span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">something</span><span class="o">)</span>
 </pre></div>
@@ -422,24 +419,24 @@
 <h2>Reset value<a class="headerlink" href="#reset-value" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the <code class="docutils literal notranslate"><span class="pre">RegInit(value</span> <span class="pre">:</span> <span class="pre">Data)</span></code> syntax which directly creates the register with a reset value,
 you can also set the reset value by calling the <code class="docutils literal notranslate"><span class="pre">init(value</span> <span class="pre">:</span> <span class="pre">Data)</span></code> function on the register.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//UInt register of 4 bits initialized with 0 when the reset occur</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits initialized with 0 when the reset occurs</span>
 <span class="k">val</span> <span class="n">reg1</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bit</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>If you have a register containing a Bundle, you can use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function on each element of the Bundle.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">ValidRGB</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
-  <span class="k">val</span> <span class="n">valid</span> <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="n">r</span><span class="o">,</span><span class="n">g</span><span class="o">,</span><span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">r</span><span class="o">,</span> <span class="n">g</span><span class="o">,</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
 <span class="o">}</span>
 
 <span class="k">val</span> <span class="n">reg</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">ValidRGB</span><span class="o">())</span>
-<span class="n">reg</span><span class="o">.</span><span class="n">valid</span> <span class="n">init</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>  <span class="c1">//Only the valid of that register bundle will have an reset value.</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">valid</span> <span class="n">init</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>  <span class="c1">// Only the valid if that register bundle will have a reset value.</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="initialization-value-for-simulation-purposes">
 <h2>Initialization value for simulation purposes<a class="headerlink" href="#initialization-value-for-simulation-purposes" title="Permalink to this headline">¶</a></h2>
-<p>For registers that don’t need a reset value in RTL, but need an initialization value for simulation (to avoid x-propagation), you can ask for an random initialization value by calling the <code class="docutils literal notranslate"><span class="pre">randBoot()</span></code> function.</p>
+<p>For registers that don’t need a reset value in RTL, but need an initialization value for simulation (to avoid x-propagation), you can ask for a random initialization value by calling the <code class="docutils literal notranslate"><span class="pre">randBoot()</span></code> function.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits initialized with a random value</span>
 <span class="k">val</span> <span class="n">reg1</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bit</span><span class="o">))</span> <span class="n">randBoot</span><span class="o">()</span>
 </pre></div>

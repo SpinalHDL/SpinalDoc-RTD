@@ -7,20 +7,20 @@ Registers
 Introduction
 ------------
 
-| Creating registers in SpinalHDL is very different than in VHDL or Verilog.
-| In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.
-| This difference from traditional event driven HDL has a big impact:
+Creating registers in SpinalHDL is very different than in VHDL or Verilog.
 
+In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.
+This difference from traditional event-driven HDL has a big impact:
 
 * You can assign registers and wires in the same scope, meaning the code doesn't need to be split between process/always blocks
-* It make things much more flexible (see :ref:`Functions <function>` )
+* It make things much more flexible (see :ref:`Functions <function>`)
 
 Clocks and resets are handled separately, see the :ref:`Clock domain <clock_domain>` chapter for details.
 
 Instantiation
 -------------
 
-There is 4 ways to instantiate a register:
+There are 4 ways to instantiate a register:
 
 .. list-table::
    :header-rows: 1
@@ -28,35 +28,34 @@ There is 4 ways to instantiate a register:
 
    * - Syntax
      - Description
-   * - Reg(type : Data)
+   * - ``Reg(type : Data)``
      - Register of the given type
-   * - RegInit(resetValue : Data)
+   * - ``RegInit(resetValue : Data)``
      - Register loaded with the given ``resetValue`` when a reset occurs
-   * - RegNext(nextValue : Data)
+   * - ``RegNext(nextValue : Data)``
      - Register that samples the given ``nextValue`` each cycle
-   * - RegNextWhen(nextValue : Data, cond : Bool)
+   * - ``RegNextWhen(nextValue : Data, cond : Bool)``
      - Register that samples the given ``nextValue`` when a condition occurs
-
 
 Here is an example declaring some registers:
 
 .. code-block:: scala
 
-   //UInt register of 4 bits    
-   val reg1 = Reg(UInt(4 bit))  
+   // UInt register of 4 bits
+   val reg1 = Reg(UInt(4 bit))
 
-   //Register that samples reg1 each cycle  
-   val reg2 = RegNext(reg1 + 1)    
+   // Register that samples reg1 each cycle
+   val reg2 = RegNext(reg1 + 1)
 
-   //UInt register of 4 bits initialized with 0 when the reset occurs
+   // UInt register of 4 bits initialized with 0 when the reset occurs
    val reg3 = RegInit(U"0000")
    reg3 := reg2
-   when(reg2 === 5){
+   when(reg2 === 5) {
      reg3 := 0xF
    }
 
-   //Register that samples reg3 when cond is True
-   val reg4 = RegNextWhen(reg3,cond)
+   // Register that samples reg3 when cond is True
+   val reg4 = RegNextWhen(reg3, cond)
 
 The code above will infer the following logic:
 
@@ -64,19 +63,20 @@ The code above will infer the following logic:
    :align: center
 
 .. note::
-   | The reg3 example shows how you can assign the value of a RegInit register. But it's possible to use the same syntax to assign to the other register types as well (Reg,RegNext,RegNextWhen).
-   | Just like in combinatorial assignments, the rule is 'Last assignment wins', but if no assignment is done, the register keeps its value.
+   The ``reg3`` example above shows how you can assign the value of a ``RegInit`` register.
+   It's possible to use the same syntax to assign to the other register types as well (``Reg``, ``RegNext``, ``RegNextWhen``).
+   Just like in combinational assignments, the rule is 'Last assignment wins', but if no assignment is done, the register keeps its value.
 
-Also, RegNext is an abstraction which is built over the Reg syntax. The two following sequences of code are strictly equivalent:
+Also, ``RegNext`` is an abstraction which is built over the ``Reg`` syntax. The two following sequences of code are strictly equivalent:
 
 .. code-block:: scala
 
-   //Standard way
+   // Standard way
    val something = Bool
    val value = Reg(Bool)
    value := something
 
-   //Short way
+   // Short way
    val something = Bool
    val value = RegNext(something)
 
@@ -88,7 +88,7 @@ you can also set the reset value by calling the ``init(value : Data)`` function 
 
 .. code-block:: scala
 
-   //UInt register of 4 bits initialized with 0 when the reset occur
+   // UInt register of 4 bits initialized with 0 when the reset occurs
    val reg1 = Reg(UInt(4 bit)) init(0)
 
 If you have a register containing a Bundle, you can use the ``init`` function on each element of the Bundle.
@@ -96,17 +96,17 @@ If you have a register containing a Bundle, you can use the ``init`` function on
 .. code-block:: scala
 
    case class ValidRGB() extends Bundle{
-     val valid = Bool
-     val r,g,b = UInt(8 bits)
+     val valid   = Bool
+     val r, g, b = UInt(8 bits)
    }
 
    val reg = Reg(ValidRGB())
-   reg.valid init(False)  //Only the valid of that register bundle will have an reset value.
+   reg.valid init(False)  // Only the valid if that register bundle will have a reset value.
 
 Initialization value for simulation purposes
 --------------------------------------------
 
-For registers that don't need a reset value in RTL, but need an initialization value for simulation (to avoid x-propagation), you can ask for an random initialization value by calling the ``randBoot()`` function.
+For registers that don't need a reset value in RTL, but need an initialization value for simulation (to avoid x-propagation), you can ask for a random initialization value by calling the ``randBoot()`` function.
 
 .. code-block:: scala
 
