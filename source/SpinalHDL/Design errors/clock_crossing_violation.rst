@@ -5,7 +5,7 @@ Clock crossing violation
 Introduction
 ------------
 
-SpinalHDL will check that every register of your design only depends (through some combinatorial logic) on registers which use the same or a synchronous clock domain.
+SpinalHDL will check that every register of your design only depends (through combinational logic paths) on registers which use the same or a synchronous clock domain.
 
 Example
 -------
@@ -18,10 +18,10 @@ The following code:
      val clkA = ClockDomain.external("clkA")
      val clkB = ClockDomain.external("clkB")
 
-     val regA = clkA(Reg(UInt(8 bits)))   //PlayDev.scala:834
-     val regB = clkB(Reg(UInt(8 bits)))   //PlayDev.scala:835
+     val regA = clkA(Reg(UInt(8 bits)))   // PlayDev.scala:834
+     val regB = clkB(Reg(UInt(8 bits)))   // PlayDev.scala:835
 
-     val tmp = regA + regA                //PlayDev.scala:838
+     val tmp = regA + regA                // PlayDev.scala:838
      regB := tmp
    }
 
@@ -39,12 +39,18 @@ will throw:
          >>> (toplevel/tmp :  UInt[8 bits]) at ***(PlayDev.scala:838) >>>
          >>> (toplevel/regB :  UInt[8 bits]) at ***(PlayDev.scala:835) >>>
 
-There are multiple possible fixes:
+There are multiple possible fixes, listed below:
+
+ - :ref:`crossClockDomain tags <crossclockdomain-tag>`
+ - :ref:`setSyncronousWith method <setsynchronouswith>`
+ - :ref:`BufferCC type <buffercc>`
+
+.. _crossclockdomain-tag:
 
 crossClockDomain tag
 ^^^^^^^^^^^^^^^^^^^^
 
-The crossClockDomain tag can be used to say "It's alright, don't panic" to SpinalHDL
+The ``crossClockDomain`` tag can be used to communicate "It's alright, don't panic about this specific clock crossing" to the SpinalHDL compiler.
 
 .. code-block:: scala
 
@@ -60,10 +66,12 @@ The crossClockDomain tag can be used to say "It's alright, don't panic" to Spina
      regB := tmp
    }
 
+.. _setsynchronouswith:
+
 setSyncronousWith
 ^^^^^^^^^^^^^^^^^
 
-You can also specify that two clock domains are syncronous together.
+You can also specify that two clock domains are synchronous together by using the ``setSynchronousWith`` method of one of the ``ClockDomain`` objects.
 
 .. code-block:: scala
 
@@ -80,10 +88,16 @@ You can also specify that two clock domains are syncronous together.
      regB := tmp
    }
 
+.. _buffercc:
+
 BufferCC
 ^^^^^^^^
 
-Signal Bits or Gray-coded Bits can use BufferCC to cross different clockDomain 
+When exchanging single-bit signals (such as ``Bool`` types), or Gray-coded values, you can use ``BufferCC`` to safely cross different ``ClockDomain`` regions.
+
+.. warning::
+   Do not use ``BufferCC`` with multi-bit signals, as there is a risk of corrupted reads on the receiving side if the clocks are asynchronous.
+   See the :ref:`Clock Domains <clock_domain>` page for more details.
 
 .. code-block:: scala
 
@@ -107,6 +121,3 @@ Signal Bits or Gray-coded Bits can use BufferCC to cross different clockDomain
         ...
       }
    }
-
-.. warning::
-   Do not use BufferCC for general multi-Bits cross-domain process as mentioned under :ref:`Clock Domains <clock_domain>`  

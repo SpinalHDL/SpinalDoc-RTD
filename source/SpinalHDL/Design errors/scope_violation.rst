@@ -5,7 +5,8 @@ Scope violation
 Introduction
 ------------
 
-SpinalHDL will check that there are no signals assigned outside the scope they are defined in. This error isn't easy to trigger as it requires some specific meta hardware description tricks.
+SpinalHDL will check that there are no signals assigned outside the scope they are defined in.
+This error isn't easy to trigger as it requires some specific meta hardware description tricks.
 
 Example
 -------
@@ -18,7 +19,7 @@ The following code:
      val cond = Bool()
 
      var tmp : UInt = null
-     when(cond){
+     when(cond) {
        tmp = UInt(8 bits)
      }
      tmp := U"x42"
@@ -41,7 +42,7 @@ A fix could be:
      val cond = Bool()
 
      var tmp : UInt = UInt(8 bits)
-     when(cond){
+     when(cond) {
 
      }
      tmp := U"x42"

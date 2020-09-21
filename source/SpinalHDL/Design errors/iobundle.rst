@@ -5,7 +5,7 @@ Io bundle
 Introduction
 ------------
 
-SpinalHDL will check that each io bundle contains only in/out/inout signals.
+SpinalHDL will check that each ``io`` bundle contains only in/out/inout signals.
 
 Example
 -------
@@ -39,7 +39,7 @@ A fix could be:
      }
    }
 
-But if for meta hardware description reasons you realy want io.a to be directionless, you can do:
+But if for meta hardware description reasons you really want ``io.a`` to be directionless, you can do:
 
 .. code-block:: scala
 

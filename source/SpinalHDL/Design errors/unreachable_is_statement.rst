@@ -5,7 +5,7 @@ Unreachable is statement
 Introduction
 ------------
 
-SpinalHDL will check all `is` statements in a switch are reachable.
+SpinalHDL will check to ensure that all ``is`` statements in a ``switch`` are reachable.
 
 Example
 -------
@@ -17,12 +17,12 @@ The following code:
    class TopLevel extends Component {
      val sel = UInt(2 bits)
      val result = UInt(4 bits)
-     switch(sel){
+     switch(sel) {
        is(0){ result := 4 }
        is(1){ result := 6 }
        is(2){ result := 8 }
        is(3){ result := 9 }
-       is(0){ result := 2 } //Duplicated is statement!
+       is(0){ result := 2 } // Duplicated is statement!
      }
    }
 
@@ -42,7 +42,7 @@ A fix could be:
    class TopLevel extends Component {
      val sel = UInt(2 bits)
      val result = UInt(4 bits)
-     switch(sel){
+     switch(sel) {
        is(0){ result := 4 }
        is(1){ result := 6 }
        is(2){ result := 8 }
