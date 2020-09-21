@@ -38,8 +38,8 @@
   <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Combinational loop" href="combinatorial_loop.html" />
-    <link rel="prev" title="Assignement overlap" href="assignment_overlap.html" /> 
+    <link rel="next" title="Combinatorial loop" href="combinatorial_loop.html" />
+    <link rel="prev" title="Assignment overlap" href="assignment_overlap.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -148,9 +148,9 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Design errors</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="assignment_overlap.html">Assignement overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_overlap.html">Assignment overlap</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Clock crossing violation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="combinatorial_loop.html">Combinational loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorial_loop.html">Combinatorial loop</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hierarchy_violation.html">Hierarchy violation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iobundle.html">Io bundle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="latch_detected.html">Latch detected</a></li>
@@ -341,7 +341,7 @@
 <h1>Clock crossing violation<a class="headerlink" href="#clock-crossing-violation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL will check that every register of your design only depends (through some combinatorial logic) on registers which use the same or a synchronous clock domain.</p>
+<p>SpinalHDL will check that every register of your design only depends (through combinational logic paths) on registers which use the same or a synchronous clock domain.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
@@ -350,10 +350,10 @@
   <span class="k">val</span> <span class="n">clkA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkA&quot;</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">clkB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkB&quot;</span><span class="o">)</span>
 
-  <span class="k">val</span> <span class="n">regA</span> <span class="k">=</span> <span class="n">clkA</span><span class="o">(</span><span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)))</span>   <span class="c1">//PlayDev.scala:834</span>
-  <span class="k">val</span> <span class="n">regB</span> <span class="k">=</span> <span class="n">clkB</span><span class="o">(</span><span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)))</span>   <span class="c1">//PlayDev.scala:835</span>
+  <span class="k">val</span> <span class="n">regA</span> <span class="k">=</span> <span class="n">clkA</span><span class="o">(</span><span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)))</span>   <span class="c1">// PlayDev.scala:834</span>
+  <span class="k">val</span> <span class="n">regB</span> <span class="k">=</span> <span class="n">clkB</span><span class="o">(</span><span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)))</span>   <span class="c1">// PlayDev.scala:835</span>
 
-  <span class="k">val</span> <span class="n">tmp</span> <span class="k">=</span> <span class="n">regA</span> <span class="o">+</span> <span class="n">regA</span>                <span class="c1">//PlayDev.scala:838</span>
+  <span class="k">val</span> <span class="n">tmp</span> <span class="k">=</span> <span class="n">regA</span> <span class="o">+</span> <span class="n">regA</span>                <span class="c1">// PlayDev.scala:838</span>
   <span class="n">regB</span> <span class="o">:=</span> <span class="n">tmp</span>
 <span class="o">}</span>
 </pre></div>
@@ -370,10 +370,17 @@
       &gt;&gt;&gt; (toplevel/regB :  UInt[8 bits]) at ***(PlayDev.scala:835) &gt;&gt;&gt;
 </pre></div>
 </div>
-<p>There are multiple possible fixes:</p>
+<p>There are multiple possible fixes, listed below:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="#crossclockdomain-tag"><span class="std std-ref">crossClockDomain tags</span></a></p></li>
+<li><p><a class="reference internal" href="#setsynchronouswith"><span class="std std-ref">setSyncronousWith method</span></a></p></li>
+<li><p><a class="reference internal" href="#buffercc"><span class="std std-ref">BufferCC type</span></a></p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="crossclockdomain-tag">
-<h3>crossClockDomain tag<a class="headerlink" href="#crossclockdomain-tag" title="Permalink to this headline">¶</a></h3>
-<p>The crossClockDomain tag can be used to say “It’s alright, don’t panic” to SpinalHDL</p>
+<span id="id1"></span><h3>crossClockDomain tag<a class="headerlink" href="#crossclockdomain-tag" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">crossClockDomain</span></code> tag can be used to communicate “It’s alright, don’t panic about this specific clock crossing” to the SpinalHDL compiler.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">clkA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkA&quot;</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">clkB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkB&quot;</span><span class="o">)</span>
@@ -389,8 +396,8 @@
 </div>
 </div>
 <div class="section" id="setsyncronouswith">
-<h3>setSyncronousWith<a class="headerlink" href="#setsyncronouswith" title="Permalink to this headline">¶</a></h3>
-<p>You can also specify that two clock domains are syncronous together.</p>
+<span id="setsynchronouswith"></span><h3>setSyncronousWith<a class="headerlink" href="#setsyncronouswith" title="Permalink to this headline">¶</a></h3>
+<p>You can also specify that two clock domains are synchronous together by using the <code class="docutils literal notranslate"><span class="pre">setSynchronousWith</span></code> method of one of the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> objects.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">clkA</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkA&quot;</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">clkB</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkB&quot;</span><span class="o">)</span>
@@ -407,8 +414,13 @@
 </div>
 </div>
 <div class="section" id="buffercc">
-<h3>BufferCC<a class="headerlink" href="#buffercc" title="Permalink to this headline">¶</a></h3>
-<p>Signal Bits or Gray-coded Bits can use BufferCC to cross different clockDomain</p>
+<span id="id2"></span><h3>BufferCC<a class="headerlink" href="#buffercc" title="Permalink to this headline">¶</a></h3>
+<p>When exchanging single-bit signals (such as <code class="docutils literal notranslate"><span class="pre">Bool</span></code> types), or Gray-coded values, you can use <code class="docutils literal notranslate"><span class="pre">BufferCC</span></code> to safely cross different <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> regions.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not use <code class="docutils literal notranslate"><span class="pre">BufferCC</span></code> with multi-bit signals, as there is a risk of corrupted reads on the receiving side if the clocks are asynchronous.
+See the <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock Domains</span></a> page for more details.</p>
+</div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AsyncFifo</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
    <span class="k">val</span> <span class="n">popToPushGray</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">ptrWidth</span> <span class="n">bits</span><span class="o">)</span>
    <span class="k">val</span> <span class="n">pushToPopGray</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">ptrWidth</span> <span class="n">bits</span><span class="o">)</span>
@@ -431,10 +443,6 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Do not use BufferCC for general multi-Bits cross-domain process as mentioned under <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock Domains</span></a></p>
-</div>
 </div>
 </div>
 </div>
@@ -453,10 +461,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="combinatorial_loop.html" class="btn btn-neutral float-right" title="Combinational loop" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="combinatorial_loop.html" class="btn btn-neutral float-right" title="Combinatorial loop" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="assignment_overlap.html" class="btn btn-neutral float-left" title="Assignement overlap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="assignment_overlap.html" class="btn btn-neutral float-left" title="Assignment overlap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

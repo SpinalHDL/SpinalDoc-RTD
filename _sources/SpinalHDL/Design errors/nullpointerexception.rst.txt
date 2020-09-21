@@ -7,7 +7,7 @@ NullPointerException
 Introduction
 ------------
 
-NullPointerException is a Scala runtime reported error which can happen when a variable is accessed before it was initialised.
+``NullPointerException`` is a Scala runtime reported error which can happen when a variable is accessed before it has been initialized.
 
 Example
 -------
@@ -27,7 +27,7 @@ will throw:
 
    Exception in thread "main" java.lang.NullPointerException
      ***
-     Source file location of the a := 42 assignement via the stack trace
+     Source file location of the a := 42 assignment via the stack trace
      ***
 
 A fix could be:
@@ -39,5 +39,9 @@ A fix could be:
      a := 42
    }
 
-| **Issue explanation** :
-| SpinalHDL is not a language, it is a Scala library, which means it obeys the same rules as the Scala general purpose programming language. When you run your SpinalHDL hardware description to generate the corresponding VHDL/Verilog RTL, your SpinalHDL hardware description will be executed as a Scala programm, and ``a`` will be a null reference until the program executes `val a = UInt(8 bits)`, so trying to assign it before then will result in a NullPointerException.
+Issue explanation
+^^^^^^^^^^^^^^^^^
+
+SpinalHDL is not a language, it is a Scala library, which means that it obeys the same rules as the Scala general purpose programming language.
+
+When running the above SpinalHDL hardware description to generate the corresponding VHDL/Verilog RTL, the SpinalHDL hardware description will be executed as a Scala program, and ``a`` will be a null reference until the program executes ``val a = UInt(8 bits)``, so trying to assign to it before then will result in a ``NullPointerException``.

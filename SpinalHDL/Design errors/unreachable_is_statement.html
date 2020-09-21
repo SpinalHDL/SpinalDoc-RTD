@@ -148,9 +148,9 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Design errors</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="assignment_overlap.html">Assignement overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_overlap.html">Assignment overlap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="clock_crossing_violation.html">Clock crossing violation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="combinatorial_loop.html">Combinational loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorial_loop.html">Combinatorial loop</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hierarchy_violation.html">Hierarchy violation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iobundle.html">Io bundle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="latch_detected.html">Latch detected</a></li>
@@ -341,7 +341,7 @@
 <h1>Unreachable is statement<a class="headerlink" href="#unreachable-is-statement" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL will check all <cite>is</cite> statements in a switch are reachable.</p>
+<p>SpinalHDL will check to ensure that all <code class="docutils literal notranslate"><span class="pre">is</span></code> statements in a <code class="docutils literal notranslate"><span class="pre">switch</span></code> are reachable.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
@@ -349,12 +349,12 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">sel</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">2</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
-  <span class="n">switch</span><span class="o">(</span><span class="n">sel</span><span class="o">){</span>
+  <span class="n">switch</span><span class="o">(</span><span class="n">sel</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">is</span><span class="o">(</span><span class="mi">0</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">4</span> <span class="o">}</span>
     <span class="n">is</span><span class="o">(</span><span class="mi">1</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">6</span> <span class="o">}</span>
     <span class="n">is</span><span class="o">(</span><span class="mi">2</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">8</span> <span class="o">}</span>
     <span class="n">is</span><span class="o">(</span><span class="mi">3</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">9</span> <span class="o">}</span>
-    <span class="n">is</span><span class="o">(</span><span class="mi">0</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">2</span> <span class="o">}</span> <span class="c1">//Duplicated is statement!</span>
+    <span class="n">is</span><span class="o">(</span><span class="mi">0</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">2</span> <span class="o">}</span> <span class="c1">// Duplicated is statement!</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -370,7 +370,7 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">sel</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">2</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
-  <span class="n">switch</span><span class="o">(</span><span class="n">sel</span><span class="o">){</span>
+  <span class="n">switch</span><span class="o">(</span><span class="n">sel</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">is</span><span class="o">(</span><span class="mi">0</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">4</span> <span class="o">}</span>
     <span class="n">is</span><span class="o">(</span><span class="mi">1</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">6</span> <span class="o">}</span>
     <span class="n">is</span><span class="o">(</span><span class="mi">2</span><span class="o">){</span> <span class="n">result</span> <span class="o">:=</span> <span class="mi">8</span> <span class="o">}</span>

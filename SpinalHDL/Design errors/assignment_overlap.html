@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Assignement overlap &mdash; SpinalHDL  documentation</title>
+  <title>Assignment overlap &mdash; SpinalHDL  documentation</title>
   
 
   
@@ -148,9 +148,9 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Design errors</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Assignement overlap</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Assignment overlap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="clock_crossing_violation.html">Clock crossing violation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="combinatorial_loop.html">Combinational loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorial_loop.html">Combinatorial loop</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hierarchy_violation.html">Hierarchy violation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iobundle.html">Io bundle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="latch_detected.html">Latch detected</a></li>
@@ -318,7 +318,7 @@
         
           <li><a href="index.html">Design errors</a> &raquo;</li>
         
-      <li>Assignement overlap</li>
+      <li>Assignment overlap</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -337,11 +337,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="assignement-overlap">
-<h1>Assignement overlap<a class="headerlink" href="#assignement-overlap" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="assignment-overlap">
+<h1>Assignment overlap<a class="headerlink" href="#assignment-overlap" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL will check that no signal assignement completely erases a previous one.</p>
+<p>SpinalHDL will check that no signal assignment completely erases a previous one.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
@@ -349,14 +349,14 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
   <span class="n">a</span> <span class="o">:=</span> <span class="mi">42</span>
-  <span class="n">a</span> <span class="o">:=</span> <span class="mi">66</span> <span class="c1">//Erease the a := 42 :(</span>
+  <span class="n">a</span> <span class="o">:=</span> <span class="mi">66</span> <span class="c1">// Erase the a := 42 assignment</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 <p>will throw the following error:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ASSIGNMENT OVERLAP completely the previous one of (toplevel/a :  UInt[8 bits])
   ***
-  Source file location of the a := 66 assignement via the stack trace
+  Source file location of the a := 66 assignment via the stack trace
   ***
 </pre></div>
 </div>
@@ -364,13 +364,13 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
   <span class="n">a</span> <span class="o">:=</span> <span class="mi">42</span>
-  <span class="n">when</span><span class="o">(</span><span class="n">something</span><span class="o">){</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">something</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">a</span> <span class="o">:=</span> <span class="mi">66</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>But in the case you really want to override the previous assignement (Yes, it could make sense in some cases), you can do the following:</p>
+<p>But in the case when you really want to override the previous assignment (as there are times when overriding makes sense), you can do the following:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
   <span class="n">a</span> <span class="o">:=</span> <span class="mi">42</span>

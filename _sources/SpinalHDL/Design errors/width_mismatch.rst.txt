@@ -5,10 +5,10 @@ Width mismatch
 Introduction
 ------------
 
-SpinalHDL will check that signals on the left and right side of assignments and operators have the same width.
+SpinalHDL will check that operators and signals on the left and right side of assignments have the same widths.
 
-Assignement example
--------------------
+Assignment example
+------------------
 
 The following code:
 

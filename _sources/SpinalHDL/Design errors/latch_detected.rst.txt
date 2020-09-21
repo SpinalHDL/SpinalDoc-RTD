@@ -5,7 +5,8 @@ Latch detected
 Introduction
 ------------
 
-SpinalHDL will check that no combinatorial signal will infer a latch during synthesis. In other words, that no combinatorial signals are partially assigned.
+SpinalHDL will check that no combinational signals will infer a latch during synthesis.
+In other words, this is a check that no combinational signals are partially assigned.
 
 Example
 -------
@@ -18,7 +19,7 @@ The following code:
      val cond = in(Bool)
      val a = UInt(8 bits)
 
-     when(cond){
+     when(cond) {
        a := 42
      }
    }
@@ -41,7 +42,7 @@ A fix could be:
      val a = UInt(8 bits)
 
      a := 0
-     when(cond){
+     when(cond) {
        a := 42
      }
    }

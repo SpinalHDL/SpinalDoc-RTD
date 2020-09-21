@@ -148,9 +148,9 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Design errors</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="assignment_overlap.html">Assignement overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_overlap.html">Assignment overlap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="clock_crossing_violation.html">Clock crossing violation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="combinatorial_loop.html">Combinational loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorial_loop.html">Combinatorial loop</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hierarchy_violation.html">Hierarchy violation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iobundle.html">Io bundle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="latch_detected.html">Latch detected</a></li>
@@ -372,7 +372,7 @@
 </div>
 <div class="section" id="register-with-only-init">
 <h2>Register with only init<a class="headerlink" href="#register-with-only-init" title="Permalink to this headline">¶</a></h2>
-<p>In some cases, because of the design parametrization, it could make sense to generate a register which has no assignment but only a init statement.</p>
+<p>In some cases, because of the design parameterization, it could make sense to generate a register which has no assignment but only an <code class="docutils literal notranslate"><span class="pre">init</span></code> statement.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">out</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
   <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">42</span><span class="o">)</span>
@@ -390,7 +390,7 @@
   ***
 </pre></div>
 </div>
-<p>To fix it you can ask SpinalHDL to transform the register into a combinatorial one if no assignement is present but it as a init statement:</p>
+<p>To fix it, you can ask SpinalHDL to transform the register into a combinational one if no assignment is present but it has an <code class="docutils literal notranslate"><span class="pre">init</span></code> statement:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">out</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
   <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)).</span><span class="n">init</span><span class="o">(</span><span class="mi">42</span><span class="o">).</span><span class="n">allowUnsetRegToAvoidLatch</span>
