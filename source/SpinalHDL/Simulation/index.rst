@@ -12,6 +12,7 @@ Simulation
    clock
    threadFull
    threadLess
+   sensitive
    engine
    examples/index
 
