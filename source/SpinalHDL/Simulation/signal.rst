@@ -1,13 +1,10 @@
-
-
 Accessing signals of the simulation
 ==========================================
-
 
 Read and write signals
 ----------------------
 
-Each interface signals of the toplevel can be read into scala and write from scala :
+Each interface signal of the toplevel can be read and written from Scala:
 
 .. list-table::
    :header-rows: 1
@@ -16,25 +13,25 @@ Each interface signals of the toplevel can be read into scala and write from sca
    * - Syntax
      - Description
    * - Bool.toBoolean
-     - Read an hardware Bool as a Scala Boolean value
+     - Read a hardware ``Bool`` as a Scala ``Boolean`` value
    * - Bits/UInt/SInt.toInt
-     - Read an hardware BitVector as a Scala Int value
+     - Read a hardware ``BitVector`` as a Scala ``Int`` value
    * - Bits/UInt/SInt.toLong
-     - Read an hardware BitVector as a Scala Long value
+     - Read a hardware ``BitVector`` as a Scala ``Long`` value
    * - Bits/UInt/SInt.toBigInt
-     - Read an hardware BitVector as a Scala BigInt value
+     - Read a hardware ``BitVector`` as a Scala ``BigInt`` value
    * - SpinalEnumCraft.toEnum
-     - Read an hardware SpinalEnumCraft as a Scala SpinalEnumElement value
+     - Read a hardware ``SpinalEnumCraft`` as a Scala ``SpinalEnumElement`` value
    * - Bool #= Boolean
-     - Assign a hardware Bool from an Scala Boolean
+     - Assign a hardware ``Bool`` from an Scala ``Boolean``
    * - Bits/UInt/SInt #= Int
-     - Assign a hardware BitVector from an Scala Int
+     - Assign a hardware ``BitVector`` from a Scala ``Int``
    * - Bits/UInt/SInt #= Long
-     - Assign a hardware BitVector from an Scala Long
+     - Assign a hardware ``BitVector`` from a Scala ``Long``
    * - Bits/UInt/SInt #= BigInt
-     - Assign a hardware BitVector from an Scala BigInt
+     - Assign a hardware ``BitVector`` from a Scala ``BigInt``
    * - SpinalEnumCraft #= SpinalEnumElement
-     - Assign a hardware SpinalEnumCraft from an Scala SpinalEnumElement
+     - Assign a hardware ``SpinalEnumCraft`` from a Scala ``SpinalEnumElement``
 
 
 .. code-block:: scala
@@ -45,12 +42,12 @@ Each interface signals of the toplevel can be read into scala and write from sca
    dut.io.a #= BigInt("0123456789ABCDEF", 16)
    println(dut.io.b.toInt)
 
-Accessing signals inside the components hierarchy
-------------------------------------------------------------------
+Accessing signals inside the component's hierarchy
+--------------------------------------------------
 
-To access signals which are inside the components hierarchy, you have first to set the given signal as simPublic.
+To access signals which are inside the component's hierarchy, you have first to set the given signal as ``simPublic``.
 
-You can add this simPublic tag directly into the hardware description :
+You can add this ``simPublic`` tag directly in the hardware description:
 
 .. code-block:: scala
 
@@ -58,7 +55,7 @@ You can add this simPublic tag directly into the hardware description :
      import spinal.core.sim._
 
      class TopLevel extends Component {
-       val counter = Reg(UInt(8 bits)) init(0) simPublic() //Here we add the simPublic tag on the counter register to make it visible
+       val counter = Reg(UInt(8 bits)) init(0) simPublic() // Here we add the simPublic tag on the counter register to make it visible
        counter := counter + 1
      }
 
@@ -66,7 +63,7 @@ You can add this simPublic tag directly into the hardware description :
        SimConfig.compile(new TopLevel).doSim{dut =>
          dut.clockDomain.forkStimulus(10)
 
-         for(i <- 0 to 3){
+         for(i <- 0 to 3) {
            dut.clockDomain.waitSampling()
            println(dut.counter.toInt)
          }
@@ -74,7 +71,7 @@ You can add this simPublic tag directly into the hardware description :
      }
    }
 
-Or you can add it later, after having instanciate your toplevel for the simulation : 
+Or you can add it later, after having instantiated your toplevel for the simulation:
 
 
 .. code-block:: scala
@@ -87,14 +84,14 @@ Or you can add it later, after having instanciate your toplevel for the simulati
      }
 
      def main(args: Array[String]) {
-       SimConfig.compile{
+       SimConfig.compile {
          val dut = new TopLevel
          dut.counter.simPublic()
          dut
        }.doSim{dut =>
          dut.clockDomain.forkStimulus(10)
 
-         for(i <- 0 to 3){
+         for(i <- 0 to 3) {
            dut.clockDomain.waitSampling()
            println(dut.counter.toInt)
          }

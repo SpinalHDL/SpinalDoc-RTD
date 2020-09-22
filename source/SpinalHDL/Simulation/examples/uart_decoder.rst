@@ -4,9 +4,9 @@ Uart decoder
 
 .. code-block:: scala
 
-   //Fork a simulation process which will analyse the uartPin and print transmited bytes into the simulation terminal
-   fork{
-     //Wait until the design put the uartPin to true (wait the reset effect)
+   // Fork a simulation process which will analyze the uartPin and print transmitted bytes into the simulation terminal.
+   fork {
+     // Wait until the design sets the uartPin to true (wait for the reset effect).
      waitUntil(uartPin.toBoolean == true)
 
      while(true) {

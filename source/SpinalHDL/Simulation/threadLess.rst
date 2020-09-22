@@ -1,8 +1,7 @@
-
 Thread-less API
 ==========================================
 
-There is some functions that you can use to avoid the usage of threading but which still allow you to move in time.
+There are some functions that you can use to avoid the need for threading, but which still allow you to control the flow of simulation time.
 
 .. list-table::
    :header-rows: 1
@@ -10,15 +9,15 @@ There is some functions that you can use to avoid the usage of threading but whi
 
    * - Threadless functions
      - Description
-   * - delayed(delay){callback}
-     - Register the callback code to be called at in a given simulation time.
+   * - ``delayed(delay){ callback }``
+     - Register the callback code to be called at a simulation time ``delay`` steps after the current timestep.
 
-The advantage of the delayed function over using a regular simulation thread + sleep are : 
+The advantages of the ``delayed`` function over using a regular simulation thread + sleep are:
 
  - Performance (no context switching)
  - Memory usage (no native JVM thread memory allocation)
 
-Also, some other thread-less function related with ClockDomain are documented as :ref:`Callback API <sim_clock_threadless>`, and some others related with the delta-cycle execution are documented :ref:`Sensitive API <sim_sensitive_api>`
+Some other thread-less functions related to ``ClockDomain`` objects are documented as part of the :ref:`Callback API <sim_clock_threadless>`, and some others related with the delta-cycle execution process are documented as part of the :ref:`Sensitive API <sim_sensitive_api>`
 
  
 

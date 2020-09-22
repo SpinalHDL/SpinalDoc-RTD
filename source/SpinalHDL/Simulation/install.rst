@@ -3,18 +3,18 @@ Setup and installation
 ==========================================
 
 
-The SpinalSim with Verilator as backend is supported on both Linux and Windows platforms.
+SpinalSim + Verilator is supported on both Linux and Windows platforms.
 
 Scala
 ^^^^^
 
-Don't forget to add the following in your build.sbt file
+Don't forget to add the following in your ``build.sbt`` file:
 
 .. code-block:: scala
 
    fork := true
 
-And you will always need the following imports in your Scala testbench :
+And you will always need the following imports in your Scala testbench:
 
 .. code-block:: scala
 
@@ -44,24 +44,23 @@ You will also need a recent version of Verilator installed :
 Windows
 ^^^^^^^
 
-In order to get SpinalSim + Verilator working on windows, you have to do the following :
+In order to get SpinalSim + Verilator working on Windows, you have to do the following:
 
+* Install `MSYS2 <https://www.msys2.org/>`_
+* Via MSYS2 get gcc/g++/verilator (for Verilator you can compile it from the sources)
+* Add ``bin`` and ``usr\bin`` of MSYS2 into your windows ``PATH`` (ie : ``C:\msys64\usr\bin;C:\msys64\mingw64\bin``)
 
-* Install MSYS2
-* Via MSYS2 get gcc/g++/verilator (for verilator you can compile it from the sources)
-* Add bin and usr\\bin of MSYS2 into your windows PATH (ie : C:\\msys64\\usr\\bin;C:\\msys64\\mingw64\\bin)
+Then you should be able to run SpinalSim + Verilator from your Scala project without having to use MSYS2 anymore.
 
-Then you should be able to run SpinalSim + verilator from your Scala project without having to use MSYS2 anymore.
+From a fresh install of MSYS2 MinGW 64-bit, you will have to run the following commands inside the MSYS2 MinGW 64-bits shell (enter commands one by one):
 
-From a fresh install of MSYS2 MinGW 64-bits, you will have to run the following commands inside the MSYS2 MinGW 64-bits shell (enter commands one by one):
-
-from the minGW packet manager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+From the MinGW package manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sh
 
    pacman -Syuu
-   #Close the MSYS2 shell once you're asked to
+   # Close the MSYS2 shell once you're asked to
    pacman -Syuu
    pacman -S --needed base-devel mingw-w64-x86_64-toolchain \
                       git flex\
@@ -69,15 +68,15 @@ from the minGW packet manager
 
    pacman -S mingw-w64-x86_64-verilator
    
-   #Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to you windows PATH
+   # Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to your Windows PATH
    
-from source
+From source
 ~~~~~~~~~~~
 
 .. code-block:: sh
 
    pacman -Syuu
-   #Close the MSYS2 shell once you're asked to
+   # Close the MSYS2 shell once you're asked to
    pacman -Syuu
    pacman -S --needed base-devel mingw-w64-x86_64-toolchain \
                       git flex\
@@ -97,10 +96,11 @@ from source
    make -j$(nproc)
    make install
    echo "DONE"
-   #Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to you windows PATH
+   # Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to your Windows PATH
 
 .. important::
-   Be sure that your PATH environnement variable is pointing to the JDK 1.8 and don't contain a JRE installation.
+   Be sure that your ``PATH`` environnement variable is pointing to the JDK 1.8 and doesn't contain a JRE installation.
 
 .. important::
-   Adding the MSYS2 bin folders into your windows PATH could potentialy have some side effects. It's why it is safer to add them as last elements of the PATH to reduce their priority.
+   Adding the MSYS2 ``bin`` folders into your windows ``PATH`` could potentialy have some side effects.
+   This is why it is safer to add them as the last elements of the ``PATH`` to reduce their priority.
