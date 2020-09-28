@@ -2,7 +2,7 @@ Thread-full API
 ==========================================
 
 In SpinalSim, you can write your testbench by using multiple threads in a similar way to SystemVerilog, and a bit like VHDL/Verilog process/always blocks. 
-This allows you to write concurrent tasks and move/halt the simulation time using a fluent API.
+This allows you to write concurrent tasks and control the simulation time using a fluent API.
 
 
 Fork and join simulation threads
