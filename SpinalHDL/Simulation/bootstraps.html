@@ -215,6 +215,7 @@
 <li class="toctree-l2"><a class="reference internal" href="clock.html">Clock domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadFull.html">Thread-full API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive.html">Sensitive API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="engine.html">Simulation engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/asynchronous.html">Asynchronous adder</a></li>
@@ -344,18 +345,18 @@
 <p>There is an example hardware defintion + testbench :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Your hardware toplevel</span>
 <span class="k">import</span> <span class="nn">spinal.core._</span>
-<span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
+<span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="o">...</span>
 <span class="o">}</span>
 
-<span class="c1">//Your toplevel tester</span>
+<span class="c1">// Your toplevel tester</span>
 <span class="k">import</span> <span class="nn">spinal.sim._</span>
 <span class="k">import</span> <span class="nn">spinal.core.sim._</span>
 
 <span class="k">object</span> <span class="nc">DutTests</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
     <span class="nc">SimConfig</span><span class="o">.</span><span class="n">withWave</span><span class="o">.</span><span class="n">compile</span><span class="o">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="o">).</span><span class="n">doSim</span><span class="o">{</span> <span class="n">dut</span> <span class="k">=&gt;</span>
-      <span class="c1">//Simulation code here</span>
+      <span class="c1">// Simulation code here</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -364,7 +365,7 @@
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>SimConfig will return your a default simulation configuration instance on which you can call multiple function to configure your simulation :</p>
+<p><code class="docutils literal notranslate"><span class="pre">SimConfig</span></code> will return a default simulation configuration instance on which you can call multiple functions to configure your simulation:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 29%" />
@@ -376,22 +377,23 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>withWave</p></td>
-<td><p>Enable the simulation wave capture</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">withWave</span></code></p></td>
+<td><p>Enable simulation wave capture</p></td>
 </tr>
-<tr class="row-odd"><td><p>withConfig(SpinalConfig)</p></td>
-<td><p>Specify the SpinalConfig that should be use to generate the hardware</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">withConfig(SpinalConfig)</span></code></p></td>
+<td><p>Specify the <code class="docutils literal notranslate"><span class="pre">SpinalConfig</span></code> that should be use to generate the hardware</p></td>
 </tr>
-<tr class="row-even"><td><p>allOptimisation</p></td>
-<td><p>Enable all the RTL compilation optimisation to reduce simulation time (will increase compilation time)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">allOptimisation</span></code></p></td>
+<td><p>Enable all the RTL compilation optimizations to reduce simulation time (will increase compilation time)</p></td>
 </tr>
-<tr class="row-odd"><td><p>workspacePath(path)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">workspacePath(path)</span></code></p></td>
 <td><p>Change the folder where the sim files are generated</p></td>
 </tr>
 </tbody>
 </table>
-<p>Then you can call the <code class="docutils literal notranslate"><span class="pre">compile(rtl)</span></code> function to compile the hardware and warmup the simulator. This will return you a <code class="docutils literal notranslate"><span class="pre">SimCompiled</span></code> instance.</p>
-<p>On this <code class="docutils literal notranslate"><span class="pre">SimCompiled</span></code> instance you can run your simulation with the following functions :</p>
+<p>Then you can call the <code class="docutils literal notranslate"><span class="pre">compile(rtl)</span></code> function to compile the hardware and warm up the simulator.
+This function will return a <code class="docutils literal notranslate"><span class="pre">SimCompiled</span></code> instance.</p>
+<p>On this <code class="docutils literal notranslate"><span class="pre">SimCompiled</span></code> instance you can run your simulation with the following functions:</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 50%" />
@@ -403,10 +405,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>doSim[(simName[, seed])]{dut =&gt; …}</p></td>
-<td><p>Run the simulation until the main thread is done (doesn’t wait forked threads) or until all threads are stuck</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">doSim[(simName[,</span> <span class="pre">seed])]{dut</span> <span class="pre">=&gt;</span> <span class="pre">...}</span></code></p></td>
+<td><p>Run the simulation until the main thread is done (doesn’t wait on forked threads) or until all threads are stuck</p></td>
 </tr>
-<tr class="row-odd"><td><p>doSimUntilVoid[(simName[, seed])]{dut =&gt; …}</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">doSimUntilVoid[(simName[,</span> <span class="pre">seed])]{dut</span> <span class="pre">=&gt;</span> <span class="pre">...}</span></code></p></td>
 <td><p>Run the simulation until all threads are done or stuck</p></td>
 </tr>
 </tbody>
@@ -420,30 +422,30 @@
   <span class="o">.</span><span class="n">allOptimisation</span>
   <span class="o">.</span><span class="n">workspacePath</span><span class="o">(</span><span class="s">&quot;~/tmp&quot;</span><span class="o">)</span>
   <span class="o">.</span><span class="n">compile</span><span class="o">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="o">)</span>
-  <span class="o">.</span><span class="n">doSim</span><span class="o">{</span> <span class="n">dut</span> <span class="k">=&gt;</span>
-  <span class="c1">//Simulation code here</span>
+  <span class="o">.</span><span class="n">doSim</span> <span class="o">{</span> <span class="n">dut</span> <span class="k">=&gt;</span>
+    <span class="c1">// Simulation code here</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Note that by default, the simulation will work into the simWorkspace/xxx folders. You can override the simWorkspace location by setting the SPINALSIM_WORKSPACE environnement variable.</p>
+<p>Note that by default, the simulation files will be placed into the <code class="docutils literal notranslate"><span class="pre">simWorkspace/xxx</span></code> folders. You can override the simWorkspace location by setting the <code class="docutils literal notranslate"><span class="pre">SPINALSIM_WORKSPACE</span></code> environnement variable.</p>
 </div>
 <div class="section" id="running-multiple-tests-on-the-same-hardware">
 <h2>Running multiple tests on the same hardware<a class="headerlink" href="#running-multiple-tests-on-the-same-hardware" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">compiled</span> <span class="k">=</span> <span class="nc">SimConfig</span><span class="o">.</span><span class="n">withWave</span><span class="o">.</span><span class="n">compile</span><span class="o">(</span><span class="k">new</span> <span class="nc">Dut</span><span class="o">)</span>
 
-<span class="n">compiled</span><span class="o">.</span><span class="n">doSim</span><span class="o">(</span><span class="s">&quot;testA&quot;</span><span class="o">){</span> <span class="n">dut</span> <span class="k">=&gt;</span>
-   <span class="c1">//Simulation code here</span>
+<span class="n">compiled</span><span class="o">.</span><span class="n">doSim</span><span class="o">(</span><span class="s">&quot;testA&quot;</span><span class="o">)</span> <span class="o">{</span> <span class="n">dut</span> <span class="k">=&gt;</span>
+   <span class="c1">// Simulation code here</span>
 <span class="o">}</span>
 
-<span class="n">compiled</span><span class="o">.</span><span class="n">doSim</span><span class="o">(</span><span class="s">&quot;testB&quot;</span><span class="o">){</span> <span class="n">dut</span> <span class="k">=&gt;</span>
-   <span class="c1">//Simulation code here</span>
+<span class="n">compiled</span><span class="o">.</span><span class="n">doSim</span><span class="o">(</span><span class="s">&quot;testB&quot;</span><span class="o">)</span> <span class="o">{</span> <span class="n">dut</span> <span class="k">=&gt;</span>
+   <span class="c1">// Simulation code here</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="throw-success-or-failure-of-the-simulation-from-a-thread">
 <h2>Throw Success or Failure of the simulation from a thread<a class="headerlink" href="#throw-success-or-failure-of-the-simulation-from-a-thread" title="Permalink to this headline">¶</a></h2>
-<p>At any moment during a simulation you can call simSuccess or simFailure to end it.</p>
+<p>At any moment during a simulation you can call <code class="docutils literal notranslate"><span class="pre">simSuccess</span></code> or <code class="docutils literal notranslate"><span class="pre">simFailure</span></code> to end it.</p>
 </div>
 </div>
 

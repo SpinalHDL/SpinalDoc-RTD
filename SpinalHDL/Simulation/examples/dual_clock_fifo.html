@@ -215,6 +215,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../clock.html">Clock domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../threadFull.html">Thread-full API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensitive.html">Sensitive API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../engine.html">Simulation engine</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="asynchronous.html">Asynchronous adder</a></li>
@@ -340,71 +341,94 @@
            <div itemprop="articleBody">
             
   <div class="section" id="dual-clock-fifo">
-<h1>Dual clock fifo<a class="headerlink" href="#dual-clock-fifo" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Compile the simulator</span>
-<span class="k">val</span> <span class="n">compiled</span> <span class="k">=</span> <span class="nc">SimConfig</span><span class="o">.</span><span class="n">withWave</span><span class="o">.</span><span class="n">allOptimisation</span><span class="o">.</span><span class="n">compile</span><span class="o">(</span>
-  <span class="n">rtl</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StreamFifoCC</span><span class="o">(</span>
-    <span class="n">dataType</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span>
-    <span class="n">depth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
-    <span class="n">pushClock</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkA&quot;</span><span class="o">),</span>
-    <span class="n">popClock</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkB&quot;</span><span class="o">)</span>
-  <span class="o">)</span>
-<span class="o">)</span>
+<span id="sim-example-dual-clock-fifo"></span><h1>Dual clock fifo<a class="headerlink" href="#dual-clock-fifo" title="Permalink to this headline">¶</a></h1>
+<p>This example creates a <code class="docutils literal notranslate"><span class="pre">StreamFifoCC</span></code>, which is designed for crossing clock domains, along with 3 simulation threads.</p>
+<p>The threads handle:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Management of the two clocks</p></li>
+<li><p>Pushing to the FIFO</p></li>
+<li><p>Popping from the FIFO</p></li>
+</ul>
+</div></blockquote>
+<p>The FIFO push thread randomizes the inputs.</p>
+<p>The FIFO pop thread handles checking the the <abbr title="Device Under Test">DUT</abbr>’s outputs against the reference model (an ordinary <code class="docutils literal notranslate"><span class="pre">scala.collection.mutable.Queue</span></code> instance).</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.sim._</span>
+<span class="k">import</span> <span class="nn">spinal.core._</span>
+<span class="k">import</span> <span class="nn">spinal.core.sim._</span>
 
-<span class="c1">//Run the simulation</span>
-<span class="n">compiled</span><span class="o">.</span><span class="n">doSimUntilVoid</span><span class="o">{</span><span class="n">dut</span> <span class="k">=&gt;</span>
-  <span class="k">val</span> <span class="n">queueModel</span> <span class="k">=</span> <span class="n">mutable</span><span class="o">.</span><span class="nc">Queue</span><span class="o">[</span><span class="kt">Long</span><span class="o">]()</span>
+<span class="k">import</span> <span class="nn">scala.collection.mutable.Queue</span>
 
-  <span class="c1">//Fork a thread to manage the clock domains signals</span>
-  <span class="k">val</span> <span class="n">clocksThread</span> <span class="k">=</span> <span class="n">fork</span><span class="o">{</span>
-    <span class="c1">//Clear clock domains signals, to be sure the simulation capture their first edge.</span>
-    <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">fallingEdge</span><span class="o">()</span>
-    <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">fallingEdge</span><span class="o">()</span>
-    <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">deassertReset</span><span class="o">()</span>
-    <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">deassertReset</span><span class="o">()</span>
-    <span class="n">sleep</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
 
-    <span class="c1">//Do the resets</span>
-    <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">assertReset</span><span class="o">()</span>
-    <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">assertReset</span><span class="o">()</span>
-    <span class="n">sleep</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-    <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">deassertReset</span><span class="o">()</span>
-    <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">deassertReset</span><span class="o">()</span>
-    <span class="n">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="k">object</span> <span class="nc">SimStreamFifoCCExample</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="c1">// Compile the Component for the simulator.</span>
+    <span class="k">val</span> <span class="n">compiled</span> <span class="k">=</span> <span class="nc">SimConfig</span><span class="o">.</span><span class="n">withWave</span><span class="o">.</span><span class="n">allOptimisation</span><span class="o">.</span><span class="n">compile</span><span class="o">(</span>
+      <span class="n">rtl</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StreamFifoCC</span><span class="o">(</span>
+        <span class="n">dataType</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span>
+        <span class="n">depth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+        <span class="n">pushClock</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkA&quot;</span><span class="o">),</span>
+        <span class="n">popClock</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">.</span><span class="n">external</span><span class="o">(</span><span class="s">&quot;clkB&quot;</span><span class="o">)</span>
+      <span class="o">)</span>
+    <span class="o">)</span>
 
-    <span class="c1">//Forever, randomly toggle one of the clocks (will create asynchronous clocks without fixed frequencies)</span>
-    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">){</span>
-      <span class="k">if</span><span class="o">(</span><span class="nc">Random</span><span class="o">.</span><span class="n">nextBoolean</span><span class="o">())</span> <span class="o">{</span>
-        <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">clockToggle</span><span class="o">()</span>
-      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-        <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">clockToggle</span><span class="o">()</span>
+    <span class="c1">// Run the simulation.</span>
+    <span class="n">compiled</span><span class="o">.</span><span class="n">doSimUntilVoid</span><span class="o">{</span><span class="n">dut</span> <span class="k">=&gt;</span>
+      <span class="k">val</span> <span class="n">queueModel</span> <span class="k">=</span> <span class="n">mutable</span><span class="o">.</span><span class="nc">Queue</span><span class="o">[</span><span class="kt">Long</span><span class="o">]()</span>
+
+      <span class="c1">// Fork a thread to manage the clock domains signals</span>
+      <span class="k">val</span> <span class="n">clocksThread</span> <span class="k">=</span> <span class="n">fork</span> <span class="o">{</span>
+        <span class="c1">// Clear the clock domains&#39; signals, to be sure the simulation captures their first edges.</span>
+        <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">fallingEdge</span><span class="o">()</span>
+        <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">fallingEdge</span><span class="o">()</span>
+        <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">deassertReset</span><span class="o">()</span>
+        <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">deassertReset</span><span class="o">()</span>
+        <span class="n">sleep</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+
+        <span class="c1">// Do the resets.</span>
+        <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">assertReset</span><span class="o">()</span>
+        <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">assertReset</span><span class="o">()</span>
+        <span class="n">sleep</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+        <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">deassertReset</span><span class="o">()</span>
+        <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">deassertReset</span><span class="o">()</span>
+        <span class="n">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+
+        <span class="c1">// Forever, randomly toggle one of the clocks.</span>
+        <span class="c1">// This will create asynchronous clocks without fixed frequencies.</span>
+        <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span><span class="o">(</span><span class="nc">Random</span><span class="o">.</span><span class="n">nextBoolean</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">clockToggle</span><span class="o">()</span>
+          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">clockToggle</span><span class="o">()</span>
+          <span class="o">}</span>
+          <span class="n">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+        <span class="o">}</span>
       <span class="o">}</span>
-      <span class="n">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
 
-  <span class="c1">//Push data randomly and fill the queueModel with pushed transactions</span>
-  <span class="k">val</span> <span class="n">pushThread</span> <span class="k">=</span> <span class="n">fork</span><span class="o">{</span>
-    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">){</span>
-      <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">valid</span><span class="o">.</span><span class="n">randomize</span><span class="o">()</span>
-      <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">randomize</span><span class="o">()</span>
-      <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">waitSampling</span><span class="o">()</span>
-      <span class="k">if</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">valid</span><span class="o">.</span><span class="n">toBoolean</span> <span class="o">&amp;&amp;</span> <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">toBoolean</span><span class="o">){</span>
-        <span class="n">queueModel</span><span class="o">.</span><span class="n">enqueue</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">toLong</span><span class="o">)</span>
+      <span class="c1">// Push data randomly, and fill the queueModel with pushed transactions.</span>
+      <span class="k">val</span> <span class="n">pushThread</span> <span class="k">=</span> <span class="n">fork</span> <span class="o">{</span>
+        <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">valid</span><span class="o">.</span><span class="n">randomize</span><span class="o">()</span>
+          <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">randomize</span><span class="o">()</span>
+          <span class="n">dut</span><span class="o">.</span><span class="n">pushClock</span><span class="o">.</span><span class="n">waitSampling</span><span class="o">()</span>
+          <span class="k">if</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">valid</span><span class="o">.</span><span class="n">toBoolean</span> <span class="o">&amp;&amp;</span> <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">toBoolean</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">queueModel</span><span class="o">.</span><span class="n">enqueue</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">push</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">toLong</span><span class="o">)</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+
+      <span class="c1">// Pop data randomly, and check that it match with the queueModel.</span>
+      <span class="k">val</span> <span class="n">popThread</span> <span class="k">=</span> <span class="n">fork</span> <span class="o">{</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="mi">100000</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">randomize</span><span class="o">()</span>
+          <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">waitSampling</span><span class="o">()</span>
+          <span class="k">if</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">valid</span><span class="o">.</span><span class="n">toBoolean</span> <span class="o">&amp;&amp;</span> <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">toBoolean</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">assert</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">toLong</span> <span class="o">==</span> <span class="n">queueModel</span><span class="o">.</span><span class="n">dequeue</span><span class="o">())</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">simSuccess</span><span class="o">()</span>
       <span class="o">}</span>
     <span class="o">}</span>
-  <span class="o">}</span>
-
-  <span class="c1">//Pop data randomly and check that it match with the queueModel</span>
-  <span class="k">val</span> <span class="n">popThread</span> <span class="k">=</span> <span class="n">fork</span><span class="o">{</span>
-    <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="mi">100000</span><span class="o">){</span>
-      <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">randomize</span><span class="o">()</span>
-      <span class="n">dut</span><span class="o">.</span><span class="n">popClock</span><span class="o">.</span><span class="n">waitSampling</span><span class="o">()</span>
-      <span class="k">if</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">valid</span><span class="o">.</span><span class="n">toBoolean</span> <span class="o">&amp;&amp;</span> <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">ready</span><span class="o">.</span><span class="n">toBoolean</span><span class="o">){</span>
-        <span class="n">assert</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">toLong</span> <span class="o">==</span> <span class="n">queueModel</span><span class="o">.</span><span class="n">dequeue</span><span class="o">())</span>
-      <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="n">simSuccess</span><span class="o">()</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>

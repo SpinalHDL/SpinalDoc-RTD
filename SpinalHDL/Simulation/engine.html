@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Examples" href="examples/index.html" />
-    <link rel="prev" title="Thread-less API" href="threadLess.html" /> 
+    <link rel="prev" title="Sensitive API" href="sensitive.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -215,6 +215,7 @@
 <li class="toctree-l2"><a class="reference internal" href="clock.html">Clock domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadFull.html">Thread-full API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive.html">Sensitive API</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Simulation engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/asynchronous.html">Asynchronous adder</a></li>
@@ -339,28 +340,28 @@
             
   <div class="section" id="simulation-engine">
 <h1>Simulation engine<a class="headerlink" href="#simulation-engine" title="Permalink to this headline">¶</a></h1>
-<p>This page explain the internals of the simulation engine.</p>
-<p>Basicaly, the simulation engine emulate a event-driven simulator (VHDL/Verilog like) by applying the following simulation loop on the top of the Verilator C++ simulation model :</p>
+<p>This page explains the internals of the simulation engine.</p>
+<p>The simulation engine emulates an event-driven simulator (VHDL/Verilog like) by applying the following simulation loop on the top of the Verilator C++ simulation model:</p>
 <img alt="../../_images/simEngine.png" class="align-center" src="../../_images/simEngine.png" />
-<p>At a low level, the simulation engine manage the following primitives :</p>
+<p>At a low level, the simulation engine manages the following primitives:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Sensitive callbacks, which allow to call a function on each simulation delta cycle</p></li>
-<li><p>Delayed callbacks, which allow to call a function in a future simulation time</p></li>
-<li><p>Simulation threads, which allow to describe concurrent with many times utilities</p></li>
-<li><p>Command buffer, which allow to delay the write access to the dut to the end of the current delta cycle</p></li>
+<li><p><em>Sensitive callbacks</em>, which allow users to call a function on each simulation delta cycle.</p></li>
+<li><p><em>Delayed callbacks</em>, which allow users to call a function at a future simulation time.</p></li>
+<li><p><em>Simulation threads</em>, which allow users to describe concurrent processes.</p></li>
+<li><p><em>Command buffer</em>, which allows users to delay write access to the <abbr title="Device Under Test">DUT</abbr> until the end of the current delta cycle.</p></li>
 </ul>
 </div></blockquote>
-<dl class="simple">
-<dt>There is some practical uses of those primitives :</dt><dd><ul class="simple">
-<li><p>Sensitive callbacks can be used to wakeup a simulation thread when a given condition happen, like a rising edge on a clock</p></li>
-<li><p>Delayed callbacks can be used to schedule stimulus as desaserting a reset after a given time or toggle the clock</p></li>
-<li><p>Both sensitive and delayed callbacks can be used to resume a simulation thread</p></li>
-<li><p>A simulation thread can be used (for instance) to produce stimulus and check the dut output values</p></li>
-<li><p>The command buffer purpose is mainly avoid all concurrency issues between the DUT and the testbench</p></li>
+<p>There are some practical uses of those primitives:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Sensitive callbacks can be used to wake up a simulation thread when a given condition happens, like a rising edge on a clock.</p></li>
+<li><p>Delayed callbacks can be used to schedule stimuli, such as deasserting a reset after a given time, or toggling the clock.</p></li>
+<li><p>Both sensitive and delayed callbacks can be used to resume a simulation thread.</p></li>
+<li><p>A simulation thread can be used (for instance) to produce stimulus and check the DUT’s output values.</p></li>
+<li><p>The command buffer’s purpose is mainly to avoid all concurrency issues between the DUT and the testbench.</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </div>
 
     <script type="text/javascript">
@@ -380,7 +381,7 @@
         <a href="examples/index.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="threadLess.html" class="btn btn-neutral float-left" title="Thread-less API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="sensitive.html" class="btn btn-neutral float-left" title="Sensitive API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

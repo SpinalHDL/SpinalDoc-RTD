@@ -1,12 +1,9 @@
-:orphan:
-
 .. _sim_sensitive_api:
 
 Sensitive API
 ==========================================
 
-
-You can register callback to be called on each delta-cycle of the simulation : 
+You can register callback functions to be called on each delta-cycle of the simulation:
 
 .. list-table::
    :header-rows: 1
@@ -14,8 +11,8 @@ You can register callback to be called on each delta-cycle of the simulation :
 
    * - Sensitive functions
      - Description
-   * - forkSensitive { callback }
+   * - ``forkSensitive { callback }``
      - Register the callback code to be called at each delta-cycle of the simulation
-   * - forkSensitiveWhile { callback }
-     - Register the callback code to be called at each delta-cycle of the simulation, while the callback return value true (reschedule)
+   * - ``forkSensitiveWhile { callback }``
+     - Register the callback code to be called at each delta-cycle of the simulation, while the callback return value is true (meaning it should be rescheduled for the next delta-cycle)
 

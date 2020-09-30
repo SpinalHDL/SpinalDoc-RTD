@@ -215,6 +215,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Clock domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadFull.html">Thread-full API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive.html">Sensitive API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="engine.html">Simulation engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/asynchronous.html">Asynchronous adder</a></li>
@@ -341,7 +342,7 @@
 <h1>Clock domains<a class="headerlink" href="#clock-domains" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="stimulus-api">
 <h2>Stimulus API<a class="headerlink" href="#stimulus-api" title="Permalink to this headline">¶</a></h2>
-<p>There is a list of ClockDomain stimulation functionalities :</p>
+<p>Below is a list of <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> stimulation functions:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 29%" />
@@ -353,37 +354,37 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>forkStimulus(period)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forkStimulus(period)</span></code></p></td>
 <td><p>Fork a simulation process to generate the clockdomain simulus (clock, reset, softReset, clockEnable signals)</p></td>
 </tr>
-<tr class="row-odd"><td><p>forkSimSpeedPrinter(printPeriod)</p></td>
-<td><p>Fork a simulation process which will periodicaly print the simulation speed in kcycles per real time second. <code class="docutils literal notranslate"><span class="pre">printPeriod</span></code> is in realtime second</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forkSimSpeedPrinter(printPeriod)</span></code></p></td>
+<td><p>Fork a simulation process which will periodically print the simulation speed in kilo-cycles per real time second. <code class="docutils literal notranslate"><span class="pre">printPeriod</span></code> is in realtime seconds</p></td>
 </tr>
-<tr class="row-even"><td><p>clockToggle()</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clockToggle()</span></code></p></td>
 <td><p>Toggle the clock signal</p></td>
 </tr>
-<tr class="row-odd"><td><p>fallingEdge()</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fallingEdge()</span></code></p></td>
 <td><p>Clear the clock signal</p></td>
 </tr>
-<tr class="row-even"><td><p>risingEdge()</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">risingEdge()</span></code></p></td>
 <td><p>Set the clock signal</p></td>
 </tr>
-<tr class="row-odd"><td><p>assertReset()</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assertReset()</span></code></p></td>
 <td><p>Set the reset signal to its active level</p></td>
 </tr>
-<tr class="row-even"><td><p>deassertReset()</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">deassertReset()</span></code></p></td>
 <td><p>Set the reset signal to its inactive level</p></td>
 </tr>
-<tr class="row-odd"><td><p>assertClockEnable()</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assertClockEnable()</span></code></p></td>
 <td><p>Set the clockEnable signal to its active level</p></td>
 </tr>
-<tr class="row-even"><td><p>disassertClockEnable()</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">deassertClockEnable()</span></code></p></td>
 <td><p>Set the clockEnable signal to its active level</p></td>
 </tr>
-<tr class="row-odd"><td><p>assertSoftReset()</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">assertSoftReset()</span></code></p></td>
 <td><p>Set the softReset signal to its active level</p></td>
 </tr>
-<tr class="row-even"><td><p>disassertSoftReset()</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">deassertSoftReset()</span></code></p></td>
 <td><p>Set the softReset signal to its active level</p></td>
 </tr>
 </tbody>
@@ -391,7 +392,7 @@
 </div>
 <div class="section" id="wait-api">
 <h2>Wait API<a class="headerlink" href="#wait-api" title="Permalink to this headline">¶</a></h2>
-<p>There is a list of ClockDomain utilities that you can use to wait a given event from it :</p>
+<p>Below is a list of <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> utilities that you can use to wait for a given event from the domain:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 17%" />
@@ -403,34 +404,37 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>waitSampling([cyclesCount])</p></td>
-<td><p>Wait until the ClockDomain made a sampling, (Active clock edge &amp;&amp; deassertReset &amp;&amp; assertClockEnable)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">waitSampling([cyclesCount])</span></code></p></td>
+<td><p>Wait until the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> makes a sampling, (active clock edge &amp;&amp; deassertReset &amp;&amp; assertClockEnable)</p></td>
 </tr>
-<tr class="row-odd"><td><p>waitRisingEdge([cyclesCount])</p></td>
-<td><p>Wait cyclesCount rising edges on the clock, if not cycleCount isn’t specified =&gt; 1 cycle, cyclesCount = 0 is legal, not sensitive to reset/softReset/clockEnable</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">waitRisingEdge([cyclesCount])</span></code></p></td>
+<td><p>Wait cyclesCount rising edges on the clock; cycleCount defaults to 1 cycle if not otherwise specified. Note, cyclesCount = 0 is legal, and the function is not sensitive to reset/softReset/clockEnable</p></td>
 </tr>
-<tr class="row-even"><td><p>waitFallingEdge([cyclesCount])</p></td>
-<td><p>Same as waitRisingEdge but for the falling edge</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">waitFallingEdge([cyclesCount])</span></code></p></td>
+<td><p>Same as <code class="docutils literal notranslate"><span class="pre">waitRisingEdge</span></code> but for the falling edge</p></td>
 </tr>
-<tr class="row-odd"><td><p>waitActiveEdge([cyclesCount])</p></td>
-<td><p>Same as waitRisingEdge but for the edge level specified by the ClockDomainConfig</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">waitActiveEdge([cyclesCount])</span></code></p></td>
+<td><p>Same as <code class="docutils literal notranslate"><span class="pre">waitRisingEdge</span></code> but for the edge level specified by the <code class="docutils literal notranslate"><span class="pre">ClockDomainConfig</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>waitRisingEdgeWhere(condition)</p></td>
-<td><p>As waitRisingEdge, but to exit, the boolean <code class="docutils literal notranslate"><span class="pre">condition</span></code> must be true when the rising edge occure</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">waitRisingEdgeWhere(condition)</span></code></p></td>
+<td><p>Same as <code class="docutils literal notranslate"><span class="pre">waitRisingEdge</span></code>, but to exit, the boolean <code class="docutils literal notranslate"><span class="pre">condition</span></code> must be true when the rising edge occurs</p></td>
 </tr>
-<tr class="row-odd"><td><p>waitFallingEdgeWhere(condition)</p></td>
-<td><p>Same as waitRisingEdgeWhere but for the falling edge</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">waitFallingEdgeWhere(condition)</span></code></p></td>
+<td><p>Same as <code class="docutils literal notranslate"><span class="pre">waitRisingEdgeWhere</span></code>, but for the falling edge</p></td>
 </tr>
-<tr class="row-even"><td><p>waitActiveEdgeWhere(condition)</p></td>
-<td><p>Same as waitRisingEdgeWhere but for the edge level specified by the ClockDomainConfig</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">waitActiveEdgeWhere(condition)</span></code></p></td>
+<td><p>Same as <code class="docutils literal notranslate"><span class="pre">waitRisingEdgeWhere</span></code>, but for the edge level specified by the <code class="docutils literal notranslate"><span class="pre">ClockDomainConfig</span></code></p></td>
 </tr>
 </tbody>
 </table>
-<p>All the functionalities of the wait API can only be called from the inside of a thread, and not from a callback.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All the functionalities of the wait API can only be called from inside of a thread, and not from a callback.</p>
+</div>
 </div>
 <div class="section" id="callback-api">
 <span id="sim-clock-threadless"></span><h2>Callback API<a class="headerlink" href="#callback-api" title="Permalink to this headline">¶</a></h2>
-<p>There is a list of ClockDomain utilities that you can use to wait a given event from it :</p>
+<p>Below is a list of <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> utilities that you can use to wait for a given event from the domain:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 17%" />
@@ -442,56 +446,56 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>onNextSampling { callback }</p></td>
-<td><p>Execute the callback code only once on next the ClockDomain sample (active edge + reset off + clock enable on)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">onNextSampling</span> <span class="pre">{</span> <span class="pre">callback</span> <span class="pre">}</span></code></p></td>
+<td><p>Execute the callback code only once on the next <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> sample (active edge + reset off + clock enable on)</p></td>
 </tr>
-<tr class="row-odd"><td><p>onSamplings { callback }</p></td>
-<td><p>Execute the callback code each time the ClockDomain sample (active edge + reset off + clock enable on)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">onSamplings</span> <span class="pre">{</span> <span class="pre">callback</span> <span class="pre">}</span></code></p></td>
+<td><p>Execute the callback code each time the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> sample (active edge + reset off + clock enable on)</p></td>
 </tr>
-<tr class="row-even"><td><p>onActiveEdges { callback }</p></td>
-<td><p>Execute the callback code each time the ClockDomain clock do its configured edge</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">onActiveEdges</span> <span class="pre">{</span> <span class="pre">callback</span> <span class="pre">}</span></code></p></td>
+<td><p>Execute the callback code each time the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> clock generates its configured edge</p></td>
 </tr>
-<tr class="row-odd"><td><p>onEdges { callback }</p></td>
-<td><p>Execute the callback code each time the ClockDomain clock do a rising or falling edge</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">onEdges</span> <span class="pre">{</span> <span class="pre">callback</span> <span class="pre">}</span></code></p></td>
+<td><p>Execute the callback code each time the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> clock generates a rising or falling edge</p></td>
 </tr>
-<tr class="row-even"><td><p>onRisingEdges { callback }</p></td>
-<td><p>Execute the callback code each time the ClockDomain clock do a rising edge</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">onRisingEdges</span> <span class="pre">{</span> <span class="pre">callback</span> <span class="pre">}</span></code></p></td>
+<td><p>Execute the callback code each time the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> clock generates a rising edge</p></td>
 </tr>
-<tr class="row-odd"><td><p>onFallingEdges { callback }</p></td>
-<td><p>Execute the callback code each time the ClockDomain clock do a falling edge</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">onFallingEdges</span> <span class="pre">{</span> <span class="pre">callback</span> <span class="pre">}</span></code></p></td>
+<td><p>Execute the callback code each time the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> clock generates a falling edge</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="default-clockdomain">
 <h2>Default ClockDomain<a class="headerlink" href="#default-clockdomain" title="Permalink to this headline">¶</a></h2>
-<p>You can access the default ClockDomain of your toplevel by the following way :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Example of thread forking to generate an reset and then toggeling the clock each 5 units of times.</span>
-<span class="c1">//dut.clockDomain refer to the implicit clock domain during the component instanciation.</span>
-<span class="n">fork</span><span class="o">{</span>
+<p>You can access the default <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> of your toplevel as shown below:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example of thread forking to generate a reset, and then toggling the clock each 5 time units.</span>
+<span class="c1">// dut.clockDomain refers to the implicit clock domain created during component instantiation.</span>
+<span class="n">fork</span> <span class="o">{</span>
   <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">assertReset</span><span class="o">()</span>
   <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">fallingEdge</span><span class="o">()</span>
   <span class="n">sleep</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-  <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+  <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">clockToggle</span><span class="o">()</span>
     <span class="n">sleep</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>But you can also directly fork a standard reset/clock process :</p>
+<p>Note that you can also directly fork a standard reset/clock process:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">forkStimulus</span><span class="o">(</span><span class="n">period</span> <span class="k">=</span> <span class="mi">10</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>And there is an example of how to wait for a rising edge on the clock :</p>
+<p>An example of how to wait for a rising edge on the clock:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">waitRisingEdge</span><span class="o">()</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="new-clockdomain">
 <h2>New ClockDomain<a class="headerlink" href="#new-clockdomain" title="Permalink to this headline">¶</a></h2>
-<p>If you toplevel define some clock and reset inputs which aren’t directly integrated into their clockdomain, you can define their corresponding clockdomain directly in the testbench :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//In the testbench</span>
+<p>If your toplevel defines some clock and reset inputs which aren’t directly integrated into their <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>, you can define their corresponding <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> directly in the testbench:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// In the testbench</span>
 <span class="nc">ClockDomain</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">coreClk</span><span class="o">,</span> <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">coreReset</span><span class="o">).</span><span class="n">forkStimulus</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
 </pre></div>
 </div>

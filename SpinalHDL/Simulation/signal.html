@@ -215,6 +215,7 @@
 <li class="toctree-l2"><a class="reference internal" href="clock.html">Clock domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadFull.html">Thread-full API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitive.html">Sensitive API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="engine.html">Simulation engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/asynchronous.html">Asynchronous adder</a></li>
@@ -341,7 +342,7 @@
 <h1>Accessing signals of the simulation<a class="headerlink" href="#accessing-signals-of-the-simulation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="read-and-write-signals">
 <h2>Read and write signals<a class="headerlink" href="#read-and-write-signals" title="Permalink to this headline">¶</a></h2>
-<p>Each interface signals of the toplevel can be read into scala and write from scala :</p>
+<p>Each interface signal of the toplevel can be read and written from Scala:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 38%" />
@@ -354,34 +355,34 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Bool.toBoolean</p></td>
-<td><p>Read an hardware Bool as a Scala Boolean value</p></td>
+<td><p>Read a hardware <code class="docutils literal notranslate"><span class="pre">Bool</span></code> as a Scala <code class="docutils literal notranslate"><span class="pre">Boolean</span></code> value</p></td>
 </tr>
 <tr class="row-odd"><td><p>Bits/UInt/SInt.toInt</p></td>
-<td><p>Read an hardware BitVector as a Scala Int value</p></td>
+<td><p>Read a hardware <code class="docutils literal notranslate"><span class="pre">BitVector</span></code> as a Scala <code class="docutils literal notranslate"><span class="pre">Int</span></code> value</p></td>
 </tr>
 <tr class="row-even"><td><p>Bits/UInt/SInt.toLong</p></td>
-<td><p>Read an hardware BitVector as a Scala Long value</p></td>
+<td><p>Read a hardware <code class="docutils literal notranslate"><span class="pre">BitVector</span></code> as a Scala <code class="docutils literal notranslate"><span class="pre">Long</span></code> value</p></td>
 </tr>
 <tr class="row-odd"><td><p>Bits/UInt/SInt.toBigInt</p></td>
-<td><p>Read an hardware BitVector as a Scala BigInt value</p></td>
+<td><p>Read a hardware <code class="docutils literal notranslate"><span class="pre">BitVector</span></code> as a Scala <code class="docutils literal notranslate"><span class="pre">BigInt</span></code> value</p></td>
 </tr>
 <tr class="row-even"><td><p>SpinalEnumCraft.toEnum</p></td>
-<td><p>Read an hardware SpinalEnumCraft as a Scala SpinalEnumElement value</p></td>
+<td><p>Read a hardware <code class="docutils literal notranslate"><span class="pre">SpinalEnumCraft</span></code> as a Scala <code class="docutils literal notranslate"><span class="pre">SpinalEnumElement</span></code> value</p></td>
 </tr>
 <tr class="row-odd"><td><p>Bool #= Boolean</p></td>
-<td><p>Assign a hardware Bool from an Scala Boolean</p></td>
+<td><p>Assign a hardware <code class="docutils literal notranslate"><span class="pre">Bool</span></code> from an Scala <code class="docutils literal notranslate"><span class="pre">Boolean</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Bits/UInt/SInt #= Int</p></td>
-<td><p>Assign a hardware BitVector from an Scala Int</p></td>
+<td><p>Assign a hardware <code class="docutils literal notranslate"><span class="pre">BitVector</span></code> from a Scala <code class="docutils literal notranslate"><span class="pre">Int</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Bits/UInt/SInt #= Long</p></td>
-<td><p>Assign a hardware BitVector from an Scala Long</p></td>
+<td><p>Assign a hardware <code class="docutils literal notranslate"><span class="pre">BitVector</span></code> from a Scala <code class="docutils literal notranslate"><span class="pre">Long</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Bits/UInt/SInt #= BigInt</p></td>
-<td><p>Assign a hardware BitVector from an Scala BigInt</p></td>
+<td><p>Assign a hardware <code class="docutils literal notranslate"><span class="pre">BitVector</span></code> from a Scala <code class="docutils literal notranslate"><span class="pre">BigInt</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>SpinalEnumCraft #= SpinalEnumElement</p></td>
-<td><p>Assign a hardware SpinalEnumCraft from an Scala SpinalEnumElement</p></td>
+<td><p>Assign a hardware <code class="docutils literal notranslate"><span class="pre">SpinalEnumCraft</span></code> from a Scala <code class="docutils literal notranslate"><span class="pre">SpinalEnumElement</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -393,15 +394,15 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="accessing-signals-inside-the-components-hierarchy">
-<h2>Accessing signals inside the components hierarchy<a class="headerlink" href="#accessing-signals-inside-the-components-hierarchy" title="Permalink to this headline">¶</a></h2>
-<p>To access signals which are inside the components hierarchy, you have first to set the given signal as simPublic.</p>
-<p>You can add this simPublic tag directly into the hardware description :</p>
+<div class="section" id="accessing-signals-inside-the-component-s-hierarchy">
+<h2>Accessing signals inside the component’s hierarchy<a class="headerlink" href="#accessing-signals-inside-the-component-s-hierarchy" title="Permalink to this headline">¶</a></h2>
+<p>To access signals which are inside the component’s hierarchy, you have first to set the given signal as <code class="docutils literal notranslate"><span class="pre">simPublic</span></code>.</p>
+<p>You can add this <code class="docutils literal notranslate"><span class="pre">simPublic</span></code> tag directly in the hardware description:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">SimAccessSubSignal</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">spinal.core.sim._</span>
 
   <span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="n">simPublic</span><span class="o">()</span> <span class="c1">//Here we add the simPublic tag on the counter register to make it visible</span>
+    <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="n">simPublic</span><span class="o">()</span> <span class="c1">// Here we add the simPublic tag on the counter register to make it visible</span>
     <span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
   <span class="o">}</span>
 
@@ -409,7 +410,7 @@
     <span class="nc">SimConfig</span><span class="o">.</span><span class="n">compile</span><span class="o">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="o">).</span><span class="n">doSim</span><span class="o">{</span><span class="n">dut</span> <span class="k">=&gt;</span>
       <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">forkStimulus</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
 
-      <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">3</span><span class="o">){</span>
+      <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">waitSampling</span><span class="o">()</span>
         <span class="n">println</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">counter</span><span class="o">.</span><span class="n">toInt</span><span class="o">)</span>
       <span class="o">}</span>
@@ -418,7 +419,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Or you can add it later, after having instanciate your toplevel for the simulation :</p>
+<p>Or you can add it later, after having instantiated your toplevel for the simulation:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">SimAccessSubSignal</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">spinal.core.sim._</span>
   <span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
@@ -427,14 +428,14 @@
   <span class="o">}</span>
 
   <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
-    <span class="nc">SimConfig</span><span class="o">.</span><span class="n">compile</span><span class="o">{</span>
+    <span class="nc">SimConfig</span><span class="o">.</span><span class="n">compile</span> <span class="o">{</span>
       <span class="k">val</span> <span class="n">dut</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">TopLevel</span>
       <span class="n">dut</span><span class="o">.</span><span class="n">counter</span><span class="o">.</span><span class="n">simPublic</span><span class="o">()</span>
       <span class="n">dut</span>
     <span class="o">}.</span><span class="n">doSim</span><span class="o">{</span><span class="n">dut</span> <span class="k">=&gt;</span>
       <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">forkStimulus</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
 
-      <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">3</span><span class="o">){</span>
+      <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">dut</span><span class="o">.</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">waitSampling</span><span class="o">()</span>
         <span class="n">println</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">counter</span><span class="o">.</span><span class="n">toInt</span><span class="o">)</span>
       <span class="o">}</span>

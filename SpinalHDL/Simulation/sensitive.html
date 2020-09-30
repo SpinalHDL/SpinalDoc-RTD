@@ -37,7 +37,9 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Simulation engine" href="engine.html" />
+    <link rel="prev" title="Thread-less API" href="threadLess.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,7 +87,7 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../About SpinalHDL/index.html">About SpinalHDL</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/faq.html">FAQ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/support.html">Support</a></li>
@@ -206,13 +208,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Simulation</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Simulation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="install.html">Setup and installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bootstraps.html">Boot a simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="signal.html">Accessing signals of the simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="clock.html">Clock domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadFull.html">Thread-full API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sensitive API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="engine.html">Simulation engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/asynchronous.html">Asynchronous adder</a></li>
@@ -314,6 +317,8 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
+          <li><a href="index.html">Simulation</a> &raquo;</li>
+        
       <li>Sensitive API</li>
     
     
@@ -335,7 +340,7 @@
             
   <div class="section" id="sensitive-api">
 <span id="sim-sensitive-api"></span><h1>Sensitive API<a class="headerlink" href="#sensitive-api" title="Permalink to this headline">¶</a></h1>
-<p>You can register callback to be called on each delta-cycle of the simulation :</p>
+<p>You can register callback functions to be called on each delta-cycle of the simulation:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 17%" />
@@ -347,11 +352,11 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>forkSensitive { callback }</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forkSensitive</span> <span class="pre">{</span> <span class="pre">callback</span> <span class="pre">}</span></code></p></td>
 <td><p>Register the callback code to be called at each delta-cycle of the simulation</p></td>
 </tr>
-<tr class="row-odd"><td><p>forkSensitiveWhile { callback }</p></td>
-<td><p>Register the callback code to be called at each delta-cycle of the simulation, while the callback return value true (reschedule)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forkSensitiveWhile</span> <span class="pre">{</span> <span class="pre">callback</span> <span class="pre">}</span></code></p></td>
+<td><p>Register the callback code to be called at each delta-cycle of the simulation, while the callback return value is true (meaning it should be rescheduled for the next delta-cycle)</p></td>
 </tr>
 </tbody>
 </table>
@@ -368,6 +373,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="engine.html" class="btn btn-neutral float-right" title="Simulation engine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="threadLess.html" class="btn btn-neutral float-left" title="Thread-less API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

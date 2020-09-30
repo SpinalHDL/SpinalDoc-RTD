@@ -215,6 +215,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../clock.html">Clock domains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../threadFull.html">Thread-full API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensitive.html">Sensitive API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../engine.html">Simulation engine</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Asynchronous adder</a></li>
@@ -340,10 +341,20 @@
            <div itemprop="articleBody">
             
   <div class="section" id="asynchronous-adder">
-<h1>Asynchronous adder<a class="headerlink" href="#asynchronous-adder" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.core.sim._</span>
+<span id="sim-example-asynchronous-adder"></span><h1>Asynchronous adder<a class="headerlink" href="#asynchronous-adder" title="Permalink to this headline">¶</a></h1>
+<p>This example creates a <code class="docutils literal notranslate"><span class="pre">Component</span></code> out of combinational logic that does some simple arithmetic on 3 operands.</p>
+<p>The test bench performs the following steps 100 times:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Initialize <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, and <code class="docutils literal notranslate"><span class="pre">c</span></code> to random integers in the 0..255 range.</p></li>
+<li><p>Stimulate the <abbr title="Device Under Test">DUT</abbr>’s matching <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">c</span></code> inputs.</p></li>
+<li><p>Wait 1 simulation timestep (to allow the inputs to propagate).</p></li>
+<li><p>Check for correct output.</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.sim._</span>
 <span class="k">import</span> <span class="nn">spinal.core._</span>
-<span class="k">import</span> <span class="nn">spinal.sim._</span>
+<span class="k">import</span> <span class="nn">spinal.core.sim._</span>
 
 <span class="k">import</span> <span class="nn">scala.util.Random</span>
 
@@ -365,8 +376,8 @@
         <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">#</span><span class="k">=</span> <span class="n">a</span>
         <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">b</span> <span class="o">#</span><span class="k">=</span> <span class="n">b</span>
         <span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">c</span> <span class="o">#</span><span class="k">=</span> <span class="n">c</span>
-        <span class="n">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-        <span class="n">assert</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">toInt</span> <span class="o">==</span> <span class="o">((</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">-</span><span class="n">c</span><span class="o">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">))</span>
+        <span class="n">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="c1">// Sleep 1 simulation timestep</span>
+        <span class="n">assert</span><span class="o">(</span><span class="n">dut</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">toInt</span> <span class="o">==</span> <span class="o">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">c</span><span class="o">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">))</span>
         <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
       <span class="o">}</span>
     <span class="o">}</span>
