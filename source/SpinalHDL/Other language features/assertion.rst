@@ -2,9 +2,9 @@
 Assertions
 ==========
 
-In addition to scala run-time assertions, you can add hardware assertions using the following syntax:
+In addition to Scala run-time assertions, you can add hardware assertions using the following syntax:
 
-``assert(assertion : Bool,message : String = null,severity: AssertNodeSeverity = Error)``
+``assert(assertion : Bool, message : String = null, severity: AssertNodeSeverity = Error)``
 
 Severity levels are:
 
@@ -15,9 +15,9 @@ Severity levels are:
    * - Name
      - Description
    * - NOTE
-     - Used to report a informative message
+     - Used to report an informative message
    * - WARNING
-     - Used to report a unusual case
+     - Used to report an unusual case
    * - ERROR
      - Used to report an situation that should not happen
    * - FAILURE
@@ -32,14 +32,14 @@ One practical example could be to check that the ``valid`` signal of a handshake
      val valid = RegInit(False)
      val ready = in Bool
 
-     when(ready){
+     when(ready) {
        valid := False
      }
      // some logic
 
      assert(
        assertion = !(valid.fall && !ready),
-       message   = "Valid drop when ready was low",
+       message   = "Valid dropped when ready was low",
        severity  = ERROR
      )
    }
