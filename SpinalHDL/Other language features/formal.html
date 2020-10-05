@@ -342,8 +342,8 @@
 <h1>Formal<a class="headerlink" href="#formal" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="general">
 <h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
-<p>There is limited support for SystemVerilog Assertions.</p>
-<p>You can add formal statement (assume, assert ecc..) in the Component definition, like the example below:</p>
+<p>There is limited support for SystemVerilog Assertions (SVA).</p>
+<p>You can add formal statements (assume, assert, etc.) in the <code class="docutils literal notranslate"><span class="pre">Component</span></code> definition, like in the example below:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">ready</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
@@ -351,7 +351,7 @@
   <span class="o">}</span>
   <span class="k">val</span> <span class="n">valid</span> <span class="k">=</span> <span class="nc">RegInit</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>
 
- <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">ready</span><span class="o">){</span>
+ <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">ready</span><span class="o">)</span> <span class="o">{</span>
    <span class="n">valid</span> <span class="o">:=</span> <span class="nc">False</span>
  <span class="o">}</span>
  <span class="n">io</span><span class="o">.</span><span class="n">valid</span> <span class="o">&lt;&gt;</span> <span class="n">valid</span>
@@ -360,7 +360,7 @@
  <span class="k">import</span> <span class="nn">spinal.core.GenerationFlags._</span>
  <span class="k">import</span> <span class="nn">spinal.core.Formal._</span>
 
- <span class="nc">GenerationFlags</span><span class="o">.</span><span class="n">formal</span><span class="o">{</span>
+ <span class="nc">GenerationFlags</span><span class="o">.</span><span class="n">formal</span> <span class="o">{</span>
    <span class="n">when</span><span class="o">(</span><span class="n">initstate</span><span class="o">())</span> <span class="o">{</span>
      <span class="n">assume</span><span class="o">(</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">isResetActive</span><span class="o">)</span>
      <span class="n">assume</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">ready</span> <span class="o">===</span> <span class="nc">False</span><span class="o">)</span>
@@ -372,9 +372,9 @@
 </pre></div>
 </div>
 <p>To generate a design which includes the formal statements you can use <code class="docutils literal notranslate"><span class="pre">includeFormal</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">MyToplevelSystemVerilogWithFormal</span><span class="o">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">MyToplevelSystemVerilogWithFormal</span> <span class="o">{</span>
  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
-   <span class="k">val</span> <span class="n">config</span> <span class="k">=</span> <span class="nc">SpinalConfig</span><span class="o">(</span><span class="n">defaultConfigForClockDomains</span> <span class="k">=</span> <span class="nc">ClockDomainConfig</span><span class="o">(</span><span class="n">resetKind</span> <span class="k">=</span> <span class="nc">SYNC</span><span class="o">,</span> <span class="n">resetActiveLevel</span><span class="k">=</span><span class="nc">HIGH</span><span class="o">))</span>
+   <span class="k">val</span> <span class="n">config</span> <span class="k">=</span> <span class="nc">SpinalConfig</span><span class="o">(</span><span class="n">defaultConfigForClockDomains</span> <span class="k">=</span> <span class="nc">ClockDomainConfig</span><span class="o">(</span><span class="n">resetKind</span><span class="k">=</span><span class="nc">SYNC</span><span class="o">,</span> <span class="n">resetActiveLevel</span><span class="k">=</span><span class="nc">HIGH</span><span class="o">))</span>
     <span class="n">config</span><span class="o">.</span><span class="n">includeFormal</span><span class="o">.</span><span class="n">generateSystemVerilog</span><span class="o">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="o">())</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -393,45 +393,45 @@
 <thead>
 <tr class="row-odd"><th class="head"><p>Syntax</p></th>
 <th class="head"><p>Returns</p></th>
-<th class="head"><p>creates in SystemVerilog</p></th>
+<th class="head"><p>Creates in SystemVerilog</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>assert()</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">assert()</span></code></p></td>
 <td></td>
-<td><p>assert()</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">assert()</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>cover()</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cover()</span></code></p></td>
 <td></td>
-<td><p>cover()</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cover()</span></code></p></td>
 </tr>
 <tr class="row-even"><td><div class="line-block">
-<div class="line">past(that : T, delay : Int)</div>
-<div class="line">past(that : T)</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">past(that</span> <span class="pre">:</span> <span class="pre">T,</span> <span class="pre">delay</span> <span class="pre">:</span> <span class="pre">Int)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">past(that</span> <span class="pre">:</span> <span class="pre">T)</span></code></div>
 </div>
 </td>
 <td><p>T</p></td>
-<td><p>past(that)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">past(that)</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>rose(that : Bool)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rose(that</span> <span class="pre">:</span> <span class="pre">Bool)</span></code></p></td>
 <td><p>Bool</p></td>
-<td><p>rose(that)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rose(that)</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>fell(that : Bool)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fell(that</span> <span class="pre">:</span> <span class="pre">Bool)</span></code></p></td>
 <td><p>Bool</p></td>
 <td><p>fell(that)</p></td>
 </tr>
-<tr class="row-odd"><td><p>changed(that : Bool)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">changed(that</span> <span class="pre">:</span> <span class="pre">Bool)</span></code></p></td>
 <td><p>Bool</p></td>
-<td><p>changed(that)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">changed(that)</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>stable(that : Bool)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stable(that</span> <span class="pre">:</span> <span class="pre">Bool)</span></code></p></td>
 <td><p>Bool</p></td>
-<td><p>stable(that)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stable(that)</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>initstate()</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">initstate()</span></code></p></td>
 <td><p>Bool</p></td>
-<td><p>$initstate()</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$initstate()</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -439,8 +439,8 @@
 </div>
 <div class="section" id="limitations">
 <h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
-<p>No support for unclocked assertions. Everything that is described in
-<code class="docutils literal notranslate"><span class="pre">GenerationFlags.formal</span></code> will be generated in a clock process.</p>
+<p>No support for unclocked assertions.
+Everything that is described in <code class="docutils literal notranslate"><span class="pre">GenerationFlags.formal</span></code> will be generated in a clocked process.</p>
 </div>
 </div>
 

@@ -346,20 +346,20 @@
 <p>Generating Verilog is exactly the same, but with <code class="docutils literal notranslate"><span class="pre">SpinalVerilog</span></code> in place of <code class="docutils literal notranslate"><span class="pre">SpinalVHDL</span></code></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.core._</span>
 
-<span class="c1">//A simple component definition</span>
+<span class="c1">// A simple component definition.</span>
 <span class="k">class</span> <span class="nc">MyTopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
-  <span class="c1">//Define some input/output. Bundle like a VHDL record or a verilog struct.</span>
+  <span class="c1">// Define some input/output signals. Bundle like a VHDL record or a Verilog struct.</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span>
     <span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
   <span class="o">}</span>
 
-  <span class="c1">//Define some asynchronous logic</span>
+  <span class="c1">// Define some asynchronous logic.</span>
   <span class="n">io</span><span class="o">.</span><span class="n">c</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">io</span><span class="o">.</span><span class="n">b</span>
 <span class="o">}</span>
 
-<span class="c1">//This is the main that generates the VHDL and the Verilog corresponding to MyTopLevel</span>
+<span class="c1">// This is the main function that generates the VHDL and the Verilog corresponding to MyTopLevel.</span>
 <span class="k">object</span> <span class="nc">MyMain</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
     <span class="nc">SpinalVhdl</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyTopLevel</span><span class="o">)</span>
@@ -370,11 +370,13 @@
 </div>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>SpinalVhdl and SpinalVerilog may need to create multiple instance of your component class, therefore the first argument is not a Component reference but a function that return a new component.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SpinalVhdl</span></code> and <code class="docutils literal notranslate"><span class="pre">SpinalVerilog</span></code> may need to create multiple instances of your component class, therefore the first argument is not a <code class="docutils literal notranslate"><span class="pre">Component</span></code> reference, but a function that returns a new component.</p>
 </div>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>SpinalVerilog implementation began the 5th of June 2016. This backend successfully passes the same regression tests as the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot,UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, ..). However, if you have any issues with this new backend, please make a git issue describing the problem.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SpinalVerilog</span></code> implementation began the 5th of June, 2016.
+This backend successfully passes the same regression tests as the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot, UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, …).</p>
+<p>If you have any issues with this new backend, please make a <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues">Github issue</a> describing the problem.</p>
 </div>
 <div class="section" id="parametrization-from-scala">
 <h3>Parametrization from Scala<a class="headerlink" href="#parametrization-from-scala" title="Permalink to this headline">¶</a></h3>
@@ -393,7 +395,7 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>mode</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mode</span></code></p></td>
 <td><p>SpinalMode</p></td>
 <td><p>null</p></td>
 <td><div class="line-block">
@@ -402,7 +404,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>defaultConfigForClockDomains</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">defaultConfigForClockDomains</span></code></p></td>
 <td><p>ClockDomainConfig</p></td>
 <td><div class="line-block">
 <div class="line">RisingEdgeClock</div>
@@ -413,29 +415,29 @@
 </td>
 <td><p>Set the clock configuration that will be used as the default value for all new <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p>onlyStdLogicVectorAtTopLevelIo</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">onlyStdLogicVectorAtTopLevelIo</span></code></p></td>
 <td><p>Boolean</p></td>
 <td><p>false</p></td>
 <td><p>Change all unsigned/signed toplevel io into std_logic_vector.</p></td>
 </tr>
-<tr class="row-odd"><td><p>defaultClockDomainFrequency</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">defaultClockDomainFrequency</span></code></p></td>
 <td><p>IClockDomainFrequency</p></td>
 <td><p> UnknownFrequency</p></td>
-<td><p>Default clock frequency</p></td>
+<td><p>Default clock frequency.</p></td>
 </tr>
-<tr class="row-even"><td><p>targetDirectory</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">targetDirectory</span></code></p></td>
 <td><p>String</p></td>
 <td><p>Current directory</p></td>
-<td><p>Directory where files are generated</p></td>
+<td><p>Directory where files are generated.</p></td>
 </tr>
 </tbody>
 </table>
-<p>And here is the syntax to specify them:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalConfig</span><span class="o">(</span><span class="n">mode</span> <span class="k">=</span> <span class="nc">VHDL</span><span class="o">,</span> <span class="n">targetDirectory</span><span class="o">=</span><span class="s">&quot;temp/myDesign&quot;</span><span class="o">).</span><span class="n">generate</span><span class="o">(</span><span class="k">new</span> <span class="nc">UartCtrl</span><span class="o">)</span>
+<p>And this is the syntax to specify them:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalConfig</span><span class="o">(</span><span class="n">mode</span><span class="k">=</span><span class="nc">VHDL</span><span class="o">,</span> <span class="n">targetDirectory</span><span class="o">=</span><span class="s">&quot;temp/myDesign&quot;</span><span class="o">).</span><span class="n">generate</span><span class="o">(</span><span class="k">new</span> <span class="nc">UartCtrl</span><span class="o">)</span>
 
-<span class="c1">// Or for Verilog in a more scalable formatting :</span>
+<span class="c1">// Or for Verilog in a more scalable formatting:</span>
 <span class="nc">SpinalConfig</span><span class="o">(</span>
-  <span class="n">mode</span> <span class="k">=</span> <span class="nc">Verilog</span><span class="o">,</span>
+  <span class="n">mode</span><span class="k">=</span><span class="nc">Verilog</span><span class="o">,</span>
   <span class="n">targetDirectory</span><span class="o">=</span><span class="s">&quot;temp/myDesign&quot;</span>
 <span class="o">).</span><span class="n">generate</span><span class="o">(</span><span class="k">new</span> <span class="nc">UartCtrl</span><span class="o">)</span>
 </pre></div>
@@ -466,19 +468,19 @@
 </div>
 <div class="section" id="generated-vhdl-and-verilog">
 <h2>Generated VHDL and Verilog<a class="headerlink" href="#generated-vhdl-and-verilog" title="Permalink to this headline">¶</a></h2>
-<p>The way how a SpinalHDL RTL description is translated into VHDL and Verilog is important :</p>
+<p>How a SpinalHDL RTL description is translated into VHDL and Verilog is important:</p>
 <ul class="simple">
 <li><p>Names in Scala are preserved in VHDL and Verilog.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Component</span></code> hierarchy in Scala is preserved in VHDL and Verilog.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">when</span></code> statements in Scala are emitted as if statements in VHDL and Verilog</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">switch</span></code> statements in Scala are emitted as case statements in VHDL and Verilog in all standard cases</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">when</span></code> statements in Scala are emitted as if statements in VHDL and Verilog.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">switch</span></code> statements in Scala are emitted as case statements in VHDL and Verilog in all standard cases.</p></li>
 </ul>
 <div class="section" id="organization">
 <h3>Organization<a class="headerlink" href="#organization" title="Permalink to this headline">¶</a></h3>
 <p>When you use the VHDL generator, all modules are generated into a single file which contain three sections:</p>
 <ol class="arabic simple">
 <li><p>A package that contains the definition of all Enums</p></li>
-<li><p>A package that contains functions used by architectures</p></li>
+<li><p>A package that contains functions used by the architectural elements</p></li>
 <li><p>All components needed by your design</p></li>
 </ol>
 <p>When you use the Verilog generation, all modules are generated into a single file which contains two sections:</p>
@@ -487,27 +489,27 @@
 <li><p>All modules needed by your design</p></li>
 </ol>
 </div>
-<div class="section" id="combinatorial-logic">
-<h3>Combinatorial logic<a class="headerlink" href="#combinatorial-logic" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="combinational-logic">
+<h3>Combinational logic<a class="headerlink" href="#combinational-logic" title="Permalink to this headline">¶</a></h3>
 <p>Scala:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">cond</span>           <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">value</span>          <span class="k">=</span> <span class="n">in</span>  <span class="nc">UInt</span> <span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">value</span>          <span class="k">=</span> <span class="n">in</span>  <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">withoutProcess</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">withProcess</span>    <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
   <span class="n">io</span><span class="o">.</span><span class="n">withoutProcess</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">value</span>
   <span class="n">io</span><span class="o">.</span><span class="n">withProcess</span> <span class="o">:=</span> <span class="mi">0</span>
-  <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">cond</span><span class="o">){</span>
-    <span class="n">switch</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">value</span><span class="o">){</span>
-      <span class="n">is</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;0000&quot;</span><span class="o">){</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">cond</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">switch</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">is</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;0000&quot;</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">io</span><span class="o">.</span><span class="n">withProcess</span> <span class="o">:=</span> <span class="mi">8</span>
       <span class="o">}</span>
-      <span class="n">is</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;0001&quot;</span><span class="o">){</span>
+      <span class="n">is</span><span class="o">(</span><span class="n">U</span><span class="s">&quot;0001&quot;</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">io</span><span class="o">.</span><span class="n">withProcess</span> <span class="o">:=</span> <span class="mi">9</span>
       <span class="o">}</span>
-      <span class="n">default</span><span class="o">{</span>
+      <span class="n">default</span> <span class="o">{</span>
         <span class="n">io</span><span class="o">.</span><span class="n">withProcess</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">value</span><span class="o">+</span><span class="mi">1</span>
       <span class="o">}</span>
     <span class="o">}</span>
@@ -547,7 +549,7 @@
 </div>
 </div>
 <div class="section" id="sequential-logic">
-<h3>Sequential Logic<a class="headerlink" href="#sequential-logic" title="Permalink to this headline">¶</a></h3>
+<h3>Sequential logic<a class="headerlink" href="#sequential-logic" title="Permalink to this headline">¶</a></h3>
 <p>Scala:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
@@ -562,7 +564,7 @@
 
   <span class="n">regWithReset</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">value</span>
   <span class="n">regWithoutReset</span> <span class="o">:=</span> <span class="mi">0</span>
-  <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">cond</span><span class="o">){</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">cond</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">regWithoutReset</span> <span class="o">:=</span> <span class="n">io</span><span class="o">.</span><span class="n">value</span>
   <span class="o">}</span>
 
@@ -615,10 +617,8 @@
 </div>
 <div class="section" id="vhdl-and-verilog-attributes">
 <h2>VHDL and Verilog attributes<a class="headerlink" href="#vhdl-and-verilog-attributes" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line">In some situations, it is useful to give attributes to some signals of a given design to modify synthesis.</div>
-<div class="line">To do that, you can call the following functions on any signals or memories in the design:</div>
-</div>
+<p>In some situations, it is useful to give attributes for some signals in a design to modify how they are synthesized.</p>
+<p>To do that, you can call the following functions on any signals or memories in the design:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 33%" />
@@ -630,10 +630,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>addAttribute(name)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">addAttribute(name)</span></code></p></td>
 <td><p>Add a boolean attribute with the given <code class="docutils literal notranslate"><span class="pre">name</span></code> set to true</p></td>
 </tr>
-<tr class="row-odd"><td><p>addAttribute(name,value)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">addAttribute(name,</span> <span class="pre">value)</span></code></p></td>
 <td><p>Add a string attribute with the given <code class="docutils literal notranslate"><span class="pre">name</span></code> set to <code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
 </tr>
 </tbody>

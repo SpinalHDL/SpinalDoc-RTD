@@ -342,7 +342,7 @@
 <span id="id1"></span><h1>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="general">
 <h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
-<p>Many tools and utilities are present in <a class="reference internal" href="../Libraries/index.html#lib-introduction"><span class="std std-ref">spinal.lib</span></a> but some are already present in SpinalHDL Core.</p>
+<p>Many tools and utilities are present in <a class="reference internal" href="../Libraries/index.html#lib-introduction"><span class="std std-ref">spinal.lib</span></a> but some are already present in the SpinalHDL Core.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 38%" />
@@ -356,23 +356,23 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>widthOf(x : BitVector)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">widthOf(x</span> <span class="pre">:</span> <span class="pre">BitVector)</span></code></p></td>
 <td><p>Int</p></td>
 <td><p>Return the width of a Bits/UInt/SInt signal</p></td>
 </tr>
-<tr class="row-odd"><td><p>log2Up(x : BigInt)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">log2Up(x</span> <span class="pre">:</span> <span class="pre">BigInt)</span></code></p></td>
 <td><p>Int</p></td>
-<td><p>Return the number of bits needed to represent x states</p></td>
+<td><p>Return the number of bits needed to represent <code class="docutils literal notranslate"><span class="pre">x</span></code> states</p></td>
 </tr>
-<tr class="row-even"><td><p>isPow2(x : BigInt)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">isPow2(x</span> <span class="pre">:</span> <span class="pre">BigInt)</span></code></p></td>
 <td><p>Boolean</p></td>
-<td><p>Return true if x is a power of two</p></td>
+<td><p>Return true if <code class="docutils literal notranslate"><span class="pre">x</span></code> is a power of two</p></td>
 </tr>
-<tr class="row-odd"><td><p>roundUp(that : BigInt, by : BigInt)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">roundUp(that</span> <span class="pre">:</span> <span class="pre">BigInt,</span> <span class="pre">by</span> <span class="pre">:</span> <span class="pre">BigInt)</span></code></p></td>
 <td><p>BigInt</p></td>
 <td><p>Return the first <code class="docutils literal notranslate"><span class="pre">by</span></code> multiply from <code class="docutils literal notranslate"><span class="pre">that</span></code> (included)</p></td>
 </tr>
-<tr class="row-even"><td><p>Cat(x : Data*)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Cat(x</span> <span class="pre">:</span> <span class="pre">Data*)</span></code></p></td>
 <td><p>Bits</p></td>
 <td><p>Concatenate all arguments, the first in MSB, the last in LSB</p></td>
 </tr>
@@ -381,32 +381,34 @@
 </div>
 <div class="section" id="cloning-hardware-datatypes">
 <h2>Cloning hardware datatypes<a class="headerlink" href="#cloning-hardware-datatypes" title="Permalink to this headline">¶</a></h2>
-<p>You can clone a given hardware data type by using the <code class="docutils literal notranslate"><span class="pre">cloneOf(x)</span></code> function. It will return a new instance of the same Scala type and parameters.</p>
-<p>For example :</p>
+<p>You can clone a given hardware data type by using the <code class="docutils literal notranslate"><span class="pre">cloneOf(x)</span></code> function.
+It will return a new instance of the same Scala type and parameters.</p>
+<p>For example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">plusOne</span><span class="o">(</span><span class="n">value</span> <span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span> <span class="k">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="o">{</span>
-  <span class="c1">//Will recreate a UInt with the same width than ``value``</span>
+  <span class="c1">// Will recreate a UInt with the same width than ``value``</span>
   <span class="k">val</span> <span class="n">temp</span> <span class="k">=</span> <span class="n">cloneOf</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
   <span class="n">temp</span> <span class="o">:=</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span>
   <span class="k">return</span> <span class="n">temp</span>
 <span class="o">}</span>
 
-<span class="c1">//treePlusOne will become a 8 bits value</span>
-<span class="k">val</span> <span class="n">treePlusOne</span> <span class="k">=</span> <span class="n">plusOne</span><span class="o">(</span><span class="n">U</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
+<span class="c1">// treePlusOne will become a 8 bits value</span>
+<span class="k">val</span> <span class="n">treePlusOne</span> <span class="k">=</span> <span class="n">plusOne</span><span class="o">(</span><span class="n">U</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
 </pre></div>
 </div>
-<p>You can get more information about how hardware data types are managed <a class="reference internal" href="../Getting Started/Scala Guide/interaction.html#hardware-type"><span class="std std-ref">here</span></a></p>
+<p>You can get more information about how hardware data types are managed on the <a class="reference internal" href="../Getting Started/Scala Guide/interaction.html#hardware-type"><span class="std std-ref">Hardware types page</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you use the cloneOf function on a Bundle, this Bundle should be a case class or should override the clone function internally.</p>
+<p>If you use the <code class="docutils literal notranslate"><span class="pre">cloneOf</span></code> function on a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>, this <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> should be a <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code> or should override the clone function internally.</p>
 </div>
 </div>
 <div class="section" id="passing-a-datatype-as-construction-parameter">
 <h2>Passing a datatype as construction parameter<a class="headerlink" href="#passing-a-datatype-as-construction-parameter" title="Permalink to this headline">¶</a></h2>
-<p>Many pieces of reusable hardware need to be parameterized by some data type. For example if you want to define a FIFO or a shift register, you need a parameter to specify which kind of payload you want for the component.</p>
+<p>Many pieces of reusable hardware need to be parameterized by some data type.
+For example if you want to define a FIFO or a shift register, you need a parameter to specify which kind of payload you want for the component.</p>
 <p>There are two similar ways to do this.</p>
 <div class="section" id="the-old-way">
 <h3>The old way<a class="headerlink" href="#the-old-way" title="Permalink to this headline">¶</a></h3>
-<p>A good example of the old way to do that is in this definition of a ShiftRegister:</p>
+<p>A good example of the old way to do this is in this definition of a <code class="docutils literal notranslate"><span class="pre">ShiftRegister</span></code> component:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">ShiftRegister</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="n">depth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">input</span>  <span class="k">=</span> <span class="n">in</span> <span class="o">(</span><span class="n">cloneOf</span><span class="o">(</span><span class="n">dataType</span><span class="o">))</span>
@@ -417,10 +419,12 @@
 </pre></div>
 </div>
 <p>And here is how you can instantiate the component:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">shiftReg</span> <span class="k">=</span> <span class="nc">ShiftRegister</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">depth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">shiftReg</span> <span class="k">=</span> <span class="nc">ShiftRegister</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span> <span class="n">depth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>As you can see, the raw hardware type is directly passed as a construction parameter. Then each time you want to create an new instance of that kind of hardware data type, you need to use the cloneOf(…) function. Doing things this way is not super safe as it’s easy to forget to use cloneOf().</p>
+<p>As you can see, the raw hardware type is directly passed as a construction parameter.
+Then each time you want to create an new instance of that kind of hardware data type, you need to use the <code class="docutils literal notranslate"><span class="pre">cloneOf(...)</span></code> function.
+Doing things this way is not super safe as it’s easy to forget to use <code class="docutils literal notranslate"><span class="pre">cloneOf</span></code>.</p>
 </div>
 <div class="section" id="the-safe-way">
 <h3>The safe way<a class="headerlink" href="#the-safe-way" title="Permalink to this headline">¶</a></h3>
@@ -435,33 +439,34 @@
 </pre></div>
 </div>
 <p>And here is how you instantiate the component (exactly the same as before):</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">shiftReg</span> <span class="k">=</span> <span class="nc">ShiftRegister</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">depth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">shiftReg</span> <span class="k">=</span> <span class="nc">ShiftRegister</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span> <span class="n">depth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>Notice how the example above uses a HardType wrapper around the raw data type <code class="docutils literal notranslate"><span class="pre">T</span></code>, which is kind of a blueprint definition of an hardware data type. This way of doing things is easier to use than the “old way”, because to create a new instance of the hardware data type you just need to call the <code class="docutils literal notranslate"><span class="pre">apply</span></code> function of that HardType (or in other words, just add parentheses after the parameter).</p>
-<p>Additionally, this mechanism is completely transparent from the point of view of the user, as a hardware data type can be implicitly converted into an HardType.</p>
+<p>Notice how the example above uses a <code class="docutils literal notranslate"><span class="pre">HardType</span></code> wrapper around the raw data type <code class="docutils literal notranslate"><span class="pre">T</span></code>, which is a “blueprint” definition of a hardware data type.
+This way of doing things is easier to use than the “old way”, because to create a new instance of the hardware data type you only need to call the <code class="docutils literal notranslate"><span class="pre">apply</span></code> function of that <code class="docutils literal notranslate"><span class="pre">HardType</span></code> (or in other words, just add parentheses after the parameter).</p>
+<p>Additionally, this mechanism is completely transparent from the point of view of the user, as a hardware data type can be implicitly converted into a <code class="docutils literal notranslate"><span class="pre">HardType</span></code>.</p>
 </div>
 </div>
 <div class="section" id="frequency-and-time">
 <h2>Frequency and time<a class="headerlink" href="#frequency-and-time" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL HDL has a dedicated syntax to defne frequency and time values:</p>
+<p>SpinalHDL has a dedicated syntax to define frequency and time values:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">frequency</span> <span class="k">=</span> <span class="mi">100</span> <span class="nc">MHz</span>
 <span class="k">val</span> <span class="n">timeoutLimit</span> <span class="k">=</span> <span class="mi">3</span> <span class="n">ms</span>
 <span class="k">val</span> <span class="n">period</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">us</span>
 
-<span class="k">val</span> <span class="n">periodCycles</span> <span class="k">=</span> <span class="n">frequency</span><span class="o">*</span><span class="n">period</span>
-<span class="k">val</span> <span class="n">timeoutCycles</span> <span class="k">=</span> <span class="n">frequency</span><span class="o">*</span><span class="n">timeoutLimit</span>
+<span class="k">val</span> <span class="n">periodCycles</span> <span class="k">=</span> <span class="n">frequency</span> <span class="o">*</span> <span class="n">period</span>
+<span class="k">val</span> <span class="n">timeoutCycles</span> <span class="k">=</span> <span class="n">frequency</span> <span class="o">*</span> <span class="n">timeoutLimit</span>
 </pre></div>
 </div>
 <div class="line-block">
-<div class="line">For time definitions you can use following postfixes to get a <code class="docutils literal notranslate"><span class="pre">TimeNumber</span></code> :</div>
-<div class="line">fs, ps, ns, us, ms, sec, mn, hr</div>
+<div class="line">For time definitions you can use following postfixes to get a <code class="docutils literal notranslate"><span class="pre">TimeNumber</span></code>:</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">fs</span></code>, <code class="docutils literal notranslate"><span class="pre">ps</span></code>, <code class="docutils literal notranslate"><span class="pre">ns</span></code>, <code class="docutils literal notranslate"><span class="pre">us</span></code>, <code class="docutils literal notranslate"><span class="pre">ms</span></code>, <code class="docutils literal notranslate"><span class="pre">sec</span></code>, <code class="docutils literal notranslate"><span class="pre">mn</span></code>, <code class="docutils literal notranslate"><span class="pre">hr</span></code></div>
 </div>
 <div class="line-block">
-<div class="line">For time definitions you can use following postfixes to get a <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code> :</div>
-<div class="line">Hz, KHz, MHz, GHz, THz</div>
+<div class="line">For time definitions you can use following postfixes to get a <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code>:</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Hz</span></code>, <code class="docutils literal notranslate"><span class="pre">KHz</span></code>, <code class="docutils literal notranslate"><span class="pre">MHz</span></code>, <code class="docutils literal notranslate"><span class="pre">GHz</span></code>, <code class="docutils literal notranslate"><span class="pre">THz</span></code></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">TimeNumber</span></code> and <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code> are based on the <code class="docutils literal notranslate"><span class="pre">PhysicalNumber</span></code> class which uses scala <code class="docutils literal notranslate"><span class="pre">BigDecimal</span></code> to store numbers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TimeNumber</span></code> and <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code> are based on the <code class="docutils literal notranslate"><span class="pre">PhysicalNumber</span></code> class which uses the Scala <code class="docutils literal notranslate"><span class="pre">BigDecimal</span></code> type to store numbers.</p>
 </div>
 </div>
 

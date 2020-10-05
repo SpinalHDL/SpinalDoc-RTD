@@ -15,20 +15,20 @@ Generating Verilog is exactly the same, but with ``SpinalVerilog`` in place of `
 
    import spinal.core._
 
-   //A simple component definition
+   // A simple component definition.
    class MyTopLevel extends Component {
-     //Define some input/output. Bundle like a VHDL record or a verilog struct.
+     // Define some input/output signals. Bundle like a VHDL record or a Verilog struct.
      val io = new Bundle {
-       val a = in Bool
-       val b = in Bool
+       val a = in  Bool
+       val b = in  Bool
        val c = out Bool
      }
 
-     //Define some asynchronous logic
+     // Define some asynchronous logic.
      io.c := io.a & io.b
    }
 
-   //This is the main that generates the VHDL and the Verilog corresponding to MyTopLevel
+   // This is the main function that generates the VHDL and the Verilog corresponding to MyTopLevel.
    object MyMain {
      def main(args: Array[String]) {
        SpinalVhdl(new MyTopLevel)
@@ -37,10 +37,13 @@ Generating Verilog is exactly the same, but with ``SpinalVerilog`` in place of `
    }
 
 .. important::
-   SpinalVhdl and SpinalVerilog may need to create multiple instance of your component class, therefore the first argument is not a Component reference but a function that return a new component.
+   ``SpinalVhdl`` and ``SpinalVerilog`` may need to create multiple instances of your component class, therefore the first argument is not a ``Component`` reference, but a function that returns a new component.
 
 .. important::
-   SpinalVerilog implementation began the 5th of June 2016. This backend successfully passes the same regression tests as the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot,UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, ..). However, if you have any issues with this new backend, please make a git issue describing the problem.
+   The ``SpinalVerilog`` implementation began the 5th of June, 2016.
+   This backend successfully passes the same regression tests as the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot, UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, ...).
+
+   If you have any issues with this new backend, please make a `Github issue <https://github.com/SpinalHDL/SpinalHDL/issues>`_ describing the problem.
 
 Parametrization from Scala
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -53,41 +56,41 @@ Parametrization from Scala
      - Type
      - Default
      - Description
-   * - mode
+   * - ``mode``
      - SpinalMode
      - null
      - | Set the SpinalHDL hdl generation mode.
        | Can be set to ``VHDL`` or ``Verilog``
-   * - defaultConfigForClockDomains
+   * - ``defaultConfigForClockDomains``
      - ClockDomainConfig
      - | RisingEdgeClock
        | AsynchronousReset
        | ResetActiveHigh
        | ClockEnableActiveHigh
      - Set the clock configuration that will be used as the default value for all new ``ClockDomain``.
-   * - onlyStdLogicVectorAtTopLevelIo
+   * - ``onlyStdLogicVectorAtTopLevelIo``
      - Boolean
      - false
      - Change all unsigned/signed toplevel io into std_logic_vector.
-   * - defaultClockDomainFrequency
+   * - ``defaultClockDomainFrequency``
      - IClockDomainFrequency
      -  UnknownFrequency
-     - Default clock frequency
-   * - targetDirectory
+     - Default clock frequency.
+   * - ``targetDirectory``
      - String
      - Current directory
-     - Directory where files are generated
+     - Directory where files are generated.
 
 
-And here is the syntax to specify them:
+And this is the syntax to specify them:
 
 .. code-block:: scala
 
-   SpinalConfig(mode = VHDL, targetDirectory="temp/myDesign").generate(new UartCtrl)
+   SpinalConfig(mode=VHDL, targetDirectory="temp/myDesign").generate(new UartCtrl)
 
-   // Or for Verilog in a more scalable formatting :
+   // Or for Verilog in a more scalable formatting:
    SpinalConfig(
-     mode = Verilog,
+     mode=Verilog,
      targetDirectory="temp/myDesign"
    ).generate(new UartCtrl)
 
@@ -120,31 +123,28 @@ The syntax for command line arguments is:
 Generated VHDL and Verilog
 --------------------------
 
-The way how a SpinalHDL RTL description is translated into VHDL and Verilog is important :
-
+How a SpinalHDL RTL description is translated into VHDL and Verilog is important:
 
 * Names in Scala are preserved in VHDL and Verilog.
 * ``Component`` hierarchy in Scala is preserved in VHDL and Verilog.
-* ``when`` statements in Scala are emitted as if statements in VHDL and Verilog
-* ``switch`` statements in Scala are emitted as case statements in VHDL and Verilog in all standard cases
+* ``when`` statements in Scala are emitted as if statements in VHDL and Verilog.
+* ``switch`` statements in Scala are emitted as case statements in VHDL and Verilog in all standard cases.
 
 Organization
 ^^^^^^^^^^^^
 
 When you use the VHDL generator, all modules are generated into a single file which contain three sections:
 
-
-#. A package that contains the definition of all Enums 
-#. A package that contains functions used by architectures
+#. A package that contains the definition of all Enums
+#. A package that contains functions used by the architectural elements
 #. All components needed by your design
 
 When you use the Verilog generation, all modules are generated into a single file which contains two sections:
 
-
 #. All enumeration definitions used
 #. All modules needed by your design
 
-Combinatorial logic
+Combinational logic
 ^^^^^^^^^^^^^^^^^^^
 
 Scala:
@@ -154,21 +154,21 @@ Scala:
    class TopLevel extends Component {
      val io = new Bundle {
        val cond           = in  Bool
-       val value          = in  UInt (4 bits)
+       val value          = in  UInt(4 bits)
        val withoutProcess = out UInt(4 bits)
        val withProcess    = out UInt(4 bits)
      }
      io.withoutProcess := io.value
      io.withProcess := 0
-     when(io.cond){
-       switch(io.value){
-         is(U"0000"){
+     when(io.cond) {
+       switch(io.value) {
+         is(U"0000") {
            io.withProcess := 8
          }
-         is(U"0001"){
+         is(U"0001") {
            io.withProcess := 9
          }
-         default{
+         default {
            io.withProcess := io.value+1
          }
        }
@@ -207,7 +207,7 @@ VHDL:
      end process;
    end arch;
 
-Sequential Logic
+Sequential logic
 ^^^^^^^^^^^^^^^^
 
 Scala:
@@ -227,7 +227,7 @@ Scala:
 
      regWithReset := io.value
      regWithoutReset := 0
-     when(io.cond){
+     when(io.cond) {
        regWithoutReset := io.value
      }
 
@@ -280,8 +280,9 @@ VHDL:
 VHDL and Verilog attributes
 ---------------------------
 
-| In some situations, it is useful to give attributes to some signals of a given design to modify synthesis.
-| To do that, you can call the following functions on any signals or memories in the design:
+In some situations, it is useful to give attributes for some signals in a design to modify how they are synthesized.
+
+To do that, you can call the following functions on any signals or memories in the design:
 
 .. list-table::
    :header-rows: 1
@@ -289,9 +290,9 @@ VHDL and Verilog attributes
 
    * - Syntax
      - Description
-   * - addAttribute(name)
+   * - ``addAttribute(name)``
      - Add a boolean attribute with the given ``name`` set to true
-   * - addAttribute(name,value)
+   * - ``addAttribute(name, value)``
      - Add a string attribute with the given ``name`` set to ``value``
 
 

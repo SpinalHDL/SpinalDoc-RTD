@@ -342,20 +342,22 @@
 <span id="section-analog-and-inout"></span><h1>Analog and inout<a class="headerlink" href="#analog-and-inout" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>You can define native tristate signals by using the Analog/inout features. These features were added for the following reasons:</p>
+<p>You can define native tristate signals by using the <code class="docutils literal notranslate"><span class="pre">Analog</span></code>/<code class="docutils literal notranslate"><span class="pre">inout</span></code> features.
+These features were added for the following reasons:</p>
 <ul class="simple">
-<li><p>Being able to add native tristate signals to the toplevel (it avoids having to manually wrap them with some hand-written VHDL/Verilog)</p></li>
-<li><p>Allowing the definition of blackboxes which contain inout pins</p></li>
-<li><p>Being able to connect a blackbox’s inout pin through the hierarchy to a toplevel inout pin.</p></li>
+<li><p>Being able to add native tristate signals to the toplevel (it avoids having to manually wrap them with some hand-written VHDL/Verilog).</p></li>
+<li><p>Allowing the definition of blackboxes which contain <code class="docutils literal notranslate"><span class="pre">inout</span></code> pins.</p></li>
+<li><p>Being able to connect a blackbox’s <code class="docutils literal notranslate"><span class="pre">inout</span></code> pin through the hierarchy to a toplevel <code class="docutils literal notranslate"><span class="pre">inout</span></code> pin.</p></li>
 </ul>
-<p>As those feature were only added for convenience, do not do other fancy stuff with it. If you want to model a component like an memory mapped GPIO peripheral, please use the <a class="reference internal" href="../Libraries/IO/tristate.html#section-tristate"><span class="std std-ref">TriState/TriStateArray</span></a> bundles from the spinal lib, which keep the true nature of the tristate driver.</p>
+<p>As those features were only added for convenience, please do not try other fancy stuff with tristate logic just yet.</p>
+<p>If you want to model a component like a memory-mapped GPIO peripheral, please use the <a class="reference internal" href="../Libraries/IO/tristate.html#section-tristate"><span class="std std-ref">TriState/TriStateArray</span></a> bundles from the Spinal standard library, which abstract over the true nature of tristate drivers.</p>
 </div>
 <div class="section" id="analog">
 <h2>Analog<a class="headerlink" href="#analog" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">Analog</span></code> is the keyword which allows a signal to be defined as something … analog, which in the digital world could mean ‘0’, ‘1’, or ‘Z’.</p>
-<p>For instance :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SdramInterface</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">SdramLayout</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
-  <span class="k">val</span> <span class="nc">DQ</span>    <span class="k">=</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Bidirectional data bus</span>
+<p><code class="docutils literal notranslate"><span class="pre">Analog</span></code> is the keyword which allows a signal to be defined as something analog, which in the digital world could mean <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, or <code class="docutils literal notranslate"><span class="pre">Z</span></code> (the disconnected, high-impedance state).</p>
+<p>For instance:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SdramInterface</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">SdramLayout</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nc">DQ</span>    <span class="k">=</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">// Bidirectional data bus</span>
   <span class="k">val</span> <span class="nc">DQM</span>   <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bytePerWord</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">ADDR</span>  <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">chipAddressWidth</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">BA</span>    <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bankWidth</span> <span class="n">bits</span><span class="o">)</span>
@@ -366,18 +368,18 @@
 </div>
 <div class="section" id="inout">
 <h2>inout<a class="headerlink" href="#inout" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">inout</span></code> is the keyword which allows you to set an Analog signal as a component inout.</p>
+<p><code class="docutils literal notranslate"><span class="pre">inout</span></code> is the keyword which allows you to set an <code class="docutils literal notranslate"><span class="pre">Analog</span></code> signal as a bidirectional (both “in” and “out”) signal.</p>
 <p>For instance:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SdramInterface</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">SdramLayout</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span><span class="o">{</span>
-  <span class="k">val</span> <span class="nc">DQ</span>    <span class="k">=</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">//Bidirectional data bus</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SdramInterface</span><span class="o">(</span><span class="n">g</span> <span class="k">:</span> <span class="kt">SdramLayout</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nc">DQ</span>    <span class="k">=</span> <span class="nc">Analog</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">))</span> <span class="c1">// Bidirectional data bus</span>
   <span class="k">val</span> <span class="nc">DQM</span>   <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bytePerWord</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">ADDR</span>  <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">chipAddressWidth</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">BA</span>    <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">g</span><span class="o">.</span><span class="n">bankWidth</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">CKE</span><span class="o">,</span> <span class="nc">CSn</span><span class="o">,</span> <span class="nc">CASn</span><span class="o">,</span> <span class="nc">RASn</span><span class="o">,</span> <span class="nc">WEn</span>  <span class="k">=</span> <span class="nc">Bool</span>
 
   <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
-    <span class="n">out</span><span class="o">(</span><span class="nc">ADDR</span><span class="o">,</span><span class="nc">BA</span><span class="o">,</span><span class="nc">CASn</span><span class="o">,</span><span class="nc">CKE</span><span class="o">,</span><span class="nc">CSn</span><span class="o">,</span><span class="nc">DQM</span><span class="o">,</span><span class="nc">RASn</span><span class="o">,</span><span class="nc">WEn</span><span class="o">)</span>
-    <span class="n">inout</span><span class="o">(</span><span class="nc">DQ</span><span class="o">)</span> <span class="c1">//Set the Analog DQ as an inout of the component</span>
+    <span class="n">out</span><span class="o">(</span><span class="nc">ADDR</span><span class="o">,</span> <span class="nc">BA</span><span class="o">,</span> <span class="nc">CASn</span><span class="o">,</span> <span class="nc">CKE</span><span class="o">,</span> <span class="nc">CSn</span><span class="o">,</span> <span class="nc">DQM</span><span class="o">,</span> <span class="nc">RASn</span><span class="o">,</span> <span class="nc">WEn</span><span class="o">)</span>
+    <span class="n">inout</span><span class="o">(</span><span class="nc">DQ</span><span class="o">)</span> <span class="c1">// Set the Analog DQ as an inout signal of the component</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -385,9 +387,10 @@
 </div>
 <div class="section" id="inoutwrapper">
 <h2>InOutWrapper<a class="headerlink" href="#inoutwrapper" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> is a tool which allows you to tranform all master TriState/TriStateArray/ReadableOpenDrain bundles of a component into native inout(Analog(…)) signals. It allows you to keep all your hardware description without any Analog/inout things, and then transform the toplevel to make it synthesis ready.</p>
+<p><code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> is a tool which allows you to transform all <code class="docutils literal notranslate"><span class="pre">master</span></code> <code class="docutils literal notranslate"><span class="pre">TriState</span></code>/<code class="docutils literal notranslate"><span class="pre">TriStateArray</span></code>/<code class="docutils literal notranslate"><span class="pre">ReadableOpenDrain</span></code> bundles of a component into native <code class="docutils literal notranslate"><span class="pre">inout(Analog(...))</span></code> signals.
+It allows you to keep your hardware description free of any <code class="docutils literal notranslate"><span class="pre">Analog</span></code>/<code class="docutils literal notranslate"><span class="pre">inout</span></code> things, and then transform the toplevel to make it synthesis ready.</p>
 <p>For instance:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Apb3Gpio</span><span class="o">(</span><span class="n">gpioWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Apb3Gpio</span><span class="o">(</span><span class="n">gpioWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
     <span class="k">val</span> <span class="n">gpio</span> <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">TriStateArray</span><span class="o">(</span><span class="n">gpioWidth</span> <span class="n">bits</span><span class="o">))</span>
     <span class="k">val</span> <span class="n">apb</span>  <span class="k">=</span> <span class="n">slave</span><span class="o">(</span><span class="nc">Apb3</span><span class="o">(</span><span class="nc">Apb3Gpio</span><span class="o">.</span><span class="n">getApb3Config</span><span class="o">()))</span>
@@ -401,7 +404,7 @@
 <p>Will generate:</p>
 <div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nc">Apb3Gpio</span> <span class="k">is</span>
   <span class="k">port</span><span class="p">(</span>
-    <span class="n">io_gpio</span> <span class="o">:</span> <span class="k">inout</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">-- This io_gpio was originaly a TriStateArray Bundle</span>
+    <span class="n">io_gpio</span> <span class="o">:</span> <span class="k">inout</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">-- This io_gpio was originally a TriStateArray Bundle</span>
     <span class="n">io_apb_PADDR</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
     <span class="n">io_apb_PSEL</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">0</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
     <span class="n">io_apb_PENABLE</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
@@ -439,9 +442,9 @@
 </div>
 <div class="section" id="manually-driving-analog-bundles">
 <h2>Manually driving Analog bundles<a class="headerlink" href="#manually-driving-analog-bundles" title="Permalink to this headline">¶</a></h2>
-<p>If an Analog bundle is not driven, it will default to being high-Z.
-Therefore to manually implement a tristate driver (in case the <code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> can’t be used for some reason) you have to
-conditionally drive the signal. To manually connect a <code class="docutils literal notranslate"><span class="pre">TriState</span></code> signal to an Analog bundle:</p>
+<p>If an <code class="docutils literal notranslate"><span class="pre">Analog</span></code> bundle is not driven, it will default to being high-Z.
+Therefore to manually implement a tristate driver (in case the <code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> type can’t be used for some reason) you have to conditionally drive the signal.</p>
+<p>To manually connect a <code class="docutils literal notranslate"><span class="pre">TriState</span></code> signal to an <code class="docutils literal notranslate"><span class="pre">Analog</span></code> bundle:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Example</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">tri</span> <span class="k">=</span> <span class="n">slave</span><span class="o">(</span><span class="nc">TriState</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">16</span> <span class="n">bit</span><span class="o">)))</span>
