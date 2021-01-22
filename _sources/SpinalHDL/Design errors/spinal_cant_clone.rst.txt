@@ -6,7 +6,7 @@ Introduction
 ------------
 
 This error happens when SpinalHDL wants to create a new datatype instance via the ``cloneOf`` function but isn't able to do it.
-The reason for this is nearly always because it can't retreive the construction parameters of a ``Bundle``.
+The reason for this is nearly always because it can't retrieve the construction parameters of a ``Bundle``.
 
 Example
 -------
@@ -15,7 +15,7 @@ The following code:
 
 .. code-block:: scala
 
-    // cloneOf(this) isn't able to retreive the width value that was used to construct itself
+    // cloneOf(this) isn't able to retrieve the width value that was used to construct itself
     class RGB(width : Int) extends Bundle {
       val r, g, b = UInt(width bits)
     }

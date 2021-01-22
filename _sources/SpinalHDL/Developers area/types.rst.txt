@@ -168,7 +168,7 @@ Elements could be defined as follows:
      - Set bits in range x with y
    * - default -> y : Boolean/Bool
      - | Set all unconnected bits with the y value. 
-       | This feature could only be use to do assignements without the U/B/S prefix
+       | This feature could only be use to do assignments without the U/B/S prefix
 
 
 You can define a Range values
@@ -207,7 +207,7 @@ You can define a Range values
    val myBool := myUInt === U(7 -> true,(6 downto 0) -> false)
    val myBool := myUInt === U(myUInt.range -> true)
 
-   //For assignement purposes, you can omit the B/U/S, which also alow the use of the [default -> ???] feature
+   //For assignment purposes, you can omit the B/U/S, which also alow the use of the [default -> ???] feature
    myUInt := (default -> true)                       //Assign myUInt with "11111111"
    myUInt := (myUInt.range -> true)                  //Assign myUInt with "11111111"
    myUInt := (7 -> true,default -> false)            //Assign myUInt with "10000000"
@@ -503,7 +503,7 @@ If you want to specify your bundle as an input or an output of a Component, you 
      }
    }
 
-.. _interface_eaxample_apb:
+.. _interface_example_apb:
 
 Interface example (APB)
 ^^^^^^^^^^^^^^^^^^^^^^^

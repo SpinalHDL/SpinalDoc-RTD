@@ -344,7 +344,7 @@
 <p>Such framework complexify simple things but provide some strong feature for complex cases :</p>
 <ul class="simple">
 <li><p>You can define things before even knowing all their requirements, ex : instanciating a interruption controller, before knowing how many lines of interrupt you need</p></li>
-<li><p>Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for futher specialisations</p></li>
+<li><p>Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for further specialisations</p></li>
 <li><p>Automatic requirements negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus</p></li>
 </ul>
 <p>The framework is mainly composed of :</p>
@@ -381,7 +381,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>So, the main point of that example is to show that we kind of overcome the sequancial execution of things, as a and b are loaded after the definition of the calculator.</p>
+<p>So, the main point of that example is to show that we kind of overcome the sequential execution of things, as a and b are loaded after the definition of the calculator.</p>
 <p>Then you can also chain generators via their handles. For instance we could add the following after the calculator definition :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Generate a signal of signalWidth bits</span>
 <span class="k">val</span> <span class="n">rtl</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Generator</span><span class="o">{</span>
@@ -401,7 +401,7 @@
 <p>Handle[T] are a bit like scala’s Future[T], they allow to talk about something before it is even existing, and wait on it.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">x</span><span class="o">,</span><span class="n">y</span> <span class="k">=</span> <span class="nc">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span>
 <span class="k">val</span> <span class="n">xPlus2</span> <span class="k">:</span> <span class="kt">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="n">x</span><span class="o">.</span><span class="n">produce</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="c1">//x.produce can be used to generate a new Handle when x is loaded</span>
-<span class="k">val</span> <span class="n">xPlus3</span> <span class="k">:</span> <span class="kt">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="n">x</span><span class="o">.</span><span class="n">derivate</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">3</span><span class="o">)</span>    <span class="c1">//x.derivate is as x.produce, but also provide the x.get as arguement of the lambda function</span>
+<span class="k">val</span> <span class="n">xPlus3</span> <span class="k">:</span> <span class="kt">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="n">x</span><span class="o">.</span><span class="n">derivate</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">3</span><span class="o">)</span>    <span class="c1">//x.derivate is as x.produce, but also provide the x.get as argument of the lambda function</span>
 <span class="k">val</span> <span class="n">xPlusY</span> <span class="k">:</span> <span class="kt">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">).</span><span class="n">produce</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">get</span><span class="o">)</span> <span class="c1">//As x.produce, but wait all the element of the list.</span>
 <span class="n">x</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="c1">//x will now contain the value 3</span>
 </pre></div>
@@ -412,12 +412,12 @@
 <p>A Generator is composed of :</p>
 <ul class="simple">
 <li><p>dependencies : List of Handles that should be loaded before executing the generator’s tasks</p></li>
-<li><p>tasks : List of lambda function which should run once all depedencies are loaded</p></li>
+<li><p>tasks : List of lambda function which should run once all dependencies are loaded</p></li>
 <li><p>products : List of Handles which are loaded by the generator’s tasks</p></li>
 </ul>
 <div class="section" id="dependencies">
 <h3>dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
-<p>There is muliple ways to add/create new depedencies :</p>
+<p>There is multiple ways to add/create new dependencies :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyGenerator</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Generator</span><span class="o">{</span>
   <span class="n">dependencies</span> <span class="o">+=</span> <span class="n">somebodyElseHandle</span>
 
@@ -440,7 +440,7 @@
 </div>
 <div class="section" id="products">
 <h3>products<a class="headerlink" href="#products" title="Permalink to this headline">¶</a></h3>
-<p>Telling the generator all your products isn’t mendatory but help debuging.</p>
+<p>Telling the generator all your products isn’t mandatory but help debugging.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//At a low level API :</span>
 <span class="k">class</span> <span class="nc">MyGenerator</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Generator</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">interface</span> <span class="k">=</span> <span class="nc">Handle</span><span class="o">[</span><span class="kt">Apb3</span><span class="o">]</span>

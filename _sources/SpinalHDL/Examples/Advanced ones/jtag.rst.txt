@@ -306,7 +306,7 @@ Let's add some user friendly function to the JtagTapAccess to make instructions 
 Usage demonstration
 -------------------
 
-And there we are, we can now very easly create an application specific JTAG TAP without having to write any logic or any interconnections.
+And there we are, we can now very easily create an application specific JTAG TAP without having to write any logic or any interconnections.
 
 .. code-block:: scala
 

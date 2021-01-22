@@ -5,7 +5,7 @@ Boot a simulation
 Introduction
 ------------
 
-There is an example hardware defintion + testbench :
+There is an example hardware definition + testbench :
 
 .. code-block:: scala
 

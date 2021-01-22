@@ -383,11 +383,11 @@
 <tbody>
 <tr class="row-even"><td><p>vSync</p></td>
 <td><p>master</p></td>
-<td><p>Vertical syncronization, indicate the beginning of a new frame</p></td>
+<td><p>Vertical synchronization, indicate the beginning of a new frame</p></td>
 </tr>
 <tr class="row-odd"><td><p>hSync</p></td>
 <td><p>master</p></td>
-<td><p>Horizontal syncronization, indicate the beginning of a new line</p></td>
+<td><p>Horizontal synchronization, indicate the beginning of a new line</p></td>
 </tr>
 <tr class="row-even"><td><p>colorEn</p></td>
 <td><p>master</p></td>
@@ -418,7 +418,7 @@ slave(Vga(...))
 </div>
 <div class="section" id="vga-timings">
 <h3>VGA timings<a class="headerlink" href="#vga-timings" title="Permalink to this headline">¶</a></h3>
-<p>The VGA interface is driven by using 8 differents timings. Here is one simple example of a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> that is able to carry them.</p>
+<p>The VGA interface is driven by using 8 different timings. Here is one simple example of a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> that is able to carry them.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimings</span><span class="o">(</span><span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">hSyncStart</span>  <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="n">hSyncEnd</span>    <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="o">)</span>
@@ -549,7 +549,7 @@ slave(Vga(...))
 </div>
 <div class="section" id="horizontal-and-vertical-logic">
 <h3>Horizontal and vertical logic<a class="headerlink" href="#horizontal-and-vertical-logic" title="Permalink to this headline">¶</a></h3>
-<p>The logic that generates horizontal and vertical syncronization signals is quite the same. It kind of resembles ~PWM~. The horizontal one counts up each cycle, while the vertical one use the horizontal syncronization signal as to increment.</p>
+<p>The logic that generates horizontal and vertical synchronization signals is quite the same. It kind of resembles ~PWM~. The horizontal one counts up each cycle, while the vertical one use the horizontal syncronization signal as to increment.</p>
 <p>Let’s define <code class="docutils literal notranslate"><span class="pre">HVArea</span></code>, which represents one ~PWM~ and then instantiate it two times: one for both horizontal and vertical syncronization.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VgaCtrl</span><span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">,</span> <span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{...}</span>
@@ -587,7 +587,7 @@ slave(Vga(...))
 </div>
 <div class="section" id="interconnections">
 <h3>Interconnections<a class="headerlink" href="#interconnections" title="Permalink to this headline">¶</a></h3>
-<p>Now that we have timing generators for horizontal and vertical syncronization, we need to drive the outputs.</p>
+<p>Now that we have timing generators for horizontal and vertical synchronization, we need to drive the outputs.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VgaCtrl</span><span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">,</span> <span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{...}</span>
 
@@ -613,7 +613,7 @@ slave(Vga(...))
 <h3>Bonus<a class="headerlink" href="#bonus" title="Permalink to this headline">¶</a></h3>
 <p>The VgaCtrl that was defined above is generic (not application specific).
 We can imagine a case where the system provides a <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of <code class="docutils literal notranslate"><span class="pre">Fragment</span></code> of RGB, which means the system transmits pixels between start/end of picture indications.</p>
-<p>In this case we can automaticly manage the <code class="docutils literal notranslate"><span class="pre">softReset</span></code> input by asserting it when an <code class="docutils literal notranslate"><span class="pre">error</span></code> occurs, then wait for the end of the current <code class="docutils literal notranslate"><span class="pre">pixels</span></code> picture to deassert <code class="docutils literal notranslate"><span class="pre">error</span></code>.</p>
+<p>In this case we can automatically manage the <code class="docutils literal notranslate"><span class="pre">softReset</span></code> input by asserting it when an <code class="docutils literal notranslate"><span class="pre">error</span></code> occurs, then wait for the end of the current <code class="docutils literal notranslate"><span class="pre">pixels</span></code> picture to deassert <code class="docutils literal notranslate"><span class="pre">error</span></code>.</p>
 <p>Let’s add a function to <code class="docutils literal notranslate"><span class="pre">VgaCtrl</span></code> that can be called from the parent component to feed <code class="docutils literal notranslate"><span class="pre">VgaCtrl</span></code> by using this <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of <code class="docutils literal notranslate"><span class="pre">Fragment</span></code> of RGB.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VgaCtrl</span><span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">,</span> <span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="o">...</span>

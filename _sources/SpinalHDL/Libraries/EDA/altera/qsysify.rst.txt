@@ -77,6 +77,6 @@ Reset output
 Adding new interface support
 ----------------------------
 
-Basicaly, the QSysify tool can be setup with a list of interface ``emitter`` `(as you can see here) <https://github.com/SpinalHDL/SpinalHDL/blob/764193013f84cfe4f82d7d1f1739c4561ef65860/lib/src/main/scala/spinal/lib/eda/altera/QSys.scala#L12>`_
+Basically, the QSysify tool can be setup with a list of interface ``emitter`` `(as you can see here) <https://github.com/SpinalHDL/SpinalHDL/blob/764193013f84cfe4f82d7d1f1739c4561ef65860/lib/src/main/scala/spinal/lib/eda/altera/QSys.scala#L12>`_
 
 You can create your own emitter by creating a new class extending `QSysifyInterfaceEmiter <https://github.com/SpinalHDL/SpinalHDL/blob/764193013f84cfe4f82d7d1f1739c4561ef65860/lib/src/main/scala/spinal/lib/eda/altera/QSys.scala#L24>`_
