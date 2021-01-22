@@ -4,7 +4,7 @@ Carry adder
 
 This example defines a component with inputs ``a`` and ``b``\ , and a ``result`` output.
 At any time, ``result`` will be the sum of ``a`` and ``b`` (combinatorial).
-This sum is manualy done by a carry adder logic.
+This sum is manually done by a carry adder logic.
 
 .. code-block:: scala
 

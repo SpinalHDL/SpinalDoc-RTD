@@ -61,11 +61,11 @@ So let's define the ``Component``\ :
      //Function used to generate the rom (later)
      def sinTable = for(sampleIndex <- 0 until sampleCount) yield {
        val sinValue = Math.sin(2 * Math.PI * sampleIndex / sampleCount)
-       S((sinValue * ((1<<resolutionWidth)/2-1)).toInt,resolutionWidth bitss)
+       S((sinValue * ((1<<resolutionWidth)/2-1)).toInt,resolutionWidth bits)
      }
 
      val rom =  Mem(SInt(resolutionWidth bits),initialContent = sinTable)
-     val phase = Reg(UInt(log2Up(sampleCount) bitss)) init(0)
+     val phase = Reg(UInt(log2Up(sampleCount) bits)) init(0)
      phase := phase + 1
 
      io.sin := rom.readSync(phase)
@@ -88,11 +88,11 @@ Here is the complete code:
 
      def sinTable = for(sampleIndex <- 0 until sampleCount) yield {
        val sinValue = Math.sin(2 * Math.PI * sampleIndex / sampleCount)
-       S((sinValue * ((1<<resolutionWidth)/2-1)).toInt,resolutionWidth bitss)
+       S((sinValue * ((1<<resolutionWidth)/2-1)).toInt,resolutionWidth bits)
      }
 
      val rom =  Mem(SInt(resolutionWidth bits),initialContent = sinTable)
-     val phase = Reg(UInt(log2Up(sampleCount) bitss)) init(0)
+     val phase = Reg(UInt(log2Up(sampleCount) bits)) init(0)
      phase := phase + 1
 
      io.sin := rom.readSync(phase)

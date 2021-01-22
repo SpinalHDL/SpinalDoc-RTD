@@ -54,7 +54,7 @@ All datatype instances will define a combinational signal, while a datatype inst
 Width checking
 --------------
 
-SpinalHDL checks that the bit count of the left side and the right side of an assigmnet matches. There are multiple ways to adapt the width of a given BitVector (``Bits``, ``UInt``, ``SInt``):
+SpinalHDL checks that the bit count of the left side and the right side of an assignment matches. There are multiple ways to adapt the width of a given BitVector (``Bits``, ``UInt``, ``SInt``):
 
 .. list-table::
    :header-rows: 1

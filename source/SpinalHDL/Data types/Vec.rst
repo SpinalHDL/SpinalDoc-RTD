@@ -84,7 +84,7 @@ Comparison
    val vec2 = Vec(SInt(8 bits), 2)
    val vec1 = Vec(SInt(8 bits), 2)
 
-   myBool := vec2 === vec1  // Compare all elemenets
+   myBool := vec2 === vec1  // Compare all elements
 
 Type cast
 ~~~~~~~~~

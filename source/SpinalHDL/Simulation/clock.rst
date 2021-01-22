@@ -13,7 +13,7 @@ Below is a list of ``ClockDomain`` stimulation functions:
    * - ClockDomain stimulus functions
      - Description
    * - ``forkStimulus(period)``
-     - Fork a simulation process to generate the clockdomain simulus (clock, reset, softReset, clockEnable signals)
+     - Fork a simulation process to generate the clockdomain stimulus (clock, reset, softReset, clockEnable signals)
    * - ``forkSimSpeedPrinter(printPeriod)``
      - Fork a simulation process which will periodically print the simulation speed in kilo-cycles per real time second. ``printPeriod`` is in realtime seconds
    * - ``clockToggle()``

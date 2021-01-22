@@ -169,7 +169,7 @@ The interfaces of this ``Component`` are the following :
      - Description
    * - configFrame
      - UartCtrlFrameConfig
-     - Containts data bit width count and party/stop bits configurations
+     - Contains data bit width count and party/stop bits configurations
    * - samplingTick
      - Bool
      - Time reference that pulses ``rxSamplePerBit`` times per UART baud

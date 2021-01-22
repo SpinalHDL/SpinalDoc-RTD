@@ -88,7 +88,7 @@ State full utilities
 Counter
 ^^^^^^^
 
-The Counter tool can be used to easly instanciate an hardware counter.
+The Counter tool can be used to easily instanciate an hardware counter.
 
 .. list-table::
    :header-rows: 1
@@ -98,7 +98,7 @@ The Counter tool can be used to easly instanciate an hardware counter.
      - Notes
    * - Counter(start: BigInt, end: BigInt[, inc : Bool])
      - 
-   * - Counter(range : Ranget[, inc : Bool])
+   * - Counter(range : Range[, inc : Bool])
      - Compatible with the  ``x to y`` ``x until y`` syntaxes
    * - Counter(stateCount: BigInt[, inc : Bool])
      - Start at zero and finish at ``stateCount - 1``
@@ -127,7 +127,7 @@ When a ``Counter`` overflow its end value, it restart to its start value.
 Timeout
 ^^^^^^^
 
-The Timeout tool can be used to easly instanciate an hardware timeout.
+The Timeout tool can be used to easily instanciate an hardware timeout.
 
 .. list-table::
    :header-rows: 1
@@ -153,7 +153,7 @@ There is an example of different syntaxes which could be used with the Counter t
    }
 
 .. note::
-   If you instanciate an ``Timeout`` with an time or frequancy setup, the implicit ``ClockDomain`` should have an frequency setting.
+   If you instanciate an ``Timeout`` with an time or frequency setup, the implicit ``ClockDomain`` should have an frequency setting.
 
 ResetCtrl
 ^^^^^^^^^
@@ -177,7 +177,7 @@ You can filter an asynchronous reset by using an asynchronously asserted synchro
      - Signal that should be filtered
    * - clockDomain
      - ClockDomain
-     - ClockDomain which will use the filtred value
+     - ClockDomain which will use the filtered value
    * - inputPolarity
      - Polarity
      - HIGH/LOW (default=HIGH)
