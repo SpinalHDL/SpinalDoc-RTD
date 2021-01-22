@@ -9,7 +9,7 @@ Timer
 Introduction
 ------------
 
-A timer module is probably one of the most basic pieces of hardware. But even for a timer, there are some interresting things that you can do with SpinalHDL. This example will define a simple timer component which integrates a bus bridging utile.
+A timer module is probably one of the most basic pieces of hardware. But even for a timer, there are some interesting things that you can do with SpinalHDL. This example will define a simple timer component which integrates a bus bridging utile.
 
 Timer
 -----

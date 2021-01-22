@@ -433,7 +433,7 @@ A ``SlowArea`` is used to create a new clock domain area which is slower than th
        val counter = out(CounterFreeRun(16).value)
      }
 
-     // Slow the current clockDomainn to 50MHz
+     // Slow the current clockDomain to 50MHz
      val area50Mhz = new SlowArea(50 MHz) {
        val counter = out(CounterFreeRun(16).value)
      }

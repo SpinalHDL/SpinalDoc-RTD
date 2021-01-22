@@ -31,7 +31,7 @@ SpinalHDL is not a language, it is an Scala library, which mean, it obey to the 
 Hierarchy violation
 -------------------
 
-The SpinalHDL compiler check that all your assignements are legal from an hierarchy perspective. Multiple cases are elaborated in following chapters
+The SpinalHDL compiler check that all your assignments are legal from an hierarchy perspective. Multiple cases are elaborated in following chapters
 
 Signal X can't be assigned by Y
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -56,7 +56,7 @@ Signal X can't be assigned by Y
      ...
      val componentX = new ComponentX
      val Y = Bool
-     componentX.X := Y //This assignement is not legal
+     componentX.X := Y //This assignment is not legal
      ...
    }
 
@@ -73,7 +73,7 @@ Signal X can't be assigned by Y
      ...
      val componentX = new ComponentX
      val Y = Bool
-     componentX.io.X := Y //This assignement will be detected as not legal
+     componentX.io.X := Y //This assignment will be detected as not legal
      ...
    }
 
@@ -100,7 +100,7 @@ Input signal X can't be assigned by Y
      }
      ...
      val Y = Bool
-     io.X := Y //This assignement is not legal
+     io.X := Y //This assignment is not legal
      ...
    }
 
@@ -132,7 +132,7 @@ Output signal X can't be assigned by Y
      ...
      val componentX = new ComponentX
      val Y = Bool
-     componentX.X := Y //This assignement is not legal
+     componentX.X := Y //This assignment is not legal
      ...
    }
 

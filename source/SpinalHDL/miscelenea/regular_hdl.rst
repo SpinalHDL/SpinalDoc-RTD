@@ -140,7 +140,7 @@ Then about the VHDL 2008 partial solution and the SystemVerilog interface/modpor
 VHDL and Verilog are so verbose
 -------------------------------
 
-Realy, with VHDL and Verilog, when it start to be about component instanciation interconnection, the copypast good need to be invocated.
+Really, with VHDL and Verilog, when it start to be about component instanciation interconnection, the copypast good need to be invocated.
 
 To understand it more deeply, there is an SpinalHDL example which do some peripherals instanciation and add the APB3 decoder required to access them.
 
@@ -208,7 +208,7 @@ And even them are really limited. As instance why you can't define process/alway
      }
    }
 
-Then let's see further, imagine you want define a state machine, you will have to write raw VHDL/Verilog with some switch statements to do it. You can't define kind of "StateMachine" abstraction which would give you a fancy syntax to define them, instead you will have to use a third party tool to draw your statemachine and then generate your VHDL/Verilog equivalent code. Which is really messy anyway.
+Then let's see further, imagine you want define a state machine, you will have to write raw VHDL/Verilog with some switch statements to do it. You can't define kind of "StateMachine" abstraction which would give you a fancy syntax to define them, instead you will have to use a third party tool to draw your state machine and then generate your VHDL/Verilog equivalent code. Which is really messy anyway.
 
 So by meta-hardware description capabilities, i mean the fact that by using raw SpinalHDL syntax, you can define tools which then allow you to define things in abstracts ways, as for state-machine.
 
@@ -221,7 +221,7 @@ There is an simple example of the usage of a state-machine abstraction defined o
      //Define all states
      val stateA, stateB, stateC = new State
 
-     //Set the statemachine entry point
+     //Set the state machine entry point
      setEntry(stateA)
 
      //Define a register used into the state machine
@@ -244,4 +244,4 @@ There is an simple example of the usage of a state-machine abstraction defined o
 
 Also imagine you want to generate the instruction decoding of your CPU, it could require some fancy elaboration time algorithms to generate the less logic possible. But in VHDL/Verilog/SystemVerilog, your only option to do this kind of things is to write a script which generates the .vhd .v that you want.
 
-There is realy much to say about meta-hardware-description, but the only true way to understand it and get its realy taste is to experiment it. The goal with it is stopping playing with wires and gates as monkeys, starting taking some distance with that low level stuff, thinking big and reusable.
+There is really much to say about meta-hardware-description, but the only true way to understand it and get its realy taste is to experiment it. The goal with it is stopping playing with wires and gates as monkeys, starting taking some distance with that low level stuff, thinking big and reusable.

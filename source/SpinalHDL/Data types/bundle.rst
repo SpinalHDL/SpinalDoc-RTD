@@ -110,7 +110,7 @@ For example:
 master/slave
 ~~~~~~~~~~~~
 
-If your interface obeys to a master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each element from the master's perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO defintion.
+If your interface obeys to a master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each element from the master's perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO definition.
 
 For example:
 

@@ -62,7 +62,7 @@ The syntax to define inputs and outputs is as follows:
      - T
    * - master/slave(T)
      - This syntax is provided by the ``spinal.lib`` library (If you annotate your object with the ``slave`` syntax, then import ``spinal.lib.slave`` instead).
-       T should extend ``IMasterSlave`` – Some documentation is available :ref:`here <interface_eaxample_apb>`. You may not actually need the brackets, so ``master T`` is fine as well.
+       T should extend ``IMasterSlave`` – Some documentation is available :ref:`here <interface_example_apb>`. You may not actually need the brackets, so ``master T`` is fine as well.
      - T
 
 

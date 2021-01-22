@@ -42,7 +42,7 @@ An Uart controller is implemented in the library. This controller has the specif
    * - config
      - in
      - UartCtrlConfig
-     - Used to set the clock divider/partity/stop/data length of the controller
+     - Used to set the clock divider/parity/stop/data length of the controller
    * - write
      - slave
      - Stream[Bits]

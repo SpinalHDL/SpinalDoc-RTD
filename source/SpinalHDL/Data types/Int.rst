@@ -184,19 +184,19 @@ Arithmetic
      - Addition
      - T(max(w(x), w(y)), bits)
    * - x +^ y
-     - Addition with carray
+     - Addition with carry
      - T(max(w(x), w(y) + 1), bits)
    * - x +| y
-     - Addition by sat carray bit
+     - Addition by sat carry bit
      - T(max(w(x), w(y)), bits)
    * - x - y
      - Subtraction
      - T(max(w(x), w(y)), bits)
    * - x - y
-     - Subtraction with carray
+     - Subtraction with carry
      - T(max(w(x), w(y) + 1), bits)
    * - x -| y
-     - Subtraction by sat carray bit
+     - Subtraction by sat carry bit
      - T(max(w(x), w(y)), bits)
    * - x * y
      - Multiplication
@@ -454,7 +454,7 @@ Lower bit operations
 About Rounding: https://en.wikipedia.org/wiki/Rounding
 
 ================ ================= ============= ======================== ====================== ===========
- SpinalHDL-Name   Wikipedia-Name    API           Mathematic Alogrithm     return(align=false)    Supported
+ SpinalHDL-Name   Wikipedia-Name    API           Mathematic Algorithm     return(align=false)    Supported
 ================ ================= ============= ======================== ====================== ===========
  FLOOR            RoundDown         floor         floor(x)                  w(x)-n   bits         Yes
  FLOORTOZERO      RoundToZero       floorToZero   sign*floor(abs(x))        w(x)-n   bits         Yes
@@ -535,7 +535,7 @@ High bit operations
 .. image:: /asset/image/fixpoint/highBitOperation.png
 
 ========== ============ ====================================== =======================================
- function   Operation    Postive-Op                            Negtive-Op                           
+ function   Operation    Positive-Op                            Negative-Op                           
 ========== ============ ====================================== =======================================
  sat        Saturation   when(Top[w-1, w-n].orR) set maxValue   When(Top[w-1, w-n].andR) set minValue 
  trim       Discard      N/A                                    N/A                                  

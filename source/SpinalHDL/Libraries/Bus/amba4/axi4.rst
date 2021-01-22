@@ -127,7 +127,7 @@ There is 3 other variation of the Axi4 bus :
      - | This variation is a library initiative.
        | It use 4 channels, W, B ,R and also a new one which is named AWR. 
        | The AWR channel can be used to transmit AR and AW transactions. To dissociate them, a signal ``write`` is present. 
-       | The advantage of this Axi4Shared variation is to use less area, especialy in the interconnect.
+       | The advantage of this Axi4Shared variation is to use less area, especially in the interconnect.
 
 
 Functions and operators

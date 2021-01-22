@@ -11,7 +11,7 @@ The generator framework allow to specify and run the hardware elaboration in a o
 Such framework complexify simple things but provide some strong feature for complex cases :
 
 - You can define things before even knowing all their requirements, ex : instanciating a interruption controller, before knowing how many lines of interrupt you need
-- Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for futher specialisations
+- Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for further specialisations
 - Automatic requirements negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus
 
 The framework is mainly composed of : 
@@ -54,7 +54,7 @@ There is a simple example which define two Handle[Int] (a,b) and when loaded, wi
   }
 
 
-So, the main point of that example is to show that we kind of overcome the sequancial execution of things, as a and b are loaded after the definition of the calculator.
+So, the main point of that example is to show that we kind of overcome the sequential execution of things, as a and b are loaded after the definition of the calculator.
 
 Then you can also chain generators via their handles. For instance we could add the following after the calculator definition : 
 
@@ -82,7 +82,7 @@ Handle[T] are a bit like scala's Future[T], they allow to talk about something b
     
     val x,y = Handle[Int]
     val xPlus2 : Handle[Int] = x.produce(x.get + 2) //x.produce can be used to generate a new Handle when x is loaded
-    val xPlus3 : Handle[Int] = x.derivate(_ + 3)    //x.derivate is as x.produce, but also provide the x.get as arguement of the lambda function
+    val xPlus3 : Handle[Int] = x.derivate(_ + 3)    //x.derivate is as x.produce, but also provide the x.get as argument of the lambda function
     val xPlusY : Handle[Int] = List(x,y).produce(x.get + y.get) //As x.produce, but wait all the element of the list.
     x.load(3) //x will now contain the value 3
 
@@ -93,13 +93,13 @@ Generator
 A Generator is composed of : 
 
 - dependencies : List of Handles that should be loaded before executing the generator's tasks
-- tasks : List of lambda function which should run once all depedencies are loaded
+- tasks : List of lambda function which should run once all dependencies are loaded
 - products : List of Handles which are loaded by the generator's tasks
 
 dependencies
 ^^^^^^^^^^^^^^^^^^^^
 
-There is muliple ways to add/create new depedencies : 
+There is multiple ways to add/create new dependencies : 
 
 .. code-block:: scala
 
@@ -126,7 +126,7 @@ tasks
 products
 ^^^^^^^^^^^^^^^^^^^^
 
-Telling the generator all your products isn't mendatory but help debuging. 
+Telling the generator all your products isn't mandatory but help debugging. 
 
 
 .. code-block:: scala
