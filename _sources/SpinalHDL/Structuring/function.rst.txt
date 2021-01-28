@@ -39,13 +39,13 @@ For instance, if you define a simple bus with ``valid``, ``ready``, and ``payloa
 
 .. code-block:: scala
 
-   class MyBus(payloadWidth: Int) extends Bundle with IMasterSlave {
+   case class MyBus(payloadWidth: Int) extends Bundle with IMasterSlave {
      val valid   = Bool
      val ready   = Bool
      val payload = Bits(payloadWidth bits)
 
      // Define the direction of the data in a master mode
-     override des asMaster(): Unit = {
+     override def asMaster(): Unit = {
        out(valid, payload)
        in(ready)
      }

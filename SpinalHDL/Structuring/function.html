@@ -370,13 +370,13 @@
 <div class="section" id="valid-ready-payload-bus">
 <h2>Valid Ready Payload bus<a class="headerlink" href="#valid-ready-payload-bus" title="Permalink to this headline">¶</a></h2>
 <p>For instance, if you define a simple bus with <code class="docutils literal notranslate"><span class="pre">valid</span></code>, <code class="docutils literal notranslate"><span class="pre">ready</span></code>, and <code class="docutils literal notranslate"><span class="pre">payload</span></code> signals, you can then define some useful functions inside of it.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBus</span><span class="o">(</span><span class="n">payloadWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">MyBus</span><span class="o">(</span><span class="n">payloadWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span>
   <span class="k">val</span> <span class="n">ready</span>   <span class="k">=</span> <span class="nc">Bool</span>
   <span class="k">val</span> <span class="n">payload</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">payloadWidth</span> <span class="n">bits</span><span class="o">)</span>
 
   <span class="c1">// Define the direction of the data in a master mode</span>
-  <span class="k">override</span> <span class="n">des</span> <span class="n">asMaster</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
     <span class="n">out</span><span class="o">(</span><span class="n">valid</span><span class="o">,</span> <span class="n">payload</span><span class="o">)</span>
     <span class="n">in</span><span class="o">(</span><span class="n">ready</span><span class="o">)</span>
   <span class="o">}</span>
