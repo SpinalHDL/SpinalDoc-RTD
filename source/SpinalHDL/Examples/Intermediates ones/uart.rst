@@ -570,6 +570,44 @@ Let's write ``UartCtrl`` that instantiates the ``UartCtrlRx`` and ``UartCtrlTx``
      io.uart.rxd <> rx.io.rxd
    }
 
+Simple usage 
+-----------------------
+
+To synthesize a ``UartCtrl`` as ``115200-N-8-1``:
+
+.. code-block:: scala
+
+    val uartCtrl: UartCtrl = UartCtrl(
+      config = UartCtrlInitConfig(
+        baudrate = 115200,
+        dataLength = 7,  // 8 bits
+        parity = UartParityType.NONE,
+        stop = UartStopType.ONE
+      )
+    )
+
+If you are using ``txd`` pin only:
+
+.. code-block:: scala
+
+    uartCtrl.io.uart.rxd := True  // High is the idle state for UART
+    txd := uartCtrl.io.uart.txd
+
+On the contrary, if you are using ``rxd`` pin only:
+
+.. code-block:: scala
+
+    val uartCtrl: UartCtrl = UartCtrl(
+      config = UartCtrlInitConfig(
+        baudrate = 115200,
+        dataLength = 7,  // 8 bits
+        parity = UartParityType.NONE,
+        stop = UartStopType.ONE
+      ),
+      readonly = true
+    )
+
+
 Example with test bench
 -----------------------
 
