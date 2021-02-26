@@ -192,7 +192,7 @@ Arithmetic
    * - x - y
      - Subtraction
      - T(max(w(x), w(y)), bits)
-   * - x - y
+   * - x -^ y
      - Subtraction with carry
      - T(max(w(x), w(y) + 1), bits)
    * - x -| y
