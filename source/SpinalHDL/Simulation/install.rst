@@ -34,7 +34,7 @@ You will also need a recent version of Verilator installed :
    unset VERILATOR_ROOT  # For bash
    cd verilator
    git pull        # Make sure we're up-to-date
-   git checkout v3.916
+   git checkout v4.040
    autoconf        # Create ./configure script
    ./configure
    make -j$(nproc)
@@ -86,7 +86,7 @@ From source
    unset VERILATOR_ROOT
    cd verilator
    git pull        
-   git checkout verilator_3_916
+   git checkout v4.040
    autoconf      
    ./configure
    export CPLUS_INCLUDE_PATH=/usr/include:$CPLUS_INCLUDE_PATH
