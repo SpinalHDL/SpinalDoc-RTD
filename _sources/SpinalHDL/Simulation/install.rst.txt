@@ -49,6 +49,7 @@ In order to get SpinalSim + Verilator working on Windows, you have to do the fol
 * Install `MSYS2 <https://www.msys2.org/>`_
 * Via MSYS2 get gcc/g++/verilator (for Verilator you can compile it from the sources)
 * Add ``bin`` and ``usr\bin`` of MSYS2 into your windows ``PATH`` (ie : ``C:\msys64\usr\bin;C:\msys64\mingw64\bin``)
+* Check that the JAVA_HOME environnement variable point to the JDK installation folder (ie : ``C:\Program Files\Java\jdk-13.0.2``)
 
 Then you should be able to run SpinalSim + Verilator from your Scala project without having to use MSYS2 anymore.
 
