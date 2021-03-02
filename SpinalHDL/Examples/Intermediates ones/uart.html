@@ -916,6 +916,37 @@
 </div>
 </div>
 </div>
+<div class="section" id="simple-usage">
+<h2>Simple usage<a class="headerlink" href="#simple-usage" title="Permalink to this headline">¶</a></h2>
+<p>To synthesize a <code class="docutils literal notranslate"><span class="pre">UartCtrl</span></code> as <code class="docutils literal notranslate"><span class="pre">115200-N-8-1</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">uartCtrl</span><span class="k">:</span> <span class="kt">UartCtrl</span> <span class="o">=</span> <span class="nc">UartCtrl</span><span class="o">(</span>
+  <span class="n">config</span> <span class="k">=</span> <span class="nc">UartCtrlInitConfig</span><span class="o">(</span>
+    <span class="n">baudrate</span> <span class="k">=</span> <span class="mi">115200</span><span class="o">,</span>
+    <span class="n">dataLength</span> <span class="k">=</span> <span class="mi">7</span><span class="o">,</span>  <span class="c1">// 8 bits</span>
+    <span class="n">parity</span> <span class="k">=</span> <span class="nc">UartParityType</span><span class="o">.</span><span class="nc">NONE</span><span class="o">,</span>
+    <span class="n">stop</span> <span class="k">=</span> <span class="nc">UartStopType</span><span class="o">.</span><span class="nc">ONE</span>
+  <span class="o">)</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>If you are using <code class="docutils literal notranslate"><span class="pre">txd</span></code> pin only:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">uartCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">uart</span><span class="o">.</span><span class="n">rxd</span> <span class="o">:=</span> <span class="nc">True</span>  <span class="c1">// High is the idle state for UART</span>
+<span class="n">txd</span> <span class="o">:=</span> <span class="n">uartCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">uart</span><span class="o">.</span><span class="n">txd</span>
+</pre></div>
+</div>
+<p>On the contrary, if you are using <code class="docutils literal notranslate"><span class="pre">rxd</span></code> pin only:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">uartCtrl</span><span class="k">:</span> <span class="kt">UartCtrl</span> <span class="o">=</span> <span class="nc">UartCtrl</span><span class="o">(</span>
+  <span class="n">config</span> <span class="k">=</span> <span class="nc">UartCtrlInitConfig</span><span class="o">(</span>
+    <span class="n">baudrate</span> <span class="k">=</span> <span class="mi">115200</span><span class="o">,</span>
+    <span class="n">dataLength</span> <span class="k">=</span> <span class="mi">7</span><span class="o">,</span>  <span class="c1">// 8 bits</span>
+    <span class="n">parity</span> <span class="k">=</span> <span class="nc">UartParityType</span><span class="o">.</span><span class="nc">NONE</span><span class="o">,</span>
+    <span class="n">stop</span> <span class="k">=</span> <span class="nc">UartStopType</span><span class="o">.</span><span class="nc">ONE</span>
+  <span class="o">),</span>
+  <span class="n">readonly</span> <span class="k">=</span> <span class="kc">true</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="example-with-test-bench">
 <h2>Example with test bench<a class="headerlink" href="#example-with-test-bench" title="Permalink to this headline">¶</a></h2>
 <p>Here is a top level example that does the followings things:</p>
