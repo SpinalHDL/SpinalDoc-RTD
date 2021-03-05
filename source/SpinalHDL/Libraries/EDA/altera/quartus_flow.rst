@@ -29,7 +29,10 @@ Example
    )
    println(report)
 
-The code above will create a new Quartus project with ``TopLevel.vhd``. By the way, if you use the device ``EP4CE6E22C8N``, the family should be ``Cyclone IV E``.
+The code above will create a new Quartus project with ``TopLevel.vhd``.
+
+.. note::
+   The ``family`` and ``device`` values are passed straight to the Quartus CLI as parameters. Please check the Quartus documentation for the correct value to use in your project.
 
 .. warning::
    This operation will remove the folder ``workspacePath``!
