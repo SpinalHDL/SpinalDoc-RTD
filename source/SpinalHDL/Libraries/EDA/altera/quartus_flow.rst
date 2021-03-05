@@ -12,7 +12,7 @@ Tools in `this file <https://github.com/SpinalHDL/SpinalHDL/blob/dev/lib/src/mai
 For a single rtl file
 ---------------------
 
-The object ``spinal.lib.eda.altera.QuartusFlow`` can automatically report the area and maximum frequence of a single rtl file.
+The object ``spinal.lib.eda.altera.QuartusFlow`` can automatically report the used area and maximum frequency of a single rtl file.
 
 Example
 ^^^^^^^
