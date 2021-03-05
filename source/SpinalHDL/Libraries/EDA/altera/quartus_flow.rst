@@ -7,7 +7,7 @@ Introduction
 
 A compilation flow is an Altera-defined sequence of commands that use a combination of command-line executables.
 A full compilation flow launches all Compiler modules in sequence to synthesize, fit, analyze final timing, and generate a device programming file. 
-Tools in `this file <https://github.com/SpinalHDL/SpinalHDL/blob/dev/lib/src/main/scala/spinal/lib/eda/altera/QuartusFlow.scala>`_ help you get rid of redundant Quartus GUI.
+Tools in `this file <https://github.com/SpinalHDL/SpinalHDL/blob/dev/lib/src/main/scala/spinal/lib/eda/altera/QuartusFlow.scala>`__ help you get rid of redundant Quartus GUI.
 
 For a single rtl file
 ---------------------
