@@ -37,7 +37,7 @@ The code above will create a new Quartus project with ``TopLevel.vhd``. By the w
 For an existing project
 -----------------------
 
-The class ``spinal.lib.eda.altera.QuartusProject`` can automatically find configuration files in an existing project that are used to call a full compilation and program the device. 
+The class ``spinal.lib.eda.altera.QuartusProject`` can automatically find configuration files in an existing project. Those are used for compilation and programming the device. 
 
 Example
 ^^^^^^^
