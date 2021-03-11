@@ -227,9 +227,6 @@ Bit extraction
    * - x(y)
      - Readbit, y: Int/UInt
      - Bool
-   * - x(hi,lo)
-     - Read bitfield, hi: Int, lo: Int
-     - Bits(hi-lo+1 bits)
    * - x(offset,width bits)
      - Read bitfield, offset: UInt, width: Int
      - Bits(width bits)
