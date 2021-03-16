@@ -346,8 +346,8 @@
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>A compilation flow is an Altera-defined sequence of commands that use a combination of command-line executables.
-A full compilation flow launches all Compiler modules in sequence to synthesize, fit, analyze final timing, and generate a device programming file.
-Tools in <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/dev/lib/src/main/scala/spinal/lib/eda/altera/QuartusFlow.scala">this file</a> help you get rid of redundant Quartus GUI.</p>
+A full compilation flow launches all Compiler modules in sequence to synthesize, fit, analyze final timing, and generate a device programming file.</p>
+<p>Tools in <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/dev/lib/src/main/scala/spinal/lib/eda/altera/QuartusFlow.scala">this file</a> help you get rid of redundant Quartus GUI.</p>
 </div>
 <div class="section" id="for-a-single-rtl-file">
 <h2>For a single rtl file<a class="headerlink" href="#for-a-single-rtl-file" title="Permalink to this headline">¶</a></h2>
@@ -366,13 +366,21 @@ Tools in <a class="reference external" href="https://github.com/SpinalHDL/Spinal
 </pre></div>
 </div>
 <p>The code above will create a new Quartus project with <code class="docutils literal notranslate"><span class="pre">TopLevel.vhd</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This operation will remove the folder <code class="docutils literal notranslate"><span class="pre">workspacePath</span></code>!</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">family</span></code> and <code class="docutils literal notranslate"><span class="pre">device</span></code> values are passed straight to the Quartus CLI as parameters. Please check the Quartus documentation for the correct value to use in your project.</p>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This operation will remove the folder <code class="docutils literal notranslate"><span class="pre">workspacePath</span></code>!</p>
+</div>
+<div class="section" id="tip">
+<h3>Tip<a class="headerlink" href="#tip" title="Permalink to this headline">¶</a></h3>
+<p>To test a component that has too many pins, set them as <code class="docutils literal notranslate"><span class="pre">VIRTUAL_PIN</span></code>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">miaou</span><span class="k">:</span> <span class="kt">Vec</span><span class="o">[</span><span class="kt">Flow</span><span class="o">[</span><span class="kt">Bool</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="n">master</span><span class="o">(</span><span class="nc">Flow</span><span class="o">(</span><span class="nc">Bool</span><span class="o">())),</span> <span class="mi">666</span><span class="o">)</span>
+<span class="n">miaou</span><span class="o">.</span><span class="n">addAttribute</span><span class="o">(</span><span class="s">&quot;altera_attribute&quot;</span><span class="o">,</span> <span class="s">&quot;-name VIRTUAL_PIN ON&quot;</span><span class="o">)</span>
+</pre></div>
 </div>
 </div>
 </div>

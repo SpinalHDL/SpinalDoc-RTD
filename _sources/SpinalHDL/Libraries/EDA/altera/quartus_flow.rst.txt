@@ -7,6 +7,7 @@ Introduction
 
 A compilation flow is an Altera-defined sequence of commands that use a combination of command-line executables.
 A full compilation flow launches all Compiler modules in sequence to synthesize, fit, analyze final timing, and generate a device programming file. 
+
 Tools in `this file <https://github.com/SpinalHDL/SpinalHDL/blob/dev/lib/src/main/scala/spinal/lib/eda/altera/QuartusFlow.scala>`__ help you get rid of redundant Quartus GUI.
 
 For a single rtl file
@@ -31,11 +32,21 @@ Example
 
 The code above will create a new Quartus project with ``TopLevel.vhd``.
 
-.. note::
-   The ``family`` and ``device`` values are passed straight to the Quartus CLI as parameters. Please check the Quartus documentation for the correct value to use in your project.
-
 .. warning::
    This operation will remove the folder ``workspacePath``!
+
+.. note::
+   The ``family`` and ``device`` values are passed straight to the Quartus CLI as parameters. Please check the Quartus documentation for the correct value to use in your project.
+   
+Tip
+^^^
+
+To test a component that has too many pins, set them as ``VIRTUAL_PIN``.
+
+.. code-block:: scala
+
+   val miaou: Vec[Flow[Bool]] = Vec(master(Flow(Bool())), 666)
+   miaou.addAttribute("altera_attribute", "-name VIRTUAL_PIN ON")
 
 For an existing project
 -----------------------
