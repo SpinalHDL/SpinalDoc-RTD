@@ -88,6 +88,55 @@ Type cast
    val color1 = Color(8)
    val myBits := color1.asBits
 
+Convert Bits back to Bundle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The ``.assignFromBits`` operator can be viewed as the reverse of ``.asBits``.
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Operator
+     - Description
+     - Return
+   * - x.assignFromBits(y)
+     - Convert Bits (y) to Bundle(x)
+     - Unit   
+   * - x.assignFromBits(y, hi, lo)
+     - Convert Bits (y) to Bundle(x) with high/low boundary
+     - Unit     
+
+The following example saves a Bundle called CommonDataBus into a circular buffer (3rd party memory), reads the Bits out later and converts them back to CommonDataBus format.
+
+.. image:: /asset/image/bundle/CommonDataBus.png
+
+.. code-block:: scala
+
+   case class TestBundle () extends Component {
+     val io = new Bundle {
+       val we      = in     Bool
+       val addrWr  = in     UInt (7 bits)
+       val dataIn  = slave  (CommonDataBus())
+
+       val addrRd  = in     UInt (7 bits)
+       val dataOut = master (CommonDataBus())
+     }
+
+     val mm = Ram3rdParty_1w_1rs (G_DATA_WIDTH = io.dataIn.getBitsWidth, 
+                                  G_ADDR_WIDTH = io.addrWr.getBitsWidth, 
+                                  G_VENDOR     = "Intel_Arria10_M20K")
+
+     mm.io.clk_in    := clockDomain.readClockWire
+     mm.io.clk_out   := clockDomain.readClockWire
+
+     mm.io.we        := io.we
+     mm.io.addr_wr   := io.addrWr.asBits
+     mm.io.d         := io.dataIn.asBits
+
+     mm.io.addr_rd   := io.addrRd.asBits
+     io.dataOut.assignFromBits(mm.io.q)
+   }
+
 IO Element direction
 ^^^^^^^^^^^^^^^^^^^^
 
