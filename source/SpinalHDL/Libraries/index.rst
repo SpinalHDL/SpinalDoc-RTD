@@ -12,7 +12,7 @@ Libraries
    fsm
    vexriscv
    bus_slave_factory
-   generator
+   fiber
    Bus/index
    Com/index
    IO/index
