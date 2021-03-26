@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Generator framework &mdash; SpinalHDL  documentation</title>
+  <title>Fiber framework &mdash; SpinalHDL  documentation</title>
   
 
   
@@ -180,7 +180,7 @@
 <li class="toctree-l2"><a class="reference internal" href="fsm.html">State machine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vexriscv.html">VexRiscv (RV32IM CPU)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bus_slave_factory.html">Bus Slave Factory</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Generator framework</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fiber framework</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Bus/index.html">Bus</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="Bus/amba3/ahblite3.html">AHB-Lite3</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Bus/amba3/apb3.html">Apb3</a></li>
@@ -320,13 +320,13 @@
         
           <li><a href="index.html">Libraries</a> &raquo;</li>
         
-      <li>Generator framework</li>
+      <li>Fiber framework</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/SpinalHDL/Libraries/generator.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/SpinalHDL/Libraries/fiber.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -339,9 +339,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="generator-framework">
-<span id="generator"></span><h1>Generator framework<a class="headerlink" href="#generator-framework" title="Permalink to this headline">¶</a></h1>
-<p>The generator framework allow to specify and run the hardware elaboration in a out of order manner, a bit similarly to Makefile, where you can define rules and dependencies which will then be solved when you run a make command.</p>
+  <div class="section" id="fiber-framework">
+<span id="fiber"></span><h1>Fiber framework<a class="headerlink" href="#fiber-framework" title="Permalink to this headline">¶</a></h1>
+<p>Currently in developpement.</p>
+<p>The Fiber to run the hardware elaboration in a out of order manner, a bit similarly to Makefile, where you can define rules and dependencies which will then be solved when you run a make command. It is very similar to the Scala Future feature.</p>
 <p>Such framework complexify simple things but provide some strong feature for complex cases :</p>
 <ul class="simple">
 <li><p>You can define things before even knowing all their requirements, ex : instanciating a interruption controller, before knowing how many lines of interrupt you need</p></li>
@@ -350,52 +351,47 @@
 </ul>
 <p>The framework is mainly composed of :</p>
 <ul class="simple">
-<li><p>Generator, which will run its tasks as soon all its dependencies are loaded.</p></li>
-<li><p>Handle[T], which allow to refer about something, as for example the result of a generator, before this thing even exist</p></li>
+<li><p>Handle[T], which can be used later to store a value of type T.</p></li>
+<li><p>handle.load which allow to set the value of a handle (will reschedule all tasks waiting on it)</p></li>
+<li><p>handle.get, which return the value of the given handle. Will block the task execution if that handle isn’t loaded yet</p></li>
+<li><p>Handle{ code }, which fork a new task which will execute the given code. The result of that code will be loaded into the Handle</p></li>
+<li><p>soon(handle), which allow the current task to announce that soon it will load that handle with a value (used to track which handle will</p></li>
 </ul>
-<p>Warning, this is realy not usual RTL description and aim large system generation.</p>
+<p>Warning, this is realy not usual RTL description and aim large system generation. It is currently used as toplevel integration tool in SaxonSoC.</p>
 <div class="section" id="simple-dummy-example">
 <h2>Simple dummy example<a class="headerlink" href="#simple-dummy-example" title="Permalink to this headline">¶</a></h2>
-<p>There is a simple example which define two Handle[Int] (a,b) and when loaded, will print the sum of them :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.lib.generator._</span>
+<p>There is a simple example :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal.core.fiber._</span>
 
-<span class="k">class</span> <span class="nc">Root</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Generator</span><span class="o">{</span>
-  <span class="c1">//Define some Handle which will be later loaded with real values</span>
-  <span class="k">val</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span> <span class="k">=</span> <span class="nc">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span>
+<span class="c1">// Create two empty Handles</span>
+<span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span>
 
-  <span class="c1">//Print a + b</span>
-  <span class="k">val</span> <span class="n">calculator</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Generator</span><span class="o">{</span>
-    <span class="c1">//Specify that this generator need a and b before executing his tasks</span>
-    <span class="n">dependencies</span> <span class="o">+=</span> <span class="n">a</span>
-    <span class="n">dependencies</span> <span class="o">+=</span> <span class="n">b</span>
-
-    <span class="c1">//Create a new task that will run when all the dependencies are loaded</span>
-    <span class="n">add</span> <span class="n">task</span><span class="o">{</span>
-      <span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span>
-      <span class="n">println</span><span class="o">(</span><span class="s">s&quot;a + b = </span><span class="si">$sum</span><span class="s">&quot;</span><span class="o">)</span> <span class="c1">//Will print a + b = 7</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-
-  <span class="c1">//load a and b with values, which will then unlock the calculator generator</span>
-  <span class="n">a</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
-  <span class="n">b</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+<span class="c1">// Create a Handle which will be loaded asynchronously by the given body result</span>
+<span class="k">val</span> <span class="n">calculator</span> <span class="k">=</span> <span class="nc">Handle</span> <span class="o">{</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span> <span class="c1">// .get will block until they are loaded</span>
 <span class="o">}</span>
+
+<span class="c1">// Same as above</span>
+<span class="k">val</span> <span class="n">printer</span> <span class="k">=</span> <span class="nc">Handle</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">s&quot;a + b = </span><span class="si">${</span><span class="n">calculator</span><span class="o">.</span><span class="n">get</span><span class="si">}</span><span class="s">&quot;</span><span class="o">)</span> <span class="c1">// .get is blocking until the calculator body is done</span>
+<span class="o">}</span>
+
+<span class="c1">// Synchronously load a and b, this will unblock a.get and b.get</span>
+<span class="n">a</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
 </pre></div>
 </div>
+<p>Its runtime will be :</p>
+<ul class="simple">
+<li><p>create a and b</p></li>
+<li><p>fork the calculator task, but is blocked when executing a.get</p></li>
+<li><p>fork the printer task, but is blocked when executing calculator.get</p></li>
+<li><p>load a and b, which reschedule the calculator task (as it was waiting on a)</p></li>
+<li><p>calculator do its a + b sum, and load its Handle with that result, which reschedule the printer task</p></li>
+<li><p>printer task print its stuff</p></li>
+<li><p>everything done</p></li>
+</ul>
 <p>So, the main point of that example is to show that we kind of overcome the sequential execution of things, as a and b are loaded after the definition of the calculator.</p>
-<p>Then you can also chain generators via their handles. For instance we could add the following after the calculator definition :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Generate a signal of signalWidth bits</span>
-<span class="k">val</span> <span class="n">rtl</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Generator</span><span class="o">{</span>
-  <span class="n">dependencies</span> <span class="o">+=</span> <span class="n">signalWidth</span>
-
-  <span class="k">val</span> <span class="n">signal</span> <span class="k">=</span> <span class="nc">Handle</span><span class="o">[</span><span class="kt">UInt</span><span class="o">]</span>
-  <span class="n">add</span> <span class="n">task</span><span class="o">{</span>
-    <span class="n">println</span><span class="o">(</span><span class="s">s&quot;rtlSignal will have </span><span class="si">${</span><span class="n">signalWidth</span><span class="o">.</span><span class="n">get</span><span class="si">}</span><span class="s"> bits&quot;</span><span class="o">)</span> <span class="c1">//Will print &quot;rtlSignal will have 7 bits&quot;</span>
-    <span class="n">signal</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="n">signalWidth</span><span class="o">.</span><span class="n">get</span> <span class="n">bits</span><span class="o">))</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="handle-t">
 <h2>Handle[T]<a class="headerlink" href="#handle-t" title="Permalink to this headline">¶</a></h2>
@@ -403,64 +399,12 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">x</span><span class="o">,</span><span class="n">y</span> <span class="k">=</span> <span class="nc">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span>
 <span class="k">val</span> <span class="n">xPlus2</span> <span class="k">:</span> <span class="kt">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="n">x</span><span class="o">.</span><span class="n">produce</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="c1">//x.produce can be used to generate a new Handle when x is loaded</span>
 <span class="k">val</span> <span class="n">xPlus3</span> <span class="k">:</span> <span class="kt">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="n">x</span><span class="o">.</span><span class="n">derivate</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">3</span><span class="o">)</span>    <span class="c1">//x.derivate is as x.produce, but also provide the x.get as argument of the lambda function</span>
-<span class="k">val</span> <span class="n">xPlusY</span> <span class="k">:</span> <span class="kt">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">).</span><span class="n">produce</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">get</span><span class="o">)</span> <span class="c1">//As x.produce, but wait all the element of the list.</span>
 <span class="n">x</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="c1">//x will now contain the value 3</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="id1">
-<h2>Generator<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>A Generator is composed of :</p>
-<ul class="simple">
-<li><p>dependencies : List of Handles that should be loaded before executing the generator’s tasks</p></li>
-<li><p>tasks : List of lambda function which should run once all dependencies are loaded</p></li>
-<li><p>products : List of Handles which are loaded by the generator’s tasks</p></li>
-</ul>
-<div class="section" id="dependencies">
-<h3>dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
-<p>There is multiple ways to add/create new dependencies :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyGenerator</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Generator</span><span class="o">{</span>
-  <span class="n">dependencies</span> <span class="o">+=</span> <span class="n">somebodyElseHandle</span>
-
-  <span class="k">val</span> <span class="n">myHandle</span> <span class="k">:</span> <span class="kt">Handle</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="n">createDependency</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="c1">//Create a unloaded Handle[Int]</span>
-<span class="o">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="tasks">
-<h3>tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyGenerator</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Generator</span><span class="o">{</span>
-  <span class="k">val</span> <span class="n">width</span> <span class="k">=</span> <span class="n">createDependency</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span>
-  <span class="k">val</span> <span class="n">logic</span> <span class="k">=</span> <span class="n">add</span> <span class="n">task</span> <span class="k">new</span> <span class="nc">Area</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span><span class="o">.</span><span class="n">get</span> <span class="n">bits</span><span class="o">)</span>
-    <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="products">
-<h3>products<a class="headerlink" href="#products" title="Permalink to this headline">¶</a></h3>
-<p>Telling the generator all your products isn’t mandatory but help debugging.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//At a low level API :</span>
-<span class="k">class</span> <span class="nc">MyGenerator</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Generator</span><span class="o">{</span>
-  <span class="k">val</span> <span class="n">interface</span> <span class="k">=</span> <span class="nc">Handle</span><span class="o">[</span><span class="kt">Apb3</span><span class="o">]</span>
-  <span class="n">products</span> <span class="o">+=</span> <span class="n">interface</span>
-  <span class="k">val</span> <span class="n">rtl</span> <span class="k">=</span> <span class="n">add</span> <span class="n">task</span> <span class="k">new</span> <span class="nc">Area</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">bus</span> <span class="k">=</span> <span class="nc">Apb3</span><span class="o">(</span><span class="mi">32</span><span class="o">,</span><span class="mi">32</span><span class="o">)</span>
-    <span class="n">interface</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="n">bus</span><span class="o">)</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="c1">//The same but less verbose</span>
-<span class="k">class</span> <span class="nc">MyGenerator</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Generator</span><span class="o">{</span>
-  <span class="k">val</span> <span class="n">interface</span> <span class="k">=</span> <span class="k">this</span><span class="o">.</span><span class="n">produce</span><span class="o">(</span><span class="n">rtl</span><span class="o">.</span><span class="n">bus</span><span class="o">)</span>
-  <span class="k">val</span> <span class="n">rtl</span> <span class="k">=</span> <span class="n">add</span> <span class="n">task</span> <span class="k">new</span> <span class="nc">Area</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">bus</span> <span class="k">=</span> <span class="nc">Apb3</span><span class="o">(</span><span class="mi">32</span><span class="o">,</span><span class="mi">32</span><span class="o">)</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
-</div>
+<div class="section" id="soon-handle">
+<h3>soon(handle)<a class="headerlink" href="#soon-handle" title="Permalink to this headline">¶</a></h3>
+<p>In order to maintain a proper graph of dependencies between tasks and Handle, a task can specify in advance that it will load a given handle. This is very usefull in case of a generation starvation/deadlock for SpinalHDL to report accuratly where is the issue.</p>
 </div>
 </div>
 </div>
