@@ -351,15 +351,11 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
 <p>An example of how to define a blackbox is shown below:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define a Ram as a BlackBox</span>
 <span class="k">class</span> <span class="nc">Ram_1w_1r</span><span class="o">(</span><span class="n">wordWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">wordCount</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BlackBox</span> <span class="o">{</span>
-
-  <span class="c1">// SpinalHDL will look at Generic classes to get attributes which</span>
-  <span class="c1">// should be used as VHDL generics / Verilog parameters</span>
+  <span class="c1">// Add VHDL Generics / Verilog parameters to the blackbox</span>
   <span class="c1">// You can use String, Int, Double, Boolean, and all SpinalHDL base</span>
   <span class="c1">// types as generic values</span>
-  <span class="k">val</span> <span class="n">generic</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Generic</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">wordCount</span> <span class="k">=</span> <span class="nc">Ram_1w_1r</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">wordCount</span>
-    <span class="k">val</span> <span class="n">wordWidth</span> <span class="k">=</span> <span class="nc">Ram_1w_1r</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">wordWidth</span>
-  <span class="o">}</span>
+  <span class="n">addGeneric</span><span class="o">(</span><span class="s">&quot;wordCount&quot;</span><span class="o">,</span> <span class="n">wordCount</span><span class="o">)</span>
+  <span class="n">addGeneric</span><span class="o">(</span><span class="s">&quot;wordWidth&quot;</span><span class="o">,</span> <span class="n">wordWidth</span><span class="o">)</span>
 
   <span class="c1">// Define IO of the VHDL entity / Verilog module</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
@@ -395,16 +391,15 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
 <h2>Generics<a class="headerlink" href="#generics" title="Permalink to this headline">¶</a></h2>
 <p>There are two different ways to declare generics:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Ram</span><span class="o">(</span><span class="n">wordWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">wordCount</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BlackBox</span> <span class="o">{</span>
+    <span class="n">addGeneric</span><span class="o">(</span><span class="s">&quot;wordCount&quot;</span><span class="o">,</span> <span class="n">wordCount</span><span class="o">)</span>
+    <span class="n">addGeneric</span><span class="o">(</span><span class="s">&quot;wordWidth&quot;</span><span class="o">,</span> <span class="n">wordWidth</span><span class="o">)</span>
+
+    <span class="c1">// OR</span>
 
     <span class="k">val</span> <span class="n">generic</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Generic</span> <span class="o">{</span>
       <span class="k">val</span> <span class="n">wordCount</span> <span class="k">=</span> <span class="nc">Ram</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">wordCount</span>
       <span class="k">val</span> <span class="n">wordWidth</span> <span class="k">=</span> <span class="nc">Ram</span><span class="o">.</span><span class="k">this</span><span class="o">.</span><span class="n">wordWidth</span>
     <span class="o">}</span>
-
-    <span class="c1">// OR</span>
-
-    <span class="n">addGeneric</span><span class="o">(</span><span class="s">&quot;wordCount&quot;</span><span class="o">,</span> <span class="n">wordWidth</span><span class="o">)</span>
-    <span class="n">addGeneric</span><span class="o">(</span><span class="s">&quot;wordWidth&quot;</span><span class="o">,</span> <span class="n">wordWidth</span><span class="o">)</span>
 <span class="o">}</span>
 </pre></div>
 </div>
