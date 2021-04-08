@@ -19,15 +19,11 @@ An example of how to define a blackbox is shown below:
 
    // Define a Ram as a BlackBox
    class Ram_1w_1r(wordWidth: Int, wordCount: Int) extends BlackBox {
-
-     // SpinalHDL will look at Generic classes to get attributes which
-     // should be used as VHDL generics / Verilog parameters
+     // Add VHDL Generics / Verilog parameters to the blackbox
      // You can use String, Int, Double, Boolean, and all SpinalHDL base
      // types as generic values
-     val generic = new Generic {
-       val wordCount = Ram_1w_1r.this.wordCount
-       val wordWidth = Ram_1w_1r.this.wordWidth
-     }
+     addGeneric("wordCount", wordCount)
+     addGeneric("wordWidth", wordWidth)
 
      // Define IO of the VHDL entity / Verilog module
      val io = new Bundle {
@@ -65,16 +61,15 @@ There are two different ways to declare generics:
 .. code-block:: scala
 
    class Ram(wordWidth: Int, wordCount: Int) extends BlackBox {
+       addGeneric("wordCount", wordCount)
+       addGeneric("wordWidth", wordWidth)
+
+       // OR 
 
        val generic = new Generic {
          val wordCount = Ram.this.wordCount
          val wordWidth = Ram.this.wordWidth
        }
-
-       // OR 
-
-       addGeneric("wordCount", wordWidth)
-       addGeneric("wordWidth", wordWidth)
    }
 
 Instantiating a blackbox
