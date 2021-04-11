@@ -1,6 +1,6 @@
 
 Report
-==========
+======
 
 You can add debugging in RTL for simulation, using the following syntax:
 
