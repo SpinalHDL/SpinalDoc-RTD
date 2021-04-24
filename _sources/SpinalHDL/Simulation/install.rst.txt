@@ -67,7 +67,7 @@ From the MinGW package manager
                       git flex\
                       mingw-w64-x86_64-cmake
 
-   pacman -S mingw-w64-x86_64-verilator
+   pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-verilator-4.032-1-any.pkg.tar.xz
    
    # Add C:\msys64\usr\bin;C:\msys64\mingw64\bin to your Windows PATH
    
