@@ -21,15 +21,28 @@ So in practice, the following classes extends Nameable :
 - Data (UInt, SInt, Bundle, ...)
 
 
-There is a short previous of the Nameable API :
+There is a few example of that Nameable API
 
 .. code-block:: scala
 
-    val toto = UInt(8 bits)
-    val miaou = Bool()
-    toto.setName("rawrr") // Force name
-    toto.setName("rawrr", weak = true) // Propose a name, will not be applied if a stronger name is already applied
-    toto.setCompositeName(miaou, postfix = "wuff") // Force toto to be named as miaou.getName() + _wuff"
+  class MyComponent extends Component{
+    val a, b, c, d = Bool()
+    b.setName("rawrr") // Force name
+    c.setName("rawrr", weak = true) // Propose a name, will not be applied if a stronger name is already applied
+    d.setCompositeName(b, postfix = "wuff") // Force toto to be named as b.getName() + _wuff"
+  }
+
+Will generation :
+
+.. code-block:: verilog
+
+    module MyComponent (
+    );
+      wire                a;
+      wire                rawrr;
+      wire                c;
+      wire                rawrr_wuff;
+    endmodule
 
 In general, you don't realy need to access that API, unless you want to do tricky stuff for debug reasons or for elaboration purposes.
 
@@ -356,3 +369,174 @@ Since 1.5.0, for signal which end up without name, SpinalHDL will find a signal 
 The name attributed to such unamed signal is : _zz_ + drivenSignal.getName()
 
 Note that this naming pattern is also used by the generation backend when they need to breakup some specific expressions or long chain of expression into multiple signals.
+
+Verilog expression splitting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There is an instance of expressions (ex : the + operator) that SpinalHDL need to express in dedicated signals to match the behaviour with the Scala API :
+
+.. code-block:: scala
+
+  class MyComponent extends Component {
+    val a,b,c,d = in UInt(8 bits)
+    val result = a + b + c + d
+  }
+
+Will generate
+
+.. code-block:: verilog
+
+    module MyComponent (
+      input      [7:0]    a,
+      input      [7:0]    b,
+      input      [7:0]    c,
+      input      [7:0]    d
+    );
+      wire       [7:0]    _zz_result;
+      wire       [7:0]    _zz_result_1;
+      wire       [7:0]    result;
+
+      assign _zz_result = (_zz_result_1 + c);
+      assign _zz_result_1 = (a + b);
+      assign result = (_zz_result + d);
+
+    endmodule
+
+Verilog long expression splitting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There is a instance of how a very long expression chain will be splited up by SpinalHDL :
+
+.. code-block:: scala
+
+  class MyComponent extends Component {
+    val conditions = in Vec(Bool, 64)
+    val result = conditions.reduce(_ || _) // Do a logical or between all the conditions elements
+  }
+
+Will generate
+
+.. code-block:: verilog
+
+    module MyComponent (
+      input               conditions_0,
+      input               conditions_1,
+      input               conditions_2,
+      input               conditions_3,
+      ...
+      input               conditions_58,
+      input               conditions_59,
+      input               conditions_60,
+      input               conditions_61,
+      input               conditions_62,
+      input               conditions_63
+    );
+      wire                _zz_result;
+      wire                _zz_result_1;
+      wire                _zz_result_2;
+      wire                result;
+
+      assign _zz_result = ((((((((((((((((_zz_result_1 || conditions_32) || conditions_33) || conditions_34) || conditions_35) || conditions_36) || conditions_37) || conditions_38) || conditions_39) || conditions_40) || conditions_41) || conditions_42) || conditions_43) || conditions_44) || conditions_45) || conditions_46) || conditions_47);
+      assign _zz_result_1 = ((((((((((((((((_zz_result_2 || conditions_16) || conditions_17) || conditions_18) || conditions_19) || conditions_20) || conditions_21) || conditions_22) || conditions_23) || conditions_24) || conditions_25) || conditions_26) || conditions_27) || conditions_28) || conditions_29) || conditions_30) || conditions_31);
+      assign _zz_result_2 = (((((((((((((((conditions_0 || conditions_1) || conditions_2) || conditions_3) || conditions_4) || conditions_5) || conditions_6) || conditions_7) || conditions_8) || conditions_9) || conditions_10) || conditions_11) || conditions_12) || conditions_13) || conditions_14) || conditions_15);
+      assign result = ((((((((((((((((_zz_result || conditions_48) || conditions_49) || conditions_50) || conditions_51) || conditions_52) || conditions_53) || conditions_54) || conditions_55) || conditions_56) || conditions_57) || conditions_58) || conditions_59) || conditions_60) || conditions_61) || conditions_62) || conditions_63);
+
+    endmodule
+
+When statement condition
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `when(cond) { }` statements condition are generated into separated signals named `when_` + fileName + line. A similar thing will also be done for switch statements.
+
+.. code-block:: scala
+
+  //In file Test.scala
+  class MyComponent extends Component {
+    val value = in UInt(8 bits)
+    val isZero = out(Bool())
+    val counter = out(Reg(UInt(8 bits)))
+
+    isZero := False
+    when(value === 0){ //At line 117
+      isZero := True
+      counter := counter + 1
+    }
+  }
+
+Will generate
+
+.. code-block:: verilog
+
+    module MyComponent (
+      input      [7:0]    value,
+      output reg          isZero,
+      output reg [7:0]    counter,
+      input               clk,
+      input               reset
+    );
+      wire                when_Test_l117;
+
+      always @ (*) begin
+        isZero = 1'b0;
+        if(when_Test_l117)begin
+          isZero = 1'b1;
+        end
+      end
+
+      assign when_Test_l117 = (value == 8'h0);
+      always @ (posedge clk) begin
+        if(when_Test_l117)begin
+          counter <= (counter + 8'h01);
+        end
+      end
+    endmodule
+
+
+
+
+
+In last resort
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In last resort, if a signal has no name (anonymous signal), SpinalHDL will seek for a named signal which is driven by the anonymous signal, and use it as a name postfix :
+
+.. code-block:: scala
+
+  class MyComponent extends Component {
+    val enable = in Bool()
+    val value = out UInt(8 bits)
+
+    def count(cond : Bool): UInt = {
+      val ret = Reg(UInt(8 bits)) // This register is not named (on purpose for the example)
+      when(cond){
+        ret := ret + 1
+      }
+      return ret
+    }
+
+    value := count(enable)
+  }
+
+Will generate
+
+.. code-block:: verilog
+
+    module MyComponent (
+      input               enable,
+      output     [7:0]    value,
+      input               clk,
+      input               reset
+    );
+      reg        [7:0]    _zz_value; //Name given to the register in last resort by looking what was driven by it
+
+      assign value = _zz_value;
+      always @ (posedge clk) begin
+        if(enable)begin
+          _zz_value <= (_zz_value + 8'h01);
+        end
+      end
+    endmodule
+
+This last resort naming skim isn't ideal in all cases, but can help out.
+
+Note that signal starting with a underscore aren't stored in the Verilator waves (on purpose)
