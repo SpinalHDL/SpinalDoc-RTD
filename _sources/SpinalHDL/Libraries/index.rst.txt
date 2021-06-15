@@ -18,6 +18,7 @@ Libraries
    IO/index
    Graphics/index
    EDA/index
+   Misc/index
 
 .. role:: raw-html-m2r(raw)
    :format: html

@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                v1.3.8
+                v1.5.0
               </div>
             
           
@@ -727,6 +727,15 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/Misc/index.html">Misc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Misc/PLIC/plic_mapper.html">Plic Mapper</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Misc/PLIC/plic_mapper.html#plicmapper-apply"><code class="docutils literal notranslate"><span class="pre">PlicMapper.apply</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Misc/PLIC/plic_mapper.html#plicmapping-sifive"><code class="docutils literal notranslate"><span class="pre">PlicMapping.sifive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Misc/PLIC/plic_mapper.html#plicmapping-light"><code class="docutils literal notranslate"><span class="pre">PlicMapping.light</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/index.html#introduction">Introduction</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/index.html#id1">Introduction</a></li>
 </ul>
@@ -1037,12 +1046,23 @@
 <li><p>Area</p></li>
 <li><p>Data (UInt, SInt, Bundle, …)</p></li>
 </ul>
-<p>There is a short previous of the Nameable API :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">toto</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">miaou</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
-<span class="n">toto</span><span class="o">.</span><span class="n">setName</span><span class="o">(</span><span class="s">&quot;rawrr&quot;</span><span class="o">)</span> <span class="c1">// Force name</span>
-<span class="n">toto</span><span class="o">.</span><span class="n">setName</span><span class="o">(</span><span class="s">&quot;rawrr&quot;</span><span class="o">,</span> <span class="n">weak</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span> <span class="c1">// Propose a name, will not be applied if a stronger name is already applied</span>
-<span class="n">toto</span><span class="o">.</span><span class="n">setCompositeName</span><span class="o">(</span><span class="n">miaou</span><span class="o">,</span> <span class="n">postfix</span> <span class="k">=</span> <span class="s">&quot;wuff&quot;</span><span class="o">)</span> <span class="c1">// Force toto to be named as miaou.getName() + _wuff&quot;</span>
+<p>There is a few example of that Nameable API</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyComponent</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
+  <span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">d</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="n">b</span><span class="o">.</span><span class="n">setName</span><span class="o">(</span><span class="s">&quot;rawrr&quot;</span><span class="o">)</span> <span class="c1">// Force name</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">setName</span><span class="o">(</span><span class="s">&quot;rawrr&quot;</span><span class="o">,</span> <span class="n">weak</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span> <span class="c1">// Propose a name, will not be applied if a stronger name is already applied</span>
+  <span class="n">d</span><span class="o">.</span><span class="n">setCompositeName</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">postfix</span> <span class="k">=</span> <span class="s">&quot;wuff&quot;</span><span class="o">)</span> <span class="c1">// Force toto to be named as b.getName() + _wuff&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Will generation :</p>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">module</span> <span class="n">MyComponent</span> <span class="p">(</span>
+<span class="p">);</span>
+  <span class="kt">wire</span>                <span class="n">a</span><span class="p">;</span>
+  <span class="kt">wire</span>                <span class="n">rawrr</span><span class="p">;</span>
+  <span class="kt">wire</span>                <span class="n">c</span><span class="p">;</span>
+  <span class="kt">wire</span>                <span class="n">rawrr_wuff</span><span class="p">;</span>
+<span class="k">endmodule</span>
 </pre></div>
 </div>
 <p>In general, you don’t realy need to access that API, unless you want to do tricky stuff for debug reasons or for elaboration purposes.</p>

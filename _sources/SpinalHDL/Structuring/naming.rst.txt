@@ -21,15 +21,28 @@ So in practice, the following classes extends Nameable :
 - Data (UInt, SInt, Bundle, ...)
 
 
-There is a short previous of the Nameable API :
+There is a few example of that Nameable API
 
 .. code-block:: scala
 
-    val toto = UInt(8 bits)
-    val miaou = Bool()
-    toto.setName("rawrr") // Force name
-    toto.setName("rawrr", weak = true) // Propose a name, will not be applied if a stronger name is already applied
-    toto.setCompositeName(miaou, postfix = "wuff") // Force toto to be named as miaou.getName() + _wuff"
+  class MyComponent extends Component{
+    val a, b, c, d = Bool()
+    b.setName("rawrr") // Force name
+    c.setName("rawrr", weak = true) // Propose a name, will not be applied if a stronger name is already applied
+    d.setCompositeName(b, postfix = "wuff") // Force toto to be named as b.getName() + _wuff"
+  }
+
+Will generation :
+
+.. code-block:: verilog
+
+    module MyComponent (
+    );
+      wire                a;
+      wire                rawrr;
+      wire                c;
+      wire                rawrr_wuff;
+    endmodule
 
 In general, you don't realy need to access that API, unless you want to do tricky stuff for debug reasons or for elaboration purposes.
 
