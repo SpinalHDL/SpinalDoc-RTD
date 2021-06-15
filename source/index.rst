@@ -5,9 +5,7 @@
 
 
 .. toctree::
-   :hidden:
    :maxdepth: 2
-   :titlesonly:
 
    SpinalHDL/About SpinalHDL/index
    SpinalHDL/Getting Started/index
