@@ -66,6 +66,25 @@ After installing the requirements you can run
    make latexpdf # for latex (will require latexpdf installed)
    make          # list all the available output format
 
+
+
+Deploying the generated doc by hands
+----------------------------------------
+
+.. code:: shell
+
+   git clone https://github.com/SpinalHDL/SpinalDoc-RTD.git --branch gh-pages deploy_tmp
+   rm -rf deploy_tmp/*
+   cp -r docs/html/* deploy_tmp/
+   cd deploy_tmp/
+   git add --all
+   git commit -am "deploy"
+   git push
+   cd ..
+   rm -rf deploy_tmp
+
+
+
 Continuous Integration(CI)
 ==========================
 
@@ -76,3 +95,5 @@ More details here:
 
 * `Defining variables <https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings>`_
 * `Deploy to gh-pages <https://docs.travis-ci.com/user/deployment/pages/>`_
+
+
