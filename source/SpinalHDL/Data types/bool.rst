@@ -86,6 +86,12 @@ Logic
    * - x.clearWhen(cond)
      - Clear x when cond is True
      - Bool
+   * - x.riseWhen(cond)
+     - Set x when x is False and cond is True
+     - Bool
+   * - x.fallWhen(cond)
+     - Clear x when x is True and cond is True
+     - Bool
 
 
 .. code-block:: scala
@@ -100,6 +106,18 @@ Logic
 
    val e = False
    e.setWhen(cond) // equivalent to when(cond) { d := True }
+
+   val f = RegInit(False) fallWhen(ack) setWhen(req)
+   /** equivalent to
+    * when(f && ack) { f := False }
+    * when(req) { f := True }
+    * or
+    * f := req || (f && !ack)
+    */
+
+  // mind the order of assignments!
+  val g = RegInit(False) setWhen(req) fallWhen(ack)
+  // equivalent to g := ((!g) && req) || (g && !ack)
 
 Edge detection
 ~~~~~~~~~~~~~~
