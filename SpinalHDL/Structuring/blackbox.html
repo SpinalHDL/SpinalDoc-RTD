@@ -1051,14 +1051,14 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
 
   <span class="c1">// Define IO of the VHDL entity / Verilog module</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clk</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">wr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
       <span class="k">val</span> <span class="n">addr</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="o">(</span><span class="n">log2Up</span><span class="o">(</span><span class="n">wordCount</span><span class="o">)</span> <span class="n">bit</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bits</span> <span class="o">(</span><span class="n">wordWidth</span> <span class="n">bit</span><span class="o">)</span>
     <span class="o">}</span>
     <span class="k">val</span> <span class="n">rd</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
       <span class="k">val</span> <span class="n">addr</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="o">(</span><span class="n">log2Up</span><span class="o">(</span><span class="n">wordCount</span><span class="o">)</span> <span class="n">bit</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bits</span> <span class="o">(</span><span class="n">wordWidth</span> <span class="n">bit</span><span class="o">)</span>
     <span class="o">}</span>
@@ -1103,12 +1103,12 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
 <span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">wr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
       <span class="k">val</span> <span class="n">addr</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="o">(</span><span class="n">log2Up</span><span class="o">(</span><span class="mi">16</span><span class="o">)</span> <span class="n">bit</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bits</span> <span class="o">(</span><span class="mi">8</span> <span class="n">bit</span><span class="o">)</span>
     <span class="o">}</span>
     <span class="k">val</span> <span class="n">rd</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
       <span class="k">val</span> <span class="n">addr</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="o">(</span><span class="n">log2Up</span><span class="o">(</span><span class="mi">16</span><span class="o">)</span> <span class="n">bit</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bits</span> <span class="o">(</span><span class="mi">8</span> <span class="n">bit</span><span class="o">)</span>
     <span class="o">}</span>
@@ -1179,9 +1179,9 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyRam</span><span class="o">(</span><span class="n">clkDomain</span><span class="k">:</span> <span class="kt">ClockDomain</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">BlackBox</span> <span class="o">{</span>
 
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clkA</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clkA</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="o">...</span>
-    <span class="k">val</span> <span class="n">clkB</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clkB</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="o">...</span>
   <span class="o">}</span>
 
@@ -1205,15 +1205,15 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
   <span class="o">}</span>
 
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clk</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
 
     <span class="k">val</span> <span class="n">wr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
       <span class="k">val</span> <span class="n">addr</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="o">(</span><span class="n">log2Up</span><span class="o">(</span><span class="nc">_wordCount</span><span class="o">)</span> <span class="n">bit</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bits</span> <span class="o">(</span><span class="nc">_wordWidth</span> <span class="n">bit</span><span class="o">)</span>
     <span class="o">}</span>
     <span class="k">val</span> <span class="n">rd</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+      <span class="k">val</span> <span class="n">en</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
       <span class="k">val</span> <span class="n">addr</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="o">(</span><span class="n">log2Up</span><span class="o">(</span><span class="nc">_wordCount</span><span class="o">)</span> <span class="n">bit</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bits</span> <span class="o">(</span><span class="nc">_wordWidth</span> <span class="n">bit</span><span class="o">)</span>
     <span class="o">}</span>
@@ -1233,16 +1233,16 @@ This function takes a no-argument function to be applied during compilation, and
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyRam</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Blackbox</span> <span class="o">{</span>
 
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clk</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">portA</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-      <span class="k">val</span> <span class="n">cs</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-      <span class="k">val</span> <span class="n">rwn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+      <span class="k">val</span> <span class="n">cs</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+      <span class="k">val</span> <span class="n">rwn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
       <span class="k">val</span> <span class="n">dIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">dOut</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)</span>
     <span class="o">}</span>
     <span class="k">val</span> <span class="n">portB</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-      <span class="k">val</span> <span class="n">cs</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-      <span class="k">val</span> <span class="n">rwn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+      <span class="k">val</span> <span class="n">cs</span>   <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+      <span class="k">val</span> <span class="n">rwn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
       <span class="k">val</span> <span class="n">dIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)</span>
       <span class="k">val</span> <span class="n">dOut</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)</span>
     <span class="o">}</span>
@@ -1279,11 +1279,11 @@ This function takes a no-argument function to be applied during compilation, and
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBlackBox</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Blackbox</span> <span class="o">{</span>
 
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clk</span>   <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">start</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk</span>   <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">start</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">dIn</span>   <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">dOut</span>  <span class="k">=</span> <span class="n">out</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">)</span>
-    <span class="k">val</span> <span class="n">ready</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">ready</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
 
   <span class="c1">// Map the clk</span>
@@ -1310,8 +1310,8 @@ This function takes a no-argument function to be applied during compilation, and
 <p>If you want to use only <code class="docutils literal notranslate"><span class="pre">std_logic_vector</span></code> in your blackbox component, you can add the tag <code class="docutils literal notranslate"><span class="pre">noNumericType</span></code> to the blackbox.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBlackBox</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">BlackBox</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clk</span>       <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">increment</span> <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk</span>       <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">increment</span> <span class="k">=</span> <span class="n">in</span>  <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">initValue</span> <span class="k">=</span> <span class="n">in</span>  <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">counter</span>   <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>

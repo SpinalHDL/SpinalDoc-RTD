@@ -1068,7 +1068,7 @@
 <h2>Last valid assignment wins<a class="headerlink" href="#last-valid-assignment-wins" title="Permalink to this headline">¶</a></h2>
 <p>If a combinational signal or register is assigned multiple times, the last valid one wins.</p>
 <p>As an example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">x</span><span class="o">,</span> <span class="n">y</span> <span class="k">=</span> <span class="nc">Bool</span>             <span class="c1">// Define two combinational signals</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">x</span><span class="o">,</span> <span class="n">y</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>           <span class="c1">// Define two combinational signals</span>
 <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>   <span class="c1">// Define a combinational signal</span>
 
 <span class="n">result</span> <span class="o">:=</span> <span class="mi">1</span>
@@ -1123,7 +1123,7 @@
 <h2>Signal and register interactions with Scala (OOP reference + Functions)<a class="headerlink" href="#signal-and-register-interactions-with-scala-oop-reference-functions" title="Permalink to this headline">¶</a></h2>
 <p>In SpinalHDL, each hardware element is modeled by a class instance. This means you can manipulate instances by using their references, such as passing them as arguments to a function.</p>
 <p>As an example, the following code implements a register which is incremented when <code class="docutils literal notranslate"><span class="pre">inc</span></code> is True and cleared when <code class="docutils literal notranslate"><span class="pre">clear</span></code> is True (<code class="docutils literal notranslate"><span class="pre">clear</span></code> has priority over <code class="docutils literal notranslate"><span class="pre">inc</span></code>) :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inc</span><span class="o">,</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span>            <span class="c1">// Define two combinational signals/wires</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inc</span><span class="o">,</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>          <span class="c1">// Define two combinational signals/wires</span>
 <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>  <span class="c1">// Define an 8 bit register</span>
 
 <span class="n">when</span><span class="o">(</span><span class="n">inc</span><span class="o">)</span> <span class="o">{</span>
@@ -1135,7 +1135,7 @@
 </pre></div>
 </div>
 <p>You can implement exactly the same functionality by mixing the previous example with a function that assigns to <code class="docutils literal notranslate"><span class="pre">counter</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inc</span><span class="o">,</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inc</span><span class="o">,</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
 
 <span class="k">def</span> <span class="n">setCounter</span><span class="o">(</span><span class="n">value</span> <span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
@@ -1151,7 +1151,7 @@
 </pre></div>
 </div>
 <p>You can also integrate the conditional check inside the function:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inc</span><span class="o">,</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inc</span><span class="o">,</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
 
 <span class="k">def</span> <span class="n">setCounterWhen</span><span class="o">(</span><span class="n">cond</span> <span class="k">:</span> <span class="kt">Bool</span><span class="o">,</span><span class="n">value</span> <span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
@@ -1165,7 +1165,7 @@
 </pre></div>
 </div>
 <p>And also specify what should be assigned to the function:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inc</span><span class="o">,</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">inc</span><span class="o">,</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 <span class="k">val</span> <span class="n">counter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">))</span>
 
 <span class="k">def</span> <span class="n">setSomethingWhen</span><span class="o">(</span><span class="n">something</span> <span class="k">:</span> <span class="kt">UInt</span><span class="o">,</span> <span class="n">cond</span> <span class="k">:</span> <span class="kt">Bool</span><span class="o">,</span> <span class="n">value</span> <span class="k">:</span> <span class="kt">UInt</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>

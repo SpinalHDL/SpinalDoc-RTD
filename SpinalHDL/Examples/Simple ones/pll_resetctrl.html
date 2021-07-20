@@ -1046,9 +1046,9 @@
 <p>This is how to define the PLL <code class="docutils literal notranslate"><span class="pre">BlackBox</span></code>:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PLL</span> <span class="k">extends</span> <span class="nc">BlackBox</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">clkIn</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">clkOut</span>   <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">isLocked</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clkIn</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">clkOut</span>   <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">isLocked</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
 
   <span class="n">noIoPrefix</span><span class="o">()</span>
@@ -1071,8 +1071,8 @@ end component;
 <p>This is how to define your <code class="docutils literal notranslate"><span class="pre">TopLevel</span></code> which instantiates the PLL, creates the new <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>, and also adapts the asynchronous reset input to a synchronous reset:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">aReset</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">clk100Mhz</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">aReset</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">clk100Mhz</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">result</span>    <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
 

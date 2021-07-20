@@ -1066,8 +1066,9 @@
 <p>From a clean Debian distribution you can type the following commands into the shell. The commands will install Java, Scala, SBT, download the base project, and generate the corresponding VHDL file. Don’t worry if it takes some time the first time that you run it.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install openjdk-8-jdk
 sudo apt-get install scala
-<span class="nb">echo</span> <span class="s2">&quot;deb https://dl.bintray.com/sbt/debian /&quot;</span> <span class="p">|</span> sudo tee -a /etc/apt/sources.list.d/sbt.list
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+<span class="nb">echo</span> <span class="s2">&quot;deb https://repo.scala-sbt.org/scalasbt/debian all main&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/sbt.list
+<span class="nb">echo</span> <span class="s2">&quot;deb https://repo.scala-sbt.org/scalasbt/debian /&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/sbt_old.list
+curl -sL <span class="s2">&quot;https://keyserver.ubuntu.com/pks/lookup?op=get&amp;search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823&quot;</span> <span class="p">|</span> sudo apt-key add
 sudo apt-get update
 sudo apt-get install sbt
 git clone https://github.com/SpinalHDL/SpinalTemplateSbt.git SpinalTemplateSbt
@@ -1110,9 +1111,9 @@ ls MyTopLevel.vhd
 <span class="cm">    * the VHDL entity of the component</span>
 <span class="cm">    */</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
 
   <span class="c1">// Here we define some asynchronous logic</span>

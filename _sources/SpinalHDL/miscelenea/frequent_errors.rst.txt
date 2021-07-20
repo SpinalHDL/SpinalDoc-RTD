@@ -48,14 +48,14 @@ Signal X can't be assigned by Y
 
    class ComponentX extends Component{
      ...
-     val X = Bool
+     val X = Bool()
      ...
    }
 
    class ComponentY extends Component{
      ...
      val componentX = new ComponentX
-     val Y = Bool
+     val Y = Bool()
      componentX.X := Y //This assignment is not legal
      ...
    }
@@ -64,7 +64,7 @@ Signal X can't be assigned by Y
 
    class ComponentX extends Component{
      val io = new Bundle{
-       val X = Bool   //Forgot to specify an in/out direction
+       val X = Bool() //Forgot to specify an in/out direction
      }
      ...
    }
@@ -72,7 +72,7 @@ Signal X can't be assigned by Y
    class ComponentY extends Component{
      ...
      val componentX = new ComponentX
-     val Y = Bool
+     val Y = Bool()
      componentX.io.X := Y //This assignment will be detected as not legal
      ...
    }
@@ -96,10 +96,10 @@ Input signal X can't be assigned by Y
 
    class ComponentXY extends Component{
      val io = new Bundle{
-       val X = in Bool
+       val X = in Bool()
      }
      ...
-     val Y = Bool
+     val Y = Bool()
      io.X := Y //This assignment is not legal
      ...
    }
@@ -123,7 +123,7 @@ Output signal X can't be assigned by Y
 
    class ComponentX extends Component{
      val io = new Bundle{
-       val X = out Bool
+       val X = out Bool()
      }
      ...
    }
@@ -131,7 +131,7 @@ Output signal X can't be assigned by Y
    class ComponentY extends Component{
      ...
      val componentX = new ComponentX
-     val Y = Bool
+     val Y = Bool()
      componentX.X := Y //This assignment is not legal
      ...
    }

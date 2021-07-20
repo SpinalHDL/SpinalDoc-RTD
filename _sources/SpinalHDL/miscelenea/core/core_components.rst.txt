@@ -53,8 +53,8 @@ An applied example to define a specific clock domain within the design is as fol
 
 .. code-block:: scala
 
-   val coreClock = Bool
-   val coreReset = Bool
+   val coreClock = Bool()
+   val coreReset = Bool()
 
    // Define a new clock domain
    val coreClockDomain = ClockDomain(coreClock,coreReset)
@@ -91,8 +91,8 @@ In addition to the constructor parameters given :ref:`here <core_componets_clock
 
    class CustomClockExample extends Component {
      val io = new Bundle {
-       val clk = in Bool
-       val resetn = in Bool
+       val clk = in Bool()
+       val resetn = in Bool()
        val result = out UInt (4 bits)
      }
      val myClockDomainConfig = ClockDomainConfig(

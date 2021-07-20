@@ -1069,22 +1069,22 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">AhbLite3</span><span class="o">(</span><span class="n">config</span><span class="k">:</span> <span class="kt">AhbLite3Config</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span><span class="o">{</span>
   <span class="c1">//  Address and control</span>
   <span class="k">val</span> <span class="nc">HADDR</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">addressWidth</span> <span class="n">bits</span><span class="o">)</span>
-  <span class="k">val</span> <span class="nc">HSEL</span> <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="nc">HREADY</span> <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="nc">HWRITE</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="nc">HSEL</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="nc">HREADY</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="nc">HWRITE</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="k">val</span> <span class="nc">HSIZE</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">3</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">HBURST</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">3</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">HPROT</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">HTRANS</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="mi">2</span> <span class="n">bits</span><span class="o">)</span>
-  <span class="k">val</span> <span class="nc">HMASTLOCK</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="nc">HMASTLOCK</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 
   <span class="c1">//  Data</span>
   <span class="k">val</span> <span class="nc">HWDATA</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">HRDATA</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="o">)</span>
 
   <span class="c1">//  Transfer response</span>
-  <span class="k">val</span> <span class="nc">HREADYOUT</span> <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="nc">HRESP</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="nc">HREADYOUT</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="nc">HRESP</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 
   <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
     <span class="n">out</span><span class="o">(</span><span class="nc">HADDR</span><span class="o">,</span><span class="nc">HWRITE</span><span class="o">,</span><span class="nc">HSIZE</span><span class="o">,</span><span class="nc">HBURST</span><span class="o">,</span><span class="nc">HPROT</span><span class="o">,</span><span class="nc">HTRANS</span><span class="o">,</span><span class="nc">HMASTLOCK</span><span class="o">,</span><span class="nc">HWDATA</span><span class="o">,</span><span class="nc">HREADY</span><span class="o">,</span><span class="nc">HSEL</span><span class="o">)</span>

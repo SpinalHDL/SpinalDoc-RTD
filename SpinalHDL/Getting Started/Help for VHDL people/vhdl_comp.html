@@ -1078,7 +1078,7 @@
 </pre></div>
 </div>
 <p>While in SpinalHDL, it’s:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mySignal</span> <span class="k">=</span> <span class="nc">Bool</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mySignal</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 <span class="k">val</span> <span class="n">myRegister</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span>
 <span class="k">val</span> <span class="n">myRegisterWithReset</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
 
@@ -1173,8 +1173,8 @@
 </div>
 <p>An example with the queue function inside the Stream Bundle (handshake). This function instantiates a FIFO component:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Stream</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span>  <span class="kt">T</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="k">with</span> <span class="nc">DataCarrier</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">valid</span> <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="n">ready</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">valid</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="n">ready</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="k">val</span> <span class="n">payload</span> <span class="k">=</span> <span class="n">cloneOf</span><span class="o">(</span><span class="n">dataType</span><span class="o">)</span>
 
   <span class="k">def</span> <span class="n">queue</span><span class="o">(</span><span class="n">size</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Stream</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>

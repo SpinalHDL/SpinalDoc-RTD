@@ -1099,12 +1099,12 @@ Just like in combinational assignments, the rule is ‘Last assignment wins’, 
 </div>
 <p>Also, <code class="docutils literal notranslate"><span class="pre">RegNext</span></code> is an abstraction which is built over the <code class="docutils literal notranslate"><span class="pre">Reg</span></code> syntax. The two following sequences of code are strictly equivalent:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Standard way</span>
-<span class="k">val</span> <span class="n">something</span> <span class="k">=</span> <span class="nc">Bool</span>
-<span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bool</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">something</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+<span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">Bool</span><span class="o">())</span>
 <span class="n">value</span> <span class="o">:=</span> <span class="n">something</span>
 
 <span class="c1">// Short way</span>
-<span class="k">val</span> <span class="n">something</span> <span class="k">=</span> <span class="nc">Bool</span>
+<span class="k">val</span> <span class="n">something</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 <span class="k">val</span> <span class="n">value</span> <span class="k">=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">something</span><span class="o">)</span>
 </pre></div>
 </div>
@@ -1119,7 +1119,7 @@ you can also set the reset value by calling the <code class="docutils literal no
 </div>
 <p>If you have a register containing a Bundle, you can use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function on each element of the Bundle.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">ValidRGB</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="o">{</span>
-  <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="k">val</span> <span class="n">r</span><span class="o">,</span> <span class="n">g</span><span class="o">,</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="mi">8</span> <span class="n">bits</span><span class="o">)</span>
 <span class="o">}</span>
 

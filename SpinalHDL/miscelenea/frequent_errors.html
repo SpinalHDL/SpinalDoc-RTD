@@ -1057,14 +1057,14 @@
 <p><strong>Code Example :</strong></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ComponentX</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="o">...</span>
-  <span class="k">val</span> <span class="n">X</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">X</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">...</span>
 <span class="o">}</span>
 
 <span class="k">class</span> <span class="nc">ComponentY</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="o">...</span>
   <span class="k">val</span> <span class="n">componentX</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ComponentX</span>
-  <span class="k">val</span> <span class="n">Y</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">Y</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="n">componentX</span><span class="o">.</span><span class="n">X</span> <span class="o">:=</span> <span class="n">Y</span> <span class="c1">//This assignment is not legal</span>
   <span class="o">...</span>
 <span class="o">}</span>
@@ -1072,7 +1072,7 @@
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ComponentX</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">X</span> <span class="k">=</span> <span class="nc">Bool</span>   <span class="c1">//Forgot to specify an in/out direction</span>
+    <span class="k">val</span> <span class="n">X</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span> <span class="c1">//Forgot to specify an in/out direction</span>
   <span class="o">}</span>
   <span class="o">...</span>
 <span class="o">}</span>
@@ -1080,7 +1080,7 @@
 <span class="k">class</span> <span class="nc">ComponentY</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="o">...</span>
   <span class="k">val</span> <span class="n">componentX</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ComponentX</span>
-  <span class="k">val</span> <span class="n">Y</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">Y</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="n">componentX</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">X</span> <span class="o">:=</span> <span class="n">Y</span> <span class="c1">//This assignment will be detected as not legal</span>
   <span class="o">...</span>
 <span class="o">}</span>
@@ -1098,10 +1098,10 @@
 <p><strong>Code Example :</strong></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ComponentXY</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">X</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">X</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
   <span class="o">...</span>
-  <span class="k">val</span> <span class="n">Y</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">Y</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="n">io</span><span class="o">.</span><span class="n">X</span> <span class="o">:=</span> <span class="n">Y</span> <span class="c1">//This assignment is not legal</span>
   <span class="o">...</span>
 <span class="o">}</span>
@@ -1119,7 +1119,7 @@
 <p><strong>Code Example :</strong></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ComponentX</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">X</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">X</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
   <span class="o">...</span>
 <span class="o">}</span>
@@ -1127,7 +1127,7 @@
 <span class="k">class</span> <span class="nc">ComponentY</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="o">...</span>
   <span class="k">val</span> <span class="n">componentX</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ComponentX</span>
-  <span class="k">val</span> <span class="n">Y</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">Y</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="n">componentX</span><span class="o">.</span><span class="n">X</span> <span class="o">:=</span> <span class="n">Y</span> <span class="c1">//This assignment is not legal</span>
   <span class="o">...</span>
 <span class="o">}</span>

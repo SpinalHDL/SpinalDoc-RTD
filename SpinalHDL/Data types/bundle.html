@@ -1154,7 +1154,7 @@
 <img alt="../../_images/CommonDataBus.png" src="../../_images/CommonDataBus.png" />
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">TestBundle</span> <span class="o">()</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">we</span>      <span class="k">=</span> <span class="n">in</span>     <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">we</span>      <span class="k">=</span> <span class="n">in</span>     <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">addrWr</span>  <span class="k">=</span> <span class="n">in</span>     <span class="nc">UInt</span> <span class="o">(</span><span class="mi">7</span> <span class="n">bits</span><span class="o">)</span>
     <span class="k">val</span> <span class="n">dataIn</span>  <span class="k">=</span> <span class="n">slave</span>  <span class="o">(</span><span class="nc">CommonDataBus</span><span class="o">())</span>
 
@@ -1199,8 +1199,8 @@
 <p>If your interface obeys to a master/slave topology, you can use the <code class="docutils literal notranslate"><span class="pre">IMasterSlave</span></code> trait. Then you have to implement the function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">asMaster(): Unit</span></code> to set the direction of each element from the master’s perspective. Then you can use the <code class="docutils literal notranslate"><span class="pre">master(MyBundle())</span></code> and <code class="docutils literal notranslate"><span class="pre">slave(MyBundle())</span></code> syntax in the IO definition.</p>
 <p>For example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">HandShake</span><span class="o">(</span><span class="n">payloadWidth</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="n">ready</span>   <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="n">ready</span>   <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="k">val</span> <span class="n">payload</span> <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">payloadWidth</span> <span class="n">bits</span><span class="o">)</span>
 
   <span class="c1">// You have to implement this asMaster function.</span>

@@ -1112,11 +1112,11 @@
 <h3>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Timer</span><span class="o">(</span><span class="n">width</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">tick</span>      <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">clear</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">tick</span>      <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">clear</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">limit</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">)</span>
 
-    <span class="k">val</span> <span class="n">full</span>  <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">full</span>  <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">value</span>     <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
 
@@ -1243,11 +1243,11 @@
 <p>Let’s add this bridging function inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Timer</span><span class="o">(</span><span class="n">width</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">tick</span>      <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">clear</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">tick</span>      <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">clear</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">limit</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">)</span>
 
-    <span class="k">val</span> <span class="n">full</span>  <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">full</span>  <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">value</span>     <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">width</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
 
@@ -1289,10 +1289,10 @@
 <p>Then by using an <code class="docutils literal notranslate"><span class="pre">Apb3SlaveFactory</span></code> and functions defined inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code>s, it creates bridging logic between the APB3 bus and all instantiated components.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
   <span class="k">val</span> <span class="n">apb</span> <span class="k">=</span> <span class="nc">Apb3</span><span class="o">(</span><span class="nc">ApbConfig</span><span class="o">(</span><span class="n">addressWidth</span> <span class="k">=</span> <span class="mi">8</span><span class="o">,</span> <span class="n">dataWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">))</span>
-  <span class="k">val</span> <span class="n">interrupt</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">interrupt</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="k">val</span> <span class="n">external</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
-    <span class="k">val</span> <span class="n">tick</span>  <span class="k">=</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">tick</span>  <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">clear</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
 <span class="o">}</span>
 

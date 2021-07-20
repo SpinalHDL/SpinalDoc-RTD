@@ -40,8 +40,8 @@ For instance, if you define a simple bus with ``valid``, ``ready``, and ``payloa
 .. code-block:: scala
 
    case class MyBus(payloadWidth: Int) extends Bundle with IMasterSlave {
-     val valid   = Bool
-     val ready   = Bool
+     val valid   = Bool()
+     val ready   = Bool()
      val payload = Bits(payloadWidth bits)
 
      // Define the direction of the data in a master mode

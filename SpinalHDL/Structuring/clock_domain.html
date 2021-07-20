@@ -1092,8 +1092,8 @@
 </tbody>
 </table>
 <p>An applied example to define a specific clock domain within the design is as follows:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">coreClock</span> <span class="k">=</span> <span class="nc">Bool</span>
-<span class="k">val</span> <span class="n">coreReset</span> <span class="k">=</span> <span class="nc">Bool</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">coreClock</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+<span class="k">val</span> <span class="n">coreReset</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 
 <span class="c1">// Define a new clock domain</span>
 <span class="k">val</span> <span class="n">coreClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(</span><span class="n">coreClock</span><span class="o">,</span> <span class="n">coreReset</span><span class="o">)</span>
@@ -1137,8 +1137,8 @@
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomClockExample</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clk</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">resetn</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk</span>    <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">resetn</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span> <span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
 
@@ -1236,8 +1236,8 @@
 <p>Once created, you have to assign the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>’s signals, as shown in the example below:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">InternalClockWithPllExample</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clk100M</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">aReset</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk100M</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">aReset</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">result</span>  <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span> <span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
   <span class="c1">// myClockDomain.clock will be named myClockName_clk</span>
@@ -1385,14 +1385,14 @@
 <span class="c1">// Implementation where clock and reset pins are given by components&#39; IO</span>
 <span class="k">class</span> <span class="nc">CrossingExample</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clkA</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">rstA</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clkA</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">rstA</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
 
-    <span class="k">val</span> <span class="n">clkB</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">rstB</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clkB</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">rstB</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
 
-    <span class="k">val</span> <span class="n">dataIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">dataOut</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">dataIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">dataOut</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
 
   <span class="c1">// sample dataIn with clkA</span>
@@ -1413,8 +1413,8 @@
 <span class="c1">// Alternative implementation where clock domains are given as parameters</span>
 <span class="k">class</span> <span class="nc">CrossingExample</span><span class="o">(</span><span class="n">clkA</span> <span class="k">:</span> <span class="kt">ClockDomain</span><span class="o">,</span><span class="n">clkB</span> <span class="k">:</span> <span class="kt">ClockDomain</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">dataIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">dataOut</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">dataIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">dataOut</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
 
   <span class="c1">// sample dataIn with clkA</span>
@@ -1435,8 +1435,8 @@
 <p>In general, you can use 2 or more flip-flop driven by the destination clock domain to prevent metastability. The <code class="docutils literal notranslate"><span class="pre">BufferCC(input:</span> <span class="pre">T,</span> <span class="pre">init:</span> <span class="pre">T</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">bufferDepth:</span> <span class="pre">Int</span> <span class="pre">=</span> <span class="pre">2)</span></code> function provided in <code class="docutils literal notranslate"><span class="pre">spinal.lib._</span></code> will instantiate the necessary flip-flops (the number of flip-flops will depends on the <code class="docutils literal notranslate"><span class="pre">bufferDepth</span></code> parameter) to mitigate the phenomena.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CrossingExample</span><span class="o">(</span><span class="n">clkA</span> <span class="k">:</span> <span class="kt">ClockDomain</span><span class="o">,</span><span class="n">clkB</span> <span class="k">:</span> <span class="kt">ClockDomain</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">dataIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">dataOut</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">dataIn</span>  <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">dataOut</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
 
   <span class="c1">// sample dataIn with clkA</span>
@@ -1494,7 +1494,7 @@
 <p>A <code class="docutils literal notranslate"><span class="pre">ResetArea</span></code> is used to create a new clock domain area where a special reset signal is combined with the current clock domain reset:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
 
-  <span class="k">val</span> <span class="n">specialReset</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">specialReset</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 
   <span class="c1">// The reset of this area is done with the specialReset signal</span>
   <span class="k">val</span> <span class="n">areaRst_1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ResetArea</span><span class="o">(</span><span class="n">specialReset</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span> <span class="o">{</span>
@@ -1514,7 +1514,7 @@
 <p>A <code class="docutils literal notranslate"><span class="pre">ClockEnableArea</span></code> is used to add an additional clock enable in the current clock domain:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
 
-  <span class="k">val</span> <span class="n">clockEnable</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">clockEnable</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 
   <span class="c1">// Add a clock enable for this area</span>
   <span class="k">val</span> <span class="n">area_1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClockEnableArea</span><span class="o">(</span><span class="n">clockEnable</span><span class="o">)</span> <span class="o">{</span>

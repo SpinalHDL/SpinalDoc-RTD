@@ -114,7 +114,7 @@ The following example saves a Bundle called CommonDataBus into a circular buffer
 
    case class TestBundle () extends Component {
      val io = new Bundle {
-       val we      = in     Bool
+       val we      = in     Bool()
        val addrWr  = in     UInt (7 bits)
        val dataIn  = slave  (CommonDataBus())
 
@@ -166,8 +166,8 @@ For example:
 .. code-block:: scala
 
    case class HandShake(payloadWidth: Int) extends Bundle with IMasterSlave {
-     val valid   = Bool
-     val ready   = Bool
+     val valid   = Bool()
+     val ready   = Bool()
      val payload = Bits(payloadWidth bits)
 
      // You have to implement this asMaster function.

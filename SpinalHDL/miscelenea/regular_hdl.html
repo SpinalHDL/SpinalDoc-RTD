@@ -1088,7 +1088,7 @@
 </pre></div>
 </div>
 <p>SpinalHDL :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mySignal</span>             <span class="k">=</span> <span class="nc">Bool</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mySignal</span>             <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 <span class="k">val</span> <span class="n">myRegister</span>           <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span>
 <span class="k">val</span> <span class="n">myRegisterWithReset</span>  <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
 
@@ -1133,12 +1133,12 @@
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Apb3</span><span class="o">(</span><span class="n">config</span><span class="k">:</span> <span class="kt">Apb3Config</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
   <span class="k">val</span> <span class="nc">PADDR</span>      <span class="k">=</span> <span class="nc">UInt</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">addressWidth</span> <span class="n">bit</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">PSEL</span>       <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">selWidth</span> <span class="n">bits</span><span class="o">)</span>
-  <span class="k">val</span> <span class="nc">PENABLE</span>    <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="nc">PREADY</span>     <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="nc">PWRITE</span>     <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="nc">PENABLE</span>    <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="nc">PREADY</span>     <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="nc">PWRITE</span>     <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="k">val</span> <span class="nc">PWDATA</span>     <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="o">)</span>
   <span class="k">val</span> <span class="nc">PRDATA</span>     <span class="k">=</span> <span class="nc">Bits</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="o">)</span>
-  <span class="k">val</span> <span class="nc">PSLVERROR</span>  <span class="k">=</span> <span class="k">if</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">useSlaveError</span><span class="o">)</span> <span class="nc">Bool</span> <span class="k">else</span> <span class="kc">null</span>  <span class="c1">//Optional signal</span>
+  <span class="k">val</span> <span class="nc">PSLVERROR</span>  <span class="k">=</span> <span class="k">if</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">useSlaveError</span><span class="o">)</span> <span class="nc">Bool</span><span class="o">()</span> <span class="k">else</span> <span class="kc">null</span>  <span class="c1">//Optional signal</span>
 
   <span class="c1">//Can be used to setup a given APB3 bus into a master interface of the host component</span>
   <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
@@ -1193,8 +1193,8 @@
 <p>And even them are really limited. As instance why you can’t define process/always/component/module blocks into a task/procedure? It is really a bottleneck for many fancy things. What if you can call a user defined task/procedure on a bus like that: myHandshakeBus.queue(depth=64) ? Wouldn’t it be nice and safe to use?</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define the concept of handshake bus</span>
 <span class="k">class</span> <span class="nc">Stream</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Data</span><span class="o">](</span><span class="n">dataType</span><span class="k">:</span>  <span class="kt">T</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="n">ready</span>   <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">valid</span>   <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="n">ready</span>   <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="k">val</span> <span class="n">payload</span> <span class="k">=</span> <span class="n">cloneOf</span><span class="o">(</span><span class="n">dataType</span><span class="o">)</span>
 
   <span class="c1">//Define an operator to connect the left operand (this) to the right operand (that)</span>

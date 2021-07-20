@@ -1058,8 +1058,8 @@
 <li><p>An optional <code class="docutils literal notranslate"><span class="pre">enable</span></code> signal. The goal of this signal is to disable the clock on the whole clock domain without having to  manually implement that on each synchronous element.</p></li>
 </ol>
 <p>An applied example to define a specific clock domain within the design is as follows:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">coreClock</span> <span class="k">=</span> <span class="nc">Bool</span>
-<span class="k">val</span> <span class="n">coreReset</span> <span class="k">=</span> <span class="nc">Bool</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">coreClock</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+<span class="k">val</span> <span class="n">coreReset</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 
 <span class="c1">// Define a new clock domain</span>
 <span class="k">val</span> <span class="n">coreClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(</span><span class="n">coreClock</span><span class="o">,</span><span class="n">coreReset</span><span class="o">)</span>
@@ -1103,8 +1103,8 @@
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomClockExample</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">clk</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="k">val</span> <span class="n">resetn</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">clk</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">resetn</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">UInt</span> <span class="o">(</span><span class="mi">4</span> <span class="n">bits</span><span class="o">)</span>
   <span class="o">}</span>
   <span class="k">val</span> <span class="n">myClockDomainConfig</span> <span class="k">=</span> <span class="nc">ClockDomainConfig</span><span class="o">(</span>

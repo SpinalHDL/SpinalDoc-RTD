@@ -13,8 +13,8 @@ You can add formal statements (assume, assert, etc.) in the ``Component`` defini
  
     class TopLevel extends Component {
       val io = new Bundle {
-        val ready = in Bool
-        val valid = out Bool
+        val ready = in Bool()
+        val valid = out Bool()
       }
       val valid = RegInit(False)
 

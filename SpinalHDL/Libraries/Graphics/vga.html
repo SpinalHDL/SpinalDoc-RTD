@@ -1039,10 +1039,10 @@
 <h2>VGA bus<a class="headerlink" href="#vga-bus" title="Permalink to this headline">¶</a></h2>
 <p>An VGA bus definition is available via the Vga bundle.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Vga</span> <span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span><span class="o">{</span>
-  <span class="k">val</span> <span class="n">vSync</span> <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="n">hSync</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">vSync</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="n">hSync</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 
-  <span class="k">val</span> <span class="n">colorEn</span> <span class="k">=</span> <span class="nc">Bool</span>  <span class="c1">//High when the frame is inside the color area</span>
+  <span class="k">val</span> <span class="n">colorEn</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>  <span class="c1">//High when the frame is inside the color area</span>
   <span class="k">val</span> <span class="n">color</span> <span class="k">=</span> <span class="nc">Rgb</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">)</span>
 
   <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span> <span class="k">=</span> <span class="k">this</span><span class="o">.</span><span class="n">asOutput</span><span class="o">()</span>
@@ -1075,14 +1075,14 @@
 <p>An VGA controller is available. It’s definition is the following :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaCtrl</span><span class="o">(</span><span class="n">rgbConfig</span><span class="k">:</span> <span class="kt">RgbConfig</span><span class="o">,</span> <span class="n">timingsWidth</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">softReset</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">softReset</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">timings</span>   <span class="k">=</span> <span class="n">in</span><span class="o">(</span><span class="nc">VgaTimings</span><span class="o">(</span><span class="n">timingsWidth</span><span class="o">))</span>
 
-    <span class="k">val</span> <span class="n">frameStart</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">frameStart</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">pixels</span>     <span class="k">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="o">(</span><span class="nc">Rgb</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">))</span>
     <span class="k">val</span> <span class="n">vga</span>        <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">Vga</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">))</span>
 
-    <span class="k">val</span> <span class="n">error</span>      <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">error</span>      <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span><span class="o">()</span>
   <span class="o">}</span>
   <span class="c1">// ...</span>
 <span class="o">}</span>

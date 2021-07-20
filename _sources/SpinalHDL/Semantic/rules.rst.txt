@@ -49,7 +49,7 @@ As an example:
 
 .. code-block:: scala
 
-   val x, y = Bool             // Define two combinational signals
+   val x, y = Bool()           // Define two combinational signals
    val result = UInt(8 bits)   // Define a combinational signal
 
    result := 1
@@ -96,7 +96,7 @@ As an example, the following code implements a register which is incremented whe
 
 .. code-block:: scala
 
-   val inc, clear = Bool            // Define two combinational signals/wires
+   val inc, clear = Bool()          // Define two combinational signals/wires
    val counter = Reg(UInt(8 bits))  // Define an 8 bit register
 
    when(inc) {
@@ -110,7 +110,7 @@ You can implement exactly the same functionality by mixing the previous example 
 
 .. code-block:: scala
 
-   val inc, clear = Bool
+   val inc, clear = Bool()
    val counter = Reg(UInt(8 bits))
 
    def setCounter(value : UInt): Unit = {
@@ -128,7 +128,7 @@ You can also integrate the conditional check inside the function:
 
 .. code-block:: scala
 
-   val inc, clear = Bool
+   val inc, clear = Bool()
    val counter = Reg(UInt(8 bits))
 
    def setCounterWhen(cond : Bool,value : UInt): Unit = {
@@ -144,7 +144,7 @@ And also specify what should be assigned to the function:
 
 .. code-block:: scala
 
-   val inc, clear = Bool
+   val inc, clear = Bool()
    val counter = Reg(UInt(8 bits))
 
    def setSomethingWhen(something : UInt, cond : Bool, value : UInt): Unit = {

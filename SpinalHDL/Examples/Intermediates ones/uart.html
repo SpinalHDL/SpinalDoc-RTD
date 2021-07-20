@@ -1135,8 +1135,8 @@
 <h3>UART bus<a class="headerlink" href="#uart-bus" title="Permalink to this headline">¶</a></h3>
 <p>Let’s define a UART bus without flow control.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Uart</span><span class="o">()</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">txd</span> <span class="k">=</span> <span class="nc">Bool</span>
-  <span class="k">val</span> <span class="n">rxd</span> <span class="k">=</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">txd</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+  <span class="k">val</span> <span class="n">rxd</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
 
   <span class="k">override</span> <span class="k">def</span> <span class="n">asMaster</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
     <span class="n">out</span><span class="o">(</span><span class="n">txd</span><span class="o">)</span>
@@ -1235,7 +1235,7 @@
 
   <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">configFrame</span>  <span class="k">=</span> <span class="n">in</span><span class="o">(</span><span class="nc">UartCtrlFrameConfig</span><span class="o">(</span><span class="n">g</span><span class="o">))</span>
-    <span class="k">val</span> <span class="n">samplingTick</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+    <span class="k">val</span> <span class="n">samplingTick</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="o">()</span>
     <span class="k">val</span> <span class="n">write</span>        <span class="k">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="n">dataWidthMax</span> <span class="n">bit</span><span class="o">))</span>
     <span class="k">val</span> <span class="n">txd</span>          <span class="k">=</span> <span class="n">out</span> <span class="nc">Bool</span>
   <span class="o">}</span>
