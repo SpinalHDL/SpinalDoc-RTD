@@ -1138,18 +1138,38 @@
 <td><p>Clear x when cond is True</p></td>
 <td><p>Bool</p></td>
 </tr>
+<tr class="row-even"><td><p>x.riseWhen(cond)</p></td>
+<td><p>Set x when x is False and cond is True</p></td>
+<td><p>Bool</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.fallWhen(cond)</p></td>
+<td><p>Clear x when x is True and cond is True</p></td>
+<td><p>Bool</p></td>
+</tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
-<span class="k">val</span> <span class="n">res</span> <span class="k">=</span> <span class="o">(!</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span><span class="o">)</span> <span class="o">^</span> <span class="n">c</span>   <span class="c1">// ((NOT a) AND b) XOR c</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span> <span class="k">val</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span> <span class="k">=</span> <span class="nc">Bool</span><span class="o">()</span>
+ <span class="k">val</span> <span class="n">res</span> <span class="k">=</span> <span class="o">(!</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span><span class="o">)</span> <span class="o">^</span> <span class="n">c</span>   <span class="c1">// ((NOT a) AND b) XOR c</span>
 
-<span class="k">val</span> <span class="n">d</span> <span class="k">=</span> <span class="nc">False</span>
-<span class="n">when</span><span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="o">{</span>
-  <span class="n">d</span><span class="o">.</span><span class="n">set</span><span class="o">()</span>    <span class="c1">// equivalent to d := True</span>
-<span class="o">}</span>
+ <span class="k">val</span> <span class="n">d</span> <span class="k">=</span> <span class="nc">False</span>
+ <span class="n">when</span><span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">d</span><span class="o">.</span><span class="n">set</span><span class="o">()</span>    <span class="c1">// equivalent to d := True</span>
+ <span class="o">}</span>
 
-<span class="k">val</span> <span class="n">e</span> <span class="k">=</span> <span class="nc">False</span>
-<span class="n">e</span><span class="o">.</span><span class="n">setWhen</span><span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="c1">// equivalent to when(cond) { d := True }</span>
+ <span class="k">val</span> <span class="n">e</span> <span class="k">=</span> <span class="nc">False</span>
+ <span class="n">e</span><span class="o">.</span><span class="n">setWhen</span><span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="c1">// equivalent to when(cond) { d := True }</span>
+
+ <span class="k">val</span> <span class="n">f</span> <span class="k">=</span> <span class="nc">RegInit</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span> <span class="n">fallWhen</span><span class="o">(</span><span class="n">ack</span><span class="o">)</span> <span class="n">setWhen</span><span class="o">(</span><span class="n">req</span><span class="o">)</span>
+ <span class="cm">/** equivalent to</span>
+<span class="cm">  * when(f &amp;&amp; ack) { f := False }</span>
+<span class="cm">  * when(req) { f := True }</span>
+<span class="cm">  * or</span>
+<span class="cm">  * f := req || (f &amp;&amp; !ack)</span>
+<span class="cm">  */</span>
+
+<span class="c1">// mind the order of assignments!</span>
+<span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="nc">RegInit</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span> <span class="n">setWhen</span><span class="o">(</span><span class="n">req</span><span class="o">)</span> <span class="n">fallWhen</span><span class="o">(</span><span class="n">ack</span><span class="o">)</span>
+<span class="c1">// equivalent to g := ((!g) &amp;&amp; req) || (g &amp;&amp; !ack)</span>
 </pre></div>
 </div>
 </div>
