@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                v1.5.0
+                v1.6.0
               </div>
             
           
@@ -554,6 +554,10 @@
 <li class="toctree-l2"><a class="reference internal" href="report.html">Report</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Formal</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clocked-assertion-without-reset">Clocked assertion without reset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specifying-the-initial-value-of-a-signal">Specifying the initial value of a signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specifying-a-initial-assumption">Specifying a initial assumption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specifying-assertion-in-the-reset-scope">Specifying assertion in the reset scope</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#supported-features">Supported features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#limitations">Limitations</a></li>
 </ul>
@@ -1074,6 +1078,36 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="clocked-assertion-without-reset">
+<h2>Clocked assertion without reset<a class="headerlink" href="#clocked-assertion-without-reset" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">withoutReset</span><span class="o">(){</span>
+  <span class="n">assert</span><span class="o">(</span><span class="n">wuff</span> <span class="o">===</span> <span class="mi">0</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specifying-the-initial-value-of-a-signal">
+<h2>Specifying the initial value of a signal<a class="headerlink" href="#specifying-the-initial-value-of-a-signal" title="Permalink to this headline">¶</a></h2>
+<p>For instance, for the reset signal of the current clockdomain (usefull at the top)</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">readResetWire</span> <span class="n">initial</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specifying-a-initial-assumption">
+<h2>Specifying a initial assumption<a class="headerlink" href="#specifying-a-initial-assumption" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">assumeInitial</span><span class="o">(!</span><span class="n">clockDomain</span><span class="o">.</span><span class="n">isResetActive</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specifying-assertion-in-the-reset-scope">
+<h2>Specifying assertion in the reset scope<a class="headerlink" href="#specifying-assertion-in-the-reset-scope" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">duringReset</span> <span class="o">{</span>
+  <span class="n">assume</span><span class="o">(</span><span class="n">rawrrr</span> <span class="o">===</span> <span class="mi">0</span><span class="o">)</span>
+  <span class="n">assume</span><span class="o">(</span><span class="n">wuff</span> <span class="o">===</span> <span class="mi">3</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="supported-features">
 <h2>Supported features<a class="headerlink" href="#supported-features" title="Permalink to this headline">¶</a></h2>
 <blockquote>
@@ -1132,8 +1166,7 @@
 </div>
 <div class="section" id="limitations">
 <h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
-<p>No support for unclocked assertions.
-Everything that is described in <code class="docutils literal notranslate"><span class="pre">GenerationFlags.formal</span></code> will be generated in a clocked process.</p>
+<p>No support for unclocked assertions.</p>
 </div>
 </div>
 

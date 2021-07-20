@@ -48,6 +48,42 @@ To generate a design which includes the formal statements you can use ``includeF
      }
    }
 
+
+Clocked assertion without reset 
+-----------------------------------
+
+.. code-block:: scala
+
+   ClockDomain.current.withoutReset(){
+     assert(wuff === 0)
+   }
+
+Specifying the initial value of a signal 
+-------------------------------------------
+
+For instance, for the reset signal of the current clockdomain (usefull at the top)
+
+.. code-block:: scala
+
+    ClockDomain.current.readResetWire initial(False)
+
+Specifying a initial assumption
+-------------------------------------------
+
+.. code-block:: scala
+
+    assumeInitial(!clockDomain.isResetActive)
+
+Specifying assertion in the reset scope
+-------------------------------------------
+
+.. code-block:: scala
+
+    ClockDomain.current.duringReset {
+      assume(rawrrr === 0)
+      assume(wuff === 3)
+    }
+
 Supported features
 ------------------
  .. list-table::
@@ -86,4 +122,4 @@ Supported features
 Limitations
 -----------
 No support for unclocked assertions.
-Everything that is described in ``GenerationFlags.formal`` will be generated in a clocked process.
+
