@@ -72,11 +72,11 @@ Implementation
 
    case class Timer(width : Int) extends Component{
      val io = new Bundle{
-       val tick      = in Bool
-       val clear     = in Bool
+       val tick      = in Bool()
+       val clear     = in Bool()
        val limit     = in UInt(width bits)
 
-       val full  = out Bool
+       val full  = out Bool()
        val value     = out UInt(width bits)
      }
 
@@ -181,11 +181,11 @@ Let's add this bridging function inside the ``Timer`` component.
 
    case class Timer(width : Int) extends Component{
      val io = new Bundle{
-       val tick      = in Bool
-       val clear     = in Bool
+       val tick      = in Bool()
+       val clear     = in Bool()
        val limit     = in UInt(width bits)
 
-       val full  = out Bool
+       val full  = out Bool()
        val value     = out UInt(width bits)
      }  
 
@@ -230,10 +230,10 @@ Then by using an ``Apb3SlaveFactory`` and functions defined inside the ``Timer``
 
    val io = new Bundle{
      val apb = Apb3(ApbConfig(addressWidth = 8, dataWidth = 32))
-     val interrupt = in Bool
+     val interrupt = in Bool()
      val external = new Bundle{
-       val tick  = Bool
-       val clear = Bool
+       val tick  = Bool()
+       val clear = Bool()
      }
    }
 

@@ -62,10 +62,10 @@ VGA bus
 .. code-block:: scala
 
    case class Vga (rgbConfig: RgbConfig) extends Bundle with IMasterSlave{
-     val vSync = Bool
-     val hSync = Bool
+     val vSync = Bool()
+     val hSync = Bool()
 
-     val colorEn = Bool
+     val colorEn = Bool()
      val color   = Rgb(rgbConfig)
 
      override def asMaster() : Unit = this.asOutput()

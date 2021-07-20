@@ -64,8 +64,8 @@ An applied example to define a specific clock domain within the design is as fol
 
 .. code-block:: scala
 
-   val coreClock = Bool
-   val coreReset = Bool
+   val coreClock = Bool()
+   val coreReset = Bool()
 
    // Define a new clock domain
    val coreClockDomain = ClockDomain(coreClock, coreReset)
@@ -102,8 +102,8 @@ In addition to :ref:`constructor parameters <clock_domain_instantiation>`\ , the
 
    class CustomClockExample extends Component {
      val io = new Bundle {
-       val clk    = in Bool
-       val resetn = in Bool
+       val clk    = in Bool()
+       val resetn = in Bool()
        val result = out UInt (4 bits)
      }
 
@@ -198,8 +198,8 @@ Once created, you have to assign the ``ClockDomain``'s signals, as shown in the 
 
    class InternalClockWithPllExample extends Component {
      val io = new Bundle {
-       val clk100M = in Bool
-       val aReset  = in Bool
+       val clk100M = in Bool()
+       val aReset  = in Bool()
        val result  = out UInt (4 bits)
      }
      // myClockDomain.clock will be named myClockName_clk
@@ -339,14 +339,14 @@ SpinalHDL checks at compile time that there are no unwanted/unspecified cross cl
    // Implementation where clock and reset pins are given by components' IO
    class CrossingExample extends Component {
      val io = new Bundle {
-       val clkA = in Bool
-       val rstA = in Bool
+       val clkA = in Bool()
+       val rstA = in Bool()
 
-       val clkB = in Bool
-       val rstB = in Bool
+       val clkB = in Bool()
+       val rstB = in Bool()
 
-       val dataIn  = in Bool
-       val dataOut = out Bool
+       val dataIn  = in Bool()
+       val dataOut = out Bool()
      }
 
      // sample dataIn with clkA
@@ -367,8 +367,8 @@ SpinalHDL checks at compile time that there are no unwanted/unspecified cross cl
    // Alternative implementation where clock domains are given as parameters
    class CrossingExample(clkA : ClockDomain,clkB : ClockDomain) extends Component {
      val io = new Bundle {
-       val dataIn  = in Bool
-       val dataOut = out Bool
+       val dataIn  = in Bool()
+       val dataOut = out Bool()
      }
 
      // sample dataIn with clkA
@@ -391,8 +391,8 @@ In general, you can use 2 or more flip-flop driven by the destination clock doma
 
    class CrossingExample(clkA : ClockDomain,clkB : ClockDomain) extends Component {
      val io = new Bundle {
-       val dataIn  = in Bool
-       val dataOut = out Bool
+       val dataIn  = in Bool()
+       val dataOut = out Bool()
      }
 
      // sample dataIn with clkA
@@ -454,7 +454,7 @@ A ``ResetArea`` is used to create a new clock domain area where a special reset 
 
    class TopLevel extends Component {
 
-     val specialReset = Bool 
+     val specialReset = Bool()
 
      // The reset of this area is done with the specialReset signal 
      val areaRst_1 = new ResetArea(specialReset, false) {
@@ -476,7 +476,7 @@ A ``ClockEnableArea`` is used to add an additional clock enable in the current c
 
    class TopLevel extends Component {
 
-     val clockEnable = Bool 
+     val clockEnable = Bool()
 
      // Add a clock enable for this area 
      val area_1 = new ClockEnableArea(clockEnable) {

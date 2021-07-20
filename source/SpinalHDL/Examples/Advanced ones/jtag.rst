@@ -55,9 +55,9 @@ First we need to define a JTAG bus bundle.
 .. code-block:: scala
 
    case class Jtag() extends Bundle with IMasterSlave {
-     val tms = Bool
-     val tdi = Bool
-     val tdo = Bool
+     val tms = Bool()
+     val tdi = Bool()
+     val tdo = Bool()
 
      override def asMaster() : Unit = {
        out(tdi, tms)
@@ -155,8 +155,8 @@ So let's define a simple and abstract interface between the JTAG TAP core and in
 .. code-block:: scala
 
    trait JtagTapAccess {
-     def getTdi : Bool
-     def getTms : Bool
+     def getTdi : Bool()
+     def getTms : Bool()
      def setTdo(value : Bool) : Unit
 
      def getState : JtagState.T

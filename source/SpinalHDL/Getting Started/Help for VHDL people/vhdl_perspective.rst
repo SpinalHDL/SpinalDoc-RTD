@@ -117,7 +117,7 @@ Conditional assignments are done like in VHDL by using ``if``/``case`` statement
 
 .. code-block:: scala
 
-   val clear   = Bool
+   val clear   = Bool()
    val counter = Reg(UInt(8 bits))
 
    when(clear) {
@@ -144,7 +144,7 @@ Literals are a little bit different than in VHDL:
 
 .. code-block:: scala
 
-   val myBool = Bool
+   val myBool = Bool()
    myBool := False
    myBool := True
    myBool := Bool(4 > 7)
@@ -178,8 +178,8 @@ Process blocks are a simulation feature that is unnecessary to design RTL. It's 
 
 .. code-block:: scala
 
-   val cond = Bool
-   val myCombinatorial = Bool
+   val cond = Bool()
+   val myCombinatorial = Bool()
    val myRegister = UInt(8 bits)
 
    myCombinatorial := False

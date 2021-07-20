@@ -14,8 +14,8 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
    class AdderCell extends Component {
      // Declaring external ports in a Bundle called `io` is recommended
      val io = new Bundle {
-       val a, b, cin = in Bool
-       val sum, cout = out Bool
+       val a, b, cin = in Bool()
+       val sum, cout = out Bool()
      }
      // Do some logic
      io.sum := io.a ^ io.b ^ io.cin
@@ -51,7 +51,7 @@ The syntax to define inputs and outputs is as follows:
    * - Syntax
      - Description
      - Return
-   * - in Bool/out Bool
+   * - in Bool()/out Bool()
      - Create an input Bool/output Bool
      - Bool
    * - in/out Bits/UInt/SInt[(x bit)]

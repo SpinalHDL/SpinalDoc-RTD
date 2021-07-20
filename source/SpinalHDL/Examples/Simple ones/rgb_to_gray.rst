@@ -32,10 +32,10 @@ Let's imagine a component that converts an RGB color into a gray one, and then w
 
      class RgbToGray extends Component{
        val io = new Bundle{
-         val clear = in Bool
+         val clear = in Bool()
          val r,g,b = in UInt(8 bits)
 
-         val wr = out Bool
+         val wr = out Bool()
          val address = out UInt(16 bits)
          val data = out UInt(8 bits)
        }

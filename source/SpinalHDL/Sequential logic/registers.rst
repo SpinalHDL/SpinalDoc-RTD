@@ -72,12 +72,12 @@ Also, ``RegNext`` is an abstraction which is built over the ``Reg`` syntax. The 
 .. code-block:: scala
 
    // Standard way
-   val something = Bool
-   val value = Reg(Bool)
+   val something = Bool()
+   val value = Reg(Bool())
    value := something
 
    // Short way
-   val something = Bool
+   val something = Bool()
    val value = RegNext(something)
 
 Reset value
@@ -96,7 +96,7 @@ If you have a register containing a Bundle, you can use the ``init`` function on
 .. code-block:: scala
 
    case class ValidRGB() extends Bundle{
-     val valid   = Bool
+     val valid   = Bool()
      val r, g, b = UInt(8 bits)
    }
 

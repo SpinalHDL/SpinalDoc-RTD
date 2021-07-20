@@ -19,9 +19,9 @@ Generating Verilog is exactly the same, but with ``SpinalVerilog`` in place of `
    class MyTopLevel extends Component {
      // Define some input/output signals. Bundle like a VHDL record or a Verilog struct.
      val io = new Bundle {
-       val a = in  Bool
-       val b = in  Bool
-       val c = out Bool
+       val a = in  Bool()
+       val b = in  Bool()
+       val c = out Bool()
      }
 
      // Define some asynchronous logic.
@@ -153,7 +153,7 @@ Scala:
 
    class TopLevel extends Component {
      val io = new Bundle {
-       val cond           = in  Bool
+       val cond           = in  Bool()
        val value          = in  UInt(4 bits)
        val withoutProcess = out UInt(4 bits)
        val withProcess    = out UInt(4 bits)
@@ -216,7 +216,7 @@ Scala:
 
    class TopLevel extends Component {
      val io = new Bundle {
-       val cond   = in Bool
+       val cond   = in Bool()
        val value  = in UInt (4 bit)
        val resultA = out UInt(4 bit)
        val resultB = out UInt(4 bit)

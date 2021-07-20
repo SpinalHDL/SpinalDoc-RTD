@@ -27,14 +27,14 @@ An example of how to define a blackbox is shown below:
 
      // Define IO of the VHDL entity / Verilog module
      val io = new Bundle {
-       val clk = in Bool
+       val clk = in Bool()
        val wr = new Bundle {
-         val en   = in Bool
+         val en   = in Bool()
          val addr = in UInt (log2Up(wordCount) bit)
          val data = in Bits (wordWidth bit)
        }
        val rd = new Bundle {
-         val en   = in Bool
+         val en   = in Bool()
          val addr = in UInt (log2Up(wordCount) bit)
          val data = out Bits (wordWidth bit)
        }
@@ -83,12 +83,12 @@ Instantiating a ``BlackBox`` is just like instantiating a ``Component``:
    class TopLevel extends Component {
      val io = new Bundle {    
        val wr = new Bundle {
-         val en   = in Bool
+         val en   = in Bool()
          val addr = in UInt (log2Up(16) bit)
          val data = in Bits (8 bit)
        }
        val rd = new Bundle {
-         val en   = in Bool
+         val en   = in Bool()
          val addr = in UInt (log2Up(16) bit)
          val data = out Bits (8 bit)
        }
@@ -152,9 +152,9 @@ For example:
    class MyRam(clkDomain: ClockDomain) extends BlackBox {
 
      val io = new Bundle {
-       val clkA = in Bool     
+       val clkA = in Bool()
        ...
-       val clkB = in Bool 
+       val clkB = in Bool()
        ...
      }
 
@@ -180,15 +180,15 @@ In order to avoid the prefix "io\_" on each of the IOs of the blackbox, you can 
      }
 
      val io = new Bundle {
-       val clk = in Bool
+       val clk = in Bool()
 
        val wr = new Bundle {
-         val en   = in Bool
+         val en   = in Bool()
          val addr = in UInt (log2Up(_wordCount) bit)
          val data = in Bits (_wordWidth bit)
        }
        val rd = new Bundle {
-         val en   = in Bool
+         val en   = in Bool()
          val addr = in UInt (log2Up(_wordCount) bit)
          val data = out Bits (_wordWidth bit)
        }
@@ -210,16 +210,16 @@ This function takes a no-argument function to be applied during compilation, and
    class MyRam() extends Blackbox {
 
      val io = new Bundle {
-       val clk = in Bool 
+       val clk = in Bool()
        val portA = new Bundle{
-         val cs   = in Bool 
-         val rwn  = in Bool 
+         val cs   = in Bool()
+         val rwn  = in Bool()
          val dIn  = in Bits(32 bits)
          val dOut = out Bits(32 bits)
        }
        val portB = new Bundle{
-         val cs   = in Bool 
-         val rwn  = in Bool 
+         val cs   = in Bool()
+         val rwn  = in Bool()
          val dIn  = in Bits(32 bits)
          val dOut = out Bits(32 bits)
        }
@@ -258,11 +258,11 @@ With the function ``addRTLPath()`` you can associate your RTL sources with the 
    class MyBlackBox() extends Blackbox {
 
      val io = new Bundle {
-       val clk   = in  Bool 
-       val start = in Bool 
+       val clk   = in  Bool()
+       val start = in Bool()
        val dIn   = in  Bits(32 bits)
        val dOut  = out Bits(32 bits)    
-       val ready = out Bool 
+       val ready = out Bool()
      }
 
      // Map the clk 
@@ -291,8 +291,8 @@ If you want to use only ``std_logic_vector`` in your blackbox component, you can
 
    class MyBlackBox() extends BlackBox{
      val io = new Bundle {
-       val clk       = in  Bool 
-       val increment = in  Bool 
+       val clk       = in  Bool()
+       val increment = in  Bool()
        val initValue = in  UInt(8 bits)
        val counter   = out UInt(8 bits)
      }
