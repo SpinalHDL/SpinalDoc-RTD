@@ -98,8 +98,8 @@ Let's define a UART bus without flow control.
 .. code-block:: scala
 
    case class Uart() extends Bundle with IMasterSlave {
-     val txd = Bool
-     val rxd = Bool
+     val txd = Bool()
+     val rxd = Bool()
 
      override def asMaster(): Unit = {
        out(txd)
@@ -198,7 +198,7 @@ Let's define the skeleton of ``UartCtrlTx``\ :
 
      val io = new Bundle {
        val configFrame  = in(UartCtrlFrameConfig(g))
-       val samplingTick = in Bool
+       val samplingTick = in Bool()
        val write        = slave Stream (Bits(dataWidthMax bit))
        val txd          = out Bool
      }

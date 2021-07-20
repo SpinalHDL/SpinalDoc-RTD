@@ -107,9 +107,9 @@ The following code generates an ``and`` gate between two one-bit inputs.
         * the VHDL entity of the component
         */
       val io = new Bundle {
-        val a = in Bool
-        val b = in Bool
-        val c = out Bool
+        val a = in Bool()
+        val b = in Bool()
+        val c = out Bool()
       }
 
       // Here we define some asynchronous logic

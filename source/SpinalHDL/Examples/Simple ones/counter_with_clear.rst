@@ -9,7 +9,7 @@ Each clock cycle, the ``value`` output is incrementing, but when ``clear`` is hi
 
    class Counter(width : Int) extends Component{
      val io = new Bundle{
-       val clear = in Bool
+       val clear = in Bool()
        val value = out UInt(width bits)
      }
      val register = Reg(UInt(width bits)) init(0)

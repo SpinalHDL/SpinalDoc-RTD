@@ -58,7 +58,7 @@ While in SpinalHDL, it's:
 
 .. code-block:: scala
 
-   val mySignal = Bool
+   val mySignal = Bool()
    val myRegister = Reg(UInt(4 bits))
    val myRegisterWithReset = Reg(UInt(4 bits)) init(0)
 
@@ -170,8 +170,8 @@ An example with the queue function inside the Stream Bundle (handshake). This fu
 .. code-block:: scala
 
    class Stream[T <: Data](dataType:  T) extends Bundle with IMasterSlave with DataCarrier[T] {
-     val valid = Bool
-     val ready = Bool
+     val valid = Bool()
+     val ready = Bool()
      val payload = cloneOf(dataType)
 
      def queue(size: Int): Stream[T] = {

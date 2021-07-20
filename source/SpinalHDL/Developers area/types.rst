@@ -40,7 +40,7 @@ The syntax to declare such as value is as follows:
    * - Syntax
      - Description
      - Return
-   * - Bool or Bool()
+   * - Bool()
      - Create a Bool
      - Bool
    * - True
@@ -525,7 +525,7 @@ If you want to define an interface, let's imagine an APB interface, you can also
      val PWRITE     = Bool
      val PWDATA     = Bits(dataWidth bit)
      val PRDATA     = Bits(dataWidth bit)
-     val PSLVERROR  = if(useSlaveError) Bool else null   //This wire is created only when useSlaveError is true
+     val PSLVERROR  = if(useSlaveError) Bool() else null   //This wire is created only when useSlaveError is true
    }
 
    // Example of usage :
@@ -553,7 +553,7 @@ Also if one time you need to add another construction parameter, you will only h
      val PWRITE     = Bool
      val PWDATA     = Bits(config.dataWidth bit)
      val PRDATA     = Bits(config.dataWidth bit)
-     val PSLVERROR  = if(config.useSlaveError) Bool else null
+     val PSLVERROR  = if(config.useSlaveError) Bool() else null
    }
 
    // Example of usage
@@ -580,7 +580,7 @@ Then at some points, you will probably need to use the APB bus as master or as s
      val PWRITE     = Bool
      val PWDATA     = Bits(config.dataWidth bit)
      val PRDATA     = Bits(config.dataWidth bit)
-     val PSLVERROR  = if(config.useSlaveError) Bool else null
+     val PSLVERROR  = if(config.useSlaveError) Bool() else null
 
      def asMaster(): this.type = {
        out(PADDR,PSEL,PENABLE,PWRITE,PWDATA)
@@ -630,7 +630,7 @@ There is an example of an APB bus that implement this IMasterSlave :
      val PWRITE     = Bool
      val PWDATA     = Bits(dataWidth bit)
      val PRDATA     = Bits(dataWidth bit)
-     val PSLVERROR  = if(useSlaveError) Bool else null   //This wire is created only when useSlaveError is true
+     val PSLVERROR  = if(useSlaveError) Bool() else null   //This wire is created only when useSlaveError is true
 
      override def asMaster() : Unit = {
        out(PADDR,PSEL,PENABLE,PWRITE,PWDATA)

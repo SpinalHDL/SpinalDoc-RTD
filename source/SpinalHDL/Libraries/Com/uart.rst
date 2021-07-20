@@ -17,8 +17,8 @@ Bus definition
 .. code-block:: scala
 
    case class Uart() extends Bundle with IMasterSlave {
-     val txd = Bool  // Used to emit frames
-     val rxd = Bool  // Used to receive frames
+     val txd = Bool() // Used to emit frames
+     val rxd = Bool() // Used to receive frames
 
      override def asMaster(): Unit = {
        out(txd)

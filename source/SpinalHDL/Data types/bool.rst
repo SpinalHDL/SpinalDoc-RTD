@@ -39,7 +39,7 @@ The syntax to declare a boolean value is as follows: (everything between [] is o
 
 .. code-block:: scala
 
-   val myBool_1 = Bool          // Create a Bool 
+   val myBool_1 = Bool()          // Create a Bool
    myBool_1 := False            // := is the assignment operator
 
    val myBool_2 = False         // Equivalent to the code above 
@@ -90,7 +90,7 @@ Logic
 
 .. code-block:: scala
 
-   val a, b, c = Bool
+   val a, b, c = Bool()
    val res = (!a & b) ^ c   // ((NOT a) AND b) XOR c
 
    val d = False
@@ -211,7 +211,7 @@ Type cast
 .. code-block:: scala
 
    // Add the carry to an SInt value
-   val carry = Bool 
+   val carry = Bool()
    val res = mySInt + carry.asSInt
 
 Misc

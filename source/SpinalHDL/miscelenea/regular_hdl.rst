@@ -66,7 +66,7 @@ SpinalHDL :
 
 .. code-block:: scala
 
-   val mySignal             = Bool
+   val mySignal             = Bool()
    val myRegister           = Reg(UInt(4 bits))
    val myRegisterWithReset  = Reg(UInt(4 bits)) init(0)
 
@@ -120,12 +120,12 @@ A SpinalHDL APB3 bus definition:
    case class Apb3(config: Apb3Config) extends Bundle with IMasterSlave {
      val PADDR      = UInt(config.addressWidth bit)
      val PSEL       = Bits(config.selWidth bits)
-     val PENABLE    = Bool
-     val PREADY     = Bool
-     val PWRITE     = Bool
+     val PENABLE    = Bool()
+     val PREADY     = Bool()
+     val PWRITE     = Bool()
      val PWDATA     = Bits(config.dataWidth bit)
      val PRDATA     = Bits(config.dataWidth bit)
-     val PSLVERROR  = if(config.useSlaveError) Bool else null  //Optional signal
+     val PSLVERROR  = if(config.useSlaveError) Bool() else null  //Optional signal
 
      //Can be used to setup a given APB3 bus into a master interface of the host component
      override def asMaster(): Unit = {
@@ -189,8 +189,8 @@ And even them are really limited. As instance why you can't define process/alway
 
    //Define the concept of handshake bus
    class Stream[T <: Data](dataType:  T) extends Bundle {
-     val valid   = Bool
-     val ready   = Bool
+     val valid   = Bool()
+     val ready   = Bool()
      val payload = cloneOf(dataType)
 
      //Define an operator to connect the left operand (this) to the right operand (that)
