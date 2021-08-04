@@ -41,6 +41,7 @@ release = ''
 extensions = [
     'sphinx.ext.githubpages',
     'sphinxcontrib.wavedrom',
+    'sphinx_multiversion',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -203,3 +204,7 @@ offline_wavedrom_js_path = "_static/wavedrom.min.js"
 
 #Option for linkcheck
 linkcheck_anchors=False
+
+smv_branch_whitelist = r'^(master|dev|cicd).*$'
+smv_remote_whitelist = None
+smv_tag_whitelist = r'^.*$'
