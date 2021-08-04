@@ -5,34 +5,25 @@ SpinalDoc
 How to build this documentation
 ===============================
 
-With pipenv
------------
+With venv
+---------
 Requirements (system)
 
 * make
 
-Requirements (Python 3):
-
-* pipenv (will automatically download all the project requirements from pypi)
 
 Create a virtual environment with pipenv (will use the Pipfile for installing the necessary packages)
 
 .. code:: shell
 
-   pipenv install
+   python3 -m venv .venv
 
-then you can build the documentation
-
-.. code:: shell
-
-   pipenv run make html
-
-if you want run ``make`` multiple times, prepone ``pipenv run`` on each command can be annoying,
-you can spawn a subshell with
+then you can activate the virtual enviroment (in bash) and install the dependencies
 
 .. code:: shell
 
-   pipenv shell
+   source .venv/bin/activate
+   pip install -r requiremets.txt
 
 and then you can use ``make`` the usual way
 
@@ -45,8 +36,8 @@ and then you can use ``make`` the usual way
 
 all the outputs will be in docs folder (for html: docs/html)
 
-without pipenv/virtualenv
--------------------------
+without virtualenv
+------------------
 Requirements (system):
 
 * make
@@ -56,6 +47,7 @@ Requirements (Python 3):
 * sphinx
 * sphinx-rtd-theme
 * sphinxcontrib-wavedrom
+* sphinx-multiversion
 
 After installing the requirements you can run
 
@@ -66,7 +58,13 @@ After installing the requirements you can run
    make latexpdf # for latex (will require latexpdf installed)
    make          # list all the available output format
 
+you can create build multiple version of the doc via
 
+.. code:: shell
+
+   sphinx-multiversion source docs/html
+
+in the docs/html there will be a folder with the builded doc for each branch and tag
 
 Deploying the generated doc by hands
 ----------------------------------------
