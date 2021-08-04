@@ -1,0 +1,43 @@
+name: "Build on master and dev only"
+
+on:
+  push:
+    branches:
+      - cicd
+      - master
+      - dev
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: "check links"
+      uses: ammaraskar/sphinx-action@master
+      with:
+        docs-folder: "."
+        build-command: "make linkcheck"
+    - name: "Build multiversioned doc"
+      uses: ammaraskar/sphinx-action@master
+      with:
+        docs-folder: "."
+        build-command: "sphinx-multiversion source docs/html"
+    - name: "add .nojekill and redirect to master"
+      run: |
+        touch docs/html/.nojekyll
+        cat << EOF > docs/html/index.html
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Redirecting to master branch</title>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=./master/index.html">
+            <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html">
+          </head>
+        </html>
+        EOF
+    # - name: Deploy to Pages
+    #   uses: JamesIves/github-pages-deploy-action@4.1.4
+    #   with:
+    #     branch: gh-pages
+    #     folder: docs/html
