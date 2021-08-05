@@ -1,0 +1,852 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>RAM/ROM &mdash; SpinalHDL 1.11 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Design errors" href="../Design errors/index.html" />
+    <link rel="prev" title="Registers" href="registers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../About SpinalHDL/index.html">About SpinalHDL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/faq.html">FAQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../About SpinalHDL/users.html">Users</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Getting Started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/cheatsheet_core.html">CheatSheet Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/cheatsheet_symbolic.html">CheatSheet Symbolic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/motivation.html">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/presentation.html">Presentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/Scala Guide/index.html">Scala Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Scala Guide/introduction.html">Scala guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Scala Guide/basics.html">Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Scala Guide/coding_conventions.html">Coding conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Scala Guide/interaction.html">Interaction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting Started/Help for VHDL people/index.html">Help for VHDL people</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Help for VHDL people/vhdl_comp.html">VHDL comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Getting Started/Help for VHDL people/vhdl_perspective.html">VHDL equivalences</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Data types/index.html">Data types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/TypeIntroduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/bool.html">Bool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/bits.html">Bits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/Int.html">Unit/SInt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/enum.html">SpinalEnum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/bundle.html">Bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/Vec.html">Vec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/Fix.html">UFix/SFix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Data types/Floating.html">Floating</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Structuring/index.html">Structuring</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/components_hierarchy.html">Component and hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/clock_domain.html">Clock domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/blackbox.html">Instanciate VHDL and Verilog IP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Semantic/index.html">Semantic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/assignements.html">Assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/when_switch.html">When/Switch/Mux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Semantic/sementic.html">Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sequential logic</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="registers.html">Registers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RAM/ROM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Design errors/index.html">Design errors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/assignment_overlap.html">Assignement overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/clock_crossing_violation.html">Clock crossing violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/combinatorial_loop.html">Combinational loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/hierarchy_violation.html">Hierarchy violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/iobundle.html">Io bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/latch_detected.html">Latch detected</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/no_driver_on.html">No driver on</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/nullpointerexception.html">NullPointerException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/register_defined_as_component_input.html">Register defined as component input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/scope_violation.html">Scope violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/spinal_cant_clone.html">Spinal can’t clone class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/unassigned_register.html">Unassigned register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/unreachable_is_statement.html">Unreachable is statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Design errors/width_mismatch.html">Width mismatch</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Other language features/index.html">Other language features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/assertion.html">Assertions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/analog_inout.html">Analog and inout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other language features/vhdl_generation.html">VHDL and Verilog generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/stream.html">Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/flow.html">Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/fragment.html">Fragment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/fsm.html">State machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/vexriscv.html">VexRiscv (RV32IM CPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/bus_slave_factory.html">Bus Slave Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/Bus/index.html">Bus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba3/ahblite3.html">AHB-Lite3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba3/apb3.html">Apb3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba4/axi4.html">Axi4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/avalon/avalonmm.html">AvalonMM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/wishbone/wishbone.html">Wishbone</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/Com/index.html">Com</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Com/uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/IO/index.html">IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/IO/readableOpenDrain.html">ReadableOpenDrain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/IO/tristate.html">TriState</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/Graphics/index.html">Graphics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Graphics/colors.html">Colors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Graphics/vga.html">VGA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Libraries/EDA/index.html">EDA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/EDA/altera/qsysify.html">QSysify</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulation/index.html">Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/bootstraps.html">Boot a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/api.html">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/continuation.html">Scala continuation (cps)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/examples/index.html">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Simulation/examples/asynchronous.html">Asynchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Simulation/examples/dual_clock_fifo.html">Dual clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Simulation/examples/single_clock_fifo.html">Single clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Simulation/examples/synchronous.html">Synchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Simulation/examples/uart_decoder.html">Uart decoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Simulation/examples/uart_encoder.html">Uart encoder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Simple ones/index.html">Simple ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/apb3.html">APB3 definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/carry_adder.html">Carry adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/color_summing.html">Color summing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/counter_with_clear.html">Counter with clear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/pll_resetctrl.html">PLL BlackBox and reset controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/rgb_to_gray.html">RGB to gray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple ones/sinus_rom.html">Sinus rom</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Intermediates ones/index.html">Intermediates ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Intermediates ones/fractal.html">Fractal calculator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Intermediates ones/uart.html">UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Intermediates ones/vga.html">VGA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Advanced ones/index.html">Advanced ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Advanced ones/jtag.html">JTAG TAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Advanced ones/memory_mapped_uart.html">Memory mapped UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Advanced ones/pinesec.html">Pinesec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/Advanced ones/timer.html">Timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Legacy/index.html">Legacy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Legacy/riscv.html">RiscV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html">SoC toplevel (Pinsec)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Developers area/index.html">Developers area</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Developers area/bus_slave_factory_impl.html">Bus Slave Factory Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Developers area/howtodocument.html">How to HACK this documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Developers area/types.html">Types</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Sequential logic</a> &raquo;</li>
+        
+      <li>RAM/ROM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/SpinalHDL/Sequential logic/memory.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ram-rom">
+<h1>RAM/ROM<a class="headerlink" href="#ram-rom" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="syntax">
+<h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
+<p>To specify memory of your RTL you can use the Mem tool of Spinal. It allow you to define a memory, and than add ports on it.</p>
+<p>The following table show how to instantiate a memory :</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Mem(type : Data,size : Int)</p></td>
+<td><p>Create a RAM</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mem(type : Data,initialContent : Array[Data])</p></td>
+<td><p>Create a ROM. If your target is an FPGA, because it can be inferred as a block ram, you can still create write ports on it.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to define a ROM, elements of the <code class="docutils literal notranslate"><span class="pre">initialContent</span></code> array should only be literal value (no operator, no resize functions). There is an example <a class="reference internal" href="../Examples/Simple ones/sinus_rom.html#sinus-rom"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To give an initial content to a RAM, you can also use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function.</p>
+</div>
+<p>The following table show how to add access ports on a memory :</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 94%" />
+<col style="width: 3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Return</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mem(address) := data</p></td>
+<td><p>Synchronous write</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>mem(x)</p></td>
+<td><p>Asynchronous read</p></td>
+<td><p>T</p></td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">mem.write(</div>
+<div class="line-block">
+<div class="line">address</div>
+<div class="line">data</div>
+<div class="line">[enable]</div>
+<div class="line">[mask]</div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Synchronous write with an optional mask.
+If no enable is specified, it’s automatically inferred from the conditional scope where this function is called</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">mem.readAsync(</div>
+<div class="line-block">
+<div class="line">address</div>
+<div class="line">[readUnderWrite]</div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Asynchronous read with an optional read under write policy</p></td>
+<td><p>T</p></td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">mem.readSync(</div>
+<div class="line-block">
+<div class="line">address</div>
+<div class="line">[enable]</div>
+<div class="line">[readUnderWrite]</div>
+<div class="line">[clockCrossing]</div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Synchronous read with an optional enable, read under write policy and clockCrossing mode</p></td>
+<td><p>T</p></td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">mem.readWriteSync(</div>
+<div class="line-block">
+<div class="line">address</div>
+<div class="line">data</div>
+<div class="line">enable</div>
+<div class="line">write</div>
+<div class="line">[mask]</div>
+<div class="line">[readUnderWrite]</div>
+<div class="line">[clockCrossing]</div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Infer a read/write port.</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">data</span></code> is written when <code class="docutils literal notranslate"><span class="pre">enable</span> <span class="pre">&amp;&amp;</span> <span class="pre">write</span></code>.</div>
+<div class="line">Return the read data, the read occur when <code class="docutils literal notranslate"><span class="pre">enable</span></code></div>
+</div>
+</td>
+<td><p>T</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Memories ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.</p>
+</div>
+<p>There is a example which infer an simple dual port ram (32 bits * 256):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Bits</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">),</span><span class="n">wordCount</span> <span class="k">=</span> <span class="mi">256</span><span class="o">)</span>
+<span class="n">mem</span><span class="o">.</span><span class="n">write</span><span class="o">(</span>
+  <span class="n">enable</span>  <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">writeValid</span><span class="o">,</span>
+  <span class="n">address</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">writeAddress</span><span class="o">,</span>
+  <span class="n">data</span>    <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">writeData</span>
+<span class="o">)</span>
+
+<span class="n">io</span><span class="o">.</span><span class="n">readData</span> <span class="o">:=</span> <span class="n">mem</span><span class="o">.</span><span class="n">readSync</span><span class="o">(</span>
+  <span class="n">enable</span>  <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">readValid</span><span class="o">,</span>
+  <span class="n">address</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">readAddress</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-under-write-policy">
+<h2>Read under write policy<a class="headerlink" href="#read-under-write-policy" title="Permalink to this headline">¶</a></h2>
+<p>This policy specify how a read is affected when a write occur in the same cycle on the same address.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kinds</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dontCare</span></code></p></td>
+<td><p>Don’t care about the read value when the case occur</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">readFirst</span></code></p></td>
+<td><p>The read will get the old value (before the write)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">writeFirst</span></code></p></td>
+<td><p>The read will get the new value (provided by the write)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The generated VHDL/Verilog is always in the ‘readFirst’ mode, which is compatible with ‘dontCare’ but not with ‘writeFirst’. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.</p>
+</div>
+</div>
+<div class="section" id="mixed-width-ram">
+<h2>Mixed width ram<a class="headerlink" href="#mixed-width-ram" title="Permalink to this headline">¶</a></h2>
+<p>You can specify ports that interface the memory with a data width of a power of two fraction of the memory one.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">mem.writeMixedWidth(</div>
+<div class="line-block">
+<div class="line">address</div>
+<div class="line">data</div>
+<div class="line">[readUnderWrite]</div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Similar to mem.write</p></td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">mem.readAsyncMixedWidth(</div>
+<div class="line-block">
+<div class="line">address</div>
+<div class="line">data</div>
+<div class="line">[readUnderWrite]</div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Similar to mem.readAsync, but in place to return the read value, it drive the data structure given as argument</p></td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">mem.readSyncMixedWidth(</div>
+<div class="line-block">
+<div class="line">address</div>
+<div class="line">data</div>
+<div class="line">[enable]</div>
+<div class="line">[readUnderWrite]</div>
+<div class="line">[clockCrossing]</div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Similar to mem.readSync, but in place to return the read value, it drive the data structure given as argument</p></td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">mem.readWriteSyncMixedWidth(</div>
+<div class="line-block">
+<div class="line">address</div>
+<div class="line">data</div>
+<div class="line">enable</div>
+<div class="line">write</div>
+<div class="line">[mask]</div>
+<div class="line">[readUnderWrite]</div>
+<div class="line">[clockCrossing]</div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Equivalent to mem.readWriteSync</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.</p>
+</div>
+</div>
+<div class="section" id="automatic-blackboxing">
+<h2>Automatic blackboxing<a class="headerlink" href="#automatic-blackboxing" title="Permalink to this headline">¶</a></h2>
+<p>Because it’s impossible to infer all ram kinds by using regular VHDL/Verilog, SpinalHDL integrate an optional automatic blackboxing system. This system look all Mem present in your RTL netlist and replace them by using BlackBox. Then the generated code will rely third party IP to provide memories features like read during write policy and mixed width ports.</p>
+<p>There is an example to enable the default automatic blackboxing.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+  <span class="nc">SpinalConfig</span><span class="o">()</span>
+    <span class="o">.</span><span class="n">addStandardMemBlackboxing</span><span class="o">(</span><span class="n">blackboxAll</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">generateVhdl</span><span class="o">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>If the standard blackboxing tools doesn’t do enough for your design, do not hesitate to do a git issue. There is also a way to define your own blackboxing tool.</p>
+<div class="section" id="blackboxing-policy">
+<h3>Blackboxing policy<a class="headerlink" href="#blackboxing-policy" title="Permalink to this headline">¶</a></h3>
+<p>There is multiple policy that you can use to select which memory you want to blackbox and also what to do when the blackboxing is not feasable :</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kinds</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>blackboxAll</p></td>
+<td><div class="line-block">
+<div class="line">Blackbox all memory.</div>
+<div class="line">Throw an error on unblackboxable memory</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>blackboxAllWhatsYouCan</p></td>
+<td><p>Blackbox all memory which are blackboxable</p></td>
+</tr>
+<tr class="row-even"><td><p>blackboxRequestedAndUninferable</p></td>
+<td><div class="line-block">
+<div class="line">Blackbox memory specified by the user and memory which are known to be uninferable (mixed width, …).</div>
+<div class="line">Throw an error on unblackboxable memory</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>blackboxOnlyIfRequested</p></td>
+<td><div class="line-block">
+<div class="line">Blackbox memory specified by the user</div>
+<div class="line">Throw an error on unblackboxable memory</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>To explicitly set a memory to be blackboxed, you can its <code class="docutils literal notranslate"><span class="pre">generateAsBlackBox</span></code> function.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">mem</span> <span class="k">=</span> <span class="nc">Mem</span><span class="o">(</span><span class="nc">Rgb</span><span class="o">(</span><span class="n">rgbConfig</span><span class="o">),</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="o">)</span>
+<span class="n">mem</span><span class="o">.</span><span class="n">generateAsBlackBox</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>You can also define your own blackboxing policy by extending the MemBlackboxingPolicy class.</p>
+</div>
+<div class="section" id="standard-memory-blackboxes">
+<h3>Standard memory blackboxes<a class="headerlink" href="#standard-memory-blackboxes" title="Permalink to this headline">¶</a></h3>
+<p>There are the VHDL definition of used blackboxes :</p>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Simple asynchronous dual port (1 write port, 1 read port)</span>
+<span class="n">component</span> <span class="n">Ram_1w_1ra</span> <span class="kr">is</span>
+  <span class="kd">generic</span><span class="p">(</span>
+    <span class="n">wordCount</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wordWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">technology</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">wrAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrDataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrMaskWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrMaskEnable</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">rdAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">rdDataWidth</span> <span class="p">:</span> <span class="kt">integer</span>
+  <span class="p">);</span>
+  <span class="n">port</span><span class="p">(</span>
+    <span class="n">clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr_mask</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">wr_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">wr_data</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">rd_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">rd_data</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
+  <span class="p">);</span>
+<span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
+
+<span class="c1">-- Simple synchronous dual port (1 write port, 1 read port)</span>
+<span class="n">component</span> <span class="n">Ram_1w_1rs</span> <span class="kr">is</span>
+  <span class="kd">generic</span><span class="p">(</span>
+    <span class="n">wordCount</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wordWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">clockCrossing</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">technology</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">wrAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrDataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrMaskWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wrMaskEnable</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">rdAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">rdDataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">rdEnEnable</span> <span class="p">:</span> <span class="kt">boolean</span>
+  <span class="p">);</span>
+  <span class="n">port</span><span class="p">(</span>
+    <span class="n">wr_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr_mask</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">wr_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">wr_data</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">rd_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">rd_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">rd_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">rd_data</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
+  <span class="p">);</span>
+<span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
+
+<span class="c1">-- Single port (1 readWrite port)</span>
+<span class="n">component</span> <span class="n">Ram_1wrs</span> <span class="kr">is</span>
+  <span class="kd">generic</span><span class="p">(</span>
+    <span class="n">wordCount</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wordWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">technology</span> <span class="p">:</span> <span class="kt">string</span>
+  <span class="p">);</span>
+  <span class="n">port</span><span class="p">(</span>
+    <span class="n">clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">wr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">wrData</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">rdData</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
+  <span class="p">);</span>
+<span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
+
+<span class="c1">--True dual port (2 readWrite port)</span>
+<span class="n">component</span> <span class="n">Ram_2wrs</span> <span class="kr">is</span>
+  <span class="kd">generic</span><span class="p">(</span>
+    <span class="n">wordCount</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">wordWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">clockCrossing</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">technology</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">portA_readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">portA_addressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portA_dataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portA_maskWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portA_maskEnable</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
+    <span class="n">portB_readUnderWrite</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+    <span class="n">portB_addressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portB_dataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portB_maskWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+    <span class="n">portB_maskEnable</span> <span class="p">:</span> <span class="kt">boolean</span>
+  <span class="p">);</span>
+  <span class="n">port</span><span class="p">(</span>
+    <span class="n">portA_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portA_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portA_wr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portA_mask</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portA_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">portA_wrData</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portA_rdData</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portB_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portB_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portB_wr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
+    <span class="n">portB_mask</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portB_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">portB_wrData</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic_vector</span><span class="p">;</span>
+    <span class="n">portB_rdData</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
+  <span class="p">);</span>
+<span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>As you can see, blackboxes have a technology parameter. To set it you can use the setTechnology function on the corresponding memory.
+There is currently 4 kinds of technogy possible :</p>
+<ul class="simple">
+<li><p>auto</p></li>
+<li><p>ramBlock</p></li>
+<li><p>distributedLut</p></li>
+<li><p>registerFile</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../Design errors/index.html" class="btn btn-neutral float-right" title="Design errors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="registers.html" class="btn btn-neutral float-left" title="Registers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2018, SpinalHDL.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: RTD-experimentation
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="../../../v1.3.1/SpinalHDL/Sequential logic/memory.html">v1.3.1</a></dd>
+      <dd><a href="../../../v1.3.8/SpinalHDL/Sequential logic/memory.html">v1.3.8</a></dd>
+      <dd><a href="../../../v1.5.0/SpinalHDL/Sequential logic/memory.html">v1.5.0</a></dd>
+      <dd><a href="../../../v1.6.0/SpinalHDL/Sequential logic/memory.html">v1.6.0</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../../1.5.0/SpinalHDL/Sequential logic/memory.html">1.5.0</a></dd>
+      <dd><a href="../../../1.5.1/SpinalHDL/Sequential logic/memory.html">1.5.1</a></dd>
+      <dd><a href="memory.html">RTD-experimentation</a></dd>
+      <dd><a href="../../../dev/SpinalHDL/Sequential logic/memory.html">dev</a></dd>
+      <dd><a href="../../../master/SpinalHDL/Sequential logic/memory.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

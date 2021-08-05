@@ -1,0 +1,890 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>SoC toplevel (Pinsec) &mdash; SpinalHDL  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Introduction" href="introduction.html" />
+    <link rel="prev" title="Hardware" href="hardware.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../About SpinalHDL/index.html">About SpinalHDL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../About SpinalHDL/faq.html">FAQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../About SpinalHDL/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../About SpinalHDL/users.html">Users</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Getting Started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/motivation.html">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/presentation.html">Presentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/Scala Guide/index.html">Scala Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Scala Guide/basics.html">Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Scala Guide/coding_conventions.html">Coding conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Scala Guide/interaction.html">Interaction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/Help for VHDL people/index.html">Help for VHDL people</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Help for VHDL people/vhdl_comp.html">VHDL comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Help for VHDL people/vhdl_perspective.html">VHDL equivalences</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/Cheatsheets/index.html">Cheatsheets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Cheatsheets/core.html">Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Cheatsheets/lib.html">Lib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Cheatsheets/symbolic.html">Symbolic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Data types/index.html">Data types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/bool.html">Bool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/bits.html">Bits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/Int.html">UInt/SInt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/enum.html">SpinalEnum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/bundle.html">Bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/Vec.html">Vec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/Fix.html">UFix/SFix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/Floating.html">Floating</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Structuring/index.html">Structuring</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/components_hierarchy.html">Component and hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/function.html">Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/clock_domain.html">Clock domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/blackbox.html">Instantiate VHDL and Verilog IP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Semantic/index.html">Semantic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/assignements.html">Assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/when_switch.html">When/Switch/Mux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/rules.html">Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Sequential logic/index.html">Sequential logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Sequential logic/registers.html">Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Sequential logic/memory.html">RAM/ROM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Design errors/index.html">Design errors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/assignment_overlap.html">Assignement overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/clock_crossing_violation.html">Clock crossing violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/combinatorial_loop.html">Combinational loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/hierarchy_violation.html">Hierarchy violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/iobundle.html">Io bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/latch_detected.html">Latch detected</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/no_driver_on.html">No driver on</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/nullpointerexception.html">NullPointerException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/register_defined_as_component_input.html">Register defined as component input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/scope_violation.html">Scope violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/spinal_cant_clone.html">Spinal can’t clone class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/unassigned_register.html">Unassigned register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/unreachable_is_statement.html">Unreachable is statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/width_mismatch.html">Width mismatch</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Other language features/index.html">Other language features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/assertion.html">Assertions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/formal.html">Formal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/analog_inout.html">Analog and inout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/vhdl_generation.html">VHDL and Verilog generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/stream.html">Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/flow.html">Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/fragment.html">Fragment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/fsm.html">State machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/vexriscv.html">VexRiscv (RV32IM CPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/bus_slave_factory.html">Bus Slave Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/generator.html">Generator framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/Bus/index.html">Bus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Bus/amba3/ahblite3.html">AHB-Lite3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Bus/amba3/apb3.html">Apb3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Bus/amba4/axi4.html">Axi4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Bus/avalon/avalonmm.html">AvalonMM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/Com/index.html">Com</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Com/uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/IO/index.html">IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/IO/readableOpenDrain.html">ReadableOpenDrain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/IO/tristate.html">TriState</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/Graphics/index.html">Graphics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Graphics/colors.html">Colors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Graphics/vga.html">VGA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/EDA/index.html">EDA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/EDA/altera/qsysify.html">QSysify</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Simulation/index.html">Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/install/index.html">Installation instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/install/GHDL.html">Setup and installation of GHDL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/install/Icarus Verilog.html">Setup and installation of Icarus Verilog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/install/Verilator.html">Setup and installation of Verilator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/bootstraps.html">Boot a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/signal.html">Accessing signals of the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/clock.html">Clock domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/threadFull.html">Thread-full API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/engine.html">Simulation engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/examples/index.html">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/asynchronous.html">Asynchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/dual_clock_fifo.html">Dual clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/single_clock_fifo.html">Single clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/synchronous.html">Synchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/uart_decoder.html">Uart decoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/uart_encoder.html">Uart encoder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Examples/Simple ones/index.html">Simple ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple ones/apb3.html">APB3 definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple ones/carry_adder.html">Carry adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple ones/color_summing.html">Color summing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple ones/counter_with_clear.html">Counter with clear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple ones/pll_resetctrl.html">PLL BlackBox and reset controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple ones/rgb_to_gray.html">RGB to gray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple ones/sinus_rom.html">Sinus rom</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Examples/Intermediates ones/index.html">Intermediates ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Intermediates ones/fractal.html">Fractal calculator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Intermediates ones/uart.html">UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Intermediates ones/vga.html">VGA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Examples/Advanced ones/index.html">Advanced ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Advanced ones/jtag.html">JTAG TAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Advanced ones/memory_mapped_uart.html">Memory mapped UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Advanced ones/pinesec.html">Pinesec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Advanced ones/timer.html">Timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Legacy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../riscv.html">RiscV</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">pinsec</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="hardware.html">Hardware</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SoC toplevel (Pinsec)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="software.html">Software</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Developers area/index.html">Developers area</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers area/bus_slave_factory_impl.html">Bus Slave Factory Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers area/howtodocument.html">How to HACK this documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers area/types.html">Types</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Legacy</a> &raquo;</li>
+        
+          <li><a href="index.html">pinsec</a> &raquo;</li>
+        
+      <li>SoC toplevel (Pinsec)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="soc-toplevel-pinsec">
+<span id="pinsec-hardware-toplevel"></span><h1>SoC toplevel (Pinsec)<a class="headerlink" href="#soc-toplevel-pinsec" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Pinsec</span></code> is a little SoC designed for FPGA. It is available in the SpinalHDL library and some documentation could be find <a class="reference internal" href="introduction.html#pinsec-introduction"><span class="std std-ref">there</span></a></p>
+<p>Its toplevel implementation is an interesting example, because it mix some design pattern that make it very easy to modify. Adding a new master or a new peripheral to the bus fabric could be done in the seconde.</p>
+<p>This toplevel implementation could be consulted there :
+<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala">https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala</a></p>
+<p>There is the Pinsec toplevel hardware diagram :</p>
+<img alt="../../../_images/pinsec_hardware.svg" class="align-center" src="../../../_images/pinsec_hardware.svg" /></div>
+<div class="section" id="defining-all-io">
+<h2>Defining all IO<a class="headerlink" href="#defining-all-io" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">{</span>
+  <span class="c1">//Clocks / reset</span>
+  <span class="k">val</span> <span class="n">asyncReset</span> <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">axiClk</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+  <span class="k">val</span> <span class="n">vgaClk</span>     <span class="k">=</span> <span class="n">in</span> <span class="nc">Bool</span>
+
+  <span class="c1">//Main components IO</span>
+  <span class="k">val</span> <span class="n">jtag</span>       <span class="k">=</span> <span class="n">slave</span><span class="o">(</span><span class="nc">Jtag</span><span class="o">())</span>
+  <span class="k">val</span> <span class="n">sdram</span>      <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">SdramInterface</span><span class="o">(</span><span class="nc">IS42x320D</span><span class="o">.</span><span class="n">layout</span><span class="o">))</span>
+
+  <span class="c1">//Peripherals IO</span>
+  <span class="k">val</span> <span class="n">gpioA</span>      <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">TriStateArray</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">))</span>   <span class="c1">//Each pin has it&#39;s individual output enable control</span>
+  <span class="k">val</span> <span class="n">gpioB</span>      <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">TriStateArray</span><span class="o">(</span><span class="mi">32</span> <span class="n">bits</span><span class="o">))</span>
+  <span class="k">val</span> <span class="n">uart</span>       <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">Uart</span><span class="o">())</span>
+  <span class="k">val</span> <span class="n">vga</span>        <span class="k">=</span> <span class="n">master</span><span class="o">(</span><span class="nc">Vga</span><span class="o">(</span><span class="nc">RgbConfig</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">5</span><span class="o">)))</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clock-and-resets">
+<h2>Clock and resets<a class="headerlink" href="#clock-and-resets" title="Permalink to this headline">¶</a></h2>
+<p>Pinsec has three clocks inputs :</p>
+<ul class="simple">
+<li><p>axiClock</p></li>
+<li><p>vgaClock</p></li>
+<li><p>jtag.tck</p></li>
+</ul>
+<p>And one reset input :</p>
+<ul class="simple">
+<li><p>asyncReset</p></li>
+</ul>
+<p>Which will finally give 5 ClockDomain (clock/reset couple) :</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Clock</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>resetCtrlClockDomain</p></td>
+<td><p>axiClock</p></td>
+<td><p>Used by the reset controller, Flops of this clock domain are initialized by the FPGA bitstream</p></td>
+</tr>
+<tr class="row-odd"><td><p>axiClockDomain</p></td>
+<td><p>axiClock</p></td>
+<td><p>Used by all component connected to the AXI and the APB interconnect</p></td>
+</tr>
+<tr class="row-even"><td><p>coreClockDomain</p></td>
+<td><p>axiClock</p></td>
+<td><p>The only difference with the axiClockDomain, is the fact that the reset could also be asserted by the debug module</p></td>
+</tr>
+<tr class="row-odd"><td><p>vgaClockDomain</p></td>
+<td><p>vgaClock</p></td>
+<td><p>Used by the VGA controller backend as a pixel clock</p></td>
+</tr>
+<tr class="row-even"><td><p>jtagClockDomain</p></td>
+<td><p>jtag.tck</p></td>
+<td><p>Used to clock the frontend of the JTAG controller</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="reset-controller">
+<h3>Reset controller<a class="headerlink" href="#reset-controller" title="Permalink to this headline">¶</a></h3>
+<p>First we need to define the reset controller clock domain, which has no reset wire, but use the FPGA bitstream loading to setup flipflops.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">resetCtrlClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(</span>
+  <span class="n">clock</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">axiClk</span><span class="o">,</span>
+  <span class="n">config</span> <span class="k">=</span> <span class="nc">ClockDomainConfig</span><span class="o">(</span>
+    <span class="n">resetKind</span> <span class="k">=</span> <span class="nc">BOOT</span>
+  <span class="o">)</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Then we can define a simple reset controller under this clock domain.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">resetCtrl</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClockingArea</span><span class="o">(</span><span class="n">resetCtrlClockDomain</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">axiResetUnbuffered</span>  <span class="k">=</span> <span class="nc">False</span>
+  <span class="k">val</span> <span class="n">coreResetUnbuffered</span> <span class="k">=</span> <span class="nc">False</span>
+
+  <span class="c1">//Implement an counter to keep the reset axiResetOrder high 64 cycles</span>
+  <span class="c1">// Also this counter will automaticly do a reset when the system boot.</span>
+  <span class="k">val</span> <span class="n">axiResetCounter</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="mi">6</span> <span class="n">bits</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">axiResetCounter</span> <span class="o">=/=</span> <span class="n">U</span><span class="o">(</span><span class="n">axiResetCounter</span><span class="o">.</span><span class="n">range</span> <span class="o">-&gt;</span> <span class="kc">true</span><span class="o">)){</span>
+    <span class="n">axiResetCounter</span> <span class="o">:=</span> <span class="n">axiResetCounter</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">axiResetUnbuffered</span> <span class="o">:=</span> <span class="nc">True</span>
+  <span class="o">}</span>
+  <span class="n">when</span><span class="o">(</span><span class="nc">BufferCC</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">asyncReset</span><span class="o">)){</span>
+    <span class="n">axiResetCounter</span> <span class="o">:=</span> <span class="mi">0</span>
+  <span class="o">}</span>
+
+  <span class="c1">//When an axiResetOrder happen, the core reset will as well</span>
+  <span class="n">when</span><span class="o">(</span><span class="n">axiResetUnbuffered</span><span class="o">){</span>
+    <span class="n">coreResetUnbuffered</span> <span class="o">:=</span> <span class="nc">True</span>
+  <span class="o">}</span>
+
+  <span class="c1">//Create all reset used later in the design</span>
+  <span class="k">val</span> <span class="n">axiReset</span>  <span class="k">=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">axiResetUnbuffered</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">coreReset</span> <span class="k">=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">coreResetUnbuffered</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">vgaReset</span>  <span class="k">=</span> <span class="nc">BufferCC</span><span class="o">(</span><span class="n">axiResetUnbuffered</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="systems-clock-domains">
+<h3>Systems clock domains<a class="headerlink" href="#systems-clock-domains" title="Permalink to this headline">¶</a></h3>
+<p>Now that the reset controller is implemented, we can define clock domain for all part of Pinsec :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">axiClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(</span>
+  <span class="n">clock</span>     <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">axiClk</span><span class="o">,</span>
+  <span class="n">reset</span>     <span class="k">=</span> <span class="n">resetCtrl</span><span class="o">.</span><span class="n">axiReset</span><span class="o">,</span>
+  <span class="n">frequency</span> <span class="k">=</span> <span class="nc">FixedFrequency</span><span class="o">(</span><span class="mi">50</span> <span class="nc">MHz</span><span class="o">)</span> <span class="c1">//The frequency information is used by the SDRAM controller</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">coreClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(</span>
+  <span class="n">clock</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">axiClk</span><span class="o">,</span>
+  <span class="n">reset</span> <span class="k">=</span> <span class="n">resetCtrl</span><span class="o">.</span><span class="n">coreReset</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">vgaClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(</span>
+  <span class="n">clock</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">vgaClk</span><span class="o">,</span>
+  <span class="n">reset</span> <span class="k">=</span> <span class="n">resetCtrl</span><span class="o">.</span><span class="n">vgaReset</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">jtagClockDomain</span> <span class="k">=</span> <span class="nc">ClockDomain</span><span class="o">(</span>
+  <span class="n">clock</span> <span class="k">=</span> <span class="n">io</span><span class="o">.</span><span class="n">jtag</span><span class="o">.</span><span class="n">tck</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Also all the core system of Pinsec will be defined into a <code class="docutils literal notranslate"><span class="pre">axi</span></code> clocked area :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">axi</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClockingArea</span><span class="o">(</span><span class="n">axiClockDomain</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">//Here will come the rest of Pinsec</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="main-components">
+<h2>Main components<a class="headerlink" href="#main-components" title="Permalink to this headline">¶</a></h2>
+<p>Pinsec is constituted mainly by 4 main components :</p>
+<ul class="simple">
+<li><p>One RISCV CPU</p></li>
+<li><p>One SDRAM controller</p></li>
+<li><p>One on chip memory</p></li>
+<li><p>One JTAG controller</p></li>
+</ul>
+<div class="section" id="riscv-cpu">
+<h3>RISCV CPU<a class="headerlink" href="#riscv-cpu" title="Permalink to this headline">¶</a></h3>
+<p>The RISCV CPU used in Pinsec as many parametrization possibilities :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">core</span> <span class="k">=</span> <span class="n">coreClockDomain</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">coreConfig</span> <span class="k">=</span> <span class="nc">CoreConfig</span><span class="o">(</span>
+    <span class="n">pcWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+    <span class="n">addrWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+    <span class="n">startAddress</span> <span class="k">=</span> <span class="mh">0x00000000</span><span class="o">,</span>
+    <span class="n">regFileReadyKind</span> <span class="k">=</span> <span class="n">sync</span><span class="o">,</span>
+    <span class="n">branchPrediction</span> <span class="k">=</span> <span class="n">dynamic</span><span class="o">,</span>
+    <span class="n">bypassExecute0</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
+    <span class="n">bypassExecute1</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
+    <span class="n">bypassWriteBack</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
+    <span class="n">bypassWriteBackBuffer</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
+    <span class="n">collapseBubble</span> <span class="k">=</span> <span class="kc">false</span><span class="o">,</span>
+    <span class="n">fastFetchCmdPcCalculation</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
+    <span class="n">dynamicBranchPredictorCacheSizeLog2</span> <span class="k">=</span> <span class="mi">7</span>
+  <span class="o">)</span>
+
+  <span class="c1">//The CPU has a systems of plugin which allow to add new feature into the core.</span>
+  <span class="c1">//Those extension are not directly implemented into the core, but are kind of additive logic patch defined in a separated area.</span>
+  <span class="n">coreConfig</span><span class="o">.</span><span class="n">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">MulExtension</span><span class="o">)</span>
+  <span class="n">coreConfig</span><span class="o">.</span><span class="n">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">DivExtension</span><span class="o">)</span>
+  <span class="n">coreConfig</span><span class="o">.</span><span class="n">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">BarrelShifterFullExtension</span><span class="o">)</span>
+
+  <span class="k">val</span> <span class="n">iCacheConfig</span> <span class="k">=</span> <span class="nc">InstructionCacheConfig</span><span class="o">(</span>
+    <span class="n">cacheSize</span> <span class="k">=</span><span class="mi">4096</span><span class="o">,</span>
+    <span class="n">bytePerLine</span> <span class="k">=</span><span class="mi">32</span><span class="o">,</span>
+    <span class="n">wayCount</span> <span class="k">=</span> <span class="mi">1</span><span class="o">,</span>  <span class="c1">//Can only be one for the moment</span>
+    <span class="n">wrappedMemAccess</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
+    <span class="n">addressWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+    <span class="n">cpuDataWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+    <span class="n">memDataWidth</span> <span class="k">=</span> <span class="mi">32</span>
+  <span class="o">)</span>
+
+  <span class="c1">//There is the instanciation of the CPU by using all those construction parameters</span>
+  <span class="k">new</span> <span class="nc">RiscvAxi4</span><span class="o">(</span>
+    <span class="n">coreConfig</span> <span class="k">=</span> <span class="n">coreConfig</span><span class="o">,</span>
+    <span class="n">iCacheConfig</span> <span class="k">=</span> <span class="n">iCacheConfig</span><span class="o">,</span>
+    <span class="n">dCacheConfig</span> <span class="k">=</span> <span class="kc">null</span><span class="o">,</span>
+    <span class="n">debug</span> <span class="k">=</span> <span class="kc">true</span><span class="o">,</span>
+    <span class="n">interruptCount</span> <span class="k">=</span> <span class="mi">2</span>
+  <span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="on-chip-ram">
+<h3>On chip RAM<a class="headerlink" href="#on-chip-ram" title="Permalink to this headline">¶</a></h3>
+<p>The instanciation of the AXI4 on chip RAM is very simple.</p>
+<p>In fact it’s not an AXI4 but an Axi4Shared, which mean that a ARW channel replace the AR and AW ones. This solution use less area while being fully interoperable with full AXI4.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">ram</span> <span class="k">=</span> <span class="nc">Axi4SharedOnChipRam</span><span class="o">(</span>
+  <span class="n">dataWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+  <span class="n">byteCount</span> <span class="k">=</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="o">,</span>
+  <span class="n">idWidth</span> <span class="k">=</span> <span class="mi">4</span>     <span class="c1">//Specify the AXI4 ID width.</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sdram-controller">
+<h3>SDRAM controller<a class="headerlink" href="#sdram-controller" title="Permalink to this headline">¶</a></h3>
+<p>First you need to define the layout and timings of your SDRAM device. On the DE1-SOC, the SDRAM device is an IS42x320D one.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">IS42x320D</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">layout</span> <span class="k">=</span> <span class="nc">SdramLayout</span><span class="o">(</span>
+    <span class="n">bankWidth</span>   <span class="k">=</span> <span class="mi">2</span><span class="o">,</span>
+    <span class="n">columnWidth</span> <span class="k">=</span> <span class="mi">10</span><span class="o">,</span>
+    <span class="n">rowWidth</span>    <span class="k">=</span> <span class="mi">13</span><span class="o">,</span>
+    <span class="n">dataWidth</span>   <span class="k">=</span> <span class="mi">16</span>
+  <span class="o">)</span>
+
+  <span class="k">def</span> <span class="n">timingGrade7</span> <span class="k">=</span> <span class="nc">SdramTimings</span><span class="o">(</span>
+    <span class="n">bootRefreshCount</span> <span class="k">=</span>   <span class="mi">8</span><span class="o">,</span>
+    <span class="n">tPOW</span>             <span class="k">=</span> <span class="mi">100</span> <span class="n">us</span><span class="o">,</span>
+    <span class="n">tREF</span>             <span class="k">=</span>  <span class="mi">64</span> <span class="n">ms</span><span class="o">,</span>
+    <span class="n">tRC</span>              <span class="k">=</span>  <span class="mi">60</span> <span class="n">ns</span><span class="o">,</span>
+    <span class="n">tRFC</span>             <span class="k">=</span>  <span class="mi">60</span> <span class="n">ns</span><span class="o">,</span>
+    <span class="n">tRAS</span>             <span class="k">=</span>  <span class="mi">37</span> <span class="n">ns</span><span class="o">,</span>
+    <span class="n">tRP</span>              <span class="k">=</span>  <span class="mi">15</span> <span class="n">ns</span><span class="o">,</span>
+    <span class="n">tRCD</span>             <span class="k">=</span>  <span class="mi">15</span> <span class="n">ns</span><span class="o">,</span>
+    <span class="n">cMRD</span>             <span class="k">=</span>   <span class="mi">2</span><span class="o">,</span>
+    <span class="n">tWR</span>              <span class="k">=</span>  <span class="mi">10</span> <span class="n">ns</span><span class="o">,</span>
+    <span class="n">cWR</span>              <span class="k">=</span>   <span class="mi">1</span>
+  <span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Then you can used those definition to parametrize the SDRAM controller instantiation.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">sdramCtrl</span> <span class="k">=</span> <span class="nc">Axi4SharedSdramCtrl</span><span class="o">(</span>
+  <span class="n">axiDataWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+  <span class="n">axiIdWidth</span>   <span class="k">=</span> <span class="mi">4</span><span class="o">,</span>
+  <span class="n">layout</span>       <span class="k">=</span> <span class="nc">IS42x320D</span><span class="o">.</span><span class="n">layout</span><span class="o">,</span>
+  <span class="n">timing</span>       <span class="k">=</span> <span class="nc">IS42x320D</span><span class="o">.</span><span class="n">timingGrade7</span><span class="o">,</span>
+  <span class="nc">CAS</span>          <span class="k">=</span> <span class="mi">3</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jtag-controller">
+<h3>JTAG controller<a class="headerlink" href="#jtag-controller" title="Permalink to this headline">¶</a></h3>
+<p>The JTAG controller could be used to access memories and debug the CPU from an PC.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">jtagCtrl</span> <span class="k">=</span> <span class="nc">JtagAxi4SharedDebugger</span><span class="o">(</span><span class="nc">SystemDebuggerConfig</span><span class="o">(</span>
+  <span class="n">memAddressWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+  <span class="n">memDataWidth</span>    <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+  <span class="n">remoteCmdWidth</span>  <span class="k">=</span> <span class="mi">1</span><span class="o">,</span>
+  <span class="n">jtagClockDomain</span> <span class="k">=</span> <span class="n">jtagClockDomain</span>
+<span class="o">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="peripherals">
+<h2>Peripherals<a class="headerlink" href="#peripherals" title="Permalink to this headline">¶</a></h2>
+<p>Pinsec integrate some peripherals :</p>
+<ul class="simple">
+<li><p>GPIO</p></li>
+<li><p>Timer</p></li>
+<li><p>UART</p></li>
+<li><p>VGA</p></li>
+</ul>
+<div class="section" id="gpio">
+<h3>GPIO<a class="headerlink" href="#gpio" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">gpioACtrl</span> <span class="k">=</span> <span class="nc">Apb3Gpio</span><span class="o">(</span>
+  <span class="n">gpioWidth</span> <span class="k">=</span> <span class="mi">32</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="n">gpioBCtrl</span> <span class="k">=</span> <span class="nc">Apb3Gpio</span><span class="o">(</span>
+  <span class="n">gpioWidth</span> <span class="k">=</span> <span class="mi">32</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="timer">
+<h3>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h3>
+<p>The Pinsec timer module is constituted of :</p>
+<ul class="simple">
+<li><p>One prescaler</p></li>
+<li><p>One 32 bits timer</p></li>
+<li><p>Three 16 bits timers</p></li>
+</ul>
+<p>All of them are packed into the PinsecTimerCtrl component.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">timerCtrl</span> <span class="k">=</span> <span class="nc">PinsecTimerCtrl</span><span class="o">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="uart-controller">
+<h3>UART controller<a class="headerlink" href="#uart-controller" title="Permalink to this headline">¶</a></h3>
+<p>First we need to define a configuration for our UART controller :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">uartCtrlConfig</span> <span class="k">=</span> <span class="nc">UartCtrlMemoryMappedConfig</span><span class="o">(</span>
+  <span class="n">uartCtrlConfig</span> <span class="k">=</span> <span class="nc">UartCtrlGenerics</span><span class="o">(</span>
+    <span class="n">dataWidthMax</span>      <span class="k">=</span> <span class="mi">8</span><span class="o">,</span>
+    <span class="n">clockDividerWidth</span> <span class="k">=</span> <span class="mi">20</span><span class="o">,</span>
+    <span class="n">preSamplingSize</span>   <span class="k">=</span> <span class="mi">1</span><span class="o">,</span>
+    <span class="n">samplingSize</span>      <span class="k">=</span> <span class="mi">5</span><span class="o">,</span>
+    <span class="n">postSamplingSize</span>  <span class="k">=</span> <span class="mi">2</span>
+  <span class="o">),</span>
+  <span class="n">txFifoDepth</span> <span class="k">=</span> <span class="mi">16</span><span class="o">,</span>
+  <span class="n">rxFifoDepth</span> <span class="k">=</span> <span class="mi">16</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Then we can use it to instantiate the UART controller</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">uartCtrl</span> <span class="k">=</span> <span class="nc">Apb3UartCtrl</span><span class="o">(</span><span class="n">uartCtrlConfig</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="vga-controller">
+<h3>VGA controller<a class="headerlink" href="#vga-controller" title="Permalink to this headline">¶</a></h3>
+<p>First we need to define a configuration for our VGA controller :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">vgaCtrlConfig</span> <span class="k">=</span> <span class="nc">Axi4VgaCtrlGenerics</span><span class="o">(</span>
+  <span class="n">axiAddressWidth</span> <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+  <span class="n">axiDataWidth</span>    <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+  <span class="n">burstLength</span>     <span class="k">=</span> <span class="mi">8</span><span class="o">,</span>           <span class="c1">//In Axi words</span>
+  <span class="n">frameSizeMax</span>    <span class="k">=</span> <span class="mi">2048</span><span class="o">*</span><span class="mi">1512</span><span class="o">*</span><span class="mi">2</span><span class="o">,</span> <span class="c1">//In byte</span>
+  <span class="n">fifoSize</span>        <span class="k">=</span> <span class="mi">512</span><span class="o">,</span>         <span class="c1">//In axi words</span>
+  <span class="n">rgbConfig</span>       <span class="k">=</span> <span class="nc">RgbConfig</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">5</span><span class="o">),</span>
+  <span class="n">vgaClock</span>        <span class="k">=</span> <span class="n">vgaClockDomain</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Then we can use it to instantiate the VGA controller</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">vgaCtrl</span> <span class="k">=</span> <span class="nc">Axi4VgaCtrl</span><span class="o">(</span><span class="n">vgaCtrlConfig</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="bus-interconnects">
+<h2>Bus interconnects<a class="headerlink" href="#bus-interconnects" title="Permalink to this headline">¶</a></h2>
+<p>There is three interconnections components :</p>
+<ul class="simple">
+<li><p>AXI4 crossbar</p></li>
+<li><p>AXI4 to APB3 bridge</p></li>
+<li><p>APB3 decoder</p></li>
+</ul>
+<div class="section" id="axi4-to-apb3-bridge">
+<h3>AXI4 to APB3 bridge<a class="headerlink" href="#axi4-to-apb3-bridge" title="Permalink to this headline">¶</a></h3>
+<p>This bridge will be used to connect low bandwidth peripherals to the AXI crossbar.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">apbBridge</span> <span class="k">=</span> <span class="nc">Axi4SharedToApb3Bridge</span><span class="o">(</span>
+  <span class="n">addressWidth</span> <span class="k">=</span> <span class="mi">20</span><span class="o">,</span>
+  <span class="n">dataWidth</span>    <span class="k">=</span> <span class="mi">32</span><span class="o">,</span>
+  <span class="n">idWidth</span>      <span class="k">=</span> <span class="mi">4</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="axi4-crossbar">
+<h3>AXI4 crossbar<a class="headerlink" href="#axi4-crossbar" title="Permalink to this headline">¶</a></h3>
+<p>The AXI4 crossbar that interconnect AXI4 masters and slaves together  is generated by using an factory.
+The concept of this factory is to create it, then call many function on it to configure it, and finaly call the <code class="docutils literal notranslate"><span class="pre">build</span></code> function to ask the factory to generate the corresponding hardware :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">axiCrossbar</span> <span class="k">=</span> <span class="nc">Axi4CrossbarFactory</span><span class="o">()</span>
+<span class="c1">// Where you will have to call function the the axiCrossbar factory to populate its configuration</span>
+<span class="n">axiCrossbar</span><span class="o">.</span><span class="n">build</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>First you need to populate slaves interfaces :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//          Slave  -&gt; (base address,  size) ,</span>
+
+<span class="n">axiCrossbar</span><span class="o">.</span><span class="n">addSlaves</span><span class="o">(</span>
+  <span class="n">ram</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span>       <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0x00000000</span><span class="n">L</span><span class="o">,</span>   <span class="mi">4</span> <span class="nc">KiB</span><span class="o">),</span>
+  <span class="n">sdramCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0x40000000</span><span class="n">L</span><span class="o">,</span>  <span class="mi">64</span> <span class="nc">MiB</span><span class="o">),</span>
+  <span class="n">apbBridge</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0xF0000000</span><span class="n">L</span><span class="o">,</span>   <span class="mi">1</span> <span class="nc">MiB</span><span class="o">)</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Then you need to populate interconnections between slaves and masters :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//         Master -&gt; List of slaves which are accessible</span>
+
+<span class="n">axiCrossbar</span><span class="o">.</span><span class="n">addConnections</span><span class="o">(</span>
+  <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">i</span>       <span class="o">-&gt;</span> <span class="nc">List</span><span class="o">(</span><span class="n">ram</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">,</span> <span class="n">sdramCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">),</span>
+  <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">d</span>       <span class="o">-&gt;</span> <span class="nc">List</span><span class="o">(</span><span class="n">ram</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">,</span> <span class="n">sdramCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">,</span> <span class="n">apbBridge</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">),</span>
+  <span class="n">jtagCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span> <span class="o">-&gt;</span> <span class="nc">List</span><span class="o">(</span><span class="n">ram</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">,</span> <span class="n">sdramCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">,</span> <span class="n">apbBridge</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">),</span>
+  <span class="n">vgaCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span>  <span class="o">-&gt;</span> <span class="nc">List</span><span class="o">(</span>            <span class="n">sdramCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">)</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Then to reduce combinatorial path length and have a good design FMax, you can ask the factory to insert pipelining stages between itself a given master or slave :</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">halfPipe</span></code> / &gt;&gt; / &lt;&lt; / &gt;/-&gt;  in the following code are provided by the Stream bus library.</div>
+<div class="line">Some documentation could be find <a class="reference internal" href="../../Libraries/stream.html#stream"><span class="std std-ref">there</span></a>. In short, it’s just some pipelining and interconnection stuff.</div>
+</div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Pipeline the connection between the crossbar and the apbBridge.io.axi</span>
+<span class="n">axiCrossbar</span><span class="o">.</span><span class="n">addPipelining</span><span class="o">(</span><span class="n">apbBridge</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">,(</span><span class="n">crossbar</span><span class="o">,</span><span class="n">bridge</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
+  <span class="n">crossbar</span><span class="o">.</span><span class="n">sharedCmd</span><span class="o">.</span><span class="n">halfPipe</span><span class="o">()</span> <span class="o">&gt;&gt;</span> <span class="n">bridge</span><span class="o">.</span><span class="n">sharedCmd</span>
+  <span class="n">crossbar</span><span class="o">.</span><span class="n">writeData</span><span class="o">.</span><span class="n">halfPipe</span><span class="o">()</span> <span class="o">&gt;&gt;</span> <span class="n">bridge</span><span class="o">.</span><span class="n">writeData</span>
+  <span class="n">crossbar</span><span class="o">.</span><span class="n">writeRsp</span>             <span class="o">&lt;&lt;</span> <span class="n">bridge</span><span class="o">.</span><span class="n">writeRsp</span>
+  <span class="n">crossbar</span><span class="o">.</span><span class="n">readRsp</span>              <span class="o">&lt;&lt;</span> <span class="n">bridge</span><span class="o">.</span><span class="n">readRsp</span>
+<span class="o">})</span>
+
+<span class="c1">//Pipeline the connection between the crossbar and the sdramCtrl.io.axi</span>
+<span class="n">axiCrossbar</span><span class="o">.</span><span class="n">addPipelining</span><span class="o">(</span><span class="n">sdramCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">axi</span><span class="o">,(</span><span class="n">crossbar</span><span class="o">,</span><span class="n">ctrl</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
+  <span class="n">crossbar</span><span class="o">.</span><span class="n">sharedCmd</span><span class="o">.</span><span class="n">halfPipe</span><span class="o">()</span>  <span class="o">&gt;&gt;</span>  <span class="n">ctrl</span><span class="o">.</span><span class="n">sharedCmd</span>
+  <span class="n">crossbar</span><span class="o">.</span><span class="n">writeData</span>            <span class="o">&gt;/-&gt;</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">writeData</span>
+  <span class="n">crossbar</span><span class="o">.</span><span class="n">writeRsp</span>              <span class="o">&lt;&lt;</span>  <span class="n">ctrl</span><span class="o">.</span><span class="n">writeRsp</span>
+  <span class="n">crossbar</span><span class="o">.</span><span class="n">readRsp</span>               <span class="o">&lt;&lt;</span>  <span class="n">ctrl</span><span class="o">.</span><span class="n">readRsp</span>
+<span class="o">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="apb3-decoder">
+<h3>APB3 decoder<a class="headerlink" href="#apb3-decoder" title="Permalink to this headline">¶</a></h3>
+<p>The interconnection between the APB3 bridge and all peripherals is done via an APB3Decoder :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">apbDecoder</span> <span class="k">=</span> <span class="nc">Apb3Decoder</span><span class="o">(</span>
+  <span class="n">master</span> <span class="k">=</span> <span class="n">apbBridge</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">apb</span><span class="o">,</span>
+  <span class="n">slaves</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span>
+    <span class="n">gpioACtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0x00000</span><span class="o">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="o">),</span>
+    <span class="n">gpioBCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0x01000</span><span class="o">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="o">),</span>
+    <span class="n">uartCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">apb</span>  <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0x10000</span><span class="o">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="o">),</span>
+    <span class="n">timerCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0x20000</span><span class="o">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="o">),</span>
+    <span class="n">vgaCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">apb</span>   <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0x30000</span><span class="o">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="o">),</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">debugBus</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="mh">0xF0000</span><span class="o">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="o">)</span>
+  <span class="o">)</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="misc">
+<h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h2>
+<p>To connect all toplevel IO to components, the following code is required :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="o">.</span><span class="n">gpioA</span> <span class="o">&lt;&gt;</span> <span class="n">axi</span><span class="o">.</span><span class="n">gpioACtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">gpio</span>
+<span class="n">io</span><span class="o">.</span><span class="n">gpioB</span> <span class="o">&lt;&gt;</span> <span class="n">axi</span><span class="o">.</span><span class="n">gpioBCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">gpio</span>
+<span class="n">io</span><span class="o">.</span><span class="n">jtag</span>  <span class="o">&lt;&gt;</span> <span class="n">axi</span><span class="o">.</span><span class="n">jtagCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">jtag</span>
+<span class="n">io</span><span class="o">.</span><span class="n">uart</span>  <span class="o">&lt;&gt;</span> <span class="n">axi</span><span class="o">.</span><span class="n">uartCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">uart</span>
+<span class="n">io</span><span class="o">.</span><span class="n">sdram</span> <span class="o">&lt;&gt;</span> <span class="n">axi</span><span class="o">.</span><span class="n">sdramCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">sdram</span>
+<span class="n">io</span><span class="o">.</span><span class="n">vga</span>   <span class="o">&lt;&gt;</span> <span class="n">axi</span><span class="o">.</span><span class="n">vgaCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">vga</span>
+</pre></div>
+</div>
+<p>And finally some connections between components are required like interrupts and core debug module resets</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">interrupt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">:=</span> <span class="n">uartCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">interrupt</span>
+<span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">interrupt</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">:=</span> <span class="n">timerCtrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">interrupt</span>
+
+<span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">debugResetIn</span> <span class="o">:=</span> <span class="n">resetCtrl</span><span class="o">.</span><span class="n">axiReset</span>
+<span class="n">when</span><span class="o">(</span><span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">debugResetOut</span><span class="o">){</span>
+  <span class="n">resetCtrl</span><span class="o">.</span><span class="n">coreResetUnbuffered</span> <span class="o">:=</span> <span class="nc">True</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="hardware.html" class="btn btn-neutral float-left" title="Hardware" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2018, SpinalHDL.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="../../../../v1.3.1/SpinalHDL/Legacy/pinsec/hardware_toplevel.html">v1.3.1</a></dd>
+      <dd><a href="../../../../v1.3.8/SpinalHDL/Legacy/pinsec/hardware_toplevel.html">v1.3.8</a></dd>
+      <dd><a href="../../../../v1.5.0/SpinalHDL/Legacy/pinsec/hardware_toplevel.html">v1.5.0</a></dd>
+      <dd><a href="../../../../v1.6.0/SpinalHDL/Legacy/pinsec/hardware_toplevel.html">v1.6.0</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../../../1.5.0/SpinalHDL/Legacy/pinsec/hardware_toplevel.html">1.5.0</a></dd>
+      <dd><a href="../../../../1.5.1/SpinalHDL/Legacy/pinsec/hardware_toplevel.html">1.5.1</a></dd>
+      <dd><a href="../../../../RTD-experimentation/SpinalHDL/Legacy/pinsec/hardware_toplevel.html">RTD-experimentation</a></dd>
+      <dd><a href="hardware_toplevel.html">dev</a></dd>
+      <dd><a href="../../../../master/SpinalHDL/Legacy/pinsec/hardware_toplevel.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
