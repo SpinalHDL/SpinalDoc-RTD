@@ -205,6 +205,6 @@ online_wavedrom_js_url = "https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8"
 linkcheck_anchors=False
 
 smv_branch_whitelist = r'^(master|dev).*$'
-smv_remote_whitelist = r'^origin/(master|dev).*$'
+smv_remote_whitelist = r'^.*$'
 smv_tag_whitelist = r'^.*$'
 smv_prefer_remote_refs = True
