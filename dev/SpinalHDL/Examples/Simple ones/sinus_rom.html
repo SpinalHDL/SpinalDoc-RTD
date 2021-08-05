@@ -1,0 +1,532 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Sinus rom &mdash; SpinalHDL  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Intermediates ones" href="../Intermediates ones/index.html" />
+    <link rel="prev" title="RGB to gray" href="rgb_to_gray.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../About SpinalHDL/index.html">About SpinalHDL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../About SpinalHDL/faq.html">FAQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../About SpinalHDL/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../About SpinalHDL/users.html">Users</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Getting Started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/motivation.html">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/presentation.html">Presentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/Scala Guide/index.html">Scala Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Scala Guide/basics.html">Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Scala Guide/coding_conventions.html">Coding conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Scala Guide/interaction.html">Interaction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/Help for VHDL people/index.html">Help for VHDL people</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Help for VHDL people/vhdl_comp.html">VHDL comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Help for VHDL people/vhdl_perspective.html">VHDL equivalences</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting Started/Cheatsheets/index.html">Cheatsheets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Cheatsheets/core.html">Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Cheatsheets/lib.html">Lib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting Started/Cheatsheets/symbolic.html">Symbolic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Data types/index.html">Data types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/bool.html">Bool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/bits.html">Bits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/Int.html">UInt/SInt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/enum.html">SpinalEnum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/bundle.html">Bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/Vec.html">Vec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/Fix.html">UFix/SFix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data types/Floating.html">Floating</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Structuring/index.html">Structuring</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/components_hierarchy.html">Component and hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/function.html">Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/clock_domain.html">Clock domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/blackbox.html">Instantiate VHDL and Verilog IP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Semantic/index.html">Semantic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/assignements.html">Assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/when_switch.html">When/Switch/Mux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/rules.html">Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Sequential logic/index.html">Sequential logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Sequential logic/registers.html">Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Sequential logic/memory.html">RAM/ROM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Design errors/index.html">Design errors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/assignment_overlap.html">Assignement overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/clock_crossing_violation.html">Clock crossing violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/combinatorial_loop.html">Combinational loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/hierarchy_violation.html">Hierarchy violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/iobundle.html">Io bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/latch_detected.html">Latch detected</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/no_driver_on.html">No driver on</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/nullpointerexception.html">NullPointerException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/register_defined_as_component_input.html">Register defined as component input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/scope_violation.html">Scope violation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/spinal_cant_clone.html">Spinal can’t clone class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/unassigned_register.html">Unassigned register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/unreachable_is_statement.html">Unreachable is statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design errors/width_mismatch.html">Width mismatch</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Other language features/index.html">Other language features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/assertion.html">Assertions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/formal.html">Formal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/analog_inout.html">Analog and inout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other language features/vhdl_generation.html">VHDL and Verilog generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Libraries/index.html">Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/stream.html">Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/flow.html">Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/fragment.html">Fragment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/fsm.html">State machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/vexriscv.html">VexRiscv (RV32IM CPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/bus_slave_factory.html">Bus Slave Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/generator.html">Generator framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/Bus/index.html">Bus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Bus/amba3/ahblite3.html">AHB-Lite3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Bus/amba3/apb3.html">Apb3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Bus/amba4/axi4.html">Axi4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Bus/avalon/avalonmm.html">AvalonMM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/Com/index.html">Com</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Com/uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/IO/index.html">IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/IO/readableOpenDrain.html">ReadableOpenDrain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/IO/tristate.html">TriState</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/Graphics/index.html">Graphics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Graphics/colors.html">Colors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Graphics/vga.html">VGA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Libraries/EDA/index.html">EDA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/EDA/altera/qsysify.html">QSysify</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Simulation/index.html">Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/install/index.html">Installation instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/install/GHDL.html">Setup and installation of GHDL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/install/Icarus Verilog.html">Setup and installation of Icarus Verilog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/install/Verilator.html">Setup and installation of Verilator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/bootstraps.html">Boot a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/signal.html">Accessing signals of the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/clock.html">Clock domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/threadFull.html">Thread-full API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/engine.html">Simulation engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/examples/index.html">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/asynchronous.html">Asynchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/dual_clock_fifo.html">Dual clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/single_clock_fifo.html">Single clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/synchronous.html">Synchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/uart_decoder.html">Uart decoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/uart_encoder.html">Uart encoder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Simple ones</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apb3.html">APB3 definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="carry_adder.html">Carry adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="color_summing.html">Color summing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="counter_with_clear.html">Counter with clear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pll_resetctrl.html">PLL BlackBox and reset controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rgb_to_gray.html">RGB to gray</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Sinus rom</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Intermediates ones/index.html">Intermediates ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediates ones/fractal.html">Fractal calculator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediates ones/uart.html">UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediates ones/vga.html">VGA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Advanced ones/index.html">Advanced ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Advanced ones/jtag.html">JTAG TAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Advanced ones/memory_mapped_uart.html">Memory mapped UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Advanced ones/pinesec.html">Pinesec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Advanced ones/timer.html">Timer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Legacy/index.html">Legacy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Legacy/riscv.html">RiscV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/pinsec/hardware.html">Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html">SoC toplevel (Pinsec)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/pinsec/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/pinsec/software.html">Software</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Developers area/index.html">Developers area</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers area/bus_slave_factory_impl.html">Bus Slave Factory Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers area/howtodocument.html">How to HACK this documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers area/types.html">Types</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Examples</a> &raquo;</li>
+        
+          <li><a href="index.html">Simple ones</a> &raquo;</li>
+        
+      <li>Sinus rom</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/SpinalHDL/Examples/Simple ones/sinus_rom.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sinus-rom">
+<span id="id1"></span><h1>Sinus rom<a class="headerlink" href="#sinus-rom" title="Permalink to this headline">¶</a></h1>
+<p>Let’s imagine that you want to generate a sine wave and also have a filtered version of it (which is completely useless in practical, but let’s do it as an example).</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameters name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>resolutionWidth</p></td>
+<td><p>Int</p></td>
+<td><p>Number of bits used to represent numbers</p></td>
+</tr>
+<tr class="row-odd"><td><p>sampleCount</p></td>
+<td><p>Int</p></td>
+<td><p>Number of samples in a sine period</p></td>
+</tr>
+</tbody>
+</table>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 31%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>IO name</p></th>
+<th class="head"><p>Direction</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sin</p></td>
+<td><p>out</p></td>
+<td><p>SInt(resolutionWidth bits)</p></td>
+<td><p>Output which plays the sine wave</p></td>
+</tr>
+<tr class="row-odd"><td><p>sinFiltred</p></td>
+<td><p>out</p></td>
+<td><p>SInt(resolutionWidth bits)</p></td>
+<td><p>Output which plays the filtered version of the sine</p></td>
+</tr>
+</tbody>
+</table>
+<p>So let’s define the <code class="docutils literal notranslate"><span class="pre">Component</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span><span class="o">(</span><span class="n">resolutionWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span><span class="n">sampleCount</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">sin</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">SInt</span><span class="o">(</span><span class="n">resolutionWidth</span> <span class="n">bits</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">sinFiltred</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">SInt</span><span class="o">(</span><span class="n">resolutionWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="c1">// Here will come the logic implementation</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">To play the sine wave on the <code class="docutils literal notranslate"><span class="pre">sin</span></code> output, you can define a ROM which contain all samples of a sine period (tt could be just a quarter, but let’s do things by the simplest way).</div>
+<div class="line">Then you can read that ROM with an phase counter and this will generate your sine wave.</div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Function used to generate the rom (later)</span>
+<span class="k">def</span> <span class="n">sinTable</span> <span class="k">=</span> <span class="k">for</span><span class="o">(</span><span class="n">sampleIndex</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">sampleCount</span><span class="o">)</span> <span class="k">yield</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">sinValue</span> <span class="k">=</span> <span class="nc">Math</span><span class="o">.</span><span class="n">sin</span><span class="o">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nc">Math</span><span class="o">.</span><span class="nc">PI</span> <span class="o">*</span> <span class="n">sampleIndex</span> <span class="o">/</span> <span class="n">sampleCount</span><span class="o">)</span>
+  <span class="n">S</span><span class="o">((</span><span class="n">sinValue</span> <span class="o">*</span> <span class="o">((</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">resolutionWidth</span><span class="o">)/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="o">)).</span><span class="n">toInt</span><span class="o">,</span><span class="n">resolutionWidth</span> <span class="n">bitss</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">rom</span> <span class="k">=</span>  <span class="nc">Mem</span><span class="o">(</span><span class="nc">SInt</span><span class="o">(</span><span class="n">resolutionWidth</span> <span class="n">bits</span><span class="o">),</span><span class="n">initialContent</span> <span class="k">=</span> <span class="n">sinTable</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">phase</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="n">log2Up</span><span class="o">(</span><span class="n">sampleCount</span><span class="o">)</span> <span class="n">bitss</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+<span class="n">phase</span> <span class="o">:=</span> <span class="n">phase</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">io</span><span class="o">.</span><span class="n">sin</span> <span class="o">:=</span> <span class="n">rom</span><span class="o">.</span><span class="n">readSync</span><span class="o">(</span><span class="n">phase</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Then to generate <code class="docutils literal notranslate"><span class="pre">sinFiltred</span></code>, you can for example use a first order low pass filter implementation:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="o">.</span><span class="n">sinFiltred</span> <span class="o">:=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">sinFiltred</span>  <span class="o">-</span> <span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">sinFiltred</span>  <span class="o">&gt;&gt;</span> <span class="mi">5</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">sin</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Here is the complete code:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span><span class="o">(</span><span class="n">resolutionWidth</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">,</span><span class="n">sampleCount</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">io</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">sin</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">SInt</span><span class="o">(</span><span class="n">resolutionWidth</span> <span class="n">bits</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">sinFiltred</span> <span class="k">=</span> <span class="n">out</span> <span class="nc">SInt</span><span class="o">(</span><span class="n">resolutionWidth</span> <span class="n">bits</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">sinTable</span> <span class="k">=</span> <span class="k">for</span><span class="o">(</span><span class="n">sampleIndex</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">sampleCount</span><span class="o">)</span> <span class="k">yield</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">sinValue</span> <span class="k">=</span> <span class="nc">Math</span><span class="o">.</span><span class="n">sin</span><span class="o">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nc">Math</span><span class="o">.</span><span class="nc">PI</span> <span class="o">*</span> <span class="n">sampleIndex</span> <span class="o">/</span> <span class="n">sampleCount</span><span class="o">)</span>
+    <span class="n">S</span><span class="o">((</span><span class="n">sinValue</span> <span class="o">*</span> <span class="o">((</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">resolutionWidth</span><span class="o">)/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="o">)).</span><span class="n">toInt</span><span class="o">,</span><span class="n">resolutionWidth</span> <span class="n">bitss</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">val</span> <span class="n">rom</span> <span class="k">=</span>  <span class="nc">Mem</span><span class="o">(</span><span class="nc">SInt</span><span class="o">(</span><span class="n">resolutionWidth</span> <span class="n">bits</span><span class="o">),</span><span class="n">initialContent</span> <span class="k">=</span> <span class="n">sinTable</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">phase</span> <span class="k">=</span> <span class="nc">Reg</span><span class="o">(</span><span class="nc">UInt</span><span class="o">(</span><span class="n">log2Up</span><span class="o">(</span><span class="n">sampleCount</span><span class="o">)</span> <span class="n">bitss</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+  <span class="n">phase</span> <span class="o">:=</span> <span class="n">phase</span> <span class="o">+</span> <span class="mi">1</span>
+
+  <span class="n">io</span><span class="o">.</span><span class="n">sin</span> <span class="o">:=</span> <span class="n">rom</span><span class="o">.</span><span class="n">readSync</span><span class="o">(</span><span class="n">phase</span><span class="o">)</span>
+  <span class="n">io</span><span class="o">.</span><span class="n">sinFiltred</span> <span class="o">:=</span> <span class="nc">RegNext</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">sinFiltred</span>  <span class="o">-</span> <span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">sinFiltred</span>  <span class="o">&gt;&gt;</span> <span class="mi">5</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="n">sin</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span><span class="o">))</span> <span class="n">init</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../Intermediates ones/index.html" class="btn btn-neutral float-right" title="Intermediates ones" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="rgb_to_gray.html" class="btn btn-neutral float-left" title="RGB to gray" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2018, SpinalHDL.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="../../../../v1.3.1/SpinalHDL/Examples/Simple ones/sinus_rom.html">v1.3.1</a></dd>
+      <dd><a href="../../../../v1.3.8/SpinalHDL/Examples/Simple ones/sinus_rom.html">v1.3.8</a></dd>
+      <dd><a href="../../../../v1.5.0/SpinalHDL/Examples/Simple ones/sinus_rom.html">v1.5.0</a></dd>
+      <dd><a href="../../../../v1.6.0/SpinalHDL/Examples/Simple ones/sinus_rom.html">v1.6.0</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="sinus_rom.html">dev</a></dd>
+      <dd><a href="../../../../master/SpinalHDL/Examples/Simple ones/sinus_rom.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
