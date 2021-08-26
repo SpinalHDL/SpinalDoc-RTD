@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Accessing signals of the simulation" href="signal.html" />
-    <link rel="prev" title="Setup and installation" href="install.html" /> 
+    <link rel="prev" title="Setup and installation of Verilator" href="install/Verilator.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -551,6 +551,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#frequency-and-time">Frequency and time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#binary-prefix">Binary prefix</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/assertion.html">Assertions</a></li>
@@ -750,12 +751,12 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Simulation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="install.html">Setup and installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="install.html#scala">Scala</a></li>
-<li class="toctree-l3"><a class="reference internal" href="install.html#linux">Linux</a></li>
-<li class="toctree-l3"><a class="reference internal" href="install.html#windows">Windows</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="install.html#from-the-mingw-package-manager">From the MinGW package manager</a></li>
-<li class="toctree-l4"><a class="reference internal" href="install.html#from-source">From source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/index.html">Installation instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install/index.html#scala">Scala</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install/index.html#backend-dependent-installation-instructions">Backend-dependent installation instructions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="install/GHDL.html">Setup and installation of GHDL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install/Icarus%20Verilog.html">Setup and installation of Icarus Verilog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install/Verilator.html">Setup and installation of Verilator</a></li>
 </ul>
 </li>
 </ul>
@@ -798,7 +799,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#how-does-spinalhdl-simulate-the-hardware">How does SpinalHDL simulate the hardware?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-spinalhdl-simulates-the-hardware-with-verilator-backend">How SpinalHDL simulates the hardware with Verilator backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#how-spinalhdl-simulates-the-hardware-with-ghdl-icarus-verilog-backend">How SpinalHDL simulates the hardware with GHDL/Icarus Verilog backend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#performance">Performance</a></li>
 </ul>
 </li>
@@ -814,7 +816,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/carry_adder.html">Carry adder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/color_summing.html">Color summing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/counter_with_clear.html">Counter with clear</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/introduction.html">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/pll_resetctrl.html">PLL BlackBox and reset controller</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Examples/Simple%20ones/pll_resetctrl.html#the-pll-blackbox-definition">The PLL BlackBox definition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Examples/Simple%20ones/pll_resetctrl.html#toplevel-definition">TopLevel definition</a></li>
@@ -877,6 +878,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#getting-started">Getting started</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Legacy/index.html">Legacy</a><ul>
@@ -1092,6 +1094,15 @@
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">workspacePath(path)</span></code></p></td>
 <td><p>Change the folder where the sim files are generated</p></td>
 </tr>
+<tr class="row-even"><td><p>withVerilator</p></td>
+<td><p>Use Verilator as simulation backend (default)</p></td>
+</tr>
+<tr class="row-odd"><td><p>withGhdl</p></td>
+<td><p>Use GHDL as simulation backend</p></td>
+</tr>
+<tr class="row-even"><td><p>withIVerilog</p></td>
+<td><p>Use Icarus Verilog as simulation backend</p></td>
+</tr>
 </tbody>
 </table>
 <p>Then you can call the <code class="docutils literal notranslate"><span class="pre">compile(rtl)</span></code> function to compile the hardware and warm up the simulator.
@@ -1165,7 +1176,7 @@ This function will return a <code class="docutils literal notranslate"><span cla
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="signal.html" class="btn btn-neutral float-right" title="Accessing signals of the simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="install.html" class="btn btn-neutral float-left" title="Setup and installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="install/Verilator.html" class="btn btn-neutral float-left" title="Setup and installation of Verilator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

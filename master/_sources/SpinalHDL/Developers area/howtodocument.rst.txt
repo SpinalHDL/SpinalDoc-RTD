@@ -29,16 +29,16 @@ So you can specify a timing diagram, or a register description with the WaveJSON
    .. wavedrom::
 
       { "signal": [
-         { "name": "pclk", "wave": 'p.......' },
-         { "name": "Pclk", "wave": 'P.......' },
-         { "name": "nclk", "wave": 'n.......' },
-         { "name": "Nclk", "wave": 'N.......' },
+         { "name": "pclk", "wave": "p......." },
+         { "name": "Pclk", "wave": "P......." },
+         { "name": "nclk", "wave": "n......." },
+         { "name": "Nclk", "wave": "N......." },
          {},
-         { "name": 'clk0', "wave": 'phnlPHNL' },
-         { "name": 'clk1', "wave": 'xhlhLHl.' },
-         { "name": 'clk2', "wave": 'hpHplnLn' },
-         { "name": 'clk3', "wave": 'nhNhplPl' },
-         { "name": 'clk4', "wave": 'xlh.L.Hx' },
+         { "name": "clk0", "wave": "phnlPHNL" },
+         { "name": "clk1", "wave": "xhlhLHl." },
+         { "name": "clk2", "wave": "hpHplnLn" },
+         { "name": "clk3", "wave": "nhNhplPl" },
+         { "name": "clk4", "wave": "xlh.L.Hx" }
       ]}
 
 and you get:
@@ -46,16 +46,16 @@ and you get:
 .. wavedrom::
 
    { "signal": [
-      { "name": "pclk", "wave": 'p.......' },
-      { "name": "Pclk", "wave": 'P.......' },
-      { "name": "nclk", "wave": 'n.......' },
-      { "name": "Nclk", "wave": 'N.......' },
+      { "name": "pclk", "wave": "p......." },
+      { "name": "Pclk", "wave": "P......." },
+      { "name": "nclk", "wave": "n......." },
+      { "name": "Nclk", "wave": "N......." },
       {},
-      { "name": 'clk0', "wave": 'phnlPHNL' },
-      { "name": 'clk1', "wave": 'xhlhLHl.' },
-      { "name": 'clk2', "wave": 'hpHplnLn' },
-      { "name": 'clk3', "wave": 'nhNhplPl' },
-      { "name": 'clk4', "wave": 'xlh.L.Hx' },
+      { "name": "clk0", "wave": "phnlPHNL" },
+      { "name": "clk1", "wave": "xhlhLHl." },
+      { "name": "clk2", "wave": "hpHplnLn" },
+      { "name": "clk3", "wave": "nhNhplPl" },
+      { "name": "clk4", "wave": "xlh.L.Hx" }
    ]}
 
 .. note::
@@ -69,7 +69,7 @@ you can describe register mapping with the same syntax:
    {"reg":[
      {"bits": 8, "name": "things"},
      {"bits": 2, "name": "stuff" },
-     {"bits": 6},
+     {"bits": 6}
     ],
     "config": { "bits":16,"lanes":1 }
     }
@@ -79,7 +79,7 @@ you can describe register mapping with the same syntax:
    {"reg":[
       {"bits": 8, "name": "things"},
       {"bits": 2, "name": "stuff" },
-      {"bits": 6},
+      {"bits": 6}
      ],
      "config": { "bits":16,"lanes":1 }
    }

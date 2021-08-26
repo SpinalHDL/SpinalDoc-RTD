@@ -1,6 +1,6 @@
 
-Setup and installation
-==========================================
+Setup and installation of Verilator
+===================================
 
 
 SpinalSim + Verilator is supported on both Linux and Windows platforms.
@@ -28,7 +28,7 @@ You will also need a recent version of Verilator installed :
 
 .. code-block:: sh
 
-   sudo apt-get install git make autoconf g++ flex bison -y  # First time prerequisites
+   sudo apt-get install git make autoconf g++ flex bison  # First time prerequisites
    git clone http://git.veripool.org/git/verilator   # Only first time
    unsetenv VERILATOR_ROOT  # For csh; ignore error if on bash
    unset VERILATOR_ROOT  # For bash

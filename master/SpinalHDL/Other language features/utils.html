@@ -551,6 +551,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#frequency-and-time">Frequency and time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#binary-prefix">Binary prefix</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="assertion.html">Assertions</a></li>
@@ -750,12 +751,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Simulation/index.html">Simulation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation/install.html">Setup and installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Simulation/install.html#scala">Scala</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Simulation/install.html#linux">Linux</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Simulation/install.html#windows">Windows</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Simulation/install.html#from-the-mingw-package-manager">From the MinGW package manager</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Simulation/install.html#from-source">From source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/install/index.html">Installation instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Simulation/install/index.html#scala">Scala</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Simulation/install/index.html#backend-dependent-installation-instructions">Backend-dependent installation instructions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Simulation/install/GHDL.html">Setup and installation of GHDL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Simulation/install/Icarus%20Verilog.html">Setup and installation of Icarus Verilog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Simulation/install/Verilator.html">Setup and installation of Verilator</a></li>
 </ul>
 </li>
 </ul>
@@ -798,7 +799,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation/index.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation/index.html#how-does-spinalhdl-simulate-the-hardware">How does SpinalHDL simulate the hardware?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/index.html#how-spinalhdl-simulates-the-hardware-with-verilator-backend">How SpinalHDL simulates the hardware with Verilator backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/index.html#how-spinalhdl-simulates-the-hardware-with-ghdl-icarus-verilog-backend">How SpinalHDL simulates the hardware with GHDL/Icarus Verilog backend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation/index.html#performance">Performance</a></li>
 </ul>
 </li>
@@ -814,7 +816,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/carry_adder.html">Carry adder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/color_summing.html">Color summing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/counter_with_clear.html">Counter with clear</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/introduction.html">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Examples/Simple%20ones/pll_resetctrl.html">PLL BlackBox and reset controller</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Examples/Simple%20ones/pll_resetctrl.html#the-pll-blackbox-definition">The PLL BlackBox definition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Examples/Simple%20ones/pll_resetctrl.html#toplevel-definition">TopLevel definition</a></li>
@@ -877,6 +878,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#getting-started">Getting started</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Legacy/index.html">Legacy</a><ul>
@@ -1169,7 +1171,56 @@ This way of doing things is easier to use than the “old way”, because to cre
 <div class="line">For time definitions you can use following postfixes to get a <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code>:</div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">Hz</span></code>, <code class="docutils literal notranslate"><span class="pre">KHz</span></code>, <code class="docutils literal notranslate"><span class="pre">MHz</span></code>, <code class="docutils literal notranslate"><span class="pre">GHz</span></code>, <code class="docutils literal notranslate"><span class="pre">THz</span></code></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">TimeNumber</span></code> and <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code> are based on the <code class="docutils literal notranslate"><span class="pre">PhysicalNumber</span></code> class which uses the Scala <code class="docutils literal notranslate"><span class="pre">BigDecimal</span></code> type to store numbers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TimeNumber</span></code> and <code class="docutils literal notranslate"><span class="pre">HertzNumber</span></code> are based on the <code class="docutils literal notranslate"><span class="pre">PhysicalNumber</span></code> class which use  scala <code class="docutils literal notranslate"><span class="pre">BigDecimal</span></code> to store numbers.</p>
+</div>
+<div class="section" id="binary-prefix">
+<h2>Binary prefix<a class="headerlink" href="#binary-prefix" title="Permalink to this headline">¶</a></h2>
+<p>SpinalHDL allows the definition of integer numbers using binary prefix notation according to IEC.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">memSize</span> <span class="o">=</span> <span class="mi">512</span> <span class="nc">MiB</span>
+<span class="kd">val</span> <span class="n">dpRamSize</span> <span class="o">=</span> <span class="mi">4</span> <span class="nc">KiB</span>
+</pre></div>
+</div>
+<p>The following binary prefix notations are available:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Binary Prefix</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Byte, Bytes</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>KiB</p></td>
+<td><p>1024 == 1 &lt;&lt; 10</p></td>
+</tr>
+<tr class="row-even"><td><p>MiB</p></td>
+<td><p>1024<sup>2</sup> == 1 &lt;&lt; 20</p></td>
+</tr>
+<tr class="row-odd"><td><p>GiB</p></td>
+<td><p>1024<sup>3</sup> == 1 &lt;&lt; 30</p></td>
+</tr>
+<tr class="row-even"><td><p>TiB</p></td>
+<td><p>1024<sup>4</sup> == 1 &lt;&lt; 40</p></td>
+</tr>
+<tr class="row-odd"><td><p>PiB</p></td>
+<td><p>1024<sup>5</sup> == 1 &lt;&lt; 50</p></td>
+</tr>
+<tr class="row-even"><td><p>EiB</p></td>
+<td><p>1024<sup>6</sup> == 1 &lt;&lt; 60</p></td>
+</tr>
+<tr class="row-odd"><td><p>ZiB</p></td>
+<td><p>1024<sup>7</sup> == 1 &lt;&lt; 70</p></td>
+</tr>
+<tr class="row-even"><td><p>YiB</p></td>
+<td><p>1024<sup>8</sup> == 1 &lt;&lt; 80</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

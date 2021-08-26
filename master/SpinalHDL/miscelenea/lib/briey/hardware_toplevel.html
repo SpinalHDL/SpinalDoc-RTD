@@ -549,6 +549,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../Other%20language%20features/utils.html#frequency-and-time">Frequency and time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Other%20language%20features/utils.html#binary-prefix">Binary prefix</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Other%20language%20features/assertion.html">Assertions</a></li>
@@ -748,12 +749,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Simulation/index.html">Simulation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../Simulation/install.html">Setup and installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../Simulation/install.html#scala">Scala</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Simulation/install.html#linux">Linux</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Simulation/install.html#windows">Windows</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../Simulation/install.html#from-the-mingw-package-manager">From the MinGW package manager</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../Simulation/install.html#from-source">From source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Simulation/install/index.html">Installation instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Simulation/install/index.html#scala">Scala</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Simulation/install/index.html#backend-dependent-installation-instructions">Backend-dependent installation instructions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Simulation/install/GHDL.html">Setup and installation of GHDL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Simulation/install/Icarus%20Verilog.html">Setup and installation of Icarus Verilog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Simulation/install/Verilator.html">Setup and installation of Verilator</a></li>
 </ul>
 </li>
 </ul>
@@ -796,7 +797,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Simulation/index.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../Simulation/index.html#how-does-spinalhdl-simulate-the-hardware">How does SpinalHDL simulate the hardware?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Simulation/index.html#how-spinalhdl-simulates-the-hardware-with-verilator-backend">How SpinalHDL simulates the hardware with Verilator backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Simulation/index.html#how-spinalhdl-simulates-the-hardware-with-ghdl-icarus-verilog-backend">How SpinalHDL simulates the hardware with GHDL/Icarus Verilog backend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Simulation/index.html#performance">Performance</a></li>
 </ul>
 </li>
@@ -812,7 +814,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../Examples/Simple%20ones/carry_adder.html">Carry adder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../Examples/Simple%20ones/color_summing.html">Color summing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../Examples/Simple%20ones/counter_with_clear.html">Counter with clear</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Examples/Simple%20ones/introduction.html">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../Examples/Simple%20ones/pll_resetctrl.html">PLL BlackBox and reset controller</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../Examples/Simple%20ones/pll_resetctrl.html#the-pll-blackbox-definition">The PLL BlackBox definition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../Examples/Simple%20ones/pll_resetctrl.html#toplevel-definition">TopLevel definition</a></li>
@@ -875,6 +876,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Examples/index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Examples/index.html#getting-started">Getting started</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Legacy/index.html">Legacy</a><ul>
@@ -1248,7 +1250,7 @@
 <p>In fact it’s not an AXI4 but an Axi4Shared, which mean that a ARW channel replace the AR and AW ones. This solution use less area while being fully interoperable with full AXI4.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">ram</span> <span class="o">=</span> <span class="nc">Axi4SharedOnChipRam</span><span class="p">(</span>
   <span class="n">dataWidth</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
-  <span class="n">byteCount</span> <span class="o">=</span> <span class="mi">4</span> <span class="n">kB</span><span class="p">,</span>
+  <span class="n">byteCount</span> <span class="o">=</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="p">,</span>
   <span class="n">idWidth</span> <span class="o">=</span> <span class="mi">4</span>     <span class="c1">//Specify the AXI4 ID width.</span>
 <span class="p">)</span>
 </pre></div>
@@ -1412,9 +1414,9 @@ The concept of this factory is to create it, then call many function on it to co
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//          Slave  -&gt; (base address,  size) ,</span>
 
 <span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addSlaves</span><span class="p">(</span>
-  <span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span>       <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x00000000</span><span class="nc">L</span><span class="p">,</span>   <span class="mi">4</span> <span class="n">kB</span><span class="p">),</span>
-  <span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x40000000</span><span class="nc">L</span><span class="p">,</span>  <span class="mi">64</span> <span class="nc">MB</span><span class="p">),</span>
-  <span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0xF0000000</span><span class="nc">L</span><span class="p">,</span>   <span class="mi">1</span> <span class="nc">MB</span><span class="p">)</span>
+  <span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span>       <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x00000000</span><span class="nc">L</span><span class="p">,</span>   <span class="mi">4</span> <span class="nc">KiB</span><span class="p">),</span>
+  <span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x40000000</span><span class="nc">L</span><span class="p">,</span>  <span class="mi">64</span> <span class="nc">MiB</span><span class="p">),</span>
+  <span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0xF0000000</span><span class="nc">L</span><span class="p">,</span>   <span class="mi">1</span> <span class="nc">MiB</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1461,12 +1463,12 @@ The concept of this factory is to create it, then call many function on it to co
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">apbDecoder</span> <span class="o">=</span> <span class="nc">Apb3Decoder</span><span class="p">(</span>
   <span class="n">master</span> <span class="o">=</span> <span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">,</span>
   <span class="n">slaves</span> <span class="o">=</span> <span class="nc">List</span><span class="p">(</span>
-    <span class="n">gpioACtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x00000</span><span class="p">,</span> <span class="mi">4</span> <span class="n">kB</span><span class="p">),</span>
-    <span class="n">gpioBCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x01000</span><span class="p">,</span> <span class="mi">4</span> <span class="n">kB</span><span class="p">),</span>
-    <span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span>  <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x10000</span><span class="p">,</span> <span class="mi">4</span> <span class="n">kB</span><span class="p">),</span>
-    <span class="n">timerCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x20000</span><span class="p">,</span> <span class="mi">4</span> <span class="n">kB</span><span class="p">),</span>
-    <span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span>   <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x30000</span><span class="p">,</span> <span class="mi">4</span> <span class="n">kB</span><span class="p">),</span>
-    <span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">debugBus</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0xF0000</span><span class="p">,</span> <span class="mi">4</span> <span class="n">kB</span><span class="p">)</span>
+    <span class="n">gpioACtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x00000</span><span class="p">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="p">),</span>
+    <span class="n">gpioBCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x01000</span><span class="p">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="p">),</span>
+    <span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span>  <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x10000</span><span class="p">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="p">),</span>
+    <span class="n">timerCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x20000</span><span class="p">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="p">),</span>
+    <span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span>   <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0x30000</span><span class="p">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="p">),</span>
+    <span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">debugBus</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mh">0xF0000</span><span class="p">,</span> <span class="mi">4</span> <span class="nc">KiB</span><span class="p">)</span>
   <span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
