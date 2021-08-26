@@ -5,7 +5,7 @@ UART
 Introduction
 ------------
 
-The UART protocol could be used, for instance, to emit an receive RS232 / RS485 frames.
+The UART protocol could be used, for instance, to emit and receive RS232 / RS485 frames.
 
 There is an example of an 8 bits frame, with no parity and one stop bit :
 
@@ -17,8 +17,8 @@ Bus definition
 .. code-block:: scala
 
    case class Uart() extends Bundle with IMasterSlave {
-     val txd = Bool  // Used to emit frames
-     val rxd = Bool  // Used to receive frames
+     val txd = Bool() // Used to emit frames
+     val rxd = Bool() // Used to receive frames
 
      override def asMaster(): Unit = {
        out(txd)
@@ -42,7 +42,7 @@ An Uart controller is implemented in the library. This controller has the specif
    * - config
      - in
      - UartCtrlConfig
-     - Used to set the clock divider/partity/stop/data length of the controller
+     - Used to set the clock divider/parity/stop/data length of the controller
    * - write
      - slave
      - Stream[Bits]

@@ -20,9 +20,9 @@ This is how to define the PLL ``BlackBox``\ :
 
    class PLL extends BlackBox{
      val io = new Bundle{
-       val clkIn    = in Bool
-       val clkOut   = out Bool
-       val isLocked = out Bool
+       val clkIn    = in Bool()
+       val clkOut   = out Bool()
+       val isLocked = out Bool()
      }
 
      noIoPrefix()
@@ -49,8 +49,8 @@ This is how to define your ``TopLevel`` which instantiates the PLL, creates the 
 
    class TopLevel extends Component{
      val io = new Bundle {
-       val aReset    = in Bool
-       val clk100Mhz = in Bool
+       val aReset    = in Bool()
+       val clk100Mhz = in Bool()
        val result    = out UInt(4 bits)
      }
 

@@ -51,7 +51,6 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
      - | UInt
        | SInt
 
-
 .. code-block:: scala
 
    val myUInt = UInt(8 bits)
@@ -64,21 +63,21 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
                            //               o (base 8)
                            //               b (base 2)                       
    myUInt := U"8'h1A"       
-   myUInt := 2             // You can use scala Int as literal value
+   myUInt := 2             // You can use a Scala Int as a literal value
 
    val myBool := myUInt === U(7 -> true,(6 downto 0) -> false)
    val myBool := myUInt === U(myUInt.range -> true)
 
-   // For assignement purposes, you can omit the U/S, which also alow the use of the [default -> ???] feature
-   myUInt := (default -> true)                        //Assign myUInt with "11111111"
-   myUInt := (myUInt.range -> true)                   //Assign myUInt with "11111111"
-   myUInt := (7 -> true, default -> false)            //Assign myUInt with "10000000"
-   myUInt := ((4 downto 1) -> true, default -> false) //Assign myUInt with "00011110"
+   // For assignment purposes, you can omit the U/S, which also allows the use of the [default -> ???] feature
+   myUInt := (default -> true)                        // Assign myUInt with "11111111"
+   myUInt := (myUInt.range -> true)                   // Assign myUInt with "11111111"
+   myUInt := (7 -> true, default -> false)            // Assign myUInt with "10000000"
+   myUInt := ((4 downto 1) -> true, default -> false) // Assign myUInt with "00011110"
 
 Operators
 ^^^^^^^^^
 
-The following operators are available for the ``UInt`` and ``SInt`` type
+The following operators are available for the ``UInt`` and ``SInt`` types:
 
 Logic
 ~~~~~
@@ -151,12 +150,11 @@ Logic
      - Set all bits to the given Bool value
      - 
 
-
 .. code-block:: scala
 
    // Bitwise operator
    val a, b, c = SInt(32 bits)
-   c := ~(a & b) //  Inverse(a AND b)
+   c := ~(a & b) // Inverse(a AND b)
 
    val all_1 = a.andR // Check that all bits are equal to 1
 
@@ -169,7 +167,7 @@ Logic
 
    // Set/clear
    val a = B"8'x42"
-   when(cond){
+   when(cond) {
      a.setAll() // set all bits to True when cond is True
    }
 
@@ -184,32 +182,31 @@ Arithmetic
      - Return
    * - x + y
      - Addition
-     - T(max(w(x), w(y)),bits)
+     - T(max(w(x), w(y)), bits)
    * - x +^ y
-     - Addition with carray
-     - T(max(w(x), w(y) + 1),bits)
+     - Addition with carry
+     - T(max(w(x), w(y) + 1), bits)
    * - x +| y
-     - addition by sat carray bit
-     - T(max(w(x), w(y)),bits)
+     - Addition by sat carry bit
+     - T(max(w(x), w(y)), bits)
    * - x - y
      - Subtraction
-     - T(max(w(x), w(y)),bits)
-   * - x - y
-     - Subtraction with carray
+     - T(max(w(x), w(y)), bits)
+   * - x -^ y
+     - Subtraction with carry
      - T(max(w(x), w(y) + 1), bits)
    * - x -| y
-     - Subtraction by sat carray bit
-     - T(max(w(x), w(y)),bits)
+     - Subtraction by sat carry bit
+     - T(max(w(x), w(y)), bits)
    * - x * y
      - Multiplication
      - T(w(x) + w(y)), bits)
    * - x / y
      - Division
-     - T(w(x),bits)
+     - T(w(x), bits)
    * - x % y
      - Modulo
-     - T(w(x),bits)
-
+     - T(w(x), bits)
 
 .. code-block:: scala
 
@@ -244,17 +241,16 @@ Comparison
      - Less than or equal
      - Bool
 
-
 .. code-block:: scala
 
-   // Comparaison between two SInt
+   // Comparison between two SInts
    myBool := mySInt_1 > mySInt_2
 
-   // Comparaison between a UInt and a literal
+   // Comparison between a UInt and a literal
    myBool := myUInt_8bits >= U(3, 8 bits)
 
-   when(myUInt_8bits === 3){
-
+   when(myUInt_8bits === 3) {
+     ..
    }
 
 Type cast
@@ -268,35 +264,34 @@ Type cast
      - Return
    * - x.asBits
      - Binary cast to Bits
-     - Bits(w(x),bits)
+     - Bits(w(x), bits)
    * - x.asUInt
      - Binary cast to UInt
-     - UInt(w(x),bits)
+     - UInt(w(x), bits)
    * - x.asSInt
      - Binary cast to SInt
-     - SInt(w(x),bits)
+     - SInt(w(x), bits)
    * - x.asBools
      - Cast into a array of Bool
      - Vec(Bool, w(x))
    * - S(x: T)
      - Cast a Data into a SInt
-     - SInt(w(x),bits)
+     - SInt(w(x), bits)
    * - U(x: T)
      - Cast a Data into an UInt
-     - UInt(w(x),bits)
+     - UInt(w(x), bits)
    * - x.intoSInt
      - convert to SInt expand signbit
      - SInt(w(x) + 1, bits)
 
-
-To cast a Bool, a Bits or a SInt into a UInt, you can use ``U(something)``. To cast things into a SInt, you can use ``S(something)``
+To cast a ``Bool``, a ``Bits``, or an ``SInt`` into a ``UInt``, you can use ``U(something)``. To cast things into an ``SInt``, you can use ``S(something)``.
 
 .. code-block:: scala
 
-   // cast a SInt to Bits
+   // Cast an SInt to Bits
    val myBits = mySInt.asBits
 
-   // create a Vector of bool
+   // Create a Vector of Bool
    val myVec = myUInt.asBools
 
    // Cast a Bits to SInt
@@ -330,7 +325,6 @@ Bit extraction
    * - x(\ :ref:`range <range>`\ ) := z
      - Assign a range of bit. Ex : myBits(4 downto 2) := U"010"
      - T(range bits)
-
 
 .. code-block:: scala
 
@@ -428,7 +422,7 @@ Misc
        // sel = 2 => mySIntWord = mySInt_128bits( 63 downto 32)
        // sel = 3 => mySIntWord = mySInt_128bits( 31 downto  0)
 
-    // if you want to access in a reverse order you can do
+    // If you want to access in reverse order you can do:
     val myVector   = mySInt_128bits.subdivideIn(32 bits).reverse
     val mySIntWord = myVector(sel)
 
@@ -444,22 +438,23 @@ Misc
    mySInt_abs := mySInt.abs
 
 
-fixPoint operation
-^^^^^^^^^^^^^^^^^^
+FixPoint operations
+^^^^^^^^^^^^^^^^^^^
 
-For fixed-point, we can divide it into two parts.
- - LowerBit Operation(round methods)
- - HighBit Operation(saturation operations)
+For fixpoint, we can divide it into two parts:
 
-Lower Bit operation
-~~~~~~~~~~~~~~~~~~~
+ - Lower bit operations (rounding methods)
+ - High bit operations (saturation operations)
+
+Lower bit operations
+~~~~~~~~~~~~~~~~~~~~
 
 .. image:: /asset/image/fixpoint/lowerBitOperation.png
 
 About Rounding: https://en.wikipedia.org/wiki/Rounding
 
 ================ ================= ============= ======================== ====================== ===========
- SpinalHDL-Name   Wikipedia-Name    API           Matmatic-Alogrithm        return(align=false)   Supported
+ SpinalHDL-Name   Wikipedia-Name    API           Mathematic Algorithm     return(align=false)    Supported
 ================ ================= ============= ======================== ====================== ===========
  FLOOR            RoundDown         floor         floor(x)                  w(x)-n   bits         Yes
  FLOORTOZERO      RoundToZero       floorToZero   sign*floor(abs(x))        w(x)-n   bits         Yes
@@ -474,46 +469,45 @@ About Rounding: https://en.wikipedia.org/wiki/Rounding
 ================ ================= ============= ======================== ====================== ===========
 
 .. note::
-   the **RoundToEven RoundToOdd** are very special ,Used in some big data statistical fields with high accuracy concern, SpinalHDL don't support them yet.
+   The **RoundToEven** and **RoundToOdd** modes are very special, and are used in some big data statistical fields with high accuracy concerns, SpinalHDL doesn't support them yet.
 
-You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOODD** are very close,
-`ROUNDTOINF` is most common. the api of round in different Programing-language may different.
+You will find `ROUNDUP`, `ROUNDDOWN`, `ROUNDTOZERO`, `ROUNDTOINF`, `ROUNDTOEVEN`, `ROUNTOODD` are very close in behavior, `ROUNDTOINF` is the most common. The behavior of rounding in different programming languages may be different.
 
-===================== =================== ========================================================= ====================
- Programing-language   default-RoundType   Example                                                   comments
-===================== =================== ========================================================= ====================
- Matlab                ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
- python2               ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
- python3               ROUNDTOEVEN         round(1.5)=round(2.5)=2;  round(-1.5)=round(-2.5)=-2      close to Even
- Scala.math            ROUNDTOUP           round(1.5)=2,round(2.5)=3;round(-1.5)=-1,round(-2.5)=-2   always to +Infinity
- SpinalHDL             ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
-===================== =================== ========================================================= ====================
+====================== =================== ========================================================= ====================
+ Programming language  default-RoundType   Example                                                   comments
+====================== =================== ========================================================= ====================
+ Matlab                 ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+ python2                ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+ python3                ROUNDTOEVEN         round(1.5)=round(2.5)=2;  round(-1.5)=round(-2.5)=-2      close to Even
+ Scala.math             ROUNDTOUP           round(1.5)=2,round(2.5)=3;round(-1.5)=-1,round(-2.5)=-2   always to +Infinity
+ SpinalHDL              ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
+====================== =================== ========================================================= ====================
 
 .. note::
-   In SpinalHDL `ROUNDTOINF` is the default RoundType (`round = roundToInf`)
+   In SpinalHDL `ROUNDTOINF` is the default RoundType (``round = roundToInf``)
 
 .. code-block:: scala
 
    val A  = SInt(16 bit)
-   val B  = A.roundToInf(6 bits) //default 'align = false' with carry, got 11 bit
+   val B  = A.roundToInf(6 bits) // default 'align = false' with carry, got 11 bit
    val B  = A.roundToInf(6 bits, align = true) // sat 1 carry bit, got 10 bit
-   val B  = A.floor(6 bits)             //return 10 bit
-   val B  = A.floorToZero(6 bits)       //return 10 bit
-   val B  = A.ceil(6 bits)              //ceil with carry so return 11 bit
-   val B  = A.ceil(6 bits, align =true) //ceil with carry then sat 1 bit return 10 bit
+   val B  = A.floor(6 bits)             // return 10 bit
+   val B  = A.floorToZero(6 bits)       // return 10 bit
+   val B  = A.ceil(6 bits)              // ceil with carry so return 11 bit
+   val B  = A.ceil(6 bits, align = true) // ceil with carry then sat 1 bit return 10 bit
    val B  = A.ceilToInf(6 bits)
    val B  = A.roundUp(6 bits)
    val B  = A.roundDown(6 bits)
    val B  = A.roundToInf(6 bits)
    val B  = A.roundToZero(6 bits)
-   val B  = A.round(6 bits)             //spinalHDL use roundToInf as default round
+   val B  = A.round(6 bits)             // SpinalHDL uses roundToInf as the default rounding mode
 
-   val B0 = A.roundToInf(6 bits, align=true)          ---+
-                                                         |--> equal
-   val B1 = A.roundToInf(6 bits, align=false).sat(1)  ---+
+   val B0 = A.roundToInf(6 bits, align = true)         //  ---+
+                                                     //     |--> equal
+   val B1 = A.roundToInf(6 bits, align = false).sat(1) //  ---+
 
 .. note::
-   only `floor` and `floorToZero` without align option, they do not need carry bit. other round operation default with carry bit.
+   Only ``floor`` and ``floorToZero`` work without the ``align`` option; they do not need a carry bit. Other rounding operations default to using a carry bit.
 
 **round Api**
 
@@ -532,59 +526,58 @@ You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOO
 ============= =========== ============================ ===================== ====================
 
 .. note::
-   | although `roundToInf` is very common.
-   | but `roundUp` with lowerest cost and good timing, almost no performance lost.
-   | so `roundUp` is very recommended in your work.
+   Although ``roundToInf`` is very common, ``roundUp`` has the least cost and good timing, with almost no performance loss.
+   As a result, ``roundUp`` is strongly recommended for production use.
 
-High Bit operation
-~~~~~~~~~~~~~~~~~~
+High bit operations
+~~~~~~~~~~~~~~~~~~~
 
 .. image:: /asset/image/fixpoint/highBitOperation.png
 
-========== ============ ===================================== ======================================
- function   Operation    Postive-Op                            Negtive-Op                           
-========== ============ ===================================== ======================================
- sat        Saturation   when(Top[w-1,w-n].orR) set maxValue   When(Top[w-1,w-n].andR) set minValue 
- trim       Discard      N/A                                   N/A                                  
- symmetry   Symmetric    N/A                                   minValue = -maxValue                 
-========== ============ ===================================== ======================================
+========== ============ ====================================== =======================================
+ function   Operation    Positive-Op                            Negative-Op                           
+========== ============ ====================================== =======================================
+ sat        Saturation   when(Top[w-1, w-n].orR) set maxValue   When(Top[w-1, w-n].andR) set minValue 
+ trim       Discard      N/A                                    N/A                                  
+ symmetry   Symmetric    N/A                                    minValue = -maxValue                 
+========== ============ ====================================== =======================================
 
-Symmetric is only valid for SInt.
+Symmetric is only valid for ``SInt``.
 
 .. code-block:: scala
 
    val A  = SInt(8 bit)
-   val B  = A.sat(3 bits)      //return 5 bits with saturated highest 3 bits
-   val B  = A.sat(3)           //equal to sat(3 bits)
-   val B  = A.trim(3 bits)     //return 5 bits with discard hightest 3 bits
-   val B  = A.trim(3 bits)     //return 5 bits with discard hightest 3 bits
-   val C  = A.symmetry         //return 8 bits and symmetry as (-128~127 to -127~127)
-   val C  = A.sat(3).symmetry  //return 5 bits and symmetry as (-16~15 to -15~15)
+   val B  = A.sat(3 bits)      // return 5 bits with saturated highest 3 bits
+   val B  = A.sat(3)           // equal to sat(3 bits)
+   val B  = A.trim(3 bits)     // return 5 bits with the highest 3 bits discarded
+   val B  = A.trim(3 bits)     // return 5 bits with the highest 3 bits discarded
+   val C  = A.symmetry         // return 8 bits and symmetry as (-128~127 to -127~127)
+   val C  = A.sat(3).symmetry  // return 5 bits and symmetry as (-16~15 to -15~15)
 
 fixTo function
 ~~~~~~~~~~~~~~
 
-two way are provided in UInt/SInt do fixpoint:
+Two ways are provided in ``UInt``/``SInt`` to do fixpoint:
 
 .. image:: /asset/image/fixpoint/fixPoint.png
 
-fixTo is strongly recommended in your RTL work, you don't need handle carry bit align and bit width calculate manually like Way1.
+``fixTo`` is strongly recommended in your RTL work, you don't need to handle carry bit alignment and bit width calculations manually like **Way1** in the above diagram.
 
-Factory Fix function with Auto Saturation
+Factory Fix function with Auto Saturation:
 
-=================================== ===================== ===================
- fuction                             description           Return
-=================================== ===================== ===================
- fixTo(section,roundType,symmetric)   Factory FixFunction   section.size bits
-=================================== ===================== ===================
+===================================== ===================== ===================
+ Function                              Description           Return
+===================================== ===================== ===================
+ fixTo(section, roundType, symmetric)  Factory FixFunction   section.size bits
+===================================== ===================== ===================
 
 .. code-block:: scala
 
    val A  = SInt(16 bit)
-   val B  = A.fixTo(10 downto 3) //default RoundType.ROUNDTOINF, sym = false
+   val B  = A.fixTo(10 downto 3) // default RoundType.ROUNDTOINF, sym = false
    val B  = A.fixTo( 8 downto 0, RoundType.ROUNDUP)
    val B  = A.fixTo( 9 downto 3, RoundType.CEIL,       sym = false)
    val B  = A.fixTo(16 downto 1, RoundType.ROUNDTOINF, sym = true )
-   val B  = A.fixTo(10 downto 3, RoundType.FLOOR) //floor 3 bit, sat 5 bit @ highest
-   val B  = A.fixTo(20 downto 3, RoundType.FLOOR) //floor 3 bit, expand 2 bit @ highest
+   val B  = A.fixTo(10 downto 3, RoundType.FLOOR) // floor 3 bit, sat 5 bit @ highest
+   val B  = A.fixTo(20 downto 3, RoundType.FLOOR) // floor 3 bit, expand 2 bit @ highest
 

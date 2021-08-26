@@ -25,7 +25,7 @@ Style A :
 
    class TopLevel extends Component {
      val io = new Bundle{
-       val result = out Bool
+       val result = out Bool()
      }
 
      val fsm = new StateMachine{
@@ -59,7 +59,7 @@ Style B :
 
    class TopLevel extends Component {
      val io = new Bundle{
-       val result = out Bool
+       val result = out Bool()
      }
 
      val fsm = new StateMachine{

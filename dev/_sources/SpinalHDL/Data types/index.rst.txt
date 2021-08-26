@@ -19,7 +19,7 @@ Data types
 Introduction
 ============
 
-The language provides 5 base types and 2 composite types that can be used.
+The language provides 5 base types, and 2 composite types that can be used.
 
 
 * Base types: :ref:`Bool <Bool>` , :ref:`Bits <Bits>` , :ref:`UInt <Int>` for unsigned integers, :ref:`SInt <Int>` for signed integers and :ref:`Enum <Enum>`.
@@ -29,7 +29,10 @@ The language provides 5 base types and 2 composite types that can be used.
    :width: 400px
 
 
-In addition to the base types, Spinal supports Fixed point that is documented :ref:`here <fixed>` and floating point that is actually under development :ref:`here <Floating>`.
+In addition to the base types, Spinal has support under development for:
+
+* :ref:`Fixed-point <fixed>` numbers (partial support)
+* :ref:`Floating-point <Floating>` numbers (experimental support)
 
 Finally, a special type is available for checking equality between a BitVector and a bits constant that contains holes (don't care values). An example is shown below:
 

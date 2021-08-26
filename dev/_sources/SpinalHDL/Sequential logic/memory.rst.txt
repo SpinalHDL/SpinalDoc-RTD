@@ -7,7 +7,8 @@ RAM/ROM
 Syntax
 ------
 
-To create a memory in SpinalHDL, the Mem class should be used. It allows you to define a memory and add read and write ports to it.
+To create a memory in SpinalHDL, the ``Mem`` class should be used.
+It allows you to define a memory and add read and write ports to it.
 
 The following table shows how to instantiate a memory:
 
@@ -17,9 +18,9 @@ The following table shows how to instantiate a memory:
 
    * - Syntax
      - Description
-   * - Mem(type : Data,size : Int)
+   * - ``Mem(type : Data, size : Int)``
      - Create a RAM
-   * - Mem(type : Data,initialContent : Array[Data])
+   * - ``Mem(type : Data, initialContent : Array[Data])``
      - Create a ROM. If your target is an FPGA, because the memory can be inferred as a block ram, you can still create write ports on it.
 
 
@@ -27,7 +28,7 @@ The following table shows how to instantiate a memory:
    If you want to define a ROM, elements of the ``initialContent`` array should only be literal values (no operator, no resize functions). There is an example :ref:`here <sinus_rom>`.
 
 .. note::
-   To give an initial content to a RAM, you can also use the ``init`` function.
+   To give a RAM initial values, you can also use the ``init`` function.
 
 The following table show how to add access ports on a memory :
 
@@ -57,7 +58,7 @@ The following table show how to add access ports on a memory :
        |  address
        |  [readUnderWrite]
        | )
-     - Asynchronous read with an optional read under write policy
+     - Asynchronous read with an optional read-under-write policy
      - T
    * - | mem.readSync(
        |  address
@@ -65,7 +66,7 @@ The following table show how to add access ports on a memory :
        |  [readUnderWrite]
        |  [clockCrossing]
        | )
-     - Synchronous read with an optional enable, read under write policy and clockCrossing mode
+     - Synchronous read with an optional enable, read-under-write policy, and ``clockCrossing`` mode
      - T
    * - | mem.readWriteSync(
        |  address
@@ -83,16 +84,16 @@ The following table show how to add access ports on a memory :
 
 
 .. note::
-   If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract your memory by specifying a BlackBox for it.
+   If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract over your memory by specifying a BlackBox for it.
 
 .. important::
-   Memory ports in SpinalHDL are not inferred but explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.
+   Memory ports in SpinalHDL are not inferred, but are explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.
 
 Here is a example which infers a simple dual port ram (32 bits * 256):
 
 .. code-block:: scala
 
-   val mem = Mem(Bits(32 bits),wordCount = 256)
+   val mem = Mem(Bits(32 bits), wordCount = 256)
    mem.write(
      enable  = io.writeValid,
      address = io.writeAddress,
@@ -104,7 +105,7 @@ Here is a example which infers a simple dual port ram (32 bits * 256):
      address = io.readAddress
    )
 
-Read under write policy
+Read-under-write policy
 -----------------------
 
 This policy specifies how a read is affected when a write occurs in the same cycle to the same address.
@@ -124,9 +125,9 @@ This policy specifies how a read is affected when a write occurs in the same cyc
 
 
 .. important::
-   The generated VHDL/Verilog is always in the 'readFirst' mode, which is compatible with 'dontCare' but not with 'writeFirst'. To generate a design that contains this kind of feature, you need to enable the automatic memory blackboxing.
+   The generated VHDL/Verilog is always in the ``readFirst`` mode, which is compatible with ``dontCare`` but not with ``writeFirst``. To generate a design that contains this kind of feature, you need to enable :ref:`automatic memory blackboxing <automatic_memory_blackboxing>`.
 
-Mixed width ram
+Mixed-width ram
 ---------------
 
 You can specify ports that access the memory with a width that is a power of two fraction of the memory width using these functions:
@@ -142,13 +143,13 @@ You can specify ports that access the memory with a width that is a power of two
        |  data
        |  [readUnderWrite]
        | )
-     - Similar to mem.write
+     - Similar to ``mem.write``
    * - | mem.readAsyncMixedWidth(
        |  address
        |  data
        |  [readUnderWrite]
        | )
-     - Similar to mem.readAsync, but in place to return the read value, it drive the data structure given as argument
+     - Similar to ``mem.readAsync``, but in place of returning the read value, it drives the signal/object given as the ``data`` argument
    * - | mem.readSyncMixedWidth(
        |  address
        |  data
@@ -156,7 +157,7 @@ You can specify ports that access the memory with a width that is a power of two
        |  [readUnderWrite]
        |  [clockCrossing]
        | )
-     - Similar to mem.readSync, but in place to return the read value, it drive the data structure given as argument
+     - Similar to ``mem.readSync``, but in place of returning the read value, it drives the signal/object given as the ``data`` argument
    * - | mem.readWriteSyncMixedWidth(
        |  address
        |  data
@@ -166,16 +167,18 @@ You can specify ports that access the memory with a width that is a power of two
        |  [readUnderWrite]
        |  [clockCrossing]
        | )
-     - Equivalent to mem.readWriteSync
+     - Equivalent to ``mem.readWriteSync``
 
 
 .. important::
-   As for Read under write policy, to use this feature you need to enable the automatic memory blackboxing, because there is no universal VHDL/Verilog language template to infer mixed width ram.
+   As for read-under-write policy, to use this feature you need to enable :ref:`automatic memory blackboxing <automatic_memory_blackboxing>`, because there is no universal VHDL/Verilog language template to infer mixed-width ram.
+
+.. _automatic_memory_blackboxing:
 
 Automatic blackboxing
 ---------------------
 
-Because it's impossible to infer all ram kinds by using regular VHDL/Verilog, SpinalHDL integrates an optional automatic blackboxing system. This system looks at all memories present in your RTL netlist and replaces them with blackboxes. Then the generated code will rely on third party IP to provide the memory features, such as read during write policy and mixed width ports.
+Because it's impossible to infer all ram kinds by using regular VHDL/Verilog, SpinalHDL integrates an optional automatic blackboxing system. This system looks at all memories present in your RTL netlist and replaces them with blackboxes. Then the generated code will rely on third party IP to provide the memory features, such as the read-during-write policy and mixed-width ports.
 
 Here is an example of how to enable blackboxing of memories by default:
 
@@ -187,7 +190,7 @@ Here is an example of how to enable blackboxing of memories by default:
        .generateVhdl(new TopLevel)
    }
 
-If the standard blackboxing tools don't do enough for your design, do not hesitate to create a git issue. There is also a way to create your own blackboxing tool.
+If the standard blackboxing tools don't do enough for your design, do not hesitate to create a `Github issue <https://github.com/SpinalHDL/SpinalHDL/issues>`_. There is also a way to create your own blackboxing tool.
 
 Blackboxing policy
 ^^^^^^^^^^^^^^^^^^
@@ -200,15 +203,15 @@ There are multiple policies that you can use to select which memory you want to 
 
    * - Kinds
      - Description
-   * - blackboxAll
+   * - ``blackboxAll``
      - | Blackbox all memory.
        | Throw an error on unblackboxable memory
-   * - blackboxAllWhatsYouCan
+   * - ``blackboxAllWhatsYouCan``
      - Blackbox all memory that is blackboxable
-   * - blackboxRequestedAndUninferable
-     - | Blackbox memory specified by the user and memory that is known to be uninferable (mixed width, ...).
+   * - ``blackboxRequestedAndUninferable``
+     - | Blackbox memory specified by the user and memory that is known to be uninferable (mixed-width, ...).
        | Throw an error on unblackboxable memory
-   * - blackboxOnlyIfRequested
+   * - ``blackboxOnlyIfRequested``
      - | Blackbox memory specified by the user
        | Throw an error on unblackboxable memory
 
@@ -217,15 +220,15 @@ To explicitly set a memory to be blackboxed, you can use its ``generateAsBlackBo
 
 .. code-block:: scala
 
-   val mem = Mem(Rgb(rgbConfig),1 << 16)
+   val mem = Mem(Rgb(rgbConfig), 1 << 16)
    mem.generateAsBlackBox()
 
-You can also define your own blackboxing policy by extending the MemBlackboxingPolicy class.
+You can also define your own blackboxing policy by extending the ``MemBlackboxingPolicy`` class.
 
 Standard memory blackboxes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here are the VHDL definitions of used blackboxes:
+Shown below are the VHDL definitions of the standard blackboxes used in SpinalHDL:
 
 .. code-block:: ada
 
@@ -337,11 +340,10 @@ Here are the VHDL definitions of used blackboxes:
      );
    end component;
 
-As you can see, blackboxes have a technology parameter. To set it you can use the setTechnology function on the corresponding memory.
-There are currently 4 kinds of technogy possible:
+As you can see, blackboxes have a technology parameter. To set it, you can use the ``setTechnology`` function on the corresponding memory.
+There are currently 4 kinds of technologies possible:
 
-
-* auto
-* ramBlock
-* distributedLut
-* registerFile
+* ``auto``
+* ``ramBlock``
+* ``distributedLut``
+* ``registerFile``

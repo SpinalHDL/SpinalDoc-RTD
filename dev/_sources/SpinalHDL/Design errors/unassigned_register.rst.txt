@@ -43,7 +43,7 @@ A fix could be:
 Register with only init
 -----------------------
 
-In some cases, because of the design parametrization, it could make sense to generate a register which has no assignment but only a init statement.
+In some cases, because of the design parameterization, it could make sense to generate a register which has no assignment but only an ``init`` statement.
 
 .. code-block:: scala
 
@@ -65,7 +65,7 @@ will throw:
      Source file location of the toplevel/a definition via the stack trace
      ***
 
-To fix it you can ask SpinalHDL to transform the register into a combinatorial one if no assignement is present but it as a init statement:
+To fix it, you can ask SpinalHDL to transform the register into a combinational one if no assignment is present but it has an ``init`` statement:
 
 .. code-block:: scala
 

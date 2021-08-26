@@ -1,6 +1,18 @@
+.. _sim_example_synchronous_adder:
 
 Synchronous adder
 =================
+
+This example creates a ``Component`` out of sequential logic that does some simple arithmetic on 3 operands.
+
+The test bench performs the following steps 100 times:
+
+ * Initialize ``a``, ``b``, and ``c`` to random integers in the 0..255 range.
+ * Stimulate the :abbr:`DUT (Device Under Test)`'s matching ``a``, ``b``, ``c`` inputs.
+ * Wait until the simulation samples the DUT's signals again.
+ * Check for correct output.
+
+The main difference between this example and the :ref:`Asynchronous adder <sim_example_asynchronous_adder>` example is that this ``Component`` has to use ``forkStimulus`` to generate a clock signal, since it is using sequential logic internally.
 
 .. code-block:: scala
 
@@ -9,6 +21,7 @@ Synchronous adder
    import spinal.core.sim._
 
    import scala.util.Random
+
 
    object SimSynchronousExample {
      class Dut extends Component {

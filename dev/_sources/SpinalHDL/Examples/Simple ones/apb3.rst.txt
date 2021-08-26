@@ -77,9 +77,9 @@ Then we can define the APB3 ``Bundle`` which will be used to represent the bus i
    case class Apb3(config: Apb3Config) extends Bundle with IMasterSlave {
      val PADDR      = UInt(config.addressWidth bit)
      val PSEL       = Bits(config.selWidth bits)
-     val PENABLE    = Bool
-     val PREADY     = Bool
-     val PWRITE     = Bool
+     val PENABLE    = Bool()
+     val PREADY     = Bool()
+     val PWRITE     = Bool()
      val PWDATA     = Bits(config.dataWidth bit)
      val PRDATA     = Bits(config.dataWidth bit)
      val PSLVERROR  = if(config.useSlaveError) Bool else null

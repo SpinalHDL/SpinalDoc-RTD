@@ -52,14 +52,14 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
 
    // Element
    val myBits5 = B(8 bits, default -> True) // "11111111"
-   val myBits6 = B(8 bits, (7 downto 5) -> B"101", 4 -> true, 3 -> True, default -> false ) // "10111000"
+   val myBits6 = B(8 bits, (7 downto 5) -> B"101", 4 -> true, 3 -> True, default -> false) // "10111000"
    val myBits7 = Bits(8 bits)
-   myBits7 := (7 -> true, default -> false) // "10000000" (For assignement purposes, you can omit the B)
+   myBits7 := (7 -> true, default -> false) // "10000000" (For assignment purposes, you can omit the B)
 
 Operators
 ^^^^^^^^^
 
-The following operators are available for the ``Bits`` type
+The following operators are available for the ``Bits`` type:
 
 Logic
 ~~~~~
@@ -129,12 +129,11 @@ Logic
      - Set all bits to the given Bool value
      - 
 
-
 .. code-block:: scala
 
    // Bitwise operator
    val a, b, c = Bits(32 bits)
-   c := ~(a & b) //  Inverse(a AND b)
+   c := ~(a & b) // Inverse(a AND b)
 
    val all_1 = a.andR // Check that all bits are equal to 1
 
@@ -147,7 +146,7 @@ Logic
 
    // Set/clear
    val a = B"8'x42"
-   when(cond){
+   when(cond) {
      a.setAll() // set all bits to True when cond is True
    }
 
@@ -170,10 +169,10 @@ Comparison
 
 .. code-block:: scala
 
-   when(myBits === 3){
+   when(myBits === 3) {
    }
 
-   when(myBits_32 =/= B"32'x44332211"){
+   when(myBits_32 =/= B"32'x44332211") {
    }
 
 Type cast
@@ -202,7 +201,7 @@ Type cast
      -  Bits(w(x) bits)
 
 
-To cast a Bool, UInt or a SInt into a Bits, you can use ``B(something)``
+To cast a ``Bool``, ``UInt`` or an ``SInt`` into a ``Bits``, you can use ``B(something)``:
 
 .. code-block:: scala
 
@@ -228,9 +227,6 @@ Bit extraction
    * - x(y)
      - Readbit, y: Int/UInt
      - Bool
-   * - x(hi,lo)
-     - Read bitfield, hi: Int, lo: Int
-     - Bits(hi-lo+1 bits)
    * - x(offset,width bits)
      - Read bitfield, offset: UInt, width: Int
      - Bits(width bits)
@@ -312,9 +308,9 @@ Misc
 
    println(myBits_32bits.getWidth) // 32
 
-   myBool := myBits.lsb  // equivalent to myBits(0)
+   myBool := myBits.lsb  // Equivalent to myBits(0)
 
-   // concatenation
+   // Concatenation
    myBits_24bits := bits_8bits_1 ## bits_8bits_2 ## bits_8bits_3
 
    // Subdivide
@@ -325,7 +321,7 @@ Misc
        // sel = 2 => myBitsWord = myBits_128bits( 63 downto 32)
        // sel = 3 => myBitsWord = myBits_128bits( 31 downto  0)
 
-    // if you want to access in a reverse order you can do
+    // If you want to access in reverse order you can do:
     val myVector   = myBits_128bits.subdivideIn(32 bits).reverse
     val myBitsWord = myVector(sel)
 

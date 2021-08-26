@@ -26,9 +26,9 @@ Defining all IO
 
    val io = new Bundle{
      //Clocks / reset
-     val asyncReset = in Bool
-     val axiClk     = in Bool
-     val vgaClk     = in Bool
+     val asyncReset = in Bool()
+     val axiClk     = in Bool()
+     val vgaClk     = in Bool()
 
      //Main components IO
      val jtag       = slave(Jtag())

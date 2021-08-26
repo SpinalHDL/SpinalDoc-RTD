@@ -47,10 +47,10 @@ VGA bus
      - Description
    * - vSync
      - master
-     - Vertical syncronization, indicate the beginning of a new frame
+     - Vertical synchronization, indicate the beginning of a new frame
    * - hSync
      - master
-     - Horizontal syncronization, indicate the beginning of a new line
+     - Horizontal synchronization, indicate the beginning of a new line
    * - colorEn
      - master
      - High when the interface is in the visible part
@@ -62,10 +62,10 @@ VGA bus
 .. code-block:: scala
 
    case class Vga (rgbConfig: RgbConfig) extends Bundle with IMasterSlave{
-     val vSync = Bool
-     val hSync = Bool
+     val vSync = Bool()
+     val hSync = Bool()
 
-     val colorEn = Bool
+     val colorEn = Bool()
      val color   = Rgb(rgbConfig)
 
      override def asMaster() : Unit = this.asOutput()
@@ -81,7 +81,7 @@ This Vga ``Bundle`` uses the ``IMasterSlave`` trait, which allows you to create 
 VGA timings
 ^^^^^^^^^^^
 
-The VGA interface is driven by using 8 differents timings. Here is one simple example of a ``Bundle`` that is able to carry them.
+The VGA interface is driven by using 8 different timings. Here is one simple example of a ``Bundle`` that is able to carry them.
 
 .. code-block:: scala
 
@@ -210,7 +210,7 @@ Let's define a new VgaCtrl ``Component``\ , which takes as ``RgbConfig`` and ``t
 Horizontal and vertical logic
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The logic that generates horizontal and vertical syncronization signals is quite the same. It kind of resembles ~PWM~. The horizontal one counts up each cycle, while the vertical one use the horizontal syncronization signal as to increment.
+The logic that generates horizontal and vertical synchronization signals is quite the same. It kind of resembles ~PWM~. The horizontal one counts up each cycle, while the vertical one use the horizontal syncronization signal as to increment.
 
 Let's define ``HVArea``\ , which represents one ~PWM~ and then instantiate it two times: one for both horizontal and vertical syncronization.
 
@@ -252,7 +252,7 @@ As you can see, it's done by using ``Area``. This is to avoid the creation of a 
 Interconnections
 ^^^^^^^^^^^^^^^^
 
-Now that we have timing generators for horizontal and vertical syncronization, we need to drive the outputs.
+Now that we have timing generators for horizontal and vertical synchronization, we need to drive the outputs.
 
 .. code-block:: scala
 
@@ -281,7 +281,7 @@ Bonus
 The VgaCtrl that was defined above is generic (not application specific).
 We can imagine a case where the system provides a ``Stream`` of ``Fragment`` of RGB, which means the system transmits pixels between start/end of picture indications.
 
-In this case we can automaticly manage the ``softReset`` input by asserting it when an ``error`` occurs, then wait for the end of the current ``pixels`` picture to deassert ``error``.
+In this case we can automatically manage the ``softReset`` input by asserting it when an ``error`` occurs, then wait for the end of the current ``pixels`` picture to deassert ``error``.
 
 Let's add a function to ``VgaCtrl`` that can be called from the parent component to feed ``VgaCtrl`` by using this ``Stream`` of ``Fragment`` of RGB.
 

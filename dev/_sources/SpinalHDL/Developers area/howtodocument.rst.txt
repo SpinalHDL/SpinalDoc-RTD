@@ -60,7 +60,7 @@ and you get:
 
 .. note::
    if you want the Wavedrom diagram to be present in the pdf export, you need to use the "non relaxed" JSON dialect.
-   long story short, no javascript code and use ``"`` arround key value (Eg. ``"name"``).
+   long story short, no javascript code and use ``"`` around key value (Eg. ``"name"``).
 
 you can describe register mapping with the same syntax:
 

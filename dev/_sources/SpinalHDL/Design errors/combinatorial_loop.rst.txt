@@ -1,5 +1,5 @@
 
-Combinational loop
+Combinatorial loop
 ==================
 
 Introduction
@@ -15,8 +15,8 @@ The following code:
 .. code-block:: scala
 
    class TopLevel extends Component {
-     val a = UInt(8 bits) //PlayDev.scala line 831
-     val b = UInt(8 bits) //PlayDev.scala line 832
+     val a = UInt(8 bits) // PlayDev.scala line 831
+     val b = UInt(8 bits) // PlayDev.scala line 832
      val c = UInt(8 bits)
      val d = UInt(8 bits)
 
@@ -49,8 +49,8 @@ A possible fix could be:
 .. code-block:: scala
 
    class TopLevel extends Component {
-     val a = UInt(8 bits) //PlayDev.scala line 831
-     val b = UInt(8 bits) //PlayDev.scala line 832
+     val a = UInt(8 bits) // PlayDev.scala line 831
+     val b = UInt(8 bits) // PlayDev.scala line 832
      val c = UInt(8 bits)
      val d = UInt(8 bits)
 
@@ -60,17 +60,18 @@ A possible fix could be:
      c := 0
    }
 
-False-positive
---------------
+False-positives
+---------------
 
-It should be said that SpinalHDL's algorithm to detect combinatorial loops can be pessimistic, and it may give false positives. If it is giving a false positive, you can manualy disable loop checking on one signal of the loop like so:
+It should be said that SpinalHDL's algorithm to detect combinatorial loops can be pessimistic, and it may give false positives.
+If it is giving a false positive, you can manually disable loop checking on one signal of the loop like so:
 
 .. code-block:: scala
 
    class TopLevel extends Component {
      val a = UInt(8 bits)
      a := 0
-     a(1) := a(0) //False positive because of this line
+     a(1) := a(0) // False positive because of this line
    }
 
 could be fixed by :
@@ -83,4 +84,5 @@ could be fixed by :
      a(1) := a(0)
    }
 
-It should also be said that assignments such as (a(1) := a(0)) can make some tools like Verilator unhappy. It may be better to use a Vec(Bool, 8) in this case.
+It should also be said that assignments such as ``(a(1) := a(0))`` can make some tools like `Verilator <https://www.veripool.org/wiki/verilator>`_ unhappy.
+It may be better to use a ``Vec(Bool, 8)`` in this case.

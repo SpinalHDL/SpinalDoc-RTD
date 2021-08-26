@@ -1,5 +1,5 @@
 .. warning::
-   The SpinalHDL fixed point support is only partially used/tested, if you find any bugs with it or you think that some functionality is missing, please create a github issue. Also, please do not use undocumented features in production code.
+   SpinalHDL fixed-point support is only partially used/tested, if you find any bugs with it, or you think that some functionality is missing, please create a `Github issue <https://github.com/SpinalHDL/SpinalHDL/issues>`_. Also, please do not use undocumented features in your code.
 
 .. _fixed:
 
@@ -9,14 +9,14 @@ UFix/SFix
 Description
 ^^^^^^^^^^^
 
-The ``UFix`` and ``SFix`` types correspond to a vector of bits that can be used for fixed point arithmetic.
+The ``UFix`` and ``SFix`` types correspond to a vector of bits that can be used for fixed-point arithmetic.
 
 Declaration
 ^^^^^^^^^^^
 
-The syntax to declare a fixed point number is as follows:
+The syntax to declare a fixed-point number is as follows:
 
-Unsigned Fixed Point
+Unsigned Fixed-Point
 ~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
@@ -28,19 +28,18 @@ Unsigned Fixed Point
      - resolution
      - max
      - min
-   * - UFix(peak:ExpNumber, resolution:ExpNumber)
+   * - UFix(peak: ExpNumber, resolution: ExpNumber)
      - peak-resolution
      - 2^resolution
      - 2^peak-2^resolution
      - 0
-   * - UFix(peak:ExpNumber, width:BitCount)
+   * - UFix(peak: ExpNumber, width: BitCount)
      - width
      - 2^(peak-width)
      - 2^peak-2^(peak-width)
      - 0
 
-
-Signed Fixed Point
+Signed Fixed-Point
 ~~~~~~~~~~~~~~~~~~
 
 .. list-table::
@@ -52,45 +51,48 @@ Signed Fixed Point
      - resolution
      - max
      - min
-   * - SFix(peak:ExpNumber, resolution:ExpNumber)
+   * - SFix(peak: ExpNumber, resolution: ExpNumber)
      - peak-resolution+1
      - 2^resolution
      - 2^peak-2^resolution
      - -(2^peak)
-   * - SFix(peak:ExpNumber, width:BitCount)
+   * - SFix(peak: ExpNumber, width: BitCount)
      - width
      - 2^(peak-width-1)
      - 2^peak-2^(peak-width-1)
      - -(2^peak)
 
-
 Format
 ~~~~~~
 
-The chosen format follows the usual way of defining fixed point number format using Q notation. More information `there <https://en.wikipedia.org/wiki/Q_(number_format)>`_\ ).
+The chosen format follows the usual way of defining fixed-point number format using Q notation. More information can be found on the `Wikipedia page about the Q number format <https://en.wikipedia.org/wiki/Q_(number_format)>`_.
 
-For example Q8.2 will mean an fixed point of 8+2 bits, where 8 bit are used for the natural part and 2 bits for the fractional part.
-If the fixed point number is signed, one more bit is used for the sign.
+For example Q8.2 will mean a fixed-point number of 8+2 bits, where 8 bits are used for the natural part and 2 bits for the fractional part.
+If the fixed-point number is signed, one more bit is used for the sign.
 
 The resolution is defined as being the smallest power of two that can be represented in this number.
+
+.. note::
+   To make representing power-of-two numbers less error prone, there is a numeric type in ``spinal.core`` called ``ExpNumber``, which is used for the fixed-point type constructors.
+   A convenience wrapper exists for this type, in the form of the ``exp`` function (used in the code samples on this page).
 
 Examples
 ~~~~~~~~
 
 .. code-block:: scala
 
-   // Unsigned Fixed Point
-   val UQ_8_2 = UFix(peak = 8 exp,resolution = -2 exp)
+   // Unsigned Fixed-Point
+   val UQ_8_2 = UFix(peak = 8 exp, resolution = -2 exp) // bit width = 8 - (-2) = 10 bits
    val UQ_8_2 = UFix(8 exp, -2 exp)
 
-   val UQ_8_2 = UFix(peak = 8 exp,width = 10 bits)
+   val UQ_8_2 = UFix(peak = 8 exp, width = 10 bits)
    val UQ_8_2 = UFix(8 exp, 10 bits)
 
-   // Signed Fixed Point
-   val Q_8_2 = SFix(peak = 8 exp,resolution = -2 exp)
+   // Signed Fixed-Point
+   val Q_8_2 = SFix(peak = 8 exp, resolution = -2 exp) // bit width = 8 - (-2) + 1 = 11 bits
    val Q_8_2 = SFix(8 exp, -2 exp)
 
-   val Q_8_2 = SFix(peak = 8 exp,width = 11 bits)
+   val Q_8_2 = SFix(peak = 8 exp, width = 11 bits)
    val Q_8_2 = SFix(8 exp, 11 bits)
 
 Assignments
@@ -99,22 +101,21 @@ Assignments
 Valid Assignments
 ~~~~~~~~~~~~~~~~~
 
-An assignment to a fixed point value is valid when there is no bit loss. Any bit loss will result in an error.
+An assignment to a fixed-point value is valid when there is no bit loss. Any bit loss will result in an error.
 
-If the source fixed point value is too big, the .truncated function will allow you to
-resize the source number to match the destination size.
+If the source fixed-point value is too big, the ``.truncated`` function will allow you to resize the source number to match the destination size.
 
 Example
 """""""
 
 .. code-block:: scala
 
-   val i16_m2 = SFix(16 exp,-2 exp)
-   val i16_0  = SFix(16 exp, 0 exp)
-   val i8_m2  = SFix( 8 exp,-2 exp)
-   val o16_m2 = SFix(16 exp,-2 exp)
-   val o16_m0 = SFix(16 exp, 0 exp)
-   val o14_m2 = SFix(14 exp,-2 exp)
+   val i16_m2 = SFix(16 exp, -2 exp)
+   val i16_0  = SFix(16 exp,  0 exp)
+   val i8_m2  = SFix( 8 exp, -2 exp)
+   val o16_m2 = SFix(16 exp, -2 exp)
+   val o16_m0 = SFix(16 exp,  0 exp)
+   val o14_m2 = SFix(14 exp, -2 exp)
 
    o16_m2 := i16_m2            // OK
    o16_m0 := i16_m2            // Not OK, Bit loss
@@ -125,22 +126,21 @@ Example
 From a Scala constant
 ~~~~~~~~~~~~~~~~~~~~~
 
-Scala BigInts or Doubles can be used as constants when assigning to UFix or SFix signals.
+Scala ``BigInt`` or ``Double`` types can be used as constants when assigning to ``UFix`` or ``SFix`` signals.
 
 Example
 """""""
 
 .. code-block:: scala
 
-   val i4_m2 = SFix(4 exp,-2 exp)
-   i4_m2 := 1.25    //Will load 5 in i4_m2.raw
-   i4_m2 := 4       //Will load 16 in i4_m2.raw
+   val i4_m2 = SFix(4 exp, -2 exp)
+   i4_m2 := 1.25    // Will load 5 in i4_m2.raw
+   i4_m2 := 4       // Will load 16 in i4_m2.raw
 
 Raw value
 ^^^^^^^^^
 
-The integer representation of the fixed point number can be read or written using the
-``raw`` property.
+The integer representation of the fixed-point number can be read or written by using the ``raw`` property.
 
 Example
 ~~~~~~~
@@ -148,13 +148,13 @@ Example
 .. code-block:: scala
 
    val UQ_8_2 = UFix(8 exp, 10 bits)
-   UQ_8_2.raw := 4        //Assign the value corresponding to 1.0
-   UQ_8_2.raw := U(17)    //Assign the value corresponding to 4.25
+   UQ_8_2.raw := 4        // Assign the value corresponding to 1.0
+   UQ_8_2.raw := U(17)    // Assign the value corresponding to 4.25
 
 Operators
 ^^^^^^^^^
 
-The following operators are available for the ``UFix`` type
+The following operators are available for the ``UFix`` type:
 
 Arithmetic
 ~~~~~~~~~~
@@ -196,7 +196,6 @@ Arithmetic
      - x.amplitude << y
      - x.resolution
 
-
 Comparison
 ~~~~~~~~~~
 
@@ -224,7 +223,6 @@ Comparison
    * - x >= y
      - Less than or equal
      - Bool
-
 
 Type cast
 ~~~~~~~~~
@@ -260,7 +258,6 @@ Type cast
    * - x.toSFix
      - Return the corresponding SFix
      - SFix
-
 
 Misc
 ~~~~

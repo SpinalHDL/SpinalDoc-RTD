@@ -12,10 +12,10 @@ An VGA bus definition is available via the Vga bundle.
 .. code-block:: scala
 
    case class Vga (rgbConfig: RgbConfig) extends Bundle with IMasterSlave{
-     val vSync = Bool
-     val hSync = Bool
+     val vSync = Bool()
+     val hSync = Bool()
 
-     val colorEn = Bool  //High when the frame is inside the color area
+     val colorEn = Bool()  //High when the frame is inside the color area
      val color = Rgb(rgbConfig)
 
      override def asMaster() = this.asOutput()
@@ -52,14 +52,14 @@ An VGA controller is available. It's definition is the following :
 
    case class VgaCtrl(rgbConfig: RgbConfig, timingsWidth: Int = 12) extends Component {
      val io = new Bundle {
-       val softReset = in Bool
+       val softReset = in Bool()
        val timings   = in(VgaTimings(timingsWidth))
 
-       val frameStart = out Bool
+       val frameStart = out Bool()
        val pixels     = slave Stream (Rgb(rgbConfig))
        val vga        = master(Vga(rgbConfig))
 
-       val error      = out Bool
+       val error      = out Bool()
      }
      // ...
    }

@@ -98,8 +98,8 @@ Let's define a UART bus without flow control.
 .. code-block:: scala
 
    case class Uart() extends Bundle with IMasterSlave {
-     val txd = Bool
-     val rxd = Bool
+     val txd = Bool()
+     val rxd = Bool()
 
      override def asMaster(): Unit = {
        out(txd)
@@ -169,7 +169,7 @@ The interfaces of this ``Component`` are the following :
      - Description
    * - configFrame
      - UartCtrlFrameConfig
-     - Containts data bit width count and party/stop bits configurations
+     - Contains data bit width count and party/stop bits configurations
    * - samplingTick
      - Bool
      - Time reference that pulses ``rxSamplePerBit`` times per UART baud
@@ -198,7 +198,7 @@ Let's define the skeleton of ``UartCtrlTx``\ :
 
      val io = new Bundle {
        val configFrame  = in(UartCtrlFrameConfig(g))
-       val samplingTick = in Bool
+       val samplingTick = in Bool()
        val write        = slave Stream (Bits(dataWidthMax bit))
        val txd          = out Bool
      }
@@ -569,6 +569,44 @@ Let's write ``UartCtrl`` that instantiates the ``UartCtrlRx`` and ``UartCtrlTx``
      io.uart.txd <> tx.io.txd
      io.uart.rxd <> rx.io.rxd
    }
+
+Simple usage 
+-----------------------
+
+To synthesize a ``UartCtrl`` as ``115200-N-8-1``:
+
+.. code-block:: scala
+
+    val uartCtrl: UartCtrl = UartCtrl(
+      config = UartCtrlInitConfig(
+        baudrate = 115200,
+        dataLength = 7,  // 8 bits
+        parity = UartParityType.NONE,
+        stop = UartStopType.ONE
+      )
+    )
+
+If you are using ``txd`` pin only:
+
+.. code-block:: scala
+
+    uartCtrl.io.uart.rxd := True  // High is the idle state for UART
+    txd := uartCtrl.io.uart.txd
+
+On the contrary, if you are using ``rxd`` pin only:
+
+.. code-block:: scala
+
+    val uartCtrl: UartCtrl = UartCtrl(
+      config = UartCtrlInitConfig(
+        baudrate = 115200,
+        dataLength = 7,  // 8 bits
+        parity = UartParityType.NONE,
+        stop = UartStopType.ONE
+      ),
+      readonly = true
+    )
+
 
 Example with test bench
 -----------------------

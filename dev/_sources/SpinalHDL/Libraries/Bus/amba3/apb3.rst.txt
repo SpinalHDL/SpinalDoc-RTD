@@ -45,12 +45,12 @@ There is in short how the APB3 bus is defined in the SpinalHDL library :
    case class Apb3(config: Apb3Config) extends Bundle with IMasterSlave {
      val PADDR      = UInt(config.addressWidth bit)
      val PSEL       = Bits(config.selWidth bits)
-     val PENABLE    = Bool
-     val PREADY     = Bool
-     val PWRITE     = Bool
+     val PENABLE    = Bool()
+     val PREADY     = Bool()
+     val PWRITE     = Bool()
      val PWDATA     = Bits(config.dataWidth bit)
      val PRDATA     = Bits(config.dataWidth bit)
-     val PSLVERROR  = if(config.useSlaveError) Bool else null
+     val PSLVERROR  = if(config.useSlaveError) Bool() else null
      //...
    }
 

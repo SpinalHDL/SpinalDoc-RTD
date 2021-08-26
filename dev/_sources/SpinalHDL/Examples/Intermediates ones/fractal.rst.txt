@@ -121,7 +121,7 @@ And now the implementation. The one below is a very simple one without pipelinin
      val yy = y*y
      val xy = x*y
 
-     //Apply default assignement
+     //Apply default assignment
      io.cmd.ready := False
      io.rsp.valid := False
      io.rsp.iteration := iteration

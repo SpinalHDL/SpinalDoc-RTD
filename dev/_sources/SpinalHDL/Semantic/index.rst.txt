@@ -4,6 +4,6 @@ Semantic
 
 .. toctree::
 
-   assignements
+   assignments
    when_switch
    rules
