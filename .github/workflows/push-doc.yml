@@ -13,21 +13,22 @@ jobs:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 0
+    - name: "setup python"
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: "install dependencies"
+      run: |
+        apt-get update -y && apt-get install -y git
+        pip install -r requirements.txt
     - name: "check links"
-      uses: ammaraskar/sphinx-action@master
-      with:
-        docs-folder: "."
-        build-command: "make linkcheck"
+      run: make linkcheck
     - name: "Build multiversioned doc"
-      uses: ammaraskar/sphinx-action@master
-      with:
-        docs-folder: "."
-        pre-build-command: "apt-get update -y && apt-get install -y git"
-        build-command: "sphinx-multiversion source docs/html"
+      run: sphinx-multiversion source docs/html
     - name: "add .nojekill and redirect to master"
       run: |
         sudo touch docs/html/.nojekyll
-        sudo tee docs/html/index.html << EOF 
+        sudo tee docs/html/index.html << EOF
         <!DOCTYPE html>
         <html>
           <head>

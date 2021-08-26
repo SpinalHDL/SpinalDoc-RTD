@@ -2,7 +2,7 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    = -Dversion=$(shell git tag --sort=committerdate | tail -1)
+SPHINXOPTS    +=
 SPHINXBUILD   = sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = docs
