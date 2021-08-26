@@ -46,6 +46,12 @@ Configuration
      - Enable all the RTL compilation optimizations to reduce simulation time (will increase compilation time)
    * - ``workspacePath(path)``
      - Change the folder where the sim files are generated
+   * - withVerilator
+     - Use Verilator as simulation backend (default)
+   * - withGhdl
+     - Use GHDL as simulation backend
+   * - withIVerilog
+     - Use Icarus Verilog as simulation backend
 
 
 Then you can call the ``compile(rtl)`` function to compile the hardware and warm up the simulator.

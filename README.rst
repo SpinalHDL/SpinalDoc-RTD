@@ -10,6 +10,7 @@ With venv
 Requirements (system)
 
 * make
+* git
 
 
 Create a virtual environment with pipenv (will use the Pipfile for installing the necessary packages)
@@ -41,6 +42,7 @@ without virtualenv
 Requirements (system):
 
 * make
+* git
 
 Requirements (Python 3):
 
@@ -58,6 +60,7 @@ After installing the requirements you can run
    make latexpdf # for latex (will require latexpdf installed)
    make          # list all the available output format
 
+<<<<<<< HEAD
 you can create build multiple version of the doc via
 
 .. code:: shell
@@ -82,6 +85,18 @@ Deploying the generated doc by hands
    rm -rf deploy_tmp
 
 
+=======
+Versioning
+==========
+The documentation will show on the top left the last pushed tag.
+The magic is in the makefile:
+
+.. code:: make
+
+   SPHINXOPTS    = -Dversion=$(shell git describe --tags --abbrev=0)
+
+this will ovveride the ``version`` variable in ``conf.py``.
+>>>>>>> old_dev
 
 Continuous Integration(CI)
 ==========================

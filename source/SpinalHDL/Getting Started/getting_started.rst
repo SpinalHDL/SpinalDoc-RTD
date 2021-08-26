@@ -16,7 +16,7 @@ Requirements / Things to download to get started
 Before you download the SpinalHDL tools, you need to install:
 
 
-* A Java JDK, which can be downloaded from `here <https://www.oracle.com/au/java/technologies/javase-downloads.html>`__ for instance.
+* A Java JDK, which can be downloaded from `here <https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`__ for instance.
 * A Scala 2.11.X distribution, which can be downloaded `here <https://scala-lang.org/download/>`__ (not required if you use SBT).
 * The SBT build tool, which can be downloaded `here <https://www.scala-sbt.org/download.html>`__.
 

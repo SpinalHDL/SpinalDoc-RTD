@@ -7,7 +7,7 @@ Introduction
 ============
 
 .. note::
-   This page document the SoC implemented with the first RISC-V cpu iteration done in SpinalHDL. The second iteration of this SoC (and CPU) is available `there <https://github.com/SpinalHDL/VexRiscv>`_ and offer better perforance/area/features.
+   This page document the SoC implemented with the first RISC-V cpu iteration done in SpinalHDL. The second iteration of this SoC (and CPU) is available `there <https://github.com/SpinalHDL/VexRiscv>`__ and offer better perforance/area/features.
 
 Introduction
 ------------
