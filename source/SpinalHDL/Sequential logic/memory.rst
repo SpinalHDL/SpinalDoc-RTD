@@ -84,7 +84,7 @@ The following table show how to add access ports on a memory :
 
 
 .. note::
-   If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract over your memory by specifying a `BlackBox <blackbox>`_ for it.
+   If for some reason you need a specific memory port which is not implemented in Spinal, you can always abstract over your memory by specifying a BlackBox for it.
 
 .. important::
    Memory ports in SpinalHDL are not inferred, but are explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.
