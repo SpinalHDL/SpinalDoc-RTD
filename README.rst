@@ -60,7 +60,6 @@ After installing the requirements you can run
    make latexpdf # for latex (will require latexpdf installed)
    make          # list all the available output format
 
-<<<<<<< HEAD
 you can create build multiple version of the doc via
 
 .. code:: shell
@@ -84,19 +83,6 @@ Deploying the generated doc by hands
    cd ..
    rm -rf deploy_tmp
 
-
-=======
-Versioning
-==========
-The documentation will show on the top left the last pushed tag.
-The magic is in the makefile:
-
-.. code:: make
-
-   SPHINXOPTS    = -Dversion=$(shell git describe --tags --abbrev=0)
-
-this will ovveride the ``version`` variable in ``conf.py``.
->>>>>>> old_dev
 
 Continuous Integration(CI)
 ==========================
