@@ -24,7 +24,7 @@ then you can activate the virtual enviroment (in bash) and install the dependenc
 .. code:: shell
 
    source .venv/bin/activate
-   pip install -r requiremets.txt
+   pip install -r requirements.txt
 
 and then you can use ``make`` the usual way
 
