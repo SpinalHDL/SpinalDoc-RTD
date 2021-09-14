@@ -260,3 +260,41 @@ There is an example of declaration :
        goto(stateE)
      }
    }
+
+Notes about the entry state
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default, you have to specify the entry state of your state-machine, but between the reset and the first clock sampling, the state-machine will be in a bootState. It is only after the first clock sampling that your entry state become active.
+
+This allow to properly the onEntry of your entry state, and also allow the implementation of the inner state-machines.
+
+While it is usefull, it is also possible to bypass that feature and directly have your state-machine starting into a user state.
+
+Do do so, you can use `makeInstantEntry`. This will return you the state which will be active directly after reset. Note, the onEntry of that state will only be called when it transition from another state to this state.
+
+There is an example : 
+
+.. code-block:: scala
+
+    // State sequance : IDLE, STATE_A, STATE_B, ...
+    val fsm = new StateMachine{
+      val IDLE = makeInstantEntry()
+      val STATE_A, STATE_B, STATE_C = new State
+      
+      IDLE.whenIsActive(goto(STATE_A))
+      STATE_A.whenIsActive(goto(STATE_B))
+      STATE_B.whenIsActive(goto(STATE_C))
+      STATE_C.whenIsActive(goto(STATE_B))
+    }
+
+.. code-block:: scala
+
+    //  State sequance : stateBoot, STATE_A, STATE_B, ...
+    val fsm = new StateMachine{
+      val STATE_A, STATE_B, STATE_C = new State
+      setEntry(STATE_A)
+      
+      STATE_A.whenIsActive(goto(STATE_B))
+      STATE_B.whenIsActive(goto(STATE_C))
+      STATE_C.whenIsActive(goto(STATE_B))
+    }
