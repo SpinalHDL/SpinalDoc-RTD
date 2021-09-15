@@ -694,6 +694,9 @@
 </li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">USB device</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#architecture">Architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#registers">Registers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#descriptors">Descriptors</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
 </ul>
 </li>
@@ -1083,6 +1086,365 @@
 <li><p><a class="reference external" href="https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/digilent/ArtyA7SmpLinux">https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/digilent/ArtyA7SmpLinux</a></p></li>
 <li><p><a class="reference external" href="https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/radiona/ulx3s/smp">https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/radiona/ulx3s/smp</a></p></li>
 </ul>
+</div>
+<div class="section" id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<p>The controller is composed of :</p>
+<ul class="simple">
+<li><p>A few control registers</p></li>
+<li><p>A internal ram used to store the endpoint status, the transfer descriptors and the endpoint 0 SETUP data.</p></li>
+</ul>
+<p>A linked list of descriptors for each endpoint in order to handle of the USB IN/OUT transactions and data.</p>
+<p>The endpoint 0 manage the IN/OUT transactions like all the other endpoints but has some additional hardware to manage the SETUP transactions :</p>
+<ul class="simple">
+<li><p>Its linked list is cleared on each setup transactions</p></li>
+<li><p>The data of the SETUP transaction are stored in a fixed location (SETUP_DATA)</p></li>
+<li><p>It has a specific interrupt flag for SETUP transactions</p></li>
+</ul>
+</div>
+<div class="section" id="registers">
+<h2>Registers<a class="headerlink" href="#registers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="frame-0xff00">
+<h3>FRAME (0xFF00)<a class="headerlink" href="#frame-0xff00" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>usbFrameId</p></td>
+<td><p>RO</p></td>
+<td><p>31-0</p></td>
+<td><p>Current usb frame id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="address-0xff04">
+<h3>ADDRESS (0xFF04)<a class="headerlink" href="#address-0xff04" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>usbAddressFilter</p></td>
+<td><p>WO</p></td>
+<td><p>6-0</p></td>
+<td><p>The device will only listen at tokens with the specified address
+This field is automaticaly cleared on usb reset events</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="interrupt-0xff08">
+<h3>INTERRUPT (0xFF08)<a class="headerlink" href="#interrupt-0xff08" title="Permalink to this headline">¶</a></h3>
+<p>All bits of this register can be cleared by writing ‘1’ in them.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>endpoints</p></td>
+<td><p>RC</p></td>
+<td><p>15-0</p></td>
+<td><p>Raised when a enpoint generate a interrupt</p></td>
+</tr>
+<tr class="row-odd"><td><p>reset</p></td>
+<td><p>RC</p></td>
+<td><p>16</p></td>
+<td><p>Raised when a USB reset appeared</p></td>
+</tr>
+<tr class="row-even"><td><p>ep0Setup</p></td>
+<td><p>RC</p></td>
+<td><p>17</p></td>
+<td><p>Raised when endpoint 0 receive a setup transaction</p></td>
+</tr>
+<tr class="row-odd"><td><p>suspend</p></td>
+<td><p>RC</p></td>
+<td><p>18</p></td>
+<td><p>Raised when a USB suspend appeared</p></td>
+</tr>
+<tr class="row-even"><td><p>resume</p></td>
+<td><p>RC</p></td>
+<td><p>19</p></td>
+<td><p>Raised when a USB resume appeared</p></td>
+</tr>
+<tr class="row-odd"><td><p>disconnect</p></td>
+<td><p>RC</p></td>
+<td><p>20</p></td>
+<td><p>Raised when a USB disconnect appeared</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="halt-0xff0c">
+<h3>HALT (0xFF0C)<a class="headerlink" href="#halt-0xff0c" title="Permalink to this headline">¶</a></h3>
+<p>This register allow to place a single enpoint in a dormant state in order to ensure atomicity of CPU operations.
+The peripheral will return NAK if the given endpoint is addressed by the usb host.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>endpointId</p></td>
+<td><p>WO</p></td>
+<td><p>3-0</p></td>
+<td><p>The endpoint you want to put in sleep</p></td>
+</tr>
+<tr class="row-odd"><td><p>enable</p></td>
+<td><p>WO</p></td>
+<td><p>4</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>effective
+enable</p></td>
+<td><p>RO</p></td>
+<td><p>5</p></td>
+<td><p>After setting the enable, you need to wait for this bit to be
+set by the hardware itself to ensure atomicity</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="config-0xff10">
+<h3>CONFIG (0xFF10)<a class="headerlink" href="#config-0xff10" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>pullupSet</p></td>
+<td><p>SO</p></td>
+<td><p>0</p></td>
+<td><p>Write ‘1’ to enable the USB device pullup on the dp pin</p></td>
+</tr>
+<tr class="row-odd"><td><p>pullupClear</p></td>
+<td><p>SO</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>interruptEnableSet</p></td>
+<td><p>SO</p></td>
+<td><p>2</p></td>
+<td><p>Write ‘1’ to let the present and future interrupt happening</p></td>
+</tr>
+<tr class="row-odd"><td><p>interruptEnableClear</p></td>
+<td><p>SO</p></td>
+<td><p>3</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="info-0xff14">
+<h3>INFO (0xFF14)<a class="headerlink" href="#info-0xff14" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ramSize</p></td>
+<td><p>RO</p></td>
+<td><p>3-0</p></td>
+<td><p>The internal ram will have (1 &lt;&lt; this) bytes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="endpoints-0x0000-0x003f">
+<h3>ENDPOINTS (0x0000 - 0x003F)<a class="headerlink" href="#endpoints-0x0000-0x003f" title="Permalink to this headline">¶</a></h3>
+<p>The endpoints status are stored at the begining of the internal ram over one 32 bits word each.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>enable</p></td>
+<td><p>RW</p></td>
+<td><p>0</p></td>
+<td><p>If not set, the endpoint will ignore all the trafic</p></td>
+</tr>
+<tr class="row-odd"><td><p>stall</p></td>
+<td><p>RW</p></td>
+<td><p>1</p></td>
+<td><p>If set, the endpoint will always return STALL status</p></td>
+</tr>
+<tr class="row-even"><td><p>nack</p></td>
+<td><p>RW</p></td>
+<td><p>2</p></td>
+<td><p>If set, the endpoint will always return NACK status</p></td>
+</tr>
+<tr class="row-odd"><td><p>dataPhase</p></td>
+<td><p>RW</p></td>
+<td><p>3</p></td>
+<td><p>Specify the IN/OUT data PID used. ‘0’ =&gt; DATA0.
+This field is also updated by the controller.</p></td>
+</tr>
+<tr class="row-even"><td><p>head</p></td>
+<td><p>RW</p></td>
+<td><p>15-4</p></td>
+<td><p>Specify the current descriptor head (linked list).
+0 =&gt; empty list, byte address = this &lt;&lt; 4</p></td>
+</tr>
+<tr class="row-odd"><td><p>isochronous</p></td>
+<td><p>RW</p></td>
+<td><p>16</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>maxPacketSize</p></td>
+<td><p>RW</p></td>
+<td><p>31-22</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="setup-data-0x0040-0x0047">
+<h3>SETUP_DATA (0x0040 - 0x0047)<a class="headerlink" href="#setup-data-0x0040-0x0047" title="Permalink to this headline">¶</a></h3>
+<p>When endpoint 0 receive a SETUP transaction, the data of the transaction will be stored at that place.</p>
+</div>
+</div>
+<div class="section" id="descriptors">
+<h2>Descriptors<a class="headerlink" href="#descriptors" title="Permalink to this headline">¶</a></h2>
+<p>Descriptors allows to specify how a endpoint need to handle the data phase of IN/OUT transactions.
+They are stored in the internal ram, can be linked together via their linked lists and need to be aligned on 16 bytes boundaries</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 65%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Word</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>offset</p></td>
+<td><p>0</p></td>
+<td><p>15-0</p></td>
+<td><p>Specify the current progress in the transfer (in byte)</p></td>
+</tr>
+<tr class="row-odd"><td><p>code</p></td>
+<td><p>0</p></td>
+<td><p>19-16</p></td>
+<td><p>0xF =&gt; in progress, 0x0 =&gt; success</p></td>
+</tr>
+<tr class="row-even"><td><p>next</p></td>
+<td><p>1</p></td>
+<td><p>15-4</p></td>
+<td><p>Point the the next descriptor
+0 =&gt; nothing, byte address = this &lt;&lt; 4</p></td>
+</tr>
+<tr class="row-odd"><td><p>length</p></td>
+<td><p>1</p></td>
+<td><p>31-16</p></td>
+<td><p>Number of bytes allocated for the data field</p></td>
+</tr>
+<tr class="row-even"><td><p>direction</p></td>
+<td><p>2</p></td>
+<td><p>16</p></td>
+<td><p>‘0’ =&gt; OUT, ‘1’ =&gt; IN</p></td>
+</tr>
+<tr class="row-odd"><td><p>interrupt</p></td>
+<td><p>2</p></td>
+<td><p>17</p></td>
+<td><p>If set, the completion of the descriptor will generate a
+interrupt.</p></td>
+</tr>
+<tr class="row-even"><td><p>completionOnFull</p></td>
+<td><p>2</p></td>
+<td><p>18</p></td>
+<td><p>Normaly, a descriptor completion only occure when a USB transfer
+is smaller than the maxPacketSize. But if this field is set,
+then when the descriptor become full is also a considered
+as a completion event. (offset == length)</p></td>
+</tr>
+<tr class="row-odd"><td><p>data1OnCompletion</p></td>
+<td><p>2</p></td>
+<td><p>19</p></td>
+<td><p>force the endpoint dataPhase to DATA1 on the completion of the
+descriptoo</p></td>
+</tr>
+<tr class="row-even"><td><p>data</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
