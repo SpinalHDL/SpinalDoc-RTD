@@ -1220,13 +1220,15 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <span class="p">}</span>
 
 <span class="kd">val</span> <span class="n">database</span> <span class="o">=</span> <span class="n">mutable</span><span class="p">.</span><span class="nc">HashMap</span><span class="p">[</span><span class="nc">Any</span><span class="p">,</span> <span class="nc">Bool</span><span class="p">]()</span>
-<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span> <span class="p">:</span> <span class="nc">Any</span><span class="p">){</span>
+<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span> <span class="p">:</span> <span class="nc">Any</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Bool</span> <span class="o">=</span> <span class="p">{</span>
   <span class="n">database</span><span class="p">.</span><span class="n">getOrElseUpdate</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">atBeginingOfCurrentComponent</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span>
 <span class="p">}</span>
 
+<span class="k">object</span> <span class="nc">key</span>
+
 <span class="n">when</span><span class="p">(</span><span class="n">something</span><span class="p">){</span>
   <span class="k">if</span><span class="p">(</span><span class="n">somehow</span><span class="p">){</span>
-    <span class="n">database</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">:=</span> <span class="nc">True</span>
+    <span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">:=</span> <span class="nc">True</span>
   <span class="p">}</span>
 <span class="p">}</span>
 <span class="n">when</span><span class="p">(</span><span class="n">database</span><span class="p">(</span><span class="n">key</span><span class="p">)){</span>
