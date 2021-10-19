@@ -1208,6 +1208,33 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="n">ffIo</span><span class="p">(</span><span class="k">new</span> <span class="nc">MyToplevel</span><span class="p">))</span>
 </pre></div>
 </div>
+<p>Here is an function, which allow to execute the <cite>body</cite> code as if nothing ever existed in the current component. This can be used for example to define new signals clean of the current conditional scope (when/switch)</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">atBeginingOfCurrentComponent</span><span class="p">[</span><span class="nc">T</span><span class="p">](</span><span class="n">body</span> <span class="p">:</span> <span class="o">=&gt;</span> <span class="nc">T</span><span class="p">)</span> <span class="p">:</span> <span class="nc">T</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="kd">val</span> <span class="n">body</span> <span class="o">=</span> <span class="nc">Component</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">dslBody</span>  <span class="c1">// Get the head of the current component symboles tree (AST in other words)</span>
+  <span class="kd">val</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">body</span><span class="p">.</span><span class="n">push</span><span class="p">()</span>                 <span class="c1">// Now all access to the SpinalHDL API will be append to it (instead of the current context)</span>
+  <span class="kd">val</span> <span class="n">swapContext</span> <span class="o">=</span> <span class="n">body</span><span class="p">.</span><span class="n">swap</span><span class="p">()</span>         <span class="c1">// Empty the symbole tree (but keep a reference to the old content)</span>
+  <span class="kd">val</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">that</span>                        <span class="c1">// Execute the block of code (will be added to the recently empty body)</span>
+  <span class="n">ctx</span><span class="p">.</span><span class="n">restore</span><span class="p">()</span>                         <span class="c1">// Restore the original context in which this function was called</span>
+  <span class="n">swapContext</span><span class="p">.</span><span class="n">appendBack</span><span class="p">()</span>              <span class="c1">// append the original symboles tree to the modified body</span>
+  <span class="n">ret</span>                                   <span class="c1">// return the value returned by that</span>
+<span class="p">}</span>
+
+<span class="kd">val</span> <span class="n">database</span> <span class="o">=</span> <span class="n">mutable</span><span class="p">.</span><span class="nc">HashMap</span><span class="p">[</span><span class="nc">Any</span><span class="p">,</span> <span class="nc">Bool</span><span class="p">]()</span>
+<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span> <span class="p">:</span> <span class="nc">Any</span><span class="p">){</span>
+  <span class="n">database</span><span class="p">.</span><span class="n">getOrElseUpdate</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">atBeginingOfCurrentComponent</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">when</span><span class="p">(</span><span class="n">something</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">somehow</span><span class="p">){</span>
+    <span class="n">database</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">:=</span> <span class="nc">True</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">when</span><span class="p">(</span><span class="n">database</span><span class="p">(</span><span class="n">key</span><span class="p">)){</span>
+   <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This kind of functionnality is for instance used in the VexRiscv pipeline to dynamicaly create things.</p>
 </div>
 <div class="section" id="user-space-netlist-analysis">
 <h2>User space netlist analysis<a class="headerlink" href="#user-space-netlist-analysis" title="Permalink to this headline">¶</a></h2>
