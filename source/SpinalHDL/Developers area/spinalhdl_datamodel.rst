@@ -205,13 +205,15 @@ Here is an function, which allow to execute the `body` code as if nothing ever e
   }
   
   val database = mutable.HashMap[Any, Bool]()
-  def get(key : Any){
+  def get(key : Any) : Bool = {
     database.getOrElseUpdate(key, atBeginingOfCurrentComponent(False)
   }
   
+  object key
+  
   when(something){
     if(somehow){
-      database(key) := True
+      get(key) := True
     }
   }  
   when(database(key)){
