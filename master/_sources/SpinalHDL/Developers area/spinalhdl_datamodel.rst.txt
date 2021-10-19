@@ -157,6 +157,7 @@ There is quite a few user API which allow to modify things durring the user elab
 - mySignal.removeStatement : Will void the existance of the signal
 - mySignal.setAsDirectionLess : Will turn a in / out signal into a internal signal
 - mySignal.setName : Enforce a given name on a signal (there is many other variants)
+- mySubComponent.mySignal.pull() : Will provide a readable copy of the given signal, even if that signal is somewhere else in the hierarchy
 - myComponent.rework\{ myCode \} : Execute `myCode` in the context of `myComponent`, allowing modifying it with the user API
 
 For instance, the following code will rework a toplevel component to insert a 3 stages shift register on each input / output of the component. (Usefull for synthesis tests)
