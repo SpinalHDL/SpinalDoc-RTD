@@ -43,8 +43,8 @@ There is also utilities as myExpression.remapExpressions(Expression => Expressio
 
 More generaly, most of the graph checks and transformations done by SpinalHDL are located in <https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala> 
 
-Example
-------------------------------------
+Exploring the datamodel
+-------------------------------
 
 Here is an example which find all adders of the netlist without using "shortcuts" : 
 
@@ -137,3 +137,74 @@ Note that in many case, there is shortcuts. All the recursive stuff above could 
     }
 
 
+Compilation Phases
+-------------------------------
+
+Here are all the default phases (in order) used to modify / check / generate verilog from a toplevel component : 
+
+<https://github.com/SpinalHDL/SpinalHDL/blob/ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/internals/Phase.scala#L2487>
+
+If as a use you add a new compilation phase using  SpinalConfig.addTransformationPhase(new MyPhase()), then the phase will be added directly after the user component elaboration (so quite early). At that time, you can still use the whole SpinalHDL user API to add elements into the netlist.
+
+If you use the SpinalConfig.phasesInserters api, then you will have to be carefull to only modify the netlist in a way which is compatible with the phases which were already executed. For instance, if you insert you phase after the `PhaseInferWidth`, then you have to specify the width of each nodes you insert.
+
+Modifying a netlist as a user without plugins
+--------------------------------------------------------------
+
+There is quite a few user API which allow to modify things durring the user elaboration time :
+
+- mySignal.removeAssignments : Will remove all previous `:=` affecting the given signal
+- mySignal.removeStatement : Will void the existance of the signal
+- mySignal.setAsDirectionLess : Will turn a in / out signal into a internal signal
+- mySignal.setName : Enforce a given name on a signal (there is many other variants)
+- myComponent.rework\{ myCode \} : Execute `myCode` in the context of `myComponent`, allowing modifying it with the user API
+
+For instance, the following code will rework a toplevel component to insert a 3 stages shift register on each input / output of the component. (Usefull for synthesis tests)
+
+.. code-block:: scala
+
+  def ffIo[T <: Component](c : T): T ={
+    def buf1[T <: Data](that : T) = KeepAttribute(RegNext(that)).addAttribute("DONT_TOUCH")
+    def buf[T <: Data](that : T) = buf1(buf1(buf1(that)))
+    c.rework{
+      val ios = c.getAllIo.toList
+      ios.foreach{io =>
+        if(io.getName() == "clk"){
+          //Do nothing
+        } else if(io.isInput){
+          io.setAsDirectionLess().allowDirectionLessIo  //allowDirectionLessIo is to disable the io Bundle linting
+          io := buf(in(cloneOf(io).setName(io.getName() + "_wrap")))
+        } else if(io.isOutput){
+          io.setAsDirectionLess().allowDirectionLessIo
+          out(cloneOf(io).setName(io.getName() + "_wrap")) := buf(io)
+        } else ???
+      }
+    }
+    c
+  }
+  
+Which can be used the following way : 
+  
+.. code-block:: scala
+
+  SpinalVerilog(ffIo(new MyToplevel))
+  
+User space netlist analysis
+--------------------------------------------------------------
+
+The SpinalHDL datamodel is also readable during usertime elaboration. Here is is an example which will find the shortest logical path (in therms of clock cycles) to travel through a list of signals. In the given case, it is to analyse the latency of the VexRiscv FPU design.
+
+.. code-block:: scala
+
+    println("cpuDecode to fpuDispatch " + LatencyAnalysis(vex.decode.arbitration.isValid, logic.decode.input.valid))
+    println("fpuDispatch to cpuRsp    " + LatencyAnalysis(logic.decode.input.valid, plugin.port.rsp.valid))
+
+    println("cpuWriteback to fpuAdd   " + LatencyAnalysis(vex.writeBack.input(plugin.FPU_COMMIT), logic.commitLogic(0).add.counter))
+
+    println("add                      " + LatencyAnalysis(logic.decode.add.rs1.mantissa, logic.get.merge.arbitrated.value.mantissa))
+    println("mul                      " + LatencyAnalysis(logic.decode.mul.rs1.mantissa, logic.get.merge.arbitrated.value.mantissa))
+    println("fma                      " + LatencyAnalysis(logic.decode.mul.rs1.mantissa, logic.get.decode.add.rs1.mantissa, logic.get.merge.arbitrated.value.mantissa))
+    println("short                    " + LatencyAnalysis(logic.decode.shortPip.rs1.mantissa, logic.get.merge.arbitrated.value.mantissa))
+
+Here you can find the implementation of that LatencyAnalysis tool : 
+<https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620>
