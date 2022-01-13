@@ -554,6 +554,7 @@
 <li class="toctree-l3"><a class="reference internal" href="utils.html#binary-prefix">Binary prefix</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="stub.html">Stub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="assertion.html">Assertions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="report.html">Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="formal.html">Formal</a><ul>
@@ -1232,33 +1233,33 @@ This backend successfully passes the same regression tests as the VHDL one (RISC
 </pre></div>
 </div>
 <p>VHDL:</p>
-<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nc">TopLevel</span> <span class="k">is</span>
-  <span class="k">port</span><span class="p">(</span>
-    <span class="n">io_cond</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
-    <span class="n">io_value</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">io_withoutProcess</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">io_withProcess</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">)</span>
-  <span class="p">);</span>
-<span class="k">end</span> <span class="nc">TopLevel</span><span class="p">;</span>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_cond</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_value</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_withoutProcess</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_withProcess</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">architecture</span> <span class="nc">arch</span> <span class="k">of</span> <span class="nc">TopLevel</span> <span class="k">is</span>
-<span class="k">begin</span>
-  <span class="n">io_withoutProcess</span> <span class="o">&lt;=</span> <span class="n">io_value</span><span class="p">;</span>
-  <span class="k">process</span><span class="p">(</span><span class="n">io_cond</span><span class="p">,</span><span class="n">io_value</span><span class="p">)</span>
-  <span class="k">begin</span>
-    <span class="n">io_withProcess</span> <span class="o">&lt;=</span> <span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0000&quot;</span><span class="p">);</span>
-    <span class="k">if</span> <span class="n">io_cond</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span> <span class="k">then</span>
-      <span class="k">case</span> <span class="n">io_value</span> <span class="k">is</span>
-        <span class="k">when</span> <span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0000&quot;</span><span class="p">)</span> <span class="o">=&gt;</span>
-          <span class="n">io_withProcess</span> <span class="o">&lt;=</span> <span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;1000&quot;</span><span class="p">);</span>
-        <span class="k">when</span> <span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0001&quot;</span><span class="p">)</span> <span class="o">=&gt;</span>
-          <span class="n">io_withProcess</span> <span class="o">&lt;=</span> <span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;1001&quot;</span><span class="p">);</span>
-        <span class="k">when</span> <span class="k">others</span> <span class="o">=&gt;</span>
-          <span class="n">io_withProcess</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">io_value</span> <span class="o">+</span> <span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0001&quot;</span><span class="p">));</span>
-      <span class="k">end</span> <span class="k">case</span><span class="p">;</span>
-    <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-  <span class="k">end</span> <span class="k">process</span><span class="p">;</span>
-<span class="k">end</span> <span class="nc">arch</span><span class="p">;</span>
+<span class="k">architecture</span><span class="w"> </span><span class="nc">arch</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">  </span><span class="n">io_withoutProcess</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">io_value</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">process</span><span class="p">(</span><span class="n">io_cond</span><span class="p">,</span><span class="n">io_value</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_withProcess</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0000&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">io_cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="n">io_value</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0000&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">          </span><span class="n">io_withProcess</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;1000&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0001&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">          </span><span class="n">io_withProcess</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;1001&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="k">others</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">          </span><span class="n">io_withProcess</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">io_value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0001&quot;</span><span class="p">));</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="w"> </span><span class="k">case</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">arch</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1288,43 +1289,43 @@ This backend successfully passes the same regression tests as the VHDL one (RISC
 </pre></div>
 </div>
 <p>VHDL:</p>
-<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nc">TopLevel</span> <span class="k">is</span>
-  <span class="k">port</span><span class="p">(</span>
-    <span class="n">io_cond</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
-    <span class="n">io_value</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">io_resultA</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">io_resultB</span> <span class="o">:</span> <span class="k">out</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">clk</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
-    <span class="n">reset</span> <span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span>
-  <span class="p">);</span>
-<span class="k">end</span> <span class="nc">TopLevel</span><span class="p">;</span>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_cond</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_value</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_resultA</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_resultB</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">clk</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">reset</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="w"></span>
+<span class="w">  </span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">architecture</span> <span class="nc">arch</span> <span class="k">of</span> <span class="nc">TopLevel</span> <span class="k">is</span>
+<span class="k">architecture</span><span class="w"> </span><span class="nc">arch</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
 
-  <span class="k">signal</span> <span class="n">regWithReset</span> <span class="o">:</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="k">signal</span> <span class="n">regWithoutReset</span> <span class="o">:</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-<span class="k">begin</span>
-  <span class="n">io_resultA</span> <span class="o">&lt;=</span> <span class="n">regWithReset</span><span class="p">;</span>
-  <span class="n">io_resultB</span> <span class="o">&lt;=</span> <span class="n">regWithoutReset</span><span class="p">;</span>
-  <span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">,</span><span class="n">reset</span><span class="p">)</span>
-  <span class="k">begin</span>
-    <span class="k">if</span> <span class="n">reset</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span> <span class="k">then</span>
-      <span class="n">regWithReset</span> <span class="o">&lt;=</span> <span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0000&quot;</span><span class="p">);</span>
-    <span class="k">elsif</span> <span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span> <span class="k">then</span>
-      <span class="n">regWithReset</span> <span class="o">&lt;=</span> <span class="n">io_value</span><span class="p">;</span>
-    <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-  <span class="k">end</span> <span class="k">process</span><span class="p">;</span>
+<span class="w">  </span><span class="k">signal</span><span class="w"> </span><span class="n">regWithReset</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">signal</span><span class="w"> </span><span class="n">regWithoutReset</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">  </span><span class="n">io_resultA</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">regWithReset</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">io_resultB</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">regWithoutReset</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">,</span><span class="n">reset</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">      </span><span class="n">regWithReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0000&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">elsif</span><span class="w"> </span><span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">      </span><span class="n">regWithReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">io_value</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span>
-  <span class="k">begin</span>
-    <span class="k">if</span> <span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span> <span class="k">then</span>
-      <span class="n">regWithoutReset</span> <span class="o">&lt;=</span> <span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0000&quot;</span><span class="p">);</span>
-      <span class="k">if</span> <span class="n">io_cond</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span> <span class="k">then</span>
-        <span class="n">regWithoutReset</span> <span class="o">&lt;=</span> <span class="n">io_value</span><span class="p">;</span>
-      <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-    <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-  <span class="k">end</span> <span class="k">process</span><span class="p">;</span>
-<span class="k">end</span> <span class="nc">arch</span><span class="p">;</span>
+<span class="w">  </span><span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">      </span><span class="n">regWithoutReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pkg_unsigned</span><span class="p">(</span><span class="s">&quot;0000&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">io_cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="n">regWithoutReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">io_value</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">arch</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1358,13 +1359,13 @@ This backend successfully passes the same regression tests as the VHDL one (RISC
 </pre></div>
 </div>
 <p>Produced declaration in VHDL:</p>
-<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">attribute</span> <span class="n">keep</span> <span class="o">:</span> <span class="kt">boolean</span><span class="p">;</span>
-<span class="k">signal</span> <span class="n">pcPlus4</span> <span class="o">:</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">31</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-<span class="k">attribute</span> <span class="n">keep</span> <span class="k">of</span> <span class="n">pcPlus4</span><span class="o">:</span> <span class="k">signal</span> <span class="k">is</span> <span class="n">true</span><span class="p">;</span>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">attribute</span><span class="w"> </span><span class="n">keep</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span><span class="w"></span>
+<span class="k">signal</span><span class="w"> </span><span class="n">pcPlus4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">31</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="k">attribute</span><span class="w"> </span><span class="n">keep</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">pcPlus4</span><span class="o">:</span><span class="w"> </span><span class="k">signal</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">true</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Produced declaration in Verilog:</p>
-<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">*</span> <span class="n">keep</span> <span class="o">*</span><span class="p">)</span> <span class="kt">wire</span> <span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">pcPlus4</span><span class="p">;</span>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="n">keep</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">pcPlus4</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>

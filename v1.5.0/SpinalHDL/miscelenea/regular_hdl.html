@@ -1051,37 +1051,37 @@
 <p>When you think about it, describing digital hardware (RTL) by using process/always blocks doesn’t make any practical senses. Why do we have to worry about a sensitivity list? Why do we have to split our design between processes/always blocks of different natures (combinatorial logic / register without reset / register with async reset) ?</p>
 <p>Example of VHDL/SpinalHDL equivalences:</p>
 <p>VHDL :</p>
-<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">signal</span> <span class="n">mySignal</span> <span class="o">:</span> <span class="kt">std_logic</span><span class="p">;</span>
-<span class="k">signal</span> <span class="n">myRegister</span> <span class="o">:</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
-<span class="k">signal</span> <span class="n">myRegisterWithReset</span> <span class="o">:</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">signal</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="k">signal</span><span class="w"> </span><span class="n">myRegister</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="k">signal</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">process</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
-<span class="k">begin</span>
-    <span class="n">mySignal</span> <span class="o">&lt;=</span> <span class="sc">&#39;0&#39;</span><span class="p">;</span>
-    <span class="k">if</span> <span class="n">cond</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span> <span class="k">then</span>
-        <span class="n">mySignal</span> <span class="o">&lt;=</span> <span class="sc">&#39;1&#39;</span><span class="p">;</span>
-    <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-<span class="k">end</span> <span class="k">process</span><span class="p">;</span>
+<span class="k">process</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"></span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="n">mySignal</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="n">mySignal</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span>
-<span class="k">begin</span>
-    <span class="k">if</span> <span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span> <span class="k">then</span>
-        <span class="k">if</span> <span class="n">cond</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span> <span class="k">then</span>
-            <span class="n">myRegister</span> <span class="o">&lt;=</span> <span class="n">myRegister</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-    <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-<span class="k">end</span> <span class="k">process</span><span class="p">;</span>
+<span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="n">myRegister</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">myRegister</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">,</span><span class="n">reset</span><span class="p">)</span>
-<span class="k">begin</span>
-    <span class="k">if</span> <span class="n">reset</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span> <span class="k">then</span>
-        <span class="n">myRegisterWithReset</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">elsif</span> <span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span> <span class="k">then</span>
-        <span class="k">if</span> <span class="n">cond</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span> <span class="k">then</span>
-            <span class="n">myRegisterWithReset</span> <span class="o">&lt;=</span> <span class="n">myRegisterWithReset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-    <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
-<span class="k">end</span> <span class="k">process</span><span class="p">;</span>
+<span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">,</span><span class="n">reset</span><span class="p">)</span><span class="w"></span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">elsif</span><span class="w"> </span><span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 <p>SpinalHDL :</p>

@@ -6,6 +6,7 @@ Other language features
    :hidden:
 
    utils
+   stub
    assertion
    report
    formal
