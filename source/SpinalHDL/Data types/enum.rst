@@ -146,6 +146,23 @@ Comparison
      ...
    }
 
+Types
+~~~~~
+
+In order to use your enums, for example in a function, you may need the type of your enum, UartCtrlTxState in the examples.
+
+The value type (e.g. sIdle’s type) is
+
+.. code-block:: scala
+
+    spinal.core.SpinalEnumElement[UartCtrlTxState.type]
+
+The bundle type (e.g. stateNext’s type) is
+
+.. code-block:: scala
+
+    spinal.core.SpinalEnumCraft[UartCtrlTxState.type]
+
 Type cast
 ~~~~~~~~~
 
@@ -164,6 +181,9 @@ Type cast
    * - x.asSInt
      - Binary cast to SInt
      - SInt(w(x) bits)
+   * - e.assignFromBits(bits)
+     - Bits cast to enum
+     - MyEnum()
 
 .. code-block:: scala
 
@@ -171,3 +191,6 @@ Type cast
 
    val stateNext = UartCtrlTxState()
    myBits := sIdle.asBits
+
+   stateNext.assignFromBits(myBits)
+
