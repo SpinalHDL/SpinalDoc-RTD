@@ -149,7 +149,7 @@ Comparison
 Types
 ~~~~~
 
-In order to use your enums, for example in a function, you may need the type of your enum, UartCtrlTxState in the examples.
+In order to use your enums, for example in a function, you may need its type.
 
 The value type (e.g. sIdle’s type) is
 
@@ -157,11 +157,23 @@ The value type (e.g. sIdle’s type) is
 
     spinal.core.SpinalEnumElement[UartCtrlTxState.type]
 
+or equivalently
+
+.. code-block:: scala
+
+    UartCtrlTxState.E
+
 The bundle type (e.g. stateNext’s type) is
 
 .. code-block:: scala
 
     spinal.core.SpinalEnumCraft[UartCtrlTxState.type]
+
+or equivalently
+
+.. code-block:: scala
+
+    UartCtrlTxState.C
 
 Type cast
 ~~~~~~~~~
