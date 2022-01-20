@@ -336,4 +336,12 @@ Misc
 MaskedLitteral
 ~~~~~~~~~~~~~~
 
-MaskedLitteral values are bit vectors with don’t care values.
+MaskedLitteral values are bit vectors with don’t care values denoted with `-`.
+
+.. code-block:: scala
+
+     val myBits = B"1101"
+
+     val test1 = RegInit(myBits === M"1-01") // True
+     val test2 = RegInit(myBits === M"0---") // False
+     val test3 = RegInit(myBits === M"1--1") // True
