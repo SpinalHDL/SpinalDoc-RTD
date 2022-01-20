@@ -50,7 +50,7 @@ It is possible to define new signals inside a when/switch statement:
      val tmp = a + b
      x := tmp
      y := tmp + 1
-   } otherwise {
+   } .otherwise {
      x := 0
      y := 0
    }
