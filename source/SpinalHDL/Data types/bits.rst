@@ -342,6 +342,6 @@ MaskedLitteral values are bit vectors with don’t care values denoted with `-`.
 
      val myBits = B"1101"
 
-     val test1 = RegInit(myBits === M"1-01") // True
-     val test2 = RegInit(myBits === M"0---") // False
-     val test3 = RegInit(myBits === M"1--1") // True
+     val test1 = myBits === M"1-01" // True
+     val test2 = myBits === M"0---" // False
+     val test3 = myBits === M"1--1" // True
