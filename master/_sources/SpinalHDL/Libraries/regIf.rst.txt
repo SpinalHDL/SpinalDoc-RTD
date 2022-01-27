@@ -187,7 +187,7 @@ Easy Way creat interruption:
 .. image:: /asset/image/regif/easy-intr.png
 
 Developers Area
-===============
+---------------
 
 You can add your document Type by extending the `BusIfVistor` Trait 
 
