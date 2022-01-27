@@ -1,16 +1,16 @@
  
 RegIf
-============
+=====
 Register Interface Builder
 
-- Automatic address and fields allocate, and conflict detection
-- 28 Register Access types(Covering 25 types of UVM)
-- Auto Document generate
+- Automatic address, fields allocation and conflict detection
+- 28 Register Access types(Covering the 25 types defined by the UVM standard)
+- Automatic documentation generation
 
-Automatic allocate
-------------------
+Automatic allocation
+--------------------
 
-Automatic address allocate
+Automatic address allocation
 
 .. code:: scala
 
@@ -33,7 +33,7 @@ Automatic address allocate
 
 .. image:: /asset/image/regif/reg-auto-allocate.gif
 
-Automatic fileds allocate
+Automatic fileds allocation
 
 .. code:: scala
 
@@ -63,10 +63,10 @@ confilict detection
     ...
   cause Exception
 
-28 Access Type
---------------
+28 Access Types
+---------------
   
-Most of these come from UVM
+Most of these come from UVM specification
 
 ==========  =============================================================================   ====
 AccessType  Description                                                                     From
@@ -101,8 +101,8 @@ W1P         w: 1/0 pulse/no effect on matching bit, r: no effect                
 W0P         w: 0/1 pulse/no effect on matching bit, r: no effect                            New
 ==========  =============================================================================   ====
 
-Auto generate document
-----------------------
+Automatic documentation generation
+----------------------------------
 
 Document Type
 
@@ -189,7 +189,7 @@ Easy Way creat interruption:
 Developers Area
 ===============
 
-You Extend document Type based on Trait BusIfVistor
+You can add your document Type by extending the `BusIfVistor` Trait 
 
 ``case class Latex(fileName : String) extends BusIfVisitor{ ... }``
 
