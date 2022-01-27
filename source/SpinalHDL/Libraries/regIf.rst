@@ -163,7 +163,8 @@ Manual writing interruption
 
    }
 
-this is a very tedious and repetitive work, a better way is creat a Factory fucntion by Macros auto complet those work instead manully creat them.
+this is a very tedious and repetitive work, a better way is to use the "factory" paradigm to auto-generate the documentation for each signal.
+
 now th InterruptFactory can do that.
     
 Easy Way creat interruption:
