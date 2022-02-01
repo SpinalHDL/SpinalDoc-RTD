@@ -211,6 +211,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#comparison">Comparison</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#maskedboolean">MaskedBoolean</a></li>
 </ul>
 </li>
 </ul>
@@ -224,6 +225,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#bit-extraction">Bit extraction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#maskedlitteral">MaskedLitteral</a></li>
 </ul>
 </li>
 </ul>
@@ -257,6 +259,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Data%20types/enum.html#operators">Operators</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#types">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#type-cast">Type cast</a></li>
 </ul>
 </li>
@@ -445,6 +448,7 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">RAM/ROM</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#syntax">Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#synchronous-enable-quirk">Synchronous enable quirk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#read-under-write-policy">Read-under-write policy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mixed-width-ram">Mixed-width ram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#automatic-blackboxing">Automatic blackboxing</a><ul>
@@ -518,7 +522,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html">Spinal can’t clone class</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example-1">Example 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example-2">Example 2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/unassigned_register.html">Unassigned register</a><ul>
@@ -1215,6 +1220,21 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 </pre></div>
 </div>
 </div>
+<div class="section" id="synchronous-enable-quirk">
+<h2>Synchronous enable quirk<a class="headerlink" href="#synchronous-enable-quirk" title="Permalink to this headline">¶</a></h2>
+<p>When enable signals are used in a block guarded by a conditional block like <cite>when</cite>, only the enable signal will be generated as the access condition: the <cite>when</cite> condition is ignored.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">rom</span> <span class="o">=</span> <span class="nc">Mem</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">10</span> <span class="n">bits</span><span class="p">),</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span>
+  <span class="n">io</span><span class="p">.</span><span class="n">rdata</span> <span class="o">:=</span> <span class="n">rom</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">io</span><span class="p">.</span><span class="n">rdEna</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the example above the condition <cite>cond</cite> will not be elaborated.
+Prefer to include the condition <cite>cond</cite> in the enable signal directly as below.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">rdata</span> <span class="o">:=</span> <span class="n">rom</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">io</span><span class="p">.</span><span class="n">rdEna</span> <span class="n">&amp;</span> <span class="n">cond</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="read-under-write-policy">
 <h2>Read-under-write policy<a class="headerlink" href="#read-under-write-policy" title="Permalink to this headline">¶</a></h2>
 <p>This policy specifies how a read is affected when a write occurs in the same cycle to the same address.</p>
@@ -1523,7 +1543,7 @@ There are currently 4 kinds of technologies possible:</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2018, SpinalHDL.
+        &#169; Copyright 2022, SpinalHDL.
 
     </p>
   </div>

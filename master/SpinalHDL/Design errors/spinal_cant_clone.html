@@ -211,6 +211,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#comparison">Comparison</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#maskedboolean">MaskedBoolean</a></li>
 </ul>
 </li>
 </ul>
@@ -224,6 +225,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#bit-extraction">Bit extraction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#maskedlitteral">MaskedLitteral</a></li>
 </ul>
 </li>
 </ul>
@@ -257,6 +259,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Data%20types/enum.html#operators">Operators</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#types">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#type-cast">Type cast</a></li>
 </ul>
 </li>
@@ -445,6 +448,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#syntax">Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#synchronous-enable-quirk">Synchronous enable quirk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#read-under-write-policy">Read-under-write policy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#mixed-width-ram">Mixed-width ram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#automatic-blackboxing">Automatic blackboxing</a><ul>
@@ -518,7 +522,8 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Spinal can’t clone class</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-1">Example 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-2">Example 2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="unassigned_register.html">Unassigned register</a><ul>
@@ -1078,8 +1083,8 @@
 <p>This error happens when SpinalHDL wants to create a new datatype instance via the <code class="docutils literal notranslate"><span class="pre">cloneOf</span></code> function but isn’t able to do it.
 The reason for this is nearly always because it can’t retrieve the construction parameters of a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>.</p>
 </div>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="example-1">
+<h2>Example 1<a class="headerlink" href="#example-1" title="Permalink to this headline">¶</a></h2>
 <p>The following code:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// cloneOf(this) isn&#39;t able to retrieve the width value that was used to construct itself</span>
 <span class="k">class</span> <span class="nc">RGB</span><span class="p">(</span><span class="n">width</span> <span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
@@ -1112,6 +1117,45 @@ The reason for this is nearly always because it can’t retrieve the constructio
 </pre></div>
 </div>
 </div>
+<div class="section" id="example-2">
+<h2>Example 2<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h2>
+<p>The following code:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Xlen</span><span class="p">(</span><span class="kd">val</span> <span class="n">xlen</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">MemoryAddress</span><span class="p">()(</span><span class="k">implicit</span> <span class="n">xlenConfig</span><span class="p">:</span> <span class="nc">Xlen</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="n">address</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">xlenConfig</span><span class="p">.</span><span class="n">xlen</span> <span class="n">bits</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">DebugMemory</span><span class="p">(</span><span class="k">implicit</span> <span class="n">config</span><span class="p">:</span> <span class="nc">Xlen</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
+        <span class="kd">val</span> <span class="n">inputAddress</span> <span class="o">=</span> <span class="n">in</span><span class="p">(</span><span class="nc">MemoryAddress</span><span class="p">())</span>
+    <span class="p">}</span>
+
+    <span class="kd">val</span> <span class="n">someAddress</span> <span class="o">=</span> <span class="nc">RegNext</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">inputAddress</span><span class="p">)</span> <span class="c1">// -&gt; ERROR *****************************</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>raises an exeption:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[error] *** Spinal can&#39;t clone class debug.MemoryAddress datatype
+</pre></div>
+</div>
+<p>In this case, a solution is to override the clone function to propagate the implicit parameter.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">MemoryAddress</span><span class="p">()(</span><span class="k">implicit</span> <span class="n">xlenConfig</span><span class="p">:</span> <span class="nc">Xlen</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
+  <span class="kd">val</span> <span class="n">address</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">xlenConfig</span><span class="p">.</span><span class="n">xlen</span> <span class="n">bits</span><span class="p">)</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">clone</span> <span class="o">=</span> <span class="nc">MemoryAddress</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We need to clone the hardware element, not the eventually assigned value in it.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An alternative is to used <a class="reference internal" href="../Other%20language%20features/scope_property.html#scopeproperty"><span class="std std-ref">ScopeProperty</span></a>.</p>
+</div>
+</div>
 </div>
 
     <script type="text/javascript">
@@ -1134,7 +1178,7 @@ The reason for this is nearly always because it can’t retrieve the constructio
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2018, SpinalHDL.
+        &#169; Copyright 2022, SpinalHDL.
 
     </p>
   </div>

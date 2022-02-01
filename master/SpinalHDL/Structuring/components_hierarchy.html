@@ -211,6 +211,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#comparison">Comparison</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/bool.html#maskedboolean">MaskedBoolean</a></li>
 </ul>
 </li>
 </ul>
@@ -224,6 +225,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#bit-extraction">Bit extraction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/bits.html#maskedlitteral">MaskedLitteral</a></li>
 </ul>
 </li>
 </ul>
@@ -257,6 +259,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Data%20types/enum.html#operators">Operators</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#types">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/enum.html#type-cast">Type cast</a></li>
 </ul>
 </li>
@@ -445,6 +448,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#syntax">Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#synchronous-enable-quirk">Synchronous enable quirk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#read-under-write-policy">Read-under-write policy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#mixed-width-ram">Mixed-width ram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#automatic-blackboxing">Automatic blackboxing</a><ul>
@@ -518,7 +522,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html">Spinal can’t clone class</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example-1">Example 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example-2">Example 2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/unassigned_register.html">Unassigned register</a><ul>
@@ -1076,7 +1081,7 @@
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy. However, in SpinalHDL, you don’t need to bind their ports at instantiation:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AdderCell</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AdderCell</span><span class="p">()</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
   <span class="c1">// Declaring external ports in a Bundle called `io` is recommended</span>
   <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">cin</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="p">()</span>
@@ -1090,12 +1095,12 @@
 <span class="k">class</span> <span class="nc">Adder</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
   <span class="p">...</span>
   <span class="c1">// Create 2 AdderCell instances</span>
-  <span class="kd">val</span> <span class="n">cell0</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AdderCell</span>
-  <span class="kd">val</span> <span class="n">cell1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AdderCell</span>
+  <span class="kd">val</span> <span class="n">cell0</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AdderCell</span><span class="p">()</span>
+  <span class="kd">val</span> <span class="n">cell1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AdderCell</span><span class="p">()</span>
   <span class="n">cell1</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">cin</span> <span class="o">:=</span> <span class="n">cell0</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">cout</span>   <span class="c1">// Connect cout of cell0 to cin of cell1</span>
 
   <span class="c1">// Another example which creates an array of ArrayCell instances</span>
-  <span class="kd">val</span> <span class="n">cellArray</span> <span class="o">=</span> <span class="nc">Array</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">)(</span><span class="k">new</span> <span class="nc">AdderCell</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">cellArray</span> <span class="o">=</span> <span class="nc">Array</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">)(</span><span class="k">new</span> <span class="nc">AdderCell</span><span class="p">())</span>
   <span class="n">cellArray</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">io</span><span class="p">.</span><span class="n">cin</span> <span class="o">:=</span> <span class="n">cellArray</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">io</span><span class="p">.</span><span class="n">cout</span>   <span class="c1">// Connect cout of cell(0) to cin of cell(1)</span>
   <span class="p">...</span>
 <span class="p">}</span>
@@ -1276,7 +1281,7 @@ TODO
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2018, SpinalHDL.
+        &#169; Copyright 2022, SpinalHDL.
 
     </p>
   </div>

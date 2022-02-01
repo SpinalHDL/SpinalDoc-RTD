@@ -211,6 +211,7 @@
 <li class="toctree-l4"><a class="reference internal" href="bool.html#comparison">Comparison</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bool.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bool.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bool.html#maskedboolean">MaskedBoolean</a></li>
 </ul>
 </li>
 </ul>
@@ -224,6 +225,7 @@
 <li class="toctree-l4"><a class="reference internal" href="bits.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bits.html#bit-extraction">Bit extraction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bits.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bits.html#maskedlitteral">MaskedLitteral</a></li>
 </ul>
 </li>
 </ul>
@@ -257,6 +259,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#operators">Operators</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#types">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#type-cast">Type cast</a></li>
 </ul>
 </li>
@@ -445,6 +448,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#syntax">Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#synchronous-enable-quirk">Synchronous enable quirk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#read-under-write-policy">Read-under-write policy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#mixed-width-ram">Mixed-width ram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/memory.html#automatic-blackboxing">Automatic blackboxing</a><ul>
@@ -518,7 +522,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html">Spinal can’t clone class</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example-1">Example 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example-2">Example 2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/unassigned_register.html">Unassigned register</a><ul>
@@ -1221,6 +1226,26 @@ The native enumeration type is used for VHDL and a binary encoding is used for V
 </pre></div>
 </div>
 </div>
+<div class="section" id="types">
+<h3>Types<a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h3>
+<p>In order to use your enums, for example in a function, you may need its type.</p>
+<p>The value type (e.g. sIdle’s type) is</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spinal</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="nc">SpinalEnumElement</span><span class="p">[</span><span class="nc">UartCtrlTxState</span><span class="p">.</span><span class="k">type</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>or equivalently</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">UartCtrlTxState</span><span class="p">.</span><span class="nc">E</span>
+</pre></div>
+</div>
+<p>The bundle type (e.g. stateNext’s type) is</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">spinal</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="nc">SpinalEnumCraft</span><span class="p">[</span><span class="nc">UartCtrlTxState</span><span class="p">.</span><span class="k">type</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>or equivalently</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">UartCtrlTxState</span><span class="p">.</span><span class="nc">C</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="type-cast">
 <h3>Type cast<a class="headerlink" href="#type-cast" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
@@ -1248,12 +1273,18 @@ The native enumeration type is used for VHDL and a binary encoding is used for V
 <td><p>Binary cast to SInt</p></td>
 <td><p>SInt(w(x) bits)</p></td>
 </tr>
+<tr class="row-odd"><td><p>e.assignFromBits(bits)</p></td>
+<td><p>Bits cast to enum</p></td>
+<td><p>MyEnum()</p></td>
+</tr>
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nc">UartCtrlTxState</span><span class="p">.</span><span class="n">_</span>
 
 <span class="kd">val</span> <span class="n">stateNext</span> <span class="o">=</span> <span class="nc">UartCtrlTxState</span><span class="p">()</span>
 <span class="n">myBits</span> <span class="o">:=</span> <span class="n">sIdle</span><span class="p">.</span><span class="n">asBits</span>
+
+<span class="n">stateNext</span><span class="p">.</span><span class="n">assignFromBits</span><span class="p">(</span><span class="n">myBits</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1280,7 +1311,7 @@ The native enumeration type is used for VHDL and a binary encoding is used for V
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2018, SpinalHDL.
+        &#169; Copyright 2022, SpinalHDL.
 
     </p>
   </div>

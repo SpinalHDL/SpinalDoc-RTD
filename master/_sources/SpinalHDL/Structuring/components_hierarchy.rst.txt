@@ -11,7 +11,7 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
 
 .. code-block:: scala
 
-   class AdderCell extends Component {
+   class AdderCell() extends Component {
      // Declaring external ports in a Bundle called `io` is recommended
      val io = new Bundle {
        val a, b, cin = in Bool()
@@ -25,12 +25,12 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
    class Adder(width: Int) extends Component {
      ...
      // Create 2 AdderCell instances
-     val cell0 = new AdderCell
-     val cell1 = new AdderCell
+     val cell0 = new AdderCell()
+     val cell1 = new AdderCell()
      cell1.io.cin := cell0.io.cout   // Connect cout of cell0 to cin of cell1
 
      // Another example which creates an array of ArrayCell instances
-     val cellArray = Array.fill(width)(new AdderCell)
+     val cellArray = Array.fill(width)(new AdderCell())
      cellArray(1).io.cin := cellArray(0).io.cout   // Connect cout of cell(0) to cin of cell(1)
      ...
    }
