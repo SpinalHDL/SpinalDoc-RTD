@@ -17,6 +17,29 @@ As in VHDL and Verilog, signals can be conditionally assigned when a specified c
      // Execute when (not cond1) and (not cond2)
    }
 
+.. warning::
+
+     If the keyword ``otherwise`` is on the same line as the closing bracket ``}`` of the ``when`` condition, no dot is needed.
+
+     .. code-block:: scala
+
+            when(cond1) {
+                // Execute when cond1 is true
+            } otherwise {
+                // Execute when (not cond1) and (not cond2)
+            }
+
+     But if ``.otherwise`` is on another line, a dot is **required**:
+
+     .. code-block:: scala
+
+            when(cond1) {
+                // Execute when cond1 is true
+            }
+            .otherwise {
+                // Execute when (not cond1) and (not cond2)
+            }
+
 Switch
 ------
 
