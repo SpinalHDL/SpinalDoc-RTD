@@ -426,11 +426,14 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">When/Switch/Mux</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#when">When</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#switch">Switch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#switch">Switch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#local-declaration">Local declaration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mux">Mux</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bitwise-selection">Bitwise selection</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -1133,6 +1136,40 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">is</span></code> clauses can be factorized by separating them with a comma <code class="docutils literal notranslate"><span class="pre">is(value1,</span> <span class="pre">value2)</span></code>.</p>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">aluop</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">add</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">immediate</span> <span class="o">:=</span> <span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span>
+  <span class="p">}</span>
+  <span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">slt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">immediate</span> <span class="o">:=</span> <span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span>
+  <span class="p">}</span>
+  <span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sltu</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">immediate</span> <span class="o">:=</span> <span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span>
+  <span class="p">}</span>
+  <span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sll</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">immediate</span> <span class="o">:=</span> <span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span>
+  <span class="p">}</span>
+  <span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sra</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">immediate</span> <span class="o">:=</span> <span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>is equivalent to</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">aluop</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">add</span><span class="p">,</span> <span class="nc">ALUOp</span><span class="p">.</span><span class="n">slt</span><span class="p">,</span> <span class="nc">ALUOp</span><span class="p">.</span><span class="n">sltu</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">immediate</span> <span class="o">:=</span> <span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span>
+  <span class="p">}</span>
+  <span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sll</span><span class="p">,</span> <span class="nc">ALUOp</span><span class="p">.</span><span class="n">sra</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">immediate</span> <span class="o">:=</span> <span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="local-declaration">
 <h2>Local declaration<a class="headerlink" href="#local-declaration" title="Permalink to this headline">¶</a></h2>
@@ -1191,8 +1228,8 @@
 <div class="section" id="bitwise-selection">
 <h2>Bitwise selection<a class="headerlink" href="#bitwise-selection" title="Permalink to this headline">¶</a></h2>
 <p>A bitwise selection looks like the VHDL <code class="docutils literal notranslate"><span class="pre">when</span></code> syntax.</p>
-<div class="section" id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3>Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">bitwiseSelect</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span> <span class="n">bits</span><span class="p">)</span>
 <span class="kd">val</span> <span class="n">bitwiseResult</span> <span class="o">=</span> <span class="n">bitwiseSelect</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span>
   <span class="mi">0</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span> <span class="n">&amp;</span> <span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span>
