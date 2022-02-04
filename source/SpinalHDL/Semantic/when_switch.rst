@@ -59,6 +59,44 @@ As in VHDL and Verilog, signals can be conditionally assigned when a signal has 
      }
    }
 
+``is`` clauses can be factorized by separating them with a comma ``is(value1, value2)``.
+
+Example
+^^^^^^^
+
+.. code-block:: scala
+
+  switch(aluop) {
+    is(ALUOp.add) {
+      immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.slt) {
+      immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.sltu) {
+      immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.sll) {
+      immediate := instruction.shamt
+    }
+    is(ALUOp.sra) {
+      immediate := instruction.shamt
+    }
+  }
+
+is equivalent to
+
+.. code-block:: scala
+
+  switch(aluop) {
+    is(ALUOp.add, ALUOp.slt, ALUOp.sltu) {
+        immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.sll, ALUOp.sra) {
+        immediate := instruction.shamt
+    }
+  }
+
 Local declaration
 -----------------
 
