@@ -112,3 +112,53 @@ For registers that don't need a reset value in RTL, but need an initialization v
 
    // UInt register of 4 bits initialized with a random value
    val reg1 = Reg(UInt(4 bit)) randBoot()
+
+Register vectors
+----------------
+
+As for wires, it is possible to define a vector of registers with ``Vec``.
+
+.. code-block:: scala
+   
+   val vecReg1 = Vec(Reg(UInt(8 bits)), 4)
+   val vecReg2 = Vec.fill(8)(Reg(Bool()))
+
+Initialization can be done with the ``init`` method as usual, which can be combined with the ``foreach`` iteration on the registers.
+
+.. code-block:: scala
+
+   val vecReg1 = Vec(Reg(UInt(8 bits)) init(0), 4)
+   val vecReg2 = Vec.fill(8)(Reg(Bool()))
+   vecReg2.foreach(_ init(False))
+
+In case where the initialization must be deferred since the init value is not known, use a function as in the example below.
+
+.. code-block:: scala
+
+   case class ShiftRegister[T <: Data](dataType: HardType[T], depth: Int, initFunc: T => Unit) extends Component {
+      val io = new Bundle {
+         val input  = in (dataType())
+         val output = out(dataType())
+      }
+
+      val regs = Vec.fill(depth)(Reg(dataType()))
+      regs.foreach(initFunc)
+
+      for (i <- 1 to (depth-1)) {
+            regs(i) := regs(i-1)
+      }
+
+      regs(0) := io.input
+      io.output := regs(depth-1)
+   }
+
+   object SRConsumer {
+      def initIdleFlow(flow: Flow[UInt]): Unit = {
+         flow.setIdle()
+      }
+   }
+
+   class SRConsumer() extends Component {
+      //...
+      val sr = ShiftRegister(Flow(UInt(8 bits)), 4, SRConsumer.initIdleFlow)
+   }
