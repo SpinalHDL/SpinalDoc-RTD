@@ -1196,10 +1196,10 @@ Therefore to manually implement a tristate driver (in case the <code class="docu
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Example</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
   <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="n">tri</span> <span class="o">=</span> <span class="n">slave</span><span class="p">(</span><span class="nc">TriState</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span> <span class="n">bit</span><span class="p">)))</span>
-    <span class="kd">val</span> <span class="n">analog</span> <span class="o">=</span> <span class="n">inout</span> <span class="nc">Analog</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">analog</span> <span class="o">=</span> <span class="n">inout</span><span class="p">(</span><span class="nc">Analog</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span> <span class="n">bit</span><span class="p">)))</span>
   <span class="p">}</span>
-  <span class="n">tri</span><span class="p">.</span><span class="n">read</span> <span class="o">:=</span> <span class="n">analog</span>
-  <span class="n">when</span><span class="p">(</span><span class="n">tri</span><span class="p">.</span><span class="n">writeEnable</span><span class="p">)</span> <span class="p">{</span> <span class="n">analog</span> <span class="o">:=</span> <span class="n">tri</span><span class="p">.</span><span class="n">write</span> <span class="p">}</span>
+  <span class="n">io</span><span class="p">.</span><span class="n">tri</span><span class="p">.</span><span class="n">read</span> <span class="o">:=</span> <span class="n">io</span><span class="p">.</span><span class="n">analog</span>
+  <span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">tri</span><span class="p">.</span><span class="n">writeEnable</span><span class="p">)</span> <span class="p">{</span> <span class="n">io</span><span class="p">.</span><span class="n">analog</span> <span class="o">:=</span> <span class="n">io</span><span class="p">.</span><span class="n">tri</span><span class="p">.</span><span class="n">write</span> <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
