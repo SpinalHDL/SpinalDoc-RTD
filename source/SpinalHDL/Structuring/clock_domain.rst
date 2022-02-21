@@ -13,6 +13,8 @@ In SpinalHDL, clock and reset signals can be combined to create a **clock domain
 
 Clock domain application works like a stack, which means that if you are in a given clock domain you can still apply another clock domain locally.
 
+Please note that a register captures its clock domain when the register is created, not when it is assigned. So please make sure to create them inside the desired ``ClockingArea``.
+
 .. _clock_domain_instantiation:
 
 Instantiation
