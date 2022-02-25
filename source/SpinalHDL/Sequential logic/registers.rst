@@ -153,12 +153,12 @@ In case where the initialization must be deferred since the init value is not kn
    }
 
    object SRConsumer {
-      def initIdleFlow(flow: Flow[UInt]): Unit = {
-         flow.setIdle()
+      def initIdleFlow[T <: Data](flow: Flow[T]): Unit = {
+         flow.valid init(False)
       }
    }
 
    class SRConsumer() extends Component {
       //...
-      val sr = ShiftRegister(Flow(UInt(8 bits)), 4, SRConsumer.initIdleFlow)
+      val sr = ShiftRegister(Flow(UInt(8 bits)), 4, SRConsumer.initIdleFlow[UInt])
    }
