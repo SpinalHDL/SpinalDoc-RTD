@@ -1223,14 +1223,14 @@ you can also set the reset value by calling the <code class="docutils literal no
 <span class="p">}</span>
 
 <span class="k">object</span> <span class="nc">SRConsumer</span> <span class="p">{</span>
-   <span class="k">def</span> <span class="nf">initIdleFlow</span><span class="p">(</span><span class="n">flow</span><span class="p">:</span> <span class="nc">Flow</span><span class="p">[</span><span class="nc">UInt</span><span class="p">]):</span> <span class="nc">Unit</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="n">flow</span><span class="p">.</span><span class="n">setIdle</span><span class="p">()</span>
+   <span class="k">def</span> <span class="nf">initIdleFlow</span><span class="p">[</span><span class="nc">T</span> <span class="o">&lt;:</span> <span class="nc">Data</span><span class="p">](</span><span class="n">flow</span><span class="p">:</span> <span class="nc">Flow</span><span class="p">[</span><span class="nc">T</span><span class="p">]):</span> <span class="nc">Unit</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">flow</span><span class="p">.</span><span class="n">valid</span> <span class="n">init</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span>
    <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="k">class</span> <span class="nc">SRConsumer</span><span class="p">()</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
    <span class="c1">//...</span>
-   <span class="kd">val</span> <span class="n">sr</span> <span class="o">=</span> <span class="nc">ShiftRegister</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">)),</span> <span class="mi">4</span><span class="p">,</span> <span class="nc">SRConsumer</span><span class="p">.</span><span class="n">initIdleFlow</span><span class="p">)</span>
+   <span class="kd">val</span> <span class="n">sr</span> <span class="o">=</span> <span class="nc">ShiftRegister</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">)),</span> <span class="mi">4</span><span class="p">,</span> <span class="nc">SRConsumer</span><span class="p">.</span><span class="n">initIdleFlow</span><span class="p">[</span><span class="nc">UInt</span><span class="p">])</span>
 <span class="p">}</span>
 </pre></div>
 </div>
