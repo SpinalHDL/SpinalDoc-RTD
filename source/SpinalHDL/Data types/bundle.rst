@@ -88,6 +88,9 @@ Type cast
    val color1 = Color(8)
    val myBits := color1.asBits
 
+The elements of the bundle will be mapped into place in the order in which they are defined. 
+Thus, ``r`` in ``color1`` will occupy bits 0 to 8 of ``myBits`` (LSB), followed by ``g`` and ``b`` in that order.
+
 Convert Bits back to Bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The ``.assignFromBits`` operator can be viewed as the reverse of ``.asBits``.
