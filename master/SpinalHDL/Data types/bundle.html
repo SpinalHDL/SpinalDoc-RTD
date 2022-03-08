@@ -1178,6 +1178,8 @@
 <span class="kd">val</span> <span class="n">myBits</span> <span class="o">:=</span> <span class="n">color1</span><span class="p">.</span><span class="n">asBits</span>
 </pre></div>
 </div>
+<p>The elements of the bundle will be mapped into place in the order in which they are defined.
+Thus, <code class="docutils literal notranslate"><span class="pre">r</span></code> in <code class="docutils literal notranslate"><span class="pre">color1</span></code> will occupy bits 0 to 8 of <code class="docutils literal notranslate"><span class="pre">myBits</span></code> (LSB), followed by <code class="docutils literal notranslate"><span class="pre">g</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> in that order.</p>
 </div>
 <div class="section" id="convert-bits-back-to-bundle">
 <h3>Convert Bits back to Bundle<a class="headerlink" href="#convert-bits-back-to-bundle" title="Permalink to this headline">¶</a></h3>
@@ -1252,6 +1254,10 @@
 <div class="section" id="master-slave">
 <h3>master/slave<a class="headerlink" href="#master-slave" title="Permalink to this headline">¶</a></h3>
 <p>If your interface obeys to a master/slave topology, you can use the <code class="docutils literal notranslate"><span class="pre">IMasterSlave</span></code> trait. Then you have to implement the function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">asMaster(): Unit</span></code> to set the direction of each element from the master’s perspective. Then you can use the <code class="docutils literal notranslate"><span class="pre">master(MyBundle())</span></code> and <code class="docutils literal notranslate"><span class="pre">slave(MyBundle())</span></code> syntax in the IO definition.</p>
+<p>There are functions defined as toXXX, such as the <code class="docutils literal notranslate"><span class="pre">toStream</span></code> method of the <code class="docutils literal notranslate"><span class="pre">Flow</span></code> class.
+These functions can usually be called by the master side.
+In addition, the fromXXX functions are designed for the slave side.
+It is common that there are more functions available for the master side than for the slave side.</p>
 <p>For example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">HandShake</span><span class="p">(</span><span class="n">payloadWidth</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="p">{</span>
   <span class="kd">val</span> <span class="n">valid</span>   <span class="o">=</span> <span class="nc">Bool</span><span class="p">()</span>
