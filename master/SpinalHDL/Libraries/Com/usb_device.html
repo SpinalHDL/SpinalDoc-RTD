@@ -1,0 +1,1613 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>USB device &mdash; SpinalHDL  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/logo3_32x32.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="USB OHCI" href="usb_ohci.html" />
+    <link rel="prev" title="UART" href="uart.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SpinalHDL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../About%20SpinalHDL/index.html">About SpinalHDL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../About%20SpinalHDL/faq.html">FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/faq.html#what-is-the-overhead-of-spinalhdl-generated-rtl-compared-to-human-written-vhdl-verilog">What is the overhead of SpinalHDL generated RTL compared to human written VHDL/Verilog?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/faq.html#what-if-spinalhdl-becomes-unsupported-in-the-future">What if SpinalHDL becomes unsupported in the future?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/faq.html#does-spinalhdl-keep-comments-in-generated-vhdl-verilog">Does SpinalHDL keep comments in generated VHDL/verilog?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/faq.html#could-spinalhdl-scale-up-to-big-projects">Could SpinalHDL scale up to big projects?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/faq.html#how-spinalhdl-came-to-be">How SpinalHDL came to be</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/faq.html#why-develop-a-new-language-when-there-is-vhdl-verilog-systemverilog">Why develop a new language when there is VHDL/Verilog/SystemVerilog?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/faq.html#how-to-use-an-unreleased-version-of-spinalhdl-but-committed-on-git">How to use an unreleased version of SpinalHDL (but committed on git)?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../About%20SpinalHDL/support.html">Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/support.html#communication-channels">Communication channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/support.html#commercial-support">Commercial support</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../About%20SpinalHDL/users.html">Users</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/users.html#companies">Companies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../About%20SpinalHDL/users.html#repositories">Repositories</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Getting%20Started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/getting_started.html">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/getting_started.html#requirements-things-to-download-to-get-started">Requirements / Things to download to get started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/getting_started.html#how-to-start-programming-with-spinalhdl">How to start programming with SpinalHDL</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/getting_started.html#the-sbt-way">The SBT way</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/getting_started.html#the-ide-way-with-intellij-idea-and-its-scala-plugin">The IDE way, with IntelliJ IDEA and its Scala plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/getting_started.html#a-very-simple-spinalhdl-example">A very simple SpinalHDL example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/getting_started.html#generated-code">Generated code</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/getting_started.html#what-to-do-next">What to do next?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/motivation.html">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/presentation.html">Presentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/index.html">Scala Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/basics.html">Basics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/basics.html#types">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/basics.html#variables">Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/basics.html#functions">Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/basics.html#object">Object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/basics.html#entry-point-main">Entry point (main)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/basics.html#class">Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/basics.html#templates-type-parameterization">Templates / Type parameterization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/coding_conventions.html">Coding conventions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/coding_conventions.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/coding_conventions.html#class-vs-case-class">class vs case class</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/interaction.html">Interaction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/interaction.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/interaction.html#how-spinalhdl-works-behind-the-api">How SpinalHDL works behind the API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/interaction.html#everything-is-a-reference">Everything is a reference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/interaction.html#hardware-types">Hardware types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/interaction.html#names-of-signals-in-the-generated-rtl">Names of signals in the generated RTL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/interaction.html#scala-is-for-elaboration-spinalhdl-for-hardware-description">Scala is for elaboration, SpinalHDL for hardware description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/interaction.html#scala-elaboration-capabilities-if-for-functional-programming">Scala elaboration capabilities (if, for, functional programming)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/index.html#id1">Scala guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Scala%20Guide/index.html#introduction">Introduction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/index.html">Help for VHDL people</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html">VHDL comparison</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#process">Process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#implicit-vs-explicit-definitions">Implicit vs explicit definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#clock-domains">Clock domains</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#component-s-internal-organization">Component’s internal organization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#safety">Safety</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#functions-and-procedures">Functions and procedures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#buses-and-interfaces">Buses and Interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#signal-declaration">Signal declaration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#component-instantiation">Component instantiation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#casting">Casting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#resizing">Resizing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#parameterization">Parameterization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_comp.html#meta-hardware-description">Meta hardware description</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_perspective.html">VHDL equivalences</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_perspective.html#entity-and-architecture">Entity and architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_perspective.html#data-types">Data types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_perspective.html#signal">Signal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_perspective.html#assignments">Assignments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_perspective.html#literals">Literals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_perspective.html#registers">Registers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Help%20for%20VHDL%20people/vhdl_perspective.html#process-blocks">Process blocks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/Cheatsheets/index.html">Cheatsheets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Cheatsheets/core.html">Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Cheatsheets/lib.html">Lib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Cheatsheets/symbolic.html">Symbolic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Data%20types/index.html">Data types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/bool.html">Bool</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bool.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bool.html#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bool.html#operators">Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bool.html#logic">Logic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bool.html#edge-detection">Edge detection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bool.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bool.html#type-cast">Type cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bool.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bool.html#maskedboolean">MaskedBoolean</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/bits.html">Bits</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bits.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bits.html#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bits.html#operators">Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bits.html#logic">Logic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bits.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bits.html#type-cast">Type cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bits.html#bit-extraction">Bit extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bits.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bits.html#maskedlitteral">MaskedLitteral</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/Int.html">UInt/SInt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Int.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Int.html#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Int.html#operators">Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#logic">Logic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#arithmetic">Arithmetic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#type-cast">Type cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#bit-extraction">Bit extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#misc">Misc</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Int.html#fixpoint-operations">FixPoint operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#lower-bit-operations">Lower bit operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#high-bit-operations">High bit operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Int.html#fixto-function">fixTo function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/enum.html">SpinalEnum</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/enum.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/enum.html#declaration">Declaration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/enum.html#encoding">Encoding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/enum.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/enum.html#operators">Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/enum.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/enum.html#types">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/enum.html#type-cast">Type cast</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/bundle.html">Bundle</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bundle.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bundle.html#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bundle.html#operators">Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bundle.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bundle.html#type-cast">Type cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bundle.html#convert-bits-back-to-bundle">Convert Bits back to Bundle</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/bundle.html#io-element-direction">IO Element direction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bundle.html#in-out">in/out</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/bundle.html#master-slave">master/slave</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/Vec.html">Vec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Vec.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Vec.html#declaration">Declaration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Vec.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Vec.html#operators">Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Vec.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Vec.html#type-cast">Type cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Vec.html#misc">Misc</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/Fix.html">UFix/SFix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Fix.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Fix.html#declaration">Declaration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#unsigned-fixed-point">Unsigned Fixed-Point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#signed-fixed-point">Signed Fixed-Point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#format">Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Fix.html#assignments">Assignments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#valid-assignments">Valid Assignments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#from-a-scala-constant">From a Scala constant</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Fix.html#raw-value">Raw value</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#id2">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Fix.html#operators">Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#arithmetic">Arithmetic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#comparison">Comparison</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#type-cast">Type cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Fix.html#misc">Misc</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/Floating.html">Floating</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Floating.html#description">Description</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Floating.html#ieee-754-floating-format">IEEE-754 floating format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Floating.html#recoded-floating-format">Recoded floating format</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Floating.html#declaration">Declaration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Floating.html#ieee-754-number">IEEE-754 Number</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Floating.html#recoded-floating-point-number">Recoded floating-point number</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/Floating.html#operators">Operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Floating.html#type-cast">Type cast</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/index.html#introduction">Introduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Structuring/index.html">Structuring</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/components_hierarchy.html">Component and hierarchy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/components_hierarchy.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/components_hierarchy.html#input-output-definition">Input / output definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/components_hierarchy.html#pruned-signals">Pruned signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/components_hierarchy.html#parametrized-hardware-generic-in-vhdl-parameter-in-verilog">Parametrized Hardware (“Generic” in VHDL, “Parameter” in Verilog)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/components_hierarchy.html#synthesized-component-names">Synthesized component names</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/area.html">Area</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/area.html#introduction">Introduction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/function.html">Function</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/function.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/function.html#rgb-to-gray">RGB to gray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/function.html#valid-ready-payload-bus">Valid Ready Payload bus</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/clock_domain.html">Clock domains</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/clock_domain.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/clock_domain.html#instantiation">Instantiation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#internal-clock">Internal clock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#external-clock">External clock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#context">Context</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/clock_domain.html#clock-domain-crossing">Clock domain crossing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/clock_domain.html#special-clocking-areas">Special clocking Areas</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#slow-area">Slow Area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#resetarea">ResetArea</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#clockenablearea">ClockEnableArea</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/blackbox.html">Instantiate VHDL and Verilog IP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#defining-an-blackbox">Defining an blackbox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#generics">Generics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#instantiating-a-blackbox">Instantiating a blackbox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#clock-and-reset-mapping">Clock and reset mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#io-prefix">io prefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#rename-all-io-of-a-blackbox">Rename all io of a blackbox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#add-rtl-source">Add RTL source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#vhdl-no-numeric-type">VHDL - No numeric type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/naming.html">Preserving names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#nameable-base-class">Nameable base class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#name-extraction-from-scala">Name extraction from Scala</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#area-in-a-component">Area in a Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#area-in-a-function">Area in a function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#composite-in-a-function">Composite in a function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#composite-chains">Composite chains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#composite-in-a-bundle-s-function">Composite in a Bundle’s function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#unamed-signal-handling">Unamed signal handling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/naming.html#verilog-expression-splitting">Verilog expression splitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/naming.html#verilog-long-expression-splitting">Verilog long expression splitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/naming.html#when-statement-condition">When statement condition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/naming.html#in-last-resort">In last resort</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/parametrization.html">Parametrization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/parametrization.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/parametrization.html#elaboration-time-parameters">Elaboration time parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/parametrization.html#optional-hardware">Optional hardware</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Semantic/index.html">Semantic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/assignments.html">Assignments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/assignments.html#id1">Assignments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/assignments.html#width-checking">Width checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/assignments.html#combinatorial-loops">Combinatorial loops</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/when_switch.html">When/Switch/Mux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/when_switch.html#when">When</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/when_switch.html#switch">Switch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Semantic/when_switch.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/when_switch.html#local-declaration">Local declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/when_switch.html#mux">Mux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/when_switch.html#bitwise-selection">Bitwise selection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Semantic/when_switch.html#id1">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Semantic/rules.html">Rules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/rules.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/rules.html#concurrency">Concurrency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/rules.html#last-valid-assignment-wins">Last valid assignment wins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Semantic/rules.html#signal-and-register-interactions-with-scala-oop-reference-functions">Signal and register interactions with Scala (OOP reference + Functions)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Sequential%20logic/index.html">Sequential logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Sequential%20logic/registers.html">Registers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#instantiation">Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#reset-value">Reset value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">Initialization value for simulation purposes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#register-vectors">Register vectors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Sequential%20logic/memory.html">RAM/ROM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/memory.html#syntax">Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/memory.html#synchronous-enable-quirk">Synchronous enable quirk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/memory.html#read-under-write-policy">Read-under-write policy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/memory.html#mixed-width-ram">Mixed-width ram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/memory.html#automatic-blackboxing">Automatic blackboxing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Sequential%20logic/memory.html#blackboxing-policy">Blackboxing policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Sequential%20logic/memory.html#standard-memory-blackboxes">Standard memory blackboxes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Design%20errors/index.html">Design errors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/assignment_overlap.html">Assignment overlap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/assignment_overlap.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/assignment_overlap.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/clock_crossing_violation.html">Clock crossing violation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/clock_crossing_violation.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/clock_crossing_violation.html#example">Example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Design%20errors/clock_crossing_violation.html#crossclockdomain-tag">crossClockDomain tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Design%20errors/clock_crossing_violation.html#setsyncronouswith">setSyncronousWith</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Design%20errors/clock_crossing_violation.html#buffercc">BufferCC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/combinatorial_loop.html">Combinatorial loop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/combinatorial_loop.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/combinatorial_loop.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/combinatorial_loop.html#false-positives">False-positives</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/hierarchy_violation.html">Hierarchy violation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/hierarchy_violation.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/hierarchy_violation.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/iobundle.html">Io bundle</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/iobundle.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/iobundle.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/latch_detected.html">Latch detected</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/latch_detected.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/latch_detected.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/no_driver_on.html">No driver on</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/no_driver_on.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/no_driver_on.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/nullpointerexception.html">NullPointerException</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/nullpointerexception.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/nullpointerexception.html#example">Example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Design%20errors/nullpointerexception.html#issue-explanation">Issue explanation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/register_defined_as_component_input.html">Register defined as component input</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/register_defined_as_component_input.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/register_defined_as_component_input.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/scope_violation.html">Scope violation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/scope_violation.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/scope_violation.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/spinal_cant_clone.html">Spinal can’t clone class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/spinal_cant_clone.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/spinal_cant_clone.html#example-1">Example 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/spinal_cant_clone.html#example-2">Example 2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/unassigned_register.html">Unassigned register</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/unassigned_register.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/unassigned_register.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/unassigned_register.html#register-with-only-init">Register with only init</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/unreachable_is_statement.html">Unreachable is statement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/unreachable_is_statement.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/unreachable_is_statement.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/width_mismatch.html">Width mismatch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/width_mismatch.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/width_mismatch.html#assignment-example">Assignment example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design%20errors/width_mismatch.html#operator-example">Operator example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Design%20errors/index.html#introduction">Introduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Other%20language%20features/index.html">Other language features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/utils.html">Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/utils.html#general">General</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/utils.html#cloning-hardware-datatypes">Cloning hardware datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/utils.html#passing-a-datatype-as-construction-parameter">Passing a datatype as construction parameter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Other%20language%20features/utils.html#the-old-way">The old way</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Other%20language%20features/utils.html#the-safe-way">The safe way</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/utils.html#frequency-and-time">Frequency and time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/utils.html#binary-prefix">Binary prefix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/stub.html">Stub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/assertion.html">Assertions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/report.html">Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/scope_property.html">ScopeProperty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/formal.html">Formal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/formal.html#general">General</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/formal.html#clocked-assertion-without-reset">Clocked assertion without reset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/formal.html#specifying-the-initial-value-of-a-signal">Specifying the initial value of a signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/formal.html#specifying-a-initial-assumption">Specifying a initial assumption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/formal.html#specifying-assertion-in-the-reset-scope">Specifying assertion in the reset scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/formal.html#supported-features">Supported features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/formal.html#limitations">Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/analog_inout.html">Analog and inout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/analog_inout.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/analog_inout.html#analog">Analog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/analog_inout.html#inout">inout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/analog_inout.html#inoutwrapper">InOutWrapper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/analog_inout.html#manually-driving-analog-bundles">Manually driving Analog bundles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html">VHDL and Verilog generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html#generate-vhdl-and-verilog-from-a-spinalhdl-component">Generate VHDL and Verilog from a SpinalHDL Component</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html#parametrization-from-scala">Parametrization from Scala</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html#parametrization-from-shell">Parametrization from shell</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html#generated-vhdl-and-verilog">Generated VHDL and Verilog</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html#organization">Organization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html#combinational-logic">Combinational logic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html#sequential-logic">Sequential logic</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/vhdl_generation.html#vhdl-and-verilog-attributes">VHDL and Verilog attributes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Other%20language%20features/index.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Other%20language%20features/index.html#id1">Introduction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils.html#state-less-utilities">State less utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils.html#state-full-utilities">State full utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../utils.html#counter">Counter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../utils.html#timeout">Timeout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../utils.html#resetctrl">ResetCtrl</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../utils.html#special-utilities">Special utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../stream.html">Stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../stream.html#specification">Specification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stream.html#semantics">Semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stream.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stream.html#utils">Utils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../stream.html#streamfifo">StreamFifo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stream.html#streamfifocc">StreamFifoCC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stream.html#streamccbytoggle">StreamCCByToggle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stream.html#streamarbiter">StreamArbiter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stream.html#streamjoin">StreamJoin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stream.html#streamfork">StreamFork</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../stream.html#streamdispatchersequencial">StreamDispatcherSequencial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flow.html">Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flow.html#specification">Specification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flow.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fragment.html">Fragment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fragment.html#specification">Specification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fragment.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fsm.html">State machine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fsm.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fsm.html#statemachine">StateMachine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fsm.html#states">States</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fsm.html#statedelay">StateDelay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fsm.html#statefsm">StateFsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fsm.html#stateparallelfsm">StateParallelFsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fsm.html#notes-about-the-entry-state">Notes about the entry state</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vexriscv.html">VexRiscv (RV32IM CPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bus_slave_factory.html">Bus Slave Factory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../bus_slave_factory.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bus_slave_factory.html#functionality">Functionality</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fiber.html">Fiber framework</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fiber.html#simple-dummy-example">Simple dummy example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fiber.html#handle-t">Handle[T]</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../fiber.html#soon-handle">soon(handle)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../binarySystem.html">BinarySystem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../binarySystem.html#specification">Specification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../binarySystem.html#string-to-int-long-bigint">String to Int/Long/BigInt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../binarySystem.html#int-long-bigint-to-string">Int/Long/BigInt to String</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../binarySystem.html#int-long-bigint-to-binary-list">Int/Long/BigInt to Binary-List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../binarySystem.html#binary-list-to-int-long-bigint">Binary-List to Int/Long/BigInt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../binarySystem.html#bigint-enricher">BigInt enricher</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../regIf.html">RegIf</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../regIf.html#automatic-allocation">Automatic allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../regIf.html#access-types">28 Access Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../regIf.html#automatic-documentation-generation">Automatic documentation generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../regIf.html#interrupt-factory">Interrupt Factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../regIf.html#developers-area">Developers Area</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Bus/index.html">Bus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Bus/amba3/ahblite3.html">AHB-Lite3</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba3/ahblite3.html#configuration-and-instanciation">Configuration and instanciation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba3/ahblite3.html#variations">Variations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Bus/amba3/apb3.html">Apb3</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba3/apb3.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba3/apb3.html#configuration-and-instanciation">Configuration and instanciation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba3/apb3.html#functions-and-operators">Functions and operators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Bus/amba4/axi4.html">Axi4</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba4/axi4.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba4/axi4.html#configuration-and-instanciation">Configuration and instanciation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba4/axi4.html#variations">Variations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/amba4/axi4.html#functions-and-operators">Functions and operators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Bus/avalon/avalonmm.html">AvalonMM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/avalon/avalonmm.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Bus/avalon/avalonmm.html#configuration-and-instanciation">Configuration and instanciation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Com</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="uart.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uart.html#bus-definition">Bus definition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uart.html#uartctrl">UartCtrl</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">USB device</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#architecture">Architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#registers">Registers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#descriptors">Descriptors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="usb_ohci.html">USB OHCI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usb_ohci.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usb_ohci.html#usage">Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../IO/index.html">IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../IO/readableOpenDrain.html">ReadableOpenDrain</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../IO/readableOpenDrain.html#id1">ReadableOpenDrain</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../IO/tristate.html">TriState</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../IO/tristate.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../IO/tristate.html#id1">TriState</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../IO/tristate.html#tristatearray">TriStateArray</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Graphics/index.html">Graphics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Graphics/colors.html">Colors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Graphics/colors.html#rgb">RGB</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Graphics/vga.html">VGA</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Graphics/vga.html#vga-bus">VGA bus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Graphics/vga.html#vga-timings">VGA timings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Graphics/vga.html#vga-controller">VGA controller</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../EDA/index.html">EDA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../EDA/altera/qsysify.html">QSysify</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../EDA/altera/qsysify.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../EDA/altera/qsysify.html#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../EDA/altera/qsysify.html#tags">tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../EDA/altera/qsysify.html#adding-new-interface-support">Adding new interface support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../EDA/altera/quartus_flow.html">QuartusFlow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../EDA/altera/quartus_flow.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../EDA/altera/quartus_flow.html#for-a-single-rtl-file">For a single rtl file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../EDA/altera/quartus_flow.html#for-an-existing-project">For an existing project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Misc/index.html">Misc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Misc/PLIC/plic_mapper.html">Plic Mapper</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Misc/PLIC/plic_mapper.html#plicmapper-apply"><code class="docutils literal notranslate"><span class="pre">PlicMapper.apply</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Misc/PLIC/plic_mapper.html#plicmapping-sifive"><code class="docutils literal notranslate"><span class="pre">PlicMapping.sifive</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Misc/PLIC/plic_mapper.html#plicmapping-light"><code class="docutils literal notranslate"><span class="pre">PlicMapping.light</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#id1">Introduction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Simulation/index.html">Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/install/index.html">Installation instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/install/index.html#scala">Scala</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/install/index.html#backend-dependent-installation-instructions">Backend-dependent installation instructions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Simulation/install/GHDL.html">Setup and installation of GHDL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Simulation/install/Icarus%20Verilog.html">Setup and installation of Icarus Verilog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Simulation/install/Verilator.html">Setup and installation of Verilator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/bootstraps.html">Boot a simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/bootstraps.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/bootstraps.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/bootstraps.html#running-multiple-tests-on-the-same-hardware">Running multiple tests on the same hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/bootstraps.html#throw-success-or-failure-of-the-simulation-from-a-thread">Throw Success or Failure of the simulation from a thread</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/signal.html">Accessing signals of the simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/signal.html#read-and-write-signals">Read and write signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/signal.html#accessing-signals-inside-the-component-s-hierarchy">Accessing signals inside the component’s hierarchy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/clock.html">Clock domains</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/clock.html#stimulus-api">Stimulus API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/clock.html#wait-api">Wait API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/clock.html#callback-api">Callback API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/clock.html#default-clockdomain">Default ClockDomain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/clock.html#new-clockdomain">New ClockDomain</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/threadFull.html">Thread-full API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/threadFull.html#fork-and-join-simulation-threads">Fork and join simulation threads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/threadFull.html#sleep-and-waituntil">Sleep and waitUntil</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/threadLess.html">Thread-less API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/sensitive.html">Sensitive API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/engine.html">Simulation engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/examples/index.html">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/asynchronous.html">Asynchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/dual_clock_fifo.html">Dual clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/single_clock_fifo.html">Single clock fifo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/synchronous.html">Synchronous adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/uart_decoder.html">Uart decoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Simulation/examples/uart_encoder.html">Uart encoder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/index.html#how-spinalhdl-simulates-the-hardware-with-verilator-backend">How SpinalHDL simulates the hardware with Verilator backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/index.html#how-spinalhdl-simulates-the-hardware-with-ghdl-icarus-verilog-backend">How SpinalHDL simulates the hardware with GHDL/Icarus Verilog backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Simulation/index.html#performance">Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Examples/Simple%20ones/index.html">Simple ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple%20ones/apb3.html">APB3 definition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Simple%20ones/apb3.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Simple%20ones/apb3.html#specification">Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Simple%20ones/apb3.html#implementation">Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Simple%20ones/apb3.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple%20ones/carry_adder.html">Carry adder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple%20ones/color_summing.html">Color summing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple%20ones/counter_with_clear.html">Counter with clear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple%20ones/pll_resetctrl.html">PLL BlackBox and reset controller</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Simple%20ones/pll_resetctrl.html#the-pll-blackbox-definition">The PLL BlackBox definition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Simple%20ones/pll_resetctrl.html#toplevel-definition">TopLevel definition</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple%20ones/rgb_to_gray.html">RGB to gray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Simple%20ones/sinus_rom.html">Sinus rom</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Examples/Intermediates%20ones/index.html">Intermediates ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Intermediates%20ones/fractal.html">Fractal calculator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/fractal.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/fractal.html#specification">Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/fractal.html#elaboration-parameters-generics">Elaboration parameters (Generics)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/fractal.html#bundle-definition">Bundle definition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/fractal.html#component-implementation">Component implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Intermediates%20ones/uart.html">UART</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/uart.html#specification">Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/uart.html#data-structures">Data structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/uart.html#implementation">Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/uart.html#simple-usage">Simple usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/uart.html#example-with-test-bench">Example with test bench</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/uart.html#bonus-having-fun-with-stream">Bonus: Having fun with Stream</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Intermediates%20ones/vga.html">VGA</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/vga.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/vga.html#data-structures">Data structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Intermediates%20ones/vga.html#vga-controller">VGA Controller</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Examples/Advanced%20ones/index.html">Advanced ones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html">JTAG TAP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html#jtag-bus">JTAG bus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html#jtag-state-machine">JTAG state machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html#id1">JTAG TAP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html#jtag-instructions">Jtag instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html#user-friendly-wrapper">User friendly wrapper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html#usage-demonstration">Usage demonstration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Advanced%20ones/memory_mapped_uart.html">Memory mapped UART</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/memory_mapped_uart.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/memory_mapped_uart.html#specification">Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/memory_mapped_uart.html#implementation">Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Advanced%20ones/pinesec.html">Pinesec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Examples/Advanced%20ones/timer.html">Timer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/timer.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/timer.html#id2">Timer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Examples/Advanced%20ones/timer.html#bridging-function">Bridging function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Examples/index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Examples/index.html#getting-started">Getting started</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Legacy/index.html">Legacy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Legacy/riscv.html">RiscV</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/riscv.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/riscv.html#base-fpga-project">Base FPGA project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/riscv.html#how-to-generate-the-cpu-vhdl">How to generate the CPU VHDL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/riscv.html#how-to-debug">How to debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/riscv.html#todo">Todo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/pinsec/hardware.html">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware.html#riscv">RISCV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware.html#axi4">AXI4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware.html#apb3">APB3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware.html#generate-the-rtl">Generate the RTL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html">SoC toplevel (Pinsec)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html#defining-all-io">Defining all IO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html#clock-and-resets">Clock and resets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html#main-components">Main components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html#peripherals">Peripherals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html#bus-interconnects">Bus interconnects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/hardware_toplevel.html#misc">Misc</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/pinsec/introduction.html">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Legacy/pinsec/software.html">Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/software.html#riscv-tool-chain">RISCV tool-chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Legacy/pinsec/software.html#openocd-gdb-eclipse-configuration">OpenOCD/GDB/Eclipse  configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Developers%20area/index.html">Developers area</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers%20area/bus_slave_factory_impl.html">Bus Slave Factory Implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/bus_slave_factory_impl.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/bus_slave_factory_impl.html#specification">Specification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/bus_slave_factory_impl.html#implementation">Implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/bus_slave_factory_impl.html#busslavefactory">BusSlaveFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/bus_slave_factory_impl.html#busslavefactorydelayed">BusSlaveFactoryDelayed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/bus_slave_factory_impl.html#avalonmmslavefactory">AvalonMMSlaveFactory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/bus_slave_factory_impl.html#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers%20area/howtodocument.html">How to HACK this documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/howtodocument.html#title-convention">Title convention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/howtodocument.html#wavedrom-integration">Wavedrom integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/howtodocument.html#new-section">New section</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/howtodocument.html#example">example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers%20area/spinalhdl_datamodel.html">SpinalHDL internal datamodel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/spinalhdl_datamodel.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/spinalhdl_datamodel.html#general-structure">General structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/spinalhdl_datamodel.html#exploring-the-datamodel">Exploring the datamodel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/spinalhdl_datamodel.html#compilation-phases">Compilation Phases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/spinalhdl_datamodel.html#modifying-a-netlist-as-a-user-without-plugins">Modifying a netlist as a user without plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/spinalhdl_datamodel.html#user-space-netlist-analysis">User space netlist analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Developers%20area/types.html">Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#bool">Bool</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/types.html#declaration">Declaration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/types.html#operators">Operators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#the-bitvector-family-bits-uint-sint">The BitVector family - (<code class="docutils literal notranslate"><span class="pre">Bits</span></code>, <code class="docutils literal notranslate"><span class="pre">UInt</span></code>, <code class="docutils literal notranslate"><span class="pre">SInt</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/types.html#declaration-syntax">Declaration syntax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/types.html#id1">Operators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/types.html#masked-comparison">Masked comparison</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#bits">Bits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#uint-sint">UInt, SInt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#bool-bits-uint-sint">Bool, Bits, UInt, SInt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#vec">Vec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#bundle">Bundle</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/types.html#simple-example-rgb-vga">Simple example (RGB/VGA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Developers%20area/types.html#interface-example-apb">Interface example (APB)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#enum">Enum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#data-bool-bits-uint-sint-enum-bundle-vec">Data (Bool, Bits, UInt, SInt, Enum, Bundle, Vec)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#literals-as-signal-declaration">Literals as signal declaration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SpinalHDL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Libraries</a> &raquo;</li>
+        
+          <li><a href="index.html">Com</a> &raquo;</li>
+        
+      <li>USB device</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/SpinalHDL/Libraries/Com/usb_device.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="usb-device">
+<h1>USB device<a class="headerlink" href="#usb-device" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>There is a USB device controller in the SpinalHDL library. In a few bullet points it can be resumed to :</p>
+<ul class="simple">
+<li><p>Implemented to allow a CPU to configure and manage the endpoints</p></li>
+<li><p>A internal ram which store the endpoints states and transactions descriptors</p></li>
+<li><p>Up to 16 endpoints (for virtualy no price)</p></li>
+<li><p>Support USB host full speed (12Mbps)</p></li>
+<li><p>Test on linux using its own driver (<a class="reference external" href="https://github.com/SpinalHDL/linux/blob/dev/drivers/usb/gadget/udc/spinal_udc.c">https://github.com/SpinalHDL/linux/blob/dev/drivers/usb/gadget/udc/spinal_udc.c</a>)</p></li>
+<li><p>Bmb memory interace for the configuration</p></li>
+<li><p>Require a clock for the internal phy which is a multiple of 12 Mhz at least 48 Mhz</p></li>
+<li><p>The controller frequency is not restricted</p></li>
+<li><p>No external phy required</p></li>
+</ul>
+<p>Linux gadget tested and functional :</p>
+<ul class="simple">
+<li><p>Serial connection</p></li>
+<li><p>Ethernet connection</p></li>
+<li><p>Mass storage (~8 Mbps on ArtyA7 linux)</p></li>
+</ul>
+<p>Deployments :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/digilent/ArtyA7SmpLinux">https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/digilent/ArtyA7SmpLinux</a></p></li>
+<li><p><a class="reference external" href="https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/radiona/ulx3s/smp">https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/radiona/ulx3s/smp</a></p></li>
+</ul>
+</div>
+<div class="section" id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<p>The controller is composed of :</p>
+<ul class="simple">
+<li><p>A few control registers</p></li>
+<li><p>A internal ram used to store the endpoint status, the transfer descriptors and the endpoint 0 SETUP data.</p></li>
+</ul>
+<p>A linked list of descriptors for each endpoint in order to handle of the USB IN/OUT transactions and data.</p>
+<p>The endpoint 0 manage the IN/OUT transactions like all the other endpoints but has some additional hardware to manage the SETUP transactions :</p>
+<ul class="simple">
+<li><p>Its linked list is cleared on each setup transactions</p></li>
+<li><p>The data of the SETUP transaction are stored in a fixed location (SETUP_DATA)</p></li>
+<li><p>It has a specific interrupt flag for SETUP transactions</p></li>
+</ul>
+</div>
+<div class="section" id="registers">
+<h2>Registers<a class="headerlink" href="#registers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="frame-0xff00">
+<h3>FRAME (0xFF00)<a class="headerlink" href="#frame-0xff00" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>usbFrameId</p></td>
+<td><p>RO</p></td>
+<td><p>31-0</p></td>
+<td><p>Current usb frame id</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="address-0xff04">
+<h3>ADDRESS (0xFF04)<a class="headerlink" href="#address-0xff04" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>usbAddressFilter</p></td>
+<td><p>WO</p></td>
+<td><p>6-0</p></td>
+<td><p>The device will only listen at tokens with the specified address
+This field is automaticaly cleared on usb reset events</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="interrupt-0xff08">
+<h3>INTERRUPT (0xFF08)<a class="headerlink" href="#interrupt-0xff08" title="Permalink to this headline">¶</a></h3>
+<p>All bits of this register can be cleared by writing ‘1’ in them.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>endpoints</p></td>
+<td><p>RC</p></td>
+<td><p>15-0</p></td>
+<td><p>Raised when a enpoint generate a interrupt</p></td>
+</tr>
+<tr class="row-odd"><td><p>reset</p></td>
+<td><p>RC</p></td>
+<td><p>16</p></td>
+<td><p>Raised when a USB reset appeared</p></td>
+</tr>
+<tr class="row-even"><td><p>ep0Setup</p></td>
+<td><p>RC</p></td>
+<td><p>17</p></td>
+<td><p>Raised when endpoint 0 receive a setup transaction</p></td>
+</tr>
+<tr class="row-odd"><td><p>suspend</p></td>
+<td><p>RC</p></td>
+<td><p>18</p></td>
+<td><p>Raised when a USB suspend appeared</p></td>
+</tr>
+<tr class="row-even"><td><p>resume</p></td>
+<td><p>RC</p></td>
+<td><p>19</p></td>
+<td><p>Raised when a USB resume appeared</p></td>
+</tr>
+<tr class="row-odd"><td><p>disconnect</p></td>
+<td><p>RC</p></td>
+<td><p>20</p></td>
+<td><p>Raised when a USB disconnect appeared</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="halt-0xff0c">
+<h3>HALT (0xFF0C)<a class="headerlink" href="#halt-0xff0c" title="Permalink to this headline">¶</a></h3>
+<p>This register allow to place a single enpoint in a dormant state in order to ensure atomicity of CPU operations.
+The peripheral will return NAK if the given endpoint is addressed by the usb host.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>endpointId</p></td>
+<td><p>WO</p></td>
+<td><p>3-0</p></td>
+<td><p>The endpoint you want to put in sleep</p></td>
+</tr>
+<tr class="row-odd"><td><p>enable</p></td>
+<td><p>WO</p></td>
+<td><p>4</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>effective
+enable</p></td>
+<td><p>RO</p></td>
+<td><p>5</p></td>
+<td><p>After setting the enable, you need to wait for this bit to be
+set by the hardware itself to ensure atomicity</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="config-0xff10">
+<h3>CONFIG (0xFF10)<a class="headerlink" href="#config-0xff10" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>pullupSet</p></td>
+<td><p>SO</p></td>
+<td><p>0</p></td>
+<td><p>Write ‘1’ to enable the USB device pullup on the dp pin</p></td>
+</tr>
+<tr class="row-odd"><td><p>pullupClear</p></td>
+<td><p>SO</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>interruptEnableSet</p></td>
+<td><p>SO</p></td>
+<td><p>2</p></td>
+<td><p>Write ‘1’ to let the present and future interrupt happening</p></td>
+</tr>
+<tr class="row-odd"><td><p>interruptEnableClear</p></td>
+<td><p>SO</p></td>
+<td><p>3</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="info-0xff14">
+<h3>INFO (0xFF14)<a class="headerlink" href="#info-0xff14" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ramSize</p></td>
+<td><p>RO</p></td>
+<td><p>3-0</p></td>
+<td><p>The internal ram will have (1 &lt;&lt; this) bytes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="endpoints-0x0000-0x003f">
+<h3>ENDPOINTS (0x0000 - 0x003F)<a class="headerlink" href="#endpoints-0x0000-0x003f" title="Permalink to this headline">¶</a></h3>
+<p>The endpoints status are stored at the begining of the internal ram over one 32 bits word each.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>enable</p></td>
+<td><p>RW</p></td>
+<td><p>0</p></td>
+<td><p>If not set, the endpoint will ignore all the trafic</p></td>
+</tr>
+<tr class="row-odd"><td><p>stall</p></td>
+<td><p>RW</p></td>
+<td><p>1</p></td>
+<td><p>If set, the endpoint will always return STALL status</p></td>
+</tr>
+<tr class="row-even"><td><p>nack</p></td>
+<td><p>RW</p></td>
+<td><p>2</p></td>
+<td><p>If set, the endpoint will always return NACK status</p></td>
+</tr>
+<tr class="row-odd"><td><p>dataPhase</p></td>
+<td><p>RW</p></td>
+<td><p>3</p></td>
+<td><p>Specify the IN/OUT data PID used. ‘0’ =&gt; DATA0.
+This field is also updated by the controller.</p></td>
+</tr>
+<tr class="row-even"><td><p>head</p></td>
+<td><p>RW</p></td>
+<td><p>15-4</p></td>
+<td><p>Specify the current descriptor head (linked list).
+0 =&gt; empty list, byte address = this &lt;&lt; 4</p></td>
+</tr>
+<tr class="row-odd"><td><p>isochronous</p></td>
+<td><p>RW</p></td>
+<td><p>16</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>maxPacketSize</p></td>
+<td><p>RW</p></td>
+<td><p>31-22</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="setup-data-0x0040-0x0047">
+<h3>SETUP_DATA (0x0040 - 0x0047)<a class="headerlink" href="#setup-data-0x0040-0x0047" title="Permalink to this headline">¶</a></h3>
+<p>When endpoint 0 receive a SETUP transaction, the data of the transaction will be stored at that place.</p>
+</div>
+</div>
+<div class="section" id="descriptors">
+<h2>Descriptors<a class="headerlink" href="#descriptors" title="Permalink to this headline">¶</a></h2>
+<p>Descriptors allows to specify how a endpoint need to handle the data phase of IN/OUT transactions.
+They are stored in the internal ram, can be linked together via their linked lists and need to be aligned on 16 bytes boundaries</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+<col style="width: 65%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Word</p></th>
+<th class="head"><p>Bits</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>offset</p></td>
+<td><p>0</p></td>
+<td><p>15-0</p></td>
+<td><p>Specify the current progress in the transfer (in byte)</p></td>
+</tr>
+<tr class="row-odd"><td><p>code</p></td>
+<td><p>0</p></td>
+<td><p>19-16</p></td>
+<td><p>0xF =&gt; in progress, 0x0 =&gt; success</p></td>
+</tr>
+<tr class="row-even"><td><p>next</p></td>
+<td><p>1</p></td>
+<td><p>15-4</p></td>
+<td><p>Point the the next descriptor
+0 =&gt; nothing, byte address = this &lt;&lt; 4</p></td>
+</tr>
+<tr class="row-odd"><td><p>length</p></td>
+<td><p>1</p></td>
+<td><p>31-16</p></td>
+<td><p>Number of bytes allocated for the data field</p></td>
+</tr>
+<tr class="row-even"><td><p>direction</p></td>
+<td><p>2</p></td>
+<td><p>16</p></td>
+<td><p>‘0’ =&gt; OUT, ‘1’ =&gt; IN</p></td>
+</tr>
+<tr class="row-odd"><td><p>interrupt</p></td>
+<td><p>2</p></td>
+<td><p>17</p></td>
+<td><p>If set, the completion of the descriptor will generate a
+interrupt.</p></td>
+</tr>
+<tr class="row-even"><td><p>completionOnFull</p></td>
+<td><p>2</p></td>
+<td><p>18</p></td>
+<td><p>Normaly, a descriptor completion only occure when a USB transfer
+is smaller than the maxPacketSize. But if this field is set,
+then when the descriptor become full is also a considered
+as a completion event. (offset == length)</p></td>
+</tr>
+<tr class="row-odd"><td><p>data1OnCompletion</p></td>
+<td><p>2</p></td>
+<td><p>19</p></td>
+<td><p>force the endpoint dataPhase to DATA1 on the completion of the
+descriptoo</p></td>
+</tr>
+<tr class="row-even"><td><p>data</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span> <span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span> <span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">bus</span><span class="p">.</span><span class="nn">bmb</span><span class="p">.</span><span class="nc">BmbParameter</span>
+<span class="k">import</span> <span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">com</span><span class="p">.</span><span class="nn">usb</span><span class="p">.</span><span class="nn">phy</span><span class="p">.</span><span class="nc">UsbDevicePhyNative</span>
+<span class="k">import</span> <span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">com</span><span class="p">.</span><span class="nn">usb</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="nc">UsbLsFsPhyAbstractIoAgent</span>
+<span class="k">import</span> <span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">com</span><span class="p">.</span><span class="nn">usb</span><span class="p">.</span><span class="nn">udc</span><span class="p">.{</span><span class="nc">UsbDeviceCtrl</span><span class="p">,</span> <span class="nc">UsbDeviceCtrlParameter</span><span class="p">}</span>
+
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">UsbDeviceTop</span><span class="p">()</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
+  <span class="kd">val</span> <span class="n">ctrlCd</span> <span class="o">=</span> <span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;ctrlCd&quot;</span><span class="p">,</span> <span class="n">frequency</span> <span class="o">=</span> <span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">100</span> <span class="nc">MHz</span><span class="p">))</span>
+  <span class="kd">val</span> <span class="n">phyCd</span> <span class="o">=</span> <span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;phyCd&quot;</span><span class="p">,</span> <span class="n">frequency</span> <span class="o">=</span> <span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">48</span> <span class="nc">MHz</span><span class="p">))</span>
+
+  <span class="kd">val</span> <span class="n">ctrl</span> <span class="o">=</span> <span class="n">ctrlCd</span> <span class="n">on</span> <span class="k">new</span> <span class="nc">UsbDeviceCtrl</span><span class="p">(</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="nc">UsbDeviceCtrlParameter</span><span class="p">(</span>
+      <span class="n">addressWidth</span> <span class="o">=</span> <span class="mi">14</span>
+    <span class="p">),</span>
+    <span class="n">bmbParameter</span> <span class="o">=</span> <span class="nc">BmbParameter</span><span class="p">(</span>
+      <span class="n">addressWidth</span> <span class="o">=</span> <span class="nc">UsbDeviceCtrl</span><span class="p">.</span><span class="n">ctrlAddressWidth</span><span class="p">,</span>
+      <span class="n">dataWidth</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+      <span class="n">sourceWidth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="n">contextWidth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="n">lengthWidth</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+
+  <span class="kd">val</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">phyCd</span> <span class="n">on</span> <span class="k">new</span> <span class="nc">UsbDevicePhyNative</span><span class="p">(</span><span class="n">sim</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span>
+  <span class="n">ctrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">phy</span><span class="p">.</span><span class="n">cc</span><span class="p">(</span><span class="n">ctrlCd</span><span class="p">,</span> <span class="n">phyCd</span><span class="p">)</span> <span class="o">&lt;&gt;</span> <span class="n">phy</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">ctrl</span>
+
+  <span class="kd">val</span> <span class="n">bmb</span> <span class="o">=</span> <span class="n">ctrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">ctrl</span><span class="p">.</span><span class="n">toIo</span><span class="p">()</span>
+  <span class="kd">val</span> <span class="n">usb</span> <span class="o">=</span> <span class="n">phy</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">usb</span><span class="p">.</span><span class="n">toIo</span><span class="p">()</span>
+  <span class="kd">val</span> <span class="n">power</span> <span class="o">=</span> <span class="n">phy</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">power</span><span class="p">.</span><span class="n">toIo</span><span class="p">()</span>
+  <span class="kd">val</span> <span class="n">pullup</span> <span class="o">=</span> <span class="n">phy</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">pullup</span><span class="p">.</span><span class="n">toIo</span><span class="p">()</span>
+  <span class="kd">val</span> <span class="n">interrupts</span> <span class="o">=</span> <span class="n">ctrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="p">.</span><span class="n">toIo</span><span class="p">()</span>
+<span class="p">}</span>
+
+
+<span class="k">object</span> <span class="nc">UsbDeviceGen</span> <span class="k">extends</span> <span class="nc">App</span><span class="p">{</span>
+  <span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span> <span class="nc">UsbDeviceTop</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="usb_ohci.html" class="btn btn-neutral float-right" title="USB OHCI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="uart.html" class="btn btn-neutral float-left" title="UART" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, SpinalHDL.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: master
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Tags</dt>
+      <dd><a href="../../../../v1.3.1/index.html">v1.3.1</a></dd>
+      <dd><a href="../../../../v1.3.8/index.html">v1.3.8</a></dd>
+      <dd><a href="../../../../v1.5.0/index.html">v1.5.0</a></dd>
+      <dd><a href="../../../../v1.6.0/index.html">v1.6.0</a></dd>
+    </dl>
+    <dl>
+      <dt>Branches</dt>
+      <dd><a href="../../../../dev/SpinalHDL/Libraries/Com/usb_device.html">dev</a></dd>
+      <dd><a href="usb_device.html">master</a></dd>
+    </dl>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

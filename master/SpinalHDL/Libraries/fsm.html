@@ -657,6 +657,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#statedelay">StateDelay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#statefsm">StateFsm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#stateparallelfsm">StateParallelFsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#notes-about-the-entry-state">Notes about the entry state</a></li>
 </ul>
 </li>
 </ul>
@@ -723,6 +724,19 @@
 <li class="toctree-l4"><a class="reference internal" href="Com/uart.html#introduction">Introduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Com/uart.html#bus-definition">Bus definition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Com/uart.html#uartctrl">UartCtrl</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Com/usb_device.html">USB device</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Com/usb_device.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Com/usb_device.html#architecture">Architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Com/usb_device.html#registers">Registers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Com/usb_device.html#descriptors">Descriptors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Com/usb_device.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Com/usb_ohci.html">USB OHCI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Com/usb_ohci.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Com/usb_ohci.html#usage">Usage</a></li>
 </ul>
 </li>
 </ul>
@@ -1343,6 +1357,37 @@
   <span class="n">whenCompleted</span><span class="p">{</span>
     <span class="n">goto</span><span class="p">(</span><span class="n">stateE</span><span class="p">)</span>
   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="notes-about-the-entry-state">
+<h3>Notes about the entry state<a class="headerlink" href="#notes-about-the-entry-state" title="Permalink to this headline">¶</a></h3>
+<p>By default, you have to specify the entry state of your state-machine, but between the reset and the first clock sampling, the state-machine will be in a bootState. It is only after the first clock sampling that your entry state become active.</p>
+<p>This allow to properly the onEntry of your entry state, and also allow the implementation of the inner state-machines.</p>
+<p>While it is usefull, it is also possible to bypass that feature and directly have your state-machine starting into a user state.</p>
+<p>Do do so, you can use <cite>makeInstantEntry</cite>. This will return you the state which will be active directly after reset. Note, the onEntry of that state will only be called when it transition from another state to this state.</p>
+<p>There is an example :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// State sequance : IDLE, STATE_A, STATE_B, ...</span>
+<span class="kd">val</span> <span class="n">fsm</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StateMachine</span><span class="p">{</span>
+  <span class="kd">val</span> <span class="nc">IDLE</span> <span class="o">=</span> <span class="n">makeInstantEntry</span><span class="p">()</span>
+  <span class="kd">val</span> <span class="nc">STATE_A</span><span class="p">,</span> <span class="nc">STATE_B</span><span class="p">,</span> <span class="nc">STATE_C</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">State</span>
+
+  <span class="nc">IDLE</span><span class="p">.</span><span class="n">whenIsActive</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="nc">STATE_A</span><span class="p">))</span>
+  <span class="nc">STATE_A</span><span class="p">.</span><span class="n">whenIsActive</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="nc">STATE_B</span><span class="p">))</span>
+  <span class="nc">STATE_B</span><span class="p">.</span><span class="n">whenIsActive</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="nc">STATE_C</span><span class="p">))</span>
+  <span class="nc">STATE_C</span><span class="p">.</span><span class="n">whenIsActive</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="nc">STATE_B</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//  State sequance : stateBoot, STATE_A, STATE_B, ...</span>
+<span class="kd">val</span> <span class="n">fsm</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StateMachine</span><span class="p">{</span>
+  <span class="kd">val</span> <span class="nc">STATE_A</span><span class="p">,</span> <span class="nc">STATE_B</span><span class="p">,</span> <span class="nc">STATE_C</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">State</span>
+  <span class="n">setEntry</span><span class="p">(</span><span class="nc">STATE_A</span><span class="p">)</span>
+
+  <span class="nc">STATE_A</span><span class="p">.</span><span class="n">whenIsActive</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="nc">STATE_B</span><span class="p">))</span>
+  <span class="nc">STATE_B</span><span class="p">.</span><span class="n">whenIsActive</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="nc">STATE_C</span><span class="p">))</span>
+  <span class="nc">STATE_C</span><span class="p">.</span><span class="n">whenIsActive</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="nc">STATE_B</span><span class="p">))</span>
 <span class="p">}</span>
 </pre></div>
 </div>
