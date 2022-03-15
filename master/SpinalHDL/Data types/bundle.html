@@ -267,7 +267,10 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Bundle</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#description">Description</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#declaration">Declaration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#conditional-signals">Conditional signals</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#operators">Operators</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#comparison">Comparison</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#type-cast">Type cast</a></li>
@@ -1124,6 +1127,16 @@
 </pre></div>
 </div>
 <p>You can find an <a class="reference internal" href="../Examples/Simple%20ones/apb3.html#example-apb3"><span class="std std-ref">APB3 definition</span></a> among the <a class="reference internal" href="../Examples/index.html#example-list"><span class="std std-ref">Spinal HDL examples</span></a>.</p>
+<div class="section" id="conditional-signals">
+<h3>Conditional signals<a class="headerlink" href="#conditional-signals" title="Permalink to this headline">¶</a></h3>
+<p>The signals in the <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> can be defined conditionally.
+Unless <code class="docutils literal notranslate"><span class="pre">dataWidth</span></code> is greater than 0, there will be no <code class="docutils literal notranslate"><span class="pre">data</span></code> signal in elorbrated <code class="docutils literal notranslate"><span class="pre">myBundle</span></code>, as demonstrated in the example below.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">myBundle</span><span class="p">(</span><span class="n">dataWidth</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
+  <span class="kd">val</span> <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">dataWidth</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">generate</span> <span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="operators">
 <h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
