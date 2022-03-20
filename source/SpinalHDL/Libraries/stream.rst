@@ -373,6 +373,35 @@ Alternatively you can also use a this shorter syntax which directly return you t
      outputClock = clockB
    )
 
+StreamWidthAdapter
+^^^^^^^^^^^^^^^^^^
+
+This component adapts the width of the input stream to the output stream.
+When the width of the ``outStream`` payload is greater than the ``inStream``, by combining the payloads of several input transactions into one; conversely, if the payload width of the ``outStream`` is less than the ``inStream``, one input transaction will be split into several output transactions.
+
+In the best case, the width of the payload of the ``inStream`` should be an integer multiple of the ``outStream`` as shown below.
+
+.. code-block:: scala
+
+   val inStream = Stream(Bits(8 bits))
+   val outStream = Stream(Bits(16 bits))
+   val adapter = StreamWidthAdapter(inStream, outStream)
+
+As in the example above, the two ``inStream`` transactions will be merged into one ``outStream`` transaction, and the payload of the first input transaction will be placed on the lower bits of the output payload by default.
+
+If the expected order of input transaction payload placement is different from the default setting, here is an example.
+
+.. code-block:: scala
+
+   val inStream = Stream(Bits(8 bits))
+   val outStream = Stream(Bits(16 bits))
+   val adapter = StreamWidthAdapter(inStream, outStream, order = SlicesOrder.HIGHER_FIRST)
+
+There is also a traditional parameter called ``endianness``, which has the same effect as ``ORDER``. 
+The value of ``endianness`` is the same as ``LOWER_FIRST`` of ``order`` when it is ``LITTLE``, and the same as ``HIGHER_FIRST`` when it is ``BIG``.
+The ``padding`` parameter is an optional boolean value to determine whether the adapter accepts non-integer multiples of the input and output payload width ratios.
+
+
 StreamArbiter
 ^^^^^^^^^^^^^
 
