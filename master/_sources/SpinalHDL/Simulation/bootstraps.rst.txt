@@ -52,7 +52,8 @@ Configuration
      - Use GHDL as simulation backend
    * - withIVerilog
      - Use Icarus Verilog as simulation backend
-
+   * - withVCS
+     - Use Synopsys VCS as simulation backend
 
 Then you can call the ``compile(rtl)`` function to compile the hardware and warm up the simulator.
 This function will return a ``SimCompiled`` instance.
