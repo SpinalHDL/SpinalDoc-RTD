@@ -1374,8 +1374,8 @@
 </div>
 <div class="section" id="signal-priorities-in-hdl-generation">
 <h3>Signal priorities in HDL generation<a class="headerlink" href="#signal-priorities-in-hdl-generation" title="Permalink to this headline">¶</a></h3>
-<p>In the current version, reset and clock enable signals have different priorities in the same time domain during the code generation phase.Their order is: <code class="docutils literal notranslate"><span class="pre">asyncReset</span></code>, <code class="docutils literal notranslate"><span class="pre">clockEnable</span></code>, <code class="docutils literal notranslate"><span class="pre">syncReset</span></code> and <code class="docutils literal notranslate"><span class="pre">softReset</span></code>.</p>
-<p>Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is low (especially at the beginning of a simulation), the gated registers will not be reset correctly.</p>
+<p>In the current version, reset and clock enable signals have different priorities. Their order is : <code class="docutils literal notranslate"><span class="pre">asyncReset</span></code>, <code class="docutils literal notranslate"><span class="pre">clockEnable</span></code>, <code class="docutils literal notranslate"><span class="pre">syncReset</span></code> and <code class="docutils literal notranslate"><span class="pre">softReset</span></code>.</p>
+<p>Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reseted.</p>
 <p>Here is an example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">clockedArea</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ClockEnableArea</span><span class="p">(</span><span class="n">clockEnable</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">val</span> <span class="n">reg</span> <span class="o">=</span> <span class="nc">RegNext</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">input</span><span class="p">)</span> <span class="n">init</span> <span class="nc">False</span>
@@ -1394,7 +1394,7 @@
 <span class="k">end</span><span class="w"></span>
 </pre></div>
 </div>
-<p>One solution to avoid it is using the Verilog style to insert clock gating cells instead of defining in the clock domain. Or you can wait for the coming improved version of the clock domain class.</p>
+<p>If that behaviour is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.</p>
 </div>
 <div class="section" id="context">
 <h3>Context<a class="headerlink" href="#context" title="Permalink to this headline">¶</a></h3>

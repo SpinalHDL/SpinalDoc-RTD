@@ -265,9 +265,9 @@ The arguments to the ``ClockDomain.external`` function are exactly the same as i
 Signal priorities in HDL generation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In the current version, reset and clock enable signals have different priorities in the same time domain during the code generation phase.Their order is: ``asyncReset``, ``clockEnable``, ``syncReset`` and ``softReset``.
+In the current version, reset and clock enable signals have different priorities. Their order is : ``asyncReset``, ``clockEnable``, ``syncReset`` and ``softReset``.
 
-Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is low (especially at the beginning of a simulation), the gated registers will not be reset correctly.
+Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reseted.
 
 Here is an example:
 
@@ -291,7 +291,7 @@ It will generate VerilogHDL codes like:
     end
   end
 
-One solution to avoid it is using the Verilog style to insert clock gating cells instead of defining in the clock domain. Or you can wait for the coming improved version of the clock domain class.
+If that behaviour is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.
 
 Context
 ^^^^^^^
