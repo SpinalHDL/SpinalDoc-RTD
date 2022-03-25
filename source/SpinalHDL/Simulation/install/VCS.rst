@@ -2,13 +2,24 @@
 VCS Simulation Configuration
 ==============================
 
-Environnement variable
+Environment variable
 ----------------------
 
-You should have several environnement variables defined before:
+You should have several environment variables defined before:
 
 * ``VCS_HOME``: The home path to your VCS installation.
 * ``VERDI_HOME``: The home path to your Verdi installation.
+* Add ``$VCS_HOME/bin`` and ``$VERDI_HOME/bin`` to your ``PATH``.
+
+Prepend the following paths to your ``LD_LIBRARY_PATH`` 
+
+.. code-block:: bash
+
+  export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/VCS/LINUX64:$LD_LIBRARY_PATH 
+  export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/IUS/LINUX64:$LD_LIBRARY_PATH 
+  export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/lib/LINUX64:$LD_LIBRARY_PATH 
+  export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/Ius/LINUX64:$LD_LIBRARY_PATH 
+  export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/MODELSIM/LINUX64:$LD_LIBRARY_PATH 
 
 VCS Flags
 ---------
