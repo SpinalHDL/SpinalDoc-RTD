@@ -262,6 +262,37 @@ The arguments to the ``ClockDomain.external`` function are exactly the same as i
      }
    }
 
+Signal priorities in HDL generation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In the current version, reset and clock enable signals have different priorities. Their order is : ``asyncReset``, ``clockEnable``, ``syncReset`` and ``softReset``.
+
+Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reseted.
+
+Here is an example:
+
+.. code-block:: scala
+
+  val clockedArea = new ClockEnableArea(clockEnable) {
+    val reg = RegNext(io.input) init False
+  }
+
+It will generate VerilogHDL codes like:
+
+.. code-block:: verilog
+
+  always @(posedge clk) begin
+    if(clockedArea_newClockEnable) begin
+      if(!resetn) begin
+        clockedArea_reg <= 1'b0;
+      end else begin
+        clockedArea_reg <= io_input;
+      end
+    end
+  end
+
+If that behaviour is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.
+
 Context
 ^^^^^^^
 
