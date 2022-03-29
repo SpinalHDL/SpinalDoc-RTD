@@ -636,6 +636,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#streamfifo">StreamFifo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamfifocc">StreamFifoCC</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamccbytoggle">StreamCCByToggle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streamwidthadapter">StreamWidthAdapter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamarbiter">StreamArbiter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamjoin">StreamJoin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamfork">StreamFork</a></li>
@@ -1587,6 +1588,27 @@ Be careful with that.</p></li>
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="streamwidthadapter">
+<h3>StreamWidthAdapter<a class="headerlink" href="#streamwidthadapter" title="Permalink to this headline">¶</a></h3>
+<p>This component adapts the width of the input stream to the output stream.
+When the width of the <code class="docutils literal notranslate"><span class="pre">outStream</span></code> payload is greater than the <code class="docutils literal notranslate"><span class="pre">inStream</span></code>, by combining the payloads of several input transactions into one; conversely, if the payload width of the <code class="docutils literal notranslate"><span class="pre">outStream</span></code> is less than the <code class="docutils literal notranslate"><span class="pre">inStream</span></code>, one input transaction will be split into several output transactions.</p>
+<p>In the best case, the width of the payload of the <code class="docutils literal notranslate"><span class="pre">inStream</span></code> should be an integer multiple of the <code class="docutils literal notranslate"><span class="pre">outStream</span></code> as shown below.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">inStream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">))</span>
+<span class="kd">val</span> <span class="n">outStream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span> <span class="n">bits</span><span class="p">))</span>
+<span class="kd">val</span> <span class="n">adapter</span> <span class="o">=</span> <span class="nc">StreamWidthAdapter</span><span class="p">(</span><span class="n">inStream</span><span class="p">,</span> <span class="n">outStream</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As in the example above, the two <code class="docutils literal notranslate"><span class="pre">inStream</span></code> transactions will be merged into one <code class="docutils literal notranslate"><span class="pre">outStream</span></code> transaction, and the payload of the first input transaction will be placed on the lower bits of the output payload by default.</p>
+<p>If the expected order of input transaction payload placement is different from the default setting, here is an example.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">inStream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">))</span>
+<span class="kd">val</span> <span class="n">outStream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span> <span class="n">bits</span><span class="p">))</span>
+<span class="kd">val</span> <span class="n">adapter</span> <span class="o">=</span> <span class="nc">StreamWidthAdapter</span><span class="p">(</span><span class="n">inStream</span><span class="p">,</span> <span class="n">outStream</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="nc">SlicesOrder</span><span class="p">.</span><span class="nc">HIGHER_FIRST</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is also a traditional parameter called <code class="docutils literal notranslate"><span class="pre">endianness</span></code>, which has the same effect as <code class="docutils literal notranslate"><span class="pre">ORDER</span></code>.
+The value of <code class="docutils literal notranslate"><span class="pre">endianness</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">LOWER_FIRST</span></code> of <code class="docutils literal notranslate"><span class="pre">order</span></code> when it is <code class="docutils literal notranslate"><span class="pre">LITTLE</span></code>, and the same as <code class="docutils literal notranslate"><span class="pre">HIGHER_FIRST</span></code> when it is <code class="docutils literal notranslate"><span class="pre">BIG</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">padding</span></code> parameter is an optional boolean value to determine whether the adapter accepts non-integer multiples of the input and output payload width.</p>
 </div>
 <div class="section" id="streamarbiter">
 <h3>StreamArbiter<a class="headerlink" href="#streamarbiter" title="Permalink to this headline">¶</a></h3>
