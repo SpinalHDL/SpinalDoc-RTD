@@ -399,7 +399,7 @@ If the expected order of input transaction payload placement is different from t
 
 There is also a traditional parameter called ``endianness``, which has the same effect as ``ORDER``. 
 The value of ``endianness`` is the same as ``LOWER_FIRST`` of ``order`` when it is ``LITTLE``, and the same as ``HIGHER_FIRST`` when it is ``BIG``.
-The ``padding`` parameter is an optional boolean value to determine whether the adapter accepts non-integer multiples of the input and output payload width ratios.
+The ``padding`` parameter is an optional boolean value to determine whether the adapter accepts non-integer multiples of the input and output payload width.
 
 
 StreamArbiter
