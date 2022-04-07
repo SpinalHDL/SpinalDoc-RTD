@@ -442,7 +442,7 @@ In general, you can use 2 or more flip-flop driven by the destination clock doma
    }
 
 .. warning::
-   The ``BufferCC`` function is only for signals of type ``Bit``, or ``Bits`` operating as Gray-coded counters (only 1 bit-flip per clock cycle), and can not used for multi-bit cross-domain processes.
+   The ``BufferCC`` function is only for signals of type ``Bit``, or ``Bits`` operating as Gray-coded counters (only 1 bit-flip per clock cycle), and can not used for multi-bit cross-domain processes. For multi-bit cases, it is recommended to use ``StreamFifoCC`` for high bandwidth requirements, or use ``StreamCCByToggle`` to reduce resource usage in cases where bandwidth is not critical.
 
 Special clocking Areas
 ----------------------
