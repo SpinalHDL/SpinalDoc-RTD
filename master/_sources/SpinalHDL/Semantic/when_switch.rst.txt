@@ -174,6 +174,9 @@ Also, if all possible values are covered in your mux, you can omit the default v
      2 -> (io.src0 ^ io.src1),
      3 -> (io.src0)
    )
+   
+Alternatively, if the uncovered values are not important, they can be left unassigned by using ``muxListDc``
+
 
 ``muxLists(...)`` is another bitwise selection which takes a sequence of tuples as input. Below is an example of dividing a ``Bits`` of 128 bits into 32 bits:
 
