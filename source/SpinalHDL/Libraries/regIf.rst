@@ -121,6 +121,7 @@ HTML auto-doc is now complete, Example source Code:
 
 .. RegIfExample link: https://github.com/jijingg/SpinalHDL/tree/dev/tester/src/main/scala/spinal/tester/code/RegIfExample.scala
 .. Axi4liteRegIfExample link: https://github.com/jijingg/SpinalHDL/tree/dev/tester/src/main/scala/spinal/tester/code/Axi4liteRegIfExample.scala
+   
 generated HTML document:
 
 .. image:: /asset/image/regif/regif-html.png
