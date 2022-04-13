@@ -238,14 +238,17 @@ SpinalUsage:
  
 Spinal Factory
 --------------
-
-=============================  ============================================================
-BusInterface method                       
-=============================  ============================================================
-``InterruptFactory``           creat RAW/FORCE/MASK/STATUS for pulse event      
-``InterruptFactoryNoForce``    creat RAW/MASK/STATUS for pulse event      
-``InterruptFactory``           creat MASK/STATUS for level_int merge       
-=============================  ============================================================
+                                                                                                                                                 
+=================================================================================== ===========================================================
+BusInterface method                                                                 Description                                                        
+=================================================================================== ===========================================================
+``InterruptFactory(regNamePre: String, triggers: Bool*)``                            creat RAW/FORCE/MASK/STATUS for pulse event      
+``InterruptFactoryNoForce(regNamePre: String, triggers: Bool*)``                     creat RAW/MASK/STATUS for pulse event      
+``InterruptFactory(regNamePre: String, triggers: Bool*)``                            creat MASK/STATUS for level_int merge       
+``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         creat RAW/FORCE/MASK/STATUS for pulse event at addrOffset 
+``InterruptFactoryNoForceAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``  creat RAW/MASK/STATUS for pulse event at addrOffset     
+``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         creat MASK/STATUS for level_int merge at addrOffset      
+=================================================================================== ===========================================================
                                
 Example
 -------
