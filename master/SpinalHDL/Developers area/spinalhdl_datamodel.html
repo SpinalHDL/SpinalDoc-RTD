@@ -1014,6 +1014,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#compilation-phases">Compilation Phases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modifying-a-netlist-as-a-user-without-plugins">Modifying a netlist as a user without plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#user-space-netlist-analysis">User space netlist analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enumerating-every-clockdomain-used">Enumerating every ClockDomain used</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="types.html">Types</a><ul>
@@ -1316,6 +1317,47 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 </div>
 <p>Here you can find the implementation of that LatencyAnalysis tool :
 &lt;<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620">https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620</a>&gt;</p>
+</div>
+<div class="section" id="enumerating-every-clockdomain-used">
+<h2>Enumerating every ClockDomain used<a class="headerlink" href="#enumerating-every-clockdomain-used" title="Permalink to this headline">¶</a></h2>
+<p>So here it is done after the elaboration using the SpinalHDL report.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">MyTopLevelVerilog</span> <span class="k">extends</span> <span class="nc">App</span><span class="p">{</span>
+  <span class="k">class</span> <span class="nc">MyTopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="n">cdA</span> <span class="o">=</span> <span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;rawrr&quot;</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="n">regA</span> <span class="o">=</span> <span class="n">cdA</span><span class="p">(</span><span class="nc">RegNext</span><span class="p">(</span><span class="nc">False</span><span class="p">))</span>
+
+    <span class="kd">val</span> <span class="n">sub</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Component</span> <span class="p">{</span>
+      <span class="kd">val</span> <span class="n">cdB</span> <span class="o">=</span> <span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;miaou&quot;</span><span class="p">)</span>
+      <span class="kd">val</span> <span class="n">regB</span> <span class="o">=</span> <span class="n">cdB</span><span class="p">(</span><span class="nc">RegNext</span><span class="p">(</span><span class="nc">False</span><span class="p">))</span>
+
+      <span class="kd">val</span> <span class="n">clkC</span> <span class="o">=</span> <span class="nc">CombInit</span><span class="p">(</span><span class="n">regB</span><span class="p">)</span>
+      <span class="kd">val</span> <span class="n">cdC</span> <span class="o">=</span> <span class="nc">ClockDomain</span><span class="p">(</span><span class="n">clkC</span><span class="p">)</span>
+      <span class="kd">val</span> <span class="n">regC</span> <span class="o">=</span> <span class="n">cdC</span><span class="p">(</span><span class="nc">RegNext</span><span class="p">(</span><span class="nc">False</span><span class="p">))</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">val</span> <span class="n">report</span> <span class="o">=</span> <span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span> <span class="nc">MyTopLevel</span><span class="p">)</span>
+
+  <span class="kd">val</span> <span class="n">clockDomains</span> <span class="o">=</span> <span class="n">mutable</span><span class="p">.</span><span class="nc">LinkedHashSet</span><span class="p">[</span><span class="nc">ClockDomain</span><span class="p">]()</span>
+  <span class="n">report</span><span class="p">.</span><span class="n">toplevel</span><span class="p">.</span><span class="n">walkComponents</span><span class="p">(</span><span class="n">c</span> <span class="o">=&gt;</span>
+    <span class="n">c</span><span class="p">.</span><span class="n">dslBody</span><span class="p">.</span><span class="n">walkStatements</span><span class="p">(</span><span class="n">s</span> <span class="o">=&gt;</span>
+      <span class="n">s</span><span class="p">.</span><span class="n">foreachClockDomain</span><span class="p">(</span><span class="n">cd</span> <span class="o">=&gt;</span>
+        <span class="n">clockDomains</span> <span class="o">+=</span> <span class="n">cd</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+
+  <span class="n">println</span><span class="p">(</span><span class="s">&quot;ClockDomains : &quot;</span> <span class="o">+</span> <span class="n">clockDomains</span><span class="p">.</span><span class="n">mkString</span><span class="p">(</span><span class="s">&quot;, &quot;</span><span class="p">))</span>
+  <span class="kd">val</span> <span class="n">externals</span> <span class="o">=</span> <span class="n">clockDomains</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">_</span><span class="p">.</span><span class="n">clock</span><span class="p">.</span><span class="n">component</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span>
+  <span class="n">println</span><span class="p">(</span><span class="s">&quot;Externals : &quot;</span> <span class="o">+</span> <span class="n">externals</span><span class="p">.</span><span class="n">mkString</span><span class="p">(</span><span class="s">&quot;, &quot;</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Will print out</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ClockDomains</span> <span class="p">:</span> <span class="n">rawrr_clk</span><span class="p">,</span> <span class="n">miaou_clk</span><span class="p">,</span> <span class="n">clkC</span>
+<span class="n">Externals</span> <span class="p">:</span> <span class="n">rawrr_clk</span><span class="p">,</span> <span class="n">miaou_clk</span>
+</pre></div>
+</div>
 </div>
 </div>
 
