@@ -242,3 +242,51 @@ The SpinalHDL datamodel is also readable during usertime elaboration. Here is is
 
 Here you can find the implementation of that LatencyAnalysis tool : 
 <https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620>
+
+
+Enumerating every ClockDomain used
+----------------------------------------------------
+
+So here it is done after the elaboration using the SpinalHDL report.
+
+.. code-block:: scala
+
+
+    object MyTopLevelVerilog extends App{
+      class MyTopLevel extends Component {
+        val cdA = ClockDomain.external("rawrr")
+        val regA = cdA(RegNext(False))
+
+        val sub = new Component {
+          val cdB = ClockDomain.external("miaou")
+          val regB = cdB(RegNext(False))
+
+          val clkC = CombInit(regB)
+          val cdC = ClockDomain(clkC)
+          val regC = cdC(RegNext(False))
+        }
+      }
+
+      val report = SpinalVerilog(new MyTopLevel)
+
+      val clockDomains = mutable.LinkedHashSet[ClockDomain]()
+      report.toplevel.walkComponents(c =>
+        c.dslBody.walkStatements(s =>
+          s.foreachClockDomain(cd =>
+            clockDomains += cd
+          )
+        )
+      )
+
+      println("ClockDomains : " + clockDomains.mkString(", "))
+      val externals = clockDomains.filter(_.clock.component == null)
+      println("Externals : " + externals.mkString(", "))
+    }
+    
+Will print out 
+
+.. code-block:: 
+
+    ClockDomains : rawrr_clk, miaou_clk, clkC
+    Externals : rawrr_clk, miaou_clk
+
