@@ -518,13 +518,13 @@ If you want to define an interface, let's imagine an APB interface, you can also
              selWidth : Int,
              useSlaveError : Boolean) extends Bundle {
 
-     val PADDR      = UInt(addressWidth bit)
+     val PADDR      = UInt(addressWidth bits)
      val PSEL       = Bits(selWidth bits)
      val PENABLE    = Bool
      val PREADY     = Bool
      val PWRITE     = Bool
-     val PWDATA     = Bits(dataWidth bit)
-     val PRDATA     = Bits(dataWidth bit)
+     val PWDATA     = Bits(dataWidth bits)
+     val PRDATA     = Bits(dataWidth bits)
      val PSLVERROR  = if(useSlaveError) Bool() else null   //This wire is created only when useSlaveError is true
    }
 
@@ -546,13 +546,13 @@ Also if one time you need to add another construction parameter, you will only h
                         useSlaveError : Boolean)
 
    class APB(val config: APBConfig) extends Bundle {   //[val] config, make the configuration public
-     val PADDR      = UInt(config.addressWidth bit)
+     val PADDR      = UInt(config.addressWidth bits)
      val PSEL       = Bits(config.selWidth bits)
      val PENABLE    = Bool
      val PREADY     = Bool
      val PWRITE     = Bool
-     val PWDATA     = Bits(config.dataWidth bit)
-     val PRDATA     = Bits(config.dataWidth bit)
+     val PWDATA     = Bits(config.dataWidth bits)
+     val PRDATA     = Bits(config.dataWidth bits)
      val PSLVERROR  = if(config.useSlaveError) Bool() else null
    }
 
@@ -573,13 +573,13 @@ Then at some points, you will probably need to use the APB bus as master or as s
                         useSlaveError : Boolean)
 
    class APB(val config: APBConfig) extends Bundle {
-     val PADDR      = UInt(config.addressWidth bit)
+     val PADDR      = UInt(config.addressWidth bits)
      val PSEL       = Bits(config.selWidth bits)
      val PENABLE    = Bool
      val PREADY     = Bool
      val PWRITE     = Bool
-     val PWDATA     = Bits(config.dataWidth bit)
-     val PRDATA     = Bits(config.dataWidth bit)
+     val PWDATA     = Bits(config.dataWidth bits)
+     val PRDATA     = Bits(config.dataWidth bits)
      val PSLVERROR  = if(config.useSlaveError) Bool() else null
 
      def asMaster(): this.type = {
@@ -623,13 +623,13 @@ There is an example of an APB bus that implement this IMasterSlave :
                         useSlaveError : Boolean)
 
    class APB(val config: APBConfig) extends Bundle with IMasterSlave {
-     val PADDR      = UInt(addressWidth bit)
+     val PADDR      = UInt(addressWidth bits)
      val PSEL       = Bits(selWidth bits)
      val PENABLE    = Bool
      val PREADY     = Bool
      val PWRITE     = Bool
-     val PWDATA     = Bits(dataWidth bit)
-     val PRDATA     = Bits(dataWidth bit)
+     val PWDATA     = Bits(dataWidth bits)
+     val PRDATA     = Bits(dataWidth bits)
      val PSLVERROR  = if(useSlaveError) Bool() else null   //This wire is created only when useSlaveError is true
 
      override def asMaster() : Unit = {

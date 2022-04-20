@@ -177,9 +177,9 @@ The following code will create this logic :
 .. code-block:: scala
 
    case class RGB(channelWidth : Int) extends Bundle{
-     val red   = UInt(channelWidth bit)
-     val green = UInt(channelWidth bit)
-     val blue  = UInt(channelWidth bit)
+     val red   = UInt(channelWidth bits)
+     val green = UInt(channelWidth bits)
+     val blue  = UInt(channelWidth bits)
 
      def isBlack : Bool = red === 0 && green === 0 && blue === 0
    }

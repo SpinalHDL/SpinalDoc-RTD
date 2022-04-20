@@ -400,7 +400,7 @@ Misc
      - Bool
    * - x.expand
      - Return x with 1 bit expand
-     - T(w(x)+1 bit)
+     - T(w(x)+1 bits)
    * - mySInt.absWithSym
      - Return the absolute value of the UInt value with symmetric, shrink 1 bit
      - UInt(w(mySInt) - 1, bits)
@@ -488,7 +488,7 @@ You will find `ROUNDUP`, `ROUNDDOWN`, `ROUNDTOZERO`, `ROUNDTOINF`, `ROUNDTOEVEN`
 
 .. code-block:: scala
 
-   val A  = SInt(16 bit)
+   val A  = SInt(16 bits)
    val B  = A.roundToInf(6 bits) // default 'align = false' with carry, got 11 bit
    val B  = A.roundToInf(6 bits, align = true) // sat 1 carry bit, got 10 bit
    val B  = A.floor(6 bits)             // return 10 bit
@@ -546,7 +546,7 @@ Symmetric is only valid for ``SInt``.
 
 .. code-block:: scala
 
-   val A  = SInt(8 bit)
+   val A  = SInt(8 bits)
    val B  = A.sat(3 bits)      // return 5 bits with saturated highest 3 bits
    val B  = A.sat(3)           // equal to sat(3 bits)
    val B  = A.trim(3 bits)     // return 5 bits with the highest 3 bits discarded
@@ -573,7 +573,7 @@ Factory Fix function with Auto Saturation:
 
 .. code-block:: scala
 
-   val A  = SInt(16 bit)
+   val A  = SInt(16 bits)
    val B  = A.fixTo(10 downto 3) // default RoundType.ROUNDTOINF, sym = false
    val B  = A.fixTo( 8 downto 0, RoundType.ROUNDUP)
    val B  = A.fixTo( 9 downto 3, RoundType.CEIL,       sym = false)
