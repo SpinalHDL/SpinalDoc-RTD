@@ -47,12 +47,12 @@ It also support Bundle assignment, Bundle multiple signals together use ``()`` t
 .. code-block:: scala
 
    val a, b, c = UInt(4 bits)
-   val d       = UInt(12 bit)
-   val e       = Bits(10 bit)
-   val f       = SInt(2  bit)
+   val d       = UInt(12 bits)
+   val e       = Bits(10 bits)
+   val f       = SInt(2  bits)
    val g       = Bits()
 
-   (a, b, c) := B(0, 12 bit)
+   (a, b, c) := B(0, 12 bits)
    (a, b, c) := d.asBits
    (a, b, c) := (e, f).asBits
    g         := (a, b, c, e, f).asBits

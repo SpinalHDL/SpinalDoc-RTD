@@ -75,13 +75,13 @@ Then we can define the APB3 ``Bundle`` which will be used to represent the bus i
 .. code-block:: scala
 
    case class Apb3(config: Apb3Config) extends Bundle with IMasterSlave {
-     val PADDR      = UInt(config.addressWidth bit)
+     val PADDR      = UInt(config.addressWidth bits)
      val PSEL       = Bits(config.selWidth bits)
      val PENABLE    = Bool()
      val PREADY     = Bool()
      val PWRITE     = Bool()
-     val PWDATA     = Bits(config.dataWidth bit)
-     val PRDATA     = Bits(config.dataWidth bit)
+     val PWDATA     = Bits(config.dataWidth bits)
+     val PRDATA     = Bits(config.dataWidth bits)
      val PSLVERROR  = if(config.useSlaveError) Bool else null
 
      override def asMaster(): Unit = {
