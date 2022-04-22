@@ -63,7 +63,7 @@ An applied example to define a specific clock domain within the design is as fol
 
    // Use this domain in an area of the design
    val coreArea = new ClockingArea(coreClockDomain){
-     val coreClockedRegister = Reg(UInt(4 bit))
+     val coreClockedRegister = Reg(UInt(4 bits))
    }
 
 Clock configuration
@@ -143,10 +143,10 @@ SpinalHDL checks at compile time that there is no unwanted/unspecified cross clo
 
 .. code-block:: scala
 
-   val asynchronousSignal = UInt(8 bit)
+   val asynchronousSignal = UInt(8 bits)
    ...
-   val buffer0 = Reg(UInt(8 bit)).addTag(crossClockDomain)
-   val buffer1 = Reg(UInt(8 bit))
+   val buffer0 = Reg(UInt(8 bits)).addTag(crossClockDomain)
+   val buffer1 = Reg(UInt(8 bits))
    buffer0 := asynchronousSignal
    buffer1 := buffer0   // Second register stage to be avoid metastability issues
 
@@ -181,14 +181,14 @@ There are multiple assignment operator :
 .. code-block:: scala
 
    //Because of hardware concurrency is always read with the value '1' by b and c
-   val a,b,c = UInt(4 bit)
+   val a,b,c = UInt(4 bits)
    a := 0
    b := a
    a := 1  //a := 1 win
    c := a  
 
-   var x = UInt(4 bit)
-   val y,z = UInt(4 bit)
+   var x = UInt(4 bits)
+   val y,z = UInt(4 bits)
    x := 0
    y := x      //y read x with the value 0
    x \= x + 1
@@ -312,7 +312,7 @@ Syntax to define in/out is the following :
    * - in/out Bool
      - Create an input/output Bool
      - Bool
-   * - in/out Bits/UInt/SInt[(x bit)]
+   * - in/out Bits/UInt/SInt[(x bits)]
      - Create an input/output of the corresponding type
      - T
 
@@ -334,7 +334,7 @@ Sometime, creating a component to define some logic is overkill and to much verb
    class UartCtrl extends Component {
      ...
      val timer = new Area {
-       val counter = Reg(UInt(8 bit))
+       val counter = Reg(UInt(8 bits))
        val tick = counter === 0
        counter := counter - 1
        when(tick) {
@@ -342,7 +342,7 @@ Sometime, creating a component to define some logic is overkill and to much verb
        }
      }
      val tickCounter = new Area {
-       val value = Reg(UInt(3 bit))
+       val value = Reg(UInt(3 bits))
        val reset = False
        when(timer.tick) {          // Refer to the tick from timer area
          value := value + 1
@@ -495,13 +495,13 @@ Instanciate VHDL and Verilog IP
 
        val wr = new Bundle {
          val en = in Bool
-         val addr = in UInt (log2Up(_wordCount) bit)
-         val data = in Bits (_wordWidth bit)
+         val addr = in UInt (log2Up(_wordCount) bits)
+         val data = in Bits (_wordWidth bits)
        }
        val rd = new Bundle {
          val en = in Bool
-         val addr = in UInt (log2Up(_wordCount) bit)
-         val data = out Bits (_wordWidth bit)
+         val addr = in UInt (log2Up(_wordCount) bits)
+         val data = out Bits (_wordWidth bits)
        }
      }
 

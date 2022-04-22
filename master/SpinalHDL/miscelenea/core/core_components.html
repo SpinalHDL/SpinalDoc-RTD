@@ -1152,7 +1152,7 @@
 
 <span class="c1">// Use this domain in an area of the design</span>
 <span class="kd">val</span> <span class="n">coreArea</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ClockingArea</span><span class="p">(</span><span class="n">coreClockDomain</span><span class="p">){</span>
-  <span class="kd">val</span> <span class="n">coreClockedRegister</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span> <span class="n">bit</span><span class="p">))</span>
+  <span class="kd">val</span> <span class="n">coreClockedRegister</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span> <span class="n">bits</span><span class="p">))</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1234,10 +1234,10 @@
 <div class="section" id="cross-clock-domain">
 <h3>Cross Clock Domain<a class="headerlink" href="#cross-clock-domain" title="Permalink to this headline">¶</a></h3>
 <p>SpinalHDL checks at compile time that there is no unwanted/unspecified cross clock domain signal reads. If you want to read a signal that is emitted by another <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> area, you should add the <code class="docutils literal notranslate"><span class="pre">crossClockDomain</span></code> tag to the destination signal as depicted in the following example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">asynchronousSignal</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bit</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">asynchronousSignal</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">)</span>
 <span class="p">...</span>
-<span class="kd">val</span> <span class="n">buffer0</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bit</span><span class="p">)).</span><span class="n">addTag</span><span class="p">(</span><span class="n">crossClockDomain</span><span class="p">)</span>
-<span class="kd">val</span> <span class="n">buffer1</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bit</span><span class="p">))</span>
+<span class="kd">val</span> <span class="n">buffer0</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">)).</span><span class="n">addTag</span><span class="p">(</span><span class="n">crossClockDomain</span><span class="p">)</span>
+<span class="kd">val</span> <span class="n">buffer1</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">))</span>
 <span class="n">buffer0</span> <span class="o">:=</span> <span class="n">asynchronousSignal</span>
 <span class="n">buffer1</span> <span class="o">:=</span> <span class="n">buffer0</span>   <span class="c1">// Second register stage to be avoid metastability issues</span>
 </pre></div>
@@ -1287,14 +1287,14 @@
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Because of hardware concurrency is always read with the value &#39;1&#39; by b and c</span>
-<span class="kd">val</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span> <span class="n">bit</span><span class="p">)</span>
+<span class="kd">val</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span> <span class="n">bits</span><span class="p">)</span>
 <span class="n">a</span> <span class="o">:=</span> <span class="mi">0</span>
 <span class="n">b</span> <span class="o">:=</span> <span class="n">a</span>
 <span class="n">a</span> <span class="o">:=</span> <span class="mi">1</span>  <span class="c1">//a := 1 win</span>
 <span class="n">c</span> <span class="o">:=</span> <span class="n">a</span>
 
-<span class="kd">var</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span> <span class="n">bit</span><span class="p">)</span>
-<span class="kd">val</span> <span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span> <span class="n">bit</span><span class="p">)</span>
+<span class="kd">var</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span> <span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span> <span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span> <span class="n">bits</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">:=</span> <span class="mi">0</span>
 <span class="n">y</span> <span class="o">:=</span> <span class="n">x</span>      <span class="c1">//y read x with the value 0</span>
 <span class="n">x</span> <span class="o">\=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
@@ -1433,7 +1433,7 @@
 <td><p>Create an input/output Bool</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-even"><td><p>in/out Bits/UInt/SInt[(x bit)]</p></td>
+<tr class="row-even"><td><p>in/out Bits/UInt/SInt[(x bits)]</p></td>
 <td><p>Create an input/output of the corresponding type</p></td>
 <td><p>T</p></td>
 </tr>
@@ -1452,7 +1452,7 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">UartCtrl</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
   <span class="p">...</span>
   <span class="kd">val</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">counter</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">counter</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">tick</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">===</span> <span class="mi">0</span>
     <span class="n">counter</span> <span class="o">:=</span> <span class="n">counter</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">when</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
@@ -1460,7 +1460,7 @@
     <span class="p">}</span>
   <span class="p">}</span>
   <span class="kd">val</span> <span class="n">tickCounter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">3</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">3</span> <span class="n">bits</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">reset</span> <span class="o">=</span> <span class="nc">False</span>
     <span class="n">when</span><span class="p">(</span><span class="n">timer</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="p">{</span>          <span class="c1">// Refer to the tick from timer area</span>
       <span class="n">value</span> <span class="o">:=</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span>
@@ -1625,13 +1625,13 @@
 
     <span class="kd">val</span> <span class="n">wr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
       <span class="kd">val</span> <span class="n">en</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-      <span class="kd">val</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span> <span class="n">bit</span><span class="p">)</span>
-      <span class="kd">val</span> <span class="n">data</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bits</span> <span class="p">(</span><span class="n">_wordWidth</span> <span class="n">bit</span><span class="p">)</span>
+      <span class="kd">val</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span> <span class="n">bits</span><span class="p">)</span>
+      <span class="kd">val</span> <span class="n">data</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bits</span> <span class="p">(</span><span class="n">_wordWidth</span> <span class="n">bits</span><span class="p">)</span>
     <span class="p">}</span>
     <span class="kd">val</span> <span class="n">rd</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
       <span class="kd">val</span> <span class="n">en</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-      <span class="kd">val</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span> <span class="n">bit</span><span class="p">)</span>
-      <span class="kd">val</span> <span class="n">data</span> <span class="o">=</span> <span class="n">out</span> <span class="nc">Bits</span> <span class="p">(</span><span class="n">_wordWidth</span> <span class="n">bit</span><span class="p">)</span>
+      <span class="kd">val</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">UInt</span> <span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span> <span class="n">bits</span><span class="p">)</span>
+      <span class="kd">val</span> <span class="n">data</span> <span class="o">=</span> <span class="n">out</span> <span class="nc">Bits</span> <span class="p">(</span><span class="n">_wordWidth</span> <span class="n">bits</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
 

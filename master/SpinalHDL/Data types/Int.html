@@ -1654,7 +1654,7 @@
 </tr>
 <tr class="row-odd"><td><p>x.expand</p></td>
 <td><p>Return x with 1 bit expand</p></td>
-<td><p>T(w(x)+1 bit)</p></td>
+<td><p>T(w(x)+1 bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>mySInt.absWithSym</p></td>
 <td><p>Return the absolute value of the UInt value with symmetric, shrink 1 bit</p></td>
@@ -1849,7 +1849,7 @@
 <p class="admonition-title">Note</p>
 <p>In SpinalHDL <cite>ROUNDTOINF</cite> is the default RoundType (<code class="docutils literal notranslate"><span class="pre">round</span> <span class="pre">=</span> <span class="pre">roundToInf</span></code>)</p>
 </div>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="nc">A</span>  <span class="o">=</span> <span class="nc">SInt</span><span class="p">(</span><span class="mi">16</span> <span class="n">bit</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="nc">A</span>  <span class="o">=</span> <span class="nc">SInt</span><span class="p">(</span><span class="mi">16</span> <span class="n">bits</span><span class="p">)</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">roundToInf</span><span class="p">(</span><span class="mi">6</span> <span class="n">bits</span><span class="p">)</span> <span class="c1">// default &#39;align = false&#39; with carry, got 11 bit</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">roundToInf</span><span class="p">(</span><span class="mi">6</span> <span class="n">bits</span><span class="p">,</span> <span class="n">align</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="c1">// sat 1 carry bit, got 10 bit</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">6</span> <span class="n">bits</span><span class="p">)</span>             <span class="c1">// return 10 bit</span>
@@ -1988,7 +1988,7 @@ As a result, <code class="docutils literal notranslate"><span class="pre">roundU
 </tbody>
 </table>
 <p>Symmetric is only valid for <code class="docutils literal notranslate"><span class="pre">SInt</span></code>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="nc">A</span>  <span class="o">=</span> <span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bit</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="nc">A</span>  <span class="o">=</span> <span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span> <span class="n">bits</span><span class="p">)</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">sat</span><span class="p">(</span><span class="mi">3</span> <span class="n">bits</span><span class="p">)</span>      <span class="c1">// return 5 bits with saturated highest 3 bits</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">sat</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>           <span class="c1">// equal to sat(3 bits)</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">trim</span><span class="p">(</span><span class="mi">3</span> <span class="n">bits</span><span class="p">)</span>     <span class="c1">// return 5 bits with the highest 3 bits discarded</span>
@@ -2023,7 +2023,7 @@ As a result, <code class="docutils literal notranslate"><span class="pre">roundU
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="nc">A</span>  <span class="o">=</span> <span class="nc">SInt</span><span class="p">(</span><span class="mi">16</span> <span class="n">bit</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="nc">A</span>  <span class="o">=</span> <span class="nc">SInt</span><span class="p">(</span><span class="mi">16</span> <span class="n">bits</span><span class="p">)</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">fixTo</span><span class="p">(</span><span class="mi">10</span> <span class="n">downto</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">// default RoundType.ROUNDTOINF, sym = false</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">fixTo</span><span class="p">(</span> <span class="mi">8</span> <span class="n">downto</span> <span class="mi">0</span><span class="p">,</span> <span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDUP</span><span class="p">)</span>
 <span class="kd">val</span> <span class="nc">B</span>  <span class="o">=</span> <span class="nc">A</span><span class="p">.</span><span class="n">fixTo</span><span class="p">(</span> <span class="mi">9</span> <span class="n">downto</span> <span class="mi">3</span><span class="p">,</span> <span class="nc">RoundType</span><span class="p">.</span><span class="nc">CEIL</span><span class="p">,</span>       <span class="n">sym</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>

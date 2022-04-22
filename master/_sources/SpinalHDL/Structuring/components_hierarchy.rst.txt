@@ -54,7 +54,7 @@ The syntax to define inputs and outputs is as follows:
    * - in Bool()/out Bool()
      - Create an input Bool/output Bool
      - Bool
-   * - in/out Bits/UInt/SInt[(x bit)]
+   * - in/out Bits/UInt/SInt[(x bits)]
      - Create an input/output of the corresponding type
      - Bits/UInt/SInt
    * - in/out(T)

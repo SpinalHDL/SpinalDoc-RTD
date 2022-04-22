@@ -1248,14 +1248,14 @@
 <h3>UartCtrl configuration Bundles<a class="headerlink" href="#uartctrl-configuration-bundles" title="Permalink to this headline">¶</a></h3>
 <p>Let’s define <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>s that will be used as IO elements to setup <code class="docutils literal notranslate"><span class="pre">UartCtrl</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">UartCtrlFrameConfig</span><span class="p">(</span><span class="n">g</span><span class="p">:</span> <span class="nc">UartCtrlGenerics</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="n">dataLength</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">dataWidthMax</span><span class="p">)</span> <span class="n">bit</span><span class="p">)</span> <span class="c1">//Bit count = dataLength + 1</span>
+  <span class="kd">val</span> <span class="n">dataLength</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">dataWidthMax</span><span class="p">)</span> <span class="n">bits</span><span class="p">)</span> <span class="c1">//Bit count = dataLength + 1</span>
   <span class="kd">val</span> <span class="n">stop</span>       <span class="o">=</span> <span class="nc">UartStopType</span><span class="p">()</span>
   <span class="kd">val</span> <span class="n">parity</span>     <span class="o">=</span> <span class="nc">UartParityType</span><span class="p">()</span>
 <span class="p">}</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">UartCtrlConfig</span><span class="p">(</span><span class="n">g</span><span class="p">:</span> <span class="nc">UartCtrlGenerics</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
   <span class="kd">val</span> <span class="n">frame</span>        <span class="o">=</span> <span class="nc">UartCtrlFrameConfig</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">clockDivider</span> <span class="o">=</span> <span class="nc">UInt</span> <span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">clockDividerWidth</span> <span class="n">bit</span><span class="p">)</span> <span class="c1">//see UartCtrlGenerics.clockDividerWidth for calculation</span>
+  <span class="kd">val</span> <span class="n">clockDivider</span> <span class="o">=</span> <span class="nc">UInt</span> <span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">clockDividerWidth</span> <span class="n">bits</span><span class="p">)</span> <span class="c1">//see UartCtrlGenerics.clockDividerWidth for calculation</span>
 
   <span class="k">def</span> <span class="nf">setClockDivider</span><span class="p">(</span><span class="n">baudrate</span> <span class="p">:</span> <span class="nc">Double</span><span class="p">,</span><span class="n">clkFrequency</span> <span class="p">:</span> <span class="nc">Double</span> <span class="o">=</span> <span class="nc">ClockDomain</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">frequency</span><span class="p">.</span><span class="n">getValue</span><span class="p">)</span> <span class="p">:</span> <span class="nc">Unit</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">clockDivider</span> <span class="o">:=</span> <span class="p">(</span><span class="n">clkFrequency</span> <span class="o">/</span> <span class="n">baudrate</span> <span class="o">/</span> <span class="n">g</span><span class="p">.</span><span class="n">rxSamplePerBit</span><span class="p">).</span><span class="n">toInt</span>
@@ -1320,7 +1320,7 @@
   <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="n">configFrame</span>  <span class="o">=</span> <span class="n">in</span><span class="p">(</span><span class="nc">UartCtrlFrameConfig</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">samplingTick</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span><span class="p">()</span>
-    <span class="kd">val</span> <span class="n">write</span>        <span class="o">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidthMax</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">write</span>        <span class="o">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidthMax</span> <span class="n">bits</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">txd</span>          <span class="o">=</span> <span class="n">out</span> <span class="nc">Bool</span>
   <span class="p">}</span>
 
@@ -1334,7 +1334,7 @@
 
   <span class="c1">// Count up each clockDivider.tick, used by the state machine to count up data bits and stop bits</span>
   <span class="kd">val</span> <span class="n">tickCounter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="nc">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">dataWidthMax</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="nc">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">dataWidthMax</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">bits</span><span class="p">))</span>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">()</span> <span class="o">=</span> <span class="n">value</span> <span class="o">:=</span> <span class="mi">0</span>
     <span class="p">..</span>
   <span class="p">}</span>
@@ -1362,7 +1362,7 @@
   <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="n">configFrame</span>  <span class="o">=</span> <span class="n">in</span><span class="p">(</span><span class="nc">UartCtrlFrameConfig</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">samplingTick</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="kd">val</span> <span class="n">write</span>        <span class="o">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidthMax</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">write</span>        <span class="o">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidthMax</span> <span class="n">bits</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">txd</span>          <span class="o">=</span> <span class="n">out</span> <span class="nc">Bool</span>
   <span class="p">}</span>
 
@@ -1379,7 +1379,7 @@
 
   <span class="c1">// Count up each clockDivider.tick, used by the state machine to count up data bits and stop bits</span>
   <span class="kd">val</span> <span class="n">tickCounter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="nc">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">dataWidthMax</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="nc">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">dataWidthMax</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">bits</span><span class="p">))</span>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">()</span> <span class="o">=</span> <span class="n">value</span> <span class="o">:=</span> <span class="mi">0</span>
 
     <span class="n">when</span><span class="p">(</span><span class="n">clockDivider</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
@@ -1495,7 +1495,7 @@
   <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="n">configFrame</span>  <span class="o">=</span> <span class="n">in</span><span class="p">(</span><span class="nc">UartCtrlFrameConfig</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">samplingTick</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="kd">val</span> <span class="n">read</span>         <span class="o">=</span> <span class="n">master</span> <span class="nc">Flow</span> <span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidthMax</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">read</span>         <span class="o">=</span> <span class="n">master</span> <span class="nc">Flow</span> <span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidthMax</span> <span class="n">bits</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">rxd</span>          <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
   <span class="p">}</span>
 
@@ -1511,7 +1511,7 @@
   <span class="c1">// Provide a bitTimer.tick each rxSamplePerBit</span>
   <span class="c1">// reset() can be called to recenter the counter over a start bit.</span>
   <span class="kd">val</span> <span class="n">bitTimer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">counter</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">rxSamplePerBit</span><span class="p">)</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">counter</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">rxSamplePerBit</span><span class="p">)</span> <span class="n">bits</span><span class="p">))</span>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">()</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">:=</span> <span class="n">preSamplingSize</span> <span class="o">+</span> <span class="p">(</span><span class="n">samplingSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="kd">val</span> <span class="n">tick</span> <span class="o">=</span> <span class="nc">False</span>
     <span class="p">...</span>
@@ -1520,7 +1520,7 @@
   <span class="c1">// Provide bitCounter.value that count up each bitTimer.tick, Used by the state machine to count data bits and stop bits</span>
   <span class="c1">// reset() can be called to reset it to zero</span>
   <span class="kd">val</span> <span class="n">bitCounter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="nc">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">dataWidthMax</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="nc">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">dataWidthMax</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">bits</span><span class="p">))</span>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">()</span> <span class="o">=</span> <span class="n">value</span> <span class="o">:=</span> <span class="mi">0</span>
     <span class="p">...</span>
   <span class="p">}</span>
@@ -1545,7 +1545,7 @@
   <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="n">configFrame</span>  <span class="o">=</span> <span class="n">in</span><span class="p">(</span><span class="nc">UartCtrlFrameConfig</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">samplingTick</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="kd">val</span> <span class="n">read</span>         <span class="o">=</span> <span class="n">master</span> <span class="nc">Flow</span> <span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidthMax</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">read</span>         <span class="o">=</span> <span class="n">master</span> <span class="nc">Flow</span> <span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidthMax</span> <span class="n">bits</span><span class="p">))</span>
     <span class="kd">val</span> <span class="n">rxd</span>          <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
   <span class="p">}</span>
 
@@ -1561,7 +1561,7 @@
   <span class="c1">// Provide a bitTimer.tick each rxSamplePerBit</span>
   <span class="c1">// reset() can be called to recenter the counter over a start bit.</span>
   <span class="kd">val</span> <span class="n">bitTimer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">counter</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">rxSamplePerBit</span><span class="p">)</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">counter</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">rxSamplePerBit</span><span class="p">)</span> <span class="n">bits</span><span class="p">))</span>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">()</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">:=</span> <span class="n">preSamplingSize</span> <span class="o">+</span> <span class="p">(</span><span class="n">samplingSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="kd">val</span> <span class="n">tick</span> <span class="o">=</span> <span class="nc">False</span>
     <span class="n">when</span><span class="p">(</span><span class="n">sampler</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
@@ -1575,7 +1575,7 @@
   <span class="c1">// Provide bitCounter.value that count up each bitTimer.tick, Used by the state machine to count data bits and stop bits</span>
   <span class="c1">// reset() can be called to reset it to zero</span>
   <span class="kd">val</span> <span class="n">bitCounter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="nc">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">dataWidthMax</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">bit</span><span class="p">))</span>
+    <span class="kd">val</span> <span class="n">value</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="nc">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">dataWidthMax</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">bits</span><span class="p">))</span>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">()</span> <span class="o">=</span> <span class="n">value</span> <span class="o">:=</span> <span class="mi">0</span>
 
     <span class="n">when</span><span class="p">(</span><span class="n">bitTimer</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
@@ -1658,8 +1658,8 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">UartCtrl</span><span class="p">(</span><span class="n">g</span> <span class="p">:</span> <span class="nc">UartCtrlGenerics</span> <span class="o">=</span> <span class="nc">UartCtrlGenerics</span><span class="p">())</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
   <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="n">config</span> <span class="o">=</span> <span class="n">in</span><span class="p">(</span><span class="nc">UartCtrlConfig</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
-    <span class="kd">val</span> <span class="n">write</span>  <span class="o">=</span> <span class="n">slave</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">dataWidthMax</span> <span class="n">bit</span><span class="p">)))</span>
-    <span class="kd">val</span> <span class="n">read</span>   <span class="o">=</span> <span class="n">master</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">dataWidthMax</span> <span class="n">bit</span><span class="p">)))</span>
+    <span class="kd">val</span> <span class="n">write</span>  <span class="o">=</span> <span class="n">slave</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">dataWidthMax</span> <span class="n">bits</span><span class="p">)))</span>
+    <span class="kd">val</span> <span class="n">read</span>   <span class="o">=</span> <span class="n">master</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">dataWidthMax</span> <span class="n">bits</span><span class="p">)))</span>
     <span class="kd">val</span> <span class="n">uart</span>   <span class="o">=</span> <span class="n">master</span><span class="p">(</span><span class="nc">Uart</span><span class="p">())</span>
   <span class="p">}</span>
 

@@ -215,7 +215,7 @@ Then let's operate the magic to implement all utile based on them :
                    address : BigInt) : Unit  = {
        val wordCount = (widthOf(that) - 1) / busDataWidth + 1
        val valueBits = that.asBits.resize(wordCount*busDataWidth)
-       val words = (0 until wordCount).map(id => valueBits(id * busDataWidth , busDataWidth bit))
+       val words = (0 until wordCount).map(id => valueBits(id * busDataWidth , busDataWidth bits))
        for (wordId <- (0 until wordCount)) {
          read(words(wordId), address + wordId*busDataWidth/8)
        }

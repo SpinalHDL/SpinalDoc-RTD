@@ -30,9 +30,9 @@ First, we need a three channel color structure (Red, Green, Blue). This data str
    }
 
    case class Rgb(c: RgbConfig) extends Bundle{
-     val r = UInt(c.rWidth bit)
-     val g = UInt(c.gWidth bit)
-     val b = UInt(c.bWidth bit)
+     val r = UInt(c.rWidth bits)
+     val g = UInt(c.gWidth bits)
+     val b = UInt(c.bWidth bits)
    }
 
 VGA bus
@@ -103,10 +103,10 @@ Let's write it in a clearer way:
 .. code-block:: scala
 
    case class VgaTimingsHV(timingsWidth: Int) extends Bundle {
-     val colorStart = UInt(timingsWidth bit)
-     val colorEnd   = UInt(timingsWidth bit)
-     val syncStart  = UInt(timingsWidth bit)
-     val syncEnd    = UInt(timingsWidth bit)
+     val colorStart = UInt(timingsWidth bits)
+     val colorEnd   = UInt(timingsWidth bits)
+     val syncStart  = UInt(timingsWidth bits)
+     val syncEnd    = UInt(timingsWidth bits)
    }
 
    case class VgaTimings(timingsWidth: Int) extends Bundle {
@@ -119,10 +119,10 @@ Then we could add some some functions to set these timings for specific resoluti
 .. code-block:: scala
 
    case class VgaTimingsHV(timingsWidth: Int) extends Bundle {
-     val colorStart = UInt(timingsWidth bit)
-     val colorEnd   = UInt(timingsWidth bit)
-     val syncStart  = UInt(timingsWidth bit)
-     val syncEnd    = UInt(timingsWidth bit)
+     val colorStart = UInt(timingsWidth bits)
+     val colorEnd   = UInt(timingsWidth bits)
+     val syncStart  = UInt(timingsWidth bits)
+     val syncEnd    = UInt(timingsWidth bits)
    }
 
    case class VgaTimings(timingsWidth: Int) extends Bundle {
@@ -220,7 +220,7 @@ Let's define ``HVArea``\ , which represents one ~PWM~ and then instantiate it tw
      val io = new Bundle {...}
 
      case class HVArea(timingsHV: VgaTimingsHV, enable: Bool) extends Area {
-       val counter = Reg(UInt(timingsWidth bit)) init(0)
+       val counter = Reg(UInt(timingsWidth bits)) init(0)
 
        val syncStart  = counter === timingsHV.syncStart
        val syncEnd    = counter === timingsHV.syncEnd

@@ -1754,13 +1754,13 @@
           <span class="n">selWidth</span> <span class="p">:</span> <span class="nc">Int</span><span class="p">,</span>
           <span class="n">useSlaveError</span> <span class="p">:</span> <span class="nc">Boolean</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
 
-  <span class="kd">val</span> <span class="nc">PADDR</span>      <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">addressWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PADDR</span>      <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">addressWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PSEL</span>       <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">selWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PENABLE</span>    <span class="o">=</span> <span class="nc">Bool</span>
   <span class="kd">val</span> <span class="nc">PREADY</span>     <span class="o">=</span> <span class="nc">Bool</span>
   <span class="kd">val</span> <span class="nc">PWRITE</span>     <span class="o">=</span> <span class="nc">Bool</span>
-  <span class="kd">val</span> <span class="nc">PWDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="nc">PRDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PWDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PRDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PSLVERROR</span>  <span class="o">=</span> <span class="k">if</span><span class="p">(</span><span class="n">useSlaveError</span><span class="p">)</span> <span class="nc">Bool</span><span class="p">()</span> <span class="k">else</span> <span class="kc">null</span>   <span class="c1">//This wire is created only when useSlaveError is true</span>
 <span class="p">}</span>
 
@@ -1780,13 +1780,13 @@ Also if one time you need to add another construction parameter, you will only h
                      <span class="n">useSlaveError</span> <span class="p">:</span> <span class="nc">Boolean</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">APB</span><span class="p">(</span><span class="kd">val</span> <span class="n">config</span><span class="p">:</span> <span class="nc">APBConfig</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>   <span class="c1">//[val] config, make the configuration public</span>
-  <span class="kd">val</span> <span class="nc">PADDR</span>      <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PADDR</span>      <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PSEL</span>       <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">selWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PENABLE</span>    <span class="o">=</span> <span class="nc">Bool</span>
   <span class="kd">val</span> <span class="nc">PREADY</span>     <span class="o">=</span> <span class="nc">Bool</span>
   <span class="kd">val</span> <span class="nc">PWRITE</span>     <span class="o">=</span> <span class="nc">Bool</span>
-  <span class="kd">val</span> <span class="nc">PWDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="nc">PRDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PWDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PRDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PSLVERROR</span>  <span class="o">=</span> <span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span> <span class="nc">Bool</span><span class="p">()</span> <span class="k">else</span> <span class="kc">null</span>
 <span class="p">}</span>
 
@@ -1805,13 +1805,13 @@ Also if one time you need to add another construction parameter, you will only h
                      <span class="n">useSlaveError</span> <span class="p">:</span> <span class="nc">Boolean</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">APB</span><span class="p">(</span><span class="kd">val</span> <span class="n">config</span><span class="p">:</span> <span class="nc">APBConfig</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="nc">PADDR</span>      <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PADDR</span>      <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PSEL</span>       <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">selWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PENABLE</span>    <span class="o">=</span> <span class="nc">Bool</span>
   <span class="kd">val</span> <span class="nc">PREADY</span>     <span class="o">=</span> <span class="nc">Bool</span>
   <span class="kd">val</span> <span class="nc">PWRITE</span>     <span class="o">=</span> <span class="nc">Bool</span>
-  <span class="kd">val</span> <span class="nc">PWDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="nc">PRDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PWDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PRDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PSLVERROR</span>  <span class="o">=</span> <span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span> <span class="nc">Bool</span><span class="p">()</span> <span class="k">else</span> <span class="kc">null</span>
 
   <span class="k">def</span> <span class="nf">asMaster</span><span class="p">():</span> <span class="bp">this</span><span class="p">.</span><span class="k">type</span> <span class="o">=</span> <span class="p">{</span>
@@ -1851,13 +1851,13 @@ Also if one time you need to add another construction parameter, you will only h
                      <span class="n">useSlaveError</span> <span class="p">:</span> <span class="nc">Boolean</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">APB</span><span class="p">(</span><span class="kd">val</span> <span class="n">config</span><span class="p">:</span> <span class="nc">APBConfig</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="nc">PADDR</span>      <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">addressWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PADDR</span>      <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">addressWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PSEL</span>       <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">selWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PENABLE</span>    <span class="o">=</span> <span class="nc">Bool</span>
   <span class="kd">val</span> <span class="nc">PREADY</span>     <span class="o">=</span> <span class="nc">Bool</span>
   <span class="kd">val</span> <span class="nc">PWRITE</span>     <span class="o">=</span> <span class="nc">Bool</span>
-  <span class="kd">val</span> <span class="nc">PWDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="nc">PRDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PWDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="nc">PRDATA</span>     <span class="o">=</span> <span class="nc">Bits</span><span class="p">(</span><span class="n">dataWidth</span> <span class="n">bits</span><span class="p">)</span>
   <span class="kd">val</span> <span class="nc">PSLVERROR</span>  <span class="o">=</span> <span class="k">if</span><span class="p">(</span><span class="n">useSlaveError</span><span class="p">)</span> <span class="nc">Bool</span><span class="p">()</span> <span class="k">else</span> <span class="kc">null</span>   <span class="c1">//This wire is created only when useSlaveError is true</span>
 
   <span class="k">override</span> <span class="k">def</span> <span class="nf">asMaster</span><span class="p">()</span> <span class="p">:</span> <span class="nc">Unit</span> <span class="o">=</span> <span class="p">{</span>

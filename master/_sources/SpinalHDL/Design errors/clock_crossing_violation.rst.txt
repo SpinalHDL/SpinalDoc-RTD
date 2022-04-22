@@ -116,7 +116,7 @@ When exchanging single-bit signals (such as ``Bool`` types), or Gray-coded value
       val popCC = new ClockingArea(popClock) {
         val popPtr      = Counter(depth << 1)
         val popPtrGray  = RegNext(toGray(popPtr.valueNext)) init(0)
-        val pushPtrGray = BufferCC(pushToPopGray, B(0, ptrWidth bit))
+        val pushPtrGray = BufferCC(pushToPopGray, B(0, ptrWidth bits))
         val empty       = isEmpty(popPtrGray, pushPtrGray)   
         ...
       }

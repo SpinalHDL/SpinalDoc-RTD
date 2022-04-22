@@ -8,8 +8,8 @@ You can emtpy an Component Hierarchy as stub:
 
     class SubSysModule extends Component{
        val io = new Bundle{
-         val dx = slave(Stream(Bits(32 bit)))
-         val dy = master(Stream(Bits(32 bit)))
+         val dx = slave(Stream(Bits(32 bits)))
+         val dy = master(Stream(Bits(32 bits)))
        }
        io.dy <-< io.dx
     }

@@ -1136,9 +1136,9 @@
 <span class="p">}</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Rgb</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="nc">RgbConfig</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span><span class="p">{</span>
-  <span class="kd">val</span> <span class="n">r</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">g</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">gWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">b</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">bWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">r</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">g</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">gWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">b</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">bWidth</span> <span class="n">bits</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1211,10 +1211,10 @@ slave(Vga(...))
 <p>But this not a very good way to specify it because it is redundant for vertical and horizontal timings.</p>
 <p>Let’s write it in a clearer way:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimingsHV</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="n">colorStart</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">colorEnd</span>   <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">syncStart</span>  <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">syncEnd</span>    <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">colorStart</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">colorEnd</span>   <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">syncStart</span>  <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">syncEnd</span>    <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimings</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
@@ -1225,10 +1225,10 @@ slave(Vga(...))
 </div>
 <p>Then we could add some some functions to set these timings for specific resolutions and frame rates:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimingsHV</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="n">colorStart</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">colorEnd</span>   <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">syncStart</span>  <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">syncEnd</span>    <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">colorStart</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">colorEnd</span>   <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">syncStart</span>  <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="n">syncEnd</span>    <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimings</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
@@ -1332,7 +1332,7 @@ slave(Vga(...))
   <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{...}</span>
 
   <span class="k">case</span> <span class="k">class</span> <span class="nc">HVArea</span><span class="p">(</span><span class="n">timingsHV</span><span class="p">:</span> <span class="nc">VgaTimingsHV</span><span class="p">,</span> <span class="n">enable</span><span class="p">:</span> <span class="nc">Bool</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Area</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">counter</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">))</span> <span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="n">counter</span> <span class="o">=</span> <span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bits</span><span class="p">))</span> <span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="kd">val</span> <span class="n">syncStart</span>  <span class="o">=</span> <span class="n">counter</span> <span class="o">===</span> <span class="n">timingsHV</span><span class="p">.</span><span class="n">syncStart</span>
     <span class="kd">val</span> <span class="n">syncEnd</span>    <span class="o">=</span> <span class="n">counter</span> <span class="o">===</span> <span class="n">timingsHV</span><span class="p">.</span><span class="n">syncEnd</span>

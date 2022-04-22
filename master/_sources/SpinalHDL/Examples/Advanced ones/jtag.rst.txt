@@ -29,9 +29,9 @@ The example bellow is a JTAG TAP which allow the JTAG master to read ``switchs``
    class SimpleJtagTap extends Component {
      val io = new Bundle {
        val jtag    = slave(Jtag())
-       val switchs = in  Bits(8 bit)
-       val keys    = in  Bits(4 bit)
-       val leds    = out Bits(8 bit)
+       val switchs = in  Bits(8 bits)
+       val keys    = in  Bits(4 bits)
+       val leds    = out Bits(8 bits)
      }
 
      val tap = new JtagTap(io.jtag, 8)
@@ -117,8 +117,8 @@ Let's implement the core of the JTAG TAP, without any instruction, just the base
 
    class JtagTap(val jtag: Jtag, instructionWidth: Int) extends Area{
      val fsm = new JtagFsm(jtag)
-     val instruction = Reg(Bits(instructionWidth bit))
-     val instructionShift = Reg(Bits(instructionWidth bit))
+     val instruction = Reg(Bits(instructionWidth bits))
+     val instructionShift = Reg(Bits(instructionWidth bits))
      val bypass = Reg(Bool)
 
      jtag.tdo := bypass
@@ -226,7 +226,7 @@ Let's implement an instruction that allow the JTAG to read a signal.
 .. code-block:: scala
 
    class JtagInstructionRead[T <: Data](data: T) (tap: JtagTapAccess,instructionId: Bits)extends JtagInstruction(tap,instructionId) {
-     val shifter = Reg(Bits(data.getBitsWidth bit))
+     val shifter = Reg(Bits(data.getBitsWidth bits))
 
      override def doCapture(): Unit = {
        shifter := data.asBits
@@ -246,7 +246,7 @@ Let's implement an instruction that allow the JTAG to write a register (and also
 .. code-block:: scala
 
    class JtagInstructionWrite[T <: Data](data: T) (tap: JtagTapAccess,instructionId: Bits) extends JtagInstruction(tap,instructionId) {
-     val shifter,store = Reg(Bits(data.getBitsWidth bit))
+     val shifter,store = Reg(Bits(data.getBitsWidth bits))
 
      override def doCapture(): Unit = {
        shifter := store
@@ -270,7 +270,7 @@ Let's implement the instruction that return a idcode to the JTAG and also, when 
 .. code-block:: scala
 
    class JtagInstructionIdcode[T <: Data](value: Bits)(tap: JtagTapAccess, instructionId: Bits)extends JtagInstruction(tap,instructionId) {
-     val shifter = Reg(Bits(32 bit))
+     val shifter = Reg(Bits(32 bits))
 
      override def doShift(): Unit = {
        shifter := (tap.getTdi ## shifter) >> 1
@@ -313,9 +313,9 @@ And there we are, we can now very easily create an application specific JTAG TAP
    class SimpleJtagTap extends Component {
      val io = new Bundle {
        val jtag    = slave(Jtag())
-       val switchs = in  Bits(8 bit)
-       val keys    = in  Bits(4 bit)
-       val leds    = out Bits(8 bit)
+       val switchs = in  Bits(8 bits)
+       val keys    = in  Bits(4 bits)
+       val leds    = out Bits(8 bits)
      }
 
      val tap = new JtagTap(io.jtag, 8)

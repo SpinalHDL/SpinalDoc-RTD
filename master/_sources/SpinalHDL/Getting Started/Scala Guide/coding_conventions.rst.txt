@@ -74,7 +74,7 @@ A function should always start with a lowercase letter:
      S((sinValue * ((1 << resolutionWidth) / 2 - 1)).toInt, resolutionWidth bits)
    })
 
-   val rom =  Mem(SInt(resolutionWidth bit), initialContent = sinTable)
+   val rom =  Mem(SInt(resolutionWidth bits), initialContent = sinTable)
 
 instances
 ^^^^^^^^^
@@ -150,9 +150,9 @@ Grouping parameters of a ``Component``/``Bundle`` inside a case class is general
    }
 
    case class Rgb(c: RgbConfig) extends Bundle {
-     val r = UInt(c.rWidth bit)
-     val g = UInt(c.gWidth bit)
-     val b = UInt(c.bWidth bit)
+     val r = UInt(c.rWidth bits)
+     val g = UInt(c.gWidth bits)
+     val b = UInt(c.bWidth bits)
    }
 
 But this should not be applied in all cases. For example: in a FIFO, it doesn't make sense to group the ``dataType`` parameter with the ``depth`` parameter of the fifo because, in general, the ``dataType`` is something related to the design, while the ``depth`` is something related to the configuration of the design.
