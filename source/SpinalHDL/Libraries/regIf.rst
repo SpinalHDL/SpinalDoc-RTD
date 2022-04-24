@@ -38,12 +38,12 @@ Automatic fileds allocation
 .. code:: scala
 
   val M_REG0  = busif.newReg(doc="REG1")
-  val fd0 = M_REG0.field(2 bits, RW, doc= "fields 0")
+  val fd0 = M_REG0.field(Bits(2 bit), RW, doc= "fields 0")
   M_REG0.reserved(5 bits)
-  val fd1 = M_REG0.field(3 bits, RW, doc= "fields 0")
-  val fd2 = M_REG0.field(3 bits, RW, doc= "fields 0")
+  val fd1 = M_REG0.field(Bits(3 bit), RW, doc= "fields 0")
+  val fd2 = M_REG0.field(Bits(3 bit), RW, doc= "fields 0")
   //auto reserved 2 bits
-  val fd3 = M_REG0.fieldAt(pos=16, 4 bits, doc= "fields 3")
+  val fd3 = M_REG0.fieldAt(pos=16, Bits(4 bit), doc= "fields 3")
   //auto reserved 12 bits
 
 .. image:: /asset/image/regif/field-auto-allocate.gif
@@ -53,13 +53,13 @@ confilict detection
 .. code:: scala
 
   val M_REG1  = busif.newReg(doc="REG1")
-  val r1fd0 = M_REG1.field(16 bits, RW, doc="fields 1")
-  val r1fd2 = M_REG1.field(18 bits, RW, doc="fields 1")
+  val r1fd0 = M_REG1.field(Bits(16 bits), RW, doc="fields 1")
+  val r1fd2 = M_REG1.field(Bits(18 bits), RW, doc="fields 1")
     ...
   cause Exception
   val M_REG1  = busif.newReg(doc="REG1")
-  val r1fd0 = M_REG1.field(16 bits, RW, doc="fields 1")
-  val r1fd2 = M_REG1.field(offset=10, 2 bits, RW, doc="fields 1")
+  val r1fd0 = M_REG1.field(Bits(16 bits), RW, doc="fields 1")
+  val r1fd2 = M_REG1.field(offset=10, Bits(2 bits), RW, doc="fields 1")
     ...
   cause Exception
 
@@ -109,10 +109,10 @@ Document Type
 ==========  =============================================================================   ======
 Document    Usage                                                                           Status
 ==========  =============================================================================   ======
-JSON        ``busif.accept(JsonGenerator("regif.json"))``                                     Y
-HTML        ``busif.accept(HtmlGenerator("regif.html", "AP"))``                               Y
-CHeader     ``busif.accept(CHeaderGenerator("header.h", "AP"))``                              Y
-RALF(UVM)                                                                                     N
+HTML        ``busif.accept(HtmlGenerator("regif", title = "XXX register file"))``             Y
+CHeader     ``busif.accept(CHeaderGenerator("header", "AP"))``                                Y
+JSON        ``busif.accept(JsonGenerator("regif"))``                                          Y
+RALF(UVM)   ``busif.accept(RalfGenerator("header"))``                                         Y
 Latex(pdf)                                                                                    N
 docx                                                                                          N
 ==========  =============================================================================   ======
@@ -125,6 +125,47 @@ HTML auto-doc is now complete, Example source Code:
 generated HTML document:
 
 .. image:: /asset/image/regif/regif-html.png
+
+Example 
+-------
+
+Batch creat REG-Address and fields register
+
+.. code:: scala   
+
+  import spinal.lib.bus.regif._
+
+  class RegBank extends Component {
+    val io = new Bundle {
+      val apb = slave(Apb3(Apb3Config(16, 32)))
+      val stats = in Vec(Bits(16 bit), 10)
+      val IQ  = out Vec(Bits(16 bit), 10)
+    }
+    val busif = Apb3BusInterface(io.apb, (0x000, 100 Byte), regPre = "AP")
+
+    (0 to 9).map{ i =>
+      //here use setName give REG uniq name for Docs usage
+      val REG = busif.newReg(doc = s"Register${i}").setName(s"REG${i}")
+      val real = REG.field(SInt(8 bit), AccessType.RW, 0, "Complex real")
+      val imag = REG.field(SInt(8 bit), AccessType.RW, 0, "Complex imag")
+      val stat = REG.field(Bits(16 bit), AccessType.RO, 0, "Accelerator status")
+      io.IQ(i)( 7 downto 0) := real.asBits
+      io.IQ(i)(15 downto 8) := imag.asBits
+      stat := io.stats(i)
+    }
+
+    def genDocs() = {
+      busif.accept(CHeaderGenerator("regbank", "AP"))
+      busif.accept(HtmlGenerator("regbank", "Interupt Example"))
+      busif.accept(JsonGenerator("regbank"))
+      busif.accept(RalfGenerator("regbank"))
+    }
+
+    this.genDocs()
+  }
+
+  SpinalVerilog(new RegBank())
+
 
 Interrupt Factory 
 -----------------
@@ -139,26 +180,26 @@ Manual writing interruption
         val interrupt = out Bool()
         val apb = slave(Apb3(Apb3Config(16, 32)))
       }
-      val busif = Apb3BusInterface(io.apb, (0x000, 100 Byte))
+      val busif = Apb3BusInterface(io.apb, (0x000, 100 Byte), regPre = "AP")
       val M_CP_INT_RAW   = busif.newReg(doc="cp int raw register")
-      val tx_int_raw      = M_CP_INT_RAW.field(1 bits, W1C, doc="tx interrupt enable register").lsb
-      val rx_int_raw      = M_CP_INT_RAW.field(1 bits, W1C, doc="rx interrupt enable register").lsb
-      val frame_int_raw   = M_CP_INT_RAW.field(1 bits, W1C, doc="frame interrupt enable register").lsb
+      val tx_int_raw      = M_CP_INT_RAW.field(Bool(), W1C, doc="tx interrupt enable register")
+      val rx_int_raw      = M_CP_INT_RAW.field(Bool(), W1C, doc="rx interrupt enable register")
+      val frame_int_raw   = M_CP_INT_RAW.field(Bool(), W1C, doc="frame interrupt enable register")
 
       val M_CP_INT_FORCE = busif.newReg(doc="cp int force register\n for debug use")
-      val tx_int_force     = M_CP_INT_FORCE.field(1 bits, RW, doc="tx interrupt enable register").lsb
-      val rx_int_force     = M_CP_INT_FORCE.field(1 bits, RW, doc="rx interrupt enable register").lsb
-      val frame_int_force  = M_CP_INT_FORCE.field(1 bits, RW, doc="frame interrupt enable register").lsb
+      val tx_int_force     = M_CP_INT_FORCE.field(Bool(), RW, doc="tx interrupt enable register")
+      val rx_int_force     = M_CP_INT_FORCE.field(Bool(), RW, doc="rx interrupt enable register")
+      val frame_int_force  = M_CP_INT_FORCE.field(Bool(), RW, doc="frame interrupt enable register")
 
       val M_CP_INT_MASK    = busif.newReg(doc="cp int mask register")
-      val tx_int_mask      = M_CP_INT_MASK.field(1 bits, RW, doc="tx interrupt mask register").lsb
-      val rx_int_mask      = M_CP_INT_MASK.field(1 bits, RW, doc="rx interrupt mask register").lsb
-      val frame_int_mask   = M_CP_INT_MASK.field(1 bits, RW, doc="frame interrupt mask register").lsb
+      val tx_int_mask      = M_CP_INT_MASK.field(Bool(), RW, doc="tx interrupt mask register")
+      val rx_int_mask      = M_CP_INT_MASK.field(Bool(), RW, doc="rx interrupt mask register")
+      val frame_int_mask   = M_CP_INT_MASK.field(Bool(), RW, doc="frame interrupt mask register")
 
       val M_CP_INT_STATUS   = busif.newReg(doc="cp int state register")
-      val tx_int_status      = M_CP_INT_STATUS.field(1 bits, RO, doc="tx interrupt state register").lsb
-      val rx_int_status      = M_CP_INT_STATUS.field(1 bits, RO, doc="rx interrupt state register").lsb
-      val frame_int_status   = M_CP_INT_STATUS.field(1 bits, RO, doc="frame interrupt state register").lsb
+      val tx_int_status      = M_CP_INT_STATUS.field(Bool(), RO, doc="tx interrupt state register")
+      val rx_int_status      = M_CP_INT_STATUS.field(Bool(), RO, doc="rx interrupt state register")
+      val frame_int_status   = M_CP_INT_STATUS.field(Bool(), RO, doc="frame interrupt state register")
 
       rx_int_raw.setwhen(rx_done)
       tx_int_raw.setwhen(tx_done)
@@ -188,9 +229,10 @@ Easy Way creat interruption:
 
       busif.interruptFactory("T", io.a, io.b, io.c, io.d, io.e)
 
-      busif.accept(CHeaderGenerator("intrreg.h","AP"))
-      busif.accept(HtmlGenerator("intrreg.html", "Interupt Example"))
-      busif.accept(JsonGenerator("intrreg.json"))
+      busif.accept(CHeaderGenerator("intrreg","AP"))
+      busif.accept(HtmlGenerator("intrreg", "Interupt Example"))
+      busif.accept(JsonGenerator("intrreg"))
+      busif.accept(RalfGenerator("intrreg"))
     }
 
 .. image:: /asset/image/regif/easy-intr.png
@@ -270,9 +312,9 @@ Example
       io.gpio_int := busif.interruptLevelFactory("GPIO",io.int_level0, io.int_level1, io.int_level2, io.sys_int)
 
       def genDoc() = {
-        busif.accept(CHeaderGenerator("intrreg.h","Intr"))
-        busif.accept(HtmlGenerator("intrreg.html", "Interupt Example"))
-        busif.accept(JsonGenerator("intrreg.json"))
+        busif.accept(CHeaderGenerator("intrreg","Intr"))
+        busif.accept(HtmlGenerator("intrreg", "Interupt Example"))
+        busif.accept(JsonGenerator("intrreg"))
         this
       }
 
