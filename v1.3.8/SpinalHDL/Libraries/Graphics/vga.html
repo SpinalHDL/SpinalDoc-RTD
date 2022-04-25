@@ -349,54 +349,54 @@
 <div class="section" id="vga-bus">
 <h2>VGA bus<a class="headerlink" href="#vga-bus" title="Permalink to this headline">¶</a></h2>
 <p>An VGA bus definition is available via the Vga bundle.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Vga</span> <span class="p">(</span><span class="n">rgbConfig</span><span class="p">:</span> <span class="nc">RgbConfig</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span><span class="p">{</span>
-  <span class="kd">val</span> <span class="n">vSync</span> <span class="o">=</span> <span class="nc">Bool</span>
-  <span class="kd">val</span> <span class="n">hSync</span> <span class="o">=</span> <span class="nc">Bool</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Vga</span><span class="w"> </span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">:</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vSync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">hSync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
 
-  <span class="kd">val</span> <span class="n">colorEn</span> <span class="o">=</span> <span class="nc">Bool</span>  <span class="c1">//High when the frame is inside the color area</span>
-  <span class="kd">val</span> <span class="n">color</span> <span class="o">=</span> <span class="nc">Rgb</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">colorEn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w">  </span><span class="c1">//High when the frame is inside the color area</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">)</span><span class="w"></span>
 
-  <span class="k">override</span> <span class="k">def</span> <span class="nf">asMaster</span><span class="p">()</span> <span class="o">=</span> <span class="bp">this</span><span class="p">.</span><span class="n">asOutput</span><span class="p">()</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">asMaster</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">asOutput</span><span class="p">()</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="vga-timings">
 <h2>VGA timings<a class="headerlink" href="#vga-timings" title="Permalink to this headline">¶</a></h2>
 <p>VGA timings could be modeled in hardware by using an VgaTimings bundle :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimingsHV</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="n">colorStart</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">colorEnd</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">syncStart</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">syncEnd</span> <span class="o">=</span> <span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span> <span class="n">bit</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">VgaTimingsHV</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">colorStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">colorEnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">syncStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">syncEnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">timingsWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">VgaTimings</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="n">h</span> <span class="o">=</span> <span class="nc">VgaTimingsHV</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">)</span>
-  <span class="kd">val</span> <span class="n">v</span> <span class="o">=</span> <span class="nc">VgaTimingsHV</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">)</span>
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">VgaTimings</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">VgaTimingsHV</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">VgaTimingsHV</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">)</span><span class="w"></span>
 
-   <span class="k">def</span> <span class="nf">setAs_h640_v480_r60</span> <span class="o">=</span> <span class="p">...</span>
-   <span class="k">def</span> <span class="nf">driveFrom</span><span class="p">(</span><span class="n">busCtrl</span> <span class="p">:</span> <span class="nc">BusSlaveFactory</span><span class="p">,</span><span class="n">baseAddress</span> <span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="o">=</span> <span class="p">...</span>
-<span class="p">}</span>
+<span class="w">   </span><span class="k">def</span><span class="w"> </span><span class="nf">setAs_h640_v480_r60</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="w">   </span><span class="k">def</span><span class="w"> </span><span class="nf">driveFrom</span><span class="p">(</span><span class="n">busCtrl</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">BusSlaveFactory</span><span class="p">,</span><span class="n">baseAddress</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="vga-controller">
 <h2>VGA controller<a class="headerlink" href="#vga-controller" title="Permalink to this headline">¶</a></h2>
 <p>An VGA controller is available. It’s definition is the following :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">VgaCtrl</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">:</span> <span class="nc">RgbConfig</span><span class="p">,</span> <span class="n">timingsWidth</span><span class="p">:</span> <span class="nc">Int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">softReset</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="kd">val</span> <span class="n">timings</span>   <span class="o">=</span> <span class="n">in</span><span class="p">(</span><span class="nc">VgaTimings</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">VgaCtrl</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">:</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">,</span><span class="w"> </span><span class="n">timingsWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">softReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">timings</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">VgaTimings</span><span class="p">(</span><span class="n">timingsWidth</span><span class="p">))</span><span class="w"></span>
 
-    <span class="kd">val</span> <span class="n">frameStart</span> <span class="o">=</span> <span class="n">out</span> <span class="nc">Bool</span>
-    <span class="kd">val</span> <span class="n">pixels</span>     <span class="o">=</span> <span class="n">slave</span> <span class="nc">Stream</span> <span class="p">(</span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">))</span>
-    <span class="kd">val</span> <span class="n">vga</span>        <span class="o">=</span> <span class="n">master</span><span class="p">(</span><span class="nc">Vga</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">))</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">frameStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">pixels</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="w"> </span><span class="nc">Stream</span><span class="w"> </span><span class="p">(</span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">vga</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Vga</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">))</span><span class="w"></span>
 
-    <span class="kd">val</span> <span class="n">error</span>      <span class="o">=</span> <span class="n">out</span> <span class="nc">Bool</span>
-  <span class="p">}</span>
-  <span class="c1">// ...</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">error</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="line-block">

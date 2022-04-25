@@ -1133,32 +1133,32 @@
 </tbody>
 </table>
 <p>There is in short how the AXI4 bus is defined in the SpinalHDL library :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Axi4</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="nc">Axi4Config</span><span class="p">)</span> <span class="k">extends</span> <span class="nc">Bundle</span> <span class="k">with</span> <span class="nc">IMasterSlave</span><span class="p">{</span>
-  <span class="kd">val</span> <span class="n">aw</span> <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4Aw</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
-  <span class="kd">val</span> <span class="n">w</span>  <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4W</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
-  <span class="kd">val</span> <span class="n">b</span>  <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4B</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
-  <span class="kd">val</span> <span class="n">ar</span> <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4Ar</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
-  <span class="kd">val</span> <span class="n">r</span>  <span class="o">=</span> <span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4R</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Axi4</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">Axi4Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">aw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4Aw</span><span class="p">(</span><span class="n">config</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">w</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4W</span><span class="p">(</span><span class="n">config</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4B</span><span class="p">(</span><span class="n">config</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4Ar</span><span class="p">(</span><span class="n">config</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Axi4R</span><span class="p">(</span><span class="n">config</span><span class="p">))</span><span class="w"></span>
 
-  <span class="k">override</span> <span class="k">def</span> <span class="nf">asMaster</span><span class="p">():</span> <span class="nc">Unit</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">master</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span><span class="n">aw</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
-    <span class="n">slave</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">asMaster</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">master</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span><span class="n">aw</span><span class="p">,</span><span class="n">w</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">slave</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">b</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>There is a short example of usage :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">axiConfig</span> <span class="o">=</span> <span class="nc">Axi4Config</span><span class="p">(</span>
-  <span class="n">addressWidth</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
-  <span class="n">dataWidth</span>    <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
-  <span class="n">idWidth</span>      <span class="o">=</span> <span class="mi">4</span>
-<span class="p">)</span>
-<span class="kd">val</span> <span class="n">axiX</span> <span class="o">=</span> <span class="nc">Axi4</span><span class="p">(</span><span class="n">axiConfig</span><span class="p">)</span>
-<span class="kd">val</span> <span class="n">axiY</span> <span class="o">=</span> <span class="nc">Axi4</span><span class="p">(</span><span class="n">axiConfig</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axiConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4Config</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">dataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">idWidth</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">axiX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4</span><span class="p">(</span><span class="n">axiConfig</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">axiY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4</span><span class="p">(</span><span class="n">axiConfig</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">axiY</span><span class="p">.</span><span class="n">aw</span><span class="p">.</span><span class="n">valid</span><span class="p">){</span>
-  <span class="c1">//...</span>
-<span class="p">}</span>
+<span class="n">when</span><span class="p">(</span><span class="n">axiY</span><span class="p">.</span><span class="n">aw</span><span class="p">.</span><span class="n">valid</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//...</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>

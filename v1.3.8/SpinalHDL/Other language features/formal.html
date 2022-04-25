@@ -348,40 +348,40 @@
 <h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
 <p>There is limited support for SystemVerilog Assertions.</p>
 <p>You can add formal statement (assume, assert ecc..) in the Component definition, like the example below:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TopLevel</span> <span class="k">extends</span> <span class="nc">Component</span> <span class="p">{</span>
-  <span class="kd">val</span> <span class="n">io</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="n">ready</span> <span class="o">=</span> <span class="n">in</span> <span class="nc">Bool</span>
-    <span class="kd">val</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">out</span> <span class="nc">Bool</span>
-  <span class="p">}</span>
-  <span class="kd">val</span> <span class="n">valid</span> <span class="o">=</span> <span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
 
- <span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="p">){</span>
-   <span class="n">valid</span> <span class="o">:=</span> <span class="nc">False</span>
- <span class="p">}</span>
- <span class="n">io</span><span class="p">.</span><span class="n">valid</span> <span class="o">&lt;&gt;</span> <span class="n">valid</span>
- <span class="c1">// some logic</span>
+<span class="w"> </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="p">){</span><span class="w"></span>
+<span class="w">   </span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">valid</span><span class="w"></span>
+<span class="w"> </span><span class="c1">// some logic</span>
 
- <span class="k">import</span> <span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nc">GenerationFlags</span><span class="p">.</span><span class="n">_</span>
- <span class="k">import</span> <span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nc">Formal</span><span class="p">.</span><span class="n">_</span>
+<span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nc">GenerationFlags</span><span class="p">.</span><span class="n">_</span>
+<span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nc">Formal</span><span class="p">.</span><span class="n">_</span>
 
- <span class="nc">GenerationFlags</span><span class="p">.</span><span class="n">formal</span><span class="p">{</span>
-   <span class="n">when</span><span class="p">(</span><span class="n">initstate</span><span class="p">())</span> <span class="p">{</span>
-     <span class="n">assume</span><span class="p">(</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">isResetActive</span><span class="p">)</span>
-     <span class="n">assume</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span> <span class="o">===</span> <span class="nc">False</span><span class="p">)</span>
-   <span class="p">}.</span><span class="n">otherwise</span> <span class="p">{</span>
-     <span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">valid</span><span class="p">.</span><span class="n">fall</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="p">))</span>
-   <span class="p">}</span>
- <span class="p">}</span>
-<span class="p">}</span>
+<span class="w"> </span><span class="nc">GenerationFlags</span><span class="p">.</span><span class="n">formal</span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">when</span><span class="p">(</span><span class="n">initstate</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">assume</span><span class="p">(</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">isResetActive</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">assume</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="p">}.</span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">valid</span><span class="p">.</span><span class="n">fall</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>To generate a design which includes the formal statements you can use <code class="docutils literal notranslate"><span class="pre">includeFormal</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">MyToplevelSystemVerilogWithFormal</span><span class="p">{</span>
- <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span> <span class="p">{</span>
-   <span class="kd">val</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">defaultConfigForClockDomains</span> <span class="o">=</span> <span class="nc">ClockDomainConfig</span><span class="p">(</span><span class="n">resetKind</span> <span class="o">=</span> <span class="nc">SYNC</span><span class="p">,</span> <span class="n">resetActiveLevel</span><span class="o">=</span><span class="nc">HIGH</span><span class="p">))</span>
-    <span class="n">config</span><span class="p">.</span><span class="n">includeFormal</span><span class="p">.</span><span class="n">generateSystemVerilog</span><span class="p">(</span><span class="k">new</span> <span class="nc">TopLevel</span><span class="p">())</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyToplevelSystemVerilogWithFormal</span><span class="p">{</span><span class="w"></span>
+<span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">defaultConfigForClockDomains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomainConfig</span><span class="p">(</span><span class="n">resetKind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SYNC</span><span class="p">,</span><span class="w"> </span><span class="n">resetActiveLevel</span><span class="o">=</span><span class="nc">HIGH</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">includeFormal</span><span class="p">.</span><span class="n">generateSystemVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>

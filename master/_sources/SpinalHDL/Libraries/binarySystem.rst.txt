@@ -18,7 +18,7 @@ Specification
      - Return
 
    * - **String**.asHex
-     - HexString to BigInt == BigInt(string, 10)
+     - HexString to BigInt == BigInt(string, 16)
      - BigInt
    * - **String**.asDec
      - Decimal String to BigInt == BigInt(string, 10)
