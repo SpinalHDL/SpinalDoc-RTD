@@ -13,9 +13,9 @@ In addition it provide a formal verification backend which allows to directly ru
 
 
 Formal backend
----------------------
+--------------
 
-You can run the formal verification of a component via : 
+You can run the formal verification of a component via: 
 
 
 .. code-block:: scala
@@ -32,9 +32,9 @@ Currently, 3 modes are supported :
 - withCover(depth)
 
 Installing requirements
-------------------------------------------
+-----------------------
 
-To install the Symbi-Yosys, you have a few options. You can fetch a precompiled package at : 
+To install the Symbi-Yosys, you have a few options. You can fetch a precompiled package at: 
 
 - https://github.com/YosysHQ/oss-cad-suite-build/releases
 - https://github.com/YosysHQ/fpga-toolchain/releases
@@ -45,11 +45,11 @@ Or you can compile things from scratch :
 
 
 Example
----------------------
+-------
 
 
 External assertions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^
 
 Here is an example of a simple counter and the corresponding formal testbench.
 
@@ -73,7 +73,7 @@ Here is an example of a simple counter and the corresponding formal testbench.
 
       // Here we run a formal verification which will explore the state space up to 15 cycles to find an assertion failure
       FormalConfig.withBMC(15).doVerify(new Component {
-        // Instanciate our LimitedCounter DUT as a FormalDut, which ensure that all the outputs of the dut are :
+        // Instanciate our LimitedCounter DUT as a FormalDut, which ensure that all the outputs of the dut are:
         // - directly and indirectly driven (no latch / no floating wire)
         // - allows the current toplevel to read every signal across the hierarchy
         val dut = FormalDut(new LimitedCounter())
@@ -88,9 +88,9 @@ Here is an example of a simple counter and the corresponding formal testbench.
     }
     
 Internal assertions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^
     
-If you want you can embed formal statements directly into the DUT : 
+If you want you can embed formal statements directly into the DUT: 
 
 .. code-block:: scala
 
@@ -117,10 +117,10 @@ If you want you can embed formal statements directly into the DUT :
     }    
 
 External stimulus
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
 
 If your DUT has inputs, you need to drive them from the testbench. You can use all the regular hardware statements to do it, 
-but you can also us the formal anyseq, anyconst, allseq, allconst statement :
+but you can also use the formal `anyseq`, `anyconst`, `allseq`, `allconst` statement:
 
 .. code-block:: scala
 
@@ -148,9 +148,9 @@ but you can also us the formal anyseq, anyconst, allseq, allconst statement :
     }
     
 More assertions / past    
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
 
-For instance we can check that the value is counting up (if not already to 10) : 
+For instance we can check that the value is counting up (if not already at 10): 
 
 .. code-block:: scala
 
@@ -167,14 +167,14 @@ For instance we can check that the value is counting up (if not already to 10) :
 
 
 Utilities and primitives
--------------------------
+------------------------
 
 Assertions / clock / reset
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Assertions are always clocked and disabled durring resets. This also apply for assumes and covers.
+Assertions are always clocked and disabled during resets. This also apply for assumes and covers.
 
-If you want to keep your assertion enabled durring reset you can do : 
+If you want to keep your assertion enabled during reset you can do: 
 
 .. code-block:: scala
 
@@ -184,7 +184,7 @@ If you want to keep your assertion enabled durring reset you can do :
    
 
 Specifying the initial value of a signal 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For instance, for the reset signal of the current clockdomain (usefull at the top)
 
@@ -193,14 +193,14 @@ For instance, for the reset signal of the current clockdomain (usefull at the to
     ClockDomain.current.readResetWire initial(False)
 
 Specifying a initial assumption
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
 
     assumeInitial(clockDomain.isResetActive)
 
 Specifying assertion in the reset scope
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
 
@@ -210,7 +210,7 @@ Specifying assertion in the reset scope
     }
 
 Formal primitives
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
 
  .. list-table::
     :header-rows: 1
@@ -248,7 +248,7 @@ Formal primitives
       - Bool
       - Return True the first cycle
 
-Note that you can use the init statement on past : 
+Note that you can use the init statement on past: 
 
 .. code-block:: scala
 
@@ -257,7 +257,7 @@ Note that you can use the init statement on past :
 
 
 Limitations
-----------------------
+-----------
 
-No support for unclocked assertions. But their usage in third party formal verification examples seems mostly code style related.
+There is no support for unclocked assertions. But their usage in third party formal verification examples seems mostly code style related.
 
