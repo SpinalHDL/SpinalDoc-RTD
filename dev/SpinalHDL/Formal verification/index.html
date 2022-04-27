@@ -1135,7 +1135,7 @@
 </div>
 <div class="section" id="formal-backend">
 <h2>Formal backend<a class="headerlink" href="#formal-backend" title="Permalink to this headline">¶</a></h2>
-<p>You can run the formal verification of a component via :</p>
+<p>You can run the formal verification of a component via:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">formal</span><span class="p">.</span><span class="n">_</span>
 <span class="nc">FormalConfig</span><span class="p">.</span><span class="n">withBMC</span><span class="p">(</span><span class="mi">15</span><span class="p">).</span><span class="n">doVerify</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Toplevel to verify</span>
@@ -1151,7 +1151,7 @@
 </div>
 <div class="section" id="installing-requirements">
 <h2>Installing requirements<a class="headerlink" href="#installing-requirements" title="Permalink to this headline">¶</a></h2>
-<p>To install the Symbi-Yosys, you have a few options. You can fetch a precompiled package at :</p>
+<p>To install the Symbi-Yosys, you have a few options. You can fetch a precompiled package at:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build/releases">https://github.com/YosysHQ/oss-cad-suite-build/releases</a></p></li>
 <li><p><a class="reference external" href="https://github.com/YosysHQ/fpga-toolchain/releases">https://github.com/YosysHQ/fpga-toolchain/releases</a></p></li>
@@ -1183,7 +1183,7 @@
 
 <span class="w">  </span><span class="c1">// Here we run a formal verification which will explore the state space up to 15 cycles to find an assertion failure</span>
 <span class="w">  </span><span class="nc">FormalConfig</span><span class="p">.</span><span class="n">withBMC</span><span class="p">(</span><span class="mi">15</span><span class="p">).</span><span class="n">doVerify</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// Instanciate our LimitedCounter DUT as a FormalDut, which ensure that all the outputs of the dut are :</span>
+<span class="w">    </span><span class="c1">// Instanciate our LimitedCounter DUT as a FormalDut, which ensure that all the outputs of the dut are:</span>
 <span class="w">    </span><span class="c1">// - directly and indirectly driven (no latch / no floating wire)</span>
 <span class="w">    </span><span class="c1">// - allows the current toplevel to read every signal across the hierarchy</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FormalDut</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">LimitedCounter</span><span class="p">())</span><span class="w"></span>
@@ -1201,7 +1201,7 @@
 </div>
 <div class="section" id="internal-assertions">
 <h3>Internal assertions<a class="headerlink" href="#internal-assertions" title="Permalink to this headline">¶</a></h3>
-<p>If you want you can embed formal statements directly into the DUT :</p>
+<p>If you want you can embed formal statements directly into the DUT:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LimitedCounterEmbedded</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">){</span><span class="w"></span>
@@ -1229,7 +1229,7 @@
 <div class="section" id="external-stimulus">
 <h3>External stimulus<a class="headerlink" href="#external-stimulus" title="Permalink to this headline">¶</a></h3>
 <p>If your DUT has inputs, you need to drive them from the testbench. You can use all the regular hardware statements to do it,
-but you can also us the formal anyseq, anyconst, allseq, allconst statement :</p>
+but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cite>allseq</cite>, <cite>allconst</cite> statement:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LimitedCounterInc</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Only increment the value when the inc input is set</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
@@ -1257,7 +1257,7 @@ but you can also us the formal anyseq, anyconst, allseq, allconst statement :</p
 </div>
 <div class="section" id="more-assertions-past">
 <h3>More assertions / past<a class="headerlink" href="#more-assertions-past" title="Permalink to this headline">¶</a></h3>
-<p>For instance we can check that the value is counting up (if not already to 10) :</p>
+<p>For instance we can check that the value is counting up (if not already at 10):</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">FormalConfig</span><span class="p">.</span><span class="n">withBMC</span><span class="p">(</span><span class="mi">15</span><span class="p">).</span><span class="n">doVerify</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FormalDut</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">LimitedCounter</span><span class="p">())</span><span class="w"></span>
 <span class="w">  </span><span class="n">assumeInitial</span><span class="p">(</span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">isResetActive</span><span class="p">)</span><span class="w"></span>
@@ -1276,8 +1276,8 @@ but you can also us the formal anyseq, anyconst, allseq, allconst statement :</p
 <h2>Utilities and primitives<a class="headerlink" href="#utilities-and-primitives" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="assertions-clock-reset">
 <h3>Assertions / clock / reset<a class="headerlink" href="#assertions-clock-reset" title="Permalink to this headline">¶</a></h3>
-<p>Assertions are always clocked and disabled durring resets. This also apply for assumes and covers.</p>
-<p>If you want to keep your assertion enabled durring reset you can do :</p>
+<p>Assertions are always clocked and disabled during resets. This also apply for assumes and covers.</p>
+<p>If you want to keep your assertion enabled during reset you can do:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">withoutReset</span><span class="p">(){</span><span class="w"></span>
 <span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">wuff</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -1365,7 +1365,7 @@ but you can also us the formal anyseq, anyconst, allseq, allconst statement :</p
 </tbody>
 </table>
 </div></blockquote>
-<p>Note that you can use the init statement on past :</p>
+<p>Note that you can use the init statement on past:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">past</span><span class="p">(</span><span class="n">enable</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="nc">False</span><span class="p">)){</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1373,7 +1373,7 @@ but you can also us the formal anyseq, anyconst, allseq, allconst statement :</p
 </div>
 <div class="section" id="limitations">
 <h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
-<p>No support for unclocked assertions. But their usage in third party formal verification examples seems mostly code style related.</p>
+<p>There is no support for unclocked assertions. But their usage in third party formal verification examples seems mostly code style related.</p>
 </div>
 </div>
 
