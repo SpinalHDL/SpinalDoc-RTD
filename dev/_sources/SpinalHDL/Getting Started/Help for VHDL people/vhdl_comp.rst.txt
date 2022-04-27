@@ -97,7 +97,7 @@ For example:
      )
    )
    val coreArea = new ClockingArea(coreClockDomain) {
-     val myCoreClockedRegister = Reg(UInt(4 bit))
+     val myCoreClockedRegister = Reg(UInt(4 bits))
      // ...
      // coreClockDomain will also be applied to all sub components instantiated in the Area
      // ... 

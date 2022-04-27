@@ -131,14 +131,14 @@ Let's define ``Bundle``\ s that will be used as IO elements to setup ``UartCtrl`
 .. code-block:: scala
 
    case class UartCtrlFrameConfig(g: UartCtrlGenerics) extends Bundle {
-     val dataLength = UInt(log2Up(g.dataWidthMax) bit) //Bit count = dataLength + 1
+     val dataLength = UInt(log2Up(g.dataWidthMax) bits) //Bit count = dataLength + 1
      val stop       = UartStopType()
      val parity     = UartParityType()
    }
 
    case class UartCtrlConfig(g: UartCtrlGenerics) extends Bundle {
      val frame        = UartCtrlFrameConfig(g)
-     val clockDivider = UInt (g.clockDividerWidth bit) //see UartCtrlGenerics.clockDividerWidth for calculation
+     val clockDivider = UInt (g.clockDividerWidth bits) //see UartCtrlGenerics.clockDividerWidth for calculation
 
      def setClockDivider(baudrate : Double,clkFrequency : Double = ClockDomain.current.frequency.getValue) : Unit = {
        clockDivider := (clkFrequency / baudrate / g.rxSamplePerBit).toInt
@@ -199,7 +199,7 @@ Let's define the skeleton of ``UartCtrlTx``\ :
      val io = new Bundle {
        val configFrame  = in(UartCtrlFrameConfig(g))
        val samplingTick = in Bool()
-       val write        = slave Stream (Bits(dataWidthMax bit))
+       val write        = slave Stream (Bits(dataWidthMax bits))
        val txd          = out Bool
      }
 
@@ -213,7 +213,7 @@ Let's define the skeleton of ``UartCtrlTx``\ :
 
      // Count up each clockDivider.tick, used by the state machine to count up data bits and stop bits
      val tickCounter = new Area {
-       val value = Reg(UInt(Math.max(dataWidthMax, 2) bit))
+       val value = Reg(UInt(Math.max(dataWidthMax, 2) bits))
        def reset() = value := 0
        ..
      }
@@ -243,7 +243,7 @@ And here is the complete implementation:
      val io = new Bundle {
        val configFrame  = in(UartCtrlFrameConfig(g))
        val samplingTick = in Bool
-       val write        = slave Stream (Bits(dataWidthMax bit))
+       val write        = slave Stream (Bits(dataWidthMax bits))
        val txd          = out Bool
      }
 
@@ -260,7 +260,7 @@ And here is the complete implementation:
 
      // Count up each clockDivider.tick, used by the state machine to count up data bits and stop bits
      val tickCounter = new Area {
-       val value = Reg(UInt(Math.max(dataWidthMax, 2) bit))
+       val value = Reg(UInt(Math.max(dataWidthMax, 2) bits))
        def reset() = value := 0
 
        when(clockDivider.tick) {
@@ -371,7 +371,7 @@ Let's define the skeleton of the UartCtrlRx :
      val io = new Bundle {
        val configFrame  = in(UartCtrlFrameConfig(g))
        val samplingTick = in Bool
-       val read         = master Flow (Bits(dataWidthMax bit))
+       val read         = master Flow (Bits(dataWidthMax bits))
        val rxd          = in Bool
      }
 
@@ -387,7 +387,7 @@ Let's define the skeleton of the UartCtrlRx :
      // Provide a bitTimer.tick each rxSamplePerBit
      // reset() can be called to recenter the counter over a start bit.
      val bitTimer = new Area {
-       val counter = Reg(UInt(log2Up(rxSamplePerBit) bit))
+       val counter = Reg(UInt(log2Up(rxSamplePerBit) bits))
        def reset() = counter := preSamplingSize + (samplingSize - 1) / 2 - 1)
        val tick = False
        ...
@@ -396,7 +396,7 @@ Let's define the skeleton of the UartCtrlRx :
      // Provide bitCounter.value that count up each bitTimer.tick, Used by the state machine to count data bits and stop bits
      // reset() can be called to reset it to zero
      val bitCounter = new Area {
-       val value = Reg(UInt(Math.max(dataWidthMax, 2) bit))
+       val value = Reg(UInt(Math.max(dataWidthMax, 2) bits))
        def reset() = value := 0
        ...
      }
@@ -423,7 +423,7 @@ And here is the complete implementation:
      val io = new Bundle {
        val configFrame  = in(UartCtrlFrameConfig(g))
        val samplingTick = in Bool
-       val read         = master Flow (Bits(dataWidthMax bit))
+       val read         = master Flow (Bits(dataWidthMax bits))
        val rxd          = in Bool
      }
 
@@ -439,7 +439,7 @@ And here is the complete implementation:
      // Provide a bitTimer.tick each rxSamplePerBit
      // reset() can be called to recenter the counter over a start bit.
      val bitTimer = new Area {
-       val counter = Reg(UInt(log2Up(rxSamplePerBit) bit))
+       val counter = Reg(UInt(log2Up(rxSamplePerBit) bits))
        def reset() = counter := preSamplingSize + (samplingSize - 1) / 2 - 1
        val tick = False
        when(sampler.tick) {
@@ -453,7 +453,7 @@ And here is the complete implementation:
      // Provide bitCounter.value that count up each bitTimer.tick, Used by the state machine to count data bits and stop bits
      // reset() can be called to reset it to zero
      val bitCounter = new Area {
-       val value = Reg(UInt(Math.max(dataWidthMax, 2) bit))
+       val value = Reg(UInt(Math.max(dataWidthMax, 2) bits))
        def reset() = value := 0
 
        when(bitTimer.tick) {
@@ -538,8 +538,8 @@ Let's write ``UartCtrl`` that instantiates the ``UartCtrlRx`` and ``UartCtrlTx``
    class UartCtrl(g : UartCtrlGenerics = UartCtrlGenerics()) extends Component {
      val io = new Bundle {
        val config = in(UartCtrlConfig(g))
-       val write  = slave(Stream(Bits(g.dataWidthMax bit)))
-       val read   = master(Flow(Bits(g.dataWidthMax bit)))
+       val write  = slave(Stream(Bits(g.dataWidthMax bits)))
+       val read   = master(Flow(Bits(g.dataWidthMax bits)))
        val uart   = master(Uart())
      }
 

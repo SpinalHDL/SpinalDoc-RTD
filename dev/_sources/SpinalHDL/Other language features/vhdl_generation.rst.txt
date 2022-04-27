@@ -217,9 +217,9 @@ Scala:
    class TopLevel extends Component {
      val io = new Bundle {
        val cond   = in Bool()
-       val value  = in UInt (4 bit)
-       val resultA = out UInt(4 bit)
-       val resultB = out UInt(4 bit)
+       val value  = in UInt (4 bits)
+       val resultA = out UInt(4 bits)
+       val resultB = out UInt(4 bits)
      }
 
      val regWithReset = Reg(UInt(4 bits)) init(0)

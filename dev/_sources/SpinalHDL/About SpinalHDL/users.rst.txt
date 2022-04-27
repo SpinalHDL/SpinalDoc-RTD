@@ -17,3 +17,4 @@ Repositories
 * `NaxRiscv CPU <https://github.com/SpinalHDL/NaxRiscv>`_
 * `SaxonSoc <https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/digilent/ArtyA7SmpLinux>`_
 * `open-rdma <https://github.com/datenlord/open-rdma>`_
+* `MicroRV32 SoC <https://github.com/agra-uni-bremen/microrv32>`_

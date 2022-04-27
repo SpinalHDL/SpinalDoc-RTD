@@ -42,7 +42,7 @@ Here is an example declaring some registers:
 .. code-block:: scala
 
    // UInt register of 4 bits
-   val reg1 = Reg(UInt(4 bit))
+   val reg1 = Reg(UInt(4 bits))
 
    // Register that samples reg1 each cycle
    val reg2 = RegNext(reg1 + 1)
@@ -89,7 +89,7 @@ you can also set the reset value by calling the ``init(value : Data)`` function 
 .. code-block:: scala
 
    // UInt register of 4 bits initialized with 0 when the reset occurs
-   val reg1 = Reg(UInt(4 bit)) init(0)
+   val reg1 = Reg(UInt(4 bits)) init(0)
 
 If you have a register containing a Bundle, you can use the ``init`` function on each element of the Bundle.
 
@@ -111,7 +111,7 @@ For registers that don't need a reset value in RTL, but need an initialization v
 .. code-block:: scala
 
    // UInt register of 4 bits initialized with a random value
-   val reg1 = Reg(UInt(4 bit)) randBoot()
+   val reg1 = Reg(UInt(4 bits)) randBoot()
 
 Register vectors
 ----------------

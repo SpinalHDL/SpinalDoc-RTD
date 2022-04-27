@@ -74,7 +74,7 @@ An applied example to define a specific clock domain within the design is as fol
 
    // Use this domain in an area of the design
    val coreArea = new ClockingArea(coreClockDomain) {
-     val coreClockedRegister = Reg(UInt(4 bit))
+     val coreClockedRegister = Reg(UInt(4 bits))
    }
 
 Configuration
