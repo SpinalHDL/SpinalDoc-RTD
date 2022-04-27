@@ -20,7 +20,7 @@ For this kind of case you can use an ``Area`` to define a group of signals/logic
    class UartCtrl extends Component {
      ...
      val timer = new Area {
-       val counter = Reg(UInt(8 bit))
+       val counter = Reg(UInt(8 bits))
        val tick = counter === 0
        counter := counter - 1
        when(tick) {
@@ -29,7 +29,7 @@ For this kind of case you can use an ``Area`` to define a group of signals/logic
      }
 
      val tickCounter = new Area {
-       val value = Reg(UInt(3 bit))
+       val value = Reg(UInt(3 bits))
        val reset = False
        when(timer.tick) {          // Refer to the tick from timer area
          value := value + 1

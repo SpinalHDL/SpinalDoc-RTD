@@ -30,13 +30,13 @@ An example of how to define a blackbox is shown below:
        val clk = in Bool()
        val wr = new Bundle {
          val en   = in Bool()
-         val addr = in UInt (log2Up(wordCount) bit)
-         val data = in Bits (wordWidth bit)
+         val addr = in UInt (log2Up(wordCount) bits)
+         val data = in Bits (wordWidth bits)
        }
        val rd = new Bundle {
          val en   = in Bool()
-         val addr = in UInt (log2Up(wordCount) bit)
-         val data = out Bits (wordWidth bit)
+         val addr = in UInt (log2Up(wordCount) bits)
+         val data = out Bits (wordWidth bits)
        }
      }
 
@@ -84,13 +84,13 @@ Instantiating a ``BlackBox`` is just like instantiating a ``Component``:
      val io = new Bundle {    
        val wr = new Bundle {
          val en   = in Bool()
-         val addr = in UInt (log2Up(16) bit)
-         val data = in Bits (8 bit)
+         val addr = in UInt (log2Up(16) bits)
+         val data = in Bits (8 bits)
        }
        val rd = new Bundle {
          val en   = in Bool()
-         val addr = in UInt (log2Up(16) bit)
-         val data = out Bits (8 bit)
+         val addr = in UInt (log2Up(16) bits)
+         val data = out Bits (8 bits)
        }
      }
 
@@ -184,13 +184,13 @@ In order to avoid the prefix "io\_" on each of the IOs of the blackbox, you can 
 
        val wr = new Bundle {
          val en   = in Bool()
-         val addr = in UInt (log2Up(_wordCount) bit)
-         val data = in Bits (_wordWidth bit)
+         val addr = in UInt (log2Up(_wordCount) bits)
+         val data = in Bits (_wordWidth bits)
        }
        val rd = new Bundle {
          val en   = in Bool()
-         val addr = in UInt (log2Up(_wordCount) bit)
-         val data = out Bits (_wordWidth bit)
+         val addr = in UInt (log2Up(_wordCount) bits)
+         val data = out Bits (_wordWidth bits)
        }
      }
 

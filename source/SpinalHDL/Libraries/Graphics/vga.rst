@@ -29,10 +29,10 @@ VGA timings could be modeled in hardware by using an VgaTimings bundle :
 .. code-block:: scala
 
    case class VgaTimingsHV(timingsWidth: Int) extends Bundle {
-     val colorStart = UInt(timingsWidth bit)
-     val colorEnd = UInt(timingsWidth bit)
-     val syncStart = UInt(timingsWidth bit)
-     val syncEnd = UInt(timingsWidth bit)
+     val colorStart = UInt(timingsWidth bits)
+     val colorEnd = UInt(timingsWidth bits)
+     val syncStart = UInt(timingsWidth bits)
+     val syncEnd = UInt(timingsWidth bits)
    }
 
    case class VgaTimings(timingsWidth: Int) extends Bundle {

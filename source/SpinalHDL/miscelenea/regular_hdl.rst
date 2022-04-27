@@ -118,13 +118,13 @@ A SpinalHDL APB3 bus definition:
 
    //Class which can be instantiated to represent a given hardware APB3 bus
    case class Apb3(config: Apb3Config) extends Bundle with IMasterSlave {
-     val PADDR      = UInt(config.addressWidth bit)
+     val PADDR      = UInt(config.addressWidth bits)
      val PSEL       = Bits(config.selWidth bits)
      val PENABLE    = Bool()
      val PREADY     = Bool()
      val PWRITE     = Bool()
-     val PWDATA     = Bits(config.dataWidth bit)
-     val PRDATA     = Bits(config.dataWidth bit)
+     val PWDATA     = Bits(config.dataWidth bits)
+     val PRDATA     = Bits(config.dataWidth bits)
      val PSLVERROR  = if(config.useSlaveError) Bool() else null  //Optional signal
 
      //Can be used to setup a given APB3 bus into a master interface of the host component
