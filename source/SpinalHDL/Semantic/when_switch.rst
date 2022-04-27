@@ -17,6 +17,29 @@ As in VHDL and Verilog, signals can be conditionally assigned when a specified c
      // Execute when (not cond1) and (not cond2)
    }
 
+.. warning::
+
+     If the keyword ``otherwise`` is on the same line as the closing bracket ``}`` of the ``when`` condition, no dot is needed.
+
+     .. code-block:: scala
+
+            when(cond1) {
+                // Execute when cond1 is true
+            } otherwise {
+                // Execute when (not cond1) and (not cond2)
+            }
+
+     But if ``.otherwise`` is on another line, a dot is **required**:
+
+     .. code-block:: scala
+
+            when(cond1) {
+                // Execute when cond1 is true
+            }
+            .otherwise {
+                // Execute when (not cond1) and (not cond2)
+            }
+
 Switch
 ------
 
@@ -35,6 +58,44 @@ As in VHDL and Verilog, signals can be conditionally assigned when a signal has 
        // Execute if none of precedent conditions met
      }
    }
+
+``is`` clauses can be factorized by separating them with a comma ``is(value1, value2)``.
+
+Example
+^^^^^^^
+
+.. code-block:: scala
+
+  switch(aluop) {
+    is(ALUOp.add) {
+      immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.slt) {
+      immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.sltu) {
+      immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.sll) {
+      immediate := instruction.shamt
+    }
+    is(ALUOp.sra) {
+      immediate := instruction.shamt
+    }
+  }
+
+is equivalent to
+
+.. code-block:: scala
+
+  switch(aluop) {
+    is(ALUOp.add, ALUOp.slt, ALUOp.sltu) {
+        immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.sll, ALUOp.sra) {
+        immediate := instruction.shamt
+    }
+  }
 
 Local declaration
 -----------------
@@ -113,6 +174,9 @@ Also, if all possible values are covered in your mux, you can omit the default v
      2 -> (io.src0 ^ io.src1),
      3 -> (io.src0)
    )
+   
+Alternatively, if the uncovered values are not important, they can be left unassigned by using ``muxListDc``
+
 
 ``muxLists(...)`` is another bitwise selection which takes a sequence of tuples as input. Below is an example of dividing a ``Bits`` of 128 bits into 32 bits:
 

@@ -105,6 +105,27 @@ Here is a example which infers a simple dual port ram (32 bits * 256):
      address = io.readAddress
    )
 
+
+Synchronous enable quirk
+------------------------
+
+When enable signals are used in a block guarded by a conditional block like `when`, only the enable signal will be generated as the access condition: the `when` condition is ignored.
+
+.. code-block:: scala
+
+    val rom = Mem(Bits(10 bits), 32)
+    when(cond){
+      io.rdata := rom.readSync(io.addr, io.rdEna)
+    }
+
+
+In the example above the condition `cond` will not be elaborated.
+Prefer to include the condition `cond` in the enable signal directly as below.
+
+.. code-block:: scala
+
+    io.rdata := rom.readSync(io.addr, io.rdEna & cond)
+
 Read-under-write policy
 -----------------------
 

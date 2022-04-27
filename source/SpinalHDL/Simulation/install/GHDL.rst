@@ -24,4 +24,4 @@ Linux
 
 Also the openjdk package that corresponds to your Java version has to be installed.
 
-For more configuration options and Windows installation see `<https://ghdl.readthedocs.io/en/latest/getting/>`_
+For more configuration options and Windows installation see `<https://ghdl.github.io/ghdl/getting.html>`_

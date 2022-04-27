@@ -13,6 +13,8 @@ Libraries
    vexriscv
    bus_slave_factory
    fiber
+   binarySystem
+   regIf
    Bus/index
    Com/index
    IO/index

@@ -13,6 +13,8 @@ In SpinalHDL, clock and reset signals can be combined to create a **clock domain
 
 Clock domain application works like a stack, which means that if you are in a given clock domain you can still apply another clock domain locally.
 
+Please note that a register captures its clock domain when the register is created, not when it is assigned. So please make sure to create them inside the desired ``ClockingArea``.
+
 .. _clock_domain_instantiation:
 
 Instantiation
@@ -260,6 +262,37 @@ The arguments to the ``ClockDomain.external`` function are exactly the same as i
      }
    }
 
+Signal priorities in HDL generation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In the current version, reset and clock enable signals have different priorities. Their order is : ``asyncReset``, ``clockEnable``, ``syncReset`` and ``softReset``.
+
+Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reseted.
+
+Here is an example:
+
+.. code-block:: scala
+
+  val clockedArea = new ClockEnableArea(clockEnable) {
+    val reg = RegNext(io.input) init False
+  }
+
+It will generate VerilogHDL codes like:
+
+.. code-block:: verilog
+
+  always @(posedge clk) begin
+    if(clockedArea_newClockEnable) begin
+      if(!resetn) begin
+        clockedArea_reg <= 1'b0;
+      end else begin
+        clockedArea_reg <= io_input;
+      end
+    end
+  end
+
+If that behaviour is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.
+
 Context
 ^^^^^^^
 
@@ -409,7 +442,7 @@ In general, you can use 2 or more flip-flop driven by the destination clock doma
    }
 
 .. warning::
-   The ``BufferCC`` function is only for signals of type ``Bit``, or ``Bits`` operating as Gray-coded counters (only 1 bit-flip per clock cycle), and can not used for multi-bit cross-domain processes.
+   The ``BufferCC`` function is only for signals of type ``Bit``, or ``Bits`` operating as Gray-coded counters (only 1 bit-flip per clock cycle), and can not used for multi-bit cross-domain processes. For multi-bit cases, it is recommended to use ``StreamFifoCC`` for high bandwidth requirements, or use ``StreamCCByToggle`` to reduce resource usage in cases where bandwidth is not critical.
 
 Special clocking Areas
 ----------------------

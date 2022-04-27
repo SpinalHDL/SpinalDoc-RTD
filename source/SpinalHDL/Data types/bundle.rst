@@ -34,6 +34,17 @@ For example, a bundle holding a color could be defined as:
 
 You can find an :ref:`APB3 definition <example_apb3>` among the :ref:`Spinal HDL examples <example_list>`.
 
+Conditional signals
+~~~~~~~~~~~~~~~~~~~
+The signals in the ``Bundle`` can be defined conditionally. 
+Unless ``dataWidth`` is greater than 0, there will be no ``data`` signal in elorbrated ``myBundle``, as demonstrated in the example below.
+
+.. code-block:: scala
+
+   case class myBundle(dataWidth: Int) extends Bundle {
+     val data = (dataWidth > 0) generate (UInt(dataWidth bits))
+   }
+
 Operators
 ^^^^^^^^^
 
@@ -87,6 +98,9 @@ Type cast
 
    val color1 = Color(8)
    val myBits := color1.asBits
+
+The elements of the bundle will be mapped into place in the order in which they are defined. 
+Thus, ``r`` in ``color1`` will occupy bits 0 to 8 of ``myBits`` (LSB), followed by ``g`` and ``b`` in that order.
 
 Convert Bits back to Bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -160,6 +174,11 @@ master/slave
 ~~~~~~~~~~~~
 
 If your interface obeys to a master/slave topology, you can use the ``IMasterSlave`` trait. Then you have to implement the function ``def asMaster(): Unit`` to set the direction of each element from the master's perspective. Then you can use the ``master(MyBundle())`` and ``slave(MyBundle())`` syntax in the IO definition.
+
+There are functions defined as toXXX, such as the ``toStream`` method of the ``Flow`` class. 
+These functions can usually be called by the master side. 
+In addition, the fromXXX functions are designed for the slave side. 
+It is common that there are more functions available for the master side than for the slave side.
 
 For example:
 

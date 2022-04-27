@@ -132,8 +132,8 @@ To manually connect a ``TriState`` signal to an ``Analog`` bundle:
     case class Example extends Component {
       val io = new Bundle {
         val tri = slave(TriState(Bits(16 bit)))
-        val analog = inout Analog(Bits(16 bit))
+        val analog = inout(Analog(Bits(16 bit)))
       }
-      tri.read := analog
-      when(tri.writeEnable) { analog := tri.write }
+      io.tri.read := io.analog
+      when(io.tri.writeEnable) { io.analog := io.tri.write }
     }
