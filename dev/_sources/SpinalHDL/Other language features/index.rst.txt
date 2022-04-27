@@ -6,8 +6,10 @@ Other language features
    :hidden:
 
    utils
+   stub
    assertion
    report
+   scope_property
    formal
    analog_inout
    vhdl_generation

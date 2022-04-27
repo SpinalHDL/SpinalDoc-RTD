@@ -11,4 +11,5 @@ Structuring
    clock_domain
    blackbox
    naming
+   parametrization
 

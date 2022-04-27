@@ -248,7 +248,18 @@ Misc
 
 .. code-block:: scala
 
-   val a, b, c = Bool
+   val a, b, c = Bool()
 
    // Concatenation of three Bool into a Bits
    val myBits = a ## b ## c
+
+MaskedBoolean
+~~~~~~~~~~~~~
+
+A masked boolean allows don’t care values. They are usually not used on their own but through :ref:`MaskedLitteral <maskedlitteral>`.
+
+.. code-block:: scala
+
+  // first argument: boolean value
+  // second argument: do we care ?
+  val masked = new MaskedBoolean(true, false)

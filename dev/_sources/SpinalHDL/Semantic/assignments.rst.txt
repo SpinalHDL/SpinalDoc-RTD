@@ -42,6 +42,21 @@ There are multiple assignment operators:
    // Automatic connection between two UART interfaces.
    uartCtrl.io.uart <> io.uart
 
+It also support Bundle assignment, Bundle multiple signals together use ``()`` to assign and assign to
+
+.. code-block:: scala
+
+   val a, b, c = UInt(4 bits)
+   val d       = UInt(12 bit)
+   val e       = Bits(10 bit)
+   val f       = SInt(2  bit)
+   val g       = Bits()
+
+   (a, b, c) := B(0, 12 bit)
+   (a, b, c) := d.asBits
+   (a, b, c) := (e, f).asBits
+   g         := (a, b, c, e, f).asBits
+
 It is important to understand that in SpinalHDL, the nature of a signal (combinational/sequential) is defined in its declaration, not by the way it is assigned.
 All datatype instances will define a combinational signal, while a datatype instance wrapped with ``Reg(...)`` will define a sequential (registered) signal.
 
