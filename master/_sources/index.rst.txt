@@ -17,6 +17,7 @@
    SpinalHDL/Other language features/index
    SpinalHDL/Libraries/index
    SpinalHDL/Simulation/index
+   SpinalHDL/Formal verification/index
    SpinalHDL/Examples/index
    SpinalHDL/Legacy/index
    SpinalHDL/Developers area/index
