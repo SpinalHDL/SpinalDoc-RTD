@@ -10,7 +10,6 @@ Other language features
    assertion
    report
    scope_property
-   formal
    analog_inout
    vhdl_generation
 
