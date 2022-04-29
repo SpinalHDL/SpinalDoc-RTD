@@ -235,6 +235,23 @@ Specifying a initial assumption
 .. code-block:: scala
 
     assumeInitial(clockDomain.isResetActive)
+    
+Memory content (Mem)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you have a Mem in your design, and you want to check its content, you can do it the following ways : 
+
+.. code-block:: scala
+
+    // Manual access
+    for(i <- 0 until dut.ram.wordCount){
+      assumeInitial(dut.ram(i) =/= X) //No occurence of the word X
+    }
+    
+    assumeInitial(!dut.ram.formalContains(X)) //No occurence of the word X
+    
+    assumeInitial(dut.ram.formalCount(X) === 1) //only one occurence of the word X
+    
 
 Specifying assertion in the reset scope
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
