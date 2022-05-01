@@ -17,15 +17,15 @@ AFix can be created using bit sizes or exponents:
 
 .. code-block:: scala
 
-  U(12 bit)        // U12.0
-  UQ(8 bit, 4 bit) // U8.4
-  U(8 exp, 12 bit) // U8.4
+  U(12 bits)        // U12.0
+  UQ(8 bits, 4 bits) // U8.4
+  U(8 exp, 12 bits) // U8.4
   U(8 exp, -4 exp) // U8.4
   U(8 exp, 4 exp)  // U8.-4
 
-  S(12 bit)        // S11 + sign
-  SQ(8 bit, 4 bit) // S8.4 + sign
-  S(8 exp, 12 bit) // S8.3 + sign
+  S(12 bits)        // S11 + sign
+  SQ(8 bits, 4 bits) // S8.4 + sign
+  S(8 exp, 12 bits) // S8.3 + sign
   S(8 exp, -4 exp) // S8.4 + sign
 
 
@@ -33,9 +33,9 @@ These will have representable ranges for all bits.
 
 For example:
 
-``U(12 bit)`` will have a range of 0 to 4095.
+``U(12 bits)`` will have a range of 0 to 4095.
 
-``SQ(8 bit, 4 bit)`` will have a range of -4096 (-256) to 4095 (255.9375)
+``SQ(8 bits, 4 bits)`` will have a range of -4096 (-256) to 4095 (255.9375)
 
 ``U(8 exp, 4 exp)`` will have a range of 0 to 256
 
@@ -82,8 +82,8 @@ Signed and unsigned numbers are interoperable. There are no type differences bet
 .. code-block:: scala
 
   // Integer and fractional expansion
-  val a = U(4 bit)                // [   0 (  0.)     to  15 (15.  )]  4 bits, 2^0
-  val b = UQ(2 bit, 2 bit)        // [   0 (  0.)     to  15 ( 3.75)]  4 bits, 2^-2
+  val a = U(4 bits)                // [   0 (  0.)     to  15 (15.  )]  4 bits, 2^0
+  val b = UQ(2 bits, 2 bits)        // [   0 (  0.)     to  15 ( 3.75)]  4 bits, 2^-2
   val c = a + b                   // [   0 (  0.)     to  77 (19.25)]  7 bits, 2^-2
   val d = new AFix(-4, 8, -2 exp) // [-  4 (- 1.25)   to   8 ( 2.00)]  5 bits, 2^-2
   val e = c * d                   // [-308 (-19.3125) to 616 (38.50)] 11 bits, 2^-4
