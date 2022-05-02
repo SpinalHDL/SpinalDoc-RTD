@@ -9,6 +9,10 @@ Description
 
 Auto-ranging Fixed-Point, ``AFix``, is a fixed-point class which tracks the representable range of values while preforming fixed-point operations.
 
+**Warning: Much of this code is still under development. API and function calls may change.**
+
+User feedback is appreciated!
+
 
 Declaration
 ^^^^^^^^^^^
@@ -55,9 +59,9 @@ The ``maxValue`` and ``minValue`` stores what backing integer values are represe
 These values represent the true fixed-point value after multiplying by ``2^exp``.
 
 ``AFix.U(2 exp, -1 exp)`` can represent:
-``0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75``
+``0, 0.5, 1.0, 1.5, 2, 2.5, 3, 3.5``
 
-``AFix.S(2 exp, -1 exp)`` can represent:
+``AFix.S(2 exp, -2 exp)`` can represent:
 ``-2.0, -1.75, -1.5, -1.25, -1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75``
 
 Exponent values greater 0 are allowed and represent values which are larger than 1.
