@@ -17,50 +17,52 @@ AFix can be created using bit sizes or exponents:
 
 .. code-block:: scala
 
-  U(12 bits)        // U12.0
-  UQ(8 bits, 4 bits) // U8.4
-  U(8 exp, 12 bits) // U8.4
-  U(8 exp, -4 exp) // U8.4
-  U(8 exp, 4 exp)  // U8.-4
+  AFix.U(12 bits)        // U12.0
+  AFix.UQ(8 bits, 4 bits) // U8.4
+  AFix.U(8 exp, 12 bits) // U8.4
+  AFix.U(8 exp, -4 exp) // U8.4
+  AFix.U(8 exp, 4 exp)  // U8.-4
 
-  S(12 bits)        // S11 + sign
-  SQ(8 bits, 4 bits) // S8.4 + sign
-  S(8 exp, 12 bits) // S8.3 + sign
-  S(8 exp, -4 exp) // S8.4 + sign
+  AFix.S(12 bits)        // S11 + sign
+  AFix.SQ(8 bits, 4 bits) // S8.4 + sign
+  AFix.S(8 exp, 12 bits) // S8.3 + sign
+  AFix.S(8 exp, -4 exp) // S8.4 + sign
 
 
 These will have representable ranges for all bits.
 
 For example:
 
-``U(12 bits)`` will have a range of 0 to 4095.
+``AFix.U(12 bits)`` will have a range of 0 to 4095.
 
-``SQ(8 bits, 4 bits)`` will have a range of -4096 (-256) to 4095 (255.9375)
+``AFix.SQ(8 bits, 4 bits)`` will have a range of -4096 (-256) to 4095 (255.9375)
 
-``U(8 exp, 4 exp)`` will have a range of 0 to 256
+``AFix.U(8 exp, 4 exp)`` will have a range of 0 to 256
 
 
 Custom range ``AFix`` values can be created be directly instantiating the class.
 
 .. code-block:: scala
 
-  AFix(0, 4096, 0 exp)
-  AFix(-256, 256, -2 exp)
-  AFix(8, 16, 2 exp)
+  class AFix(val maxValue: BigInt, val minValue: BigInt, val exp: ExpNumber)
+
+  AFix.AFix(4096, 0, 0 exp)     // [0 to 4096, 2^0]
+  AFix.AFix(256, -256, -2 exp)  // [-256 to 256, 2^-2]
+  AFix.AFix(16, 8, 2 exp)       // [8 to 16, 2^2]
 
 
 The ``maxValue`` and ``minValue`` stores what backing integer values are representable.
 These values represent the true fixed-point value after multiplying by ``2^exp``.
 
-``U(2 exp, -1 exp)`` can represent:
+``AFix.U(2 exp, -1 exp)`` can represent:
 ``0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75``
 
-``S(2 exp, -1 exp)`` can represent:
+``AFix.S(2 exp, -1 exp)`` can represent:
 ``-2.0, -1.75, -1.5, -1.25, -1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75``
 
 Exponent values greater 0 are allowed and represent values which are larger than 1.
 
-``S(2 exp, 1 exp)`` can represent:
+``AFix.S(2 exp, 1 exp)`` can represent:
 ``-4, 2, 0, 2``
 
 ``AFix(8, 16, 2 exp)`` can represent:
@@ -82,8 +84,8 @@ Signed and unsigned numbers are interoperable. There are no type differences bet
 .. code-block:: scala
 
   // Integer and fractional expansion
-  val a = U(4 bits)                // [   0 (  0.)     to  15 (15.  )]  4 bits, 2^0
-  val b = UQ(2 bits, 2 bits)        // [   0 (  0.)     to  15 ( 3.75)]  4 bits, 2^-2
+  val a = AFix.U(4 bits)          // [   0 (  0.)     to  15 (15.  )]  4 bits, 2^0
+  val b = AFix.UQ(2 bits, 2 bits) // [   0 (  0.)     to  15 ( 3.75)]  4 bits, 2^-2
   val c = a + b                   // [   0 (  0.)     to  77 (19.25)]  7 bits, 2^-2
   val d = new AFix(-4, 8, -2 exp) // [-  4 (- 1.25)   to   8 ( 2.00)]  5 bits, 2^-2
   val e = c * d                   // [-308 (-19.3125) to 616 (38.50)] 11 bits, 2^-4
