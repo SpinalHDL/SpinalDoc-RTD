@@ -24,7 +24,7 @@ Prepend the following paths to your ``LD_LIBRARY_PATH`` to enable PLI features.
   export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/MODELSIM/LINUX64:$LD_LIBRARY_PATH 
 
 For those who encounter the problem of ``Compilation of SharedMemIface.cpp failed``, make sure that you have installed C++ boost library correctly.
-The header files and the library files path are added to ``CPLUS_INCLUDE_PATH``, ``LIBRARY_PATH`` and ``LD_LIBRARY_PATH`` respectively.
+The header and library files path should be added to ``CPLUS_INCLUDE_PATH``, ``LIBRARY_PATH`` and ``LD_LIBRARY_PATH`` respectively.
 
 VCS Flags
 ---------
