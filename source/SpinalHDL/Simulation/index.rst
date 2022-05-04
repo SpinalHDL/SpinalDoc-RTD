@@ -30,7 +30,7 @@ To be able to simulate user-defined components, SpinalHDL uses external HDL simu
 - `Verilator <https://www.veripool.org/wiki/verilator>`_
 - `GHDL <http://ghdl.free.fr/>`_ **(experimental, since SpinalHDL 1.4.1)**
 - `Icarus Verilog <http://iverilog.icarus.com/>`_ **(experimental, since SpinalHDL 1.4.1)**
-- `VCS <https://www.synopsys.com/verification/simulation/vcs.html>`_ **(experimental, since SpinalHDL 1.6.5)**
+- `VCS <https://www.synopsys.com/verification/simulation/vcs.html>`_ **(experimental, since SpinalHDL 1.7.0)**
 
 With external HDL simulators it is possible to directly test the generated HDL sources without increasing the SpinalHDL codebase complexity. 
 
@@ -88,6 +88,8 @@ How SpinalHDL simulates the hardware with Synopsys VCS backend
 **Limitations:**
 
 * Synopsys VCS is a **commercial** simulation tool. It is close source and not free. You have to own the licenses to **legally** use it.
+
+Before using VCS as the simulation backend, make sure that you have checked your system environment as :ref:`VCS environment <_vcs_env>`.
 
 Performance
 -----------
