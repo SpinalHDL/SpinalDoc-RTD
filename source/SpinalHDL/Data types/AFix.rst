@@ -176,7 +176,7 @@ consider shifting or use an assignment with the ``truncated`` tag.
 Assignment
 ^^^^^^^^^^
 
-``AFix`` will automatically check and expand range and precision during assignment. By default it is an error to assign
+``AFix`` will automatically check and expand range and precision during assignment. By default, it is an error to assign
 an ``AFix`` value to another ``AFix`` value with smaller range or precision.
 
 The ``.truncated`` function is used to control how assignments to smaller types.
@@ -208,4 +208,4 @@ The ``saturation`` flag will add logic to saturate to the assigned datatype rang
 
 The ``overflow`` flag will allow assignment directly after rounding without range checking.
 
-Rounding is required
+Rounding is always required when assigning a value with more precision to one with lower precision.
