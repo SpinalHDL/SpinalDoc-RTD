@@ -144,7 +144,7 @@ Lib helper functions
      - Description
      - Return
    * - x.sCount(condition: T => Bool)
-     - Count the number of occurence of matching a given condition in the Vec.
+     - Count the number of occurence matching a given condition in the Vec.
      - UInt
    * - x.sCount(value: T)
      - Count the number of occurence of a value in the Vec.
