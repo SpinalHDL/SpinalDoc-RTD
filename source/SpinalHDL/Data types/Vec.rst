@@ -128,3 +128,61 @@ Misc
    val vec1 = Vec(SInt(8 bits), 2)
 
    println(vec1.getBitsWidth) // 16
+
+
+Lib helper functions
+~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+    You need to import ``import spinal.lib._`` to put these functions in scope.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 3 4 1
+
+   * - Operator
+     - Description
+     - Return
+   * - x.sCount(condition: T => Bool)
+     - Count the number of occurence matching a given condition in the Vec.
+     - UInt
+   * - x.sCount(value: T)
+     - Count the number of occurence of a value in the Vec.
+     - UInt
+   * - x.sExists(condition: T => Bool)
+     - Check if there is a matching condition in the Vec.
+     - Bool
+   * - x.sContains(value: T)
+     - Check if there is an element with a given value present in the Vec.
+     - Bool
+   * - x.sFindFirst(condition: T => Bool)
+     - Find the first element matching the given condition in the Vec, return the index of that element.
+     - UInt
+   * - x.reduceBalancedTree(op: (T, T) => T)
+     - Balanced reduce function, to try to minimize the depth of the resulting circuit. ``op`` should be commutative and associative.
+     - T
+   * - x.shuffle(indexMapping: Int => Int)
+     - Shuffle the Vec using a function that maps the old indexes to new ones.
+     - Vec[T]
+
+.. code-block:: scala
+
+    import spinal.lib._
+
+    // Create a vector with 4 unsigned integers
+    val vec1 = Vec(UInt(8 bits), 4)
+
+    // ... the vector is actually assigned somewhere
+
+    val c1: UInt = vec1.sCount(_ < 128) // how many values are lower than 128 in vec
+    val c2: UInt = vec1.sCount(0) // how many values are equal to zero in vec
+
+    val b1: Bool = vec1.sExists(_ > 250) // is there a element bigger than 250
+    val b2: Bool = vec1.sContains(0) // is there a zero in vec
+
+    val u1: UInt = vec1.sFindFirst(_ < 10) // get the index of the first element lower than 10
+    val u2: UInt = vec1.reduceBalancedTree(_ + _) // sum all elements together
+
+
+.. note::
+    The sXXX prefix is used to disambiguate with respect to identically named Scala functions that accept a lambda function as argument.

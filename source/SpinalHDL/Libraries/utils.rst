@@ -60,6 +60,17 @@ State less utilities
        | )
      - T
      - Returns the muxed ``T`` from the ``inputs`` based on the ``oneHot`` vector.
+   * - | PriorityMux (
+       |    sel: Seq[Bool],
+       |    in:  Seq[T]
+       | )
+     - T
+     - Return the first ``in`` element whose ``sel`` is ``True``.
+   * - | PriorityMux (
+       |    in:  Seq[(Bool, T)]
+       | )
+     - T
+     - Return the first ``in`` element whose ``sel`` is ``True``.
 
 
 State full utilities
