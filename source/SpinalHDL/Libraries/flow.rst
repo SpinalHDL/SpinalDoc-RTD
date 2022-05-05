@@ -87,7 +87,8 @@ Code example
 
 .. code-block:: scala
 
-    val answer = Flow(Bits(8 bits))
+    val request = Flow(Bits(8 bits))
+    val answer  = Flow(Bits(8 bits))
     val storage = Reg(Bits(8 bits)) init 0
 
     val fsm = new StateMachine {
@@ -109,4 +110,8 @@ Code example
         }
       }
     }
+
+    // equivalently
+
+    answer <-< request
 
