@@ -162,7 +162,7 @@ Lib helper functions
      - Balanced reduce function, to try to minimize the depth of the resulting circuit. ``op`` should be commutative and associative.
      - T
    * - x.shuffle(indexMapping: Int => Int)
-     - Shuffle the vec, from a function that map old indices to new ones.
+     - Shuffle the Vec using a function that maps the old indexes to new ones.
      - Vec[T]
 
 .. code-block:: scala
