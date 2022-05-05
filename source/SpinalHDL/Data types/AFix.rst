@@ -50,9 +50,9 @@ Custom range ``AFix`` values can be created be directly instantiating the class.
 
   class AFix(val maxValue: BigInt, val minValue: BigInt, val exp: ExpNumber)
 
-  AFix.AFix(4096, 0, 0 exp)     // [0 to 4096, 2^0]
-  AFix.AFix(256, -256, -2 exp)  // [-256 to 256, 2^-2]
-  AFix.AFix(16, 8, 2 exp)       // [8 to 16, 2^2]
+  new AFix(4096, 0, 0 exp)     // [0 to 4096, 2^0]
+  new AFix(256, -256, -2 exp)  // [-256 to 256, 2^-2]
+  new AFix(16, 8, 2 exp)       // [8 to 16, 2^2]
 
 
 The ``maxValue`` and ``minValue`` stores what backing integer values are representable.
@@ -96,7 +96,7 @@ Signed and unsigned numbers are interoperable. There are no type differences bet
 
   // Integer without expansion
   val aa = new AFix(8, 16, -4 exp) // [8 to 16] 5 bits, 2^-4
-  val bb = new AFix(1, 15, -4 exp) // [1 to 15] 3 bits, 2^-4
+  val bb = new AFix(1, 15, -4 exp) // [1 to 15] 4 bits, 2^-4
   val cc = aa + bb                 // [9 to 31] 5 bits, 2^-4
 
 
