@@ -153,7 +153,7 @@ Lib helper functions
      - Check if there is a matching condition in the Vec.
      - Bool
    * - x.sContains(value: T)
-     - Is there this element in the Vec.
+     - Check if there is an element with a given value present in the Vec.
      - Bool
    * - x.sFindFirst(condition: T => Bool)
      - Find the first element matching the given condition in the Vec, return the index of that element.
