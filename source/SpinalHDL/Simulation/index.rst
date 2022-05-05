@@ -89,7 +89,7 @@ How SpinalHDL simulates the hardware with Synopsys VCS backend
 
 * Synopsys VCS is a **commercial** simulation tool. It is close source and not free. You have to own the licenses to **legally** use it.
 
-Before using VCS as the simulation backend, make sure that you have checked your system environment as :ref:`VCS environment <_vcs_env>`.
+Before using VCS as the simulation backend, make sure that you have checked your system environment as :ref:`VCS environment<vcs_env>`.
 
 Performance
 -----------
