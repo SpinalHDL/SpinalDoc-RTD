@@ -73,4 +73,40 @@ Functions
      - Return a register which is loaded with ``payload`` when valid is high
      - T
      - 
+   * - x.setIdle()
+     - Set the Flow in an Idle state: ``valid`` is ``False`` and don't care about ``payload``.
+     -
+     -
+   * - x.push(newPayload: T)
+     - Assign a new valid payload to the Flow. ``valid`` is set to ``True``.
+     -
+     -
+
+Code example
+------------
+
+.. code-block:: scala
+
+    val answer = Flow(Bits(8 bits))
+    val storage = Reg(Bits(8 bits)) init 0
+
+    val fsm = new StateMachine {
+      answer.setIdle()
+
+      val idle: State = new State with EntryPoint {
+        whenIsActive {
+          when(request.valid) {
+            storage := request.payload
+            goto(sendEcho)
+          }
+        }
+      }
+
+      val sendEcho: State = new State {
+        whenIsActive {
+            answer.push(storage)
+            goto(idle)
+        }
+      }
+    }
 
