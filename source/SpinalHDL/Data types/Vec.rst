@@ -150,7 +150,7 @@ Lib helper functions
      - Count the number of occurence of a value in the Vec.
      - UInt
    * - x.sExists(condition: T => Bool)
-     - Is there an element matching the condition in the Vec.
+     - Check if there is a matching condition in the Vec.
      - Bool
    * - x.sContains(value: T)
      - Is there this element in the Vec.
