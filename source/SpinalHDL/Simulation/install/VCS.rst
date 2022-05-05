@@ -2,6 +2,8 @@
 VCS Simulation Configuration
 ==============================
 
+.. _vcs_env:
+
 Environment variable
 ----------------------
 
@@ -11,7 +13,7 @@ You should have several environment variables defined before:
 * ``VERDI_HOME``: The home path to your Verdi installation.
 * Add ``$VCS_HOME/bin`` and ``$VERDI_HOME/bin`` to your ``PATH``.
 
-Prepend the following paths to your ``LD_LIBRARY_PATH`` 
+Prepend the following paths to your ``LD_LIBRARY_PATH`` to enable PLI features.
 
 .. code-block:: bash
 
@@ -20,6 +22,9 @@ Prepend the following paths to your ``LD_LIBRARY_PATH``
   export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/lib/LINUX64:$LD_LIBRARY_PATH 
   export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/Ius/LINUX64:$LD_LIBRARY_PATH 
   export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/MODELSIM/LINUX64:$LD_LIBRARY_PATH 
+
+If you encounter the ``Compilation of SharedMemIface.cpp failed`` error, make sure that you have installed C++ boost library correctly.
+The header and library files path should be added to ``CPLUS_INCLUDE_PATH``, ``LIBRARY_PATH`` and ``LD_LIBRARY_PATH`` respectively.
 
 VCS Flags
 ---------
