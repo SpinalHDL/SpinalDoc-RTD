@@ -388,6 +388,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#clock-domain-crossing">Clock domain crossing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#special-clocking-areas">Special clocking Areas</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#slow-area">Slow Area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootreset">BootReset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#resetarea">ResetArea</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#clockenablearea">ClockEnableArea</a></li>
 </ul>
@@ -1622,6 +1623,24 @@
 <span class="w">    </span><span class="n">defaultClockDomainFrequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="nc">MHz</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="p">).</span><span class="n">generateVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bootreset">
+<h3>BootReset<a class="headerlink" href="#bootreset" title="Permalink to this headline">¶</a></h3>
+<p><cite>clockDomain.withBootReset()</cite> could specify register’s resetkinde as boot.
+<cite>clockDomain.withSyncReset()</cite> could specify register’s resetkinde as Sync-reset.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w">  </span><span class="nc">Top</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w">  </span><span class="o">:=</span><span class="w">  </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w">  </span><span class="o">:=</span><span class="w">  </span><span class="n">clockDomain</span><span class="p">.</span><span class="n">withBootReset</span><span class="p">()</span><span class="w">  </span><span class="n">on</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w">  </span><span class="o">:=</span><span class="w">  </span><span class="n">clockDomain</span><span class="p">.</span><span class="n">withSyncReset</span><span class="p">()</span><span class="w">  </span><span class="n">on</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">d</span><span class="w">  </span><span class="o">:=</span><span class="w">  </span><span class="n">clockDomain</span><span class="p">.</span><span class="n">withAsyncReset</span><span class="p">()</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Top</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
