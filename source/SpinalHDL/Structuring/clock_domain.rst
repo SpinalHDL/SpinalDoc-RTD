@@ -478,6 +478,26 @@ A ``SlowArea`` is used to create a new clock domain area which is slower than th
      ).generateVhdl(new TopLevel)
    }
 
+BootReset
+^^^^^^^^^
+
+`clockDomain.withBootReset()` could specify register's resetkinde as boot. 
+`clockDomain.withSyncReset()` could specify register's resetkinde as Sync-reset. 
+
+.. code-block:: scala 
+
+    class  Top extends Component {
+        val io = new Bundle {
+          val data = in Bits(8 bit)
+          val a, b, c, d = out Bits(8 bit)
+        }
+        io.a  :=  RegNext(io.data) init 0
+        io.b  :=  clockDomain.withBootReset()  on RegNext(io.data) init 0
+        io.c  :=  clockDomain.withSyncReset()  on RegNext(io.data) init 0
+        io.d  :=  clockDomain.withAsyncReset() on RegNext(io.data) init 0
+    }
+    SpinalVerilog(new Top)
+
 ResetArea
 ^^^^^^^^^
 
