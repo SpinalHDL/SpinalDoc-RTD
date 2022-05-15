@@ -1233,14 +1233,28 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>usbAddressFilter</p></td>
+<tr class="row-even"><td><p>address</p></td>
 <td><p>WO</p></td>
 <td><p>6-0</p></td>
 <td><p>The device will only listen at tokens with the specified address
 This field is automaticaly cleared on usb reset events</p></td>
 </tr>
+<tr class="row-odd"><td><p>enable</p></td>
+<td><p>WO</p></td>
+<td><p>8</p></td>
+<td><p>Enable the USB address filtering if set</p></td>
+</tr>
+<tr class="row-even"><td><p>trigger</p></td>
+<td><p>WO</p></td>
+<td><p>9</p></td>
+<td><p>Set the enable (see above) on the next EP0 IN tocken completion
+Cleared by the hardware after any EP0 completion</p></td>
+</tr>
 </tbody>
 </table>
+<p>The idea here is to keep the whole register cleared until a USB SET_ADDRESS setup packet is received on EP0.
+At that moment, you can set the address and the trigger field, then provide the IN zero length descriptor to EP0 to
+finalise the SET_ADDRESS sequance. The controller will then automaticaly turn on the address filtering at the completion of that descriptor.</p>
 </div>
 <div class="section" id="interrupt-0xff08">
 <h3>INTERRUPT (0xFF08)<a class="headerlink" href="#interrupt-0xff08" title="Permalink to this headline">¶</a></h3>

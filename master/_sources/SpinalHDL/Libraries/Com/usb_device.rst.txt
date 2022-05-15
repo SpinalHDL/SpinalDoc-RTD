@@ -64,9 +64,18 @@ ADDRESS (0xFF04)
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
 +=========================+======+===========+==================================================================+
-| usbAddressFilter        |  WO  | 6-0       | The device will only listen at tokens with the specified address |
+| address                 |  WO  | 6-0       | The device will only listen at tokens with the specified address |
 |                         |      |           | This field is automaticaly cleared on usb reset events           |
 +-------------------------+------+-----------+------------------------------------------------------------------+
+| enable                  |  WO  | 8         | Enable the USB address filtering if set                          |
++-------------------------+------+-----------+------------------------------------------------------------------+
+| trigger                 |  WO  | 9         | Set the enable (see above) on the next EP0 IN tocken completion  |
+|                         |      |           | Cleared by the hardware after any EP0 completion                 |
++-------------------------+------+-----------+------------------------------------------------------------------+
+
+The idea here is to keep the whole register cleared until a USB SET_ADDRESS setup packet is received on EP0.
+At that moment, you can set the address and the trigger field, then provide the IN zero length descriptor to EP0 to 
+finalise the SET_ADDRESS sequance. The controller will then automaticaly turn on the address filtering at the completion of that descriptor.
 
 INTERRUPT (0xFF08)
 **********************
