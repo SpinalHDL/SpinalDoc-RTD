@@ -1191,6 +1191,7 @@
 </div>
 <div class="section" id="registers">
 <h2>Registers<a class="headerlink" href="#registers" title="Permalink to this headline">¶</a></h2>
+<p>Note that all registers and memories of the controller are only accessible in 32 bits word access, bytes access isn’t supported.</p>
 <div class="section" id="frame-0xff00">
 <h3>FRAME (0xFF00)<a class="headerlink" href="#frame-0xff00" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
@@ -1309,7 +1310,7 @@ finalise the SET_ADDRESS sequance. The controller will then automaticaly turn on
 </div>
 <div class="section" id="halt-0xff0c">
 <h3>HALT (0xFF0C)<a class="headerlink" href="#halt-0xff0c" title="Permalink to this headline">¶</a></h3>
-<p>This register allow to place a single enpoint in a dormant state in order to ensure atomicity of CPU operations.
+<p>This register allow to place a single enpoint in a dormant state in order to ensure atomicity of CPU operations, allowing to do things as read/modify/write on the endpoint registers and descriptors.
 The peripheral will return NAK if the given endpoint is addressed by the usb host.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -1468,6 +1469,15 @@ This field is also updated by the controller.</p></td>
 </tr>
 </tbody>
 </table>
+<p>To get a endpoint responsive you need :</p>
+<ul class="simple">
+<li><p>Set its enable flag to 1</p></li>
+</ul>
+<p>Then the there is a few cases :
+- Either you have the stall or nack flag set, and so, the controller will always responde with the corresponding responses
+- Either, for EP0 setup request, the controller will not use descriptors, but will instead write the data into the SETUP_DATA register, and ACK
+- Either you have a empty linked list (head==0) in which case it will answer NACK
+- Either you have at least one descriptor pointed by head, in which case it will execute it and ACK if all was going smooth</p>
 </div>
 <div class="section" id="setup-data-0x0040-0x0047">
 <h3>SETUP_DATA (0x0040 - 0x0047)<a class="headerlink" href="#setup-data-0x0040-0x0047" title="Permalink to this headline">¶</a></h3>
@@ -1546,6 +1556,8 @@ descriptoo</p></td>
 </tr>
 </tbody>
 </table>
+<p>Note, if the controller receive a frame where the IN/OUT does not match the descriptor IN/OUT, the frame will be ignored.</p>
+<p>Also, to initialise a descriptor, the CPU should set the code field to 0xF</p>
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
