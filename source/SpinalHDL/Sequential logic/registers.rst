@@ -162,3 +162,39 @@ In case where the initialization must be deferred since the init value is not kn
       //...
       val sr = ShiftRegister(Flow(UInt(8 bits)), 4, SRConsumer.initIdleFlow[UInt])
    }
+
+Transforming a wire into a register
+-----------------------------------
+
+Sometimes it is useful to transform an existing wire into a register. For
+instance, when you are using a Bundle, if you want some outputs of the bundle to
+be registers, you might prefer to write ``io.myBundle.PORT := newValue`` without
+declaring registers with ``val PORT = Reg(...)`` and connecting their output to
+the port with ``io.myBundle.PORT := PORT``. To do this, you just need to use
+``.setAsReg()`` on the ports you want to control as registers:
+
+.. code-block:: scala
+
+   val io = new Bundle {
+      val apb = master(Apb3(apb3Config))
+   }
+
+   io.apb.PADDR.setAsReg()
+   io.apb.PWRITE.setAsReg() init (False)
+
+   when(someCondition) {
+      io.apb.PWRITE := True
+   }
+
+Notice in the code above that you can also specify an initialization value.
+
+.. note::
+
+   The register is created in the clock domain of the wire, and does not depend
+   on the place where ``.setAsReg()`` is used.
+
+   In the example above, the wire is defined in the ``io`` Bundle, in the same
+   clock domain as the component. Even if ``io.apb.PADDR.setAsReg()`` was
+   written in a ``ClockingArea`` with a different clock domain, the register
+   would use the clock domain of the component and not the one of the
+   ``ClockingArea``.

@@ -48,6 +48,8 @@ The endpoint 0 manage the IN/OUT transactions like all the other endpoints but h
 Registers
 --------------
 
+Note that all registers and memories of the controller are only accessible in 32 bits word access, bytes access isn't supported.
+
 FRAME (0xFF00)
 **********************
 
@@ -64,9 +66,18 @@ ADDRESS (0xFF04)
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
 +=========================+======+===========+==================================================================+
-| usbAddressFilter        |  WO  | 6-0       | The device will only listen at tokens with the specified address |
+| address                 |  WO  | 6-0       | The device will only listen at tokens with the specified address |
 |                         |      |           | This field is automaticaly cleared on usb reset events           |
 +-------------------------+------+-----------+------------------------------------------------------------------+
+| enable                  |  WO  | 8         | Enable the USB address filtering if set                          |
++-------------------------+------+-----------+------------------------------------------------------------------+
+| trigger                 |  WO  | 9         | Set the enable (see above) on the next EP0 IN tocken completion  |
+|                         |      |           | Cleared by the hardware after any EP0 completion                 |
++-------------------------+------+-----------+------------------------------------------------------------------+
+
+The idea here is to keep the whole register cleared until a USB SET_ADDRESS setup packet is received on EP0.
+At that moment, you can set the address and the trigger field, then provide the IN zero length descriptor to EP0 to 
+finalise the SET_ADDRESS sequance. The controller will then automaticaly turn on the address filtering at the completion of that descriptor.
 
 INTERRUPT (0xFF08)
 **********************
@@ -92,8 +103,8 @@ All bits of this register can be cleared by writing '1' in them.
 HALT (0xFF0C)
 **********************
 
-This register allow to place a single enpoint in a dormant state in order to ensure atomicity of CPU operations.
-The peripheral will return NAK if the given endpoint is addressed by the usb host.
+This register allow to place a single enpoint in a dormant state in order to ensure atomicity of CPU operations, allowing to do things as read/modify/write on the endpoint registers and descriptors.
+The peripheral will return NAK if the given endpoint is addressed by the usb host. 
 
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
@@ -121,7 +132,7 @@ CONFIG (0xFF10)
 | interruptEnableClear    |  SO  | 3         |                                                                  |
 +-------------------------+------+-----------+------------------------------------------------------------------+
 
-INFO (0xFF14)
+INFO (0xFF20)
 **********************
 
 +---------------+------+-----------+------------------------------------------------------------------+
@@ -154,6 +165,16 @@ The endpoints status are stored at the begining of the internal ram over one 32 
 +---------------+------+-----------+------------------------------------------------------------------+
 | maxPacketSize |  RW  | 31-22     |                                                                  |
 +---------------+------+-----------+------------------------------------------------------------------+
+
+To get a endpoint responsive you need : 
+
+- Set its enable flag to 1
+
+Then the there is a few cases :
+- Either you have the stall or nack flag set, and so, the controller will always responde with the corresponding responses 
+- Either, for EP0 setup request, the controller will not use descriptors, but will instead write the data into the SETUP_DATA register, and ACK
+- Either you have a empty linked list (head==0) in which case it will answer NACK
+- Either you have at least one descriptor pointed by head, in which case it will execute it and ACK if all was going smooth
 
 SETUP_DATA (0x0040 - 0x0047)
 *********************************
@@ -193,7 +214,10 @@ They are stored in the internal ram, can be linked together via their linked lis
 +-------------------+------+-----------+------------------------------------------------------------------+
 | data              | ...  | ...       |                                                                  |
 +-------------------+------+-----------+------------------------------------------------------------------+
-                
+
+Note, if the controller receive a frame where the IN/OUT does not match the descriptor IN/OUT, the frame will be ignored.
+
+Also, to initialise a descriptor, the CPU should set the code field to 0xF                
 
 Usage
 --------------

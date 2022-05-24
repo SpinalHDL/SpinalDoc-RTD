@@ -12,6 +12,7 @@ Data types
    Vec
    Fix
    Floating
+   AFix
 
 
 .. _type_introduction:
@@ -32,6 +33,7 @@ The language provides 5 base types, and 2 composite types that can be used.
 In addition to the base types, Spinal has support under development for:
 
 * :ref:`Fixed-point <fixed>` numbers (partial support)
+* :ref:`Auto-range Fixed-point <afix>` numbers (add,sub,mul support)
 * :ref:`Floating-point <Floating>` numbers (experimental support)
 
 Finally, a special type is available for checking equality between a BitVector and a bits constant that contains holes (don't care values). An example is shown below:
