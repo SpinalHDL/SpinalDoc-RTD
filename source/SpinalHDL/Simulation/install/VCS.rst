@@ -26,6 +26,27 @@ Prepend the following paths to your ``LD_LIBRARY_PATH`` to enable PLI features.
 If you encounter the ``Compilation of SharedMemIface.cpp failed`` error, make sure that you have installed C++ boost library correctly.
 The header and library files path should be added to ``CPLUS_INCLUDE_PATH``, ``LIBRARY_PATH`` and ``LD_LIBRARY_PATH`` respectively.
 
+User defined environment setup
+------------------------------
+
+Sometimes a VCS environment setup file `synopsys_sim.setup` is required to run VCS simulation. Also you may want to run some scripts or code 
+to setup the environment just before VCS starting compilation. You can do this by `withVCSSimSetup`.
+
+.. code-block:: scala
+  
+  val simConfig = SimConfig
+    .withVCS
+    .withVCSSimSetup(
+      setupFile = "~/work/myproj/sim/synopsys_sim.setup",
+      beforeAnalysis = () => { // this code block will be run before VCS analysis step.
+        "pwd".!
+        println("Hello, VCS")
+      }
+    )
+
+This method will copy your own `synopsys_sim.setup` file to the VCS work directory under the `workspacePath` (default as `simWorkspace`) directory,
+and run your scripts.
+
 VCS Flags
 ---------
 
@@ -100,6 +121,9 @@ Also, you can control the wave trace depth by using ``withWaveDepth(depth: Int)`
 
 Simulation with ``Blackbox``
 ----------------------------
+
+Sometimes, IP vendors will provide you with some design entites in Verilog/VHDL format and you want to integrate them into your SpinalHDL design. 
+The integration can done by following two ways:
 
 1. In a ``Blackbox`` definition, use ``addRTLPath(path: String)`` to assign a external Verilog/VHDL file to this blackbox.
 2. Use the method ``mergeRTLSource(fileName: String=null)`` of ``SpinalConfig``.
