@@ -1167,6 +1167,24 @@
 <p>If you encounter the <code class="docutils literal notranslate"><span class="pre">Compilation</span> <span class="pre">of</span> <span class="pre">SharedMemIface.cpp</span> <span class="pre">failed</span></code> error, make sure that you have installed C++ boost library correctly.
 The header and library files path should be added to <code class="docutils literal notranslate"><span class="pre">CPLUS_INCLUDE_PATH</span></code>, <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> respectively.</p>
 </div>
+<div class="section" id="user-defined-environment-setup">
+<h2>User defined environment setup<a class="headerlink" href="#user-defined-environment-setup" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes a VCS environment setup file <cite>synopsys_sim.setup</cite> is required to run VCS simulation. Also you may want to run some scripts or code
+to setup the environment just before VCS starting compilation. You can do this by <cite>withVCSSimSetup</cite>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">simConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">withVCS</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">withVCSSimSetup</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">setupFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;~/work/myproj/sim/synopsys_sim.setup&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">beforeAnalysis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// this code block will be run before VCS analysis step.</span>
+<span class="w">      </span><span class="s">&quot;pwd&quot;</span><span class="p">.</span><span class="o">!</span><span class="w"></span>
+<span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello, VCS&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This method will copy your own <cite>synopsys_sim.setup</cite> file to the VCS work directory under the <cite>workspacePath</cite> (default as <cite>simWorkspace</cite>) directory,
+and run your scripts.</p>
+</div>
 <div class="section" id="vcs-flags">
 <h2>VCS Flags<a class="headerlink" href="#vcs-flags" title="Permalink to this headline">¶</a></h2>
 <p>The VCS backend follows the three step compilation flow:</p>
@@ -1251,6 +1269,8 @@ The header and library files path should be added to <code class="docutils liter
 </div>
 <div class="section" id="simulation-with-blackbox">
 <h2>Simulation with <code class="docutils literal notranslate"><span class="pre">Blackbox</span></code><a class="headerlink" href="#simulation-with-blackbox" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes, IP vendors will provide you with some design entites in Verilog/VHDL format and you want to integrate them into your SpinalHDL design.
+The integration can done by following two ways:</p>
 <ol class="arabic simple">
 <li><p>In a <code class="docutils literal notranslate"><span class="pre">Blackbox</span></code> definition, use <code class="docutils literal notranslate"><span class="pre">addRTLPath(path:</span> <span class="pre">String)</span></code> to assign a external Verilog/VHDL file to this blackbox.</p></li>
 <li><p>Use the method <code class="docutils literal notranslate"><span class="pre">mergeRTLSource(fileName:</span> <span class="pre">String=null)</span></code> of <code class="docutils literal notranslate"><span class="pre">SpinalConfig</span></code>.</p></li>
