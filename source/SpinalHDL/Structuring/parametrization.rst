@@ -21,7 +21,7 @@ Here is an example of class parameters
 
 .. code-block:: scala
 
-  csae class MyBus(width : Int) extends Bundle{
+  case class MyBus(width : Int) extends Bundle{
     val mySignal = UInt(width bits)
   }  
   
