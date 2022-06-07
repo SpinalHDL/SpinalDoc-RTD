@@ -167,6 +167,18 @@ If you have several parameters, it is a good practice to give a specific configu
      ...
    }
 
+You can add functions inside the config, along with requirements on the config attributes:
+
+.. code-block:: scala
+
+   case class MyBusConfig(addressWidth: Int, dataWidth: Int) {
+     def bytePerWord = dataWidth / 8
+     def addressType = UInt(addressWidth bits)
+     def dataType = Bits(dataWidth bits)
+
+     require(dataWidth == 32 || dataWidth == 64, "Data width must be 32 or 64")
+   }
+
 Synthesized component names
 ---------------------------
 
