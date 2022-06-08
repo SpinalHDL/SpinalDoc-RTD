@@ -12,26 +12,28 @@ Each interface signal of the toplevel can be read and written from Scala:
 
    * - Syntax
      - Description
-   * - Bool.toBoolean
+   * - ``Bool.toBoolean``
      - Read a hardware ``Bool`` as a Scala ``Boolean`` value
-   * - Bits/UInt/SInt.toInt
+   * - ``Bits``/``UInt``/``SInt.toInt``
      - Read a hardware ``BitVector`` as a Scala ``Int`` value
-   * - Bits/UInt/SInt.toLong
+   * - ``Bits``/``UInt``/``SInt.toLong``
      - Read a hardware ``BitVector`` as a Scala ``Long`` value
-   * - Bits/UInt/SInt.toBigInt
+   * - ``Bits``/``UInt``/``SInt.toBigInt``
      - Read a hardware ``BitVector`` as a Scala ``BigInt`` value
-   * - SpinalEnumCraft.toEnum
+   * - ``SpinalEnumCraft.toEnum``
      - Read a hardware ``SpinalEnumCraft`` as a Scala ``SpinalEnumElement`` value
-   * - Bool #= Boolean
+   * - ``Bool #= Boolean``
      - Assign a hardware ``Bool`` from an Scala ``Boolean``
-   * - Bits/UInt/SInt #= Int
+   * - ``Bits``/``UInt``/``SInt #= Int``
      - Assign a hardware ``BitVector`` from a Scala ``Int``
-   * - Bits/UInt/SInt #= Long
+   * - ``Bits``/``UInt``/``SInt #= Long``
      - Assign a hardware ``BitVector`` from a Scala ``Long``
-   * - Bits/UInt/SInt #= BigInt
+   * - ``Bits``/``UInt``/``SInt #= BigInt``
      - Assign a hardware ``BitVector`` from a Scala ``BigInt``
-   * - SpinalEnumCraft #= SpinalEnumElement
+   * - ``SpinalEnumCraft #= SpinalEnumElement``
      - Assign a hardware ``SpinalEnumCraft`` from a Scala ``SpinalEnumElement``
+   * - ``Data.randomize()``
+     - Assign a random value to a SpinalHDL value.
 
 
 .. code-block:: scala
