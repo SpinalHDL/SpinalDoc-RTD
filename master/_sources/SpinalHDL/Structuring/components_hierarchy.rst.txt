@@ -78,9 +78,9 @@ There are some rules to follow with component interconnection:
 Pruned signals
 --------------
 
-SpinalHDL only generates things which are directly or indirectly required to drive the outputs of your top-level entity.
+SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones are removed from the RTL generation.
 
-All other signals (the useless ones) are removed from the RTL generation and are inserted into a list of pruned signals. You can get this list via the ``printPruned`` and the ``printPrunedIo`` functions on the generated ``SpinalReport`` object:
+You can collect the list of all the removed ans useless signals via the ``printPruned`` and the ``printPrunedIo`` functions on the generated ``SpinalReport`` object:
 
 .. code-block:: scala
 
@@ -107,31 +107,6 @@ All other signals (the useless ones) are removed from the RTL generation and are
      }
    }
 
-If you want to keep a pruned signal in the generated RTL for debugging reasons, you can use the ``keep`` function of that signal:
-
-.. code-block:: scala
-
-   class TopLevel extends Component {
-     val io = new Bundle {
-       val a, b = in UInt(8 bits)
-       val result = out UInt(8 bits)
-     }
-
-     io.result := io.a + io.b
-
-     val unusedSignal = UInt(8 bits)
-     val unusedSignal2 = UInt(8 bits).keep()
-
-     unusedSignal  := 0
-     unusedSignal2 := unusedSignal
-   }
-
-   object Main {
-     def main(args: Array[String]) {
-       SpinalVhdl(new TopLevel).printPruned()
-       // This will report nothing
-     }
-   }
 
 Parametrized Hardware ("Generic" in VHDL, "Parameter" in Verilog)
 -----------------------------------------------------------------

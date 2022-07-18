@@ -111,6 +111,11 @@ Links
 | Google group:
 | `https://groups.google.com/forum/#!forum/spinalhdl-hardware-description-language <https://groups.google.com/forum/#!forum/spinalhdl-hardware-description-language>`_
 
+| Donation channel :
+| `https://opencollective.com/spinalhdl <https://opencollective.com/spinalhdl>`_
+
+
+
 
 .. image:: https://badges.gitter.im/SpinalHDL/SpinalHDL.svg
    :target: https://gitter.im/SpinalHDL/SpinalHDL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge

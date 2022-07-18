@@ -1233,8 +1233,8 @@ T should extend <code class="docutils literal notranslate"><span class="pre">IMa
 </div>
 <div class="section" id="pruned-signals">
 <h2>Pruned signals<a class="headerlink" href="#pruned-signals" title="Permalink to this headline">¶</a></h2>
-<p>SpinalHDL only generates things which are directly or indirectly required to drive the outputs of your top-level entity.</p>
-<p>All other signals (the useless ones) are removed from the RTL generation and are inserted into a list of pruned signals. You can get this list via the <code class="docutils literal notranslate"><span class="pre">printPruned</span></code> and the <code class="docutils literal notranslate"><span class="pre">printPrunedIo</span></code> functions on the generated <code class="docutils literal notranslate"><span class="pre">SpinalReport</span></code> object:</p>
+<p>SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones are removed from the RTL generation.</p>
+<p>You can collect the list of all the removed ans useless signals via the <code class="docutils literal notranslate"><span class="pre">printPruned</span></code> and the <code class="docutils literal notranslate"><span class="pre">printPrunedIo</span></code> functions on the generated <code class="docutils literal notranslate"><span class="pre">SpinalReport</span></code> object:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
@@ -1255,30 +1255,6 @@ T should extend <code class="docutils literal notranslate"><span class="pre">IMa
 <span class="w">    </span><span class="c1">//This will report :</span>
 <span class="w">    </span><span class="c1">//  [Warning] Unused wire detected : toplevel/unusedSignal : UInt[8 bits]</span>
 <span class="w">    </span><span class="c1">//  [Warning] Unused wire detected : toplevel/unusedSignal2 : UInt[8 bits]</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>If you want to keep a pruned signal in the generated RTL for debugging reasons, you can use the <code class="docutils literal notranslate"><span class="pre">keep</span></code> function of that signal:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"></span>
-
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">unusedSignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">unusedSignal2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">).</span><span class="n">keep</span><span class="p">()</span><span class="w"></span>
-
-<span class="w">  </span><span class="n">unusedSignal</span><span class="w">  </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">  </span><span class="n">unusedSignal2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">unusedSignal</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="k">object</span><span class="w"> </span><span class="nc">Main</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">printPruned</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// This will report nothing</span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
