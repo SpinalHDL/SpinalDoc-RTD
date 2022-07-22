@@ -48,7 +48,4 @@ For instance, if you want to try the ``dev`` branch, do the following in a dummy
    cd SpinalHDL
    sbt clean publishLocal
 
-| Then in your project, don't forget to update the SpinalHDL version specified in the build.sbt file, see
-| `https://github.com/SpinalHDL/SpinalTemplateSbt/blob/master/build.sbt#L10 <https://github.com/SpinalHDL/SpinalTemplateSbt/blob/master/build.sbt#L10>`_
-| To know which version you have to set, look in
-| `https://github.com/SpinalHDL/SpinalHDL/blob/dev/project/Version.scala#L7 <https://github.com/SpinalHDL/SpinalHDL/blob/dev/project/Version.scala#L7>`_
+| Then in your project, don't forget to update the SpinalHDL version specified in your build.sbt, is had to become "dev" instead of "?.?.?"
