@@ -108,3 +108,13 @@ Throw Success or Failure of the simulation from a thread
 --------------------------------------------------------
 
 At any moment during a simulation you can call ``simSuccess`` or ``simFailure`` to end it.
+
+It is possible to make a simulation fail when it is too long, for instance because the test-bench is waiting for a condition which never occurs. To do so, call ``SimTimeout(maxDuration)`` where ``maxDuration`` is the time (in simulation units of time) after the which the simulation should be considered to have failed.
+
+For instance, to make the simulation fail after 1000 times the duration of a clock cycle:
+
+.. code-block:: scala
+
+    val period = 10
+    dut.clockDomain.forkStimulus(period)
+    SimTimeout(1000 * period)

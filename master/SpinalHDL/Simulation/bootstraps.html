@@ -1268,6 +1268,13 @@ This function will return a <code class="docutils literal notranslate"><span cla
 <div class="section" id="throw-success-or-failure-of-the-simulation-from-a-thread">
 <h2>Throw Success or Failure of the simulation from a thread<a class="headerlink" href="#throw-success-or-failure-of-the-simulation-from-a-thread" title="Permalink to this headline">¶</a></h2>
 <p>At any moment during a simulation you can call <code class="docutils literal notranslate"><span class="pre">simSuccess</span></code> or <code class="docutils literal notranslate"><span class="pre">simFailure</span></code> to end it.</p>
+<p>It is possible to make a simulation fail when it is too long, for instance because the test-bench is waiting for a condition which never occurs. To do so, call <code class="docutils literal notranslate"><span class="pre">SimTimeout(maxDuration)</span></code> where <code class="docutils literal notranslate"><span class="pre">maxDuration</span></code> is the time (in simulation units of time) after the which the simulation should be considered to have failed.</p>
+<p>For instance, to make the simulation fail after 1000 times the duration of a clock cycle:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="n">period</span><span class="p">)</span><span class="w"></span>
+<span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">period</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
 </div>
 </div>
 
