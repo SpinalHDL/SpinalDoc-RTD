@@ -18,7 +18,7 @@ Automatic address allocation
     val io = new Bundle{
       apb = Apb3(Apb3Config(16,32))
     }
-    val busif = BusInterface(io.apb,(0x0000, 100 Byte)
+    val busif = Apb3BusInterface(io.apb,(0x0000, 100 Byte)
     val M_REG0  = busif.newReg(doc="REG0")
     val M_REG1  = busif.newReg(doc="REG1")
     val M_REG2  = busif.newReg(doc="REG2")
@@ -201,13 +201,15 @@ Manual writing interruption
       val rx_int_status      = M_CP_INT_STATUS.field(Bool(), RO, doc="rx interrupt state register")
       val frame_int_status   = M_CP_INT_STATUS.field(Bool(), RO, doc="frame interrupt state register")
 
-      rx_int_raw.setwhen(rx_done)
-      tx_int_raw.setwhen(tx_done)
-      frame_int_raw.setwhen(frame_int_raw)
+      rx_int_raw.setWhen(io.rx_done)
+      tx_int_raw.setWhen(io.tx_done)
+      frame_int_raw.setWhen(io.frame_end)
 
-      io.interrupt := (rx_int_raw || rx_int_force) && (!rx_int_mask)  ||
-        (tx_int_raw || rx_int_force) && (!rx_int_mask) ||
-        (frame_int_raw || fram_int_force) && (!frame_int_mask)
+      rx_int_status := (rx_int_raw || rx_int_force) && (!rx_int_mask)
+      tx_int_status := (tx_int_raw || rx_int_force) && (!rx_int_mask)
+      frame_int_status := (frame_int_raw || frame_int_force) && (!frame_int_mask)
+
+      io.interrupt := rx_int_status || tx_int_status || frame_int_status
 
    }
 
