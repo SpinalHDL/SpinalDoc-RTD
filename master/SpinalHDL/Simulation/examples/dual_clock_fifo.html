@@ -1178,7 +1178,7 @@
 <span class="w">        </span><span class="n">dataType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"></span>
 <span class="w">        </span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
 <span class="w">        </span><span class="n">pushClock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="w">        </span><span class="n">popClock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkB&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">popClock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkB&quot;</span><span class="p">,</span><span class="n">withReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">)</span><span class="w"></span>
 
@@ -1192,15 +1192,12 @@
 <span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">pushClock</span><span class="p">.</span><span class="n">fallingEdge</span><span class="p">()</span><span class="w"></span>
 <span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">popClock</span><span class="p">.</span><span class="n">fallingEdge</span><span class="p">()</span><span class="w"></span>
 <span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">pushClock</span><span class="p">.</span><span class="n">deassertReset</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">popClock</span><span class="p">.</span><span class="n">deassertReset</span><span class="p">()</span><span class="w"></span>
 <span class="w">        </span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">        </span><span class="c1">// Do the resets.</span>
 <span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">pushClock</span><span class="p">.</span><span class="n">assertReset</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">popClock</span><span class="p">.</span><span class="n">assertReset</span><span class="p">()</span><span class="w"></span>
 <span class="w">        </span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">pushClock</span><span class="p">.</span><span class="n">deassertReset</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">popClock</span><span class="p">.</span><span class="n">deassertReset</span><span class="p">()</span><span class="w"></span>
 <span class="w">        </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">        </span><span class="c1">// Forever, randomly toggle one of the clocks.</span>
