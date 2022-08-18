@@ -38,6 +38,9 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
 .. tip::
    | ``val io = new Bundle { ... }``
    | Declaring external ports in a ``Bundle`` called ``io`` is recommended. If you name your bundle ``io``, SpinalHDL will check that all of its elements are defined as inputs or outputs.
+   
+.. tip::
+   | If it is better to your taste, you can use the ``Module`` syntax instead of ``Component`` (they are the same thing)
 
 Input / output definition
 -------------------------
