@@ -77,6 +77,27 @@ An applied example to define a specific clock domain within the design is as fol
      val coreClockedRegister = Reg(UInt(4 bits))
    }
 
+When an `Area` is not needed, it is also possible to apply the clock domain directly:
+
+.. code-block:: scala
+
+   class Counters extends Component {
+     val io = new Bundle {
+       val enable = in Bool ()
+       val freeCount, gatedCount = out UInt (4 bits)
+     }
+
+     val freeCounter = CounterFreeRun(16)
+     io.freeCount := freeCounter.value
+
+     val gatedClk = ClockDomain.current.readClockWire && io.enable
+     val gated = ClockDomain(gatedClk, ClockDomain.current.readResetWire)
+
+     // Here the "gated" clock domain is applied on "gatedCounter"
+     val gatedCounter = gated(CounterFreeRun(16))
+     io.gatedCount := gatedCounter.value
+   }
+
 Configuration
 ^^^^^^^^^^^^^
 
