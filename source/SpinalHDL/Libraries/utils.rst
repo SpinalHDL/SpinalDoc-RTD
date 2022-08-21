@@ -99,41 +99,45 @@ State full utilities
 Counter
 ^^^^^^^
 
-The Counter tool can be used to easily instanciate an hardware counter.
+The Counter tool can be used to easily instantiate a hardware counter.
 
 .. list-table::
    :header-rows: 1
    :widths: 1 1
 
-   * - Instanciation syntax
+   * - Instantiation syntax
      - Notes
-   * - Counter(start: BigInt, end: BigInt[, inc : Bool])
+   * - ``Counter(start: BigInt, end: BigInt[, inc : Bool])``
      - 
-   * - Counter(range : Range[, inc : Bool])
+   * - ``Counter(range : Range[, inc : Bool])``
      - Compatible with the  ``x to y`` ``x until y`` syntaxes
-   * - Counter(stateCount: BigInt[, inc : Bool])
-     - Start at zero and finish at ``stateCount - 1``
-   * - Counter(bitCount: BitCount[, inc : Bool])
-     - Start at zero and finish at ``(1 << bitCount) - 1``
+   * - ``Counter(stateCount: BigInt[, inc : Bool])``
+     - Starts at zero and ends at ``stateCount - 1``
+   * - ``Counter(bitCount: BitCount[, inc : Bool])``
+     - Starts at zero and ends at ``(1 << bitCount) - 1``
 
-
-There is an example of different syntaxes which could be used with the Counter tool
+A counter can be controlled by methods, and wires can be read:
 
 .. code-block:: scala
 
-   val counter = Counter(2 to 9)  //Create a counter of 10 states (2 to 9)
-   counter.clear()            //When called it ask to reset the counter.
-   counter.increment()        //When called it ask to increment the counter.
-   counter.value              //current value
-   counter.valueNext          //Next value
-   counter.willOverflow       //Flag that indicate if the counter overflow this cycle
-   counter.willOverflowIfInc  //Flag that indicate if the counter overflow this cycle if an increment is done
-   when(counter === 5){ ... }
+   val counter = Counter(2 to 9) // Creates a counter of 8 states (2 to 9)
+   // Methods
+   counter.clear()               // Resets the counter
+   counter.increment()           // Increments the counter
+   // Wires
+   counter.value                 // Current value
+   counter.valueNext             // Next value
+   counter.willOverflow          // True if the counter overflows this cycle
+   counter.willOverflowIfInc     // True if the counter would overflow this cycle if an increment was done
+   // Cast
+   when(counter === 5){ ... }    // counter is implicitly casted to its current value
 
-When a ``Counter`` overflow its end value, it restart to its start value.
+When a ``Counter`` overflows (reached end value), it restarts the next cycle to its start value.
 
 .. note::
    Currently, only up counter are supported.
+
+``CounterFreeRun`` builds an always running counter: ``CounterFreeRun(stateCount: BigInt)``.
 
 Timeout
 ^^^^^^^
