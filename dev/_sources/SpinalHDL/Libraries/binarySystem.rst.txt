@@ -217,7 +217,7 @@ BigInt enricher
 .. code-block:: scala
 
    $: 32.toBigInt
-   34
+   32
    $: 3211323244L.toBigInt
    3211323244
    $: 8.toByte.toBigInt

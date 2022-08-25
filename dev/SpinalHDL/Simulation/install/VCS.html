@@ -294,6 +294,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Vec.html#comparison">Comparison</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Vec.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Vec.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Data%20types/Vec.html#lib-helper-functions">Lib helper functions</a></li>
 </ul>
 </li>
 </ul>
@@ -342,6 +343,16 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../Data%20types/AFix.html">AFix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/AFix.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/AFix.html#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/AFix.html#mathematical-operations">Mathematical Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/AFix.html#inequality-operations">Inequality Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/AFix.html#bitshifting">Bitshifting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/AFix.html#saturation-and-rounding">Saturation and Rounding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Data%20types/AFix.html#assignment">Assignment</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../Data%20types/index.html#introduction">Introduction</a></li>
 </ul>
 </li>
@@ -377,6 +388,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../Structuring/clock_domain.html#clock-domain-crossing">Clock domain crossing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Structuring/clock_domain.html#special-clocking-areas">Special clocking Areas</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#slow-area">Slow Area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#bootreset">BootReset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#resetarea">ResetArea</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../Structuring/clock_domain.html#clockenablearea">ClockEnableArea</a></li>
 </ul>
@@ -458,6 +470,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#reset-value">Reset value</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">Initialization value for simulation purposes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#register-vectors">Register vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#transforming-a-wire-into-a-register">Transforming a wire into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Sequential%20logic/memory.html">RAM/ROM</a><ul>
@@ -638,6 +651,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../Libraries/flow.html">Flow</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/flow.html#specification">Specification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/flow.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/flow.html#code-example">Code example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Libraries/fragment.html">Fragment</a><ul>
@@ -647,7 +661,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Libraries/fsm.html">State machine</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/fsm.html#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../Libraries/fsm.html#statemachine">StateMachine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/fsm.html#statemachine">StateMachine</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/fsm.html#entry-point">Entry point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/fsm.html#transitions">Transitions</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/fsm.html#states">States</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../Libraries/fsm.html#statedelay">StateDelay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../Libraries/fsm.html#statefsm">StateFsm</a></li>
@@ -1135,14 +1153,14 @@
   <div class="section" id="vcs-simulation-configuration">
 <h1>VCS Simulation Configuration<a class="headerlink" href="#vcs-simulation-configuration" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="environment-variable">
-<h2>Environment variable<a class="headerlink" href="#environment-variable" title="Permalink to this headline">¶</a></h2>
+<span id="vcs-env"></span><h2>Environment variable<a class="headerlink" href="#environment-variable" title="Permalink to this headline">¶</a></h2>
 <p>You should have several environment variables defined before:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">VCS_HOME</span></code>: The home path to your VCS installation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">VERDI_HOME</span></code>: The home path to your Verdi installation.</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">$VCS_HOME/bin</span></code> and <code class="docutils literal notranslate"><span class="pre">$VERDI_HOME/bin</span></code> to your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p></li>
 </ul>
-<p>Prepend the following paths to your <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code></p>
+<p>Prepend the following paths to your <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> to enable PLI features.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/VCS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
 <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/IUS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
 <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/lib/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
@@ -1150,6 +1168,26 @@
 <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/MODELSIM/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
 </pre></div>
 </div>
+<p>If you encounter the <code class="docutils literal notranslate"><span class="pre">Compilation</span> <span class="pre">of</span> <span class="pre">SharedMemIface.cpp</span> <span class="pre">failed</span></code> error, make sure that you have installed C++ boost library correctly.
+The header and library files path should be added to <code class="docutils literal notranslate"><span class="pre">CPLUS_INCLUDE_PATH</span></code>, <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> respectively.</p>
+</div>
+<div class="section" id="user-defined-environment-setup">
+<h2>User defined environment setup<a class="headerlink" href="#user-defined-environment-setup" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes a VCS environment setup file <cite>synopsys_sim.setup</cite> is required to run VCS simulation. Also you may want to run some scripts or code
+to setup the environment just before VCS starting compilation. You can do this by <cite>withVCSSimSetup</cite>.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">simConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">withVCS</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">withVCSSimSetup</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">setupFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;~/work/myproj/sim/synopsys_sim.setup&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">beforeAnalysis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// this code block will be run before VCS analysis step.</span>
+<span class="w">      </span><span class="s">&quot;pwd&quot;</span><span class="p">.</span><span class="o">!</span><span class="w"></span>
+<span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello, VCS&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This method will copy your own <cite>synopsys_sim.setup</cite> file to the VCS work directory under the <cite>workspacePath</cite> (default as <cite>simWorkspace</cite>) directory,
+and run your scripts.</p>
 </div>
 <div class="section" id="vcs-flags">
 <h2>VCS Flags<a class="headerlink" href="#vcs-flags" title="Permalink to this headline">¶</a></h2>
@@ -1235,6 +1273,8 @@
 </div>
 <div class="section" id="simulation-with-blackbox">
 <h2>Simulation with <code class="docutils literal notranslate"><span class="pre">Blackbox</span></code><a class="headerlink" href="#simulation-with-blackbox" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes, IP vendors will provide you with some design entites in Verilog/VHDL format and you want to integrate them into your SpinalHDL design.
+The integration can done by following two ways:</p>
 <ol class="arabic simple">
 <li><p>In a <code class="docutils literal notranslate"><span class="pre">Blackbox</span></code> definition, use <code class="docutils literal notranslate"><span class="pre">addRTLPath(path:</span> <span class="pre">String)</span></code> to assign a external Verilog/VHDL file to this blackbox.</p></li>
 <li><p>Use the method <code class="docutils literal notranslate"><span class="pre">mergeRTLSource(fileName:</span> <span class="pre">String=null)</span></code> of <code class="docutils literal notranslate"><span class="pre">SpinalConfig</span></code>.</p></li>

@@ -294,6 +294,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#comparison">Comparison</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lib-helper-functions">Lib helper functions</a></li>
 </ul>
 </li>
 </ul>
@@ -342,6 +343,16 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="AFix.html">AFix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="AFix.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AFix.html#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AFix.html#mathematical-operations">Mathematical Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AFix.html#inequality-operations">Inequality Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AFix.html#bitshifting">Bitshifting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AFix.html#saturation-and-rounding">Saturation and Rounding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AFix.html#assignment">Assignment</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#introduction">Introduction</a></li>
 </ul>
 </li>
@@ -377,6 +388,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/clock_domain.html#clock-domain-crossing">Clock domain crossing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/clock_domain.html#special-clocking-areas">Special clocking Areas</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/clock_domain.html#slow-area">Slow Area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Structuring/clock_domain.html#bootreset">BootReset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/clock_domain.html#resetarea">ResetArea</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/clock_domain.html#clockenablearea">ClockEnableArea</a></li>
 </ul>
@@ -458,6 +470,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#reset-value">Reset value</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">Initialization value for simulation purposes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#register-vectors">Register vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-wire-into-a-register">Transforming a wire into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM</a><ul>
@@ -638,6 +651,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/flow.html">Flow</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/flow.html#specification">Specification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/flow.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/flow.html#code-example">Code example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/fragment.html">Fragment</a><ul>
@@ -647,7 +661,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/fsm.html">State machine</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/fsm.html#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/fsm.html#statemachine">StateMachine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/fsm.html#statemachine">StateMachine</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/fsm.html#entry-point">Entry point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/fsm.html#transitions">Transitions</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/fsm.html#states">States</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/fsm.html#statedelay">StateDelay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/fsm.html#statefsm">StateFsm</a></li>
@@ -1279,6 +1297,77 @@
 
 <span class="n">println</span><span class="p">(</span><span class="n">vec1</span><span class="p">.</span><span class="n">getBitsWidth</span><span class="p">)</span><span class="w"> </span><span class="c1">// 16</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="lib-helper-functions">
+<h3>Lib helper functions<a class="headerlink" href="#lib-helper-functions" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You need to import <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">spinal.lib._</span></code> to put these functions in scope.</p>
+</div>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 50%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Operator</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Return</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>x.sCount(condition: T =&gt; Bool)</p></td>
+<td><p>Count the number of occurence matching a given condition in the Vec.</p></td>
+<td><p>UInt</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.sCount(value: T)</p></td>
+<td><p>Count the number of occurence of a value in the Vec.</p></td>
+<td><p>UInt</p></td>
+</tr>
+<tr class="row-even"><td><p>x.sExists(condition: T =&gt; Bool)</p></td>
+<td><p>Check if there is a matching condition in the Vec.</p></td>
+<td><p>Bool</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.sContains(value: T)</p></td>
+<td><p>Check if there is an element with a given value present in the Vec.</p></td>
+<td><p>Bool</p></td>
+</tr>
+<tr class="row-even"><td><p>x.sFindFirst(condition: T =&gt; Bool)</p></td>
+<td><p>Find the first element matching the given condition in the Vec, return the index of that element.</p></td>
+<td><p>UInt</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.reduceBalancedTree(op: (T, T) =&gt; T)</p></td>
+<td><p>Balanced reduce function, to try to minimize the depth of the resulting circuit. <code class="docutils literal notranslate"><span class="pre">op</span></code> should be commutative and associative.</p></td>
+<td><p>T</p></td>
+</tr>
+<tr class="row-even"><td><p>x.shuffle(indexMapping: Int =&gt; Int)</p></td>
+<td><p>Shuffle the Vec using a function that maps the old indexes to new ones.</p></td>
+<td><p>Vec[T]</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="n">_</span>
+
+<span class="c1">// Create a vector with 4 unsigned integers</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+
+<span class="c1">// ... the vector is actually assigned somewhere</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">c1</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sCount</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">128</span><span class="p">)</span><span class="w"> </span><span class="c1">// how many values are lower than 128 in vec</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">c2</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sCount</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c1">// how many values are equal to zero in vec</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">b1</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sExists</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">250</span><span class="p">)</span><span class="w"> </span><span class="c1">// is there a element bigger than 250</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">b2</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sContains</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c1">// is there a zero in vec</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">u1</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sFindFirst</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="c1">// get the index of the first element lower than 10</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">u2</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">reduceBalancedTree</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="c1">// sum all elements together</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The sXXX prefix is used to disambiguate with respect to identically named Scala functions that accept a lambda function as argument.</p>
 </div>
 </div>
 </div>

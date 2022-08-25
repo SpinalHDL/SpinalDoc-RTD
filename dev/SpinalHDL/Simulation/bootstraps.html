@@ -294,6 +294,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/Vec.html#comparison">Comparison</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/Vec.html#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Data%20types/Vec.html#misc">Misc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Data%20types/Vec.html#lib-helper-functions">Lib helper functions</a></li>
 </ul>
 </li>
 </ul>
@@ -342,6 +343,16 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Data%20types/AFix.html">AFix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Data%20types/AFix.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Data%20types/AFix.html#declaration">Declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Data%20types/AFix.html#mathematical-operations">Mathematical Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Data%20types/AFix.html#inequality-operations">Inequality Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Data%20types/AFix.html#bitshifting">Bitshifting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Data%20types/AFix.html#saturation-and-rounding">Saturation and Rounding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Data%20types/AFix.html#assignment">Assignment</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Data%20types/index.html#introduction">Introduction</a></li>
 </ul>
 </li>
@@ -377,6 +388,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/clock_domain.html#clock-domain-crossing">Clock domain crossing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/clock_domain.html#special-clocking-areas">Special clocking Areas</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/clock_domain.html#slow-area">Slow Area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Structuring/clock_domain.html#bootreset">BootReset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/clock_domain.html#resetarea">ResetArea</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/clock_domain.html#clockenablearea">ClockEnableArea</a></li>
 </ul>
@@ -458,6 +470,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#reset-value">Reset value</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">Initialization value for simulation purposes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#register-vectors">Register vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-wire-into-a-register">Transforming a wire into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM</a><ul>
@@ -638,6 +651,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/flow.html">Flow</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/flow.html#specification">Specification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/flow.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/flow.html#code-example">Code example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/fragment.html">Fragment</a><ul>
@@ -647,7 +661,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/fsm.html">State machine</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/fsm.html#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/fsm.html#statemachine">StateMachine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/fsm.html#statemachine">StateMachine</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/fsm.html#entry-point">Entry point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/fsm.html#transitions">Transitions</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/fsm.html#states">States</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/fsm.html#statedelay">StateDelay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/fsm.html#statefsm">StateFsm</a></li>
@@ -1170,7 +1188,13 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">withWave</span></code></p></td>
-<td><p>Enable simulation wave capture</p></td>
+<td><p>Enable simulation wave capture (default format)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">withVcdWave</span></code></p></td>
+<td><p>Enable simulation wave capture (VCD text format)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">withFstWave</span></code></p></td>
+<td><p>Enable simulation wave capture (FST binary format)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">withConfig(SpinalConfig)</span></code></p></td>
 <td><p>Specify the <code class="docutils literal notranslate"><span class="pre">SpinalConfig</span></code> that should be use to generate the hardware</p></td>
@@ -1181,16 +1205,16 @@
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">workspacePath(path)</span></code></p></td>
 <td><p>Change the folder where the sim files are generated</p></td>
 </tr>
-<tr class="row-even"><td><p>withVerilator</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">withVerilator</span></code></p></td>
 <td><p>Use Verilator as simulation backend (default)</p></td>
 </tr>
-<tr class="row-odd"><td><p>withGhdl</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">withGhdl</span></code></p></td>
 <td><p>Use GHDL as simulation backend</p></td>
 </tr>
-<tr class="row-even"><td><p>withIVerilog</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">withIVerilog</span></code></p></td>
 <td><p>Use Icarus Verilog as simulation backend</p></td>
 </tr>
-<tr class="row-odd"><td><p>withVCS</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">withVCS</span></code></p></td>
 <td><p>Use Synopsys VCS as simulation backend</p></td>
 </tr>
 </tbody>
@@ -1250,6 +1274,13 @@ This function will return a <code class="docutils literal notranslate"><span cla
 <div class="section" id="throw-success-or-failure-of-the-simulation-from-a-thread">
 <h2>Throw Success or Failure of the simulation from a thread<a class="headerlink" href="#throw-success-or-failure-of-the-simulation-from-a-thread" title="Permalink to this headline">¶</a></h2>
 <p>At any moment during a simulation you can call <code class="docutils literal notranslate"><span class="pre">simSuccess</span></code> or <code class="docutils literal notranslate"><span class="pre">simFailure</span></code> to end it.</p>
+<p>It is possible to make a simulation fail when it is too long, for instance because the test-bench is waiting for a condition which never occurs. To do so, call <code class="docutils literal notranslate"><span class="pre">SimTimeout(maxDuration)</span></code> where <code class="docutils literal notranslate"><span class="pre">maxDuration</span></code> is the time (in simulation units of time) after the which the simulation should be considered to have failed.</p>
+<p>For instance, to make the simulation fail after 1000 times the duration of a clock cycle:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="n">period</span><span class="p">)</span><span class="w"></span>
+<span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">period</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
 </div>
 </div>
 

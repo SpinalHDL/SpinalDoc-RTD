@@ -234,8 +234,8 @@ This function takes a no-argument function to be applied during compilation, and
      // Function used to rename all signals of the blackbox 
      private def renameIO(): Unit = {
        io.flatten.foreach(bt => {
-         if(bt.getName().contains("portA")) bt.setName(bt.getName().repalce("portA_", "") + "_A") 
-         if(bt.getName().contains("portB")) bt.setName(bt.getName().repalce("portB_", "") + "_B") 
+         if(bt.getName().contains("portA")) bt.setName(bt.getName().replace("portA_", "") + "_A") 
+         if(bt.getName().contains("portB")) bt.setName(bt.getName().replace("portB_", "") + "_B") 
        })
      }
 

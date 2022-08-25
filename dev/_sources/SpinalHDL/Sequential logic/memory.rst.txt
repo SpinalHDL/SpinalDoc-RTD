@@ -29,6 +29,10 @@ The following table shows how to instantiate a memory:
 
 .. note::
    To give a RAM initial values, you can also use the ``init`` function.
+   
+.. note::
+   Write mask width is flexible, and subdivide the memory word in as many slices of equal width as the width of the mask. 
+   For instance if you have a 32 bits memory word and provide a 4 bits mask then it will be a byte mask. If you provide a as many mask bits than you have word bits, then it is a bit mask.
 
 The following table show how to add access ports on a memory :
 

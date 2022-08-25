@@ -37,7 +37,7 @@ You can find an :ref:`APB3 definition <example_apb3>` among the :ref:`Spinal HDL
 Conditional signals
 ~~~~~~~~~~~~~~~~~~~
 The signals in the ``Bundle`` can be defined conditionally. 
-Unless ``dataWidth`` is greater than 0, there will be no ``data`` signal in elorbrated ``myBundle``, as demonstrated in the example below.
+Unless ``dataWidth`` is greater than 0, there will be no ``data`` signal in elaborated ``myBundle``, as demonstrated in the example below.
 
 .. code-block:: scala
 
