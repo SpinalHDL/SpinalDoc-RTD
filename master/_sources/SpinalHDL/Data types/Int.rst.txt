@@ -97,13 +97,13 @@ Logic
      - T(w(x) bits)
    * - x & y
      - Bitwise AND
-     - T(max(w(xy) bits)
+     - T(max(w(x), w(y)) bits)
    * - x | y
      - Bitwise OR
-     - T(max(w(xy) bits)
+     - T(max(w(x), w(y)) bits)
    * - x ^ y
      - Bitwise XOR
-     - T(max(w(xy) bits)
+     - T(max(w(x), w(y)) bits)
    * - x.xorR
      - XOR all bits of x
      - Bool
@@ -150,26 +150,39 @@ Logic
      - Set all bits to the given Bool value
      - 
 
+.. note::
+
+   ``x rotateLeft y`` and ``x rotateRight y`` are also valid syntax.
+
+.. note::
+
+   Notice the difference between ``x >> 2``:T(w(x)-2) and ``x >> U(2)``:T(w(x)).
+
+   The difference is that in the first case 2 is an ``Int`` (which can be seen as an
+   "elaboration integer"), and in the second case it is a hardware signal.
+
 .. code-block:: scala
 
-   // Bitwise operator
    val a, b, c = SInt(32 bits)
+   a := S(5)
+   b := S(10)
+
+   // Bitwise operators
    c := ~(a & b) // Inverse(a AND b)
+   assert(c.getWidth == 32)
 
-   val all_1 = a.andR // Check that all bits are equal to 1
+   // Shift
+   val arithShift = UInt(8 bits) << 2  // shift left (resulting in 10 bits)
+   val logicShift = UInt(8 bits) |<< 2 // shift left (resulting in 8 bits)
+   assert(arithShift.getWidth == 10)
+   assert(logicShift.getWidth == 8)
 
-   // Logical shift
-   val uint_10bits = uint_8bits << 2  // shift left (resulting in 10 bits)
-   val shift_8bits = uint_8bits |<< 2 // shift left (resulting in 8 bits)
+   // Rotation
+   val rotated = UInt(8 bits) rotateLeft 3 // left bit rotation
+   assert(rotated.getWidth == 8)
 
-   // Logical rotation
-   val myBits = uint_8bits.rotateLeft(3) // left bit rotation
-
-   // Set/clear
-   val a = B"8'x42"
-   when(cond) {
-     a.setAll() // set all bits to True when cond is True
-   }
+   // Set all bits of b to True when all bits of a are True
+   when(a.andR) { b.setAll() }
 
 Arithmetic
 ~~~~~~~~~~
@@ -182,36 +195,51 @@ Arithmetic
      - Return
    * - x + y
      - Addition
-     - T(max(w(x), w(y)), bits)
+     - T(max(w(x), w(y)) bits)
    * - x +^ y
      - Addition with carry
-     - T(max(w(x), w(y) + 1), bits)
+     - T(max(w(x), w(y)) + 1 bits)
    * - x +| y
      - Addition by sat carry bit
-     - T(max(w(x), w(y)), bits)
+     - T(max(w(x), w(y)) bits)
    * - x - y
      - Subtraction
-     - T(max(w(x), w(y)), bits)
+     - T(max(w(x), w(y)) bits)
    * - x -^ y
      - Subtraction with carry
-     - T(max(w(x), w(y) + 1), bits)
+     - T(max(w(x), w(y)) + 1 bits)
    * - x -| y
      - Subtraction by sat carry bit
-     - T(max(w(x), w(y)), bits)
+     - T(max(w(x), w(y)) bits)
    * - x * y
      - Multiplication
-     - T(w(x) + w(y)), bits)
+     - T(w(x) + w(y)) bits)
    * - x / y
      - Division
-     - T(w(x), bits)
+     - T(w(x) bits)
    * - x % y
      - Modulo
-     - T(w(x), bits)
+     - T(w(x) bits)
 
 .. code-block:: scala
 
-   // Addition
-   val res = mySInt_1 + mySInt_2
+   val a, b, c = UInt(8 bits)
+   a := U"xf0"
+   b := U"x0f"
+
+   c := a + b
+   assert(c === U"8'xff")
+
+   val d = a +^ b
+   assert(d === U"9'x0ff")
+
+   val e = a +| U"8'x20"
+   assert(e === U"8'xff")
+
+.. note::
+
+   Notice how simulation assertions are made here (with ``===``), as opposed to elaboration
+   assertions in the previous example (with ``==``).
 
 Comparison
 ~~~~~~~~~~
@@ -243,14 +271,18 @@ Comparison
 
 .. code-block:: scala
 
-   // Comparison between two SInts
-   myBool := mySInt_1 > mySInt_2
+   val a = U(5, 8 bits)
+   val b = U(10, 8 bits)
+   val c = UInt(2 bits)
 
-   // Comparison between a UInt and a literal
-   myBool := myUInt_8bits >= U(3, 8 bits)
-
-   when(myUInt_8bits === 3) {
-     ..
+   when (a > b) {
+     c := U"10"
+   } elsewhen (a =/= b) {
+     c := U"01"
+   } elsewhen (a === U(0)) {
+     c.setAll()
+   } otherwise {
+     c.clearAll()
    }
 
 Type cast
@@ -264,25 +296,25 @@ Type cast
      - Return
    * - x.asBits
      - Binary cast to Bits
-     - Bits(w(x), bits)
+     - Bits(w(x) bits)
    * - x.asUInt
      - Binary cast to UInt
-     - UInt(w(x), bits)
+     - UInt(w(x) bits)
    * - x.asSInt
      - Binary cast to SInt
-     - SInt(w(x), bits)
+     - SInt(w(x) bits)
    * - x.asBools
      - Cast into a array of Bool
      - Vec(Bool, w(x))
    * - S(x: T)
      - Cast a Data into a SInt
-     - SInt(w(x), bits)
+     - SInt(w(x) bits)
    * - U(x: T)
      - Cast a Data into an UInt
-     - UInt(w(x), bits)
+     - UInt(w(x) bits)
    * - x.intoSInt
-     - convert to SInt expand signbit
-     - SInt(w(x) + 1, bits)
+     - Convert to SInt expanding sign bit
+     - SInt(w(x) + 1 bits)
 
 To cast a ``Bool``, a ``Bits``, or an ``SInt`` into a ``UInt``, you can use ``U(something)``. To cast things into an ``SInt``, you can use ``S(something)``.
 
@@ -390,10 +422,10 @@ Misc
      - Use the two's complement to transform an UInt into an SInt
      - SInt(w(myUInt) + 1, bits)
    * - mySInt.abs
-     - Return the absolute value of the UInt value
+     - Return the absolute value as a UInt value
      - UInt(w(mySInt), bits)
    * - mySInt.abs(en: Bool)
-     - Return the absolute value of the UInt value when en is True
+     - Return the absolute value as a UInt value when en is True
      - UInt(w(mySInt), bits)
    * - mySInt.sign
      - Return most significant bit
@@ -403,7 +435,7 @@ Misc
      - T(w(x)+1 bits)
    * - mySInt.absWithSym
      - Return the absolute value of the UInt value with symmetric, shrink 1 bit
-     - UInt(w(mySInt) - 1, bits)
+     - UInt(w(mySInt) - 1 bits)
 
 
 .. code-block:: scala

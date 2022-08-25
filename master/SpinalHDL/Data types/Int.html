@@ -1285,15 +1285,15 @@
 </tr>
 <tr class="row-even"><td><p>x &amp; y</p></td>
 <td><p>Bitwise AND</p></td>
-<td><p>T(max(w(xy) bits)</p></td>
+<td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x | y</p></td>
 <td><p>Bitwise OR</p></td>
-<td><p>T(max(w(xy) bits)</p></td>
+<td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x ^ y</p></td>
 <td><p>Bitwise XOR</p></td>
-<td><p>T(max(w(xy) bits)</p></td>
+<td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.xorR</p></td>
 <td><p>XOR all bits of x</p></td>
@@ -1357,24 +1357,36 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Bitwise operator</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SInt</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">rotateLeft</span> <span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">rotateRight</span> <span class="pre">y</span></code> are also valid syntax.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice the difference between <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">2</span></code>:T(w(x)-2) and <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">U(2)</span></code>:T(w(x)).</p>
+<p>The difference is that in the first case 2 is an <code class="docutils literal notranslate"><span class="pre">Int</span></code> (which can be seen as an
+“elaboration integer”), and in the second case it is a hardware signal.</p>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SInt</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">S</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">S</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+
+<span class="c1">// Bitwise operators</span>
 <span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="c1">// Inverse(a AND b)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">getWidth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">all_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">andR</span><span class="w"> </span><span class="c1">// Check that all bits are equal to 1</span>
+<span class="c1">// Shift</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">arithShift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">// shift left (resulting in 10 bits)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">logicShift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="o">|&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c1">// shift left (resulting in 8 bits)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">arithShift</span><span class="p">.</span><span class="n">getWidth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="n">assert</span><span class="p">(</span><span class="n">logicShift</span><span class="p">.</span><span class="n">getWidth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
 
-<span class="c1">// Logical shift</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">uint_10bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uint_8bits</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">// shift left (resulting in 10 bits)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">shift_8bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uint_8bits</span><span class="w"> </span><span class="o">|&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c1">// shift left (resulting in 8 bits)</span>
+<span class="c1">// Rotation</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">rotated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="n">rotateLeft</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="c1">// left bit rotation</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">rotated</span><span class="p">.</span><span class="n">getWidth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
 
-<span class="c1">// Logical rotation</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uint_8bits</span><span class="p">.</span><span class="n">rotateLeft</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="c1">// left bit rotation</span>
-
-<span class="c1">// Set/clear</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;8&#39;x42&quot;</span><span class="w"></span>
-<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">a</span><span class="p">.</span><span class="n">setAll</span><span class="p">()</span><span class="w"> </span><span class="c1">// set all bits to True when cond is True</span>
-<span class="p">}</span><span class="w"></span>
+<span class="c1">// Set all bits of b to True when all bits of a are True</span>
+<span class="n">when</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">andR</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">setAll</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1395,45 +1407,60 @@
 <tbody>
 <tr class="row-even"><td><p>x + y</p></td>
 <td><p>Addition</p></td>
-<td><p>T(max(w(x), w(y)), bits)</p></td>
+<td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x +^ y</p></td>
 <td><p>Addition with carry</p></td>
-<td><p>T(max(w(x), w(y) + 1), bits)</p></td>
+<td><p>T(max(w(x), w(y)) + 1 bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x +| y</p></td>
 <td><p>Addition by sat carry bit</p></td>
-<td><p>T(max(w(x), w(y)), bits)</p></td>
+<td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x - y</p></td>
 <td><p>Subtraction</p></td>
-<td><p>T(max(w(x), w(y)), bits)</p></td>
+<td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x -^ y</p></td>
 <td><p>Subtraction with carry</p></td>
-<td><p>T(max(w(x), w(y) + 1), bits)</p></td>
+<td><p>T(max(w(x), w(y)) + 1 bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x -| y</p></td>
 <td><p>Subtraction by sat carry bit</p></td>
-<td><p>T(max(w(x), w(y)), bits)</p></td>
+<td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x * y</p></td>
 <td><p>Multiplication</p></td>
-<td><p>T(w(x) + w(y)), bits)</p></td>
+<td><p>T(w(x) + w(y)) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x / y</p></td>
 <td><p>Division</p></td>
-<td><p>T(w(x), bits)</p></td>
+<td><p>T(w(x) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x % y</p></td>
 <td><p>Modulo</p></td>
-<td><p>T(w(x), bits)</p></td>
+<td><p>T(w(x) bits)</p></td>
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Addition</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mySInt_1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mySInt_2</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;xf0&quot;</span><span class="w"></span>
+<span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;x0f&quot;</span><span class="w"></span>
+
+<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<span class="n">assert</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;8&#39;xff&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+^</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;9&#39;x0ff&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+|</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;8&#39;x20&quot;</span><span class="w"></span>
+<span class="n">assert</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;8&#39;xff&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice how simulation assertions are made here (with <code class="docutils literal notranslate"><span class="pre">===</span></code>), as opposed to elaboration
+assertions in the previous example (with <code class="docutils literal notranslate"><span class="pre">==</span></code>).</p>
 </div>
 </div>
 <div class="section" id="comparison">
@@ -1477,14 +1504,18 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Comparison between two SInts</span>
-<span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mySInt_1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">mySInt_2</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 
-<span class="c1">// Comparison between a UInt and a literal</span>
-<span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myUInt_8bits</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-
-<span class="n">when</span><span class="p">(</span><span class="n">myUInt_8bits</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="p">..</span><span class="w"></span>
+<span class="n">when</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;10&quot;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">elsewhen</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;01&quot;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">elsewhen</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">.</span><span class="n">setAll</span><span class="p">()</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">c</span><span class="p">.</span><span class="n">clearAll</span><span class="p">()</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1506,15 +1537,15 @@
 <tbody>
 <tr class="row-even"><td><p>x.asBits</p></td>
 <td><p>Binary cast to Bits</p></td>
-<td><p>Bits(w(x), bits)</p></td>
+<td><p>Bits(w(x) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.asUInt</p></td>
 <td><p>Binary cast to UInt</p></td>
-<td><p>UInt(w(x), bits)</p></td>
+<td><p>UInt(w(x) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x.asSInt</p></td>
 <td><p>Binary cast to SInt</p></td>
-<td><p>SInt(w(x), bits)</p></td>
+<td><p>SInt(w(x) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.asBools</p></td>
 <td><p>Cast into a array of Bool</p></td>
@@ -1522,15 +1553,15 @@
 </tr>
 <tr class="row-even"><td><p>S(x: T)</p></td>
 <td><p>Cast a Data into a SInt</p></td>
-<td><p>SInt(w(x), bits)</p></td>
+<td><p>SInt(w(x) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>U(x: T)</p></td>
 <td><p>Cast a Data into an UInt</p></td>
-<td><p>UInt(w(x), bits)</p></td>
+<td><p>UInt(w(x) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x.intoSInt</p></td>
-<td><p>convert to SInt expand signbit</p></td>
-<td><p>SInt(w(x) + 1, bits)</p></td>
+<td><p>Convert to SInt expanding sign bit</p></td>
+<td><p>SInt(w(x) + 1 bits)</p></td>
 </tr>
 </tbody>
 </table>
@@ -1674,11 +1705,11 @@
 <td><p>SInt(w(myUInt) + 1, bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>mySInt.abs</p></td>
-<td><p>Return the absolute value of the UInt value</p></td>
+<td><p>Return the absolute value as a UInt value</p></td>
 <td><p>UInt(w(mySInt), bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>mySInt.abs(en: Bool)</p></td>
-<td><p>Return the absolute value of the UInt value when en is True</p></td>
+<td><p>Return the absolute value as a UInt value when en is True</p></td>
 <td><p>UInt(w(mySInt), bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>mySInt.sign</p></td>
@@ -1691,7 +1722,7 @@
 </tr>
 <tr class="row-even"><td><p>mySInt.absWithSym</p></td>
 <td><p>Return the absolute value of the UInt value with symmetric, shrink 1 bit</p></td>
-<td><p>UInt(w(mySInt) - 1, bits)</p></td>
+<td><p>UInt(w(mySInt) - 1 bits)</p></td>
 </tr>
 </tbody>
 </table>
