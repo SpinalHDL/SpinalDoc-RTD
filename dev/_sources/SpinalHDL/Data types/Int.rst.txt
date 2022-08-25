@@ -219,7 +219,7 @@ Arithmetic
      - T(w(x) bits)
    * - x % y
      - Modulo
-     - T(w(x) bits)
+     - T(min(w(x), w(y)) bits)
 
 .. code-block:: scala
 
