@@ -89,9 +89,6 @@ Logic
    * - Operator
      - Description
      - Return type
-   * - x ^ y
-     - Logical XOR
-     - Bool
    * - ~x
      - Bitwise NOT
      - T(w(x) bits)
