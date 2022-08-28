@@ -334,12 +334,12 @@ Misc
    myBits_8bits  := myBits_32bits.resize(8)     // resize to 8 bits (myBits_8bits = 0x44)
    myBits_8bits  := myBits_32bits.resizeLeft(8) // resize to 8 bits (myBits_8bits = 0x11)
 
-.. _maskedlitteral:
+.. _maskedliteral:
 
-MaskedLitteral
+MaskedLiteral
 ~~~~~~~~~~~~~~
 
-MaskedLitteral values are bit vectors with don’t care values denoted with `-`.
+MaskedLiteral values are bit vectors with don’t care values denoted with `-`.
 
 .. code-block:: scala
 
