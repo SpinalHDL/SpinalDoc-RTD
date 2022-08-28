@@ -396,10 +396,10 @@ Misc
      - Return the range (0 to x.high)
      - Range
    * - x.minValue
-     - Lowest value of x (e.g. 0 for UInt)
+     - Lowest possible value of x (e.g. 0 for UInt)
      - BigInt
    * - x.maxValue
-     - Highest value of x
+     - Highest possible value of x
      - BigInt
    * - x.valueRange
      - Return the range from minimum to maximum possible value of x (x.minValue to x.maxValue).
