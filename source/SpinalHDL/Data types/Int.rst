@@ -89,9 +89,6 @@ Logic
    * - Operator
      - Description
      - Return type
-   * - x ^ y
-     - Logical XOR
-     - Bool
    * - ~x
      - Bitwise NOT
      - T(w(x) bits)
@@ -392,12 +389,21 @@ Misc
    * - x.lsb
      - Return the least significant bit
      - Bool
-   * - x.range
-     - Return the range (x.high downto 0)
-     - Range
    * - x.high
-     - Return the upper bound of the type x
+     - Return the index of the MSB (highest allowed index for Int)
      - Int
+   * - x.bitsRange
+     - Return the range (0 to x.high)
+     - Range
+   * - x.minValue
+     - Lowest possible value of x (e.g. 0 for UInt)
+     - BigInt
+   * - x.maxValue
+     - Highest possible value of x
+     - BigInt
+   * - x.valueRange
+     - Return the range from minimum to maximum possible value of x (x.minValue to x.maxValue).
+     - Range
    * - x ## y
      - Concatenate, x->high, y->low
      - Bits(w(x) + w(y) bits)
@@ -437,6 +443,9 @@ Misc
      - Return the absolute value of the UInt value with symmetric, shrink 1 bit
      - UInt(w(mySInt) - 1 bits)
 
+.. note::
+  `validRange` can only be used for types where the minimum and maximum values fit into a signed
+  32-bit integer. (This is a limitation given by the Scala range type which uses `Int`)
 
 .. code-block:: scala
 
@@ -612,4 +621,3 @@ Factory Fix function with Auto Saturation:
    val B  = A.fixTo(16 downto 1, RoundType.ROUNDTOINF, sym = true )
    val B  = A.fixTo(10 downto 3, RoundType.FLOOR) // floor 3 bit, sat 5 bit @ highest
    val B  = A.fixTo(20 downto 3, RoundType.FLOOR) // floor 3 bit, expand 2 bit @ highest
-
