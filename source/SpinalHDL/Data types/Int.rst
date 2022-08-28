@@ -392,12 +392,21 @@ Misc
    * - x.lsb
      - Return the least significant bit
      - Bool
-   * - x.range
-     - Return the range (x.high downto 0)
-     - Range
    * - x.high
      - Return the upper bound of the type x
      - Int
+   * - x.bitsRange
+     - Return the range (x.high downto 0)
+     - Range
+   * - x.minValue
+     - Lowest value that x can take on (e.g. 0 for UInt)
+     - BigInt
+   * - x.maxValue
+     - Highest value that x can take on
+     - BigInt
+   * - x.valueRange
+     - Return the range (x.minValue downto x.maxValue). Note can't be used for value which overflow the JVM Int capacity.
+     - Range
    * - x ## y
      - Concatenate, x->high, y->low
      - Bits(w(x) + w(y) bits)
