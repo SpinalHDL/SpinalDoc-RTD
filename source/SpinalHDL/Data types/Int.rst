@@ -393,7 +393,7 @@ Misc
      - Return the index of the MSB (highest allowed index for Int)
      - Int
    * - x.bitsRange
-     - Return the range (x.high downto 0)
+     - Return the range (0 to x.high)
      - Range
    * - x.minValue
      - Lowest value that x can take on (e.g. 0 for UInt)

@@ -273,7 +273,7 @@ Misc
      - Return bitcount
      - Int
    * - x.bitsRange
-     - Return the range (x.high downto 0)
+     - Return the range (0 to x.high)
      - Range
    * - x.valueRange
      - Return the range (x.minValue downto x.maxValue). Note can't be used for value which overflow the JVM Int capacity.
