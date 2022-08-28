@@ -256,7 +256,7 @@ Misc
 MaskedBoolean
 ~~~~~~~~~~~~~
 
-A masked boolean allows don’t care values. They are usually not used on their own but through :ref:`MaskedLitteral <maskedlitteral>`.
+A masked boolean allows don’t care values. They are usually not used on their own but through :ref:`MaskedLiteral <maskedliteral>`.
 
 .. code-block:: scala
 
