@@ -276,7 +276,7 @@ Misc
      - Return the range (0 to x.high)
      - Range
    * - x.valueRange
-     - Return the range (x.minValue downto x.maxValue). Note can't be used for value which overflow the JVM Int capacity.
+     - Return the range of minimum to maximum x values, interpreted as an unsigned integer (0 to 2 \*\* width - 1).
      - Range
    * - x.high
      - Return the index of the MSB (highest allowed index for Bits)
@@ -306,6 +306,9 @@ Misc
      - Resize by keeping MSB at the same place, x:Int
      - Bits(x bits)
 
+.. note::
+  `validRange` can only be used for types where the minimum and maximum values fit into a signed
+  32-bit integer. (This is a limitation given by the Scala range type which uses `Int`)
 
 .. code-block:: scala
 
