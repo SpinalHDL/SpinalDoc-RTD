@@ -274,6 +274,7 @@ Misc
      - Int
    * - x.bitsRange
      - Return the range (x.high downto 0)
+     - Range
    * - x.valueRange
      - Return the range (x.minValue downto x.maxValue). Note can't be used for value which overflow the JVM Int capacity.
      - Range
