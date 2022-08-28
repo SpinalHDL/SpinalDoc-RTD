@@ -279,7 +279,7 @@ Misc
      - Return the range (x.minValue downto x.maxValue). Note can't be used for value which overflow the JVM Int capacity.
      - Range
    * - x.high
-     - Return the upper bound of the type x
+     - Return the index of the MSB (highest allowed index for Bits)
      - Int
    * - x.msb
      - Return the most significant bit

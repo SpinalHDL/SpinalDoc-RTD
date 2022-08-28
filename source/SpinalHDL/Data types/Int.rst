@@ -393,7 +393,7 @@ Misc
      - Return the least significant bit
      - Bool
    * - x.high
-     - Return the upper bound of the type x
+     - Return the index of the MSB (highest allowed index for Int)
      - Int
    * - x.bitsRange
      - Return the range (x.high downto 0)
