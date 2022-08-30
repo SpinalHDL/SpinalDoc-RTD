@@ -64,7 +64,7 @@ As SpinalHDL is based on a high-level language, it provides several advantages t
 License
 ^^^^^^^
 
-SpinalHDL uses two licenses, one for spinal.core, and one for spinal.lib.
+SpinalHDL uses two licenses, one for spinal.core, one for spinal.lib and everything else in the repo.
 
 **spinal.core** (the compiler) is under the LGPL license, which could be summarized with following statements:
 
