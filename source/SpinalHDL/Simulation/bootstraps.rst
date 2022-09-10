@@ -33,7 +33,7 @@ Below is an example hardware definition + testbench:
        for (a <- 0 to 7) {
          // Apply input
          dut.io.a #= a
-         // Wait for a simulation tick
+         // Wait for a simulation time unit
          sleep(1)
          // Read output
          val z = dut.io.z.toInt
