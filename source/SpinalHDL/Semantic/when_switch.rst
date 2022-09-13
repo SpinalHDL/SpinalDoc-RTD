@@ -163,7 +163,8 @@ Example
      default -> (io.src0)
    )
 
-Also, if all possible values are covered in your mux, you can omit the default value:
+``mux`` checks that all possible values are covered to prevent generation of latches.
+If all possible values are covered, the default statement must not be added:
 
 .. code-block:: scala
 
@@ -174,11 +175,17 @@ Also, if all possible values are covered in your mux, you can omit the default v
      2 -> (io.src0 ^ io.src1),
      3 -> (io.src0)
    )
-   
-Alternatively, if the uncovered values are not important, they can be left unassigned by using ``muxListDc``
 
+``muxList(...)`` and ``muxListDc(...)`` are alternatives bitwise selectors that take a sequence of tuples or mappings as input.
 
-``muxLists(...)`` is another bitwise selection which takes a sequence of tuples as input. Below is an example of dividing a ``Bits`` of 128 bits into 32 bits:
+``muxList`` can be used as a direct replacement for ``mux``, providing a easier to use interface in code that generates the cases.
+It has the same checking behavior as ``mux`` does, requiring full coverage and prohibiting listing a default if it is not needed.
+
+``muxtListDc`` can be used if the uncovered values are not important, they can be left unassigned by using ``muxListDc``.
+This will add a default case if needed. This default case will generate X's during the simulation if ever encountered.
+``muxListDc(...)`` is often a good alternative in generic code.
+
+Below is an example of dividing a ``Bits`` of 128 bits into 32 bits:
 
 .. image:: /asset/picture/MuxList.png
    :align: center
@@ -194,3 +201,15 @@ Alternatively, if the uncovered values are not important, they can be left unass
 
    // A shorter way to do the same thing:
    val dataWord = data.subdivideIn(32 bits)(sel)
+
+Example for ``muxListDc`` selecting bits from a configurable width vector:
+
+.. code-block:: scala
+
+  case class Example(width: Int = 3) extends Component {
+    // 2 bit wide for default width
+    val sel = UInt(log2Up(count) bit)
+    val data = Bits(width*8 bit)
+    // no need to cover missing case 3 for default width
+    val dataByte = sel.muxListDc(for(i <- 0 until count) yield (i, data(index*8, 8 bit)))
+  }
