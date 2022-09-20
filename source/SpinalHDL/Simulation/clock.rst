@@ -60,6 +60,11 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
      - Same as ``waitRisingEdgeWhere``, but for the falling edge
    * - ``waitActiveEdgeWhere(condition)``
      - Same as ``waitRisingEdgeWhere``, but for the edge level specified by the ``ClockDomainConfig``
+   * - ``waitSamplingWhere(condition) : Boolean``
+     - Wait until a clockdomain sampled and the given condition is true        
+   * - ``waitSamplingWhere(timeout)(condition) : Boolean``
+     - Same as waitSamplingWhere defined above, but will never block more than timeout cycles. Return true if the exit condition came from the timeout
+     
 
 .. warning::
    All the functionalities of the wait API can only be called from inside of a thread, and not from a callback.
@@ -89,6 +94,9 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
      - Execute the callback code each time the ``ClockDomain`` clock generates a rising edge
    * - ``onFallingEdges { callback }``
      - Execute the callback code each time the ``ClockDomain`` clock generates a falling edge
+   * - ``onSamplingWhile { callback : Boolean }``
+     - Same as onSampling, but you can stop it (forever) by letting the callback returning false
+     
 
 
 Default ClockDomain
