@@ -14,7 +14,6 @@ The test bench performs the following steps 100 times:
 
 .. code-block:: scala
 
-   import spinal.sim._
    import spinal.core._
    import spinal.core.sim._
 

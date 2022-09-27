@@ -16,7 +16,6 @@ The main difference between this example and the :ref:`Asynchronous adder <sim_e
 
 .. code-block:: scala
 
-   import spinal.sim._
    import spinal.core._
    import spinal.core.sim._
 
