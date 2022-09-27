@@ -23,7 +23,6 @@ Below is an example hardware definition + testbench:
 
 .. code-block:: scala
 
-   import spinal.sim._
    import spinal.core.sim._
 
    object TestIdentity extends App {
