@@ -279,7 +279,13 @@ With the function ``addRTLPath()`` you can associate your RTL sources with the 
 
    ...
 
-   val report = SpinalVhdl(new MyBlackBox)
+   class TopLevel() extends Component{
+     //...
+     val bb = new MyBlackBox()
+     //...
+   }
+
+   val report = SpinalVhdl(new TopLevel)
    report.mergeRTLSource("mergeRTL") // Merge all rtl sources into mergeRTL.vhd and mergeRTL.v files
 
 VHDL - No numeric type
