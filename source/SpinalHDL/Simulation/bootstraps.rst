@@ -82,8 +82,8 @@ On this ``SimCompiled`` instance you can run your simulation with the following 
 ``doSim[(simName[, seed])]{dut => /* main stimulus code */}``
   Run the simulation until the main thread runs to completion and exits/returns.
   It will detect and report an error if the simulation gets fully stuck. As long as
-  a e.g. a clock is running the simulation can continue forever, it is therefore recommended
-  to use ``simTimeout(cycles)`` to limit the possible runtime.
+  e.g. a clock is running the simulation can continue forever, it is therefore recommended
+  to use ``SimTimeout(cycles)`` to limit the possible runtime.
 
 ``doSimUntilVoid[(simName[, seed])]{dut => ...}``
   Run the simulation until it is ended by calling either ``simSuccess()`` or ``simFailure()``.
@@ -103,7 +103,7 @@ When in doubt about what to use, prefer ``doSim(...)``, for example :
      .workspacePath("~/tmp")
      .compile(new TopLevel)
      .doSim { dut =>
-       simTimeout(1000)
+       SimTimeout(1000)
        // Simulation code here
    }
 
