@@ -114,6 +114,9 @@ Links
 | Donation channel :
 | `https://opencollective.com/spinalhdl <https://opencollective.com/spinalhdl>`_
 
+| Chinese version of documentation:
+| `https://github.com/thuCGRA/SpinalHDL_Chinese_Doc <https://github.com/thuCGRA/SpinalHDL_Chinese_Doc>`_
+
 
 
 
