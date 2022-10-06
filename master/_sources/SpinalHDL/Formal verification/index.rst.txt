@@ -315,3 +315,18 @@ Limitations
 
 There is no support for unclocked assertions. But their usage in third party formal verification examples seems mostly code style related.
 
+
+Naming polices
+--------------
+
+All formal validation related functions return Area or Composite (preferred), and naming as formalXXXX.
+``formalContext`` can be used to create formal related logic, there could be ``formalAsserts``, ``formalAssumes`` and ``formalCovers`` in it.
+
+For Component
+^^^^^^^^^^^^^
+The minimum required assertions internally in a ``Component`` for "prove" can be named as ``formalAsserts``.
+
+For interfaces implement IMasterSlave
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+There could be functions in name ``formalAssertsMaster``, ``formalAssertsSlave``, ``formalAssumesMaster``, ``formalAssumesSlave`` or ``formalCovers``.
+Master/Slave are target interface type, so that ``formalAssertsMaster`` can be understand as "formal verfication assertions for master interface".
