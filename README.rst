@@ -37,8 +37,34 @@ and then you can use ``make`` the usual way
 
 all the outputs will be in docs folder (for html: docs/html)
 
-without virtualenv
-------------------
+With Docker
+-----------
+
+Requirements (system):
+
+* docker
+* git
+
+To create the custom docker image (with python and its dependencies):
+
+.. code:: shell
+
+   docker build -t spinaldoc-rtd .
+
+Then to build the docs:
+
+.. code:: shell
+
+   docker run -it --rm -v $PWD:/docs spinaldoc-rtd
+
+You can still run custom commands in the docker, for instance to clean:
+
+.. code:: shell
+
+   docker run -it --rm -v $PWD:/docs spinaldoc-rtd make clean
+
+Native
+------
 Requirements (system):
 
 * make
