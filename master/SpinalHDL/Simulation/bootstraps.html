@@ -1278,7 +1278,7 @@ the simulation will continue. The simulation will report an error if it gets ful
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Here is a template where the simulation end by completting the simulation main thread execution :</p>
+<p>Here is a template where the simulation ends by completing the simulation main thread execution:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
 <span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
@@ -1287,7 +1287,7 @@ the simulation will continue. The simulation will report an error if it gets ful
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Here is a template where the simulation end by explicitly calling a simSuccess() :</p>
+<p>Here is a template where the simulation ends by explicitly calling <cite>simSuccess()</cite>:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSimUntilVoid</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
 <span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
@@ -1299,24 +1299,19 @@ the simulation will continue. The simulation will report an error if it gets ful
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Note is it equivalent to :
-.. code-block:: scala</p>
-<blockquote>
-<div><dl>
-<dt>SimConfig.compile(new TopLevel).doSim{ dut =&gt;</dt><dd><p>SimTimeout(1000)
-dut.clockDomain.forkStimulus(10)
-fork {</p>
-<blockquote>
-<div><p>dut.clockDomain.waitSamplingWhere(dut.counter.toInt == 20)
-println(“done”)
-simSuccess()</p>
-</div></blockquote>
-<p>}
-simThread.suspend() // Avoid the “doSim” completion</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
+<p>Note is it equivalent to:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">fork</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSamplingWhere</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">simSuccess</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">simThread</span><span class="p">.</span><span class="n">suspend</span><span class="p">()</span><span class="w"> </span><span class="c1">// Avoid the &quot;doSim&quot; completion</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
 <p>Note that by default, the simulation files will be placed into the <code class="docutils literal notranslate"><span class="pre">simWorkspace/xxx</span></code> folders. You can override the simWorkspace location by setting the <code class="docutils literal notranslate"><span class="pre">SPINALSIM_WORKSPACE</span></code> environnement variable.</p>
 </div>
 <div class="section" id="running-multiple-tests-on-the-same-hardware">
