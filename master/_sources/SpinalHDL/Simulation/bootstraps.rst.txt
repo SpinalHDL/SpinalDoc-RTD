@@ -99,7 +99,7 @@ The following testbench template will use the following toplevel :
       counter := counter + 1
    }
 
-Here is a template with many simulation configuration :
+Here is a template with many simulation configurations:
 
 .. code-block:: scala
     
