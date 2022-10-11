@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -343,13 +345,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="clock-crossing-violation">
-<h1>Clock crossing violation<a class="headerlink" href="#clock-crossing-violation" title="Permalink to this headline">¶</a></h1>
+<h1>Clock crossing violation<a class="headerlink" href="#clock-crossing-violation" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>SpinalHDL will check that every register of your design only depends (through some combinatorial logic) on registers which use the same or a synchronous clock domain.</p>
 </div>
 <div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
 <p>The following code:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span><span class="w"></span>
@@ -377,7 +379,7 @@
 </div>
 <p>There are multiple possible fixes:</p>
 <div class="section" id="crossclockdomain-tag">
-<h3>crossClockDomain tag<a class="headerlink" href="#crossclockdomain-tag" title="Permalink to this headline">¶</a></h3>
+<h3>crossClockDomain tag<a class="headerlink" href="#crossclockdomain-tag" title="Permalink to this heading">¶</a></h3>
 <p>The crossClockDomain tag can be used to say “It’s alright, don’t panic” to SpinalHDL</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span><span class="w"></span>
@@ -394,7 +396,7 @@
 </div>
 </div>
 <div class="section" id="setsyncronouswith">
-<h3>setSyncronousWith<a class="headerlink" href="#setsyncronouswith" title="Permalink to this headline">¶</a></h3>
+<h3>setSyncronousWith<a class="headerlink" href="#setsyncronouswith" title="Permalink to this heading">¶</a></h3>
 <p>You can also specify that two clock domains are syncronous together.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span><span class="w"></span>
@@ -412,7 +414,7 @@
 </div>
 </div>
 <div class="section" id="buffercc">
-<h3>BufferCC<a class="headerlink" href="#buffercc" title="Permalink to this headline">¶</a></h3>
+<h3>BufferCC<a class="headerlink" href="#buffercc" title="Permalink to this heading">¶</a></h3>
 <p>Signal Bits or Gray-coded Bits can use BufferCC to cross different clockDomain</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AsyncFifo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">popToPushGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>

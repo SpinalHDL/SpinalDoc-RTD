@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1158,14 +1160,14 @@
            <div itemprop="articleBody">
             
   <div class="section" id="coding-conventions">
-<h1>Coding conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this headline">¶</a></h1>
+<h1>Coding conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>The coding conventions used in SpinalHDL are the same as the ones documented in the <a class="reference external" href="https://docs.scala-lang.org/style/">Scala Style Guide</a>.</p>
 <p>Some additional practical details and cases are explained in next pages.</p>
 </div>
 <div class="section" id="class-vs-case-class">
-<h2>class vs case class<a class="headerlink" href="#class-vs-case-class" title="Permalink to this headline">¶</a></h2>
+<h2>class vs case class<a class="headerlink" href="#class-vs-case-class" title="Permalink to this heading">¶</a></h2>
 <p>When you define a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> or a <code class="docutils literal notranslate"><span class="pre">Component</span></code>, it is preferable to declare it as a case class.</p>
 <p>The reasons are:</p>
 <ul class="simple">
@@ -1174,7 +1176,7 @@
 <li><p>Construction parameters are directly visible from outside.</p></li>
 </ul>
 <div class="section" id="case-class">
-<h3>[case] class<a class="headerlink" href="#case-class" title="Permalink to this headline">¶</a></h3>
+<h3>[case] class<a class="headerlink" href="#case-class" title="Permalink to this heading">¶</a></h3>
 <p>All classes names should start with a uppercase letter</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
@@ -1191,7 +1193,7 @@
 </div>
 </div>
 <div class="section" id="companion-object">
-<h3>companion object<a class="headerlink" href="#companion-object" title="Permalink to this headline">¶</a></h3>
+<h3>companion object<a class="headerlink" href="#companion-object" title="Permalink to this heading">¶</a></h3>
 <p>A <a class="reference external" href="https://docs.scala-lang.org/overviews/scala-book/companion-objects.html">companion object</a> should start with an uppercase letter.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]):</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span><span class="w"></span>
@@ -1210,7 +1212,7 @@
 </div>
 </div>
 <div class="section" id="function">
-<h3>function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h3>
+<h3>function<a class="headerlink" href="#function" title="Permalink to this heading">¶</a></h3>
 <p>A function should always start with a lowercase letter:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sinTable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">).</span><span class="n">map</span><span class="p">(</span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sinValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="nc">PI</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">)</span><span class="w"></span>
@@ -1222,7 +1224,7 @@
 </div>
 </div>
 <div class="section" id="instances">
-<h3>instances<a class="headerlink" href="#instances" title="Permalink to this headline">¶</a></h3>
+<h3>instances<a class="headerlink" href="#instances" title="Permalink to this heading">¶</a></h3>
 <p>Instances of classes should always start with a lowercase letter:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">()</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
@@ -1230,7 +1232,7 @@
 </div>
 </div>
 <div class="section" id="if-when">
-<h3>if / when<a class="headerlink" href="#if-when" title="Permalink to this headline">¶</a></h3>
+<h3>if / when<a class="headerlink" href="#if-when" title="Permalink to this heading">¶</a></h3>
 <p>Scala <code class="docutils literal notranslate"><span class="pre">if</span></code> and SpinalHDL <code class="docutils literal notranslate"><span class="pre">when</span></code> should normally be written in the following way:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="p">...</span><span class="w"></span>
@@ -1256,7 +1258,7 @@
 </ul>
 </div>
 <div class="section" id="switch">
-<h3>switch<a class="headerlink" href="#switch" title="Permalink to this headline">¶</a></h3>
+<h3>switch<a class="headerlink" href="#switch" title="Permalink to this heading">¶</a></h3>
 <p>SpinalHDL <code class="docutils literal notranslate"><span class="pre">switch</span></code> should normally be written in the following way:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1274,7 +1276,7 @@
 <p>It’s fine to compress an <code class="docutils literal notranslate"><span class="pre">is</span></code>/<code class="docutils literal notranslate"><span class="pre">default</span></code> statement onto a single line if it makes the code more readable.</p>
 </div>
 <div class="section" id="parameters">
-<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
 <p>Grouping parameters of a <code class="docutils literal notranslate"><span class="pre">Component</span></code>/<code class="docutils literal notranslate"><span class="pre">Bundle</span></code> inside a case class is generally welcome because:</p>
 <ul class="simple">
 <li><p>Easier to carry/manipulate to configure the design</p></li>

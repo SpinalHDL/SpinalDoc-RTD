@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -342,9 +344,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="vhdl-and-verilog-generation">
-<h1>VHDL and Verilog generation<a class="headerlink" href="#vhdl-and-verilog-generation" title="Permalink to this headline">¶</a></h1>
+<h1>VHDL and Verilog generation<a class="headerlink" href="#vhdl-and-verilog-generation" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="generate-vhdl-and-verilog-from-an-spinalhdl-component">
-<h2>Generate VHDL and Verilog from an SpinalHDL Component<a class="headerlink" href="#generate-vhdl-and-verilog-from-an-spinalhdl-component" title="Permalink to this headline">¶</a></h2>
+<h2>Generate VHDL and Verilog from an SpinalHDL Component<a class="headerlink" href="#generate-vhdl-and-verilog-from-an-spinalhdl-component" title="Permalink to this heading">¶</a></h2>
 <p>To generate the VHDL from an SpinalHDL component you just need to call <code class="docutils literal notranslate"><span class="pre">SpinalVhdl(new</span> <span class="pre">YourComponent)</span></code> in a Scala <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
 <p>To generate the Verilog, it’s exactly the same, but with <code class="docutils literal notranslate"><span class="pre">SpinalVerilog</span></code> in place of <code class="docutils literal notranslate"><span class="pre">SpinalVHDL</span></code></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
@@ -380,7 +382,7 @@
 <p>SpinalVerilog implementation has start the 5 June 2016. This backend pass successfully the same regression tests than the VHDL one (RISCV CPU, Multicore and pipelined mandelbrot,UART RX/TX, Single clock fifo, Dual clock fifo, Gray counter, ..). But still, if you have any issue with this young backend, please, make a git issue.</p>
 </div>
 <div class="section" id="parametrization-from-scala">
-<h3>Parametrization from Scala<a class="headerlink" href="#parametrization-from-scala" title="Permalink to this headline">¶</a></h3>
+<h3>Parametrization from Scala<a class="headerlink" href="#parametrization-from-scala" title="Permalink to this heading">¶</a></h3>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 13%" />
@@ -445,7 +447,7 @@
 </div>
 </div>
 <div class="section" id="parametrization-from-shell">
-<h3>Parametrization from shell<a class="headerlink" href="#parametrization-from-shell" title="Permalink to this headline">¶</a></h3>
+<h3>Parametrization from shell<a class="headerlink" href="#parametrization-from-shell" title="Permalink to this heading">¶</a></h3>
 <p>You can also specify generation parameters by using command line arguments.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="nc">SpinalConfig</span><span class="p">.</span><span class="n">shell</span><span class="p">(</span><span class="n">args</span><span class="p">)(</span><span class="k">new</span><span class="w"> </span><span class="nc">UartCtrl</span><span class="p">)</span><span class="w"></span>
@@ -468,7 +470,7 @@
 </div>
 </div>
 <div class="section" id="generated-vhdl-and-verilog">
-<h2>Generated VHDL and Verilog<a class="headerlink" href="#generated-vhdl-and-verilog" title="Permalink to this headline">¶</a></h2>
+<h2>Generated VHDL and Verilog<a class="headerlink" href="#generated-vhdl-and-verilog" title="Permalink to this heading">¶</a></h2>
 <p>The way how a SpinalHDL RTL description is translated into VHDL and Verilog is important :</p>
 <ul class="simple">
 <li><p>Names in Scala are preserved in VHDL and Verilog.</p></li>
@@ -477,7 +479,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">switch</span></code> statements in Scala are emitted as case statements in VHDL and Verilog in all standard cases</p></li>
 </ul>
 <div class="section" id="organization">
-<h3>Organization<a class="headerlink" href="#organization" title="Permalink to this headline">¶</a></h3>
+<h3>Organization<a class="headerlink" href="#organization" title="Permalink to this heading">¶</a></h3>
 <p>When you use the VHDL generation, stuff are generated into a single file which contain tree section :</p>
 <ol class="arabic simple">
 <li><p>A package that contain enumeration’s definitions</p></li>
@@ -491,7 +493,7 @@
 </ol>
 </div>
 <div class="section" id="combinatorial-logic">
-<h3>Combinatorial logic<a class="headerlink" href="#combinatorial-logic" title="Permalink to this headline">¶</a></h3>
+<h3>Combinatorial logic<a class="headerlink" href="#combinatorial-logic" title="Permalink to this heading">¶</a></h3>
 <p>Scala :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -550,7 +552,7 @@
 </div>
 </div>
 <div class="section" id="flipflop">
-<h3>Flipflop<a class="headerlink" href="#flipflop" title="Permalink to this headline">¶</a></h3>
+<h3>Flipflop<a class="headerlink" href="#flipflop" title="Permalink to this heading">¶</a></h3>
 <p>Scala :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -617,7 +619,7 @@
 </div>
 </div>
 <div class="section" id="vhdl-and-verilog-attributes">
-<h2>VHDL and Verilog attributes<a class="headerlink" href="#vhdl-and-verilog-attributes" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL and Verilog attributes<a class="headerlink" href="#vhdl-and-verilog-attributes" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line">In some situation, it’s useful to give some attributes to some signals of a given design to obtain a specific synthesis result.</div>
 <div class="line">To do that, on any signals or memory of your design you can call the following functions :</div>

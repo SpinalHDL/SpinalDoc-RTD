@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -343,9 +345,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="stream">
-<span id="id1"></span><h1>Stream<a class="headerlink" href="#stream" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Stream<a class="headerlink" href="#stream" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="specification">
-<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
+<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line">The Stream interface is a simple handshake protocol to carry payload.</div>
 <div class="line">It could be used for example to push and pop elements into a FIFO, send requests to a UART controller, etc.</div>
@@ -427,7 +429,7 @@ Be careful with that.</p></li>
 </ul>
 </div>
 <div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h2>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -582,10 +584,10 @@ Be careful with that.</p></li>
 </div>
 </div>
 <div class="section" id="utils">
-<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
+<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this heading">¶</a></h2>
 <p>There is many utils that you can use in your design in conjunction with the Stream bus, This chapter will document them.</p>
 <div class="section" id="streamfifo">
-<h3>StreamFifo<a class="headerlink" href="#streamfifo" title="Permalink to this headline">¶</a></h3>
+<h3>StreamFifo<a class="headerlink" href="#streamfifo" title="Permalink to this heading">¶</a></h3>
 <p>On each stream you can call the .queue(size) to get a buffered stream. But you can also instantiate the FIFO component itself :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">streamA</span><span class="p">,</span><span class="n">streamB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="c1">//...</span>
@@ -653,7 +655,7 @@ Be careful with that.</p></li>
 </table>
 </div>
 <div class="section" id="streamfifocc">
-<h3>StreamFifoCC<a class="headerlink" href="#streamfifocc" title="Permalink to this headline">¶</a></h3>
+<h3>StreamFifoCC<a class="headerlink" href="#streamfifocc" title="Permalink to this heading">¶</a></h3>
 <p>You can instanciate the dual clock domain version of the fifo by the following way :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">clockA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="o">???</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">clockB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="o">???</span><span class="p">)</span><span class="w"></span>
@@ -733,7 +735,7 @@ Be careful with that.</p></li>
 </table>
 </div>
 <div class="section" id="streamccbytoggle">
-<h3>StreamCCByToggle<a class="headerlink" href="#streamccbytoggle" title="Permalink to this headline">¶</a></h3>
+<h3>StreamCCByToggle<a class="headerlink" href="#streamccbytoggle" title="Permalink to this heading">¶</a></h3>
 <div class="line-block">
 <div class="line">Component that provide a Stream cross clock domain bridge based on toggling signals.</div>
 <div class="line">This way of doing cross clock domain bridge is characterized by a small area usage but also a low bandwidth.</div>
@@ -814,7 +816,7 @@ Be careful with that.</p></li>
 </div>
 </div>
 <div class="section" id="streamarbiter">
-<h3>StreamArbiter<a class="headerlink" href="#streamarbiter" title="Permalink to this headline">¶</a></h3>
+<h3>StreamArbiter<a class="headerlink" href="#streamarbiter" title="Permalink to this heading">¶</a></h3>
 <p>When you have multiple Streams and you want to arbitrate them to drive a single one, you can use the StreamArbiterFactory.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">streamA</span><span class="p">,</span><span class="w"> </span><span class="n">streamB</span><span class="p">,</span><span class="w"> </span><span class="n">streamC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">arbitredABC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamArbiterFactory</span><span class="p">.</span><span class="n">roundRobin</span><span class="p">.</span><span class="n">onArgs</span><span class="p">(</span><span class="n">streamA</span><span class="p">,</span><span class="w"> </span><span class="n">streamB</span><span class="p">,</span><span class="w"> </span><span class="n">streamC</span><span class="p">)</span><span class="w"></span>
@@ -896,7 +898,7 @@ Be careful with that.</p></li>
 </table>
 </div>
 <div class="section" id="streamfork">
-<h3>StreamFork<a class="headerlink" href="#streamfork" title="Permalink to this headline">¶</a></h3>
+<h3>StreamFork<a class="headerlink" href="#streamfork" title="Permalink to this heading">¶</a></h3>
 <p>This utile take its input stream and duplicate it outputCount times.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">dispatchedStreams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamDispatcherSequencial</span><span class="p">(</span><span class="w"></span>
@@ -907,7 +909,7 @@ Be careful with that.</p></li>
 </div>
 </div>
 <div class="section" id="streamdispatchersequencial">
-<h3>StreamDispatcherSequencial<a class="headerlink" href="#streamdispatchersequencial" title="Permalink to this headline">¶</a></h3>
+<h3>StreamDispatcherSequencial<a class="headerlink" href="#streamdispatchersequencial" title="Permalink to this heading">¶</a></h3>
 <p>This utile take its input stream and route it to <code class="docutils literal notranslate"><span class="pre">outputCount</span></code> stream in a sequential order.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">dispatchedStreams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamDispatcherSequencial</span><span class="p">(</span><span class="w"></span>

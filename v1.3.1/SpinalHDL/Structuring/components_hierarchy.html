@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -342,9 +344,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="component-and-hierarchy">
-<h1>Component and hierarchy<a class="headerlink" href="#component-and-hierarchy" title="Permalink to this headline">¶</a></h1>
+<h1>Component and hierarchy<a class="headerlink" href="#component-and-hierarchy" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>Like in VHDL and Verilog, you can define components that could be used to build a design hierarchy.  But unlike them, you don’t need to bind them at instantiation.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AdderCell</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Declaring all in/out in an io Bundle is probably a good practice</span>
@@ -380,7 +382,7 @@
 </div>
 </div>
 <div class="section" id="input-output-definition">
-<h2>Input / output definition<a class="headerlink" href="#input-output-definition" title="Permalink to this headline">¶</a></h2>
+<h2>Input / output definition<a class="headerlink" href="#input-output-definition" title="Permalink to this heading">¶</a></h2>
 <p>Syntax to define in/out is the following :</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -432,7 +434,7 @@
 </div>
 </div>
 <div class="section" id="pruned-signals">
-<h2>Pruned signals<a class="headerlink" href="#pruned-signals" title="Permalink to this headline">¶</a></h2>
+<h2>Pruned signals<a class="headerlink" href="#pruned-signals" title="Permalink to this heading">¶</a></h2>
 <p>SpinalHDL only generate things which are required to drive outputs of your toplevel (directly or indirectly).</p>
 <p>All other signals (the useless ones) are removed from the RTL generations and are indexed into a list of pruned signals. You can get this list via the <code class="docutils literal notranslate"><span class="pre">printPruned</span></code> and the <code class="docutils literal notranslate"><span class="pre">printPrunedIo</span></code> function on the generated <code class="docutils literal notranslate"><span class="pre">SpinalReport</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -485,7 +487,7 @@
 </div>
 </div>
 <div class="section" id="generic-vhdl-parameter-verilog">
-<h2>Generic(VHDL) / Parameter(Verilog)<a class="headerlink" href="#generic-vhdl-parameter-verilog" title="Permalink to this headline">¶</a></h2>
+<h2>Generic(VHDL) / Parameter(Verilog)<a class="headerlink" href="#generic-vhdl-parameter-verilog" title="Permalink to this heading">¶</a></h2>
 <p>If you want to parameterize your component, you can give parameters to the constructor of the component as follow :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyAdder</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">BitCount</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>

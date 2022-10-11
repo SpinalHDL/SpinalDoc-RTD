@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1031,16 +1033,16 @@
            <div itemprop="articleBody">
             
   <div class="section" id="timer">
-<span id="id1"></span><h1>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Timer<a class="headerlink" href="#timer" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>A timer module is probably one of the most basic pieces of hardware. But even for a timer, there are some interesting things that you can do with SpinalHDL. This example will define a simple timer component which integrates a bus bridging utile.</p>
 </div>
 <div class="section" id="id2">
-<h2>Timer<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>Timer<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <p>So let’s start with the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component.</p>
 <div class="section" id="specification">
-<h3>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h3>
+<h3>Specification<a class="headerlink" href="#specification" title="Permalink to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component will have a single construction parameter:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1106,7 +1108,7 @@
 </table>
 </div>
 <div class="section" id="implementation">
-<h3>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
+<h3>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Timer</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">tick</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
@@ -1133,14 +1135,14 @@
 </div>
 </div>
 <div class="section" id="bridging-function">
-<h2>Bridging function<a class="headerlink" href="#bridging-function" title="Permalink to this headline">¶</a></h2>
+<h2>Bridging function<a class="headerlink" href="#bridging-function" title="Permalink to this heading">¶</a></h2>
 <p>Now we can start with the main purpose of this example: defining a bus bridging function. To do that we will use two techniques:</p>
 <ul class="simple">
 <li><p>Using the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> tool documented <a class="reference internal" href="../../Libraries/bus_slave_factory.html#bus-slave-factory"><span class="std std-ref">here</span></a></p></li>
 <li><p>Defining a function inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component which can be called from the parent component to drive the <code class="docutils literal notranslate"><span class="pre">Timer</span></code>‘s IO in an abstract way.</p></li>
 </ul>
 <div class="section" id="id3">
-<h3>Specification<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>Specification<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>This bridging function will take the following parameters:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1236,7 +1238,7 @@
 </table>
 </div>
 <div class="section" id="id4">
-<h3>Implementation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>Implementation<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <p>Let’s add this bridging function inside the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> component.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Timer</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
@@ -1276,7 +1278,7 @@
 </div>
 </div>
 <div class="section" id="usage">
-<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h3>
 <p>Here is some demonstration code which is very close to the one used in the Pinsec SoC timer module. Basically it instantiates following elements:</p>
 <ul class="simple">
 <li><p>One 16 bit prescaler</p></li>

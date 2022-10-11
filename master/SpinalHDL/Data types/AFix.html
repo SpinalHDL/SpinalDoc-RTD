@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1156,15 +1158,15 @@
            <div itemprop="articleBody">
             
   <div class="section" id="afix">
-<span id="id1"></span><h1>AFix<a class="headerlink" href="#afix" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>AFix<a class="headerlink" href="#afix" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>Auto-ranging Fixed-Point, <code class="docutils literal notranslate"><span class="pre">AFix</span></code>, is a fixed-point class which tracks the representable range of values while preforming fixed-point operations.</p>
 <p><strong>Warning: Much of this code is still under development. API and function calls may change.</strong></p>
 <p>User feedback is appreciated!</p>
 </div>
 <div class="section" id="declaration">
-<h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
+<h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this heading">¶</a></h2>
 <p>AFix can be created using bit sizes or exponents:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">AFix</span><span class="p">.</span><span class="nc">U</span><span class="p">(</span><span class="mi">12</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">        </span><span class="c1">// U12.0</span>
 <span class="nc">AFix</span><span class="p">.</span><span class="nc">UQ</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="c1">// U8.4</span>
@@ -1205,7 +1207,7 @@ These values represent the true fixed-point value after multiplying by <code cla
 <p>Note: <code class="docutils literal notranslate"><span class="pre">AFix</span></code> will use 5 bits to save this type as that can store <code class="docutils literal notranslate"><span class="pre">16</span></code>, its <code class="docutils literal notranslate"><span class="pre">maxValue</span></code>.</p>
 </div>
 <div class="section" id="mathematical-operations">
-<h2>Mathematical Operations<a class="headerlink" href="#mathematical-operations" title="Permalink to this headline">¶</a></h2>
+<h2>Mathematical Operations<a class="headerlink" href="#mathematical-operations" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">AFix</span></code> supports Addition (<code class="docutils literal notranslate"><span class="pre">+</span></code>), Subtraction (<code class="docutils literal notranslate"><span class="pre">-</span></code>), and Multiplication (<code class="docutils literal notranslate"><span class="pre">*</span></code>) at the hardware level.
 Division (<code class="docutils literal notranslate"><span class="pre">\</span></code>) and Modulo (<code class="docutils literal notranslate"><span class="pre">%</span></code>) operators are provided but are not recommended for hardware elaboration.</p>
 <p>Operations are preformed as if the <code class="docutils literal notranslate"><span class="pre">AFix</span></code> value is a regular <code class="docutils literal notranslate"><span class="pre">Int</span></code> number.
@@ -1229,7 +1231,7 @@ It does this by selecting the aligned maximum and minimum ranges from each of th
 <code class="docutils literal notranslate"><span class="pre">-|</span></code> Subtract without expansion.</p>
 </div>
 <div class="section" id="inequality-operations">
-<h2>Inequality Operations<a class="headerlink" href="#inequality-operations" title="Permalink to this headline">¶</a></h2>
+<h2>Inequality Operations<a class="headerlink" href="#inequality-operations" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">AFix</span></code> supports standard inequality operations.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">A</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">B</span><span class="w"></span>
 <span class="nc">A</span><span class="w"> </span><span class="o">=\=</span><span class="w"> </span><span class="nc">B</span><span class="w"></span>
@@ -1242,7 +1244,7 @@ It does this by selecting the aligned maximum and minimum ranges from each of th
 <p>Warning: Operations which are out of range at compile time will be optimized out!</p>
 </div>
 <div class="section" id="bitshifting">
-<h2>Bitshifting<a class="headerlink" href="#bitshifting" title="Permalink to this headline">¶</a></h2>
+<h2>Bitshifting<a class="headerlink" href="#bitshifting" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">AFix</span></code> supports decimal and bit shifting</p>
 <p><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> Shifts the decimal to the left. Adds to the exponent.
 <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> Shifts the decimal to the right. Subtracts from the exponent.
@@ -1250,7 +1252,7 @@ It does this by selecting the aligned maximum and minimum ranges from each of th
 <code class="docutils literal notranslate"><span class="pre">&gt;&gt;|</span></code> Shifts the bits to the right. Removes fractional bits.</p>
 </div>
 <div class="section" id="saturation-and-rounding">
-<h2>Saturation and Rounding<a class="headerlink" href="#saturation-and-rounding" title="Permalink to this headline">¶</a></h2>
+<h2>Saturation and Rounding<a class="headerlink" href="#saturation-and-rounding" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">AFix</span></code> implements saturation and all common rounding methods.</p>
 <p>Saturation works by saturating the backing value range of an <code class="docutils literal notranslate"><span class="pre">AFix</span></code> value. There are multiple helper functions which
 consider the exponent.</p>
@@ -1280,7 +1282,7 @@ consider the exponent.</p>
 consider shifting or use an assignment with the <code class="docutils literal notranslate"><span class="pre">truncated</span></code> tag.</p>
 </div>
 <div class="section" id="assignment">
-<h2>Assignment<a class="headerlink" href="#assignment" title="Permalink to this headline">¶</a></h2>
+<h2>Assignment<a class="headerlink" href="#assignment" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">AFix</span></code> will automatically check and expand range and precision during assignment. By default, it is an error to assign
 an <code class="docutils literal notranslate"><span class="pre">AFix</span></code> value to another <code class="docutils literal notranslate"><span class="pre">AFix</span></code> value with smaller range or precision.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">.truncated</span></code> function is used to control how assignments to smaller types.</p>

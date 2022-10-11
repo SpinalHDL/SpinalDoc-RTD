@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1156,9 +1158,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="registers">
-<h1>Registers<a class="headerlink" href="#registers" title="Permalink to this headline">¶</a></h1>
+<h1>Registers<a class="headerlink" href="#registers" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>Creating registers in SpinalHDL is very different than in VHDL or Verilog.</p>
 <p>In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.
 This difference from traditional event-driven HDL has a big impact:</p>
@@ -1169,7 +1171,7 @@ This difference from traditional event-driven HDL has a big impact:</p>
 <p>Clocks and resets are handled separately, see the <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock domain</span></a> chapter for details.</p>
 </div>
 <div class="section" id="instantiation">
-<h2>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this headline">¶</a></h2>
+<h2>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this heading">¶</a></h2>
 <p>There are 4 ways to instantiate a register:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1234,7 +1236,7 @@ Just like in combinational assignments, the rule is ‘Last assignment wins’, 
 </div>
 </div>
 <div class="section" id="reset-value">
-<h2>Reset value<a class="headerlink" href="#reset-value" title="Permalink to this headline">¶</a></h2>
+<h2>Reset value<a class="headerlink" href="#reset-value" title="Permalink to this heading">¶</a></h2>
 <p>In addition to the <code class="docutils literal notranslate"><span class="pre">RegInit(value</span> <span class="pre">:</span> <span class="pre">Data)</span></code> syntax which directly creates the register with a reset value,
 you can also set the reset value by calling the <code class="docutils literal notranslate"><span class="pre">init(value</span> <span class="pre">:</span> <span class="pre">Data)</span></code> function on the register.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits initialized with 0 when the reset occurs</span>
@@ -1253,7 +1255,7 @@ you can also set the reset value by calling the <code class="docutils literal no
 </div>
 </div>
 <div class="section" id="initialization-value-for-simulation-purposes">
-<h2>Initialization value for simulation purposes<a class="headerlink" href="#initialization-value-for-simulation-purposes" title="Permalink to this headline">¶</a></h2>
+<h2>Initialization value for simulation purposes<a class="headerlink" href="#initialization-value-for-simulation-purposes" title="Permalink to this heading">¶</a></h2>
 <p>For registers that don’t need a reset value in RTL, but need an initialization value for simulation (to avoid x-propagation), you can ask for a random initialization value by calling the <code class="docutils literal notranslate"><span class="pre">randBoot()</span></code> function.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits initialized with a random value</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">randBoot</span><span class="p">()</span><span class="w"></span>
@@ -1261,7 +1263,7 @@ you can also set the reset value by calling the <code class="docutils literal no
 </div>
 </div>
 <div class="section" id="register-vectors">
-<h2>Register vectors<a class="headerlink" href="#register-vectors" title="Permalink to this headline">¶</a></h2>
+<h2>Register vectors<a class="headerlink" href="#register-vectors" title="Permalink to this heading">¶</a></h2>
 <p>As for wires, it is possible to define a vector of registers with <code class="docutils literal notranslate"><span class="pre">Vec</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">vecReg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">vecReg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">8</span><span class="p">)(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bool</span><span class="p">()))</span><span class="w"></span>
@@ -1305,7 +1307,7 @@ you can also set the reset value by calling the <code class="docutils literal no
 </div>
 </div>
 <div class="section" id="transforming-a-wire-into-a-register">
-<h2>Transforming a wire into a register<a class="headerlink" href="#transforming-a-wire-into-a-register" title="Permalink to this headline">¶</a></h2>
+<h2>Transforming a wire into a register<a class="headerlink" href="#transforming-a-wire-into-a-register" title="Permalink to this heading">¶</a></h2>
 <p>Sometimes it is useful to transform an existing wire into a register. For
 instance, when you are using a Bundle, if you want some outputs of the bundle to
 be registers, you might prefer to write <code class="docutils literal notranslate"><span class="pre">io.myBundle.PORT</span> <span class="pre">:=</span> <span class="pre">newValue</span></code> without

@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1149,9 +1151,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="component-and-hierarchy">
-<h1>Component and hierarchy<a class="headerlink" href="#component-and-hierarchy" title="Permalink to this headline">¶</a></h1>
+<h1>Component and hierarchy<a class="headerlink" href="#component-and-hierarchy" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy. However, in SpinalHDL, you don’t need to bind their ports at instantiation:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AdderCell</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// Declaring external ports in a Bundle called `io` is recommended</span>
@@ -1193,7 +1195,7 @@
 </div>
 </div>
 <div class="section" id="input-output-definition">
-<h2>Input / output definition<a class="headerlink" href="#input-output-definition" title="Permalink to this headline">¶</a></h2>
+<h2>Input / output definition<a class="headerlink" href="#input-output-definition" title="Permalink to this heading">¶</a></h2>
 <p>The syntax to define inputs and outputs is as follows:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1238,7 +1240,7 @@ T should extend <code class="docutils literal notranslate"><span class="pre">IMa
 </div>
 </div>
 <div class="section" id="pruned-signals">
-<h2>Pruned signals<a class="headerlink" href="#pruned-signals" title="Permalink to this headline">¶</a></h2>
+<h2>Pruned signals<a class="headerlink" href="#pruned-signals" title="Permalink to this heading">¶</a></h2>
 <p>SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones are removed from the RTL generation.</p>
 <p>You can collect the list of all the removed ans useless signals via the <code class="docutils literal notranslate"><span class="pre">printPruned</span></code> and the <code class="docutils literal notranslate"><span class="pre">printPrunedIo</span></code> functions on the generated <code class="docutils literal notranslate"><span class="pre">SpinalReport</span></code> object:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1267,7 +1269,7 @@ T should extend <code class="docutils literal notranslate"><span class="pre">IMa
 </div>
 </div>
 <div class="section" id="parametrized-hardware-generic-in-vhdl-parameter-in-verilog">
-<h2>Parametrized Hardware (“Generic” in VHDL, “Parameter” in Verilog)<a class="headerlink" href="#parametrized-hardware-generic-in-vhdl-parameter-in-verilog" title="Permalink to this headline">¶</a></h2>
+<h2>Parametrized Hardware (“Generic” in VHDL, “Parameter” in Verilog)<a class="headerlink" href="#parametrized-hardware-generic-in-vhdl-parameter-in-verilog" title="Permalink to this heading">¶</a></h2>
 <p>If you want to parameterize your component, you can give parameters to the constructor of the component as follows:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyAdder</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">BitCount</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1307,7 +1309,7 @@ T should extend <code class="docutils literal notranslate"><span class="pre">IMa
 </div>
 </div>
 <div class="section" id="synthesized-component-names">
-<h2>Synthesized component names<a class="headerlink" href="#synthesized-component-names" title="Permalink to this headline">¶</a></h2>
+<h2>Synthesized component names<a class="headerlink" href="#synthesized-component-names" title="Permalink to this heading">¶</a></h2>
 <p>Within a module, each component has a name, called a “partial name”.
 The “full” name is built by joining every component’s parent name with “_”, for example: <code class="docutils literal notranslate"><span class="pre">io_clockDomain_reset</span></code>.
 You can use <code class="docutils literal notranslate"><span class="pre">setName</span></code> to replace this convention with a custom name.

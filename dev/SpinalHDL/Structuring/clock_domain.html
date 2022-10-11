@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1149,15 +1151,15 @@
            <div itemprop="articleBody">
             
   <div class="section" id="clock-domains">
-<span id="clock-domain"></span><h1>Clock domains<a class="headerlink" href="#clock-domains" title="Permalink to this headline">¶</a></h1>
+<span id="clock-domain"></span><h1>Clock domains<a class="headerlink" href="#clock-domains" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>In SpinalHDL, clock and reset signals can be combined to create a <strong>clock domain</strong>. Clock domains can be applied to some areas of the design and then all synchronous elements instantiated into those areas will then <strong>implicitly</strong> use this clock domain.</p>
 <p>Clock domain application works like a stack, which means that if you are in a given clock domain you can still apply another clock domain locally.</p>
 <p>Please note that a register captures its clock domain when the register is created, not when it is assigned. So please make sure to create them inside the desired <code class="docutils literal notranslate"><span class="pre">ClockingArea</span></code>.</p>
 </div>
 <div class="section" id="instantiation">
-<span id="clock-domain-instantiation"></span><h2>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this headline">¶</a></h2>
+<span id="clock-domain-instantiation"></span><h2>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this heading">¶</a></h2>
 <p>The syntax to define a clock domain is as follows (using EBNF syntax):</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="p">(</span><span class="w"></span>
 <span class="w">  </span><span class="n">clock</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
@@ -1242,7 +1244,7 @@
 </pre></div>
 </div>
 <div class="section" id="configuration">
-<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h3>
 <p>In addition to <a class="reference internal" href="#clock-domain-instantiation"><span class="std std-ref">constructor parameters</span></a>, the following elements of each clock domain are configurable via a <code class="docutils literal notranslate"><span class="pre">ClockDomainConfig</span></code>class:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1317,7 +1319,7 @@
 </div>
 </div>
 <div class="section" id="internal-clock">
-<h3>Internal clock<a class="headerlink" href="#internal-clock" title="Permalink to this headline">¶</a></h3>
+<h3>Internal clock<a class="headerlink" href="#internal-clock" title="Permalink to this heading">¶</a></h3>
 <p>An alternative syntax to create a clock domain is the following:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">internal</span><span class="p">(</span><span class="w"></span>
 <span class="w">  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nc">String</span><span class="p">,</span><span class="w"></span>
@@ -1401,7 +1403,7 @@
 </div>
 </div>
 <div class="section" id="external-clock">
-<h3>External clock<a class="headerlink" href="#external-clock" title="Permalink to this headline">¶</a></h3>
+<h3>External clock<a class="headerlink" href="#external-clock" title="Permalink to this heading">¶</a></h3>
 <p>You can define a clock domain which is driven by the outside anywhere in your source. It will then automatically add clock and reset wires from the top level inputs to all synchronous elements.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="w"></span>
 <span class="w">  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nc">String</span><span class="p">,</span><span class="w"></span>
@@ -1434,7 +1436,7 @@
 </div>
 </div>
 <div class="section" id="signal-priorities-in-hdl-generation">
-<h3>Signal priorities in HDL generation<a class="headerlink" href="#signal-priorities-in-hdl-generation" title="Permalink to this headline">¶</a></h3>
+<h3>Signal priorities in HDL generation<a class="headerlink" href="#signal-priorities-in-hdl-generation" title="Permalink to this heading">¶</a></h3>
 <p>In the current version, reset and clock enable signals have different priorities. Their order is : <code class="docutils literal notranslate"><span class="pre">asyncReset</span></code>, <code class="docutils literal notranslate"><span class="pre">clockEnable</span></code>, <code class="docutils literal notranslate"><span class="pre">syncReset</span></code> and <code class="docutils literal notranslate"><span class="pre">softReset</span></code>.</p>
 <p>Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reseted.</p>
 <p>Here is an example:</p>
@@ -1458,7 +1460,7 @@
 <p>If that behaviour is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.</p>
 </div>
 <div class="section" id="context">
-<h3>Context<a class="headerlink" href="#context" title="Permalink to this headline">¶</a></h3>
+<h3>Context<a class="headerlink" href="#context" title="Permalink to this heading">¶</a></h3>
 <p>You can retrieve in which clock domain you are by calling <code class="docutils literal notranslate"><span class="pre">ClockDomain.current</span></code> anywhere.</p>
 <p>The returned <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> instance has the following functions that can be called:</p>
 <table class="colwidths-given docutils align-default">
@@ -1532,7 +1534,7 @@
 </div>
 </div>
 <div class="section" id="clock-domain-crossing">
-<h2>Clock domain crossing<a class="headerlink" href="#clock-domain-crossing" title="Permalink to this headline">¶</a></h2>
+<h2>Clock domain crossing<a class="headerlink" href="#clock-domain-crossing" title="Permalink to this heading">¶</a></h2>
 <p>SpinalHDL checks at compile time that there are no unwanted/unspecified cross clock domain signal reads. If you want to read a signal that is emitted by another <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> area, you should add the <code class="docutils literal notranslate"><span class="pre">crossClockDomain</span></code> tag to the destination signal as depicted in the following example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//             _____                        _____             _____</span>
 <span class="c1">//            |     |  (crossClockDomain)  |     |           |     |</span>
@@ -1620,9 +1622,9 @@
 </div>
 </div>
 <div class="section" id="special-clocking-areas">
-<h2>Special clocking Areas<a class="headerlink" href="#special-clocking-areas" title="Permalink to this headline">¶</a></h2>
+<h2>Special clocking Areas<a class="headerlink" href="#special-clocking-areas" title="Permalink to this heading">¶</a></h2>
 <div class="section" id="slow-area">
-<h3>Slow Area<a class="headerlink" href="#slow-area" title="Permalink to this headline">¶</a></h3>
+<h3>Slow Area<a class="headerlink" href="#slow-area" title="Permalink to this heading">¶</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">SlowArea</span></code> is used to create a new clock domain area which is slower than the current one:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
@@ -1651,7 +1653,7 @@
 </div>
 </div>
 <div class="section" id="bootreset">
-<h3>BootReset<a class="headerlink" href="#bootreset" title="Permalink to this headline">¶</a></h3>
+<h3>BootReset<a class="headerlink" href="#bootreset" title="Permalink to this heading">¶</a></h3>
 <p><cite>clockDomain.withBootReset()</cite> could specify register’s resetkinde as boot.
 <cite>clockDomain.withSyncReset()</cite> could specify register’s resetkinde as Sync-reset.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w">  </span><span class="nc">Top</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1669,7 +1671,7 @@
 </div>
 </div>
 <div class="section" id="resetarea">
-<h3>ResetArea<a class="headerlink" href="#resetarea" title="Permalink to this headline">¶</a></h3>
+<h3>ResetArea<a class="headerlink" href="#resetarea" title="Permalink to this heading">¶</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">ResetArea</span></code> is used to create a new clock domain area where a special reset signal is combined with the current clock domain reset:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
@@ -1689,7 +1691,7 @@
 </div>
 </div>
 <div class="section" id="clockenablearea">
-<h3>ClockEnableArea<a class="headerlink" href="#clockenablearea" title="Permalink to this headline">¶</a></h3>
+<h3>ClockEnableArea<a class="headerlink" href="#clockenablearea" title="Permalink to this heading">¶</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">ClockEnableArea</span></code> is used to add an additional clock enable in the current clock domain:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 

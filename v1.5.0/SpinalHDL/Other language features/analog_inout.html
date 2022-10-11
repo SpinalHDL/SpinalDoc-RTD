@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1029,9 +1031,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="analog-and-inout">
-<span id="section-analog-and-inout"></span><h1>Analog and inout<a class="headerlink" href="#analog-and-inout" title="Permalink to this headline">¶</a></h1>
+<span id="section-analog-and-inout"></span><h1>Analog and inout<a class="headerlink" href="#analog-and-inout" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>You can define native tristate signals by using the <code class="docutils literal notranslate"><span class="pre">Analog</span></code>/<code class="docutils literal notranslate"><span class="pre">inout</span></code> features.
 These features were added for the following reasons:</p>
 <ul class="simple">
@@ -1043,7 +1045,7 @@ These features were added for the following reasons:</p>
 <p>If you want to model a component like a memory-mapped GPIO peripheral, please use the <a class="reference internal" href="../Libraries/IO/tristate.html#section-tristate"><span class="std std-ref">TriState/TriStateArray</span></a> bundles from the Spinal standard library, which abstract over the true nature of tristate drivers.</p>
 </div>
 <div class="section" id="analog">
-<h2>Analog<a class="headerlink" href="#analog" title="Permalink to this headline">¶</a></h2>
+<h2>Analog<a class="headerlink" href="#analog" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Analog</span></code> is the keyword which allows a signal to be defined as something analog, which in the digital world could mean <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, or <code class="docutils literal notranslate"><span class="pre">Z</span></code> (the disconnected, high-impedance state).</p>
 <p>For instance:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SdramInterface</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">SdramLayout</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1057,7 +1059,7 @@ These features were added for the following reasons:</p>
 </div>
 </div>
 <div class="section" id="inout">
-<h2>inout<a class="headerlink" href="#inout" title="Permalink to this headline">¶</a></h2>
+<h2>inout<a class="headerlink" href="#inout" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">inout</span></code> is the keyword which allows you to set an <code class="docutils literal notranslate"><span class="pre">Analog</span></code> signal as a bidirectional (both “in” and “out”) signal.</p>
 <p>For instance:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SdramInterface</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">SdramLayout</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1076,7 +1078,7 @@ These features were added for the following reasons:</p>
 </div>
 </div>
 <div class="section" id="inoutwrapper">
-<h2>InOutWrapper<a class="headerlink" href="#inoutwrapper" title="Permalink to this headline">¶</a></h2>
+<h2>InOutWrapper<a class="headerlink" href="#inoutwrapper" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> is a tool which allows you to transform all <code class="docutils literal notranslate"><span class="pre">master</span></code> <code class="docutils literal notranslate"><span class="pre">TriState</span></code>/<code class="docutils literal notranslate"><span class="pre">TriStateArray</span></code>/<code class="docutils literal notranslate"><span class="pre">ReadableOpenDrain</span></code> bundles of a component into native <code class="docutils literal notranslate"><span class="pre">inout(Analog(...))</span></code> signals.
 It allows you to keep your hardware description free of any <code class="docutils literal notranslate"><span class="pre">Analog</span></code>/<code class="docutils literal notranslate"><span class="pre">inout</span></code> things, and then transform the toplevel to make it synthesis ready.</p>
 <p>For instance:</p>
@@ -1131,7 +1133,7 @@ It allows you to keep your hardware description free of any <code class="docutil
 </div>
 </div>
 <div class="section" id="manually-driving-analog-bundles">
-<h2>Manually driving Analog bundles<a class="headerlink" href="#manually-driving-analog-bundles" title="Permalink to this headline">¶</a></h2>
+<h2>Manually driving Analog bundles<a class="headerlink" href="#manually-driving-analog-bundles" title="Permalink to this heading">¶</a></h2>
 <p>If an <code class="docutils literal notranslate"><span class="pre">Analog</span></code> bundle is not driven, it will default to being high-Z.
 Therefore to manually implement a tristate driver (in case the <code class="docutils literal notranslate"><span class="pre">InOutWrapper</span></code> type can’t be used for some reason) you have to conditionally drive the signal.</p>
 <p>To manually connect a <code class="docutils literal notranslate"><span class="pre">TriState</span></code> signal to an <code class="docutils literal notranslate"><span class="pre">Analog</span></code> bundle:</p>

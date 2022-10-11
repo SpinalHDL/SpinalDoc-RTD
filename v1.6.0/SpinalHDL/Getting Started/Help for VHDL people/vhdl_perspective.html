@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1040,9 +1042,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="vhdl-equivalences">
-<h1>VHDL equivalences<a class="headerlink" href="#vhdl-equivalences" title="Permalink to this headline">¶</a></h1>
+<h1>VHDL equivalences<a class="headerlink" href="#vhdl-equivalences" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="entity-and-architecture">
-<h2>Entity and architecture<a class="headerlink" href="#entity-and-architecture" title="Permalink to this headline">¶</a></h2>
+<h2>Entity and architecture<a class="headerlink" href="#entity-and-architecture" title="Permalink to this heading">¶</a></h2>
 <p>In SpinalHDL, a VHDL entity and architecture are both defined inside a <code class="docutils literal notranslate"><span class="pre">Component</span></code>.</p>
 <p>Here is an example of a component which has 3 inputs (<code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">c</span></code>) and an output (<code class="docutils literal notranslate"><span class="pre">result</span></code>). This component also has an <code class="docutils literal notranslate"><span class="pre">offset</span></code> construction parameter (like a VHDL generic).</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1072,7 +1074,7 @@
 </div>
 </div>
 <div class="section" id="data-types">
-<h2>Data types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h2>
+<h2>Data types<a class="headerlink" href="#data-types" title="Permalink to this heading">¶</a></h2>
 <p>SpinalHDL data types are similar to the VHDL ones:</p>
 <table class="docutils align-default">
 <colgroup>
@@ -1134,7 +1136,7 @@
 <p>Then for example, to instantiate a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>, you need to write <code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">myColor</span> <span class="pre">=</span> <span class="pre">RGB(channelWidth=8)</span></code>.</p>
 </div>
 <div class="section" id="signal">
-<h2>Signal<a class="headerlink" href="#signal" title="Permalink to this headline">¶</a></h2>
+<h2>Signal<a class="headerlink" href="#signal" title="Permalink to this heading">¶</a></h2>
 <p>Here is an example about signal instantiations:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1151,7 +1153,7 @@
 </div>
 </div>
 <div class="section" id="assignments">
-<h2>Assignments<a class="headerlink" href="#assignments" title="Permalink to this headline">¶</a></h2>
+<h2>Assignments<a class="headerlink" href="#assignments" title="Permalink to this heading">¶</a></h2>
 <p>In SpinalHDL, the <code class="docutils literal notranslate"><span class="pre">:=</span></code> assignment operator is equivalent to the VHDL signal assignment (<code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>):</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myUInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="n">myUInt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
@@ -1181,7 +1183,7 @@
 </div>
 </div>
 <div class="section" id="literals">
-<h2>Literals<a class="headerlink" href="#literals" title="Permalink to this headline">¶</a></h2>
+<h2>Literals<a class="headerlink" href="#literals" title="Permalink to this heading">¶</a></h2>
 <p>Literals are a little bit different than in VHDL:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myBool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
@@ -1201,7 +1203,7 @@
 </div>
 </div>
 <div class="section" id="registers">
-<h2>Registers<a class="headerlink" href="#registers" title="Permalink to this headline">¶</a></h2>
+<h2>Registers<a class="headerlink" href="#registers" title="Permalink to this heading">¶</a></h2>
 <p>In SpinalHDL, registers are explicitly specified while in VHDL registers are inferred. Here is an example of SpinalHDL registers:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w">  </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 <span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">   </span><span class="c1">// Count up each cycle</span>
@@ -1211,7 +1213,7 @@
 </div>
 </div>
 <div class="section" id="process-blocks">
-<h2>Process blocks<a class="headerlink" href="#process-blocks" title="Permalink to this headline">¶</a></h2>
+<h2>Process blocks<a class="headerlink" href="#process-blocks" title="Permalink to this heading">¶</a></h2>
 <p>Process blocks are a simulation feature that is unnecessary to design RTL. It’s why SpinalHDL doesn’t contain any feature analogous to process blocks, and you can assign what you want, where you want.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myCombinatorial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>

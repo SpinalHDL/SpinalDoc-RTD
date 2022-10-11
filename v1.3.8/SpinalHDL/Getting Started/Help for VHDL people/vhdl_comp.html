@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -345,13 +347,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="vhdl-comparison">
-<h1>VHDL comparison<a class="headerlink" href="#vhdl-comparison" title="Permalink to this headline">¶</a></h1>
+<h1>VHDL comparison<a class="headerlink" href="#vhdl-comparison" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>This page will show the main differences between VHDL and SpinalHDL. Things will not be explained in depth.</p>
 </div>
 <div class="section" id="process">
-<h2>Process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h2>
+<h2>Process<a class="headerlink" href="#process" title="Permalink to this heading">¶</a></h2>
 <p>Processes have no senses when you define RTL, and worst than that, they are very annoying and force you to split your code and duplicate things.</p>
 <p>To produce the following RTL:</p>
 <img alt="../../../_images/process_rtl.svg" src="../../../_images/process_rtl.svg" /><p>You will have to write the following VHDL:</p>
@@ -403,12 +405,12 @@
 </div>
 </div>
 <div class="section" id="implicit-vs-explicit-definitions">
-<h2>Implicit vs explicit definitions<a class="headerlink" href="#implicit-vs-explicit-definitions" title="Permalink to this headline">¶</a></h2>
+<h2>Implicit vs explicit definitions<a class="headerlink" href="#implicit-vs-explicit-definitions" title="Permalink to this heading">¶</a></h2>
 <p>In VHDL, when you declare a signal, you don’t specify if this is a combinatorial signal or a register. Where and how you assign to it decides whether it is combinatorial or registered.</p>
 <p>In SpinalHDL these kinds of things are explicit. Registers are defined as registers directly in their declaration.</p>
 </div>
 <div class="section" id="clock-domains">
-<h2>Clock domains<a class="headerlink" href="#clock-domains" title="Permalink to this headline">¶</a></h2>
+<h2>Clock domains<a class="headerlink" href="#clock-domains" title="Permalink to this heading">¶</a></h2>
 <p>In VHDL, every time you want to define a bunch of registers, you need the carry the clock and the reset wire to them. In addition, you have to hardcode everywhere how those clock and reset signals should be used (clock edge, reset polarity, reset nature (async, sync)).</p>
 <p>In SpinalHDL you can define a ClockDomain, and then define the area of your hardware that uses it.</p>
 <p>For example:</p>
@@ -431,7 +433,7 @@
 </div>
 </div>
 <div class="section" id="component-s-internal-organization">
-<h2>Component’s internal organization<a class="headerlink" href="#component-s-internal-organization" title="Permalink to this headline">¶</a></h2>
+<h2>Component’s internal organization<a class="headerlink" href="#component-s-internal-organization" title="Permalink to this heading">¶</a></h2>
 <p>In VHDL, you have the <code class="docutils literal notranslate"><span class="pre">block</span></code> features that allow you to define sub areas of logic inside your component. But in fact, nobody uses them, because most people don’t know about them, and also because all signals defined inside them are not readable from the outside.</p>
 <p>In SpinalHDL you have an <code class="docutils literal notranslate"><span class="pre">Area</span></code> feature that does it correctly:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -453,12 +455,12 @@
 </div>
 </div>
 <div class="section" id="safety">
-<h2>Safety<a class="headerlink" href="#safety" title="Permalink to this headline">¶</a></h2>
+<h2>Safety<a class="headerlink" href="#safety" title="Permalink to this heading">¶</a></h2>
 <p>In VHDL as in SpinalHDL, it’s easy to write combinatorial loops, or to infer a latch by forgetting to drive a signal in paths of a process.</p>
 <p>Then, to detect those issues, you can use some <code class="docutils literal notranslate"><span class="pre">lint</span></code> tools that will analyse your VHDL, but those tools aren’t free. In SpinalHDL the <code class="docutils literal notranslate"><span class="pre">lint</span></code> process in integrated inside the compiler, and it won’t generate the RTL code until everything is fine. It also checks clock domain crossing.</p>
 </div>
 <div class="section" id="functions-and-procedures">
-<h2>Functions and procedures<a class="headerlink" href="#functions-and-procedures" title="Permalink to this headline">¶</a></h2>
+<h2>Functions and procedures<a class="headerlink" href="#functions-and-procedures" title="Permalink to this heading">¶</a></h2>
 <p>Function and procedures are not used very often in VHDL, probably because they are very limited:</p>
 <ul class="simple">
 <li><p>You can only define a chunk of combinatorial hardware, or only a chunk of registers (if you call the function/procedure inside a clocked process).</p></li>
@@ -510,7 +512,7 @@
 </div>
 </div>
 <div class="section" id="buses-and-interfaces">
-<h2>Buses and Interfaces<a class="headerlink" href="#buses-and-interfaces" title="Permalink to this headline">¶</a></h2>
+<h2>Buses and Interfaces<a class="headerlink" href="#buses-and-interfaces" title="Permalink to this heading">¶</a></h2>
 <p>VHDL is very boring when it comes to buses and interfaces. You have two options:</p>
 <ol class="arabic simple">
 <li><p>Define buses and interfaces wire by wire, each time and everywhere:</p></li>
@@ -578,7 +580,7 @@
 </div>
 </div>
 <div class="section" id="signal-declaration">
-<h2>Signal declaration<a class="headerlink" href="#signal-declaration" title="Permalink to this headline">¶</a></h2>
+<h2>Signal declaration<a class="headerlink" href="#signal-declaration" title="Permalink to this heading">¶</a></h2>
 <p>VHDL forces you to define all signals on the top of your architecture, which is annoying.</p>
 <div class="highlight-VHDL notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p">..</span><span class="w"></span>
 <span class="w">  </span><span class="p">..</span><span class="w"> </span><span class="p">(</span><span class="n">many</span><span class="w"> </span><span class="k">signal</span><span class="w"> </span><span class="n">declarations</span><span class="p">)</span><span class="w"></span>
@@ -608,7 +610,7 @@
 </div>
 </div>
 <div class="section" id="component-instantiation">
-<h2>Component instantiation<a class="headerlink" href="#component-instantiation" title="Permalink to this headline">¶</a></h2>
+<h2>Component instantiation<a class="headerlink" href="#component-instantiation" title="Permalink to this heading">¶</a></h2>
 <p>VHDL is very verbose about this as you have to redefine all signals of your sub component entity, and then bind them one by one when you instantiate your component.</p>
 <div class="highlight-VHDL notranslate"><div class="highlight"><pre><span></span><span class="n">divider_cmd_valid</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
 <span class="n">divider_cmd_ready</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
@@ -644,7 +646,7 @@
 </div>
 </div>
 <div class="section" id="casting">
-<h2>Casting<a class="headerlink" href="#casting" title="Permalink to this headline">¶</a></h2>
+<h2>Casting<a class="headerlink" href="#casting" title="Permalink to this heading">¶</a></h2>
 <p>There are two annoying casting methods in VHDL:</p>
 <ul class="simple">
 <li><p>boolean &lt;&gt; std_logic (ex: To assign a signal using a condition such as <code class="docutils literal notranslate"><span class="pre">mySignal</span> <span class="pre">&lt;=</span> <span class="pre">myValue</span> <span class="pre">&lt;</span> <span class="pre">10</span></code> is not legal)</p></li>
@@ -665,7 +667,7 @@
 </div>
 </div>
 <div class="section" id="resizing">
-<h2>Resizing<a class="headerlink" href="#resizing" title="Permalink to this headline">¶</a></h2>
+<h2>Resizing<a class="headerlink" href="#resizing" title="Permalink to this heading">¶</a></h2>
 <p>The fact that VHDL is strict about bit size is probably a good thing.</p>
 <div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="n">my8BitsSignal</span> <span class="o">&lt;=</span> <span class="n">resize</span><span class="p">(</span><span class="n">my4BitsSignal</span><span class="p">,</span><span class="mi">8</span><span class="p">);</span>
 </pre></div>
@@ -680,7 +682,7 @@
 </div>
 </div>
 <div class="section" id="parameterization">
-<h2>Parameterization<a class="headerlink" href="#parameterization" title="Permalink to this headline">¶</a></h2>
+<h2>Parameterization<a class="headerlink" href="#parameterization" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line">VHDL prior to the 2008 revision has many issues with generics. For example, you can’t parameterize records, you can’t parameterize arrays in the entity, and you can’t have types parameters.</div>
 <div class="line">Then VHDL 2008 came and fixed those issues. But RTL tool support for VHDL 2008 is really weak depending the vendor.</div>
@@ -704,7 +706,7 @@
 </div>
 </div>
 <div class="section" id="meta-hardware-description">
-<h2>Meta hardware description<a class="headerlink" href="#meta-hardware-description" title="Permalink to this headline">¶</a></h2>
+<h2>Meta hardware description<a class="headerlink" href="#meta-hardware-description" title="Permalink to this heading">¶</a></h2>
 <p>VHDL has kind of a closed syntax. You can’t add abstraction layers on top of it.</p>
 <p>SpinalHDL, because it’s built on top of Scala, is very flexible, and allows you to define new abstraction layers very easily.</p>
 <p>Some examples of that are the <a class="reference internal" href="../../Libraries/fsm.html#state-machine"><span class="std std-ref">FSM</span></a> tool, the <a class="reference internal" href="../../Libraries/bus_slave_factory.html#bus-slave-factory"><span class="std std-ref">BusSlaveFactory</span></a> tool, and also the <a class="reference internal" href="../../Examples/Advanced%20ones/jtag.html#jtag"><span class="std std-ref">JTAG</span></a> tool.</p>

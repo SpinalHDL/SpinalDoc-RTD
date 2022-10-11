@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1158,9 +1160,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="usb-device">
-<h1>USB device<a class="headerlink" href="#usb-device" title="Permalink to this headline">¶</a></h1>
+<h1>USB device<a class="headerlink" href="#usb-device" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>There is a USB device controller in the SpinalHDL library. In a few bullet points it can be resumed to :</p>
 <ul class="simple">
 <li><p>Implemented to allow a CPU to configure and manage the endpoints</p></li>
@@ -1186,7 +1188,7 @@
 </ul>
 </div>
 <div class="section" id="architecture">
-<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading">¶</a></h2>
 <p>The controller is composed of :</p>
 <ul class="simple">
 <li><p>A few control registers</p></li>
@@ -1201,10 +1203,10 @@
 </ul>
 </div>
 <div class="section" id="registers">
-<h2>Registers<a class="headerlink" href="#registers" title="Permalink to this headline">¶</a></h2>
+<h2>Registers<a class="headerlink" href="#registers" title="Permalink to this heading">¶</a></h2>
 <p>Note that all registers and memories of the controller are only accessible in 32 bits word access, bytes access isn’t supported.</p>
 <div class="section" id="frame-0xff00">
-<h3>FRAME (0xFF00)<a class="headerlink" href="#frame-0xff00" title="Permalink to this headline">¶</a></h3>
+<h3>FRAME (0xFF00)<a class="headerlink" href="#frame-0xff00" title="Permalink to this heading">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 23%" />
@@ -1229,7 +1231,7 @@
 </table>
 </div>
 <div class="section" id="address-0xff04">
-<h3>ADDRESS (0xFF04)<a class="headerlink" href="#address-0xff04" title="Permalink to this headline">¶</a></h3>
+<h3>ADDRESS (0xFF04)<a class="headerlink" href="#address-0xff04" title="Permalink to this heading">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 23%" />
@@ -1269,7 +1271,7 @@ At that moment, you can set the address and the trigger field, then provide the 
 finalise the SET_ADDRESS sequance. The controller will then automaticaly turn on the address filtering at the completion of that descriptor.</p>
 </div>
 <div class="section" id="interrupt-0xff08">
-<h3>INTERRUPT (0xFF08)<a class="headerlink" href="#interrupt-0xff08" title="Permalink to this headline">¶</a></h3>
+<h3>INTERRUPT (0xFF08)<a class="headerlink" href="#interrupt-0xff08" title="Permalink to this heading">¶</a></h3>
 <p>All bits of this register can be cleared by writing ‘1’ in them.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -1320,7 +1322,7 @@ finalise the SET_ADDRESS sequance. The controller will then automaticaly turn on
 </table>
 </div>
 <div class="section" id="halt-0xff0c">
-<h3>HALT (0xFF0C)<a class="headerlink" href="#halt-0xff0c" title="Permalink to this headline">¶</a></h3>
+<h3>HALT (0xFF0C)<a class="headerlink" href="#halt-0xff0c" title="Permalink to this heading">¶</a></h3>
 <p>This register allow to place a single enpoint in a dormant state in order to ensure atomicity of CPU operations, allowing to do things as read/modify/write on the endpoint registers and descriptors.
 The peripheral will return NAK if the given endpoint is addressed by the usb host.</p>
 <table class="docutils align-default">
@@ -1359,7 +1361,7 @@ set by the hardware itself to ensure atomicity</p></td>
 </table>
 </div>
 <div class="section" id="config-0xff10">
-<h3>CONFIG (0xFF10)<a class="headerlink" href="#config-0xff10" title="Permalink to this headline">¶</a></h3>
+<h3>CONFIG (0xFF10)<a class="headerlink" href="#config-0xff10" title="Permalink to this heading">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 23%" />
@@ -1399,7 +1401,7 @@ set by the hardware itself to ensure atomicity</p></td>
 </table>
 </div>
 <div class="section" id="info-0xff20">
-<h3>INFO (0xFF20)<a class="headerlink" href="#info-0xff20" title="Permalink to this headline">¶</a></h3>
+<h3>INFO (0xFF20)<a class="headerlink" href="#info-0xff20" title="Permalink to this heading">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -1424,7 +1426,7 @@ set by the hardware itself to ensure atomicity</p></td>
 </table>
 </div>
 <div class="section" id="endpoints-0x0000-0x003f">
-<h3>ENDPOINTS (0x0000 - 0x003F)<a class="headerlink" href="#endpoints-0x0000-0x003f" title="Permalink to this headline">¶</a></h3>
+<h3>ENDPOINTS (0x0000 - 0x003F)<a class="headerlink" href="#endpoints-0x0000-0x003f" title="Permalink to this heading">¶</a></h3>
 <p>The endpoints status are stored at the begining of the internal ram over one 32 bits word each.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -1491,12 +1493,12 @@ This field is also updated by the controller.</p></td>
 - Either you have at least one descriptor pointed by head, in which case it will execute it and ACK if all was going smooth</p>
 </div>
 <div class="section" id="setup-data-0x0040-0x0047">
-<h3>SETUP_DATA (0x0040 - 0x0047)<a class="headerlink" href="#setup-data-0x0040-0x0047" title="Permalink to this headline">¶</a></h3>
+<h3>SETUP_DATA (0x0040 - 0x0047)<a class="headerlink" href="#setup-data-0x0040-0x0047" title="Permalink to this heading">¶</a></h3>
 <p>When endpoint 0 receive a SETUP transaction, the data of the transaction will be stored at that place.</p>
 </div>
 </div>
 <div class="section" id="descriptors">
-<h2>Descriptors<a class="headerlink" href="#descriptors" title="Permalink to this headline">¶</a></h2>
+<h2>Descriptors<a class="headerlink" href="#descriptors" title="Permalink to this heading">¶</a></h2>
 <p>Descriptors allows to specify how a endpoint need to handle the data phase of IN/OUT transactions.
 They are stored in the internal ram, can be linked together via their linked lists and need to be aligned on 16 bytes boundaries</p>
 <table class="docutils align-default">
@@ -1571,7 +1573,7 @@ descriptoo</p></td>
 <p>Also, to initialise a descriptor, the CPU should set the code field to 0xF</p>
 </div>
 <div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">bus</span><span class="p">.</span><span class="nn">bmb</span><span class="p">.</span><span class="nc">BmbParameter</span>

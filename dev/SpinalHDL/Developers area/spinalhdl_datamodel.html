@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1149,13 +1151,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="spinalhdl-internal-datamodel">
-<h1>SpinalHDL internal datamodel<a class="headerlink" href="#spinalhdl-internal-datamodel" title="Permalink to this headline">¶</a></h1>
+<h1>SpinalHDL internal datamodel<a class="headerlink" href="#spinalhdl-internal-datamodel" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>This page document the internal data structure user by SpinalHDL to store and modify the netlist described by the user through the SpinalHDL API.</p>
 </div>
 <div class="section" id="general-structure">
-<h2>General structure<a class="headerlink" href="#general-structure" title="Permalink to this headline">¶</a></h2>
+<h2>General structure<a class="headerlink" href="#general-structure" title="Permalink to this heading">¶</a></h2>
 <p>The following diagrams follow the UML nomenclature :</p>
 <ul class="simple">
 <li><p>A link with a white arrow mean “base extend target”</p></li>
@@ -1175,7 +1177,7 @@
 <p>More generaly, most of the graph checks and transformations done by SpinalHDL are located in &lt;<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala">https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala</a>&gt;</p>
 </div>
 <div class="section" id="exploring-the-datamodel">
-<h2>Exploring the datamodel<a class="headerlink" href="#exploring-the-datamodel" title="Permalink to this headline">¶</a></h2>
+<h2>Exploring the datamodel<a class="headerlink" href="#exploring-the-datamodel" title="Permalink to this heading">¶</a></h2>
 <p>Here is an example which find all adders of the netlist without using “shortcuts” :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">FindAllAddersManualy</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">Toplevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
@@ -1261,14 +1263,14 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 </div>
 </div>
 <div class="section" id="compilation-phases">
-<h2>Compilation Phases<a class="headerlink" href="#compilation-phases" title="Permalink to this headline">¶</a></h2>
+<h2>Compilation Phases<a class="headerlink" href="#compilation-phases" title="Permalink to this heading">¶</a></h2>
 <p>Here are all the default phases (in order) used to modify / check / generate verilog from a toplevel component :</p>
 <p>&lt;<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/internals/Phase.scala#L2487">https://github.com/SpinalHDL/SpinalHDL/blob/ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/internals/Phase.scala#L2487</a>&gt;</p>
 <p>If as a use you add a new compilation phase using  SpinalConfig.addTransformationPhase(new MyPhase()), then the phase will be added directly after the user component elaboration (so quite early). At that time, you can still use the whole SpinalHDL user API to add elements into the netlist.</p>
 <p>If you use the SpinalConfig.phasesInserters api, then you will have to be carefull to only modify the netlist in a way which is compatible with the phases which were already executed. For instance, if you insert you phase after the <cite>PhaseInferWidth</cite>, then you have to specify the width of each nodes you insert.</p>
 </div>
 <div class="section" id="modifying-a-netlist-as-a-user-without-plugins">
-<h2>Modifying a netlist as a user without plugins<a class="headerlink" href="#modifying-a-netlist-as-a-user-without-plugins" title="Permalink to this headline">¶</a></h2>
+<h2>Modifying a netlist as a user without plugins<a class="headerlink" href="#modifying-a-netlist-as-a-user-without-plugins" title="Permalink to this heading">¶</a></h2>
 <p>There is quite a few user API which allow to modify things durring the user elaboration time :</p>
 <ul class="simple">
 <li><p>mySignal.removeAssignments : Will remove all previous <cite>:=</cite> affecting the given signal</p></li>
@@ -1335,7 +1337,7 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <p>This kind of functionnality is for instance used in the VexRiscv pipeline to dynamicaly create things.</p>
 </div>
 <div class="section" id="user-space-netlist-analysis">
-<h2>User space netlist analysis<a class="headerlink" href="#user-space-netlist-analysis" title="Permalink to this headline">¶</a></h2>
+<h2>User space netlist analysis<a class="headerlink" href="#user-space-netlist-analysis" title="Permalink to this heading">¶</a></h2>
 <p>The SpinalHDL datamodel is also readable during usertime elaboration. Here is is an example which will find the shortest logical path (in therms of clock cycles) to travel through a list of signals. In the given case, it is to analyse the latency of the VexRiscv FPU design.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="s">&quot;cpuDecode to fpuDispatch &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nc">LatencyAnalysis</span><span class="p">(</span><span class="n">vex</span><span class="p">.</span><span class="n">decode</span><span class="p">.</span><span class="n">arbitration</span><span class="p">.</span><span class="n">isValid</span><span class="p">,</span><span class="w"> </span><span class="n">logic</span><span class="p">.</span><span class="n">decode</span><span class="p">.</span><span class="n">input</span><span class="p">.</span><span class="n">valid</span><span class="p">))</span><span class="w"></span>
 <span class="n">println</span><span class="p">(</span><span class="s">&quot;fpuDispatch to cpuRsp    &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nc">LatencyAnalysis</span><span class="p">(</span><span class="n">logic</span><span class="p">.</span><span class="n">decode</span><span class="p">.</span><span class="n">input</span><span class="p">.</span><span class="n">valid</span><span class="p">,</span><span class="w"> </span><span class="n">plugin</span><span class="p">.</span><span class="n">port</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">valid</span><span class="p">))</span><span class="w"></span>
@@ -1352,7 +1354,7 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 &lt;<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620">https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620</a>&gt;</p>
 </div>
 <div class="section" id="enumerating-every-clockdomain-used">
-<h2>Enumerating every ClockDomain used<a class="headerlink" href="#enumerating-every-clockdomain-used" title="Permalink to this headline">¶</a></h2>
+<h2>Enumerating every ClockDomain used<a class="headerlink" href="#enumerating-every-clockdomain-used" title="Permalink to this heading">¶</a></h2>
 <p>So here it is done after the elaboration using the SpinalHDL report.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyTopLevelVerilog</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>

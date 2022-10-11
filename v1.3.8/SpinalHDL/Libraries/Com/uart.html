@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -345,15 +347,15 @@
            <div itemprop="articleBody">
             
   <div class="section" id="uart">
-<h1>UART<a class="headerlink" href="#uart" title="Permalink to this headline">¶</a></h1>
+<h1>UART<a class="headerlink" href="#uart" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>The UART protocol could be used, for instance, to emit an receive RS232 / RS485 frames.</p>
 <p>There is an example of an 8 bits frame, with no parity and one stop bit :</p>
 <img alt="../../../_images/uart.png" src="../../../_images/uart.png" />
 </div>
 <div class="section" id="bus-definition">
-<h2>Bus definition<a class="headerlink" href="#bus-definition" title="Permalink to this headline">¶</a></h2>
+<h2>Bus definition<a class="headerlink" href="#bus-definition" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Uart</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">txd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w">  </span><span class="c1">// Used to emit frames</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">rxd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w">  </span><span class="c1">// Used to receive frames</span>
@@ -367,7 +369,7 @@
 </div>
 </div>
 <div class="section" id="uartctrl">
-<h2>UartCtrl<a class="headerlink" href="#uartctrl" title="Permalink to this headline">¶</a></h2>
+<h2>UartCtrl<a class="headerlink" href="#uartctrl" title="Permalink to this heading">¶</a></h2>
 <p>An Uart controller is implemented in the library. This controller has the specificity to use a sampling window to read the <code class="docutils literal notranslate"><span class="pre">rxd</span></code> pin and then to using an majority vote to filter its value.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>

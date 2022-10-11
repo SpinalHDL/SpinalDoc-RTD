@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1031,7 +1033,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="pll-blackbox-and-reset-controller">
-<h1>PLL BlackBox and reset controller<a class="headerlink" href="#pll-blackbox-and-reset-controller" title="Permalink to this headline">¶</a></h1>
+<h1>PLL BlackBox and reset controller<a class="headerlink" href="#pll-blackbox-and-reset-controller" title="Permalink to this heading">¶</a></h1>
 <p>Let’s imagine you want to define a <code class="docutils literal notranslate"><span class="pre">TopLevel</span></code> component which instantiates a PLL <code class="docutils literal notranslate"><span class="pre">BlackBox</span></code>, and create a new clock domain from it which will be used by your core logic. Let’s also imagine that you want to adapt an external asynchronous reset into this core clock domain to a synchronous reset source.</p>
 <p>The following imports will be used in code examples on this page:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
@@ -1039,7 +1041,7 @@
 </pre></div>
 </div>
 <div class="section" id="the-pll-blackbox-definition">
-<h2>The PLL BlackBox definition<a class="headerlink" href="#the-pll-blackbox-definition" title="Permalink to this headline">¶</a></h2>
+<h2>The PLL BlackBox definition<a class="headerlink" href="#the-pll-blackbox-definition" title="Permalink to this heading">¶</a></h2>
 <p>This is how to define the PLL <code class="docutils literal notranslate"><span class="pre">BlackBox</span></code>:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PLL</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
@@ -1064,7 +1066,7 @@ end component;
 </div>
 </div>
 <div class="section" id="toplevel-definition">
-<h2>TopLevel definition<a class="headerlink" href="#toplevel-definition" title="Permalink to this headline">¶</a></h2>
+<h2>TopLevel definition<a class="headerlink" href="#toplevel-definition" title="Permalink to this heading">¶</a></h2>
 <p>This is how to define your <code class="docutils literal notranslate"><span class="pre">TopLevel</span></code> which instantiates the PLL, creates the new <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>, and also adapts the asynchronous reset input to a synchronous reset:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>

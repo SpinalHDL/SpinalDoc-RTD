@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -344,9 +346,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="tristate">
-<h1>TriState<a class="headerlink" href="#tristate" title="Permalink to this headline">¶</a></h1>
+<h1>TriState<a class="headerlink" href="#tristate" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>SpinalHDL doesn’t support natively tristates (inout) signals at the moment. The reason of that are :</p>
 <ul class="simple">
 <li><p>They are not really kind of digital things</p></li>
@@ -356,7 +358,7 @@
 <p>Of course it’s possible to add a native tristate support, but for the moment, the clean solution to manage them is to use an Tristate Bundle bus defined in the spinal.lib :</p>
 </div>
 <div class="section" id="id1">
-<h2>TriState<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>TriState<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p>The TriState bundle is defined as following :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TriState</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">HardType</span><span class="p">[</span><span class="nc">T</span><span class="p">])</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">read</span><span class="p">,</span><span class="n">write</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataType</span><span class="p">()</span><span class="w"></span>
@@ -384,7 +386,7 @@
 </div>
 </div>
 <div class="section" id="tristatearray">
-<h2>TriStateArray<a class="headerlink" href="#tristatearray" title="Permalink to this headline">¶</a></h2>
+<h2>TriStateArray<a class="headerlink" href="#tristatearray" title="Permalink to this heading">¶</a></h2>
 <p>In some case, you need to have the control over the output enable of each individual pin (Like for GPIO). In this range of cases, you can use the TriStateArray bundle.</p>
 <p>It is defined as following :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TriStateArray</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">BitCount</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="p">{</span><span class="w"></span>

@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1156,9 +1158,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="rules">
-<h1>Rules<a class="headerlink" href="#rules" title="Permalink to this headline">¶</a></h1>
+<h1>Rules<a class="headerlink" href="#rules" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>The semantics behind SpinalHDL are important to learn, so that you understand what is really happening behind the scenes, and how to control it.</p>
 <p>These semantics are defined by multiple rules:</p>
 <ul class="simple">
@@ -1170,7 +1172,7 @@
 </ul>
 </div>
 <div class="section" id="concurrency">
-<h2>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h2>
+<h2>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this heading">¶</a></h2>
 <p>The order in which you assign each combinational or registered signal has no behavioral impact.</p>
 <p>For example, both of the following pieces of code are equivalent:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="c1">// Define 3 combinational signals</span>
@@ -1189,7 +1191,7 @@
 <p>More generally, when you use the <code class="docutils literal notranslate"><span class="pre">:=</span></code> assignment operator, it’s like specifying a new rule for the left side signal/register.</p>
 </div>
 <div class="section" id="last-valid-assignment-wins">
-<h2>Last valid assignment wins<a class="headerlink" href="#last-valid-assignment-wins" title="Permalink to this headline">¶</a></h2>
+<h2>Last valid assignment wins<a class="headerlink" href="#last-valid-assignment-wins" title="Permalink to this heading">¶</a></h2>
 <p>If a combinational signal or register is assigned multiple times, the last valid one wins.</p>
 <p>As an example:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w">           </span><span class="c1">// Define two combinational signals</span>
@@ -1244,7 +1246,7 @@
 </table>
 </div>
 <div class="section" id="signal-and-register-interactions-with-scala-oop-reference-functions">
-<h2>Signal and register interactions with Scala (OOP reference + Functions)<a class="headerlink" href="#signal-and-register-interactions-with-scala-oop-reference-functions" title="Permalink to this headline">¶</a></h2>
+<h2>Signal and register interactions with Scala (OOP reference + Functions)<a class="headerlink" href="#signal-and-register-interactions-with-scala-oop-reference-functions" title="Permalink to this heading">¶</a></h2>
 <p>In SpinalHDL, each hardware element is modeled by a class instance. This means you can manipulate instances by using their references, such as passing them as arguments to a function.</p>
 <p>As an example, the following code implements a register which is incremented when <code class="docutils literal notranslate"><span class="pre">inc</span></code> is True and cleared when <code class="docutils literal notranslate"><span class="pre">clear</span></code> is True (<code class="docutils literal notranslate"><span class="pre">clear</span></code> has priority over <code class="docutils literal notranslate"><span class="pre">inc</span></code>) :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w">          </span><span class="c1">// Define two combinational signals/wires</span>

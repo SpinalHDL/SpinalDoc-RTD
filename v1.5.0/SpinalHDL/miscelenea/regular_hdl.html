@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1025,7 +1027,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="why-moving-from-traditional-hdl-to-something-else">
-<span id="regular-hdl"></span><h1>Why moving from traditional HDL to something else<a class="headerlink" href="#why-moving-from-traditional-hdl-to-something-else" title="Permalink to this headline">¶</a></h1>
+<span id="regular-hdl"></span><h1>Why moving from traditional HDL to something else<a class="headerlink" href="#why-moving-from-traditional-hdl-to-something-else" title="Permalink to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>All the following statements will be about describing hardware. Verification is another tasty topic.</p>
@@ -1043,11 +1045,11 @@
 <p>A language feature which isn’t supported by EDA tools shouldn’t be considerate as a language feature, as it is not usable. Look how VHDL 2008 is weakly supported, then look at the calendar.</p>
 </div>
 <div class="section" id="vhdl-verilog-systemverilog-aren-t-hardware-description-languages">
-<h2>VHDL/Verilog/SystemVerilog aren’t Hardware Description Languages<a class="headerlink" href="#vhdl-verilog-systemverilog-aren-t-hardware-description-languages" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL/Verilog/SystemVerilog aren’t Hardware Description Languages<a class="headerlink" href="#vhdl-verilog-systemverilog-aren-t-hardware-description-languages" title="Permalink to this heading">¶</a></h2>
 <p>Those languages are event driven languages created initially for simulation/documentation purposes. Only in a second time they were used as inputs languages for synthesis tools. Which explain the roots of a lot of following points of this page.</p>
 </div>
 <div class="section" id="event-driven-paradigm-doesn-t-make-any-sense-for-rtl">
-<h2>Event driven paradigm doesn’t make any sense for RTL<a class="headerlink" href="#event-driven-paradigm-doesn-t-make-any-sense-for-rtl" title="Permalink to this headline">¶</a></h2>
+<h2>Event driven paradigm doesn’t make any sense for RTL<a class="headerlink" href="#event-driven-paradigm-doesn-t-make-any-sense-for-rtl" title="Permalink to this heading">¶</a></h2>
 <p>When you think about it, describing digital hardware (RTL) by using process/always blocks doesn’t make any practical senses. Why do we have to worry about a sensitivity list? Why do we have to split our design between processes/always blocks of different natures (combinatorial logic / register without reset / register with async reset) ?</p>
 <p>Example of VHDL/SpinalHDL equivalences:</p>
 <p>VHDL :</p>
@@ -1100,7 +1102,7 @@
 <p>As for everything, you can get used to this event driven semantic, until you taste something better.</p>
 </div>
 <div class="section" id="recent-revision-of-vhdl-and-verilog-aren-t-usable">
-<h2>Recent revision of VHDL and Verilog aren’t usable<a class="headerlink" href="#recent-revision-of-vhdl-and-verilog-aren-t-usable" title="Permalink to this headline">¶</a></h2>
+<h2>Recent revision of VHDL and Verilog aren’t usable<a class="headerlink" href="#recent-revision-of-vhdl-and-verilog-aren-t-usable" title="Permalink to this heading">¶</a></h2>
 <p>The EDA industry is really slow to implement VHDL 2008 and SystemVerilog synthesis capabilities in their tools. Additionally, when it’s done, it appear that only a constraining subset of the language is implemented (not talking about simulation features). It result that using any interesting feature of those language revision isn’t safe as</p>
 <ul class="simple">
 <li><p>It will probably make your code incompatible with many EDA tools</p></li>
@@ -1109,12 +1111,12 @@
 <p>Let’s me tell you that I’m tired to wait on expensive and closed source tools.</p>
 </div>
 <div class="section" id="recent-revisions-of-vhdl-and-verilog-aren-t-that-good">
-<h2>Recent revisions of VHDL and Verilog aren’t that good.<a class="headerlink" href="#recent-revisions-of-vhdl-and-verilog-aren-t-that-good" title="Permalink to this headline">¶</a></h2>
+<h2>Recent revisions of VHDL and Verilog aren’t that good.<a class="headerlink" href="#recent-revisions-of-vhdl-and-verilog-aren-t-that-good" title="Permalink to this heading">¶</a></h2>
 <p>See VHDL 2008 parameterized packages and unconstrained records, sure it allow to write better VHDL sources, but from an OOP perspective they made me feel sick (See next topic for an SpinalHDL example).</p>
 <p>And still those revisions doesn’t change the heart of those HDL issues: They are based on a event driven paradigm which doesn’t make sense to describe digital hardware.</p>
 </div>
 <div class="section" id="vhdl-records-verilog-struct-are-broken-systemverilog-is-good-on-this-if-you-can-use-it">
-<h2>VHDL records, Verilog struct are broken (SystemVerilog is good on this, if you can use it)<a class="headerlink" href="#vhdl-records-verilog-struct-are-broken-systemverilog-is-good-on-this-if-you-can-use-it" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL records, Verilog struct are broken (SystemVerilog is good on this, if you can use it)<a class="headerlink" href="#vhdl-records-verilog-struct-are-broken-systemverilog-is-good-on-this-if-you-can-use-it" title="Permalink to this heading">¶</a></h2>
 <p>You can’t use them to define an interface, because you can’t define their internal signal directions. Even worst, you can’t give them construction parameters! So, define your RGB record/struct once, and hope you never have to use it with bigger/smaller color channels …</p>
 <p>Also a fancy thing with VHDL is the fact that if you want to add an array of something into a component entity, you have to define the type of this array into a package … which can’t be parameterized…</p>
 <p>A SpinalHDL APB3 bus definition:</p>
@@ -1149,7 +1151,7 @@
 <p>Then about the VHDL 2008 partial solution and the SystemVerilog interface/modport, lucky you are if your EDA tools / company flow / company policy allow you to use them.</p>
 </div>
 <div class="section" id="vhdl-and-verilog-are-so-verbose">
-<h2>VHDL and Verilog are so verbose<a class="headerlink" href="#vhdl-and-verilog-are-so-verbose" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL and Verilog are so verbose<a class="headerlink" href="#vhdl-and-verilog-are-so-verbose" title="Permalink to this heading">¶</a></h2>
 <p>Really, with VHDL and Verilog, when it start to be about component instanciation interconnection, the copypast good need to be invocated.</p>
 <p>To understand it more deeply, there is an SpinalHDL example which do some peripherals instanciation and add the APB3 decoder required to access them.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Instanciate an AXI4 to APB3 bridge</span>
@@ -1185,7 +1187,7 @@
 <p>Also about VHDL/Verilog struct/records, i would just say that they are really dirty tricks, without true parameterization and reusability capabilities, some crutch which try to hide the fact that those languages were poorly designed.</p>
 </div>
 <div class="section" id="meta-hardware-description-capabilities">
-<h2>Meta Hardware Description capabilities<a class="headerlink" href="#meta-hardware-description-capabilities" title="Permalink to this headline">¶</a></h2>
+<h2>Meta Hardware Description capabilities<a class="headerlink" href="#meta-hardware-description-capabilities" title="Permalink to this heading">¶</a></h2>
 <p>Ok, this is a big chunk. Basically VHDL/Verilog/SystemVerilog will give you some elaboration tools which aren’t directly mapped into hardware as loops / generate statements / macro / function / procedure / task. But that’s all.</p>
 <p>And even them are really limited. As instance why you can’t define process/always/component/module blocks into a task/procedure? It is really a bottleneck for many fancy things. What if you can call a user defined task/procedure on a bus like that: myHandshakeBus.queue(depth=64) ? Wouldn’t it be nice and safe to use?</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define the concept of handshake bus</span>

@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1038,7 +1040,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="fiber-framework">
-<span id="fiber"></span><h1>Fiber framework<a class="headerlink" href="#fiber-framework" title="Permalink to this headline">¶</a></h1>
+<span id="fiber"></span><h1>Fiber framework<a class="headerlink" href="#fiber-framework" title="Permalink to this heading">¶</a></h1>
 <p>Currently in developpement.</p>
 <p>The Fiber to run the hardware elaboration in a out of order manner, a bit similarly to Makefile, where you can define rules and dependencies which will then be solved when you run a make command. It is very similar to the Scala Future feature.</p>
 <p>Such framework complexify simple things but provide some strong feature for complex cases :</p>
@@ -1057,7 +1059,7 @@
 </ul>
 <p>Warning, this is realy not usual RTL description and aim large system generation. It is currently used as toplevel integration tool in SaxonSoC.</p>
 <div class="section" id="simple-dummy-example">
-<h2>Simple dummy example<a class="headerlink" href="#simple-dummy-example" title="Permalink to this headline">¶</a></h2>
+<h2>Simple dummy example<a class="headerlink" href="#simple-dummy-example" title="Permalink to this heading">¶</a></h2>
 <p>There is a simple example :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">fiber</span><span class="p">.</span><span class="n">_</span>
 
@@ -1092,7 +1094,7 @@
 <p>So, the main point of that example is to show that we kind of overcome the sequential execution of things, as a and b are loaded after the definition of the calculator.</p>
 </div>
 <div class="section" id="handle-t">
-<h2>Handle[T]<a class="headerlink" href="#handle-t" title="Permalink to this headline">¶</a></h2>
+<h2>Handle[T]<a class="headerlink" href="#handle-t" title="Permalink to this heading">¶</a></h2>
 <p>Handle[T] are a bit like scala’s Future[T], they allow to talk about something before it is even existing, and wait on it.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">xPlus2</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c1">//x.produce can be used to generate a new Handle when x is loaded</span>
@@ -1101,7 +1103,7 @@
 </pre></div>
 </div>
 <div class="section" id="soon-handle">
-<h3>soon(handle)<a class="headerlink" href="#soon-handle" title="Permalink to this headline">¶</a></h3>
+<h3>soon(handle)<a class="headerlink" href="#soon-handle" title="Permalink to this heading">¶</a></h3>
 <p>In order to maintain a proper graph of dependencies between tasks and Handle, a task can specify in advance that it will load a given handle. This is very usefull in case of a generation starvation/deadlock for SpinalHDL to report accuratly where is the issue.</p>
 </div>
 </div>

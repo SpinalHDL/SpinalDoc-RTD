@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1029,13 +1031,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="preserving-names">
-<h1>Preserving names<a class="headerlink" href="#preserving-names" title="Permalink to this headline">¶</a></h1>
+<h1>Preserving names<a class="headerlink" href="#preserving-names" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>This page will describe how SpinalHDL propagate names from the scala code to the generated hardware. Knowing them should enable you to preserve those names as much as possible to generate understandable netlists.</p>
 </div>
 <div class="section" id="nameable-base-class">
-<h2>Nameable base class<a class="headerlink" href="#nameable-base-class" title="Permalink to this headline">¶</a></h2>
+<h2>Nameable base class<a class="headerlink" href="#nameable-base-class" title="Permalink to this heading">¶</a></h2>
 <p>All the things which can be named in SpinalHDL extends the Nameable base class which.</p>
 <p>So in practice, the following classes extends Nameable :</p>
 <ul class="simple">
@@ -1065,7 +1067,7 @@
 <p>In general, you don’t realy need to access that API, unless you want to do tricky stuff for debug reasons or for elaboration purposes.</p>
 </div>
 <div class="section" id="name-extraction-from-scala">
-<h2>Name extraction from Scala<a class="headerlink" href="#name-extraction-from-scala" title="Permalink to this headline">¶</a></h2>
+<h2>Name extraction from Scala<a class="headerlink" href="#name-extraction-from-scala" title="Permalink to this heading">¶</a></h2>
 <p>First, since version 1.4.0, SpinalHDL use a scala compiler plugin which can provide a call back each time a new val is defined during the construction of an class.</p>
 <p>There is a example showing more or less how SpinalHDL itself is implemented :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//spinal.idslplugin.ValCallback is the Scala compiler plugin feature which will provide the callbacks</span>
@@ -1124,7 +1126,7 @@
 </div>
 </div>
 <div class="section" id="area-in-a-component">
-<h2>Area in a Component<a class="headerlink" href="#area-in-a-component" title="Permalink to this headline">¶</a></h2>
+<h2>Area in a Component<a class="headerlink" href="#area-in-a-component" title="Permalink to this heading">¶</a></h2>
 <p>One important aspect in the naming system is that you can define new namespaces inside components and manipulate</p>
 <p>For instance via Area :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1149,7 +1151,7 @@
 </div>
 </div>
 <div class="section" id="area-in-a-function">
-<h2>Area in a function<a class="headerlink" href="#area-in-a-function" title="Permalink to this headline">¶</a></h2>
+<h2>Area in a function<a class="headerlink" href="#area-in-a-function" title="Permalink to this heading">¶</a></h2>
 <p>You can also define function which will create new Area which will provide a namespace for all its content :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">isZero</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1179,7 +1181,7 @@
 </div>
 </div>
 <div class="section" id="composite-in-a-function">
-<h2>Composite in a function<a class="headerlink" href="#composite-in-a-function" title="Permalink to this headline">¶</a></h2>
+<h2>Composite in a function<a class="headerlink" href="#composite-in-a-function" title="Permalink to this heading">¶</a></h2>
 <p>Added in SpinalHDL 1.5.0, Composite which allow you to create a scope which will use as prefix another Nameable:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Basicaly, a Composite is an Area that use its construction parameter as namespace prefix</span>
@@ -1208,7 +1210,7 @@
 </div>
 </div>
 <div class="section" id="composite-chains">
-<h2>Composite chains<a class="headerlink" href="#composite-chains" title="Permalink to this headline">¶</a></h2>
+<h2>Composite chains<a class="headerlink" href="#composite-chains" title="Permalink to this heading">¶</a></h2>
 <p>You can also chain composites :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">isZero</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Composite</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1243,7 +1245,7 @@
 </div>
 </div>
 <div class="section" id="composite-in-a-bundle-s-function">
-<h2>Composite in a Bundle’s function<a class="headerlink" href="#composite-in-a-bundle-s-function" title="Permalink to this headline">¶</a></h2>
+<h2>Composite in a Bundle’s function<a class="headerlink" href="#composite-in-a-bundle-s-function" title="Permalink to this heading">¶</a></h2>
 <p>This behaviour can be very useful when implementing Bundles utilities. For instance in the spinal.lib.Stream class is defined the following :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="kd">val</span><span class="w"> </span><span class="n">payloadType</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="nc">HardType</span><span class="p">[</span><span class="nc">T</span><span class="p">])</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
@@ -1345,12 +1347,12 @@
 </div>
 </div>
 <div class="section" id="unamed-signal-handling">
-<h2>Unamed signal handling<a class="headerlink" href="#unamed-signal-handling" title="Permalink to this headline">¶</a></h2>
+<h2>Unamed signal handling<a class="headerlink" href="#unamed-signal-handling" title="Permalink to this heading">¶</a></h2>
 <p>Since 1.5.0, for signal which end up without name, SpinalHDL will find a signal which is driven by that unamed signal and propagate its name. This can produce useful results as long you don’t have too large island of unamed stuff.</p>
 <p>The name attributed to such unamed signal is : _zz_ + drivenSignal.getName()</p>
 <p>Note that this naming pattern is also used by the generation backend when they need to breakup some specific expressions or long chain of expression into multiple signals.</p>
 <div class="section" id="verilog-expression-splitting">
-<h3>Verilog expression splitting<a class="headerlink" href="#verilog-expression-splitting" title="Permalink to this headline">¶</a></h3>
+<h3>Verilog expression splitting<a class="headerlink" href="#verilog-expression-splitting" title="Permalink to this heading">¶</a></h3>
 <p>There is an instance of expressions (ex : the + operator) that SpinalHDL need to express in dedicated signals to match the behaviour with the Scala API :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
@@ -1378,7 +1380,7 @@
 </div>
 </div>
 <div class="section" id="verilog-long-expression-splitting">
-<h3>Verilog long expression splitting<a class="headerlink" href="#verilog-long-expression-splitting" title="Permalink to this headline">¶</a></h3>
+<h3>Verilog long expression splitting<a class="headerlink" href="#verilog-long-expression-splitting" title="Permalink to this heading">¶</a></h3>
 <p>There is a instance of how a very long expression chain will be splited up by SpinalHDL :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">conditions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Bool</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">)</span><span class="w"></span>
@@ -1415,7 +1417,7 @@
 </div>
 </div>
 <div class="section" id="when-statement-condition">
-<h3>When statement condition<a class="headerlink" href="#when-statement-condition" title="Permalink to this headline">¶</a></h3>
+<h3>When statement condition<a class="headerlink" href="#when-statement-condition" title="Permalink to this heading">¶</a></h3>
 <p>The <cite>when(cond) { }</cite> statements condition are generated into separated signals named <cite>when_</cite> + fileName + line. A similar thing will also be done for switch statements.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//In file Test.scala</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1459,7 +1461,7 @@
 </div>
 </div>
 <div class="section" id="in-last-resort">
-<h3>In last resort<a class="headerlink" href="#in-last-resort" title="Permalink to this headline">¶</a></h3>
+<h3>In last resort<a class="headerlink" href="#in-last-resort" title="Permalink to this heading">¶</a></h3>
 <p>In last resort, if a signal has no name (anonymous signal), SpinalHDL will seek for a named signal which is driven by the anonymous signal, and use it as a name postfix :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
