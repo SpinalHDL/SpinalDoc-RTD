@@ -116,7 +116,7 @@ Here is a template with many simulation configurations:
        // Simulation code here
    }
 
-Here is a template where the simulation end by completting the simulation main thread execution :
+Here is a template where the simulation ends by completing the simulation main thread execution:
 
 .. code-block:: scala
 
@@ -127,7 +127,7 @@ Here is a template where the simulation end by completting the simulation main t
       println("done")
     }
     
-Here is a template where the simulation end by explicitly calling a simSuccess() :
+Here is a template where the simulation ends by explicitly calling `simSuccess()`:
 
 .. code-block:: scala
 
@@ -141,7 +141,8 @@ Here is a template where the simulation end by explicitly calling a simSuccess()
       }
     }
 
-Note is it equivalent to : 
+Note is it equivalent to:
+
 .. code-block:: scala
 
     SimConfig.compile(new TopLevel).doSim{ dut =>
