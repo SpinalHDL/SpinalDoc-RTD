@@ -79,21 +79,30 @@ This function will return a ``SimCompiled`` instance.
 
 On this ``SimCompiled`` instance you can run your simulation with the following functions:
 
-.. list-table::
-   :header-rows: 1
+``doSim[(simName[, seed])]{dut => /* main stimulus code */}``
+  Run the simulation until the main thread runs to completion and exits/returns.
+  It will detect and report an error if the simulation gets fully stuck. As long as
+  e.g. a clock is running the simulation can continue forever, it is therefore recommended
+  to use ``SimTimeout(cycles)`` to limit the possible runtime.
 
-   * - Syntax
-     - Description
-   * - ``doSim[(simName[, seed])]{dut => ...}``
-     - Run the simulation until the main thread is done (doesn't wait on forked threads) or until all threads are stuck
-   * - ``doSimUntilVoid[(simName[, seed])]{dut => ...}``
-     - Run the simulation until all threads are done or stuck
+``doSimUntilVoid[(simName[, seed])]{dut => ...}``
+  Run the simulation until it is ended by calling either ``simSuccess()`` or ``simFailure()``.
+  The main stimulus thread can continue or exit early. As long as there are events to process,
+  the simulation will continue. The simulation will report an error if it gets fully stuck.
 
-
-For example :
+The following testbench template will use the following toplevel : 
 
 .. code-block:: scala
+    
+   class TopLevel extends Component {
+      val counter = out(Reg(UInt(8 bits)) init (0))
+      counter := counter + 1
+   }
 
+Here is a template with many simulation configuration :
+
+.. code-block:: scala
+    
    val spinalConfig = SpinalConfig(defaultClockDomainFrequency = FixedFrequency(10 MHz))
 
    SimConfig
@@ -103,8 +112,48 @@ For example :
      .workspacePath("~/tmp")
      .compile(new TopLevel)
      .doSim { dut =>
+       SimTimeout(1000)
        // Simulation code here
    }
+
+Here is a template where the simulation end by completting the simulation main thread execution :
+
+.. code-block:: scala
+
+    SimConfig.compile(new TopLevel).doSim { dut =>
+      SimTimeout(1000)
+      dut.clockDomain.forkStimulus(10)
+      dut.clockDomain.waitSamplingWhere(dut.counter.toInt == 20)
+      println("done")
+    }
+    
+Here is a template where the simulation end by explicitly calling a simSuccess() :
+
+.. code-block:: scala
+
+    SimConfig.compile(new TopLevel).doSimUntilVoid{ dut =>
+      SimTimeout(1000)
+      dut.clockDomain.forkStimulus(10)
+      fork {
+        dut.clockDomain.waitSamplingWhere(dut.counter.toInt == 20)
+        println("done")
+        simSuccess()
+      }
+    }
+
+Note is it equivalent to : 
+.. code-block:: scala
+
+    SimConfig.compile(new TopLevel).doSim{ dut =>
+      SimTimeout(1000)
+      dut.clockDomain.forkStimulus(10)
+      fork {
+        dut.clockDomain.waitSamplingWhere(dut.counter.toInt == 20)
+        println("done")
+        simSuccess()
+      }
+      simThread.suspend() // Avoid the "doSim" completion
+    }
 
 Note that by default, the simulation files will be placed into the ``simWorkspace/xxx`` folders. You can override the simWorkspace location by setting the ``SPINALSIM_WORKSPACE`` environnement variable.
 
