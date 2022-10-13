@@ -16,21 +16,23 @@ There are multiple assignment operators:
    * - Symbol
      - Description
    * - ``:=``
-     - Standard assignment, equivalent to ``<=`` in VHDL/Verilog. The last assignment to a variable wins; the value is not updated until the next simulation delta cycle.
+     - Standard assignment, equivalent to ``<=`` in VHDL/Verilog.
    * - ``\=``
      - Equivalent to ``:=`` in VHDL and ``=`` in Verilog. The value is updated instantly in-place.
    * - ``<>``
      - Automatic connection between 2 signals or two bundles of the same type. Direction is inferred by using signal direction (in/out). (Similar behavior to ``:=``\ )
 
+When muxing (for instance using ``when``, see :doc:`when_switch`.), the last
+valid standard assignment wins. Else, assigning twice to the same assignee
+results in an assignment overlap (see :doc:`../Design errors/assignment_overlap`).
 
 .. code-block:: scala
 
-   // Because of hardware concurrency, `a` is always read as '1' by b and c
    val a, b, c = UInt(4 bits)
    a := 0
    b := a
-   a := 1  // a := 1 "wins"
-   c := a  
+   //a := 1 // assignment overlap with a := 0
+   c := a
 
    var x = UInt(4 bits)
    val y, z = UInt(4 bits)
@@ -42,7 +44,8 @@ There are multiple assignment operators:
    // Automatic connection between two UART interfaces.
    uartCtrl.io.uart <> io.uart
 
-It also support Bundle assignment, Bundle multiple signals together use ``()`` to assign and assign to
+It also supports Bundle assignment. Bundle multiple signals together using
+``()`` to assign and assign to
 
 .. code-block:: scala
 
