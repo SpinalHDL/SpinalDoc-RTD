@@ -489,6 +489,29 @@ or
    val inputStream = Stream(Bits(8 bits))
    val outputStreams = StreamFork(inputStream,portCount=2, synchronous=true)
 
+StreamMux
+^^^^^^^^^^
+A mux implementation for stream, which connect output to input specified by `io.select` signal.
+
+.. code-block:: scala
+   val inputStreams = Vec(Stream(Bits(8 bits)), portCount)
+   val select = UInt(log2Up(inputStreams.length) bits)
+   val outputStream = StreamMux(select, inputStreams)
+
+.. note::
+   The `UInt` type of `select` signal could not be changed while output stream is stalled, or it might break the transaction on the fly.
+   Use `Stream` typed `select` can generate a stream interface which only fire and change the routing when it is safe.
+
+
+StreamDemux
+^^^^^^^^^^
+A demux for stream which route input to output stream specified by `select`. Refer the notes above.
+
+.. code-block:: scala
+   val inputStream = Stream(Bits(8 bits))
+   val select = UInt(log2Up(portCount) bits)
+   val outputStreams = StreamDemux(inputStream, select, portCount)
+
 
 StreamDispatcherSequencial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
