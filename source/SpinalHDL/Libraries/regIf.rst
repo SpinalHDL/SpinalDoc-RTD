@@ -29,6 +29,7 @@ Automatic address allocation
     busif.accept(HtmlGenerator("regif", "AP"))
     // busif.accept(CHeaderGenerator("header", "AP"))
     // busif.accept(JsonGenerator("regif"))
+    // busif.accept(RalfGenerator("regbank"))
   }
 
 .. image:: /asset/image/regif/reg-auto-allocate.gif
@@ -317,6 +318,7 @@ Example
         busif.accept(CHeaderGenerator("intrreg","Intr"))
         busif.accept(HtmlGenerator("intrreg", "Interupt Example"))
         busif.accept(JsonGenerator("intrreg"))
+        busif.accept(RalfGenerator("intrreg"))
         this
       }
 
