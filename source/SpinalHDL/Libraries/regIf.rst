@@ -26,9 +26,9 @@ Automatic address allocation
     val M_REGn  = busif.newRegAt(address=0x40, doc="REGn")
     val M_REGn1 = busif.newReg(doc="REGn1")
 
-    busif.accept(HtmlGenerator("regif.html", "AP"))
-    // busif.accept(CHeaderGenerator("header.h", "AP"))
-    // busif.accept(JsonGenerator("regif.json"))
+    busif.accept(HtmlGenerator("regif", "AP"))
+    // busif.accept(CHeaderGenerator("header", "AP"))
+    // busif.accept(JsonGenerator("regif"))
   }
 
 .. image:: /asset/image/regif/reg-auto-allocate.gif
