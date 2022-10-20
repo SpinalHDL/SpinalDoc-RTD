@@ -646,6 +646,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#streamarbiter">StreamArbiter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamjoin">StreamJoin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamfork">StreamFork</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streammux">StreamMux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streamdemux">StreamDemux</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamdispatchersequencial">StreamDispatcherSequencial</a></li>
 </ul>
 </li>
@@ -1764,6 +1766,33 @@ all output streams have processed each item regardlessly.</p>
 <p>or</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">outputStreams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamFork</span><span class="p">(</span><span class="n">inputStream</span><span class="p">,</span><span class="n">portCount</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">synchronous</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="streammux">
+<h3>StreamMux<a class="headerlink" href="#streammux" title="Permalink to this heading">¶</a></h3>
+<p>A mux implementation for <code class="docutils literal notranslate"><span class="pre">Stream</span></code>.
+It takes a <code class="docutils literal notranslate"><span class="pre">select</span></code> signal and streams in <code class="docutils literal notranslate"><span class="pre">inputs</span></code>, and returns a <code class="docutils literal notranslate"><span class="pre">Stream</span></code> which is connected to one of the input streams specified by <code class="docutils literal notranslate"><span class="pre">select</span></code>.
+<code class="docutils literal notranslate"><span class="pre">StreamArbiter</span></code> is a facility works similar to this but is more powerful.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inputStreams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)),</span><span class="w"> </span><span class="n">portCount</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">select</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">inputStreams</span><span class="p">.</span><span class="n">length</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">outputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamMux</span><span class="p">(</span><span class="n">select</span><span class="p">,</span><span class="w"> </span><span class="n">inputStreams</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">UInt</span></code> type of <code class="docutils literal notranslate"><span class="pre">select</span></code> signal could not be changed while output stream is stalled, or it might break the transaction on the fly.
+Use <code class="docutils literal notranslate"><span class="pre">Stream</span></code> typed <code class="docutils literal notranslate"><span class="pre">select</span></code> can generate a stream interface which only fire and change the routing when it is safe.</p>
+</div>
+</div>
+<div class="section" id="streamdemux">
+<h3>StreamDemux<a class="headerlink" href="#streamdemux" title="Permalink to this heading">¶</a></h3>
+<p>A demux implementation for <code class="docutils literal notranslate"><span class="pre">Stream</span></code>.
+It takes a <code class="docutils literal notranslate"><span class="pre">input</span></code>, a <code class="docutils literal notranslate"><span class="pre">select</span></code> and a <code class="docutils literal notranslate"><span class="pre">portCount</span></code> and returns a <code class="docutils literal notranslate"><span class="pre">Vec(Stream)</span></code> where the output stream specified by <code class="docutils literal notranslate"><span class="pre">select</span></code> is connected to <code class="docutils literal notranslate"><span class="pre">input</span></code>, the other output streams are inactive.
+For safe transaction, refer the notes above.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">select</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">portCount</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">outputStreams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamDemux</span><span class="p">(</span><span class="n">inputStream</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="p">,</span><span class="w"> </span><span class="n">portCount</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
