@@ -1180,9 +1180,11 @@
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">M_REGn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">newRegAt</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="mh">0x40</span><span class="p">,</span><span class="w"> </span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;REGn&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">M_REGn1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">newReg</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;REGn1&quot;</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">HtmlGenerator</span><span class="p">(</span><span class="s">&quot;regif.html&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;AP&quot;</span><span class="p">))</span><span class="w"></span>
-<span class="w">  </span><span class="c1">// busif.accept(CHeaderGenerator(&quot;header.h&quot;, &quot;AP&quot;))</span>
-<span class="w">  </span><span class="c1">// busif.accept(JsonGenerator(&quot;regif.json&quot;))</span>
+<span class="w">  </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">HtmlGenerator</span><span class="p">(</span><span class="s">&quot;regif&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;AP&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// busif.accept(CHeaderGenerator(&quot;header&quot;, &quot;AP&quot;))</span>
+<span class="w">  </span><span class="c1">// busif.accept(JsonGenerator(&quot;regif&quot;))</span>
+<span class="w">  </span><span class="c1">// busif.accept(RalfGenerator(&quot;regbank&quot;))</span>
+<span class="w">  </span><span class="c1">// busif.accept(SystemRdlGenerator(&quot;regif&quot;, &quot;AP&quot;))</span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1349,8 +1351,8 @@
 <p>Document Type</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 11%" />
-<col style="width: 83%" />
+<col style="width: 10%" />
+<col style="width: 85%" />
 <col style="width: 6%" />
 </colgroup>
 <thead>
@@ -1376,11 +1378,15 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">busif.accept(RalfGenerator(&quot;header&quot;))</span></code></p></td>
 <td><p>Y</p></td>
 </tr>
-<tr class="row-even"><td><p>Latex(pdf)</p></td>
+<tr class="row-even"><td><p>SystemRDL</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">busif.accept(SystemRdlGenerator(&quot;regif&quot;,</span> <span class="pre">&quot;addrmap_name&quot;,</span> <span class="pre">Some(&quot;name&quot;),</span> <span class="pre">Some(&quot;desc&quot;)))</span></code></p></td>
+<td><p>Y</p></td>
+</tr>
+<tr class="row-odd"><td><p>Latex(pdf)</p></td>
 <td></td>
 <td><p>N</p></td>
 </tr>
-<tr class="row-odd"><td><p>docx</p></td>
+<tr class="row-even"><td><p>docx</p></td>
 <td></td>
 <td><p>N</p></td>
 </tr>
@@ -1419,6 +1425,7 @@
 <span class="w">    </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">HtmlGenerator</span><span class="p">(</span><span class="s">&quot;regbank&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Interupt Example&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">    </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">JsonGenerator</span><span class="p">(</span><span class="s">&quot;regbank&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">    </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">RalfGenerator</span><span class="p">(</span><span class="s">&quot;regbank&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">SystemRdlGenerator</span><span class="p">(</span><span class="s">&quot;regbank&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;AP&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="bp">this</span><span class="p">.</span><span class="n">genDocs</span><span class="p">()</span><span class="w"></span>
@@ -1488,6 +1495,7 @@
 <span class="w">  </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">HtmlGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Interupt Example&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">JsonGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">RalfGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">SystemRdlGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;AP&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1617,6 +1625,8 @@
 <span class="w">     </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">CHeaderGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">,</span><span class="s">&quot;Intr&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">     </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">HtmlGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Interupt Example&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">     </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">JsonGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">     </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">RalfGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">     </span><span class="n">busif</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="nc">SystemRdlGenerator</span><span class="p">(</span><span class="s">&quot;intrreg&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Intr&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">     </span><span class="bp">this</span><span class="w"></span>
 <span class="w">   </span><span class="p">}</span><span class="w"></span>
 

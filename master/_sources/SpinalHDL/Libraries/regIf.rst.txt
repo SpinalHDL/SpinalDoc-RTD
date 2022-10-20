@@ -26,9 +26,11 @@ Automatic address allocation
     val M_REGn  = busif.newRegAt(address=0x40, doc="REGn")
     val M_REGn1 = busif.newReg(doc="REGn1")
 
-    busif.accept(HtmlGenerator("regif.html", "AP"))
-    // busif.accept(CHeaderGenerator("header.h", "AP"))
-    // busif.accept(JsonGenerator("regif.json"))
+    busif.accept(HtmlGenerator("regif", "AP"))
+    // busif.accept(CHeaderGenerator("header", "AP"))
+    // busif.accept(JsonGenerator("regif"))
+    // busif.accept(RalfGenerator("regbank"))
+    // busif.accept(SystemRdlGenerator("regif", "AP"))
   }
 
 .. image:: /asset/image/regif/reg-auto-allocate.gif
@@ -106,16 +108,17 @@ Automatic documentation generation
 
 Document Type
 
-==========  =============================================================================   ======
-Document    Usage                                                                           Status
-==========  =============================================================================   ======
-HTML        ``busif.accept(HtmlGenerator("regif", title = "XXX register file"))``             Y
-CHeader     ``busif.accept(CHeaderGenerator("header", "AP"))``                                Y
-JSON        ``busif.accept(JsonGenerator("regif"))``                                          Y
-RALF(UVM)   ``busif.accept(RalfGenerator("header"))``                                         Y
-Latex(pdf)                                                                                    N
-docx                                                                                          N
-==========  =============================================================================   ======
+==========  =========================================================================================   ======
+Document    Usage                                                                                       Status
+==========  =========================================================================================   ======
+HTML        ``busif.accept(HtmlGenerator("regif", title = "XXX register file"))``                         Y
+CHeader     ``busif.accept(CHeaderGenerator("header", "AP"))``                                            Y
+JSON        ``busif.accept(JsonGenerator("regif"))``                                                      Y
+RALF(UVM)   ``busif.accept(RalfGenerator("header"))``                                                     Y
+SystemRDL   ``busif.accept(SystemRdlGenerator("regif", "addrmap_name", Some("name"), Some("desc")))``     Y
+Latex(pdf)                                                                                                N
+docx                                                                                                      N
+==========  =========================================================================================   ======
 
 HTML auto-doc is now complete, Example source Code:
 
@@ -159,6 +162,7 @@ Batch creat REG-Address and fields register
       busif.accept(HtmlGenerator("regbank", "Interupt Example"))
       busif.accept(JsonGenerator("regbank"))
       busif.accept(RalfGenerator("regbank"))
+      busif.accept(SystemRdlGenerator("regbank", "AP"))
     }
 
     this.genDocs()
@@ -235,6 +239,7 @@ Easy Way creat interruption:
       busif.accept(HtmlGenerator("intrreg", "Interupt Example"))
       busif.accept(JsonGenerator("intrreg"))
       busif.accept(RalfGenerator("intrreg"))
+      busif.accept(SystemRdlGenerator("intrreg", "AP"))
     }
 
 .. image:: /asset/image/regif/easy-intr.png
@@ -317,6 +322,8 @@ Example
         busif.accept(CHeaderGenerator("intrreg","Intr"))
         busif.accept(HtmlGenerator("intrreg", "Interupt Example"))
         busif.accept(JsonGenerator("intrreg"))
+        busif.accept(RalfGenerator("intrreg"))
+        busif.accept(SystemRdlGenerator("intrreg", "Intr"))
         this
       }
 
