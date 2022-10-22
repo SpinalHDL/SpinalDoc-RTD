@@ -8,6 +8,8 @@ Getting Started
 
 *SpinalHDL* is a hardware description language written in `Scala <https://scala-lang.org/>`_\ , a statically-typed functional language using the Java virtual machine (JVM). In order to start programming with *SpinalHDL*\ , you must have a JVM as well as the Scala compiler. In the next section, we will explain how to download those tools if you don't have them already.
 
+Note that there is a Chinese version of the doc `here <https://thucgra.github.io/SpinalHDL_Chinese_Doc/>`__ 
+
 .. _requirements:
 
 Requirements / Things to download to get started
