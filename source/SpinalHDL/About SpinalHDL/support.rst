@@ -12,6 +12,7 @@ Communication channels
 
 | For questions about SpinalHDL syntax and live talks, a Gitter channel is available:
 | `https://gitter.im/SpinalHDL/SpinalHDL <https://gitter.im/SpinalHDL/SpinalHDL>`_
+| For Chinese users: `https://gitter.im/SpinalHDL-CN/Community <https://gitter.im/SpinalHDL-CN/Community>`_
 
 | For questions, you can also use the forum StackOverflow with the tag SpinalHDL :
 | `https://stackoverflow.com/ <https://stackoverflow.com/>`_
