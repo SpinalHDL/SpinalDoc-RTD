@@ -569,6 +569,8 @@ For simulation master and slave implementations are available:
       
       val scoreboard = ScoreboardInOrder[Int]()
       
+      dut.io.flush #= false
+      
       // drive random data and add pushed data to scoreboard
       StreamDriver(dut.io.push, dut.clockDomain) { payload =>
         payload.randomize()
