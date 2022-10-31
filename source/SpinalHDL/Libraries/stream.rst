@@ -562,12 +562,14 @@ For simulation master and slave implementations are available:
   import spinal.lib.sim.{StreamMonitor, StreamDriver, StreamReadyRandomizer, ScoreboardInOrder}
 
   object Example extends App {
-    val dut = SimConfig.withWave.compile(StreamFifo(Bits(8 bit, 2)))
+    val dut = SimConfig.withWave.compile(StreamFifo(Bits(8 bits), 2))
 
     dut.doSim("simple test") { dut =>
       SimTimeout(10000)
       
       val scoreboard = ScoreboardInOrder[Int]()
+      
+      dut.io.flush #= false
       
       // drive random data and add pushed data to scoreboard
       StreamDriver(dut.io.push, dut.clockDomain) { payload =>
