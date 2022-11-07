@@ -13,14 +13,8 @@ object Apb3UartCtrl {
 }
 // end object Apb3UartCtrl
 
-<<<<<<< HEAD
-// start impl
-class Apb3UartCtrl(uartCtrlConfig : UartCtrlGenerics, rxFifoDepth : Int) extends Component{
-  val io = new Bundle {
-=======
 case class Apb3UartCtrl(uartCtrlConfig: UartCtrlGenerics, rxFifoDepth: Int) extends Component {
   val io = new Bundle{
->>>>>>> 4dcc6d368 (fixup! Convert Memory Mapped UART Example)
     val bus =  slave(Apb3(Apb3UartCtrl.getApb3Config))
     val uart = master(Uart())
   }

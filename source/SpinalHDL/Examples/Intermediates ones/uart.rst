@@ -74,76 +74,45 @@ Controller construction parameters
 
 
 To make the implementation easier let's assume that ``preSamplingSize + samplingSize + postSamplingSize`` is always a power of two.
+If so we can skip resetting counters in a few places.
 
 Instead of adding each construction parameters (generics) to ``UartCtrl`` one by one, we can group them inside a class that will be used as single parameter of ``UartCtrl``.
 
-.. code-block:: scala
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: case class UartCtrlGenerics(
+   :end-before: // end case class UartCtrlGenerics
 
-   case class UartCtrlGenerics( dataWidthMax: Int = 8,
-                                clockDividerWidth: Int = 20, // baudrate = Fclk / rxSamplePerBit / clockDividerWidth
-                                preSamplingSize: Int = 1,
-                                samplingSize: Int = 5,
-                                postSamplingSize: Int = 2) {
-     val rxSamplePerBit = preSamplingSize + samplingSize + postSamplingSize
-     assert(isPow2(rxSamplePerBit))
-     if ((samplingSize % 2) == 0)
-       SpinalWarning(s"It's not nice to have a odd samplingSize value (because of the majority vote)")
-   }
+UART interface
+^^^^^^^^^^^^^^
 
-UART bus
-^^^^^^^^
+Let's define a UART interface bundle without flow control.
 
-Let's define a UART bus without flow control.
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: case class Uart(
+   :end-before: // end case class Uart
 
-.. code-block:: scala
-
-   case class Uart() extends Bundle with IMasterSlave {
-     val txd = Bool()
-     val rxd = Bool()
-
-     override def asMaster(): Unit = {
-       out(txd)
-       in(rxd)
-     }
-   }
 
 UART configuration enums
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 Let's define parity and stop bit enumerations.
 
-.. code-block:: scala
-
-   object UartParityType extends SpinalEnum(sequancial) {
-     val NONE, EVEN, ODD = newElement()
-   }
-
-   object UartStopType extends SpinalEnum(sequancial) {
-     val ONE, TWO = newElement()
-     def toBitCount(that : T) : UInt = (that === ONE) ? U"0" | U"1"
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-after: // begin enums
+   :end-before: // end enums
 
 UartCtrl configuration Bundles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's define ``Bundle``\ s that will be used as IO elements to setup ``UartCtrl``.
+Let's define bundles that will be used as IO elements to setup ``UartCtrl``.
 
-.. code-block:: scala
-
-   case class UartCtrlFrameConfig(g: UartCtrlGenerics) extends Bundle {
-     val dataLength = UInt(log2Up(g.dataWidthMax) bits) //Bit count = dataLength + 1
-     val stop       = UartStopType()
-     val parity     = UartParityType()
-   }
-
-   case class UartCtrlConfig(g: UartCtrlGenerics) extends Bundle {
-     val frame        = UartCtrlFrameConfig(g)
-     val clockDivider = UInt (g.clockDividerWidth bits) //see UartCtrlGenerics.clockDividerWidth for calculation
-
-     def setClockDivider(baudrate : Double,clkFrequency : Double = ClockDomain.current.frequency.getValue) : Unit = {
-       clockDivider := (clkFrequency / baudrate / g.rxSamplePerBit).toInt
-     }
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-after: // begin internal bundles
+   :end-before: // end internal bundles
 
 Implementation
 --------------
@@ -152,8 +121,8 @@ In ``UartCtrl``\ , 3 things will be instantiated:
 
 
 * One clock divider that generates a tick pulse at the UART RX sampling rate.
-* One ``UartCtrlTx`` ``Component``
-* One ``UartCtrlRx`` ``Component``
+* One ``UartCtrlTx`` component
+* One ``UartCtrlRx`` component
 
 UartCtrlTx
 ^^^^^^^^^^
@@ -183,11 +152,11 @@ The interfaces of this ``Component`` are the following :
 
 Let's define the enumeration that will be used to store the state of ``UartCtrlTx``\ :
 
-.. code-block:: scala
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: object UartCtrlTxState
+   :end-before: // end object UartCtrlTxState
 
-   object UartCtrlTxState extends SpinalEnum {
-     val IDLE, START, DATA, PARITY, STOP = newElement()
-   }
 
 Let's define the skeleton of ``UartCtrlTx``\ :
 
@@ -235,98 +204,10 @@ Let's define the skeleton of ``UartCtrlTx``\ :
 
 And here is the complete implementation:
 
-.. code-block:: scala
-
-   class UartCtrlTx(g : UartCtrlGenerics) extends Component {
-     import g._
-
-     val io = new Bundle {
-       val configFrame  = in(UartCtrlFrameConfig(g))
-       val samplingTick = in Bool
-       val write        = slave Stream (Bits(dataWidthMax bits))
-       val txd          = out Bool
-     }
-
-     // Provide one clockDivider.tick each rxSamplePerBit pulse of io.samplingTick
-     // Used by the stateMachine as a baud rate time reference
-     val clockDivider = new Area {
-       val counter = Reg(UInt(log2Up(rxSamplePerBit) bits)) init(0)
-       val tick = False
-       when(io.samplingTick) {
-         counter := counter - 1
-         tick := counter === 0
-       }
-     }
-
-     // Count up each clockDivider.tick, used by the state machine to count up data bits and stop bits
-     val tickCounter = new Area {
-       val value = Reg(UInt(Math.max(dataWidthMax, 2) bits))
-       def reset() = value := 0
-
-       when(clockDivider.tick) {
-         value := value + 1
-       }
-     }
-
-     val stateMachine = new Area {
-       import UartCtrlTxState._
-
-       val state = RegInit(IDLE)
-       val parity = Reg(Bool)
-       val txd = True
-
-       when(clockDivider.tick) {
-         parity := parity ^ txd
-       }
-
-       io.write.ready := False
-       switch(state) {
-         is(IDLE){
-           when(io.write.valid && clockDivider.tick){
-             state := START
-           }
-         }
-         is(START) {
-           txd := False
-           when(clockDivider.tick) {
-             state := DATA
-             parity := io.configFrame.parity === UartParityType.ODD
-             tickCounter.reset()
-           }
-         }
-         is(DATA) {
-           txd := io.write.payload(tickCounter.value)
-           when(clockDivider.tick) {
-             when(tickCounter.value === io.configFrame.dataLength) {
-               io.write.ready := True
-               tickCounter.reset()
-               when(io.configFrame.parity === UartParityType.NONE) {
-                 state := STOP
-               } otherwise {
-                 state := PARITY
-               }
-             }
-           }
-         }
-         is(PARITY) {
-           txd := parity
-           when(clockDivider.tick) {
-             state := STOP
-             tickCounter.reset()
-           }
-         }
-         is(STOP) {
-           when(clockDivider.tick) {
-             when(tickCounter.value === toBitCount(io.configFrame.stop)) {
-               state := io.write.valid ? START | IDLE
-             }
-           }
-         }
-       }
-     }
-
-     io.txd := RegNext(stateMachine.txd, True)
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: class UartCtrlTx(
+   :end-before: // end class UartCtrlTx
 
 UartCtrlRx
 ^^^^^^^^^^
@@ -358,9 +239,10 @@ Let's define the enumeration that will be used to store the state of ``UartCtrlT
 
 .. code-block:: scala
 
-   object UartCtrlRxState extends SpinalEnum {
-     val IDLE, START, DATA, PARITY, STOP = newElement()
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: object UartCtrlRxState
+   :end-before: // end object UartCtrlRxState
 
 Let's define the skeleton of the UartCtrlRx :
 
@@ -416,197 +298,55 @@ Let's define the skeleton of the UartCtrlRx :
 
 And here is the complete implementation:
 
-.. code-block:: scala
-
-   class UartCtrlRx(g : UartCtrlGenerics) extends Component {
-     import g._
-     val io = new Bundle {
-       val configFrame  = in(UartCtrlFrameConfig(g))
-       val samplingTick = in Bool
-       val read         = master Flow (Bits(dataWidthMax bits))
-       val rxd          = in Bool
-     }
-
-     // Implement the rxd sampling with a majority vote over samplingSize bits
-     // Provide a new sampler.value each time sampler.tick is high
-     val sampler = new Area {
-       val syncroniser = BufferCC(io.rxd)
-       val samples     = History(that=syncroniser,when=io.samplingTick,length=samplingSize)
-       val value       = RegNext(MajorityVote(samples))
-       val tick        = RegNext(io.samplingTick)
-     }
-
-     // Provide a bitTimer.tick each rxSamplePerBit
-     // reset() can be called to recenter the counter over a start bit.
-     val bitTimer = new Area {
-       val counter = Reg(UInt(log2Up(rxSamplePerBit) bits))
-       def reset() = counter := preSamplingSize + (samplingSize - 1) / 2 - 1
-       val tick = False
-       when(sampler.tick) {
-         counter := counter - 1
-         when(counter === 0) {
-           tick := True
-         }
-       }
-     }
-
-     // Provide bitCounter.value that count up each bitTimer.tick, Used by the state machine to count data bits and stop bits
-     // reset() can be called to reset it to zero
-     val bitCounter = new Area {
-       val value = Reg(UInt(Math.max(dataWidthMax, 2) bits))
-       def reset() = value := 0
-
-       when(bitTimer.tick) {
-         value := value + 1
-       }
-     }
-
-     val stateMachine = new Area {
-       import UartCtrlRxState._
-
-       val state   = RegInit(IDLE)
-       val parity  = Reg(Bool)
-       val shifter = Reg(io.read.payload)
-
-       //Parity calculation
-       when(bitTimer.tick) {
-         parity := parity ^ sampler.value
-       }
-
-       io.read.valid := False
-       switch(state) {
-         is(IDLE) {
-           when(sampler.value === False) {
-             state := START
-             bitTimer.reset()
-           }
-         }
-         is(START) {
-           when(bitTimer.tick) {
-             state := DATA
-             bitCounter.reset()
-             parity := io.configFrame.parity === UartParityType.ODD
-             when(sampler.value === True) {
-               state := IDLE
-             }
-           }
-         }
-         is(DATA) {
-           when(bitTimer.tick) {
-             shifter(bitCounter.value) := sampler.value
-             when(bitCounter.value === io.configFrame.dataLength) {
-               bitCounter.reset()
-               when(io.configFrame.parity === UartParityType.NONE) {
-                 state := STOP
-               } otherwise {
-                 state := PARITY
-               }
-             }
-           }
-         }
-         is(PARITY) {
-           when(bitTimer.tick) {
-             state := STOP
-             bitCounter.reset()
-             when(parity =/= sampler.value) {
-               state := IDLE
-             }
-           }
-         }
-         is(STOP) {
-           when(bitTimer.tick) {
-             when(!sampler.value) {
-               state := IDLE
-             }.elsewhen(bitCounter.value === toBitCount(io.configFrame.stop)) {
-               state := IDLE
-               io.read.valid := True
-             }
-           }
-         }
-       }
-     }
-     io.read.payload := stateMachine.shifter
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: class UartCtrlRx(
+   :end-before: // end class UartCtrlRx
 
 UartCtrl
 ^^^^^^^^
 
 Let's write ``UartCtrl`` that instantiates the ``UartCtrlRx`` and ``UartCtrlTx`` parts, generate the clock divider logic, and connect them to each other.
 
-.. code-block:: scala
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: class UartCtrl(
+   :end-before: // end class UartCtrl
 
-   class UartCtrl(g : UartCtrlGenerics = UartCtrlGenerics()) extends Component {
-     val io = new Bundle {
-       val config = in(UartCtrlConfig(g))
-       val write  = slave(Stream(Bits(g.dataWidthMax bits)))
-       val read   = master(Flow(Bits(g.dataWidthMax bits)))
-       val uart   = master(Uart())
-     }
+To make it easier to use the UART with fixed settings, we introduce an companion object for ``UartCtrl``. It allows us to provide
+additional ways of instanciating a UartCtrl component with different sets of parameters. Here we define a ``UartCtrlInitConfig``
+holding the settings for a component that is not runtime configurable. Note that it is still possible to instanciate the UartCtrl
+manually like all other components, which one would do if a runtime-configurable UART is needed (via ``val uart = new UartCtrl()``).
 
-     val tx = new UartCtrlTx(g)
-     val rx = new UartCtrlRx(g)
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: case class UartCtrlInitConfig(
+   :end-before: // end object UartCtrl
 
-     //Clock divider used by RX and TX
-     val clockDivider = new Area {
-       val counter = Reg(UInt(g.clockDividerWidth bits)) init(0)
-       val tick = counter === 0
-
-       counter := counter - 1
-       when(tick) {
-         counter := io.config.clockDivider
-       }
-     }
-
-     tx.io.samplingTick := clockDivider.tick
-     rx.io.samplingTick := clockDivider.tick
-
-     tx.io.configFrame := io.config.frame
-     rx.io.configFrame := io.config.frame
-
-     tx.io.write << io.write
-     rx.io.read >> io.read
-
-     io.uart.txd <> tx.io.txd
-     io.uart.rxd <> rx.io.rxd
-   }
 
 Simple usage 
 -----------------------
 
 To synthesize a ``UartCtrl`` as ``115200-N-8-1``:
 
-.. code-block:: scala
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-after: // start rxtx snippet
+   :end-before: // end rxtx snippet
 
-    val uartCtrl: UartCtrl = UartCtrl(
-      config = UartCtrlInitConfig(
-        baudrate = 115200,
-        dataLength = 7,  // 8 bits
-        parity = UartParityType.NONE,
-        stop = UartStopType.ONE
-      )
-    )
+If you are using ``txd`` pin only, add:
 
-If you are using ``txd`` pin only:
-
-.. code-block:: scala
-
-    uartCtrl.io.uart.rxd := True  // High is the idle state for UART
-    txd := uartCtrl.io.uart.txd
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-after: // start tx snippet
+   :end-before: // end tx snippet
 
 On the contrary, if you are using ``rxd`` pin only:
 
-.. code-block:: scala
-
-    val uartCtrl: UartCtrl = UartCtrl(
-      config = UartCtrlInitConfig(
-        baudrate = 115200,
-        dataLength = 7,  // 8 bits
-        parity = UartParityType.NONE,
-        stop = UartStopType.ONE
-      ),
-      readonly = true
-    )
-
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-after: // start rx snippet
+   :end-before: // end rx snippet
 
 Example with test bench
 -----------------------
@@ -618,48 +358,10 @@ Here is a top level example that does the followings things:
 * Each time a byte is received from the UART, it writes it on the leds output.
 * Every 2000 cycles, it sends the switches input value to the UART.
 
-.. code-block:: scala
-
-   class UartCtrlUsageExample extends Component{
-     val io = new Bundle{
-       val uart = master(Uart())
-       val switchs = in Bits(8 bits)
-       val leds = out Bits(8 bits)
-     }
-
-     val uartCtrl = new UartCtrl()
-     uartCtrl.io.config.setClockDivider(921600)
-     uartCtrl.io.config.frame.dataLength := 7  //8 bits
-     uartCtrl.io.config.frame.parity := UartParityType.NONE
-     uartCtrl.io.config.frame.stop := UartStopType.ONE
-     uartCtrl.io.uart <> io.uart
-
-     //Assign io.led with a register loaded each time a byte is received
-     io.leds := uartCtrl.io.read.toReg()
-
-     //Write the value of switch on the uart each 2000 cycles
-     val write = Stream(Bits(8 bits))
-     write.valid := CounterFreeRun(2000).willOverflow
-     write.payload := io.switchs
-     write >-> uartCtrl.io.write
-   }
-
-
-   object UartCtrlUsageExample{
-     def main(args: Array[String]) {
-       SpinalVhdl(new UartCtrlUsageExample,defaultClockDomainFrequency=FixedFrequency(50e6))
-     }
-   }
-
-The following example is just a "mad one" but if you want to send a 0x55 header before sending the value of switches, you can replace the write generator of the preceding example by:
-
-.. code-block:: scala
-
-     val write = Stream(Fragment(Bits(8 bits)))
-     write.valid := CounterFreeRun(4000).willOverflow
-     write.fragment := io.switchs
-     write.last := True
-     write.stage().insertHeader(0x55).toStreamOfFragment >> uartCtrl.io.write
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-at: case class UartCtrlUsageExample(
+   :end-before: // end UartCtrlUsageExample
 
 `Here <https://github.com/SpinalHDL/SpinalHDL/blob/master/tester/src/test/resources/UartCtrlUsageExample_tb.vhd>`_ you can get a simple VHDL testbench for this small ``UartCtrlUsageExample``.
 
@@ -668,16 +370,21 @@ Bonus: Having fun with Stream
 
 If you want to queue data received from the UART:
 
-.. code-block:: scala
-
-   val uartCtrl = new UartCtrl()
-   val queuedReads = uartCtrl.io.read.toStream.queue(16)
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-after: // start rx queue
+   :end-before: // end rx queue
 
 If you want to add a queue on the write interface and do some flow control:
 
-.. code-block:: scala
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-after: // start tx queue
+   :end-before: // end tx queue
 
-   val uartCtrl = new UartCtrl()
-   val writeCmd = Stream(Bits(8 bits))
-   val stopIt = Bool
-   writeCmd.queue(16).haltWhen(stopIt) >> uartCtrl.io.write
+If you want to send a 0x55 header before sending the value of switches, you can replace the write generator of the preceding example by:
+
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
+   :language: scala
+   :start-after: // start with header
+   :end-before: // end with header
