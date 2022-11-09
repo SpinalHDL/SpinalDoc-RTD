@@ -141,7 +141,7 @@ To relax the strictness of the ``switch`` elaboration the ``strict = false`` can
           foo := 4
           bar := 2
       }
-      is(OP_SLT){
+      is(OP_SLT) {
           foo := 2
           bar := 8
       }
