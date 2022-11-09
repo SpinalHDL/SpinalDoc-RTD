@@ -149,7 +149,7 @@ To relax the strictness of the ``switch`` elaboration the ``strict = false`` can
           foo := 2
           bar := 8
       }
-      default{
+      default {
           foo := 0
           bar := 0
       }
