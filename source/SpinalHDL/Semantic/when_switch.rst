@@ -97,6 +97,66 @@ is equivalent to
     }
   }
 
+
+Additional options
+^^^^^^^^^^^^^^^^^^
+
+In some cases when covering all cases of the input encoding still leaves uncovered codes. 
+In the generated HDL these will be handled by default with the last ``is`` block.
+To explicitly declare and define a ``default`` block the option ``coverUnreachable`` can be passed to the switch
+
+.. code-block:: scala
+
+  switch(aluop, coverUnreachable = true) {
+    is(ALUOp.add, ALUOp.slt, ALUOp.sltu) {
+        immediate := instruction.immI.signExtend
+    }
+    is(ALUOp.sll, ALUOp.sra) {
+        immediate := instruction.shamt
+    }
+    default{
+        immediate := 0
+    }
+  }
+
+If the used values of ``ALUOp`` are all available elements of the SpinalEnum type, then without the ``coverUnreachable = true`` option SpinalHDL would throw an UNREACHABLE STATEMENT error upon elaboration.
+Without the ``default`` block the encoding for ``ALUOp.sll`` and ``ALUOp.sra`` are the default cases in the generated HDL.
+
+When using defined constants to compare against within a ``switch`` block it can occasionally happen that duplicates within a ``is`` value occur. 
+By default duplicates of ``is`` conditions are not ignored but identified as an error. 
+To relax the strictness of the ``switch`` elaboration the ``strict = false`` can be passed (by default ``strict = true`` thus preventing duplicate ``is`` conditions).
+
+.. code-block:: scala
+  
+  // OP_ADD and OP_SUB share the same code
+  def OP_ADD = M"000"
+  def OP_SUB = M"000"
+  def OP_SLT = M"001"
+  def OP_JMP = M"010"
+  def OP_BRK = M"101"
+  val foo = UInt(8 bits)
+  val bar = UInt(8 bits)
+  switch(io.instruction, strict=false){
+      // 
+      is(OP_ADD, OP_SUB){
+          foo := 4
+          bar := 2
+      }
+      is(OP_SLT){
+          foo := 2
+          bar := 8
+      }
+      is(OP_JMP, OP_BRK){
+          foo := 2
+          bar := 8
+      }
+      default{
+          foo := 0
+          bar := 0
+      }
+  }
+
+
 Local declaration
 -----------------
 
