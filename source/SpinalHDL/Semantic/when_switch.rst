@@ -135,7 +135,7 @@ To relax the strictness of the ``switch`` elaboration the ``strict = false`` can
   def OP_BRK = M"101"
   val foo = UInt(8 bits)
   val bar = UInt(8 bits)
-  switch(io.instruction, strict=false){
+  switch(io.instruction, strict = false) {
       // 
       is(OP_ADD, OP_SUB){
           foo := 4
