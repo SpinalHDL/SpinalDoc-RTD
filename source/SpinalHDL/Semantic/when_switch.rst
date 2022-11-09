@@ -101,7 +101,7 @@ is equivalent to
 Additional options
 ^^^^^^^^^^^^^^^^^^
 
-Sometimes handling all cases can become unwieldy and error prone so SpinalHDL, by default, will handle the uncovered cases with the last ``is`` block.
+Sometimes handling all cases can become unwieldy and error prone so SpinalHDL, by default, handles the uncovered cases with the last ``is`` block.
 To explicitly declare and define a ``default`` block the option ``coverUnreachable`` can be passed to the switch
 
 .. code-block:: scala
