@@ -452,7 +452,7 @@ For fixed-point, we can divide it into two parts.
 
 Lower Bit operation
 ~~~~~~~~~~~~~~~~~~~
-.. image:: /assert/imag/fixpoint/lowBitOperation.png
+.. image:: /asset/imag/fixpoint/lowerBitOperation.png
 
 About Rounding: https://en.wikipedia.org/wiki/Rounding
 
@@ -538,7 +538,7 @@ You can find **ROUNDUP, ROUNDDOWN, ROUNDTOZERO, ROUNDTOINF, ROUNDTOEVEN, ROUNTOO
 
 High Bit operation
 ~~~~~~~~~~~~~~~~~~
-.. image:: /assert/imag/fixpoint/highBitOperation.png
+.. image:: /asset/imag/fixpoint/highBitOperation.png
 
 ========== ============ ===================================== ====================================== ===========
  function   Operation    Postive-Op                            Negtive-Op                             supported
@@ -564,7 +564,7 @@ fixTo function
 ~~~~~~~~~~~~~~
 two way are provided in UInt/SInt do fixpoint:
 
-.. image:: /assert/imag/fixpoint/fixPoint.png
+.. image:: /asset/imag/fixpoint/fixPoint.png
 
 fixTo is strongly recommended in your RTL work, you don't need handle carry bit align and bit width calculate manually like Way1.
 
