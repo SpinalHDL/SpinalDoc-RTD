@@ -106,31 +106,3 @@ you can create build multiple version of the doc via
    sphinx-multiversion source docs/html
 
 in the docs/html there will be a folder with the builded doc for each branch and tag
-
-
-Deploying the generated doc by hands
-----------------------------------------
-
-.. code:: shell
-
-   git clone https://github.com/SpinalHDL/SpinalDoc-RTD.git --branch gh-pages deploy_tmp
-   rm -rf deploy_tmp/*
-   cp -r docs/html/* deploy_tmp/
-   cd deploy_tmp/
-   git add --all
-   git commit -am "deploy"
-   git push
-   cd ..
-   rm -rf deploy_tmp
-
-
-Continuous Integration(CI)
-==========================
-
-This repo use Travis for his CI needs.
-If you want have a gh-pages preview on your fork, you need to activate your repo on Travis admin page.
-After that you only need add ``GITHUB_TOKEN`` as Environment Variable with your Github personal token (you only need grant repo/public_repo access)
-More details here:
-
-* `Defining variables <https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings>`_
-* `Deploy to gh-pages <https://docs.travis-ci.com/user/deployment/pages/>`_
