@@ -17,11 +17,11 @@ How to build this documentation
 
 With venv
 ---------
+
 Requirements (system)
 
 * make
 * git
-
 
 Create a virtual environment with pipenv (will use the Pipfile for installing the necessary packages)
 
@@ -46,6 +46,7 @@ and then you can use ``make`` the usual way
    make          # list all the available output format
 
 all the outputs will be in docs folder (for html: docs/html)
+
 
 With Docker
 -----------
@@ -73,8 +74,10 @@ You can still run custom commands in the docker, for instance to clean:
 
    docker run -it --rm -v $PWD:/docs spinaldoc-rtd make clean
 
+
 Native
 ------
+
 Requirements (system):
 
 * make
@@ -104,6 +107,7 @@ you can create build multiple version of the doc via
 
 in the docs/html there will be a folder with the builded doc for each branch and tag
 
+
 Deploying the generated doc by hands
 ----------------------------------------
 
@@ -130,5 +134,3 @@ More details here:
 
 * `Defining variables <https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings>`_
 * `Deploy to gh-pages <https://docs.travis-ci.com/user/deployment/pages/>`_
-
-
