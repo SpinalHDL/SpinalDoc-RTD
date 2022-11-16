@@ -61,55 +61,24 @@ Implementation
 
 This specification shows that the APB3 bus has multiple possible configurations. To represent that, we can define a configuration class in Scala:
 
-.. code-block:: scala
-
-   case class Apb3Config(
-     addressWidth  : Int,
-     dataWidth     : Int,
-     selWidth      : Int     = 1,
-     useSlaveError : Boolean = true
-   )
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/simple/Apb3.scala
+   :language: scala
+   :start-at: case class Apb3Config(
+   :end-before: // end case class Apb3Config
 
 Then we can define the APB3 ``Bundle`` which will be used to represent the bus in hardware:
 
-.. code-block:: scala
-
-   case class Apb3(config: Apb3Config) extends Bundle with IMasterSlave {
-     val PADDR      = UInt(config.addressWidth bits)
-     val PSEL       = Bits(config.selWidth bits)
-     val PENABLE    = Bool()
-     val PREADY     = Bool()
-     val PWRITE     = Bool()
-     val PWDATA     = Bits(config.dataWidth bits)
-     val PRDATA     = Bits(config.dataWidth bits)
-     val PSLVERROR  = if(config.useSlaveError) Bool else null
-
-     override def asMaster(): Unit = {
-       out(PADDR,PSEL,PENABLE,PWRITE,PWDATA)
-       in(PREADY,PRDATA)
-       if(config.useSlaveError) in(PSLVERROR)
-     }
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/simple/Apb3.scala
+   :language: scala
+   :start-at: case class Apb3(
+   :end-before: // end case class Apb3
 
 Usage
 -----
 
 Here is a usage example of this definition:
 
-.. code-block:: scala
-
-   val apbConfig = Apb3Config(
-     addressWidth  = 16,
-     dataWidth     = 32,
-     selWidth      = 1,
-     useSlaveError = false
-   )
-
-   val io = new Bundle{
-     val apb = slave(Apb3(apbConfig))
-   }
-
-   io.apb.PREADY := True
-   when(io.apb.PSEL(0) && io.apb.PENABLE){
-     //...
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/simple/Apb3.scala
+   :language: scala
+   :start-after: // start usage example
+   :end-before: // end usage example
