@@ -2,6 +2,16 @@
 SpinalDoc
 =========
 
+This is the documentation repository for
+`SpinalHDL <https://github.com/SpinalHDL/SpinalHDL>`_.
+
+It is published on
+`spinalhdl.github.io/SpinalDoc-RTD <https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html>`_.
+
+You can also find the API documentation on
+`spinalhdl.github.io/SpinalHDL <https://spinalhdl.github.io/SpinalHDL/dev/spinal/index.html>`_.
+
+
 How to build this documentation
 ===============================
 
