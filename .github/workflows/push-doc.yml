@@ -1,4 +1,4 @@
-name: "Build on master and dev only"
+name: "Push RTD on gh-pages"
 
 on:
   push:
@@ -10,24 +10,29 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "setup python"
-      uses: actions/setup-python@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    - name: Build docker image
+      uses: docker/build-push-action@v3
       with:
-        python-version: 3.9
-    - name: "install dependencies"
+        context: .
+        load: true
+        push: false
+        cache-to: type=gha
+        cache-from: type=gha
+        tags: spinaldoc-pdf
+        file: pdf.Dockerfile
+    - name: Check links
+      run: docker run --rm -v $PWD:/docs spinaldoc-pdf make linkcheck
+    - name: Build multiversioned doc
+      run: docker run --rm -v $PWD:/docs spinaldoc-pdf sphinx-multiversion source docs/html
+    - name: Add .nojekill
+      run: sudo touch docs/html/.nojekyll
+    - name: Add redirection to master
       run: |
-        apt-get update -y && apt-get install -y git
-        pip install -r requirements.txt
-    - name: "check links"
-      run: make linkcheck
-    - name: "Build multiversioned doc"
-      run: sphinx-multiversion source docs/html
-    - name: "add .nojekill and redirect to master"
-      run: |
-        sudo touch docs/html/.nojekyll
         sudo tee docs/html/index.html << EOF
         <!DOCTYPE html>
         <html>
@@ -39,8 +44,8 @@ jobs:
           </head>
         </html>
         EOF
-    - name: Deploy to Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.4
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages
         folder: docs/html

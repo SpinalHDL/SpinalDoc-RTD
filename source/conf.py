@@ -21,7 +21,7 @@
 
 project = 'SpinalHDL'
 copyright = '2022, SpinalHDL'
-author = 'Spinal'
+author = 'SpinalHDL contributors'
 
 # The short X.Y version
 version = ''
@@ -135,7 +135,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'SpinalHDL.tex', 'SpinalHDL Documentation',
-     'penis', 'manual'),
+     author, 'manual'),
 ]
 
 
@@ -207,7 +207,46 @@ online_wavedrom_js_url = "https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8"
 #Option for linkcheck
 linkcheck_anchors=False
 
-smv_branch_whitelist = r'^(master|dev).*$'
-smv_remote_whitelist = r'^.*$'
+# Whitelist pattern for tags (set to None to ignore all tags)
 smv_tag_whitelist = r'^.*$'
+
+# Whitelist pattern for branches (set to None to ignore all branches)
+smv_branch_whitelist = r'^(master|dev)$'
+
+# Whitelist pattern for remotes (set to None to use local branches only)
+smv_remote_whitelist = r'^.*$'
+
+# Pattern for released versions
+smv_released_pattern = r'^tags/.*$'
+
+# Format for versioned output directories inside the build directory
+smv_outputdir_format = '{ref.name}'
+
+# Determines whether remote or local git branches/tags are preferred if their output dirs conflict
 smv_prefer_remote_refs = True
+
+# Run a command before invoking sphinx-build
+#smv_prebuild_command = ''
+
+# Regular expression of files and directories to export to outputdir after running smv_prebuild_command
+#smv_prebuild_export_pattern = ''
+
+# Export files and directories matching smv_prebuild_export_pattern to this subdirectory of outputdir
+#smv_prebuild_export_destination = ''
+
+# Specify build targets and whether the resulting artefacts should be downloadable
+smv_build_targets = {
+    "HTML" : {
+        "builder": "html",
+        "downloadable": False,
+        "download_format": "",
+    },
+    "PDF" : {
+        "builder": "latexpdf",
+        "downloadable": True,
+        "download_format": "pdf",
+    }
+}
+
+# Flag indicating whether the intermediate build directories should be removed after artefacts are produced
+smv_clean_intermediate_files = True

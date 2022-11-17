@@ -74,6 +74,18 @@ You can still run custom commands in the docker, for instance to clean:
 
    docker run -it --rm -v $PWD:/docs spinaldoc-rtd make clean
 
+It is also possible to create the custom docker image to build a pdf (heavier):
+
+.. code:: shell
+
+   docker build -f pdf.Dockerfile -t spinaldoc-pdf .
+
+And to run it:
+
+.. code:: shell
+
+   docker run -it --rm -v $PWD:/docs spinaldoc-pdf
+
 
 Native
 ------
