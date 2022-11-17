@@ -1,6 +1,3 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 .. _memory_mapped_uart:
 
 Memory mapped UART

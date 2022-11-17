@@ -1,6 +1,3 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 .. _sinus_rom:
 
 Sinus rom

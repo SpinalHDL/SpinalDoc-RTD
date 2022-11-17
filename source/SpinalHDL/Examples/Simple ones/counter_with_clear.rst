@@ -1,4 +1,3 @@
-
 Counter with clear
 ==================
 

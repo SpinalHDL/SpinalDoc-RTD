@@ -1,4 +1,3 @@
-
 Fractal calculator
 ==================
 
