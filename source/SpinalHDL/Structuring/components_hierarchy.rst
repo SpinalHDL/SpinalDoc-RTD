@@ -1,5 +1,4 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
+.. _Component:
 
 Component and hierarchy
 =======================
@@ -41,6 +40,9 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
    
 .. tip::
    | If it is better to your taste, you can use the ``Module`` syntax instead of ``Component`` (they are the same thing)
+
+
+.. _io:
 
 Input / output definition
 -------------------------
