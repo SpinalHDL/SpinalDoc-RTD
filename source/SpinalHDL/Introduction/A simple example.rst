@@ -3,16 +3,17 @@
 A simple example
 ================
 
-In ``MyTopLevel.scala`` is the following hardware description:
+Below is a simple hardware description from the `getting started
+<https://github.com/SpinalHDL/SpinalTemplateSbt>`_ repository.
 
 .. code-block:: scala
 
    case class MyTopLevel() extends Component {
      val io = new Bundle {
-       val cond0 = in port Bool
-       val cond1 = in port Bool
-       val flag = out port Bool
-       val state = out port UInt(8 bits)
+       val cond0 = in Bool()
+       val cond1 = in Bool()
+       val flag  = out Bool()
+       val state = out UInt(8 bits)
      }
 
      val counter = Reg(UInt(8 bits)) init 0
@@ -22,7 +23,7 @@ In ``MyTopLevel.scala`` is the following hardware description:
      }
 
      io.state := counter
-     io.flag := (counter === 0) | io.cond1
+     io.flag  := (counter === 0) | io.cond1
    }
 
 It is split into chunks and explained in this section.
