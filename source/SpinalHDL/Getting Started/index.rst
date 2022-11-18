@@ -13,7 +13,6 @@ perform lints on the fly.
    SBT
    VSCodium
    IntelliJ
-   A simple example
    Scala Guide/index
    Help for VHDL people/index
    Cheatsheets/index

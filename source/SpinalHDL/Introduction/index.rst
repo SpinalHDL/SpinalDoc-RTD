@@ -8,6 +8,7 @@ around it.
    :maxdepth: 1
 
    SpinalHDL
+   A simple example
    Projects using SpinalHDL
    Getting in touch
    License
