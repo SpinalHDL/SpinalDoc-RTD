@@ -40,6 +40,26 @@ their own digital designs.
    It also enables mixed designs where SpinalHDL components inter-operate with VHDL or Verilog IPs.
 
 
+The Spinal development flow
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When developing IPs or products, you write hardware descriptions using SpinalHDL
+into ``.scala`` files, then you generate VHDL or Verilog files in order to
+provide them to the simulation and synthesis tools.
+
+.. image:: SpinalDevFlow.png
+   :height: 16em
+   :align: center
+
+As SpinalHDL is interoperable with VHDL and (System)Verilog, you can both
+instantiate SpinalHDL IPs in these language (using generated code) and
+instantiate IPs in these languages in SpinalHDL (using ``BlackBox``).
+
+To debug your SpinalHDL IPs, tools are provided to let you write your tests in
+``.scala`` files and directly run simulation, so that you do not have to
+generate files and interact with the simulator yourself.
+
+
 Advantages of using SpinalHDL over VHDL / Verilog
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
