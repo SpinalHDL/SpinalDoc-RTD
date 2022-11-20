@@ -12,8 +12,6 @@ used as an alternative to VHDL or Verilog and has several advantages over them:
 
 More detailed introduction of the language in :ref:`Introduction/SpinalHDL`
 
-TODO Maybe a foreword about page 5 of https://github.com/SpinalHDL/SpinalDoc/blob/master/presentation/en/workshop/taste.pdf
-
 | HTML and PDF formats of this documentation are available online:
 | > `spinalhdl.github.io/SpinalDoc-RTD <https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html>`_
 | (PDF format is accessible from the lower left corner, click ``v:master`` then PDF)
@@ -25,6 +23,7 @@ TODO Maybe a foreword about page 5 of https://github.com/SpinalHDL/SpinalDoc/blo
 .. toctree::
    :maxdepth: 1
 
+   SpinalHDL/Foreword/index
    SpinalHDL/Introduction/index
    SpinalHDL/Getting Started/index
    SpinalHDL/Data types/index

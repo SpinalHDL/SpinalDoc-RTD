@@ -32,7 +32,7 @@ Between December 2014 and April 2016, it was as a personal hobby project. But si
 Why develop a new language when there is VHDL/Verilog/SystemVerilog?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`This page <regular_hdl>`\  is dedicated to this topic.
+The :ref:`Foreword`  is dedicated to this topic.
 
 How to use an unreleased version of SpinalHDL (but committed on git)?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
