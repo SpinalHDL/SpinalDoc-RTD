@@ -188,21 +188,29 @@ Each of them provides the following functions to define the logic associated to 
 
    * - Name
      - Description
-   * - | ``state.onEntry {``
-       | ``  yourStatements``
-       | ``}``
+   * - .. code-block:: scala
+     
+          state.onEntry {
+            yourStatements
+          }
      - ``yourStatements`` is applied when the state machine is not in ``state`` and will be in ``state`` the next cycle
-   * - | ``state.onExit {``
-       | ``  yourStatements``
-       | ``}``
+   * - .. code-block:: scala
+         
+          state.onExit {
+            yourStatements
+          }
      - ``yourStatements`` is applied when the state machine is in ``state`` and will be in another state the next cycle
-   * - | ``state.whenIsActive {``
-       | ``  yourStatements``
-       | ``}``
+   * - .. code-block:: scala
+     
+          state.whenIsActive {
+            yourStatements
+          }
      - ``yourStatements`` is applied when the state machine is in ``state``
-   * - | ``state.whenIsNext {``
-       | ``  yourStatements``
-       | ``}``
+   * - .. code-block:: scala
+     
+          state.whenIsNext {
+            yourStatements
+          }
      - ``yourStatements`` is executed when the state machine will be in ``state`` the next cycle (even if it is already in it)
 
 ``state.`` is implicit in a ``new State`` block:
