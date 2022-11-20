@@ -103,7 +103,7 @@ Valid Assignments
 
 An assignment to a fixed-point value is valid when there is no bit loss. Any bit loss will result in an error.
 
-If the source fixed-point value is too big, the ``.truncated`` function will allow you to resize the source number to match the destination size.
+If the source fixed-point value is too big, the ``truncated`` function will allow you to resize the source number to match the destination size.
 
 Example
 """""""
@@ -120,8 +120,10 @@ Example
    o16_m2 := i16_m2            // OK
    o16_m0 := i16_m2            // Not OK, Bit loss
    o14_m2 := i16_m2            // Not OK, Bit loss
-   o16_m0 := i16_m2.truncated  // OK, as it is resized
-   o14_m2 := i16_m2.truncated  // OK, as it is resized
+   o16_m0 := i16_m2.truncated  // OK, as it is resized to match assignment target
+   o14_m2 := i16_m2.truncated  // OK, as it is resized to match assignment target
+   val o18_m2 = i16_m2.truncated(18 exp, -2 exp)
+   val o18_22b = i16_m2.truncated(18 exp, 22 bit)
 
 From a Scala constant
 ~~~~~~~~~~~~~~~~~~~~~
