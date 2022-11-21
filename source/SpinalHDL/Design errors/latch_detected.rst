@@ -16,7 +16,7 @@ The following code:
 .. code-block:: scala
 
    class TopLevel extends Component {
-     val cond = in(Bool)
+     val cond = in(Bool())
      val a = UInt(8 bits)
 
      when(cond) {
@@ -38,7 +38,7 @@ A fix could be:
 .. code-block:: scala
 
    class TopLevel extends Component {
-     val cond = in(Bool)
+     val cond = in(Bool())
      val a = UInt(8 bits)
 
      a := 0

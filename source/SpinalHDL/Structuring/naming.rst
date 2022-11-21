@@ -126,7 +126,7 @@ For instance via Area :
 
     class MyComponent extends Component {
       val logicA = new Area{   //This define a new namespace named "logicA
-        val toggle = Reg(Bool) //This register will be named "logicA_toggle"
+        val toggle = Reg(Bool()) //This register will be named "logicA_toggle"
         toggle := !toggle
       }
     }
@@ -410,7 +410,7 @@ There is a instance of how a very long expression chain will be splited up by Sp
 .. code-block:: scala
 
   class MyComponent extends Component {
-    val conditions = in Vec(Bool, 64)
+    val conditions = in Vec(Bool(), 64)
     val result = conditions.reduce(_ || _) // Do a logical or between all the conditions elements
   }
 

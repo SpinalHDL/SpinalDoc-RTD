@@ -71,7 +71,7 @@ class JtagTap(val jtag: Jtag, instructionWidth: Int) extends Area with JtagTapAc
   val fsm = new JtagFsm(jtag)
   val instruction = Reg(Bits(instructionWidth bits))
   val instructionShift = Reg(Bits(instructionWidth bits))
-  val bypass = Reg(Bool)
+  val bypass = Reg(Bool())
 
   jtag.tdo := bypass
 
