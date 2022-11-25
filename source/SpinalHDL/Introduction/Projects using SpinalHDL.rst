@@ -18,5 +18,3 @@ Companies
 
 * QsPin, Belgium
 * DatenLord, China
-
-TODO have references to prove that
