@@ -113,7 +113,43 @@ The following commands clone the project into a new directory named
 The directory structure of a project
 ------------------------------------
 
-TODO explain directory structure of the template
+.. note::
+
+   The structure described here is the default structure, but it can be easily
+   modified.
+
+In the root of the project are the following files:
+
+================== ===========================================================
+File               Description
+================== ===========================================================
+``build.sbt``      Scala configuration for ``sbt``
+``build.sc``       Scala configuration for ``mill``, an alternative to ``sbt``
+``hw/``            The folder containing hardware descriptions
+``project/``       More Scala configuration
+``README.md``      A ``text/markdown`` file describing your project
+``.gitignore``     List of files to ignore in versioning
+``.mill-version``  More configuration for ``mill``
+``.scalafmt.conf`` Configuration of rules to auto-format the code
+================== ===========================================================
+
+As you probably guessed it, the interesting thing here is ``hw/``. It contains
+four folders: ``spinal/``, ``verilog/`` and ``vhdl/`` for your IPs and ``gen/``
+for IPs generated with Spinal.
+
+``hw/spinal/`` contains a folder named after your project name. This name must
+be set in ``build.sbt`` (along with the company name) and in ``build.sc``; and
+it must be the one in ``package yourprojectname`` at the beginning of ``.scala``
+files.
+
+In ``hw/spinal/yourprojectname/``, are the descriptions of your IPs, simulation
+tests, formal tests; and there is ``Config.scala``, which contains the
+configuration of ``Spinal``.
+
+.. note::
+
+   ``sbt`` must be used **only** at the root of the project, in the folder
+   containing ``build.sbt``.
 
 
 Using Spinal on SpinalHDL code
