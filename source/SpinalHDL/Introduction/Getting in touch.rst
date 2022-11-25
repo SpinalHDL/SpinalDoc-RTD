@@ -13,4 +13,4 @@ Getting in touch
 
 * If you are interested in a presentation, a workshop, or consulting:
 
-    * `Contact us by email: spinalhdl@gmail.com <mailto:spinalhdl@gmail.com>`
+    * `Contact us by email: spinalhdl@gmail.com <mailto:spinalhdl@gmail.com>`_
