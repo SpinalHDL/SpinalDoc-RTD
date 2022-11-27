@@ -140,6 +140,36 @@ Transitions
 These two functions can be used inside state definitions (see below) or using ``always { yourStatements }``,
 which always applies ``yourStatements``, with a priority over states.
 
+State encoding
+^^^^^^^^^^^^^^
+
+By default the FSM state vector will be encoded using the native encoding of the language/tools the RTL is generated for (Verilog or VHDL).
+This default can be overriden by using the ``setEncoding(...)`` method which either takes a ``SpinalEnumEncoding`` or
+varargs of type ``(State, BigInt)`` for a custom encoding. 
+
+.. code-block:: scala
+   :caption: Using a ``SpinalEnumEncoding``
+   
+   val fsm = new StateMachine {
+     setEncoding(binaryOneHot)
+
+     ...
+   }
+
+.. code-block:: scala
+   :caption: Using a custom encoding
+
+   val fsm = new StateMachine {
+     val stateA = new State with EntryPoint
+     val stateB = new State
+     ...
+     setEncoding((stateA -> 0x23), (stateB -> 0x22))
+   }
+
+.. warning:: When using the ``graySequential`` enum encoding, no check is done to verify that the FSM transitions only produce
+             single-bit changes in the state vector. The encoding is done according to the order of state definitions and the
+             designer must ensure that only valid transitions are done if needed.
+
 States
 ------
 
@@ -158,21 +188,29 @@ Each of them provides the following functions to define the logic associated to 
 
    * - Name
      - Description
-   * - | ``state.onEntry {``
-       | ``  yourStatements``
-       | ``}``
+   * - .. code-block:: scala
+     
+          state.onEntry {
+            yourStatements
+          }
      - ``yourStatements`` is applied when the state machine is not in ``state`` and will be in ``state`` the next cycle
-   * - | ``state.onExit {``
-       | ``  yourStatements``
-       | ``}``
+   * - .. code-block:: scala
+         
+          state.onExit {
+            yourStatements
+          }
      - ``yourStatements`` is applied when the state machine is in ``state`` and will be in another state the next cycle
-   * - | ``state.whenIsActive {``
-       | ``  yourStatements``
-       | ``}``
+   * - .. code-block:: scala
+     
+          state.whenIsActive {
+            yourStatements
+          }
      - ``yourStatements`` is applied when the state machine is in ``state``
-   * - | ``state.whenIsNext {``
-       | ``  yourStatements``
-       | ``}``
+   * - .. code-block:: scala
+     
+          state.whenIsNext {
+            yourStatements
+          }
      - ``yourStatements`` is executed when the state machine will be in ``state`` the next cycle (even if it is already in it)
 
 ``state.`` is implicit in a ``new State`` block:

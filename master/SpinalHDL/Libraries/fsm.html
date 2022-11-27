@@ -670,6 +670,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#statemachine">StateMachine</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#entry-point">Entry point</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#transitions">Transitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#state-encoding">State encoding</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#states">States</a><ul>
@@ -1287,6 +1288,39 @@
 <p>These two functions can be used inside state definitions (see below) or using <code class="docutils literal notranslate"><span class="pre">always</span> <span class="pre">{</span> <span class="pre">yourStatements</span> <span class="pre">}</span></code>,
 which always applies <code class="docutils literal notranslate"><span class="pre">yourStatements</span></code>, with a priority over states.</p>
 </div>
+<div class="section" id="state-encoding">
+<h3>State encoding<a class="headerlink" href="#state-encoding" title="Permalink to this heading">¶</a></h3>
+<p>By default the FSM state vector will be encoded using the native encoding of the language/tools the RTL is generated for (Verilog or VHDL).
+This default can be overriden by using the <code class="docutils literal notranslate"><span class="pre">setEncoding(...)</span></code> method which either takes a <code class="docutils literal notranslate"><span class="pre">SpinalEnumEncoding</span></code> or
+varargs of type <code class="docutils literal notranslate"><span class="pre">(State,</span> <span class="pre">BigInt)</span></code> for a custom encoding.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Using a <code class="docutils literal notranslate"><span class="pre">SpinalEnumEncoding</span></code></span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">setEncoding</span><span class="p">(</span><span class="n">binaryOneHot</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Using a custom encoding</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="n">setEncoding</span><span class="p">((</span><span class="n">stateA</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mh">0x23</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">stateB</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mh">0x22</span><span class="p">))</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When using the <code class="docutils literal notranslate"><span class="pre">graySequential</span></code> enum encoding, no check is done to verify that the FSM transitions only produce
+single-bit changes in the state vector. The encoding is done according to the order of state definitions and the
+designer must ensure that only valid transitions are done if needed.</p>
+</div>
+</div>
 </div>
 <div class="section" id="states">
 <h2>States<a class="headerlink" href="#states" title="Permalink to this heading">¶</a></h2>
@@ -1309,34 +1343,34 @@ which always applies <code class="docutils literal notranslate"><span class="pre
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">state.onEntry</span> <span class="pre">{</span></code></div>
-<div class="line">``  yourStatements``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<tr class="row-even"><td><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">state</span><span class="p">.</span><span class="n">onEntry</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">yourStatements</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
 </div>
 </td>
 <td><p><code class="docutils literal notranslate"><span class="pre">yourStatements</span></code> is applied when the state machine is not in <code class="docutils literal notranslate"><span class="pre">state</span></code> and will be in <code class="docutils literal notranslate"><span class="pre">state</span></code> the next cycle</p></td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">state.onExit</span> <span class="pre">{</span></code></div>
-<div class="line">``  yourStatements``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<tr class="row-odd"><td><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">state</span><span class="p">.</span><span class="n">onExit</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">yourStatements</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
 </div>
 </td>
 <td><p><code class="docutils literal notranslate"><span class="pre">yourStatements</span></code> is applied when the state machine is in <code class="docutils literal notranslate"><span class="pre">state</span></code> and will be in another state the next cycle</p></td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">state.whenIsActive</span> <span class="pre">{</span></code></div>
-<div class="line">``  yourStatements``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<tr class="row-even"><td><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">state</span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">yourStatements</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
 </div>
 </td>
 <td><p><code class="docutils literal notranslate"><span class="pre">yourStatements</span></code> is applied when the state machine is in <code class="docutils literal notranslate"><span class="pre">state</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">state.whenIsNext</span> <span class="pre">{</span></code></div>
-<div class="line">``  yourStatements``</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">}</span></code></div>
+<tr class="row-odd"><td><div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">state</span><span class="p">.</span><span class="n">whenIsNext</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">yourStatements</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
 </div>
 </td>
 <td><p><code class="docutils literal notranslate"><span class="pre">yourStatements</span></code> is executed when the state machine will be in <code class="docutils literal notranslate"><span class="pre">state</span></code> the next cycle (even if it is already in it)</p></td>
