@@ -288,7 +288,7 @@ Operators
      - 
    * - x.asBools
      - Cast into a array of Bool
-     - Vec(Bool,width(x))
+     - Vec(Bool(),width(x))
 
 
 Masked comparison
@@ -477,8 +477,8 @@ Then you can also incorporate a Bundle inside Bundle as deeply as you want:
 .. code-block:: scala
 
    case class VGA(channelWidth : Int) extends Bundle{
-     val hsync = Bool
-     val vsync = Bool
+     val hsync = Bool()
+     val vsync = Bool()
      val color = RGB(channelWidth)
    }
 
@@ -520,9 +520,9 @@ If you want to define an interface, let's imagine an APB interface, you can also
 
      val PADDR      = UInt(addressWidth bits)
      val PSEL       = Bits(selWidth bits)
-     val PENABLE    = Bool
-     val PREADY     = Bool
-     val PWRITE     = Bool
+     val PENABLE    = Bool()
+     val PREADY     = Bool()
+     val PWRITE     = Bool()
      val PWDATA     = Bits(dataWidth bits)
      val PRDATA     = Bits(dataWidth bits)
      val PSLVERROR  = if(useSlaveError) Bool() else null   //This wire is created only when useSlaveError is true
@@ -548,9 +548,9 @@ Also if one time you need to add another construction parameter, you will only h
    class APB(val config: APBConfig) extends Bundle {   //[val] config, make the configuration public
      val PADDR      = UInt(config.addressWidth bits)
      val PSEL       = Bits(config.selWidth bits)
-     val PENABLE    = Bool
-     val PREADY     = Bool
-     val PWRITE     = Bool
+     val PENABLE    = Bool()
+     val PREADY     = Bool()
+     val PWRITE     = Bool()
      val PWDATA     = Bits(config.dataWidth bits)
      val PRDATA     = Bits(config.dataWidth bits)
      val PSLVERROR  = if(config.useSlaveError) Bool() else null
@@ -575,9 +575,9 @@ Then at some points, you will probably need to use the APB bus as master or as s
    class APB(val config: APBConfig) extends Bundle {
      val PADDR      = UInt(config.addressWidth bits)
      val PSEL       = Bits(config.selWidth bits)
-     val PENABLE    = Bool
-     val PREADY     = Bool
-     val PWRITE     = Bool
+     val PENABLE    = Bool()
+     val PREADY     = Bool()
+     val PWRITE     = Bool()
      val PWDATA     = Bits(config.dataWidth bits)
      val PRDATA     = Bits(config.dataWidth bits)
      val PSLVERROR  = if(config.useSlaveError) Bool() else null
@@ -625,9 +625,9 @@ There is an example of an APB bus that implement this IMasterSlave :
    class APB(val config: APBConfig) extends Bundle with IMasterSlave {
      val PADDR      = UInt(addressWidth bits)
      val PSEL       = Bits(selWidth bits)
-     val PENABLE    = Bool
-     val PREADY     = Bool
-     val PWRITE     = Bool
+     val PENABLE    = Bool()
+     val PREADY     = Bool()
+     val PWRITE     = Bool()
      val PWDATA     = Bits(dataWidth bits)
      val PRDATA     = Bits(dataWidth bits)
      val PSLVERROR  = if(useSlaveError) Bool() else null   //This wire is created only when useSlaveError is true
@@ -740,7 +740,7 @@ There is an example :
 
 .. code-block:: scala
 
-   val cond = in Bool
+   val cond = in Bool()
    val red = in UInt(4 bits)
    ...
    val valid = False          //Bool wire which is by default assigned with False

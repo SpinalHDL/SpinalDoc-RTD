@@ -302,7 +302,7 @@ Type cast
      - SInt(w(x) bits)
    * - x.asBools
      - Cast into a array of Bool
-     - Vec(Bool, w(x))
+     - Vec(Bool(), w(x))
    * - S(x: T)
      - Cast a Data into a SInt
      - SInt(w(x) bits)

@@ -85,4 +85,4 @@ could be fixed by :
    }
 
 It should also be said that assignments such as ``(a(1) := a(0))`` can make some tools like `Verilator <https://www.veripool.org/wiki/verilator>`_ unhappy.
-It may be better to use a ``Vec(Bool, 8)`` in this case.
+It may be better to use a ``Vec(Bool(), 8)`` in this case.

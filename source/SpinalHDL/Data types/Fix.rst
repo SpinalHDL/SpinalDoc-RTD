@@ -245,7 +245,7 @@ Type cast
      - SInt(w(x) bits)
    * - x.asBools
      - Cast into a array of Bool
-     - Vec(Bool,width(x))
+     - Vec(Bool(),width(x))
    * - x.toUInt
      - Return the corresponding UInt (with truncation)
      - UInt

@@ -23,7 +23,7 @@ The syntax to declare a boolean value is as follows: (everything between [] is o
    * - Syntax
      - Description
      - Return
-   * - Bool[()]
+   * - Bool()
      - Create a Bool
      - Bool
    * - True

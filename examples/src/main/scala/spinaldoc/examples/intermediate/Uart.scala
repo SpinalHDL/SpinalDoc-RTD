@@ -96,7 +96,7 @@ class UartCtrlTx(g : UartCtrlGenerics) extends Component {
     import UartCtrlTxState._
 
     val state = RegInit(IDLE)
-    val parity = Reg(Bool)
+    val parity = Reg(Bool())
     val txd = True
 
     when(clockDivider.tick) {
@@ -203,7 +203,7 @@ class UartCtrlRx(g : UartCtrlGenerics) extends Component {
     import UartCtrlRxState._
 
     val state   = RegInit(IDLE)
-    val parity  = Reg(Bool)
+    val parity  = Reg(Bool())
     val shifter = Reg(io.read.payload)
 
     //Parity calculation
@@ -450,7 +450,7 @@ case class UartQueued() extends Component {
 
   // start tx queue
   val writeCmd = Stream(Bits(8 bits))
-  val stopIt = Bool
+  val stopIt = Bool()
   writeCmd.queue(16).haltWhen(stopIt) >> uartCtrl.io.write
   // end tx queue
   stopIt := io.stopIt

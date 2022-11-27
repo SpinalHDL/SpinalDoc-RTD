@@ -354,7 +354,7 @@ First let's implement the companion object that provide the compatible AvalonMM 
      - Bool
      - High to respond a read command
    * - readData
-     - Bool(dataWidth bits)
+     - Bits(dataWidth bits)
      - Valid when readDataValid is high
 
 

@@ -166,7 +166,7 @@ Let's define the skeleton of ``UartCtrlTx``\ :
        val configFrame  = in(UartCtrlFrameConfig(g))
        val samplingTick = in Bool()
        val write        = slave Stream (Bits(dataWidthMax bits))
-       val txd          = out Bool
+       val txd          = out Bool()
      }
 
      // Provide one clockDivider.tick each rxSamplePerBit pulses of io.samplingTick
@@ -188,7 +188,7 @@ Let's define the skeleton of ``UartCtrlTx``\ :
        import UartCtrlTxState._
 
        val state = RegInit(IDLE)
-       val parity = Reg(Bool)
+       val parity = Reg(Bool())
        val txd = True
        ..
        switch(state) {
@@ -249,9 +249,9 @@ Let's define the skeleton of the UartCtrlRx :
      import g._
      val io = new Bundle {
        val configFrame  = in(UartCtrlFrameConfig(g))
-       val samplingTick = in Bool
+       val samplingTick = in Bool()
        val read         = master Flow (Bits(dataWidthMax bits))
-       val rxd          = in Bool
+       val rxd          = in Bool()
      }
 
      // Implement the rxd sampling with a majority vote over samplingSize bits
@@ -284,7 +284,7 @@ Let's define the skeleton of the UartCtrlRx :
        import UartCtrlRxState._
 
        val state   = RegInit(IDLE)
-       val parity  = Reg(Bool)
+       val parity  = Reg(Bool())
        val shifter = Reg(io.read.payload)
        ...
        switch(state) {
