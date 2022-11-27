@@ -30,7 +30,7 @@ One practical example could be to check that the ``valid`` signal of a handshake
 
    class TopLevel extends Component {
      val valid = RegInit(False)
-     val ready = in Bool
+     val ready = in Bool()
 
      when(ready) {
        valid := False

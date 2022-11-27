@@ -195,7 +195,7 @@ Type cast
      - SInt(w(x) bits)
    * - x.asBools
      - Cast to an array of Bools
-     - Vec(Bool, w(x))
+     - Vec(Bool(), w(x))
    * - B(x: T)
      - Cast Data to Bits
      -  Bits(w(x) bits)

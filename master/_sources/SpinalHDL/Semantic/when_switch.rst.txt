@@ -140,7 +140,7 @@ If you just need a ``Mux`` with a ``Bool`` selection signal, there are two equiv
 
 .. code-block:: scala
 
-   val cond = Bool
+   val cond = Bool()
    val whenTrue, whenFalse = UInt(8 bits)
    val muxOutput  = Mux(cond, whenTrue, whenFalse)
    val muxOutput2 = cond ? whenTrue | whenFalse
