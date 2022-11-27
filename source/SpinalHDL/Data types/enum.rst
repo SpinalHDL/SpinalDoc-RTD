@@ -46,15 +46,18 @@ The following enumeration encodings are supported:
    * - Encoding
      - Bit width
      - Description
-   * - native
+   * - ``native``
      - 
      - Use the VHDL enumeration system, this is the default encoding
-   * - binarySequential
-     - log2Up(stateCount)
+   * - ``binarySequential``
+     - ``log2Up(stateCount)``
      - Use Bits to store states in declaration order (value from 0 to n-1)
-   * - binaryOneHot
+   * - ``binaryOneHot``
      - stateCount
      - Use Bits to store state. Each bit corresponds to one state
+   * - ``graySequential``
+     - ``log2Up(stateCount)``
+     - Encode index (numbers as if using ``binarySequential``) as binary gray code.
 
 Custom encodings can be performed in two different ways: static or dynamic.
 
