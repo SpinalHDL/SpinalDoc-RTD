@@ -101,58 +101,28 @@ is equivalent to
 Additional options
 ^^^^^^^^^^^^^^^^^^
 
-Sometimes handling all cases can become unwieldy and error prone so SpinalHDL, by default, handles the uncovered cases with the last ``is`` block.
-To explicitly declare and define a ``default`` block the option ``coverUnreachable`` can be passed to the switch
-
-.. code-block:: scala
-
-  switch(aluop, coverUnreachable = true) {
-    is(ALUOp.add, ALUOp.slt, ALUOp.sltu) {
-        immediate := instruction.immI.signExtend
-    }
-    is(ALUOp.sll, ALUOp.sra) {
-        immediate := instruction.shamt
-    }
-    default{
-        immediate := 0
-    }
-  }
-
-If the used values of ``ALUOp`` are all available elements of the SpinalEnum type, then without the ``coverUnreachable = true`` option SpinalHDL would throw an UNREACHABLE STATEMENT error upon elaboration.
-Without the ``default`` block the encoding for ``ALUOp.sll`` and ``ALUOp.sra`` are the default cases in the generated HDL.
-
-When using defined constants to compare against within a ``switch`` block it can occasionally happen that duplicates within a ``is`` value occur. 
-By default duplicates of ``is`` conditions are not ignored but identified as an error. 
-To relax the strictness of the ``switch`` elaboration the ``strict = false`` can be passed (by default ``strict = true`` thus preventing duplicate ``is`` conditions).
+By default, SpinalHDL will generate an "UNREACHABLE DEFAULT STATEMENT" error if a switch/is contains a ``default`` statement while already all the possible logical values of the 'switch' are covered by the 'is' definitions. You can drop this error reporting by specifying `` switch(myValue, coverUnreachable = true){ ... }``.
 
 .. code-block:: scala
   
-  // OP_ADD and OP_SUB share the same code
-  def OP_ADD = M"000"
-  def OP_SUB = M"000"
-  def OP_SLT = M"001"
-  def OP_JMP = M"010"
-  def OP_BRK = M"101"
-  val foo = UInt(8 bits)
-  val bar = UInt(8 bits)
-  switch(io.instruction, strict = false) {
-      // 
-      is(OP_ADD, OP_SUB) {
-          foo := 4
-          bar := 2
-      }
-      is(OP_SLT) {
-          foo := 2
-          bar := 8
-      }
-      is(OP_JMP, OP_BRK) {
-          foo := 2
-          bar := 8
-      }
-      default {
-          foo := 0
-          bar := 0
-      }
+  switch(my2Bits, coverUnreachable = false) {
+      is(0) { ... }
+      is(1) { ... } 
+      is(2) { ... }
+      is(3) { ... }
+      default { ... } //This will be ok
+  }
+
+
+By default, SpinalHDL will generate an "DUPLICATED ELEMENTS IN SWITCH IS(...) STATEMENT" error if a given ``is`` statements provides multiple time the same value. For instance ``is(42,42) { .. }`` 
+You can drop this error reporting by specifying `` switch(myValue, strict = true){ ... }``. SpinalHDL will then take care of removing duplicated values.
+
+.. code-block:: scala
+  
+  switch(value, strict = false) {
+      is(0)  { ... }
+      is(1,1,1,1,1)  { ... } //This will be ok
+      is(2) { ... }
   }
 
 
