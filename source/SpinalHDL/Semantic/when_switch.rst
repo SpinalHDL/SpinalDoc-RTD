@@ -112,6 +112,8 @@ By default, SpinalHDL will generate an "UNREACHABLE DEFAULT STATEMENT" error if 
       is(3) { ... }
       default { ... } //This will be ok
   }
+  
+Note, this check is done on the logical values, not on the physical values. For instance, if you have a SpinalEnum(A,B,C) encoded in a on-hot manner, SpinalHDL will only care about the A,B,C values ("001" "010" "100"). Pyhsical values as "000" "011" "101" "110" "111" will not be taken in account.
 
 
 By default, SpinalHDL will generate an "DUPLICATED ELEMENTS IN SWITCH IS(...) STATEMENT" error if a given ``is`` statements provides multiple time the same value. For instance ``is(42,42) { .. }`` 
