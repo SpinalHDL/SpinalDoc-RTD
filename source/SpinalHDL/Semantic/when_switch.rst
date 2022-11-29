@@ -97,6 +97,39 @@ is equivalent to
     }
   }
 
+
+Additional options
+^^^^^^^^^^^^^^^^^^
+
+By default, SpinalHDL will generate an "UNREACHABLE DEFAULT STATEMENT" error if a ``switch`` contains a ``default`` statement while all the possible logical values of the ``switch`` are already covered by the ``is`` statements. You can drop this error reporting by specifying `` switch(myValue, coverUnreachable = true) { ... }``.
+
+.. code-block:: scala
+  
+  switch(my2Bits, coverUnreachable = false) {
+      is(0) { ... }
+      is(1) { ... } 
+      is(2) { ... }
+      is(3) { ... }
+      default { ... } // This will be okay
+  }
+  
+.. note::
+
+   This check is done on the logical values, not on the physical values. For instance, if you have a SpinalEnum(A,B,C) encoded in a on-hot manner, SpinalHDL will only care about the A,B,C values ("001" "010" "100"). Pyhsical values as "000" "011" "101" "110" "111" will not be taken in account.
+
+
+By default, SpinalHDL will generate a "DUPLICATED ELEMENTS IN SWITCH IS(...) STATEMENT" error if a given ``is`` statement provides multiple times the same value. For instance ``is(42,42) { ... }`` 
+You can drop this error reporting by specifying ``switch(myValue, strict = true){ ... }``. SpinalHDL will then take care of removing duplicated values.
+
+.. code-block:: scala
+  
+  switch(value, strict = false) {
+      is(0) { ... }
+      is(1,1,1,1,1) { ... } // This will be okay
+      is(2) { ... }
+  }
+
+
 Local declaration
 -----------------
 
