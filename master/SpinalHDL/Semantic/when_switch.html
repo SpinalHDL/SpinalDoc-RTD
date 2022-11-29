@@ -446,6 +446,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#when">When</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#switch">Switch</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#additional-options">Additional options</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#local-declaration">Local declaration</a></li>
@@ -1241,6 +1242,32 @@
 <span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sll</span><span class="p">,</span><span class="w"> </span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sra</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">      </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="additional-options">
+<h3>Additional options<a class="headerlink" href="#additional-options" title="Permalink to this heading">¶</a></h3>
+<p>By default, SpinalHDL will generate an “UNREACHABLE DEFAULT STATEMENT” error if a <code class="docutils literal notranslate"><span class="pre">switch</span></code> contains a <code class="docutils literal notranslate"><span class="pre">default</span></code> statement while all the possible logical values of the <code class="docutils literal notranslate"><span class="pre">switch</span></code> are already covered by the <code class="docutils literal notranslate"><span class="pre">is</span></code> statements. You can drop this error reporting by specifying `` switch(myValue, coverUnreachable = true) { … }``.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">my2Bits</span><span class="p">,</span><span class="w"> </span><span class="n">coverUnreachable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// This will be okay</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This check is done on the logical values, not on the physical values. For instance, if you have a SpinalEnum(A,B,C) encoded in a on-hot manner, SpinalHDL will only care about the A,B,C values (“001” “010” “100”). Pyhsical values as “000” “011” “101” “110” “111” will not be taken in account.</p>
+</div>
+<p>By default, SpinalHDL will generate a “DUPLICATED ELEMENTS IN SWITCH IS(…) STATEMENT” error if a given <code class="docutils literal notranslate"><span class="pre">is</span></code> statement provides multiple times the same value. For instance <code class="docutils literal notranslate"><span class="pre">is(42,42)</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code>
+You can drop this error reporting by specifying <code class="docutils literal notranslate"><span class="pre">switch(myValue,</span> <span class="pre">strict</span> <span class="pre">=</span> <span class="pre">true){</span> <span class="pre">...</span> <span class="pre">}</span></code>. SpinalHDL will then take care of removing duplicated values.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">strict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// This will be okay</span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
