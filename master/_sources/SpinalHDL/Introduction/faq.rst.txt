@@ -37,12 +37,42 @@ The :ref:`Foreword`  is dedicated to this topic.
 How to use an unreleased version of SpinalHDL (but committed on git)?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For instance, if you want to try the ``dev`` branch, do the following in a dummy folder :
+First, you need to get the repository, if you haven't cloned it yet:
 
 .. code-block:: sh
 
-   git clone https://github.com/SpinalHDL/SpinalHDL.git -b dev
+   git clone --depth 1 -b dev https://github.com/SpinalHDL/SpinalHDL.git
    cd SpinalHDL
-   sbt clean publishLocal
 
-| Then in your project, don't forget to update the SpinalHDL version specified in your build.sbt, is had to become "dev" instead of "?.?.?"
+In the command above you can replace ``dev`` by the name of the branch you want
+to checkout. ``--depth 1`` prevents from downloading the repository history.
+
+Then publish the code as it is in the directory fetched:
+
+.. code-block:: sh
+
+   sbt clean '++ 2.12.13' publishLocal
+
+Here ``2.12.13`` is the Scala version used. The first two numbers must match the
+ones of the version used in your project. You can find it in your ``build.sbt``
+and/or ``build.sc``:
+
+.. code-block:: scala
+
+   ThisBuild / scalaVersion := "2.12.16" // in build.sbt
+   // or
+   def scalaVersion = "2.12.16" // in build.sc
+
+Then in your project, update the SpinalHDL version specified in your
+``build.sbt`` or ``build.sc``: it should be set to ``dev`` instead of a version
+number.
+
+.. code-block:: scala
+
+   val spinalVersion = "1.7.3"
+   // becomes
+   val spinalVersion = "dev"
+
+.. note::
+
+   Here it is always ``dev`` no matter the branch you have checked out earlier.

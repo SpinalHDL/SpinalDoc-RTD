@@ -1075,6 +1075,14 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Developers%20area/mill%20support.html">Build through Mill</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Developers%20area/mill%20support.html#complie-the-library">Complie the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Developers%20area/mill%20support.html#run-all-test-suites">Run all test suites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Developers%20area/mill%20support.html#run-a-specified-test-suite">Run a specified test suite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Developers%20area/mill%20support.html#run-a-specified-app">Run a specified App</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Developers%20area/mill%20support.html#publish-locally">Publish locally</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Developers%20area/spinalhdl_datamodel.html">SpinalHDL internal datamodel</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Developers%20area/spinalhdl_datamodel.html#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Developers%20area/spinalhdl_datamodel.html#general-structure">General structure</a></li>
@@ -1215,14 +1223,36 @@
 </div>
 <div class="section" id="how-to-use-an-unreleased-version-of-spinalhdl-but-committed-on-git">
 <h2>How to use an unreleased version of SpinalHDL (but committed on git)?<a class="headerlink" href="#how-to-use-an-unreleased-version-of-spinalhdl-but-committed-on-git" title="Permalink to this heading">¶</a></h2>
-<p>For instance, if you want to try the <code class="docutils literal notranslate"><span class="pre">dev</span></code> branch, do the following in a dummy folder :</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/SpinalHDL/SpinalHDL.git -b dev
+<p>First, you need to get the repository, if you haven’t cloned it yet:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone --depth <span class="m">1</span> -b dev https://github.com/SpinalHDL/SpinalHDL.git
 <span class="nb">cd</span> SpinalHDL
-sbt clean publishLocal
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">Then in your project, don’t forget to update the SpinalHDL version specified in your build.sbt, is had to become “dev” instead of “?.?.?”</div>
+<p>In the command above you can replace <code class="docutils literal notranslate"><span class="pre">dev</span></code> by the name of the branch you want
+to checkout. <code class="docutils literal notranslate"><span class="pre">--depth</span> <span class="pre">1</span></code> prevents from downloading the repository history.</p>
+<p>Then publish the code as it is in the directory fetched:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sbt clean <span class="s1">&#39;++ 2.12.13&#39;</span> publishLocal
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">2.12.13</span></code> is the Scala version used. The first two numbers must match the
+ones of the version used in your project. You can find it in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>
+and/or <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ThisBuild</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">scalaVersion</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;2.12.16&quot;</span><span class="w"> </span><span class="c1">// in build.sbt</span>
+<span class="c1">// or</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scalaVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.12.16&quot;</span><span class="w"> </span><span class="c1">// in build.sc</span>
+</pre></div>
+</div>
+<p>Then in your project, update the SpinalHDL version specified in your
+<code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> or <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>: it should be set to <code class="docutils literal notranslate"><span class="pre">dev</span></code> instead of a version
+number.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">spinalVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.7.3&quot;</span><span class="w"></span>
+<span class="c1">// becomes</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">spinalVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dev&quot;</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here it is always <code class="docutils literal notranslate"><span class="pre">dev</span></code> no matter the branch you have checked out earlier.</p>
 </div>
 </div>
 </div>
