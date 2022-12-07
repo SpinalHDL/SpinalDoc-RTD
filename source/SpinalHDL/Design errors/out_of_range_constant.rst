@@ -5,7 +5,7 @@ Out of Range Constant
 Introduction
 ------------
 
-SpinalHDL will check that in comparisons with literals the literal is not wider than the value compared to.
+SpinalHDL checks that in comparisons with literals the literal is not wider than the value compared to.
 
 Example
 -------
