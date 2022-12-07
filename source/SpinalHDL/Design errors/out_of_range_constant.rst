@@ -43,4 +43,4 @@ Alternatively, you can allow comparisons to out of range constants for the whole
 
 .. code-block:: scala
 
-	SpinalConfig(allowOutOfRangeLiterals = true)
+   SpinalConfig(allowOutOfRangeLiterals = true)
