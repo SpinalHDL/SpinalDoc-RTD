@@ -21,10 +21,10 @@ Will result in the following error:
 
 .. code-block:: text
 
-	OUT OF RANGE CONSTANT. Operator UInt < UInt
-	- Left  operand : (toplevel/value : in UInt[2 bits])
-	- Right operand : (U"101010" 6 bits)
-	 is checking a value against a out of range constant
+   OUT OF RANGE CONSTANT. Operator UInt < UInt
+   - Left  operand : (toplevel/value : in UInt[2 bits])
+   - Right operand : (U"101010" 6 bits)
+    is checking a value against a out of range constant
 
 Specifying exceptions
 ---------------------
