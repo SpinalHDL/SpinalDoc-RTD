@@ -18,3 +18,4 @@ Companies
 
 * QsPin, Belgium
 * DatenLord, China
+* `LeafLabs, Massachusetts USA <https://www.leaflabs.com>`_
