@@ -19,3 +19,4 @@ Companies
 * QsPin, Belgium
 * DatenLord, China
 * `LeafLabs, Massachusetts USA <https://www.leaflabs.com>`_
+* `Elitestek(FPGA Vendor),China <https://elitestek.com/product/RISC_V/>`
