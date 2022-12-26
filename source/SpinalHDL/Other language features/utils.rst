@@ -178,3 +178,30 @@ The following binary prefix notations are available:
      - 1024\ :sup:`7` == 1 << 70
    * - YiB
      - 1024\ :sup:`8` == 1 << 80
+
+
+Of course, BigInt can also be printed as a string in bytes unit. ``BigInt(1024).byteUnit``.
+
+.. code-block:: scala
+
+   val memSize = 512 MiB
+    
+   println(memSize)
+   >> 536870912 
+
+   println(memSize.byteUnit)
+   >> 512MiB
+
+   val dpRamSize = BigInt("123456789", 16)
+
+   println(dpRamSize.byteUnit())
+   >> 4GiB+564MiB+345KiB+905Byte
+
+   println((32.MiB + 12.KiB + 223).byteUnit())
+   >> 32MiB+12KiB+223Byte
+
+   println((32.MiB + 12.KiB + 223).byteUnit(ceil = true))
+   >> 33~MiB
+
+
+
