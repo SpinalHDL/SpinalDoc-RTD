@@ -101,6 +101,10 @@ WO1         w: first one after hard reset is as-is, other w have no effects, r: 
 NA          w: reserved, r: reserved                                                        New
 W1P         w: 1/0 pulse/no effect on matching bit, r: no effect                            New
 W0P         w: 0/1 pulse/no effect on matching bit, r: no effect                            New
+HSRW        w: Hardware Set, SoftWare RW                                                    New
+RWHS        w: SoftWare RW, Hardware Set                                                    New
+ROV         w: ReadOnly Value, used for hardware version                                    New
+CSTM        w: user custom Type, used for document                                          New
 ==========  =============================================================================   ====
 
 Automatic documentation generation
@@ -129,8 +133,149 @@ generated HTML document:
 
 .. image:: /asset/image/regif/regif-html.png
 
-Example 
--------
+
+Special Access Usage
+--------------------
+
+**CASE1:** ``RO`` usage
+
+``RO`` is different from other types. It does not create registers and requires an external signal to drive it,
+Attention, please don't forget to drive it.
+
+.. code:: scala
+
+   val io = new Bundle{
+     val cnt = in UInt(8 bit)
+   }
+
+   val counter = M_REG0.field(UInt(8 bit), RO, 0, "counter")
+   counter :=  io.cnt
+
+
+.. code:: scala
+
+   val xxstate = M_REG0.field(UInt(8 bit), RO, 0, "xx-ctrl state").asInput
+
+.. code:: scala
+
+   val overflow = M_REG0.field(Bits(32 bit), RO, 0, "xx-ip paramete")
+   val ovfreg = Reg(32 bit)
+   overflow := ovfreg
+   
+   
+.. code:: scala
+
+   val inc    = in Bool()
+   val couter = M_REG0.field(UInt(8 bit), RO, 0, "counter")
+   val cnt = Counter(100,  inc)
+   couter := cnt
+
+      
+**CASE2:** ``ROV`` usage
+
+ASIC design often requires some solidified version information. Unlike RO, it is not expected to generate wire signals
+
+old way:
+
+.. code:: scala
+   
+   val version = M_REG0.field(Bits(32 bit), RO, 0, "xx-device version")
+   version := BigInt("F000A801", 16)
+   
+new way: 
+
+.. code:: scala
+   
+   M_REG0.field(Bits(32 bit), ROV, BigInt("F000A801", 16), "xx-device version")(Symbol("Version"))
+
+   
+
+**CASE3:** ``HSRW/RWHS`` hardware set type
+In some cases, such registers are not only configured by software, but also set by hardware signals
+
+.. code:: scala
+
+   val io = new Bundle {
+     val xxx_set = in Bool()
+     val xxx_set_val = in Bits(32 bit)
+   }
+
+   val reg0 = M_REG0.fieldHSRW(io.xxx_set, io.xxx_set_val, 0, "xx-device version")  //0x0000
+   val reg1 = M_REG1.fieldRWHS(io.xxx_set, io.xxx_set_val, 0, "xx-device version")  //0x0004
+
+.. code:: verilog
+
+   always @(posedge clk or negedge rstn)
+     if(!rstn) begin
+        reg0  <= '0;
+        reg0  <= '0;
+     end else begin
+        if(hit_0x0000) begin
+           reg0 <= wdata ;
+        end
+        if(io.xxx_set) begin      //HW have High priority than SW
+           reg0 <= io.xxx_set_val ;
+        end
+
+        if(io.xxx_set) begin
+           reg1 <= io.xxx_set_val ;
+        end 
+        if(hit_0x0004) begin      //SW have High priority than HW
+           reg1 <= wdata ;
+        end
+     end
+
+   
+
+**CASE4:** ``CSTM`` Although SpinalHDL includes 25 register types and 6 extension types, 
+there are still various demands for private register types in practical application.
+Therefore, we reserve CSTM types for scalability. 
+CSTM is only used to generate software interfaces, and does not generate actual circuits
+
+.. code:: scala
+
+   val reg = Reg(Bits(16 bit)) init 0
+   REG.registerAtOnlyReadLogic(0, reg, CSTM("BMRW"), resetValue = 0, "custom field")
+
+   when(busif.dowrite){
+      reg :=  reg & ~busif.writeData(31 downto 16) |  busif.writeData(15 downto 0) & busif.writeData(31 downto 16)
+   }
+
+
+CASE5:  ``parasiteField``
+
+This is used for software to share the same register on multiple address instead of generating multiple register entities
+
+example1: clock gate software enable 
+
+.. code:: scala
+
+   val M_CG_ENS_SET = busif.newReg(doc="Clock Gate Enables")  //0x0000
+   val M_CG_ENS_CLR = busif.newReg(doc="Clock Gate Enables")  //0x0004
+   val M_CG_ENS_RO  = busif.newReg(doc="Clock Gate Enables")  //0x0008
+
+   val xx_sys_cg_en = M_CG_ENS_SET.field(Bits(4 bit), W1S, 0, "clock gate enalbes, write 1 set" ) 
+                      M_CG_ENS_CLR.parasiteField(xx_sys_cg_en, W1C, 0, "clock gate enalbes, write 1 clear" ) 
+                      M_CG_ENS_RO.parasiteField(xx_sys_cg_en, RO, 0, "clock gate enables, read only"
+
+example2: interrupt raw reg with foce interface for software
+
+.. code:: scala
+
+   val RAW    = this.newRegAt(offset,"Interrupt Raw status Register\n set when event \n clear raw when write 1")
+   val FORCE  = this.newReg("Interrupt Force  Register\n for SW debug use \n write 1 set raw")
+
+   val raw    = RAW.field(Bool(), AccessType.W1C,    resetValue = 0, doc = s"raw, default 0" )
+                FORCE.parasiteField(raw, AccessType.W1S,   resetValue = 0, doc = s"force, write 1 set, debug use" )
+
+Byte Mask
+---------
+
+withStrb
+
+
+Typical Example 
+---------------
 
 Batch creat REG-Address and fields register
 
@@ -256,7 +401,7 @@ Register   AccessType  Description
 RAW        W1C         int raw register, set by int event, clear when bus write 1  
 FORCE      RW          int force register, for SW debug use 
 MASK       RW          int mask register, 1: off; 0: open; defualt 1 int off 
-STATUS     RO          int status, Read Only, ``status = (raw || force) && ! mask``                 
+STATUS     RO          int status, Read Only, ``status = raw && ! mask``                 
 ========== ==========  ======================================================================
  
 
@@ -353,3 +498,4 @@ BusIfVistor give access BusIf.RegInsts to do what you want
     }
        
  
+
