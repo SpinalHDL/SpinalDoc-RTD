@@ -739,7 +739,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#automatic-allocation">Automatic allocation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#access-types">28 Access Types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#automatic-documentation-generation">Automatic documentation generation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#special-access-usage">Special Access Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#byte-mask">Byte Mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#typical-example">Typical Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#interrupt-factory">Interrupt Factory</a></li>
 </ul>
 </li>
@@ -747,7 +749,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#ip-level-interrupt-factory">IP level interrupt Factory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sys-level-interrupt-merge">SYS level interrupt merge</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spinal-factory">Spinal Factory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#developers-area">Developers Area</a></li>
 </ul>
 </li>
@@ -1384,6 +1386,22 @@
 <td><p>w: 0/1 pulse/no effect on matching bit, r: no effect</p></td>
 <td><p>New</p></td>
 </tr>
+<tr class="row-even"><td><p>HSRW</p></td>
+<td><p>w: Hardware Set, SoftWare RW</p></td>
+<td><p>New</p></td>
+</tr>
+<tr class="row-odd"><td><p>RWHS</p></td>
+<td><p>w: SoftWare RW, Hardware Set</p></td>
+<td><p>New</p></td>
+</tr>
+<tr class="row-even"><td><p>ROV</p></td>
+<td><p>w: ReadOnly Value, used for hardware version</p></td>
+<td><p>New</p></td>
+</tr>
+<tr class="row-odd"><td><p>CSTM</p></td>
+<td><p>w: user custom Type, used for document</p></td>
+<td><p>New</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1437,8 +1455,115 @@
 <p>generated HTML document:</p>
 <img alt="../../_images/regif-html.png" src="../../_images/regif-html.png" />
 </div>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="special-access-usage">
+<h2>Special Access Usage<a class="headerlink" href="#special-access-usage" title="Permalink to this heading">¶</a></h2>
+<p><strong>CASE1:</strong> <code class="docutils literal notranslate"><span class="pre">RO</span></code> usage</p>
+<p><code class="docutils literal notranslate"><span class="pre">RO</span></code> is different from other types. It does not create registers and requires an external signal to drive it,
+Attention, please don’t forget to drive it.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG0</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="w"> </span><span class="nc">RO</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;counter&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">cnt</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">xxstate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG0</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="w"> </span><span class="nc">RO</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;xx-ctrl state&quot;</span><span class="p">).</span><span class="n">asInput</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">overflow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG0</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="w"> </span><span class="nc">RO</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;xx-ip paramete&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">ovfreg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="n">overflow</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ovfreg</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">couter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG0</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="w"> </span><span class="nc">RO</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;counter&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">cnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Counter</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w">  </span><span class="n">inc</span><span class="p">)</span><span class="w"></span>
+<span class="n">couter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">cnt</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>CASE2:</strong> <code class="docutils literal notranslate"><span class="pre">ROV</span></code> usage</p>
+<p>ASIC design often requires some solidified version information. Unlike RO, it is not expected to generate wire signals</p>
+<p>old way:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG0</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="w"> </span><span class="nc">RO</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;xx-device version&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">version</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="s">&quot;F000A801&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>new way:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">M_REG0</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="w"> </span><span class="nc">ROV</span><span class="p">,</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="s">&quot;F000A801&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;xx-device version&quot;</span><span class="p">)(</span><span class="nc">Symbol</span><span class="p">(</span><span class="s">&quot;Version&quot;</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>CASE3:</strong> <code class="docutils literal notranslate"><span class="pre">HSRW/RWHS</span></code> hardware set type
+In some cases, such registers are not only configured by software, but also set by hardware signals</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">xxx_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">xxx_set_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">reg0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG0</span><span class="p">.</span><span class="n">fieldHSRW</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">xxx_set</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">xxx_set_val</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;xx-device version&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">//0x0000</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG1</span><span class="p">.</span><span class="n">fieldRWHS</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">xxx_set</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">xxx_set_val</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;xx-device version&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">//0x0004</span>
+</pre></div>
+</div>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rstn</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">rstn</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">     </span><span class="n">reg0</span><span class="w">  </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">&#39;0</span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="n">reg0</span><span class="w">  </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">&#39;0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">     </span><span class="k">if</span><span class="p">(</span><span class="n">hit_0x0000</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">        </span><span class="n">reg0</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">wdata</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="k">end</span><span class="w"></span>
+<span class="w">     </span><span class="k">if</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">xxx_set</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w">      </span><span class="c1">//HW have High priority than SW</span>
+<span class="w">        </span><span class="n">reg0</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">xxx_set_val</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">     </span><span class="k">if</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">xxx_set</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">        </span><span class="n">reg1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">xxx_set_val</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="k">end</span><span class="w"></span>
+<span class="w">     </span><span class="k">if</span><span class="p">(</span><span class="n">hit_0x0004</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w">      </span><span class="c1">//SW have High priority than HW</span>
+<span class="w">        </span><span class="n">reg1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">wdata</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="k">end</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>CASE4:</strong> <code class="docutils literal notranslate"><span class="pre">CSTM</span></code> Although SpinalHDL includes 25 register types and 6 extension types,
+there are still various demands for private register types in practical application.
+Therefore, we reserve CSTM types for scalability.
+CSTM is only used to generate software interfaces, and does not generate actual circuits</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="nc">REG</span><span class="p">.</span><span class="n">registerAtOnlyReadLogic</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">reg</span><span class="p">,</span><span class="w"> </span><span class="nc">CSTM</span><span class="p">(</span><span class="s">&quot;BMRW&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">resetValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;custom field&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">when</span><span class="p">(</span><span class="n">busif</span><span class="p">.</span><span class="n">dowrite</span><span class="p">){</span><span class="w"></span>
+<span class="w">   </span><span class="n">reg</span><span class="w"> </span><span class="o">:=</span><span class="w">  </span><span class="n">reg</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">busif</span><span class="p">.</span><span class="n">writeData</span><span class="p">(</span><span class="mi">31</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w">  </span><span class="n">busif</span><span class="p">.</span><span class="n">writeData</span><span class="p">(</span><span class="mi">15</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">writeData</span><span class="p">(</span><span class="mi">31</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>CASE5:  <code class="docutils literal notranslate"><span class="pre">parasiteField</span></code></p>
+<p>This is used for software to share the same register on multiple address instead of generating multiple register entities</p>
+<p>example1: clock gate software enable</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">M_CG_ENS_SET</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">newReg</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;Clock Gate Enables&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">//0x0000</span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">M_CG_ENS_CLR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">newReg</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;Clock Gate Enables&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">//0x0004</span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">M_CG_ENS_RO</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">newReg</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;Clock Gate Enables&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">//0x0008</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">xx_sys_cg_en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_CG_ENS_SET</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="w"> </span><span class="nc">W1S</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;clock gate enalbes, write 1 set&quot;</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">                   </span><span class="nc">M_CG_ENS_CLR</span><span class="p">.</span><span class="n">parasiteField</span><span class="p">(</span><span class="n">xx_sys_cg_en</span><span class="p">,</span><span class="w"> </span><span class="nc">W1C</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;clock gate enalbes, write 1 clear&quot;</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">                   </span><span class="nc">M_CG_ENS_RO</span><span class="p">.</span><span class="n">parasiteField</span><span class="p">(</span><span class="n">xx_sys_cg_en</span><span class="p">,</span><span class="w"> </span><span class="nc">RO</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;clock gate enables, read only&quot;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>example2: interrupt raw reg with foce interface for software</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">RAW</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">newRegAt</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="s">&quot;Interrupt Raw status Register\n set when event \n clear raw when write 1&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">FORCE</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">newReg</span><span class="p">(</span><span class="s">&quot;Interrupt Force  Register\n for SW debug use \n write 1 set raw&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">raw</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nc">RAW</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bool</span><span class="p">(),</span><span class="w"> </span><span class="nc">AccessType</span><span class="p">.</span><span class="nc">W1C</span><span class="p">,</span><span class="w">    </span><span class="n">resetValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">doc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">s&quot;raw, default 0&quot;</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">             </span><span class="nc">FORCE</span><span class="p">.</span><span class="n">parasiteField</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span><span class="w"> </span><span class="nc">AccessType</span><span class="p">.</span><span class="nc">W1S</span><span class="p">,</span><span class="w">   </span><span class="n">resetValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">doc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">s&quot;force, write 1 set, debug use&quot;</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="byte-mask">
+<h2>Byte Mask<a class="headerlink" href="#byte-mask" title="Permalink to this heading">¶</a></h2>
+<p>withStrb</p>
+</div>
+<div class="section" id="typical-example">
+<h2>Typical Example<a class="headerlink" href="#typical-example" title="Permalink to this heading">¶</a></h2>
 <p>Batch creat REG-Address and fields register</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">bus</span><span class="p">.</span><span class="nn">regif</span><span class="p">.</span><span class="n">_</span>
 
@@ -1574,7 +1699,7 @@
 </tr>
 <tr class="row-odd"><td><p>STATUS</p></td>
 <td><p>RO</p></td>
-<td><p>int status, Read Only, <code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">=</span> <span class="pre">(raw</span> <span class="pre">||</span> <span class="pre">force)</span> <span class="pre">&amp;&amp;</span> <span class="pre">!</span> <span class="pre">mask</span></code></p></td>
+<td><p>int status, Read Only, <code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">=</span> <span class="pre">raw</span> <span class="pre">&amp;&amp;</span> <span class="pre">!</span> <span class="pre">mask</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1647,8 +1772,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="id1">
-<h2>Example<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">RegFileIntrExample</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
 <span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">apb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Apb3</span><span class="p">(</span><span class="nc">Apb3Config</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">32</span><span class="p">)))</span><span class="w"></span>
