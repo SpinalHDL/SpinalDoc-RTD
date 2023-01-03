@@ -34,7 +34,7 @@ You will also need a recent version of Verilator installed :
    unset VERILATOR_ROOT  # For bash
    cd verilator
    git pull        # Make sure we're up-to-date
-   git checkout v4.040
+   git checkout v4.218
    autoconf        # Create ./configure script
    ./configure
    make -j$(nproc)
