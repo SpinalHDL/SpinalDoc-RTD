@@ -477,6 +477,26 @@ Example
 
 .. image:: /asset/image/intc/intc.jpeg
 
+DefaultReadValue
+----------------
+
+When the software reads a reserved address, the current policy is to return normally, readerror=0.
+In order to facilitate software debugging, the read back value can be configured, which is 0 by default
+
+.. code:: scala 
+
+   busif.setReservedAddressReadValue(0x0000EF00)
+
+
+.. code:: verilog
+
+   default: begin
+      busif_rdata  <= 32'h0000EF00 ;
+      busif_rderr  <= 1'b0         ;
+   end
+
+ 
+
 Developers Area
 ---------------
 
