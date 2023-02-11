@@ -301,6 +301,12 @@ Formal primitives
     * - ``initstate()``
       - Bool
       - Return True the first cycle
+    * - ``pastValid()``
+      - Bool
+      - Returns True when the past value is valid (False on the first cycle). Recommended to be used with each application of ``past``, ``rose``, ``fell``, ``changed`` and ``stable``.
+    * - ``pastValidAfterReset()``
+      - Bool
+      - Simliar to ``pastValid``, where only difference is that this would take reset into account. Can be understand as ``pastValid & past(!reset)``.
 
 Note that you can use the init statement on past: 
 
