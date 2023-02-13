@@ -13,6 +13,8 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apb/lists/*
 
+RUN git config --global safe.directory '*'
+
 RUN npm i wavedrom-cli -g
 
 ADD requirements.txt /docs
