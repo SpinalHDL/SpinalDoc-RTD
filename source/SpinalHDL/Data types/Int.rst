@@ -458,10 +458,10 @@ Misc
    // Subdivide
    val sel = UInt(2 bits)
    val mySIntWord = mySInt_128bits.subdivideIn(32 bits)(sel)
-       // sel = 0 => mySIntWord = mySInt_128bits(127 downto 96)
-       // sel = 1 => mySIntWord = mySInt_128bits( 95 downto 64)
-       // sel = 2 => mySIntWord = mySInt_128bits( 63 downto 32)
-       // sel = 3 => mySIntWord = mySInt_128bits( 31 downto  0)
+       // sel = 3 => mySIntWord = mySInt_128bits(127 downto 96)
+       // sel = 2 => mySIntWord = mySInt_128bits( 95 downto 64)
+       // sel = 1 => mySIntWord = mySInt_128bits( 63 downto 32)
+       // sel = 0 => mySIntWord = mySInt_128bits( 31 downto  0)
 
     // If you want to access in reverse order you can do:
     val myVector   = mySInt_128bits.subdivideIn(32 bits).reverse
@@ -470,7 +470,7 @@ Misc
    // Resize
    myUInt_32bits := U"32'x112233344"
    myUInt_8bits  := myUInt_32bits.resized       // automatic resize (myUInt_8bits = 0x44)
-   myUInt_8bits  := myUInt_32bits.resize(8)     // resize to 8 bits (myUInt_8bits = 0x44)
+   val lowest_8bits = myUInt_32bits.resize(8)  // resize to 8 bits (myUInt_8bits = 0x44)
 
    // Two's complement
    mySInt := myUInt.twoComplement(myBool)
