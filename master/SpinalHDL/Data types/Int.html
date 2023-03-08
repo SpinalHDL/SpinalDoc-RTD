@@ -1801,10 +1801,10 @@ assertions in the previous example (with <code class="docutils literal notransla
 <span class="c1">// Subdivide</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">sel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">mySIntWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mySInt_128bits</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)(</span><span class="n">sel</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// sel = 0 =&gt; mySIntWord = mySInt_128bits(127 downto 96)</span>
-<span class="w">    </span><span class="c1">// sel = 1 =&gt; mySIntWord = mySInt_128bits( 95 downto 64)</span>
-<span class="w">    </span><span class="c1">// sel = 2 =&gt; mySIntWord = mySInt_128bits( 63 downto 32)</span>
-<span class="w">    </span><span class="c1">// sel = 3 =&gt; mySIntWord = mySInt_128bits( 31 downto  0)</span>
+<span class="w">    </span><span class="c1">// sel = 3 =&gt; mySIntWord = mySInt_128bits(127 downto 96)</span>
+<span class="w">    </span><span class="c1">// sel = 2 =&gt; mySIntWord = mySInt_128bits( 95 downto 64)</span>
+<span class="w">    </span><span class="c1">// sel = 1 =&gt; mySIntWord = mySInt_128bits( 63 downto 32)</span>
+<span class="w">    </span><span class="c1">// sel = 0 =&gt; mySIntWord = mySInt_128bits( 31 downto  0)</span>
 
 <span class="w"> </span><span class="c1">// If you want to access in reverse order you can do:</span>
 <span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">myVector</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">mySInt_128bits</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">).</span><span class="n">reverse</span><span class="w"></span>
@@ -1813,7 +1813,7 @@ assertions in the previous example (with <code class="docutils literal notransla
 <span class="c1">// Resize</span>
 <span class="n">myUInt_32bits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;32&#39;x112233344&quot;</span><span class="w"></span>
 <span class="n">myUInt_8bits</span><span class="w">  </span><span class="o">:=</span><span class="w"> </span><span class="n">myUInt_32bits</span><span class="p">.</span><span class="n">resized</span><span class="w">       </span><span class="c1">// automatic resize (myUInt_8bits = 0x44)</span>
-<span class="n">myUInt_8bits</span><span class="w">  </span><span class="o">:=</span><span class="w"> </span><span class="n">myUInt_32bits</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w">     </span><span class="c1">// resize to 8 bits (myUInt_8bits = 0x44)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">lowest_8bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myUInt_32bits</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w">  </span><span class="c1">// resize to 8 bits (myUInt_8bits = 0x44)</span>
 
 <span class="c1">// Two&#39;s complement</span>
 <span class="n">mySInt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myUInt</span><span class="p">.</span><span class="n">twoComplement</span><span class="p">(</span><span class="n">myBool</span><span class="p">)</span><span class="w"></span>
