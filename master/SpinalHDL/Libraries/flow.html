@@ -688,6 +688,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#specification">Specification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code-example">Code example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation-support">Simulation Support</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fragment.html">Fragment</a><ul>
@@ -1205,10 +1206,8 @@
 <h1>Flow<a class="headerlink" href="#flow" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="specification">
 <h2>Specification<a class="headerlink" href="#specification" title="Permalink to this heading">¶</a></h2>
-<div class="line-block">
-<div class="line">The Flow interface is a simple valid/payload protocol which mean the slave can’t halt the bus.</div>
-<div class="line">It could be used, for example, to represent data coming from an UART controller, requests to write an on-chip memory, etc.</div>
-</div>
+<p>The Flow interface is a simple valid/payload protocol which means the slave can’t halt the bus.
+It could be used to represent data coming from an UART controller, requests to write an on-chip memory, etc.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 7%" />
@@ -1328,33 +1327,106 @@
 </div>
 <div class="section" id="code-example">
 <h2>Code example<a class="headerlink" href="#code-example" title="Permalink to this heading">¶</a></h2>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Flow</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">answer</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Flow</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FlowExample</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)))</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">answer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)))</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">answer</span><span class="p">.</span><span class="n">setIdle</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">answer</span><span class="p">.</span><span class="n">setIdle</span><span class="p">()</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">idle</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">valid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">storage</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">payload</span><span class="w"></span>
-<span class="w">        </span><span class="n">goto</span><span class="p">(</span><span class="n">sendEcho</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">idle</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">valid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="n">storage</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">payload</span><span class="w"></span>
+<span class="w">          </span><span class="n">goto</span><span class="p">(</span><span class="n">sendEcho</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">sendEcho</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">io</span><span class="p">.</span><span class="n">answer</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">goto</span><span class="p">(</span><span class="n">idle</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sendEcho</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">answer</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">goto</span><span class="p">(</span><span class="n">idle</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// This StateMachine behaves equivalently to</span>
+<span class="w">  </span><span class="c1">// io.answer &lt;-&lt; io.request</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="simulation-support">
+<h2>Simulation Support<a class="headerlink" href="#simulation-support" title="Permalink to this heading">¶</a></h2>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Usage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>FlowMonitor</p></td>
+<td><p>Used for both master and slave sides, calls function with payload if Flow transmits data.</p></td>
+</tr>
+<tr class="row-odd"><td><p>FlowDriver</p></td>
+<td><p>Testbench master side, drives values by calling function to apply value (if available). Function must return if value was available. Supports random delays.</p></td>
+</tr>
+<tr class="row-even"><td><p>ScoreboardInOrder</p></td>
+<td><p>Often used to compare reference/dut data</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">package</span><span class="w"> </span><span class="nn">spinaldoc</span><span class="p">.</span><span class="nn">libraries</span><span class="p">.</span><span class="n">flow</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">sim</span><span class="p">.{</span><span class="nc">FlowDriver</span><span class="p">,</span><span class="w"> </span><span class="nc">FlowMonitor</span><span class="p">,</span><span class="w"> </span><span class="nc">ScoreboardInOrder</span><span class="p">}</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">scala</span><span class="p">.</span><span class="nn">language</span><span class="p">.</span><span class="n">postfixOps</span>
+
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SomeDUT</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)))</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)))</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">output</span><span class="w"> </span><span class="o">&lt;-&lt;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">input</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="c1">// equivalently</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">Example</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="nc">SomeDUT</span><span class="p">())</span><span class="w"></span>
 
-<span class="n">answer</span><span class="w"> </span><span class="o">&lt;-&lt;</span><span class="w"> </span><span class="n">request</span><span class="w"></span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;simple test&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">scoreboard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ScoreboardInOrder</span><span class="p">[</span><span class="nc">Int</span><span class="p">]()</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// drive random data at random intervals, and add inputted data to scoreboard</span>
+<span class="w">    </span><span class="nc">FlowDriver</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="n">payload</span><span class="p">.</span><span class="n">randomize</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kc">true</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="nc">FlowMonitor</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="n">scoreboard</span><span class="p">.</span><span class="n">pushRef</span><span class="p">(</span><span class="n">payload</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// add all data coming out of DUT to scoreboard</span>
+<span class="w">    </span><span class="nc">FlowMonitor</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="n">scoreboard</span><span class="p">.</span><span class="n">pushDut</span><span class="p">(</span><span class="n">payload</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitActiveEdgeWhere</span><span class="p">(</span><span class="n">scoreboard</span><span class="p">.</span><span class="n">matches</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
