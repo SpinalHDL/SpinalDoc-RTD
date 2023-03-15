@@ -5,8 +5,8 @@ Flow
 Specification
 -------------
 
-| The Flow interface is a simple valid/payload protocol which mean the slave can't halt the bus.
-| It could be used, for example, to represent data coming from an UART controller, requests to write an on-chip memory, etc.
+The Flow interface is a simple valid/payload protocol which means the slave can't halt the bus.
+It could be used to represent data coming from an UART controller, requests to write an on-chip memory, etc.
 
 .. list-table::
    :header-rows: 1
@@ -85,33 +85,26 @@ Functions
 Code example
 ------------
 
-.. code-block:: scala
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/libraries/flow/FlowExample.scala
+   :language: scala
+   :start-at: case class FlowExample()
+   :end-before: // end FlowExample
 
-    val request = Flow(Bits(8 bits))
-    val answer  = Flow(Bits(8 bits))
-    val storage = Reg(Bits(8 bits)) init 0
+Simulation Support
+------------------
 
-    val fsm = new StateMachine {
-      answer.setIdle()
+.. list-table::
+  :header-rows: 1
+  :widths: 1 5
+  
+  * - Class
+    - Usage
+  * - FlowMonitor
+    - Used for both master and slave sides, calls function with payload if Flow transmits data.
+  * - FlowDriver
+    - Testbench master side, drives values by calling function to apply value (if available). Function must return if value was available. Supports random delays.
+  * - ScoreboardInOrder
+    - Often used to compare reference/dut data
 
-      val idle: State = new State with EntryPoint {
-        whenIsActive {
-          when(request.valid) {
-            storage := request.payload
-            goto(sendEcho)
-          }
-        }
-      }
-
-      val sendEcho: State = new State {
-        whenIsActive {
-            answer.push(storage)
-            goto(idle)
-        }
-      }
-    }
-
-    // equivalently
-
-    answer <-< request
-
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/libraries/flow/SimSupport.scala
+   :language: scala
