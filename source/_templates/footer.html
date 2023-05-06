@@ -1,0 +1,20 @@
+{% extends "!footer.html" %}
+{% block extrafooter %}
+    {{ super() }}
+    <!-- source/_templates/footer.html -->
+    {%- if current_version %}
+    {# Version: latest (v1.8.0) git~abcdef01 2023-02-01  all from git information #}
+    <div class="doc-footer-current-version"><p>
+    {# This data is setup in source/conf.py:html_context_add_git(attr) #}
+    {%- set thisref = git_refs[current_version.name] -%}
+    {%- if thisref -%}
+    {%- if thisref['alias'] -%}
+    {%- set current_version_alias = ' (' + thisref['alias']|join(', ') + ')' -%}
+    {%- endif -%}
+    {%- set commitid = ' git~' + thisref['format:h'] -%}
+    {%- set commitdate = ' ' + thisref['format:cs'] -%}
+    {%- endif -%}
+    Version: {{ current_version.name|e }}{{ current_version_alias|e }}{{ commitid|e }}{{ commitdate|e }}
+    </p></div>
+    {% endif %}
+{% endblock %}

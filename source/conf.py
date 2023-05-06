@@ -14,7 +14,9 @@
 #
 import os
 import sys
+import re
 import datetime
+import subprocess
 # sys.path.insert(0, os.path.abspath('.'))
 
 
@@ -269,3 +271,72 @@ else:
     print("ERROR: convert-wrapper not found in $PATH, did you: source $PWD/bin/setup_env.sh", file=sys.stderr)
     sys.exit(1)
 
+## Want the footer.html to contain the specific details of the version being displayed
+##  sphinx-multiversion doesn't appear to have an obvious feature to allow the
+##  current_version object available in the template to be mutated by a custom mutator
+## So we attach a dict to the globally accessible html_context built with the function below.
+
+# Mutator
+def html_context_add_git(attr):
+    ## run: git show-ref   ## for-each line returned:
+    ## git show -q --pretty=format:%cs fc210e67f7ff69c20d021a019851433b75cad3eb => 2022-11-15
+    ## git show -q --pretty=format:%h fc210e67f7ff69c20d021a019851433b75cad3eb => fc210e67f
+    git_show_ref = subprocess.getoutput('git show-ref')
+
+    lines = re.split(r'[\r\n]+', git_show_ref, 0, re.MULTILINE)
+    attr['git_refs'] = {}
+
+    for l in lines:
+        # 59a1ae38d291ddcceb21df03752a7ab20b755e35 refs/tags/latest
+        #print("LINE={}".format(l))
+
+        words = re.split(r'\s+', l)
+        commit = words[0]
+        ref = words[1]
+        #print("commit={} ref={}".format(commit, ref))
+        #commit = '59a1ae38d291ddcceb21df03752a7ab20b755e35'
+        #ref = 'refs/tags/latest'
+
+        ref_parts = re.split(r'/', ref)
+        name = ref_parts[-1]
+
+        git_format_cs = subprocess.getoutput('git show -q --pretty=format:%cs "{}"'.format(commit))
+        git_format_h = subprocess.getoutput('git show -q --pretty=format:%h "{}"'.format(commit))
+        #print("git_format_cs={} git_format_h={}".format(git_format_cs, git_format_h))
+        is_branch = False
+        if re.search('^refs/heads/', ref):
+            is_branch = True
+        is_tag = False
+        if re.search('^refs/tags/', ref):
+            is_tag = True
+        is_synthetic = False
+        if re.search('^refs/tags/latest$', ref):	# os.getenv('sphinx_extra_version') ?
+            is_synthetic = True
+        entry = {
+            'name': name, 			# 'latest',
+            'format:cs': git_format_cs, 	# '2022-11-15',
+            'format:h': git_format_h,   	# 'fc210e67f',
+            'commit': commit,           	# 'fc210e67f7ff69c20d021a019851433b75cad3eb'
+            'ref': ref,                 	# 'refs/tags/latest',
+            'is_tag': is_tag,           	# True,
+            'is_branch': is_branch,     	# False,
+            'is_synthetic': is_synthetic	# False
+            #'alias': ['v1.8.0']		# added below
+        }
+        attr['git_refs'][name] = entry
+
+    # This creates a list of other 'name' that have same commit-id (aliases)
+    for k,v in attr['git_refs'].items():
+        alias = []
+        for inner in attr['git_refs'].values():
+            if inner is v:
+                continue
+            if inner['commit'] == v['commit']:
+                alias.append(inner['name'])
+        v['alias'] = alias
+        #print("ALIAS={} {}".format(k, ','.join(alias)))
+
+    return attr
+
+
+html_context = html_context_add_git(html_context)
