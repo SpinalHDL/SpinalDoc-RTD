@@ -289,7 +289,7 @@ on the top of SpinalHDL:
 
 Imagine you want to generate the instruction decoding of your CPU. It could
 require some fancy elaboration time algorithms to generate the less logic
-possible. But in VHDL/Verilog, your only option to do this kind of things is to
+possible. But in VHDL/Verilog, your only option to do these kind of things is to
 write a script which generates the ``.vhd`` and ``.v`` that you want.
 
 There is really much to say about meta-hardware description, but the only true
