@@ -204,8 +204,19 @@ html_theme_options = {
 html_context = {
     'css_files': [
         '_static/theme_overrides.css',  # override wide tables in RTD theme
-        ],
-     }
+        '_static/gh-fork-ribbon.css',
+        '_static/spinaldoc.css'
+    ],
+    'head_meta': {
+        'robots': os.getenv('sphinx_html_context_head_meta_robots', None)
+    },
+    'display_github': bool(os.getenv('sphinx_github_url', '') != ''),
+    'github_url': os.getenv('sphinx_github_url', ''), # Single URL method (not used)
+    'github_user':  os.getenv('GITHUB_REPOSITORY_OWNER', 'SpinalHDL'), # Username
+    'github_repo': os.getenv('GITHUB_REPOSITORY_NAME', 'SpinalDoc-RTD'), # Repo name
+    'github_version': os.getenv('GITHUB_REF_NAME', 'master'), # Version
+    'conf_py_path': '/source/', # Path in the checkout to the docs root
+}
 
 #This is a temporary fix for wavedrom
 online_wavedrom_js_url = "https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8"
