@@ -245,6 +245,11 @@ smv_build_targets = {
         "downloadable": False,
         "download_format": "",
     },
+    "SingleHTML" : {
+        "builder": "singlehtml",
+        "downloadable": True,
+        "download_format": "zip",
+    },
     "PDF" : {
         "builder": "latexpdf",
         "downloadable": True,
