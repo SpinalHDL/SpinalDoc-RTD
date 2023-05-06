@@ -216,6 +216,8 @@ html_context = {
     'github_repo': os.getenv('GITHUB_REPOSITORY_NAME', 'SpinalDoc-RTD'), # Repo name
     'github_version': os.getenv('GITHUB_REF_NAME', 'master'), # Version
     'conf_py_path': '/source/', # Path in the checkout to the docs root
+
+    'sphinx_latest_version': os.getenv('sphinx_latest_version', None)
 }
 
 #This is a temporary fix for wavedrom
@@ -227,14 +229,20 @@ linkcheck_anchors=False
 # Whitelist pattern for tags (set to None to ignore all tags)
 smv_tag_whitelist = r'^.*$'
 
+# The branch called "latest" is not a real branch/tag, it is aliased by the document
+#  build process to the most recent stable release.
 # Whitelist pattern for branches (set to None to ignore all branches)
-smv_branch_whitelist = r'^(master|dev)$'
+smv_branch_whitelist = r'^(master|dev|latest)$'
 
 # Whitelist pattern for remotes (set to None to use local branches only)
 smv_remote_whitelist = r'^.*$'
 
+# The suggested documented default pattern does not work in all scenarios, local,
+#  github clone, github original repository project locations.
 # Pattern for released versions
-smv_released_pattern = r'^tags/.*$'
+#smv_released_pattern = r'/?tags/v\d+.*'
+#smv_released_pattern = r'v\d+.*'
+smv_released_pattern = r'.*/?tags/v\d+.*$'
 
 # Format for versioned output directories inside the build directory
 smv_outputdir_format = '{ref.name}'
