@@ -87,7 +87,7 @@ Functionality
        |                                  address,
        |                                  bitOffset)
      - 
-     - | Instanciate an internal register which at each cycle do :
+     - | Instantiate an internal register which at each cycle do :
        | reg := reg | that
        | Then when a read occur, the register is cleared. This register is readable at ``address`` and placed at ``bitOffset`` in the word
 

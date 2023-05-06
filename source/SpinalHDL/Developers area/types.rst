@@ -482,7 +482,7 @@ Then you can also incorporate a Bundle inside Bundle as deeply as you want:
      val color = RGB(channelWidth)
    }
 
-And finaly instanciate your Bundles inside the hardware :
+And finaly instantiate your Bundles inside the hardware :
 
 .. code-block:: scala
 

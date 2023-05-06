@@ -19,7 +19,7 @@ case class Apb3UartCtrl(uartCtrlConfig: UartCtrlGenerics, rxFifoDepth: Int) exte
     val uart = master(Uart())
   }
 
-  // Instanciate an simple uart controller
+  // Instantiate an simple uart controller
   val uartCtrl = new UartCtrl(uartCtrlConfig)
   io.uart <> uartCtrl.io.uart
 
