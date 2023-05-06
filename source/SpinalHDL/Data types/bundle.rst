@@ -79,7 +79,9 @@ Comparison
    color2.g := 0 
    color2.b := 0
 
-   myBool := color1 === color2
+   myBool := color1 === color2  // Compare all elements of the bundle
+   // is equivalent to:
+   //myBool := color1.r === color2.r && color1.g === color2.g && color1.b === color2.b
 
 Type cast
 ~~~~~~~~~
@@ -99,8 +101,9 @@ Type cast
    val color1 = Color(8)
    val myBits := color1.asBits
 
-The elements of the bundle will be mapped into place in the order in which they are defined. 
-Thus, ``r`` in ``color1`` will occupy bits 0 to 8 of ``myBits`` (LSB), followed by ``g`` and ``b`` in that order.
+The elements of the bundle will be mapped into place in the order in which they are defined, LSB first.
+Thus, ``r`` in ``color1`` will occupy bits 0 to 8 of ``myBits`` (LSB), followed by ``g`` and ``b`` in that order,
+with ``b.msb`` also being the MSB of the resulting Bits type.
 
 Convert Bits back to Bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
