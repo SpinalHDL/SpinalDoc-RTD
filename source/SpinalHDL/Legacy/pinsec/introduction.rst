@@ -7,7 +7,9 @@ Introduction
 ============
 
 .. note::
-   This page document the SoC implemented with the first RISC-V cpu iteration done in SpinalHDL. The second iteration of this SoC (and CPU) is available `there <https://github.com/SpinalHDL/VexRiscv>`__ and offer better perforance/area/features.
+   This page only documents the SoC implemented with the first generation of RISC-V CPU created in SpinalHDL.
+   This page does not document the VexRiscV CPU, which is the second generation of this SoC (and CPU) is available
+   `here <https://github.com/SpinalHDL/VexRiscv>`__ and offers better perforance/area/features.
 
 Introduction
 ------------
@@ -39,4 +41,4 @@ The toplevel code explanation could be find :ref:`there <pinsec_hardware_topleve
 Board support
 -------------
 
-A DE1-SOC FPGA project can be find `there <https://drive.google.com/drive/folders/0B-CqLXDTaMbKOGhIU0JGdHVVSk0?usp=sharing>`__ with some demo binaries.
+A DE1-SOC FPGA project can be find `here <https://drive.google.com/drive/folders/0B-CqLXDTaMbKOGhIU0JGdHVVSk0?usp=sharing>`__ with some demo binaries.
