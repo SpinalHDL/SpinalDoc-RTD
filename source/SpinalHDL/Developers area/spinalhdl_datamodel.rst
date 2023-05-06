@@ -19,7 +19,7 @@ The following diagrams follow the UML nomenclature :
 - A link with a white arrow mean "base extend target"
 - A link with a black diamond mean "base contains target"
 - A link with a white diamond mean "base has a reference to target"
-- The * symbole mean "multiple"
+- The * symbol mean "multiple"
 
 Most of the data structure is stored via some double linked list to ease the insertion and the removal of elements.
 
@@ -195,12 +195,12 @@ Here is an function, which allow to execute the `body` code as if nothing ever e
 .. code-block:: scala
   
   def atBeginingOfCurrentComponent[T](body : => T) : T = {
-    val body = Component.current.dslBody  // Get the head of the current component symboles tree (AST in other words)
+    val body = Component.current.dslBody  // Get the head of the current component symbols tree (AST in other words)
     val ctx = body.push()                 // Now all access to the SpinalHDL API will be append to it (instead of the current context)
-    val swapContext = body.swap()         // Empty the symbole tree (but keep a reference to the old content)
+    val swapContext = body.swap()         // Empty the symbol tree (but keep a reference to the old content)
     val ret = that                        // Execute the block of code (will be added to the recently empty body)
     ctx.restore()                         // Restore the original context in which this function was called
-    swapContext.appendBack()              // append the original symboles tree to the modified body
+    swapContext.appendBack()              // append the original symbols tree to the modified body
     ret                                   // return the value returned by that
   }
   
