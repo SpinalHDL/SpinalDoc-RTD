@@ -35,9 +35,9 @@ jobs:
         tags: spinaldoc-pdf
         file: pdf.Dockerfile
     - name: Check links
-      run: docker run --rm -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf make linkcheck
+      run: docker run --rm -u $(id -u $USER):$(id -g $USER) -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf make linkcheck
     - name: Build multiversioned doc
-      run: docker run --rm -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf sphinx-multiversion source docs/html
+      run: docker run --rm -u $(id -u $USER):$(id -g $USER) -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf sphinx-multiversion source docs/html
     - name: Add .nojekill
       run: sudo touch docs/html/.nojekyll
     - name: Add redirection to master
