@@ -13,7 +13,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
-# import sys
+import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
 
@@ -42,7 +42,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinxcontrib.wavedrom',
     'sphinx_multiversion',
-    'sphinx.ext.imgconverter',
+    'sphinx.ext.imgconverter'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -253,3 +253,13 @@ smv_build_targets = {
 
 # Flag indicating whether the intermediate build directories should be removed after artefacts are produced
 smv_clean_intermediate_files = True
+
+# This is in the project as bin/convert-wrapper, check we are setup correctly.
+have_image_converter = subprocess.call(['which', 'convert-wrapper'],
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0
+if have_image_converter:
+    image_converter='convert-wrapper'
+else:
+    print("ERROR: convert-wrapper not found in $PATH, did you: source $PWD/bin/setup_env.sh", file=sys.stderr)
+    sys.exit(1)
+
