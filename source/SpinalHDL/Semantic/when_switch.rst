@@ -11,9 +11,9 @@ As in VHDL and Verilog, signals can be conditionally assigned when a specified c
 
    when(cond1) {
      // Execute when cond1 is true
-   }.elsewhen(cond2) {
+   } elsewhen(cond2) {
      // Execute when (not cond1) and cond2
-   }.otherwise {
+   } otherwise {
      // Execute when (not cond1) and (not cond2)
    }
 
@@ -59,7 +59,7 @@ As in VHDL and Verilog, signals can be conditionally assigned when a signal has 
      }
    }
 
-``is`` clauses can be factorized by separating them with a comma ``is(value1, value2)``.
+``is`` clauses can be factorized (logical OR) by separating them with a comma ``is(value1, value2)``.
 
 Example
 ^^^^^^^
@@ -105,17 +105,17 @@ By default, SpinalHDL will generate an "UNREACHABLE DEFAULT STATEMENT" error if 
 
 .. code-block:: scala
   
-  switch(my2Bits, coverUnreachable = false) {
+  switch(my2Bits, coverUnreachable = true) {
       is(0) { ... }
       is(1) { ... } 
       is(2) { ... }
       is(3) { ... }
-      default { ... } // This will be okay
+      default { ... } // This will parse and validate without error now
   }
   
 .. note::
 
-   This check is done on the logical values, not on the physical values. For instance, if you have a SpinalEnum(A,B,C) encoded in a on-hot manner, SpinalHDL will only care about the A,B,C values ("001" "010" "100"). Pyhsical values as "000" "011" "101" "110" "111" will not be taken in account.
+   This check is done on the logical values, not on the physical values. For instance, if you have a SpinalEnum(A,B,C) encoded in a one-hot manner, SpinalHDL will only care about the A,B,C values ("001" "010" "100"). Physical values as "000" "011" "101" "110" "111" will not be taken in account.
 
 
 By default, SpinalHDL will generate a "DUPLICATED ELEMENTS IN SWITCH IS(...) STATEMENT" error if a given ``is`` statement provides multiple times the same value. For instance ``is(42,42) { ... }`` 
@@ -230,7 +230,8 @@ Below is an example of dividing a ``Bits`` of 128 bits into 32 bits:
    val data = Bits(128 bits)
 
    // Dividing a wide Bits type into smaller chunks, using a mux:
-   val dataWord = sel.muxList(for (index <- 0 until 4) yield (index, data(index*32+32-1 downto index*32)))
+   val dataWord = sel.muxList(for (index <- 0 until 4)
+                              yield (index, data(index*32+32-1 downto index*32)))
 
    // A shorter way to do the same thing:
    val dataWord = data.subdivideIn(32 bits)(sel)
