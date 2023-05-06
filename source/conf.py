@@ -12,7 +12,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -179,9 +179,12 @@ epub_title = project
 epub_exclude_files = ['search.html']
 
 
+html_baseurl = os.getenv('sphinx_html_baseurl', '')
+
 # -- Extension configuration -------------------------------------------------
 html_theme_options = {
-    'canonical_url': '',
+    # canonical_url is deprecated for html_baseurl
+    'canonical_url': os.getenv('sphinx_canonical_url', ''),
     'analytics_id': '',
     'logo_only': False,
     'display_version': True,
