@@ -14,13 +14,14 @@
 #
 import os
 import sys
+import datetime
 # sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'SpinalHDL'
-copyright = '2022, SpinalHDL'
+copyright = '2018 - ' + str(datetime.date.today().year) + ', SpinalHDL'
 author = 'SpinalHDL contributors'
 
 # The short X.Y version
