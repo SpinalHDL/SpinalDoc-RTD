@@ -10,10 +10,10 @@ Below is a simple hardware description from the `getting started
 
    case class MyTopLevel() extends Component {
      val io = new Bundle {
-       val cond0 = in Bool()
-       val cond1 = in Bool()
-       val flag  = out Bool()
-       val state = out UInt(8 bits)
+       val cond0 = in port Bool()
+       val cond1 = in port Bool()
+       val flag  = out port Bool()
+       val state = out port UInt(8 bits)
      }
 
      val counter = Reg(UInt(8 bits)) init 0
@@ -53,7 +53,7 @@ In SpinalHDL, components use ``UpperCamelCase``.
 
 .. note::
 
-   See :ref:`Component` for more information.
+   See also :ref:`Component` for more information.
 
 
 Ports
@@ -63,9 +63,9 @@ Then, the ports are defined.
 
 .. code-block:: scala
 
-       val cond0 = in port Bool
-       val cond1 = in port Bool
-       val flag = out port Bool
+       val cond0 = in port Bool()
+       val cond1 = in port Bool()
+       val flag = out port Bool()
        val state = out port UInt(8 bits)
 
 Directions:
@@ -75,8 +75,8 @@ Directions:
 
 Types:
 
-* ``cond0``, ``cond1`` and ``flag`` are three bits (3 individual wires)
-* ``state`` is an 8-bit unsigned integer (a set of 8 wires representing an
+* ``cond0``, ``cond1`` and ``flag`` are 1 bit each (as 3 individual wires)
+* ``state`` is an 8-bit unsigned integer (a bus of 8 wires representing an
   unsigned integer)
 
 .. note::
@@ -92,7 +92,7 @@ Finally, there is the component logic:
 
 .. code-block:: scala
 
-     val counter = Reg(UInt(8 bits)) init 0
+     val counter = Reg(UInt(8 bits)) init(0)
 
      when(io.cond0) {
        counter := counter + 1
@@ -102,8 +102,8 @@ Finally, there is the component logic:
      io.flag := (counter === 0) | io.cond1
 
 ``counter`` is a register containing an 8-bits unsigned integer, with the
-initial value 0. Assignments to a registers can be read only after the next
-clock sampling.
+initial value 0. Assignments to change the state of a register are available for read-back only
+after the next clock sampling.
 
 .. note::
 
@@ -129,4 +129,4 @@ Then unconditional rules (assignments) are described:
 
 .. note::
 
-   See :ref:`semantics` for more information.
+   See also :ref:`semantics` for more information.
