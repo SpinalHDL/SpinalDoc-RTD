@@ -36,7 +36,10 @@ In addition to the base types, Spinal has support under development for:
 * :ref:`Auto-range Fixed-point <afix>` numbers (add,sub,mul support)
 * :ref:`Floating-point <Floating>` numbers (experimental support)
 
-Finally, a special type is available for checking equality between a BitVector and a bits constant that contains holes (don't care values). An example is shown below:
+Finally, a special type is available for checking equality between a BitVector and a bit constant pattern that contains
+holes defined like a bitmask (bit positions not to be compared by the equality expression).
+ 
+Here is an example to show how you can achieve this (note the use of 'M' prefix) :
 
 .. code-block:: scala
 
