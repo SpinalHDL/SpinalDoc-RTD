@@ -123,10 +123,3 @@ Links
    :alt: Join the chat at https://gitter.im/SpinalHDL/SpinalHDL
 
 
-
-.. image:: https://api.travis-ci.org/SpinalHDL/SpinalHDL.svg?branch=master
-   :target: https://travis-ci.org/SpinalHDL/SpinalHDL
-   :alt: Build Status
-
-
-
