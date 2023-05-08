@@ -20,6 +20,7 @@
    SpinalHDL/Formal verification/index
    SpinalHDL/Examples/index
    SpinalHDL/Legacy/index
+   SpinalHDL/miscelenea/index
    SpinalHDL/Developers area/index
 
 
