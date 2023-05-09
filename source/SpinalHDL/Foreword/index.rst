@@ -172,21 +172,21 @@ peripherals instantiation and adding the APB3 decoder required to access them.
 
 .. code-block:: scala
 
-   // Instanciate an AXI4 to APB3 bridge
+   // Instantiate an AXI4 to APB3 bridge
    val apbBridge = Axi4ToApb3Bridge(
      addressWidth = 20,
      dataWidth    = 32,
      idWidth      = 4
    )
 
-   // Instanciate some APB3 peripherals
+   // Instantiate some APB3 peripherals
    val gpioACtrl = Apb3Gpio(gpioWidth = 32)
    val gpioBCtrl = Apb3Gpio(gpioWidth = 32)
    val timerCtrl = PinsecTimerCtrl()
    val uartCtrl = Apb3UartCtrl(uartCtrlConfig)
    val vgaCtrl = Axi4VgaCtrl(vgaCtrlConfig)
 
-   // Instanciate an APB3 decoder
+   // Instantiate an APB3 decoder
    // - Drived by the apbBridge
    // - Map each peripheral in a memory region
    val apbDecoder = Apb3Decoder(
@@ -216,7 +216,7 @@ Basically VHDL and Verilog provide some elaboration tools which aren't directly
 mapped into hardware as loops / generate statements / macro / function /
 procedure / task. But that's all.
 
-And even then, they are really limited. For instance one can't define
+And even then, they are really limited. For instance, one can't define
 process/always/component/module blocks into a task/procedure. It is really a
 bottleneck for many fancy things.
 
