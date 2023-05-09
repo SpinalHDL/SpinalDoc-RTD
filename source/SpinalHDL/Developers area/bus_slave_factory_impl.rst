@@ -9,7 +9,7 @@ Bus Slave Factory Implementation
 Introduction
 ------------
 
-This page will document the implementation of the BusSlaveFactory tool and one of those variant. You can get more information about the functionality of that tool :ref:`there <bus_slave_factory>`.
+This page will document the implementation of the BusSlaveFactory tool and one of those variant. You can get more information about the functionality of that tool :ref:`here <bus_slave_factory>`.
 
 Specification
 -------------
@@ -428,6 +428,6 @@ Then, let's implement the AvalonMMSlaveFactory itself.
 Conclusion
 ----------
 
-That's all, you can check one example that use this ``Apb3SlaveFactory`` to create an Apb3UartCtrl :ref:`there <memory_mapped_uart>`.
+That's all, you can check one example that use this ``Apb3SlaveFactory`` to create an Apb3UartCtrl :ref:`here <memory_mapped_uart>`.
 
 If you want to add the support of a new memory bus, it's very simple you just need to implement another variation of the ``BusSlaveFactoryDelayed`` trait. The ``Apb3SlaveFactory`` is probably a good starting point :D
