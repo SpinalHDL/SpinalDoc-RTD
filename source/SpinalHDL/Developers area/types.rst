@@ -21,7 +21,7 @@ The language provides 5 base types and 2 composite types that can be used.
 
 Those types and their usage (with examples) are explained hereafter.
 
-About the fixed point support it's documented :ref:`there <fixed>`
+About the fixed point support it's documented :ref:`here <fixed>`
 
 Bool
 ----
