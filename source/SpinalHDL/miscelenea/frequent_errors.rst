@@ -3,8 +3,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
-Introduction
-------------
+Frequent Errors
+---------------
 
 This page will talk about errors which could happen when people are using SpinalHDL.
 
