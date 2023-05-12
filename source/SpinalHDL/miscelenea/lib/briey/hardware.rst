@@ -1,8 +1,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
-Introduction
-------------
+Pinsec Hardware Introduction
+----------------------------
 
 There is the Pinsec toplevel hardware diagram :
 

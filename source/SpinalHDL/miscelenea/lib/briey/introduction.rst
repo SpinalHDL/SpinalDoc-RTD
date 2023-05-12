@@ -3,8 +3,8 @@
 
 .. _briey_introduction:
 
-Introduction
-------------
+Briey Introduction
+------------------
 
 Briey is the name of a little FPGA SoC fully written in SpinalHDL. Goals of this project are multiple :
 

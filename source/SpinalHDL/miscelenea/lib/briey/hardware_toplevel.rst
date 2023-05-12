@@ -3,8 +3,8 @@
 
 .. _briey_hardware_toplevel:
 
-Introduction
-------------
+Briey Hardware Introduction
+---------------------------
 
 ``Briey`` is a little SoC designed for FPGA. It is available in the SpinalHDL library and some documentation could be find :ref:`there <briey_introduction>`
 
