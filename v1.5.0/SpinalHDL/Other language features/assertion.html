@@ -35,9 +35,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1031,7 +1029,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="assertions">
-<h1>Assertions<a class="headerlink" href="#assertions" title="Permalink to this heading">¶</a></h1>
+<h1>Assertions<a class="headerlink" href="#assertions" title="Permalink to this headline">¶</a></h1>
 <p>In addition to Scala run-time assertions, you can add hardware assertions using the following syntax:</p>
 <p><code class="docutils literal notranslate"><span class="pre">assert(assertion</span> <span class="pre">:</span> <span class="pre">Bool,</span> <span class="pre">message</span> <span class="pre">:</span> <span class="pre">String</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">severity:</span> <span class="pre">AssertNodeSeverity</span> <span class="pre">=</span> <span class="pre">Error)</span></code></p>
 <p>Severity levels are:</p>
@@ -1061,21 +1059,21 @@
 </tbody>
 </table>
 <p>One practical example could be to check that the <code class="docutils literal notranslate"><span class="pre">valid</span></code> signal of a handshake protocol never drops when <code class="docutils literal notranslate"><span class="pre">ready</span></code> is low:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
 
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">ready</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">ready</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="w">  </span><span class="c1">// some logic</span>
 
-<span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="n">assertion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">valid</span><span class="p">.</span><span class="n">fall</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">ready</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">message</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Valid dropped when ready was low&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">severity</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">ERROR</span><span class="w"></span>
-<span class="w">  </span><span class="p">)</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">assert</span><span class="p">(</span>
+<span class="w">    </span><span class="n">assertion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">valid</span><span class="p">.</span><span class="n">fall</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">ready</span><span class="p">),</span>
+<span class="w">    </span><span class="n">message</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Valid dropped when ready was low&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">severity</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">ERROR</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1140,11 +1138,6 @@
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Other language features/assertion.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Other language features/assertion.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

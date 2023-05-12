@@ -20,6 +20,7 @@
    SpinalHDL/Formal verification/index
    SpinalHDL/Examples/index
    SpinalHDL/Legacy/index
+   SpinalHDL/miscelenea/index
    SpinalHDL/Developers area/index
 
 
@@ -120,12 +121,5 @@ Links
 .. image:: https://badges.gitter.im/SpinalHDL/SpinalHDL.svg
    :target: https://gitter.im/SpinalHDL/SpinalHDL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
    :alt: Join the chat at https://gitter.im/SpinalHDL/SpinalHDL
-
-
-
-.. image:: https://api.travis-ci.org/SpinalHDL/SpinalHDL.svg?branch=master
-   :target: https://travis-ci.org/SpinalHDL/SpinalHDL
-   :alt: Build Status
-
 
 

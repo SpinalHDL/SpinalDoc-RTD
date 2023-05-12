@@ -35,9 +35,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -345,9 +343,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="registers">
-<h1>Registers<a class="headerlink" href="#registers" title="Permalink to this heading">¶</a></h1>
+<h1>Registers<a class="headerlink" href="#registers" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">Creating registers in SpinalHDL is very different than in VHDL or Verilog.</div>
 <div class="line">In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.</div>
@@ -360,7 +358,7 @@
 <p>Clocks and resets are handled separately, see the <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock domain</span></a> chapter for details.</p>
 </div>
 <div class="section" id="instantiation">
-<h2>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this heading">¶</a></h2>
+<h2>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this headline">¶</a></h2>
 <p>There is 4 ways to instantiate a register:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -389,20 +387,20 @@
 </table>
 <p>Here is an example declaring some registers:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//UInt register of 4 bits</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span>
 
 <span class="c1">//Register that samples reg1 each cycle</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">reg1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">reg1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1">//UInt register of 4 bits initialized with 0 when the reset occurs</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;0000&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">reg3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">reg2</span><span class="w"></span>
-<span class="n">when</span><span class="p">(</span><span class="n">reg2</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">5</span><span class="p">){</span><span class="w"></span>
-<span class="w">  </span><span class="n">reg3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mh">0xF</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;0000&quot;</span><span class="p">)</span>
+<span class="n">reg3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">reg2</span>
+<span class="n">when</span><span class="p">(</span><span class="n">reg2</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">5</span><span class="p">){</span>
+<span class="w">  </span><span class="n">reg3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mh">0xF</span>
+<span class="p">}</span>
 
 <span class="c1">//Register that samples reg3 when cond is True</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNextWhen</span><span class="p">(</span><span class="n">reg3</span><span class="p">,</span><span class="n">cond</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNextWhen</span><span class="p">(</span><span class="n">reg3</span><span class="p">,</span><span class="n">cond</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The code above will infer the following logic:</p>
@@ -415,40 +413,40 @@
 </div>
 <p>Also, RegNext is an abstraction which is built over the Reg syntax. The two following sequences of code are strictly equivalent:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Standard way</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bool</span><span class="p">)</span><span class="w"></span>
-<span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">something</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bool</span><span class="p">)</span>
+<span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">something</span>
 
 <span class="c1">//Short way</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">something</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="reset-value">
-<h2>Reset value<a class="headerlink" href="#reset-value" title="Permalink to this heading">¶</a></h2>
+<h2>Reset value<a class="headerlink" href="#reset-value" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the <code class="docutils literal notranslate"><span class="pre">RegInit(value</span> <span class="pre">:</span> <span class="pre">Data)</span></code> syntax which directly creates the register with a reset value,
 you can also set the reset value by calling the <code class="docutils literal notranslate"><span class="pre">init(value</span> <span class="pre">:</span> <span class="pre">Data)</span></code> function on the register.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//UInt register of 4 bits initialized with 0 when the reset occur</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If you have a register containing a Bundle, you can use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function on each element of the Bundle.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ValidRGB</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ValidRGB</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">ValidRGB</span><span class="p">())</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">ValidRGB</span><span class="p">())</span>
 <span class="n">reg</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w">  </span><span class="c1">//Only the valid of that register bundle will have an reset value.</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="initialization-value-for-simulation-purposes">
-<h2>Initialization value for simulation purposes<a class="headerlink" href="#initialization-value-for-simulation-purposes" title="Permalink to this heading">¶</a></h2>
+<h2>Initialization value for simulation purposes<a class="headerlink" href="#initialization-value-for-simulation-purposes" title="Permalink to this headline">¶</a></h2>
 <p>For registers that don’t need a reset value in RTL, but need an initialization value for simulation (to avoid x-propagation), you can ask for an random initialization value by calling the <code class="docutils literal notranslate"><span class="pre">randBoot()</span></code> function.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits initialized with a random value</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">randBoot</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">randBoot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -514,11 +512,6 @@ you can also set the reset value by calling the <code class="docutils literal no
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Sequential logic/registers.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Sequential logic/registers.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.3.8.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.3.8.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

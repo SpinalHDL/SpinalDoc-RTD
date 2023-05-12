@@ -35,9 +35,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1203,7 +1201,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="scopeproperty">
-<span id="id1"></span><h1>ScopeProperty<a class="headerlink" href="#scopeproperty" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>ScopeProperty<a class="headerlink" href="#scopeproperty" title="Permalink to this headline">¶</a></h1>
 <p>A scope property is a thing which can store values localy to the current thread. Its API can be used to set/get that value, but also to apply modification to the value for a portion of the execution in a stack manner.</p>
 <p>In other words it is a alternative to global variable, scala implicit, ThreadLocal.</p>
 <ul class="simple">
@@ -1211,21 +1209,21 @@
 <li><p>To compare with scala implicit, it is less intrusive in the code base</p></li>
 <li><p>To compare with ThreadLocal, it has some API to collect all ScopeProperty and restore them in the same state later on</p></li>
 </ul>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Xlen</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">ScopeProperty</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Xlen</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">ScopeProperty</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">ScopePropertyMiaou</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">object</span><span class="w"> </span><span class="nc">ScopePropertyMiaou</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="p">{</span>
+<span class="w">  </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">//1</span>
-<span class="w">  </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">2</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">2</span><span class="p">){</span>
 <span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">//2</span>
-<span class="w">    </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">3</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">3</span><span class="p">){</span>
 <span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">//3</span>
-<span class="w">      </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">//4</span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">//2</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1290,11 +1288,6 @@
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Other language features/scope_property.html">dev</a></dd>
       <dd><a href="scope_property.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-master.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-master.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

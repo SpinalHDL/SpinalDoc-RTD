@@ -35,9 +35,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -341,109 +339,109 @@
            <div itemprop="articleBody">
             
   <div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>This page will talk about errors which could happen when people are using SpinalHDL.</p>
 </div>
 <div class="section" id="exception-in-thread-main-java-lang-nullpointerexception">
-<h1>Exception in thread “main” java.lang.NullPointerException<a class="headerlink" href="#exception-in-thread-main-java-lang-nullpointerexception" title="Permalink to this heading">¶</a></h1>
+<h1>Exception in thread “main” java.lang.NullPointerException<a class="headerlink" href="#exception-in-thread-main-java-lang-nullpointerexception" title="Permalink to this headline">¶</a></h1>
 <p><strong>Console symptoms :</strong></p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Exception in thread &quot;main&quot; java.lang.NullPointerException
 </pre></div>
 </div>
 <p><strong>Code Example :</strong></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">         </span><span class="c1">//b can&#39;t be read at that time, because b isn&#39;t instanciated yet</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Issue explanation :</strong></p>
 <p>SpinalHDL is not a language, it is an Scala library, which mean, it obey to the same rules than the Scala general purpose programming language. When you run your SpinalHDL hardware description to generate the corresponding VHDL/Verilog RTL, your SpinalHDL hardware description will be executed as a Scala programm, and b will be a <code class="docutils literal notranslate"><span class="pre">null</span></code> reference until the programm execution come to that line, and it’s why you can’t use it before.</p>
 </div>
 <div class="section" id="hierarchy-violation">
-<h1>Hierarchy violation<a class="headerlink" href="#hierarchy-violation" title="Permalink to this heading">¶</a></h1>
+<h1>Hierarchy violation<a class="headerlink" href="#hierarchy-violation" title="Permalink to this headline">¶</a></h1>
 <p>The SpinalHDL compiler check that all your assignements are legal from an hierarchy perspective. Multiple cases are elaborated in following chapters</p>
 <div class="section" id="signal-x-can-t-be-assigned-by-y">
-<h2>Signal X can’t be assigned by Y<a class="headerlink" href="#signal-x-can-t-be-assigned-by-y" title="Permalink to this heading">¶</a></h2>
+<h2>Signal X can’t be assigned by Y<a class="headerlink" href="#signal-x-can-t-be-assigned-by-y" title="Permalink to this headline">¶</a></h2>
 <p><strong>Console symptoms :</strong></p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Hierarchy violation : Signal X can&#39;t be assigned by Y
 </pre></div>
 </div>
 <p><strong>Code Example :</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
 <span class="w">  </span><span class="n">componentX</span><span class="p">.</span><span class="nc">X</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="c1">//This assignement is not legal</span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w">   </span><span class="c1">//Forgot to specify an in/out direction</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
 <span class="w">  </span><span class="n">componentX</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="nc">X</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="c1">//This assignement will be detected as not legal</span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>Issue explanation :</strong></p>
 <p>You can only assign input signals of subcomponents, else there is an hierarchy violation. If this issue happend, you probably forgot to specify the X signal’s direction.</p>
 </div>
 <div class="section" id="input-signal-x-can-t-be-assigned-by-y">
-<h2>Input signal X can’t be assigned by Y<a class="headerlink" href="#input-signal-x-can-t-be-assigned-by-y" title="Permalink to this heading">¶</a></h2>
+<h2>Input signal X can’t be assigned by Y<a class="headerlink" href="#input-signal-x-can-t-be-assigned-by-y" title="Permalink to this headline">¶</a></h2>
 <p><strong>Console symptoms :</strong></p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Hierarchy violation : Input signal X can&#39;t be assigned by Y
 </pre></div>
 </div>
 <p><strong>Code Example :</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentXY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentXY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
 <span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="nc">X</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="c1">//This assignement is not legal</span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>Issue explanation :</strong></p>
 <p>You can only assign an input signals from the parent component, else there is an hierarchy violation. If this issue happend, you probably mixed signals direction declaration.</p>
 </div>
 <div class="section" id="output-signal-x-can-t-be-assigned-by-y">
-<h2>Output signal X can’t be assigned by Y<a class="headerlink" href="#output-signal-x-can-t-be-assigned-by-y" title="Permalink to this heading">¶</a></h2>
+<h2>Output signal X can’t be assigned by Y<a class="headerlink" href="#output-signal-x-can-t-be-assigned-by-y" title="Permalink to this headline">¶</a></h2>
 <p><strong>Console symptoms :</strong></p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Hierarchy violation : Output signal X can&#39;t be assigned by Y
 </pre></div>
 </div>
 <p><strong>Code Example :</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
 <span class="w">  </span><span class="n">componentX</span><span class="p">.</span><span class="nc">X</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="c1">//This assignement is not legal</span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>Issue explanation :</strong></p>
@@ -507,11 +505,6 @@
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/miscelenea/frequent_errors.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/miscelenea/frequent_errors.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.3.8.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.3.8.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

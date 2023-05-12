@@ -35,9 +35,7 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1194,13 +1192,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="apb3-definition">
-<span id="example-apb3"></span><h1>APB3 definition<a class="headerlink" href="#apb3-definition" title="Permalink to this heading">¶</a></h1>
+<span id="example-apb3"></span><h1>APB3 definition<a class="headerlink" href="#apb3-definition" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>This example will show the syntax to define an APB3 <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>.</p>
 </div>
 <div class="section" id="specification">
-<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this heading">¶</a></h2>
+<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
 <p>The specification from ARM could be interpreted as follows:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1261,61 +1259,61 @@
 </table>
 </div>
 <div class="section" id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
 <p>This specification shows that the APB3 bus has multiple possible configurations. To represent that, we can define a configuration class in Scala:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">(</span><span class="w"></span>
-<span class="w">  </span><span class="n">addressWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="n">dataWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="n">selWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="n">useSlaveError</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
-<span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">(</span>
+<span class="w">  </span><span class="n">addressWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span>
+<span class="w">  </span><span class="n">dataWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span>
+<span class="w">  </span><span class="n">selWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="n">useSlaveError</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>Then we can define the APB3 <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> which will be used to represent the bus in hardware:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PADDR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSEL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">selWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PENABLE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PREADY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWRITE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWDATA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PRDATA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSLVERROR</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">null</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PADDR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSEL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">selWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PENABLE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PREADY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWRITE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWDATA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PRDATA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSLVERROR</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">null</span>
 
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">asMaster</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">out</span><span class="p">(</span><span class="nc">PADDR</span><span class="p">,</span><span class="nc">PSEL</span><span class="p">,</span><span class="nc">PENABLE</span><span class="p">,</span><span class="nc">PWRITE</span><span class="p">,</span><span class="nc">PWDATA</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">in</span><span class="p">(</span><span class="nc">PREADY</span><span class="p">,</span><span class="nc">PRDATA</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">PSLVERROR</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">asMaster</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">out</span><span class="p">(</span><span class="nc">PADDR</span><span class="p">,</span><span class="nc">PSEL</span><span class="p">,</span><span class="nc">PENABLE</span><span class="p">,</span><span class="nc">PWRITE</span><span class="p">,</span><span class="nc">PWDATA</span><span class="p">)</span>
+<span class="w">    </span><span class="n">in</span><span class="p">(</span><span class="nc">PREADY</span><span class="p">,</span><span class="nc">PRDATA</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">PSLVERROR</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Here is a usage example of this definition:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3User</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">:</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">apb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Apb3</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">))</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3User</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">:</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">apb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Apb3</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">))</span>
+<span class="w">  </span><span class="p">}</span>
 
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">.</span><span class="nc">PREADY</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">.</span><span class="nc">PSEL</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">.</span><span class="nc">PENABLE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">.</span><span class="nc">PREADY</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">.</span><span class="nc">PSEL</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">.</span><span class="nc">PENABLE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span>
 
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">.</span><span class="nc">PRDATA</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">.</span><span class="nc">PRDATA</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">Apb3User</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">dataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">selWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">useSlaveError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
-<span class="w">  </span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="nc">Apb3User</span><span class="p">(</span><span class="n">config</span><span class="p">))</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="k">object</span><span class="w"> </span><span class="nc">Apb3User</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">(</span>
+<span class="w">    </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span>
+<span class="w">    </span><span class="n">dataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
+<span class="w">    </span><span class="n">selWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="n">useSlaveError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="nc">Apb3User</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1381,11 +1379,6 @@
       <dt>Branches</dt>
       <dd><a href="../../../../dev/SpinalHDL/Examples/Simple ones/apb3.html">dev</a></dd>
       <dd><a href="../../../../master/SpinalHDL/Examples/Simple ones/apb3.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.8.0.">HTML</a></dd>
-      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.8.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

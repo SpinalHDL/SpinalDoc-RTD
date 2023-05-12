@@ -35,9 +35,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1203,100 +1201,100 @@
            <div itemprop="articleBody">
             
   <div class="section" id="when-switch-mux">
-<h1>When/Switch/Mux<a class="headerlink" href="#when-switch-mux" title="Permalink to this heading">¶</a></h1>
+<h1>When/Switch/Mux<a class="headerlink" href="#when-switch-mux" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="when">
-<h2>When<a class="headerlink" href="#when" title="Permalink to this heading">¶</a></h2>
+<h2>When<a class="headerlink" href="#when" title="Permalink to this headline">¶</a></h2>
 <p>As in VHDL and Verilog, signals can be conditionally assigned when a specified condition is met:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">cond1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">cond1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">// Execute when cond1 is true</span>
-<span class="p">}.</span><span class="n">elsewhen</span><span class="p">(</span><span class="n">cond2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}.</span><span class="n">elsewhen</span><span class="p">(</span><span class="n">cond2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">// Execute when (not cond1) and cond2</span>
-<span class="p">}.</span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}.</span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">// Execute when (not cond1) and (not cond2)</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If the keyword <code class="docutils literal notranslate"><span class="pre">otherwise</span></code> is on the same line as the closing bracket <code class="docutils literal notranslate"><span class="pre">}</span></code> of the <code class="docutils literal notranslate"><span class="pre">when</span></code> condition, no dot is needed.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">cond1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">cond1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Execute when cond1 is true</span>
-<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Execute when (not cond1) and (not cond2)</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>But if <code class="docutils literal notranslate"><span class="pre">.otherwise</span></code> is on another line, a dot is <strong>required</strong>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">cond1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">cond1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Execute when cond1 is true</span>
-<span class="p">}</span><span class="w"></span>
-<span class="p">.</span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span>
+<span class="p">.</span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Execute when (not cond1) and (not cond2)</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="switch">
-<h2>Switch<a class="headerlink" href="#switch" title="Permalink to this heading">¶</a></h2>
+<h2>Switch<a class="headerlink" href="#switch" title="Permalink to this headline">¶</a></h2>
 <p>As in VHDL and Verilog, signals can be conditionally assigned when a signal has a defined value:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">value1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">value1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Execute when x === value1</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">value2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">value2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Execute when x === value2</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Execute if none of precedent conditions met</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">is</span></code> clauses can be factorized by separating them with a comma <code class="docutils literal notranslate"><span class="pre">is(value1,</span> <span class="pre">value2)</span></code>.</p>
 <div class="section" id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">aluop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">add</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">slt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sltu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sll</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sra</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">aluop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">add</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">slt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sltu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sll</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sra</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>is equivalent to</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">aluop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">add</span><span class="p">,</span><span class="w"> </span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">slt</span><span class="p">,</span><span class="w"> </span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sltu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sll</span><span class="p">,</span><span class="w"> </span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sra</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">aluop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">add</span><span class="p">,</span><span class="w"> </span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">slt</span><span class="p">,</span><span class="w"> </span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sltu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">immI</span><span class="p">.</span><span class="n">signExtend</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sll</span><span class="p">,</span><span class="w"> </span><span class="nc">ALUOp</span><span class="p">.</span><span class="n">sra</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">immediate</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">instruction</span><span class="p">.</span><span class="n">shamt</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="additional-options">
-<h3>Additional options<a class="headerlink" href="#additional-options" title="Permalink to this heading">¶</a></h3>
+<h3>Additional options<a class="headerlink" href="#additional-options" title="Permalink to this headline">¶</a></h3>
 <p>By default, SpinalHDL will generate an “UNREACHABLE DEFAULT STATEMENT” error if a <code class="docutils literal notranslate"><span class="pre">switch</span></code> contains a <code class="docutils literal notranslate"><span class="pre">default</span></code> statement while all the possible logical values of the <code class="docutils literal notranslate"><span class="pre">switch</span></code> are already covered by the <code class="docutils literal notranslate"><span class="pre">is</span></code> statements. You can drop this error reporting by specifying `` switch(myValue, coverUnreachable = true) { … }``.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">my2Bits</span><span class="p">,</span><span class="w"> </span><span class="n">coverUnreachable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">my2Bits</span><span class="p">,</span><span class="w"> </span><span class="n">coverUnreachable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="n">default</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// This will be okay</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -1305,29 +1303,29 @@
 </div>
 <p>By default, SpinalHDL will generate a “DUPLICATED ELEMENTS IN SWITCH IS(…) STATEMENT” error if a given <code class="docutils literal notranslate"><span class="pre">is</span></code> statement provides multiple times the same value. For instance <code class="docutils literal notranslate"><span class="pre">is(42,42)</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code>
 You can drop this error reporting by specifying <code class="docutils literal notranslate"><span class="pre">switch(myValue,</span> <span class="pre">strict</span> <span class="pre">=</span> <span class="pre">true){</span> <span class="pre">...</span> <span class="pre">}</span></code>. SpinalHDL will then take care of removing duplicated values.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">strict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">strict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// This will be okay</span>
-<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">is</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="local-declaration">
-<h2>Local declaration<a class="headerlink" href="#local-declaration" title="Permalink to this heading">¶</a></h2>
+<h2>Local declaration<a class="headerlink" href="#local-declaration" title="Permalink to this headline">¶</a></h2>
 <p>It is possible to define new signals inside a when/switch statement:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
-<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"></span>
-<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -1336,7 +1334,7 @@ You can drop this error reporting by specifying <code class="docutils literal no
 </div>
 </div>
 <div class="section" id="mux">
-<h2>Mux<a class="headerlink" href="#mux" title="Permalink to this heading">¶</a></h2>
+<h2>Mux<a class="headerlink" href="#mux" title="Permalink to this headline">¶</a></h2>
 <p>If you just need a <code class="docutils literal notranslate"><span class="pre">Mux</span></code> with a <code class="docutils literal notranslate"><span class="pre">Bool</span></code> selection signal, there are two equivalent syntaxes:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1361,36 +1359,36 @@ You can drop this error reporting by specifying <code class="docutils literal no
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">whenTrue</span><span class="p">,</span><span class="w"> </span><span class="n">whenFalse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">muxOutput</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Mux</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span><span class="w"> </span><span class="n">whenTrue</span><span class="p">,</span><span class="w"> </span><span class="n">whenFalse</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">muxOutput2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">whenTrue</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">whenFalse</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">whenTrue</span><span class="p">,</span><span class="w"> </span><span class="n">whenFalse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">muxOutput</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Mux</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span><span class="w"> </span><span class="n">whenTrue</span><span class="p">,</span><span class="w"> </span><span class="n">whenFalse</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">muxOutput2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">whenTrue</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">whenFalse</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="bitwise-selection">
-<h2>Bitwise selection<a class="headerlink" href="#bitwise-selection" title="Permalink to this heading">¶</a></h2>
+<h2>Bitwise selection<a class="headerlink" href="#bitwise-selection" title="Permalink to this headline">¶</a></h2>
 <p>A bitwise selection looks like the VHDL <code class="docutils literal notranslate"><span class="pre">when</span></code> syntax.</p>
 <div class="section" id="id1">
-<h3>Example<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">bitwiseSelect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">bitwiseResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bitwiseSelect</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span><span class="w"></span>
-<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span><span class="w"></span>
-<span class="w">  </span><span class="mi">1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span><span class="w"></span>
-<span class="w">  </span><span class="mi">2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span><span class="w"></span>
-<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="p">)</span><span class="w"></span>
-<span class="p">)</span><span class="w"></span>
+<h3>Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">bitwiseSelect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">bitwiseResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bitwiseSelect</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span>
+<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span>
+<span class="w">  </span><span class="mi">1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span>
+<span class="w">  </span><span class="mi">2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">mux</span></code> checks that all possible values are covered to prevent generation of latches.
 If all possible values are covered, the default statement must not be added:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">bitwiseSelect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">bitwiseResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bitwiseSelect</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span><span class="w"></span>
-<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span><span class="w"></span>
-<span class="w">  </span><span class="mi">1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span><span class="w"></span>
-<span class="w">  </span><span class="mi">2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span><span class="w"></span>
-<span class="w">  </span><span class="mi">3</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="p">)</span><span class="w"></span>
-<span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">bitwiseSelect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">bitwiseResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bitwiseSelect</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span>
+<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span>
+<span class="w">  </span><span class="mi">1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span>
+<span class="w">  </span><span class="mi">2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">src1</span><span class="p">),</span>
+<span class="w">  </span><span class="mi">3</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">src0</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">muxList(...)</span></code> and <code class="docutils literal notranslate"><span class="pre">muxListDc(...)</span></code> are alternatives bitwise selectors that take a sequence of tuples or mappings as input.</p>
@@ -1401,24 +1399,24 @@ This will add a default case if needed. This default case will generate X’s du
 <code class="docutils literal notranslate"><span class="pre">muxListDc(...)</span></code> is often a good alternative in generic code.</p>
 <p>Below is an example of dividing a <code class="docutils literal notranslate"><span class="pre">Bits</span></code> of 128 bits into 32 bits:</p>
 <a class="reference internal image-reference" href="../../_images/MuxList.png"><img alt="../../_images/MuxList.png" class="align-center" src="../../_images/MuxList.png" style="width: 300px;" /></a>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">128</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">128</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 
 <span class="c1">// Dividing a wide Bits type into smaller chunks, using a mux:</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">dataWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sel</span><span class="p">.</span><span class="n">muxList</span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">(</span><span class="n">index</span><span class="o">*</span><span class="mi">32</span><span class="o">+</span><span class="mi">32</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="n">index</span><span class="o">*</span><span class="mi">32</span><span class="p">)))</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">dataWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sel</span><span class="p">.</span><span class="n">muxList</span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">(</span><span class="n">index</span><span class="o">*</span><span class="mi">32</span><span class="o">+</span><span class="mi">32</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="n">index</span><span class="o">*</span><span class="mi">32</span><span class="p">)))</span>
 
 <span class="c1">// A shorter way to do the same thing:</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">dataWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)(</span><span class="n">sel</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">dataWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)(</span><span class="n">sel</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Example for <code class="docutils literal notranslate"><span class="pre">muxListDc</span></code> selecting bits from a configurable width vector:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Example</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Example</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">// 2 bit wide for default width</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">width</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">width</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
 <span class="w">  </span><span class="c1">// no need to cover missing case 3 for default width</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">dataByte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sel</span><span class="p">.</span><span class="n">muxListDc</span><span class="p">(</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">(</span><span class="n">index</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)))</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">dataByte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sel</span><span class="p">.</span><span class="n">muxListDc</span><span class="p">(</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">(</span><span class="n">index</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)))</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1485,11 +1483,6 @@ This will add a default case if needed. This default case will generate X’s du
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Semantic/when_switch.html">dev</a></dd>
       <dd><a href="when_switch.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-master.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-master.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>
