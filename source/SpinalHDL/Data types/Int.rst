@@ -238,8 +238,8 @@ Arithmetic
 
 .. note::
 
-   Notice how simulation assertions are made here (with ``===``), as opposed to elaboration
-   assertions in the previous example (with ``==``).
+   ``UInt`` signals support a wrapping comparison by ``wrap`` method, so that the value U"8'xff" can be smaller than U"8'x01".
+   The ``UInt`` variables ``x, y`` can be used as ``x.wrap < y``, this would return a ``Bool`` signal.
 
 Comparison
 ~~~~~~~~~~
@@ -284,6 +284,11 @@ Comparison
    } otherwise {
      c.clearAll()
    }
+
+.. note::
+
+   Notice how simulation assertions are made here (with ``===``), as opposed to elaboration
+   assertions in the previous example (with ``==``).
 
 Type cast
 ~~~~~~~~~
