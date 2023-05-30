@@ -201,12 +201,17 @@ html_theme_options = {
     'titles_only': False
 }
 
+html_css_files = [
+    'theme_overrides.css',  # override wide tables in RTD theme
+    'gh-fork-ribbon.css',
+    'spinaldoc.css'
+]
+
+html_js_files = [
+    'dialog.js'
+]
+
 html_context = {
-    'css_files': [
-        '_static/theme_overrides.css',  # override wide tables in RTD theme
-        '_static/gh-fork-ribbon.css',
-        '_static/spinaldoc.css'
-    ],
     'head_meta': {
         'robots': os.getenv('sphinx_html_context_head_meta_robots', None)
     },
