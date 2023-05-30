@@ -17,7 +17,7 @@ Repositories
 Companies
 ^^^^^^^^^
 
-* `DatenLord, China <https://datenlord.github.io/en/home.html>`_
+* `DatenLord, China <https://datenlord.github.io/>`_
 
     * `RoCE v2 hardware implementation <https://github.com/datenlord/open-rdma>`_
     * `WaveBPF <https://github.com/datenlord/wavebpf>`_ (wBPF): a
