@@ -88,7 +88,7 @@ Or you can add it later, after having instantiated your toplevel for the simulat
      def main(args: Array[String]) {
        SimConfig.compile {
          val dut = new TopLevel
-         dut.counter.simPublic()
+         dut.counter.simPublic()     // Call simPublic() here
          dut
        }.doSim{dut =>
          dut.clockDomain.forkStimulus(10)
