@@ -37,7 +37,7 @@ Installing requirements
 To install the Symbi-Yosys, you have a few options. You can fetch a precompiled package at: 
 
 - https://github.com/YosysHQ/oss-cad-suite-build/releases
-- https://github.com/YosysHQ/fpga-toolchain/releases
+- https://github.com/YosysHQ/fpga-toolchain/releases (EOL - superseded by oss-cad-suite)
 
 Or you can compile things from scratch : 
 
@@ -59,10 +59,10 @@ Here is an example of a simple counter and the corresponding formal testbench.
     import spinal.core._
     
     //Here is our DUT
-    class LimitedCounter extends Component{
+    class LimitedCounter extends Component {
       //The value register will always be between [2:10]
       val value = Reg(UInt(4 bits)) init(2)
-      when(value < 10){
+      when(value < 10) {
         value := value + 1
       }
     }
@@ -94,9 +94,9 @@ If you want you can embed formal statements directly into the DUT:
 
 .. code-block:: scala
 
-    class LimitedCounterEmbedded extends Component{
+    class LimitedCounterEmbedded extends Component {
       val value = Reg(UInt(4 bits)) init(2)
-      when(value < 10){
+      when(value < 10) {
         value := value + 1
       }
 
@@ -124,11 +124,11 @@ but you can also use the formal `anyseq`, `anyconst`, `allseq`, `allconst` state
 
 .. code-block:: scala
 
-    class LimitedCounterInc extends Component{
+    class LimitedCounterInc extends Component {
       //Only increment the value when the inc input is set
       val inc = in Bool()
       val value = Reg(UInt(4 bits)) init(2)
-      when(inc && value < 10){
+      when(inc && value < 10) {
         value := value + 1
       }
     }
@@ -160,7 +160,7 @@ For instance we can check that the value is counting up (if not already at 10):
 
     // Check that the value is incrementing.
     // hasPast is used to ensure that the past(dut.value) had at least one sampling out of reset
-    when(pastValid() && past(dut.value) =/= 10){
+    when(pastValid() && past(dut.value) =/= 10) {
       assert(dut.value === past(dut.value) + 1)
     }
   })
@@ -172,7 +172,7 @@ Here is an example where we want to prevent the value ``1`` from ever being pres
 
 .. code-block:: scala
 
-    class DutWithRam extends Component{
+    class DutWithRam extends Component {
       val ram = Mem.fill(4)(UInt(8 bits))
       val write = slave(ram.writePort)
       val read = slave(ram.readAsyncPort)
@@ -186,13 +186,13 @@ Here is an example where we want to prevent the value ``1`` from ever being pres
         assumeInitial(ClockDomain.current.isResetActive)
 
         // assume that no word in the ram has the value 1
-        for(i <- 0 until dut.ram.wordCount){
+        for(i <- 0 until dut.ram.wordCount) {
           assumeInitial(dut.ram(i) =/= 1)
         }
 
         // Allow the write anything but value 1 in the ram
         anyseq(dut.write)
-        clockDomain.withoutReset(){ //As the memory write can occur during reset, we need to ensure the assume apply there too
+        clockDomain.withoutReset() { //As the memory write can occur during reset, we need to ensure the assume apply there too
           assume(dut.write.data =/= 1)
         }
 
@@ -215,7 +215,7 @@ If you want to keep your assertion enabled during reset you can do:
 
 .. code-block:: scala
 
-   ClockDomain.current.withoutReset(){
+   ClockDomain.current.withoutReset() {
      assert(wuff === 0)
    }   
    
@@ -244,7 +244,7 @@ If you have a Mem in your design, and you want to check its content, you can do 
 .. code-block:: scala
 
     // Manual access
-    for(i <- 0 until dut.ram.wordCount){
+    for(i <- 0 until dut.ram.wordCount) {
       assumeInitial(dut.ram(i) =/= X) //No occurence of the word X
     }
     
@@ -294,10 +294,10 @@ Formal primitives
       - Return True when ``that`` transitioned from True to False
     * - ``changed(that : Bool)``
       - Bool
-      - Return True when ``that`` current value changed between comparred to the last cycle
+      - Return True when ``that`` current value changed between compared to the last cycle
     * - ``stable(that : Bool)``
       - Bool
-      - Return True when ``that`` current value didn't changed between comparred to the last cycle
+      - Return True when ``that`` current value didn't changed between compared to the last cycle
     * - ``initstate()``
       - Bool
       - Return True the first cycle
@@ -306,13 +306,13 @@ Formal primitives
       - Returns True when the past value is valid (False on the first cycle). Recommended to be used with each application of ``past``, ``rose``, ``fell``, ``changed`` and ``stable``.
     * - ``pastValidAfterReset()``
       - Bool
-      - Simliar to ``pastValid``, where only difference is that this would take reset into account. Can be understand as ``pastValid & past(!reset)``.
+      - Simliar to ``pastValid``, where only difference is that this would take reset into account. Can be understood as ``pastValid & past(!reset)``.
 
 Note that you can use the init statement on past: 
 
 .. code-block:: scala
 
-    when(past(enable) init(False)){ ... }
+    when(past(enable) init(False)) { ... }
 
 
 
