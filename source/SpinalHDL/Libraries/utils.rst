@@ -163,7 +163,7 @@ There is an example of different syntaxes which could be used with the Counter t
 .. code-block:: scala
 
    val timeout = Timeout(10 ms)  //Timeout who tick after 10 ms
-   when(timeout){                //Check if the timeout has tick
+   when(timeout) {               //Check if the timeout has tick
        timeout.clear()           //Ask the timeout to clear its flag
    }
 
@@ -178,7 +178,7 @@ The ResetCtrl provide some utilities to manage resets.
 asyncAssertSyncDeassert
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You can filter an asynchronous reset by using an asynchronously asserted synchronously deaserted logic. To do it you can use the ``ResetCtrl.asyncAssertSyncDeassert`` function which will return you the filtred value.
+You can filter an asynchronous reset by using an asynchronously asserted synchronously deaserted logic. To do it you can use the ``ResetCtrl.asyncAssertSyncDeassert`` function which will return you the filtered value.
 
 .. list-table::
    :header-rows: 1
@@ -204,7 +204,7 @@ You can filter an asynchronous reset by using an asynchronously asserted synchro
      - Number of register stages used to avoid metastability (default=2)
 
 
-There is also an ``ResetCtrl.asyncAssertSyncDeassertDrive`` version of tool which directly assign the ``clockDomain`` reset with the filtred value.
+There is also an ``ResetCtrl.asyncAssertSyncDeassertDrive`` version of tool which directly assign the ``clockDomain`` reset with the filtered value.
 
 Special utilities
 -----------------
@@ -218,6 +218,6 @@ Special utilities
      - Description
    * - LatencyAnalysis(paths : Node*)
      - Int
-     - | Return the shortest path,in therm of cycle, that travel through all nodes,
+     - | Return the shortest path, in terms of cycles, that travel through all nodes,
        | from the first one to the last one
 
