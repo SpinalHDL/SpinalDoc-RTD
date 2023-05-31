@@ -72,7 +72,7 @@ For example:
 .. code-block:: scala
 
    def plusOne(value : UInt) : UInt = {
-     // Will recreate a UInt with the same width than ``value``
+     // Will provide new instance of a UInt with the same width as ``value``
      val temp = cloneOf(value)
      temp := value + 1
      return temp
@@ -85,6 +85,20 @@ You can get more information about how hardware data types are managed on the :r
 
 .. note::
    If you use the ``cloneOf`` function on a ``Bundle``, this ``Bundle`` should be a ``case class`` or should override the clone function internally.
+
+.. code-block:: scala
+
+   // An example of a regular 'class' with 'override def clone()' function
+   class MyBundle(ppp : Int) extends Bundle {
+      val a = UInt(ppp bits)
+      override def clone = new MyBundle(ppp)
+    }
+    val x = new MyBundle(3)
+    val typeDef = HardType(new MyBundle(3))
+    val y = typeDef()
+
+    cloneOf(x) // Need clone method, else it errors
+    cloneOf(y) // Is ok
 
 
 Passing a datatype as construction parameter
@@ -153,12 +167,12 @@ SpinalHDL has a dedicated syntax to define frequency and time values:
 
 .. code-block:: scala
 
-   val frequency = 100 MHz
-   val timeoutLimit = 3 ms
-   val period = 100 us
+   val frequency = 100 MHz	// infers type TimeNumber
+   val timeoutLimit = 3 ms	// infers type HertzNumber
+   val period = 100 us		// infers type TimeNumber
 
-   val periodCycles = frequency * period
-   val timeoutCycles = frequency * timeoutLimit
+   val periodCycles = frequency * period             // infers type BigDecimal
+   val timeoutCycles = frequency * timeoutLimit      // infers type BigDecimal
 
 | For time definitions you can use following postfixes to get a ``TimeNumber``:
 | ``fs``, ``ps``, ``ns``, ``us``, ``ms``, ``sec``, ``mn``, ``hr``
@@ -175,8 +189,8 @@ SpinalHDL allows the definition of integer numbers using binary prefix notation 
 
 .. code-block:: scala
 
-   val memSize = 512 MiB
-   val dpRamSize = 4 KiB
+   val memSize = 512 MiB      // infers type BigInt
+   val dpRamSize = 4 KiB      // infers type BigInt
 
 The following binary prefix notations are available:
 
