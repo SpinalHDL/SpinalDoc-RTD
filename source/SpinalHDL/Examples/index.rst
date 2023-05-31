@@ -15,9 +15,6 @@ Examples
 
 .. _example_introduction:
 
-Introduction
-============
-
 Examples are split into three kinds:
 
 * Simple examples that could be used to get used to the basics of SpinalHDL.
