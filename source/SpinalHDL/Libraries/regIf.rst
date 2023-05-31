@@ -5,7 +5,7 @@ RegIf
 Register Interface Builder
 
 - Automatic address, fields allocation and conflict detection
-- 28 Register Access types(Covering the 25 types defined by the UVM standard)
+- 28 Register Access types (Covering the 25 types defined by the UVM standard)
 - Automatic documentation generation
 
 Automatic allocation
@@ -15,8 +15,8 @@ Automatic address allocation
 
 .. code:: scala
 
-  class RegBankExample extends Component{
-    val io = new Bundle{
+  class RegBankExample extends Component {
+    val io = new Bundle {
       apb = Apb3(Apb3Config(16,32))
     }
     val busif = Apb3BusInterface(io.apb,(0x0000, 100 Byte)
@@ -51,7 +51,7 @@ Automatic fileds allocation
 
 .. image:: /asset/image/regif/field-auto-allocate.gif
 
-confilict detection
+conflict detection
 
 .. code:: scala
 
@@ -145,7 +145,7 @@ Attention, please don't forget to drive it.
 
 .. code:: scala
 
-   val io = new Bundle{
+   val io = new Bundle {
      val cnt = in UInt(8 bit)
    }
 
@@ -238,7 +238,7 @@ CSTM is only used to generate software interfaces, and does not generate actual 
    val reg = Reg(Bits(16 bit)) init 0
    REG.registerAtOnlyReadLogic(0, reg, CSTM("BMRW"), resetValue = 0, "custom field")
 
-   when(busif.dowrite){
+   when(busif.dowrite) {
       reg :=  reg & ~busif.writeData(31 downto 16) |  busif.writeData(15 downto 0) & busif.writeData(31 downto 16)
    }
 
@@ -278,7 +278,7 @@ withStrb
 Typical Example 
 ===============
 
-Batch creat REG-Address and fields register
+Batch create REG-Address and fields register
 
 .. code:: scala   
 
@@ -292,7 +292,7 @@ Batch creat REG-Address and fields register
     }
     val busif = Apb3BusInterface(io.apb, (0x000, 100 Byte), regPre = "AP")
 
-    (0 to 9).map{ i =>
+    (0 to 9).map { i =>
       //here use setName give REG uniq name for Docs usage
       val REG = busif.newReg(doc = s"Register${i}").setName(s"REG${i}")
       val real = REG.field(SInt(8 bit), AccessType.RW, 0, "Complex real")
@@ -365,14 +365,14 @@ Manual writing interruption
 
 this is a very tedious and repetitive work, a better way is to use the "factory" paradigm to auto-generate the documentation for each signal.
 
-now th InterruptFactory can do that.
+now the InterruptFactory can do that.
     
-Easy Way creat interruption:
+Easy Way create interruption:
 
 .. code:: scala   
     
     class EasyInterrupt extends Component {
-      val io = new Bundle{
+      val io = new Bundle {
         val apb = slave(Apb3(Apb3Config(16,32)))
         val a, b, c, d, e = in Bool()
       }
@@ -432,24 +432,24 @@ SpinalUsage:
 Spinal Factory
 --------------
                                                                                                                                                  
-=================================================================================== ===========================================================
+=================================================================================== ============================================================
 BusInterface method                                                                 Description                                                        
-=================================================================================== ===========================================================
-``InterruptFactory(regNamePre: String, triggers: Bool*)``                            creat RAW/FORCE/MASK/STATUS for pulse event      
-``InterruptFactoryNoForce(regNamePre: String, triggers: Bool*)``                     creat RAW/MASK/STATUS for pulse event      
-``InterruptFactory(regNamePre: String, triggers: Bool*)``                            creat MASK/STATUS for level_int merge       
-``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         creat RAW/FORCE/MASK/STATUS for pulse event at addrOffset 
-``InterruptFactoryNoForceAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``  creat RAW/MASK/STATUS for pulse event at addrOffset     
-``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         creat MASK/STATUS for level_int merge at addrOffset      
-=================================================================================== ===========================================================
+=================================================================================== ============================================================
+``InterruptFactory(regNamePre: String, triggers: Bool*)``                            create RAW/FORCE/MASK/STATUS for pulse event      
+``InterruptFactoryNoForce(regNamePre: String, triggers: Bool*)``                     create RAW/MASK/STATUS for pulse event      
+``InterruptFactory(regNamePre: String, triggers: Bool*)``                            create MASK/STATUS for level_int merge       
+``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         create RAW/FORCE/MASK/STATUS for pulse event at addrOffset 
+``InterruptFactoryNoForceAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``  create RAW/MASK/STATUS for pulse event at addrOffset     
+``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         create MASK/STATUS for level_int merge at addrOffset      
+=================================================================================== ============================================================
                                
 Example
 -------
 
 .. code:: scala 
 
-   class RegFileIntrExample extends Component{
-      val io = new Bundle{
+   class RegFileIntrExample extends Component {
+      val io = new Bundle {
         val apb = slave(Apb3(Apb3Config(16,32)))
         val int_pulse0, int_pulse1, int_pulse2, int_pulse3 = in Bool()
         val int_level0, int_level1, int_level2 = in Bool()
@@ -508,7 +508,7 @@ BusIfVistor give access BusIf.RegInsts to do what you want
 
     // lib/src/main/scala/lib/bus/regif/BusIfVistor.scala 
 
-    trait  BusIfVisitor {
+    trait BusIfVisitor {
       def begin(busDataWidth : Int) : Unit
       def visit(descr : FifoDescr)  : Unit  
       def visit(descr : RegDescr)   : Unit
