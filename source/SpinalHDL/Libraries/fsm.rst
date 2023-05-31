@@ -29,7 +29,7 @@ Style A:
      }
 
      val fsm = new StateMachine {
-       val counter = Reg(UInt(8 bits)) init (0)
+       val counter = Reg(UInt(8 bits)) init(0)
        io.result := False
 
        val stateA : State = new State with EntryPoint {
@@ -62,12 +62,12 @@ Style B:
        val result = out Bool()
      }
 
-     val fsm = new StateMachine{
+     val fsm = new StateMachine {
        val stateA = new State with EntryPoint
        val stateB = new State
        val stateC = new State
 
-       val counter = Reg(UInt(8 bits)) init (0)
+       val counter = Reg(UInt(8 bits)) init(0)
        io.result := False
 
        stateA
@@ -235,7 +235,7 @@ Each of them provides the following functions to define the logic associated to 
 StateDelay
 ^^^^^^^^^^
 
-``StateDelay`` allows to create a state which waits for a fixed number of cycles before executing statments in ``whenCompleted {...}``. The preferred way to use it is:
+``StateDelay`` allows you to create a state which waits for a fixed number of cycles before executing statements in ``whenCompleted {...}``. The preferred way to use it is:
 
 .. code-block:: scala
 
@@ -254,7 +254,7 @@ It can also be written in one line:
 StateFsm
 ^^^^^^^^
 
-``StateFsm`` allow to describe a state containing a nested state machine. When the nested state machine is done (exited), statments in ``whenCompleted { ... }`` are executed.
+``StateFsm`` allows you to describe a state containing a nested state machine. When the nested state machine is done (exited), statements in ``whenCompleted { ... }`` are executed.
 
 There is an example of StateFsm definition :
 
@@ -268,7 +268,7 @@ There is an example of StateFsm definition :
    }
 
    def internalFsm() = new StateMachine {
-     val counter = Reg(UInt(8 bits)) init (0)
+     val counter = Reg(UInt(8 bits)) init(0)
 
      val stateA : State = new State with EntryPoint {
        whenIsActive {
@@ -292,14 +292,14 @@ In the example above, ``exit()`` makes the state machine jump to the boot state 
 StateParallelFsm
 ^^^^^^^^^^^^^^^^
 
-``StateParallelFsm`` allows to handle multiple nested state machines. When all nested state machine are done, statments in ``whenCompleted { ... }`` are executed.
+``StateParallelFsm`` allows you to handle multiple nested state machines. When all nested state machine are done, statements in ``whenCompleted { ... }`` are executed.
 
 Example:
 
 .. code-block:: scala
 
    val stateD = new StateParallelFsm (internalFsmA(), internalFsmB()) {
-     whenCompleted{
+     whenCompleted {
        goto(stateE)
      }
    }
