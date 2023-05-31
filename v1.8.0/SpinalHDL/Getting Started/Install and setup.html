@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1190,14 +1192,14 @@
            <div itemprop="articleBody">
             
   <div class="section" id="install-and-setup">
-<span id="install"></span><h1>Install and setup<a class="headerlink" href="#install-and-setup" title="Permalink to this headline">¶</a></h1>
+<span id="install"></span><h1>Install and setup<a class="headerlink" href="#install-and-setup" title="Permalink to this heading">¶</a></h1>
 <p>Spinal is a Scala library so it requires setting up a Scala environment; there
 are many ways to do so. Also, it generates VHDL, Verilog or SystemVerilog, which
 can be used by many different tools. This section describes the supported way to
 install a <em>SpinalHDL description to Simulation</em> flow, but there can be many
 variations.</p>
 <div class="section" id="mandatory-requirements">
-<h2>Mandatory requirements<a class="headerlink" href="#mandatory-requirements" title="Permalink to this headline">¶</a></h2>
+<h2>Mandatory requirements<a class="headerlink" href="#mandatory-requirements" title="Permalink to this heading">¶</a></h2>
 <p>Before you download the SpinalHDL tools, you need to install a Scala environment:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.oracle.com/java/technologies/downloads/">Java JDK</a>, a Java
@@ -1205,19 +1207,19 @@ environment</p></li>
 <li><p><a class="reference external" href="https://www.scala-sbt.org/download.html">SBT</a>, a Scala build tool</p></li>
 </ul>
 <p>For instance, to install them on the Debian distribution:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-8-jdk
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>scala
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb https://repo.scala-sbt.org/scalasbt/debian all main&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/sbt.list
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb https://repo.scala-sbt.org/scalasbt/debian /&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/sbt_old.list
-curl<span class="w"> </span>-sL<span class="w"> </span><span class="s2">&quot;https://keyserver.ubuntu.com/pks/lookup?op=get&amp;search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add
-sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>sbt
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install openjdk-8-jdk
+sudo apt-get install scala
+<span class="nb">echo</span> <span class="s2">&quot;deb https://repo.scala-sbt.org/scalasbt/debian all main&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/sbt.list
+<span class="nb">echo</span> <span class="s2">&quot;deb https://repo.scala-sbt.org/scalasbt/debian /&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/sbt_old.list
+curl -sL <span class="s2">&quot;https://keyserver.ubuntu.com/pks/lookup?op=get&amp;search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823&quot;</span> <span class="p">|</span> sudo apt-key add
+sudo apt-get update
+sudo apt-get install sbt
 </pre></div>
 </div>
 <p>These tools enable to use Spinal; but without any other tools, it is limited to
 code generation.</p>
 <div class="section" id="installing-sbt-in-an-internet-free-environment">
-<h3>Installing SBT in an internet-free environment<a class="headerlink" href="#installing-sbt-in-an-internet-free-environment" title="Permalink to this headline">¶</a></h3>
+<h3>Installing SBT in an internet-free environment<a class="headerlink" href="#installing-sbt-in-an-internet-free-environment" title="Permalink to this heading">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you do not need this, you can skip to the next section:
@@ -1248,7 +1250,7 @@ instance using the <a class="reference external" href="https://github.com/Spinal
 </div>
 </div>
 <div class="section" id="recommended-requirements">
-<span id="recommended"></span><h2>Recommended requirements<a class="headerlink" href="#recommended-requirements" title="Permalink to this headline">¶</a></h2>
+<span id="recommended"></span><h2>Recommended requirements<a class="headerlink" href="#recommended-requirements" title="Permalink to this heading">¶</a></h2>
 <p>To enable more features:</p>
 <ul>
 <li><p>An IDE (for instance <a class="reference external" href="https://www.jetbrains.com/idea/">IntelliJ</a> with its
@@ -1272,22 +1274,22 @@ Verilator during simulation.</p></li>
 </ul>
 </div>
 <div class="section" id="create-a-spinalhdl-project">
-<span id="template"></span><h2>Create a SpinalHDL project<a class="headerlink" href="#create-a-spinalhdl-project" title="Permalink to this headline">¶</a></h2>
+<span id="template"></span><h2>Create a SpinalHDL project<a class="headerlink" href="#create-a-spinalhdl-project" title="Permalink to this heading">¶</a></h2>
 <p>We have prepared a ready-to-go project for you the: <a class="reference external" href="https://github.com/SpinalHDL/SpinalTemplateSbt">getting started</a> repository.</p>
 <p>You can <a class="reference external" href="https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master">download</a> it, or clone it.</p>
 <p>The following commands clone the project into a new directory named
 <code class="docutils literal notranslate"><span class="pre">MySpinalProject</span></code> and initialize a fresh <code class="docutils literal notranslate"><span class="pre">git</span></code> history:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/SpinalHDL/SpinalTemplateSbt.git<span class="w"> </span>MySpinalProject
-<span class="nb">cd</span><span class="w"> </span>MySpinalProject
-rm<span class="w"> </span>-rf<span class="w"> </span>.git
-git<span class="w"> </span>init
-git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit from template&quot;</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone --depth <span class="m">1</span> https://github.com/SpinalHDL/SpinalTemplateSbt.git MySpinalProject
+<span class="nb">cd</span> MySpinalProject
+rm -rf .git
+git init
+git add .
+git commit -m <span class="s2">&quot;Initial commit from template&quot;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="the-directory-structure-of-a-project">
-<h2>The directory structure of a project<a class="headerlink" href="#the-directory-structure-of-a-project" title="Permalink to this headline">¶</a></h2>
+<h2>The directory structure of a project<a class="headerlink" href="#the-directory-structure-of-a-project" title="Permalink to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The structure described here is the default structure, but it can be easily
@@ -1348,7 +1350,7 @@ containing <code class="docutils literal notranslate"><span class="pre">build.sb
 </div>
 </div>
 <div class="section" id="using-spinal-on-spinalhdl-code">
-<h2>Using Spinal on SpinalHDL code<a class="headerlink" href="#using-spinal-on-spinalhdl-code" title="Permalink to this headline">¶</a></h2>
+<h2>Using Spinal on SpinalHDL code<a class="headerlink" href="#using-spinal-on-spinalhdl-code" title="Permalink to this heading">¶</a></h2>
 <p>Now the tutorial shows how to use Spinal on SpinalHDL code depending on your
 development environment:</p>
 <ul class="simple">
@@ -1419,6 +1421,11 @@ development environment:</p>
       <dt>Branches</dt>
       <dd><a href="../../../dev/index.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Getting Started/Install and setup.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

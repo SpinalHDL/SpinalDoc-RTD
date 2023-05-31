@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1029,86 +1031,86 @@
            <div itemprop="articleBody">
             
   <div class="section" id="state-machine">
-<span id="id1"></span><h1>State machine<a class="headerlink" href="#state-machine" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>State machine<a class="headerlink" href="#state-machine" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>In SpinalHDL you can define your state machine like in VHDL/Verilog, by using enumerations and switch cases statements. But in SpinalHDL you can also use a dedicated syntax.</p>
 <p>The following state machine is implemented in following examples :</p>
 <a class="reference internal image-reference" href="../../_images/fsm_simple.svg"><img alt="../../_images/fsm_simple.svg" class="align-center" src="../../_images/fsm_simple.svg" width="300" /></a>
 <p>Style A :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">fsm</span><span class="p">.</span><span class="n">_</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
 
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="p">{</span>
-<span class="w">      </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">))</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="p">{</span>
-<span class="w">      </span><span class="n">onEntry</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">      </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">){</span>
-<span class="w">          </span><span class="n">goto</span><span class="p">(</span><span class="n">stateC</span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">      </span><span class="n">onExit</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateC</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="p">{</span>
-<span class="w">      </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateA</span><span class="p">))</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">onEntry</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">){</span><span class="w"></span>
+<span class="w">          </span><span class="n">goto</span><span class="p">(</span><span class="n">stateC</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="n">onExit</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateC</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateA</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Style B :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">fsm</span><span class="p">.</span><span class="n">_</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">stateC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"></span>
 
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">stateA</span>
-<span class="w">      </span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">))</span>
+<span class="w">    </span><span class="n">stateA</span><span class="w"></span>
+<span class="w">      </span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">))</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">stateB</span>
-<span class="w">      </span><span class="p">.</span><span class="n">onEntry</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">      </span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">){</span>
-<span class="w">          </span><span class="n">goto</span><span class="p">(</span><span class="n">stateC</span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">      </span><span class="p">.</span><span class="n">onExit</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span>
+<span class="w">    </span><span class="n">stateB</span><span class="w"></span>
+<span class="w">      </span><span class="p">.</span><span class="n">onEntry</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">){</span><span class="w"></span>
+<span class="w">          </span><span class="n">goto</span><span class="p">(</span><span class="n">stateC</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">.</span><span class="n">onExit</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">stateC</span>
-<span class="w">      </span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateA</span><span class="p">))</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">stateC</span><span class="w"></span>
+<span class="w">      </span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateA</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="statemachine">
-<h2>StateMachine<a class="headerlink" href="#statemachine" title="Permalink to this headline">¶</a></h2>
+<h2>StateMachine<a class="headerlink" href="#statemachine" title="Permalink to this heading">¶</a></h2>
 <p>StateMachine is the base class that will manage the logic of your FSM.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myFsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myFsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// Here will come states definition</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The StateMachine class also provide some utils :</p>
@@ -1137,7 +1139,7 @@
 </table>
 </div>
 <div class="section" id="states">
-<h2>States<a class="headerlink" href="#states" title="Permalink to this headline">¶</a></h2>
+<h2>States<a class="headerlink" href="#states" title="Permalink to this heading">¶</a></h2>
 <p>There is multiple kinds of states that you can use.</p>
 <ul class="simple">
 <li><p>State (the base one)</p></li>
@@ -1207,85 +1209,85 @@
 </table>
 <p>For example, the following state could be defined in SpinalHDL by using the following syntax :</p>
 <a class="reference internal image-reference" href="../../_images/fsm_stateb.svg"><img alt="../../_images/fsm_stateb.svg" class="align-center" src="../../_images/fsm_stateb.svg" width="300" /></a>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="p">{</span>
-<span class="w">  </span><span class="n">onEntry</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">  </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">){</span>
-<span class="w">      </span><span class="n">goto</span><span class="p">(</span><span class="n">stateC</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">onExit</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">onEntry</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">goto</span><span class="p">(</span><span class="n">stateC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">onExit</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can also define your state as the entry point of the state machine by extends the EntryPoint trait.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="section" id="statedelay">
-<h3>StateDelay<a class="headerlink" href="#statedelay" title="Permalink to this headline">¶</a></h3>
+<h3>StateDelay<a class="headerlink" href="#statedelay" title="Permalink to this heading">¶</a></h3>
 <p>StateDelay allow you to create a state which wait a fixed number of cycles before executing statments in your <code class="docutils literal notranslate"><span class="pre">whenCompleted{...}</span></code>. The standard way to write it is :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateG</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateDelay</span><span class="p">(</span><span class="n">cyclesCount</span><span class="o">=</span><span class="mi">40</span><span class="p">){</span>
-<span class="w">  </span><span class="n">whenCompleted</span><span class="p">{</span>
-<span class="w">    </span><span class="n">goto</span><span class="p">(</span><span class="n">stateH</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateG</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateDelay</span><span class="p">(</span><span class="n">cyclesCount</span><span class="o">=</span><span class="mi">40</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="n">whenCompleted</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">goto</span><span class="p">(</span><span class="n">stateH</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>But you can also write it like that :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateG</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateDelay</span><span class="p">(</span><span class="mi">40</span><span class="p">){</span><span class="n">whenCompleted</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateH</span><span class="p">))}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateG</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateDelay</span><span class="p">(</span><span class="mi">40</span><span class="p">){</span><span class="n">whenCompleted</span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateH</span><span class="p">))}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="statefsm">
-<h3>StateFsm<a class="headerlink" href="#statefsm" title="Permalink to this headline">¶</a></h3>
+<h3>StateFsm<a class="headerlink" href="#statefsm" title="Permalink to this heading">¶</a></h3>
 <p>StateFsm Allow you to describe a state which contains a nested state machine. When the nested state machine is done, your statments in <code class="docutils literal notranslate"><span class="pre">whenCompleted{...}</span></code> are executed.</p>
 <p>There is an example of StateFsm definition :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateFsm</span><span class="p">(</span><span class="n">fsm</span><span class="o">=</span><span class="n">internalFsm</span><span class="p">()){</span>
-<span class="w">  </span><span class="n">whenCompleted</span><span class="p">{</span>
-<span class="w">    </span><span class="n">goto</span><span class="p">(</span><span class="n">stateD</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateFsm</span><span class="p">(</span><span class="n">fsm</span><span class="o">=</span><span class="n">internalFsm</span><span class="p">()){</span><span class="w"></span>
+<span class="w">  </span><span class="n">whenCompleted</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">goto</span><span class="p">(</span><span class="n">stateD</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>As you can see in the precedent code, it use a <code class="docutils literal notranslate"><span class="pre">internalFsm</span></code> function to create the inner state machine. There is an example of definition bellow :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">internalFsm</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">internalFsm</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">EntryPoint</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">onEntry</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">    </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">exit</span><span class="p">()</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">      </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateB</span><span class="p">:</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">onEntry</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">exit</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>In the precedent example, the <code class="docutils literal notranslate"><span class="pre">exit()</span></code> call will make the state machine jump to the boot state (a internal hidden state). This notify the StateFsm about the completion of the inner state machine.</p>
 </div>
 <div class="section" id="stateparallelfsm">
-<h3>StateParallelFsm<a class="headerlink" href="#stateparallelfsm" title="Permalink to this headline">¶</a></h3>
+<h3>StateParallelFsm<a class="headerlink" href="#stateparallelfsm" title="Permalink to this heading">¶</a></h3>
 <p>This state is able to handle multiple nested state machines. When all nested state machine are done, your statments in <code class="docutils literal notranslate"><span class="pre">whenCompleted{...}</span></code> are executed.</p>
 <p>There is an example of declaration :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateParallelFsm</span><span class="w"> </span><span class="p">(</span><span class="n">internalFsmA</span><span class="p">(),</span><span class="w"> </span><span class="n">internalFsmB</span><span class="p">()){</span>
-<span class="w">  </span><span class="n">whenCompleted</span><span class="p">{</span>
-<span class="w">    </span><span class="n">goto</span><span class="p">(</span><span class="n">stateE</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateParallelFsm</span><span class="w"> </span><span class="p">(</span><span class="n">internalFsmA</span><span class="p">(),</span><span class="w"> </span><span class="n">internalFsmB</span><span class="p">()){</span><span class="w"></span>
+<span class="w">  </span><span class="n">whenCompleted</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">goto</span><span class="p">(</span><span class="n">stateE</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1352,6 +1354,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Libraries/fsm.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Libraries/fsm.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

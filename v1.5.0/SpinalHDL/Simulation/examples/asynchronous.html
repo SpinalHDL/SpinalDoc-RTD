@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1031,7 +1033,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="asynchronous-adder">
-<span id="sim-example-asynchronous-adder"></span><h1>Asynchronous adder<a class="headerlink" href="#asynchronous-adder" title="Permalink to this headline">¶</a></h1>
+<span id="sim-example-asynchronous-adder"></span><h1>Asynchronous adder<a class="headerlink" href="#asynchronous-adder" title="Permalink to this heading">¶</a></h1>
 <p>This example creates a <code class="docutils literal notranslate"><span class="pre">Component</span></code> out of combinational logic that does some simple arithmetic on 3 operands.</p>
 <p>The test bench performs the following steps 100 times:</p>
 <blockquote>
@@ -1049,30 +1051,30 @@
 <span class="k">import</span><span class="w"> </span><span class="nn">scala</span><span class="p">.</span><span class="nn">util</span><span class="p">.</span><span class="nc">Random</span>
 
 
-<span class="k">object</span><span class="w"> </span><span class="nc">SimAsynchronousExample</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">Dut</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">c</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">SimAsynchronousExample</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">Dut</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Dut</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">      </span><span class="k">while</span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">){</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Random</span><span class="p">.</span><span class="n">nextInt</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
-<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="n">a</span>
-<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="n">b</span>
-<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="n">c</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Dut</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="kd">var</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="k">while</span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Random</span><span class="p">.</span><span class="n">nextInt</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
 <span class="w">        </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c1">// Sleep 1 simulation timestep</span>
-<span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">((</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="mh">0xFF</span><span class="p">))</span>
-<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">((</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="mh">0xFF</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1137,6 +1139,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../../dev/SpinalHDL/Simulation/examples/asynchronous.html">dev</a></dd>
       <dd><a href="../../../../master/SpinalHDL/Simulation/examples/asynchronous.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.5.0.">HTML</a></dd>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.5.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

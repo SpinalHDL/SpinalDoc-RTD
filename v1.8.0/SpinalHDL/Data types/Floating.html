@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1194,9 +1196,9 @@
 <p>SpinalHDL floating-point support is under development and only partially used/tested, if you have any bugs with it, or you think that some functionality is missing, please create a <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues">Github issue</a>. Also, please do not use undocumented features in your code.</p>
 </div>
 <div class="section" id="floating">
-<span id="id1"></span><h1>Floating<a class="headerlink" href="#floating" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Floating<a class="headerlink" href="#floating" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">Floating</span></code> type corresponds to IEEE-754 encoded numbers. A second type called <code class="docutils literal notranslate"><span class="pre">RecFloating</span></code> helps in simplifying your design by recoding the floating-point value simplify some edge cases in IEEE-754 floating-point.</p>
 <p>It’s composed of a sign bit, an exponent field and a mantissa field. The widths of the different fields are defined in the IEEE-754 or de-facto standards.</p>
 <p>This type can be used with the following import:</p>
@@ -1204,44 +1206,44 @@
 </pre></div>
 </div>
 <div class="section" id="ieee-754-floating-format">
-<h3>IEEE-754 floating format<a class="headerlink" href="#ieee-754-floating-format" title="Permalink to this headline">¶</a></h3>
+<h3>IEEE-754 floating format<a class="headerlink" href="#ieee-754-floating-format" title="Permalink to this heading">¶</a></h3>
 <p>The numbers are encoded into IEEE-754 <a class="reference external" href="https://en.wikipedia.org/wiki/IEEE_floating_point">floating-point format</a>.</p>
 </div>
 <div class="section" id="recoded-floating-format">
-<h3>Recoded floating format<a class="headerlink" href="#recoded-floating-format" title="Permalink to this headline">¶</a></h3>
+<h3>Recoded floating format<a class="headerlink" href="#recoded-floating-format" title="Permalink to this heading">¶</a></h3>
 <p>Since IEEE-754 has some quirks about denormalized numbers and special values, Berkeley proposed another way of recoding floating-point values.</p>
 <p>The mantissa is modified so that denormalized values can be treated the same as the normalized ones.</p>
 <p>The exponent field is one bit larger that one of the IEEE-754 number.</p>
 <p>The sign bit is kept unchanged between the two encodings.</p>
 <p>Examples can be found <a class="reference external" href="https://github.com/ucb-bar/berkeley-hardfloat/blob/master/README.md">here</a></p>
 <div class="section" id="zero">
-<h4>Zero<a class="headerlink" href="#zero" title="Permalink to this headline">¶</a></h4>
+<h4>Zero<a class="headerlink" href="#zero" title="Permalink to this heading">¶</a></h4>
 <p>The zero is encoded with the three leading zeros of the exponent field being set to zero.</p>
 </div>
 <div class="section" id="denormalized-values">
-<h4>Denormalized values<a class="headerlink" href="#denormalized-values" title="Permalink to this headline">¶</a></h4>
+<h4>Denormalized values<a class="headerlink" href="#denormalized-values" title="Permalink to this heading">¶</a></h4>
 <p>Denormalized values are encoded in the same way as a normal floating-point number. The mantissa is shifted so that the first one becomes implicit.
 The exponent is encoded as 107 (decimal) plus the index of the highest bit set to 1.</p>
 </div>
 <div class="section" id="normalized-values">
-<h4>Normalized values<a class="headerlink" href="#normalized-values" title="Permalink to this headline">¶</a></h4>
+<h4>Normalized values<a class="headerlink" href="#normalized-values" title="Permalink to this heading">¶</a></h4>
 <p>The recoded mantissa for normalized values is exactly the same as the original IEEE-754 mantissa. The recoded exponent is encoded as 130 (decimal) plus the original exponent value.</p>
 </div>
 <div class="section" id="infinity">
-<h4>Infinity<a class="headerlink" href="#infinity" title="Permalink to this headline">¶</a></h4>
+<h4>Infinity<a class="headerlink" href="#infinity" title="Permalink to this heading">¶</a></h4>
 <p>The recoded mantissa value is treated as don’t care. The recoded exponent three highest bits is 6 (decimal), the rest of the exponent can be treated as don’t care.</p>
 </div>
 <div class="section" id="nan">
-<h4>NaN<a class="headerlink" href="#nan" title="Permalink to this headline">¶</a></h4>
+<h4>NaN<a class="headerlink" href="#nan" title="Permalink to this heading">¶</a></h4>
 <p>The recoded mantissa for normalized values is exactly the same as the original IEEE-754 mantissa. The recoded exponent three highest bits is 7 (decimal), the rest of the exponent can be treated as don’t care.</p>
 </div>
 </div>
 </div>
 <div class="section" id="declaration">
-<h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this headline">¶</a></h2>
+<h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this heading">¶</a></h2>
 <p>The syntax to declare a floating-point number is as follows:</p>
 <div class="section" id="ieee-754-number">
-<h3>IEEE-754 Number<a class="headerlink" href="#ieee-754-number" title="Permalink to this headline">¶</a></h3>
+<h3>IEEE-754 Number<a class="headerlink" href="#ieee-754-number" title="Permalink to this heading">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 50%" />
@@ -1272,7 +1274,7 @@ The exponent is encoded as 107 (decimal) plus the index of the highest bit set t
 </table>
 </div>
 <div class="section" id="recoded-floating-point-number">
-<h3>Recoded floating-point number<a class="headerlink" href="#recoded-floating-point-number" title="Permalink to this headline">¶</a></h3>
+<h3>Recoded floating-point number<a class="headerlink" href="#recoded-floating-point-number" title="Permalink to this heading">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 50%" />
@@ -1304,10 +1306,10 @@ The exponent is encoded as 107 (decimal) plus the index of the highest bit set t
 </div>
 </div>
 <div class="section" id="operators">
-<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this heading">¶</a></h2>
 <p>The following operators are available for the <code class="docutils literal notranslate"><span class="pre">Floating</span></code> and <code class="docutils literal notranslate"><span class="pre">RecFloating</span></code> types:</p>
 <div class="section" id="type-cast">
-<h3>Type cast<a class="headerlink" href="#type-cast" title="Permalink to this headline">¶</a></h3>
+<h3>Type cast<a class="headerlink" href="#type-cast" title="Permalink to this heading">¶</a></h3>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 25%" />
@@ -1411,6 +1413,11 @@ The exponent is encoded as 107 (decimal) plus the index of the highest bit set t
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Data types/Floating.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Data types/Floating.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

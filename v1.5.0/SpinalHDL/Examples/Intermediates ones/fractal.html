@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1031,13 +1033,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="fractal-calculator">
-<h1>Fractal calculator<a class="headerlink" href="#fractal-calculator" title="Permalink to this headline">¶</a></h1>
+<h1>Fractal calculator<a class="headerlink" href="#fractal-calculator" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>This example will show a simple implementation (without optimization) of a Mandelbrot fractal calculator by using data streams and fixed point calculations.</p>
 </div>
 <div class="section" id="specification">
-<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h2>
+<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this heading">¶</a></h2>
 <p>The component will receive one <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of pixel tasks (which contain the XY coordinates in the Mandelbrot space) and will produce one <code class="docutils literal notranslate"><span class="pre">Stream</span></code> of pixel results (which contain the number of iterations done for the corresponding task).</p>
 <p>Let’s specify the IO of our component:</p>
 <table class="colwidths-given docutils align-default">
@@ -1113,18 +1115,18 @@
 </table>
 </div>
 <div class="section" id="elaboration-parameters-generics">
-<h2>Elaboration parameters (Generics)<a class="headerlink" href="#elaboration-parameters-generics" title="Permalink to this headline">¶</a></h2>
+<h2>Elaboration parameters (Generics)<a class="headerlink" href="#elaboration-parameters-generics" title="Permalink to this heading">¶</a></h2>
 <p>Let’s define the class that will provide construction parameters of our system:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PixelSolverGenerics</span><span class="p">(</span><span class="n">fixAmplitude</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span>
-<span class="w">                               </span><span class="n">fixResolution</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span>
-<span class="w">                               </span><span class="n">iterationLimit</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">){</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">iterationWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2Up</span><span class="p">(</span><span class="n">iterationLimit</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">iterationType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">iterationWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">fixType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SFix</span><span class="p">(</span>
-<span class="w">    </span><span class="n">peak</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fixAmplitude</span><span class="w"> </span><span class="n">exp</span><span class="p">,</span>
-<span class="w">    </span><span class="n">resolution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fixResolution</span><span class="w"> </span><span class="n">exp</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PixelSolverGenerics</span><span class="p">(</span><span class="n">fixAmplitude</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="n">fixResolution</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="n">iterationLimit</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">iterationWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2Up</span><span class="p">(</span><span class="n">iterationLimit</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">iterationType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">iterationWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">fixType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SFix</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">peak</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fixAmplitude</span><span class="w"> </span><span class="n">exp</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">resolution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fixResolution</span><span class="w"> </span><span class="n">exp</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -1133,59 +1135,59 @@
 </div>
 </div>
 <div class="section" id="bundle-definition">
-<h2>Bundle definition<a class="headerlink" href="#bundle-definition" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PixelTask</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">PixelSolverGenerics</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">.</span><span class="n">fixType</span>
-<span class="p">}</span>
+<h2>Bundle definition<a class="headerlink" href="#bundle-definition" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PixelTask</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">PixelSolverGenerics</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">.</span><span class="n">fixType</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PixelResult</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">PixelSolverGenerics</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">.</span><span class="n">iterationType</span>
-<span class="p">}</span>
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PixelResult</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">PixelSolverGenerics</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">.</span><span class="n">iterationType</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="component-implementation">
-<h2>Component implementation<a class="headerlink" href="#component-implementation" title="Permalink to this headline">¶</a></h2>
+<h2>Component implementation<a class="headerlink" href="#component-implementation" title="Permalink to this heading">¶</a></h2>
 <p>And now the implementation. The one below is a very simple one without pipelining / multi-threading.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PixelSolver</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">PixelSolverGenerics</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="w">  </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">PixelTask</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rsp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">PixelResult</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PixelSolver</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">PixelSolverGenerics</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="w">  </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">PixelTask</span><span class="p">(</span><span class="n">g</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rsp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">PixelResult</span><span class="p">(</span><span class="n">g</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="k">import</span><span class="w"> </span><span class="nn">g</span><span class="p">.</span><span class="n">_</span>
 
 <span class="w">  </span><span class="c1">//Define states</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="n">fixType</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="n">iterationType</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="n">fixType</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="n">iterationType</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Do some shared calculation</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">xx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">x</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">yy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="o">*</span><span class="n">y</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">xy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">y</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">xx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">yy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">xy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Apply default assignment</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">iteration</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">iteration</span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">iteration</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">iteration</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">valid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">valid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//Is the mandelbrot iteration done ?</span>
-<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">xx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">yy</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">4.0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">iterationLimit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="n">io</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
-<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">ready</span><span class="p">){</span>
-<span class="w">        </span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
-<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">        </span><span class="n">iteration</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">xx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">yy</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">x</span><span class="p">).</span><span class="n">truncated</span>
-<span class="w">      </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(((</span><span class="n">xy</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">y</span><span class="p">).</span><span class="n">truncated</span>
-<span class="w">      </span><span class="n">iteration</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">xx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">yy</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">4.0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">iterationLimit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">io</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">ready</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">iteration</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">xx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">yy</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">x</span><span class="p">).</span><span class="n">truncated</span><span class="w"></span>
+<span class="w">      </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(((</span><span class="n">xy</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cmd</span><span class="p">.</span><span class="n">y</span><span class="p">).</span><span class="n">truncated</span><span class="w"></span>
+<span class="w">      </span><span class="n">iteration</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1251,6 +1253,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../../dev/SpinalHDL/Examples/Intermediates ones/fractal.html">dev</a></dd>
       <dd><a href="../../../../master/SpinalHDL/Examples/Intermediates ones/fractal.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.5.0.">HTML</a></dd>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.5.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

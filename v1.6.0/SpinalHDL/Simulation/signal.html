@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1038,9 +1040,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="accessing-signals-of-the-simulation">
-<h1>Accessing signals of the simulation<a class="headerlink" href="#accessing-signals-of-the-simulation" title="Permalink to this headline">¶</a></h1>
+<h1>Accessing signals of the simulation<a class="headerlink" href="#accessing-signals-of-the-simulation" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="read-and-write-signals">
-<h2>Read and write signals<a class="headerlink" href="#read-and-write-signals" title="Permalink to this headline">¶</a></h2>
+<h2>Read and write signals<a class="headerlink" href="#read-and-write-signals" title="Permalink to this heading">¶</a></h2>
 <p>Each interface signal of the toplevel can be read and written from Scala:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1085,62 +1087,62 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="mi">42</span>
-<span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="il">42l</span>
-<span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="s">&quot;101010&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
-<span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="s">&quot;0123456789ABCDEF&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
-<span class="n">println</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
+<span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="il">42l</span><span class="w"></span>
+<span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="s">&quot;101010&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="s">&quot;0123456789ABCDEF&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
+<span class="n">println</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="accessing-signals-inside-the-component-s-hierarchy">
-<h2>Accessing signals inside the component’s hierarchy<a class="headerlink" href="#accessing-signals-inside-the-component-s-hierarchy" title="Permalink to this headline">¶</a></h2>
+<h2>Accessing signals inside the component’s hierarchy<a class="headerlink" href="#accessing-signals-inside-the-component-s-hierarchy" title="Permalink to this heading">¶</a></h2>
 <p>To access signals which are inside the component’s hierarchy, you have first to set the given signal as <code class="docutils literal notranslate"><span class="pre">simPublic</span></code>.</p>
 <p>You can add this <code class="docutils literal notranslate"><span class="pre">simPublic</span></code> tag directly in the hardware description:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">SimAccessSubSignal</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">SimAccessSubSignal</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
 
-<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">simPublic</span><span class="p">()</span><span class="w"> </span><span class="c1">// Here we add the simPublic tag on the counter register to make it visible</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">      </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSampling</span><span class="p">()</span>
-<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSampling</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Or you can add it later, after having instantiated your toplevel for the simulation:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">SimAccessSubSignal</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">SimAccessSubSignal</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
-<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span>
-<span class="w">      </span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">simPublic</span><span class="p">()</span>
-<span class="w">      </span><span class="n">dut</span>
-<span class="w">    </span><span class="p">}.</span><span class="n">doSim</span><span class="p">{</span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">      </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"></span>
+<span class="w">      </span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">simPublic</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="n">dut</span><span class="w"></span>
+<span class="w">    </span><span class="p">}.</span><span class="n">doSim</span><span class="p">{</span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSampling</span><span class="p">()</span>
-<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">      </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSampling</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1206,6 +1208,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Simulation/signal.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Simulation/signal.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.6.0.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.6.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

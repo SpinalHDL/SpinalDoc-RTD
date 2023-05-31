@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1190,9 +1192,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="parametrization">
-<h1>Parametrization<a class="headerlink" href="#parametrization" title="Permalink to this headline">¶</a></h1>
+<h1>Parametrization<a class="headerlink" href="#parametrization" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>There is multiple aspect to parametrization :</p>
 <ul class="simple">
 <li><p>Providing elaboration time parameters to the design</p></li>
@@ -1200,46 +1202,46 @@
 </ul>
 </div>
 <div class="section" id="elaboration-time-parameters">
-<h2>Elaboration time parameters<a class="headerlink" href="#elaboration-time-parameters" title="Permalink to this headline">¶</a></h2>
+<h2>Elaboration time parameters<a class="headerlink" href="#elaboration-time-parameters" title="Permalink to this heading">¶</a></h2>
 <p>You can use the whole scala syntax to provide elaboration time parameters.</p>
 <p>Here is an example of class parameters</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can also use global variable defined in scala object’s, but note that recently was added the ScopeProperty feature which improve on that solution.</p>
 </div>
 <div class="section" id="optional-hardware">
-<h2>Optional hardware<a class="headerlink" href="#optional-hardware" title="Permalink to this headline">¶</a></h2>
+<h2>Optional hardware<a class="headerlink" href="#optional-hardware" title="Permalink to this heading">¶</a></h2>
 <p>So here there is more possibilities.</p>
 <p>For optional signal :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span><span class="w">  </span><span class="c1">//Equivalent to &quot;if (flag) in Bool() else null&quot;</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can do the same in Bundle.</p>
 <p>Note that you can also use scala Option.</p>
 <p>If you want to disable the generation of a chunk of hardware :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//optional hardware here</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can also use scala for loops :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// hardware here</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>So, you can extends those scala usages at elaboration time as much as you want, including using the whole scala collections (List, Set, Map, …)
@@ -1307,6 +1309,11 @@ to build some data model and then converting them into hardware in a procedural 
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Structuring/parametrization.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Structuring/parametrization.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1192,7 +1194,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="pll-blackbox-and-reset-controller">
-<h1>PLL BlackBox and reset controller<a class="headerlink" href="#pll-blackbox-and-reset-controller" title="Permalink to this headline">¶</a></h1>
+<h1>PLL BlackBox and reset controller<a class="headerlink" href="#pll-blackbox-and-reset-controller" title="Permalink to this heading">¶</a></h1>
 <p>Let’s imagine you want to define a <code class="docutils literal notranslate"><span class="pre">TopLevel</span></code> component which instantiates a PLL <code class="docutils literal notranslate"><span class="pre">BlackBox</span></code>, and create a new clock domain from it which will be used by your core logic. Let’s also imagine that you want to adapt an external asynchronous reset into this core clock domain to a synchronous reset source.</p>
 <p>The following imports will be used in code examples on this page:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
@@ -1200,67 +1202,67 @@
 </pre></div>
 </div>
 <div class="section" id="the-pll-blackbox-definition">
-<h2>The PLL BlackBox definition<a class="headerlink" href="#the-pll-blackbox-definition" title="Permalink to this headline">¶</a></h2>
+<h2>The PLL BlackBox definition<a class="headerlink" href="#the-pll-blackbox-definition" title="Permalink to this heading">¶</a></h2>
 <p>This is how to define the PLL <code class="docutils literal notranslate"><span class="pre">BlackBox</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PLL</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clkIn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clkOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">isLocked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PLL</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clkIn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clkOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">isLocked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>This will correspond to the following VHDL component:</p>
-<div class="highlight-VHDL notranslate"><div class="highlight"><pre><span></span><span class="k">component</span><span class="w"> </span><span class="nc">PLL</span><span class="w"> </span><span class="k">is</span>
-<span class="w">  </span><span class="k">port</span><span class="p">(</span>
-<span class="w">    </span><span class="n">clkIn</span><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="w">    </span><span class="n">clkOut</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="w">    </span><span class="n">isLocked</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span>
-<span class="w">  </span><span class="p">);</span>
-<span class="k">end</span><span class="w"> </span><span class="k">component</span><span class="p">;</span>
+<div class="highlight-VHDL notranslate"><div class="highlight"><pre><span></span><span class="k">component</span><span class="w"> </span><span class="nc">PLL</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">clkIn</span><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">clkOut</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">isLocked</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span><span class="w"></span>
+<span class="w">  </span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="k">component</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="toplevel-definition">
-<h2>TopLevel definition<a class="headerlink" href="#toplevel-definition" title="Permalink to this headline">¶</a></h2>
+<h2>TopLevel definition<a class="headerlink" href="#toplevel-definition" title="Permalink to this heading">¶</a></h2>
 <p>This is how to define your <code class="docutils literal notranslate"><span class="pre">TopLevel</span></code> which instantiates the PLL, creates the new <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>, and also adapts the asynchronous reset input to a synchronous reset:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">aReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk100Mhz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">aReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk100Mhz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Create an Area to manage all clocks and reset things</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Instantiate and drive the PLL</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">pll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">PLL</span>
-<span class="w">    </span><span class="n">pll</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">clkIn</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">clk100Mhz</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">pll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">PLL</span><span class="w"></span>
+<span class="w">    </span><span class="n">pll</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">clkIn</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">clk100Mhz</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">//Create a new clock domain named &#39;core&#39;</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">internal</span><span class="p">(</span>
-<span class="w">      </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;core&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">internal</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;core&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">200</span><span class="w"> </span><span class="nc">MHz</span><span class="p">)</span><span class="w">  </span><span class="c1">// This frequency specification can be used</span>
 <span class="w">    </span><span class="p">)</span><span class="w">                                      </span><span class="c1">// by coreClockDomain users to do some calculations</span>
 
 <span class="w">    </span><span class="c1">//Drive clock and reset signals of the coreClockDomain previously created</span>
-<span class="w">    </span><span class="n">coreClockDomain</span><span class="p">.</span><span class="n">clock</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">pll</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">clkOut</span>
-<span class="w">    </span><span class="n">coreClockDomain</span><span class="p">.</span><span class="n">reset</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">ResetCtrl</span><span class="p">.</span><span class="n">asyncAssertSyncDeassert</span><span class="p">(</span>
-<span class="w">      </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">aReset</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="n">pll</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">isLocked</span><span class="p">,</span>
-<span class="w">      </span><span class="n">clockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coreClockDomain</span>
-<span class="w">    </span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">    </span><span class="n">coreClockDomain</span><span class="p">.</span><span class="n">clock</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">pll</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">clkOut</span><span class="w"></span>
+<span class="w">    </span><span class="n">coreClockDomain</span><span class="p">.</span><span class="n">reset</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">ResetCtrl</span><span class="p">.</span><span class="n">asyncAssertSyncDeassert</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">aReset</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="n">pll</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">isLocked</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="n">clockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"></span>
+<span class="w">    </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Create a ClockingArea which will be under the effect of the clkCtrl.coreClockDomain</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">clkCtrl</span><span class="p">.</span><span class="n">coreClockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">clkCtrl</span><span class="p">.</span><span class="n">coreClockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//Do your stuff which use coreClockDomain here</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1326,6 +1328,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../../dev/SpinalHDL/Examples/Simple ones/pll_resetctrl.html">dev</a></dd>
       <dd><a href="../../../../master/SpinalHDL/Examples/Simple ones/pll_resetctrl.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.8.0.">HTML</a></dd>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.8.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

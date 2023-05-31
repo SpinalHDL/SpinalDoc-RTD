@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -345,14 +347,14 @@
            <div itemprop="articleBody">
             
   <div class="section" id="coding-conventions">
-<h1>Coding conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this headline">¶</a></h1>
+<h1>Coding conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>The coding conventions used in SpinalHDL are the same as the ones documented in the <a class="reference external" href="https://docs.scala-lang.org/style/">scala doc</a>.</p>
 <p>Some additional practical details and cases are explained in next chapters.</p>
 </div>
 <div class="section" id="class-vs-case-class">
-<h2>class vs case class<a class="headerlink" href="#class-vs-case-class" title="Permalink to this headline">¶</a></h2>
+<h2>class vs case class<a class="headerlink" href="#class-vs-case-class" title="Permalink to this heading">¶</a></h2>
 <p>When you define a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> or a <code class="docutils literal notranslate"><span class="pre">Component</span></code>, have a preference to declare them as case class.</p>
 <p>The reasons are:</p>
 <ul class="simple">
@@ -361,79 +363,79 @@
 <li><p>Construction parameters are directly visible from outside.</p></li>
 </ul>
 <div class="section" id="case-class">
-<h3>[case] class<a class="headerlink" href="#case-class" title="Permalink to this headline">¶</a></h3>
+<h3>[case] class<a class="headerlink" href="#case-class" title="Permalink to this heading">¶</a></h3>
 <p>All classes names should start with a upper case letter</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Counter</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Counter</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="companion-object">
-<h3>companion object<a class="headerlink" href="#companion-object" title="Permalink to this headline">¶</a></h3>
+<h3>companion object<a class="headerlink" href="#companion-object" title="Permalink to this heading">¶</a></h3>
 <p>A companion object should start with a upper case letter.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]):</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]):</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Bits</span><span class="p">):</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span>
-<span class="p">}</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Bits</span><span class="p">):</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>An exception to this rule is when the companion object is used as a function (only <code class="docutils literal notranslate"><span class="pre">apply</span></code> inside), and these <code class="docutils literal notranslate"><span class="pre">apply</span></code> functions don’t generate hardware:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">log2</span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">log2</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="function">
-<h3>function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h3>
+<h3>function<a class="headerlink" href="#function" title="Permalink to this heading">¶</a></h3>
 <p>A function should always start with a lower case letter:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sinTable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">).</span><span class="n">map</span><span class="p">(</span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sinValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="nc">PI</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">)</span>
-<span class="w">  </span><span class="nc">S</span><span class="p">((</span><span class="n">sinValue</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">resolutionWidth</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)).</span><span class="n">toInt</span><span class="p">,</span><span class="w"> </span><span class="n">resolutionWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">})</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sinTable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">).</span><span class="n">map</span><span class="p">(</span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sinValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="nc">PI</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nc">S</span><span class="p">((</span><span class="n">sinValue</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">resolutionWidth</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)).</span><span class="n">toInt</span><span class="p">,</span><span class="w"> </span><span class="n">resolutionWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">rom</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="n">resolutionWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="n">initialContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sinTable</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">rom</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="n">resolutionWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="n">initialContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sinTable</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="instances">
-<h3>instances<a class="headerlink" href="#instances" title="Permalink to this headline">¶</a></h3>
+<h3>instances<a class="headerlink" href="#instances" title="Permalink to this heading">¶</a></h3>
 <p>Instances of classes should always start with a lower case letter:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="if-when">
-<h3>if / when<a class="headerlink" href="#if-when" title="Permalink to this headline">¶</a></h3>
+<h3>if / when<a class="headerlink" href="#if-when" title="Permalink to this heading">¶</a></h3>
 <p>Scala <code class="docutils literal notranslate"><span class="pre">if</span></code> and SpinalHDL <code class="docutils literal notranslate"><span class="pre">when</span></code> should normally be written in the following way:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span><span class="w"></span>
 
-<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span>
+<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span><span class="w"></span>
 
-<span class="p">}.</span><span class="n">elseWhen</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span>
+<span class="p">}.</span><span class="n">elseWhen</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span><span class="w"></span>
 
-<span class="p">}.</span><span class="n">otherwise</span><span class="p">{</span>
+<span class="p">}.</span><span class="n">otherwise</span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Exceptions could be:</p>
@@ -443,45 +445,45 @@
 </ul>
 </div>
 <div class="section" id="switch">
-<h3>switch<a class="headerlink" href="#switch" title="Permalink to this headline">¶</a></h3>
+<h3>switch<a class="headerlink" href="#switch" title="Permalink to this heading">¶</a></h3>
 <p>SpinalHDL switch should normally be written in the following way:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">value</span><span class="p">){</span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">){</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">value</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">){</span><span class="w"></span>
 
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">){</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">){</span><span class="w"></span>
 
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">default</span><span class="p">{</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">default</span><span class="p">{</span><span class="w"></span>
 
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>It’s fine to compress a <code class="docutils literal notranslate"><span class="pre">is</span></code>/<code class="docutils literal notranslate"><span class="pre">default</span></code> statement on a single line if it makes the code more readable.</p>
 </div>
 <div class="section" id="parameters">
-<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
 <p>Grouping parameters of a component/bundle inside a case class is in general welcome:</p>
 <ul class="simple">
 <li><p>Easier to carry/manipulate to configure the design</p></li>
 <li><p>Better maintainability</p></li>
 </ul>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">(</span><span class="n">rWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">gWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">bWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">){</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rWidth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">gWidth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bWidth</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">(</span><span class="n">rWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">gWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">bWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rWidth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">gWidth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bWidth</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">gWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">bWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">gWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">bWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>But this should not be applied in all cases. For example: in a Fifo, it doesn’t make sense to group the dataType parameter with the depth of the fifo because, in general, the dataType is something related to the design, while the depth is something related to the configuration of the design.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -548,6 +550,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../../dev/SpinalHDL/Getting Started/Scala Guide/coding_conventions.html">dev</a></dd>
       <dd><a href="../../../../master/SpinalHDL/Getting Started/Scala Guide/coding_conventions.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.3.8.">HTML</a></dd>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.3.8.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

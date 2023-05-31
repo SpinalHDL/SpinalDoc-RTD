@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1203,7 +1205,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="the-spinal-core-components">
-<h1>The <code class="docutils literal notranslate"><span class="pre">spinal.core</span></code> components<a class="headerlink" href="#the-spinal-core-components" title="Permalink to this headline">¶</a></h1>
+<h1>The <code class="docutils literal notranslate"><span class="pre">spinal.core</span></code> components<a class="headerlink" href="#the-spinal-core-components" title="Permalink to this heading">¶</a></h1>
 <p>The core components of the language are described in this document. It is part of the general</p>
 <p>The core language components are as follows:</p>
 <ul class="simple">
@@ -1219,11 +1221,11 @@
 <li><p>VHDL generator</p></li>
 </ul>
 <div class="section" id="clock-domains-definitions">
-<span id="core-components-clock-domain-definition"></span><h2>Clock domains definitions<a class="headerlink" href="#clock-domains-definitions" title="Permalink to this headline">¶</a></h2>
+<span id="core-components-clock-domain-definition"></span><h2>Clock domains definitions<a class="headerlink" href="#clock-domains-definitions" title="Permalink to this heading">¶</a></h2>
 <p>In <em>Spinal</em>, clock and reset signals can be combined to create a <strong>clock domain</strong>. Clock domains could be applied to some area of the design and then all synchronous elements instantiated into this area will then <strong>implicitly</strong> use this clock domain.</p>
 <p>Clock domain application work like a stack, which mean, if you are in a given clock domain, you can still apply another clock domain locally.</p>
 <div class="section" id="clock-domain-syntax">
-<span id="core-componets-clock-constructor"></span><h3>Clock domain syntax<a class="headerlink" href="#clock-domain-syntax" title="Permalink to this headline">¶</a></h3>
+<span id="core-componets-clock-constructor"></span><h3>Clock domain syntax<a class="headerlink" href="#clock-domain-syntax" title="Permalink to this heading">¶</a></h3>
 <p>The syntax to define a clock domain is as follows (using EBNF syntax):</p>
 <p><code class="docutils literal notranslate"><span class="pre">ClockDomain(clock</span> <span class="pre">:</span> <span class="pre">Bool[,reset</span> <span class="pre">:</span> <span class="pre">Bool[,enable</span> <span class="pre">:</span> <span class="pre">Bool]]])</span></code></p>
 <p>This definition takes three parameters:</p>
@@ -1233,23 +1235,23 @@
 <li><p>An optional <code class="docutils literal notranslate"><span class="pre">enable</span></code> signal. The goal of this signal is to disable the clock on the whole clock domain without having to  manually implement that on each synchronous element.</p></li>
 </ol>
 <p>An applied example to define a specific clock domain within the design is as follows:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">coreClock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">coreReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">coreClock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">coreReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 
 <span class="c1">// Define a new clock domain</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="n">coreClock</span><span class="p">,</span><span class="n">coreReset</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="n">coreClock</span><span class="p">,</span><span class="n">coreReset</span><span class="p">)</span><span class="w"></span>
 
-<span class="p">...</span>
+<span class="p">...</span><span class="w"></span>
 
 <span class="c1">// Use this domain in an area of the design</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">coreArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">coreClockDomain</span><span class="p">){</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">coreClockedRegister</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="p">}</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">coreArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">coreClockDomain</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">coreClockedRegister</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="clock-configuration">
-<h3>Clock configuration<a class="headerlink" href="#clock-configuration" title="Permalink to this headline">¶</a></h3>
+<h3>Clock configuration<a class="headerlink" href="#clock-configuration" title="Permalink to this heading">¶</a></h3>
 <p>In addition to the constructor parameters given <a class="reference internal" href="#core-componets-clock-constructor"><span class="std std-ref">here</span></a> , the following elements of each clock domain are configurable via a <code class="docutils literal notranslate"><span class="pre">ClockDomainConfig</span></code> class :</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1276,25 +1278,25 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomClockExample</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">resetn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myClockDomainConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomainConfig</span><span class="p">(</span>
-<span class="w">    </span><span class="n">clockEdge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RISING</span><span class="p">,</span>
-<span class="w">    </span><span class="n">resetKind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ASYNC</span><span class="p">,</span>
-<span class="w">    </span><span class="n">resetActiveLevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">LOW</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">,</span><span class="n">io</span><span class="p">.</span><span class="n">resetn</span><span class="p">,</span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myClockDomainConfig</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">myClockDomain</span><span class="p">){</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">myReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-<span class="w">    </span><span class="n">myReg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myReg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomClockExample</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">resetn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myClockDomainConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomainConfig</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">clockEdge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RISING</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">resetKind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ASYNC</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">resetActiveLevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">LOW</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">,</span><span class="n">io</span><span class="p">.</span><span class="n">resetn</span><span class="p">,</span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myClockDomainConfig</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">myClockDomain</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">myReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">myReg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myReg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myReg</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myReg</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>By default, a ClockDomain is applied to the whole design. The configuration of this one is :</p>
@@ -1305,43 +1307,43 @@
 </ul>
 </div>
 <div class="section" id="external-clock">
-<h3>External clock<a class="headerlink" href="#external-clock" title="Permalink to this headline">¶</a></h3>
+<h3>External clock<a class="headerlink" href="#external-clock" title="Permalink to this heading">¶</a></h3>
 <p>You can define everywhere a clock domain which is driven by the outside. It will then automatically add clock and reset wire from the top level inputs to all synchronous elements.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ExternalClockExample</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;myClockName&quot;</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">myClockDomain</span><span class="p">){</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">myReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-<span class="w">    </span><span class="n">myReg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myReg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ExternalClockExample</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;myClockName&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">myClockDomain</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">myReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">myReg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myReg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myReg</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myReg</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="cross-clock-domain">
-<h3>Cross Clock Domain<a class="headerlink" href="#cross-clock-domain" title="Permalink to this headline">¶</a></h3>
+<h3>Cross Clock Domain<a class="headerlink" href="#cross-clock-domain" title="Permalink to this heading">¶</a></h3>
 <p>SpinalHDL checks at compile time that there is no unwanted/unspecified cross clock domain signal reads. If you want to read a signal that is emitted by another <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> area, you should add the <code class="docutils literal notranslate"><span class="pre">crossClockDomain</span></code> tag to the destination signal as depicted in the following example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">asynchronousSignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">...</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">buffer0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)).</span><span class="n">addTag</span><span class="p">(</span><span class="n">crossClockDomain</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">buffer1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="n">buffer0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">asynchronousSignal</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">asynchronousSignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">buffer0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)).</span><span class="n">addTag</span><span class="p">(</span><span class="n">crossClockDomain</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">buffer1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="n">buffer0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">asynchronousSignal</span><span class="w"></span>
 <span class="n">buffer1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">buffer0</span><span class="w">   </span><span class="c1">// Second register stage to be avoid metastability issues</span>
 </pre></div>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Or in less lines:</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">buffer0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">asynchronousSignal</span><span class="p">).</span><span class="n">addTag</span><span class="p">(</span><span class="n">crossClockDomain</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">buffer1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">buffer0</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">buffer0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">asynchronousSignal</span><span class="p">).</span><span class="n">addTag</span><span class="p">(</span><span class="n">crossClockDomain</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">buffer1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">buffer0</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="assignments">
-<h2>Assignments<a class="headerlink" href="#assignments" title="Permalink to this headline">¶</a></h2>
+<h2>Assignments<a class="headerlink" href="#assignments" title="Permalink to this heading">¶</a></h2>
 <p>There are multiple assignment operator :</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1378,17 +1380,17 @@
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Because of hardware concurrency is always read with the value &#39;1&#39; by b and c</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
 <span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">//a := 1 win</span>
-<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span>
+<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
 
-<span class="kd">var</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">x</span><span class="w">      </span><span class="c1">//y read x with the value 0</span>
-<span class="n">x</span><span class="w"> </span><span class="o">\=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">x</span><span class="w"> </span><span class="o">\=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <span class="n">z</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">x</span><span class="w">      </span><span class="c1">//z read x with the value 1</span>
 </pre></div>
 </div>
@@ -1438,68 +1440,68 @@
 </table>
 </div>
 <div class="section" id="when-switch">
-<h2>When / Switch<a class="headerlink" href="#when-switch" title="Permalink to this headline">¶</a></h2>
+<h2>When / Switch<a class="headerlink" href="#when-switch" title="Permalink to this heading">¶</a></h2>
 <p>As VHDL and Verilog, wire and register can be conditionally assigned by using when and switch syntaxes</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">cond1</span><span class="p">){</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">cond1</span><span class="p">){</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//execute when      cond1 is true</span>
-<span class="p">}.</span><span class="n">elsewhen</span><span class="p">(</span><span class="n">cond2</span><span class="p">){</span>
+<span class="p">}.</span><span class="n">elsewhen</span><span class="p">(</span><span class="n">cond2</span><span class="p">){</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//execute when (not cond1) and cond2</span>
-<span class="p">}.</span><span class="n">otherwise</span><span class="p">{</span>
+<span class="p">}.</span><span class="n">otherwise</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//execute when (not cond1) and (not cond2)</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">switch</span><span class="p">(</span><span class="n">x</span><span class="p">){</span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">value1</span><span class="p">){</span>
+<span class="n">switch</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">value1</span><span class="p">){</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//execute when x === value1</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">value2</span><span class="p">){</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">value2</span><span class="p">){</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//execute when x === value2</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">default</span><span class="p">{</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">default</span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//execute if none of precedent condition meet</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can also define new signals into a when/switch statement. It’s useful if you want to calculate an intermediate value.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">toto</span><span class="p">,</span><span class="n">titi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">toto</span><span class="p">,</span><span class="n">titi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span>
-<span class="w">  </span><span class="n">toto</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span>
-<span class="w">  </span><span class="n">titi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">toto</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">  </span><span class="n">titi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<span class="w">  </span><span class="n">toto</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"></span>
+<span class="w">  </span><span class="n">titi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">toto</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="n">titi</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="component-hierarchy">
-<h2>Component/Hierarchy<a class="headerlink" href="#component-hierarchy" title="Permalink to this headline">¶</a></h2>
+<h2>Component/Hierarchy<a class="headerlink" href="#component-hierarchy" title="Permalink to this heading">¶</a></h2>
 <p>Like in VHDL and Verilog, you can define components that could be used to build a design hierarchy.  But unlike them, you don’t need to bind them at instantiation.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AdderCell</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AdderCell</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Declaring all in/out in an io Bundle is probably a good practice</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Do some logic</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cin</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">cout</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cin</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cin</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cin</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">cout</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cin</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cin</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Adder</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Adder</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Create 2 AdderCell</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cell0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">AdderCell</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cell1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">AdderCell</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cell0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">AdderCell</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cell1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">AdderCell</span><span class="w"></span>
 <span class="w">  </span><span class="n">cell1</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">cin</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">cell0</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">cout</span><span class="w"> </span><span class="c1">//Connect carrys</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cellArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Array</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">)(</span><span class="k">new</span><span class="w"> </span><span class="nc">AdderCell</span><span class="p">)</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cellArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Array</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="n">width</span><span class="p">)(</span><span class="k">new</span><span class="w"> </span><span class="nc">AdderCell</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Syntax to define in/out is the following :</p>
@@ -1538,37 +1540,37 @@
 </ul>
 </div>
 <div class="section" id="area">
-<h2>Area<a class="headerlink" href="#area" title="Permalink to this headline">¶</a></h2>
+<h2>Area<a class="headerlink" href="#area" title="Permalink to this heading">¶</a></h2>
 <p>Sometime, creating a component to define some logic is overkill and to much verbose. For this kind of cases you can use Area :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">UartCtrl</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">tick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">100</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tickCounter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">UartCtrl</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">tick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tickCounter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
 <span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">timer</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">          </span><span class="c1">// Refer to the tick from timer area</span>
-<span class="w">      </span><span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">reset</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateMachine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">      </span><span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">reset</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateMachine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="function">
-<h2>Function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h2>
+<h2>Function<a class="headerlink" href="#function" title="Permalink to this heading">¶</a></h2>
 <p>The ways you can use Scala functions to generate hardware are radically different than VHDL/Verilog for many reasons:</p>
 <ul>
 <li><p>You can instantiate register, combinatorial logic and component inside them.</p></li>
@@ -1581,78 +1583,78 @@
 </li>
 </ul>
 <div class="section" id="rgb-to-gray">
-<h3>RGB to gray<a class="headerlink" href="#rgb-to-gray" title="Permalink to this headline">¶</a></h3>
+<h3>RGB to gray<a class="headerlink" href="#rgb-to-gray" title="Permalink to this heading">¶</a></h3>
 <p>For example if you want to convert a Red/Green/Blue color into a gray one by using coefficient, you can use functions to apply them :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Input RGB color</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">// Define a function to multiply a UInt by a scala Float value.</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">,</span><span class="n">by</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nc">U</span><span class="p">((</span><span class="mi">255</span><span class="o">*</span><span class="n">by</span><span class="p">).</span><span class="n">toInt</span><span class="p">,</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">,</span><span class="n">by</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nc">U</span><span class="p">((</span><span class="mi">255</span><span class="o">*</span><span class="n">by</span><span class="p">).</span><span class="n">toInt</span><span class="p">,</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">//Calculate the gray level</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">gray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coef</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="mf">0.3f</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">           </span><span class="n">coef</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mf">0.4f</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">           </span><span class="n">coef</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mf">0.3f</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">gray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coef</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="mf">0.3f</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"></span>
+<span class="w">           </span><span class="n">coef</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="mf">0.4f</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"></span>
+<span class="w">           </span><span class="n">coef</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mf">0.3f</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="valid-ready-payload-bus">
-<h3>Valid Ready Payload bus<a class="headerlink" href="#valid-ready-payload-bus" title="Permalink to this headline">¶</a></h3>
+<h3>Valid Ready Payload bus<a class="headerlink" href="#valid-ready-payload-bus" title="Permalink to this heading">¶</a></h3>
 <p>For instance if you define a simple Valid Ready Payload bus, you can then define usefull function inside it.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">payloadWidth</span><span class="p">:</span><span class="w">  </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">payloadWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">payloadWidth</span><span class="p">:</span><span class="w">  </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">payloadWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//connect that to this</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">&lt;&lt;</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="bp">this</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">that</span><span class="p">.</span><span class="n">valid</span>
-<span class="w">    </span><span class="n">that</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">ready</span>
-<span class="w">    </span><span class="bp">this</span><span class="p">.</span><span class="n">payload</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">that</span><span class="p">.</span><span class="n">payload</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">&lt;&lt;</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="bp">this</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">that</span><span class="p">.</span><span class="n">valid</span><span class="w"></span>
+<span class="w">    </span><span class="n">that</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">ready</span><span class="w"></span>
+<span class="w">    </span><span class="bp">this</span><span class="p">.</span><span class="n">payload</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">that</span><span class="p">.</span><span class="n">payload</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Connect this to the FIFO input, return the fifo output</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">queue</span><span class="p">(</span><span class="n">size</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">MyBus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">(</span><span class="n">payloadWidth</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">)</span>
-<span class="w">    </span><span class="n">fifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">push</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="bp">this</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">fifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">pop</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">queue</span><span class="p">(</span><span class="n">size</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">MyBus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">(</span><span class="n">payloadWidth</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">fifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">push</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="bp">this</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">fifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">pop</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="vhdl-generation">
-<h2>VHDL generation<a class="headerlink" href="#vhdl-generation" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL generation<a class="headerlink" href="#vhdl-generation" title="Permalink to this heading">¶</a></h2>
 <p>There is a small component and a <code class="docutils literal notranslate"><span class="pre">main</span></code> that generate the corresponding VHDL.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// spinal.core contain all basics (Bool, UInt, Bundle, Reg, Component, ..)</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">//A simple component definition</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Define some input/output. Bundle like a VHDL record or a verilog struct.</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Define some asynchronous logic</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">//This is the main of the project. It create a instance of MyTopLevel and</span>
 <span class="c1">//call the SpinalHDL library to flush it into a VHDL file.</span>
-<span class="k">object</span><span class="w"> </span><span class="nc">MyMain</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">MyMain</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="memory">
-<h2>Memory<a class="headerlink" href="#memory" title="Permalink to this headline">¶</a></h2>
+<h2>Memory<a class="headerlink" href="#memory" title="Permalink to this heading">¶</a></h2>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 67%" />
@@ -1701,38 +1703,38 @@
 </table>
 </div>
 <div class="section" id="instanciate-vhdl-and-verilog-ip">
-<h2>Instanciate VHDL and Verilog IP<a class="headerlink" href="#instanciate-vhdl-and-verilog-ip" title="Permalink to this headline">¶</a></h2>
+<h2>Instanciate VHDL and Verilog IP<a class="headerlink" href="#instanciate-vhdl-and-verilog-ip" title="Permalink to this heading">¶</a></h2>
 <blockquote>
 <div><p>In some cases, it could be usefull to instanciate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.</p>
 </div></blockquote>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="n">_wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">_wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Generic</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_wordCount</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_wordWidth</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="n">_wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">_wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Generic</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_wordCount</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_wordWidth</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
 
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">_wordWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">_wordWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">_wordWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">_wordWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">mapClockDomain</span><span class="p">(</span><span class="n">clock</span><span class="o">=</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">mapClockDomain</span><span class="p">(</span><span class="n">clock</span><span class="o">=</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="utils">
-<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
+<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this heading">¶</a></h2>
 <p>The SpinalHDL core contain some utils :</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1817,6 +1819,11 @@
       <dt>Branches</dt>
       <dd><a href="core_components.html">dev</a></dd>
       <dd><a href="../../../../master/SpinalHDL/miscelenea/core/core_components.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-dev.">HTML</a></dd>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-dev.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

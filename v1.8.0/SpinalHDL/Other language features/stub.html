@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1190,42 +1192,42 @@
            <div itemprop="articleBody">
             
   <div class="section" id="stub">
-<h1>Stub<a class="headerlink" href="#stub" title="Permalink to this headline">¶</a></h1>
+<h1>Stub<a class="headerlink" href="#stub" title="Permalink to this heading">¶</a></h1>
 <p>You can emtpy an Component Hierarchy as stub:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SubSysModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span>
-<span class="w">   </span><span class="p">}</span>
-<span class="w">   </span><span class="n">io</span><span class="p">.</span><span class="n">dy</span><span class="w"> </span><span class="o">&lt;-&lt;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">dx</span>
-<span class="p">}</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopLevle</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SubSysModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
+<span class="w">   </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="n">io</span><span class="p">.</span><span class="n">dy</span><span class="w"> </span><span class="o">&lt;-&lt;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">dx</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TopLevle</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">SubSysModule</span><span class="p">().</span><span class="n">stub</span><span class="w">   </span><span class="c1">//instance an SubSysModule as empty stub</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>It will generate the following Verilog code for example:</p>
-<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">module</span><span class="w"> </span><span class="n">SubSysModule</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">io_dx_valid</span><span class="p">,</span>
-<span class="w">  </span><span class="k">output</span><span class="w">              </span><span class="n">io_dx_ready</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">      </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">io_dx_payload</span><span class="p">,</span>
-<span class="w">  </span><span class="k">output</span><span class="w">              </span><span class="n">io_dy_valid</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">io_dy_ready</span><span class="p">,</span>
-<span class="w">  </span><span class="k">output</span><span class="w">     </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">io_dy_payload</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">clk</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">reset</span>
-<span class="p">);</span>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">module</span><span class="w"> </span><span class="n">SubSysModule</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">io_dx_valid</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">output</span><span class="w">              </span><span class="n">io_dx_ready</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">      </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">io_dx_payload</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">output</span><span class="w">              </span><span class="n">io_dy_valid</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">io_dy_ready</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">output</span><span class="w">     </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">io_dy_payload</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">clk</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">reset</span><span class="w"></span>
+<span class="p">);</span><span class="w"></span>
 
 
-<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dx_ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
-<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dy_valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
-<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dy_payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dx_ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dy_valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dy_payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">endmodule</span>
+<span class="k">endmodule</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can also emtpy the top Compoent</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Pinsec</span><span class="p">(</span><span class="mi">500</span><span class="w"> </span><span class="nc">MHz</span><span class="p">).</span><span class="n">stub</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Pinsec</span><span class="p">(</span><span class="mi">500</span><span class="w"> </span><span class="nc">MHz</span><span class="p">).</span><span class="n">stub</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>what <cite>stub</cite> do</p>
@@ -1297,6 +1299,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Other language features/stub.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Other language features/stub.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

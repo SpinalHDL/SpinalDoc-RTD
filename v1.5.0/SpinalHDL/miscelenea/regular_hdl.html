@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1025,7 +1027,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="why-moving-from-traditional-hdl-to-something-else">
-<span id="regular-hdl"></span><h1>Why moving from traditional HDL to something else<a class="headerlink" href="#why-moving-from-traditional-hdl-to-something-else" title="Permalink to this headline">¶</a></h1>
+<span id="regular-hdl"></span><h1>Why moving from traditional HDL to something else<a class="headerlink" href="#why-moving-from-traditional-hdl-to-something-else" title="Permalink to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>All the following statements will be about describing hardware. Verification is another tasty topic.</p>
@@ -1043,64 +1045,64 @@
 <p>A language feature which isn’t supported by EDA tools shouldn’t be considerate as a language feature, as it is not usable. Look how VHDL 2008 is weakly supported, then look at the calendar.</p>
 </div>
 <div class="section" id="vhdl-verilog-systemverilog-aren-t-hardware-description-languages">
-<h2>VHDL/Verilog/SystemVerilog aren’t Hardware Description Languages<a class="headerlink" href="#vhdl-verilog-systemverilog-aren-t-hardware-description-languages" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL/Verilog/SystemVerilog aren’t Hardware Description Languages<a class="headerlink" href="#vhdl-verilog-systemverilog-aren-t-hardware-description-languages" title="Permalink to this heading">¶</a></h2>
 <p>Those languages are event driven languages created initially for simulation/documentation purposes. Only in a second time they were used as inputs languages for synthesis tools. Which explain the roots of a lot of following points of this page.</p>
 </div>
 <div class="section" id="event-driven-paradigm-doesn-t-make-any-sense-for-rtl">
-<h2>Event driven paradigm doesn’t make any sense for RTL<a class="headerlink" href="#event-driven-paradigm-doesn-t-make-any-sense-for-rtl" title="Permalink to this headline">¶</a></h2>
+<h2>Event driven paradigm doesn’t make any sense for RTL<a class="headerlink" href="#event-driven-paradigm-doesn-t-make-any-sense-for-rtl" title="Permalink to this heading">¶</a></h2>
 <p>When you think about it, describing digital hardware (RTL) by using process/always blocks doesn’t make any practical senses. Why do we have to worry about a sensitivity list? Why do we have to split our design between processes/always blocks of different natures (combinatorial logic / register without reset / register with async reset) ?</p>
 <p>Example of VHDL/SpinalHDL equivalences:</p>
 <p>VHDL :</p>
-<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">signal</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="k">signal</span><span class="w"> </span><span class="n">myRegister</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="k">signal</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">signal</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="k">signal</span><span class="w"> </span><span class="n">myRegister</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="k">signal</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">process</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
-<span class="k">begin</span>
-<span class="w">    </span><span class="n">mySignal</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">;</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">        </span><span class="n">mySignal</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="p">;</span>
-<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span>
-<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span>
+<span class="k">process</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"></span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="n">mySignal</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="n">mySignal</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span>
-<span class="k">begin</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">            </span><span class="n">myRegister</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">myRegister</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
-<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span>
-<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span>
-<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span>
+<span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="n">myRegister</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">myRegister</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">,</span><span class="n">reset</span><span class="p">)</span>
-<span class="k">begin</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">        </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="w">    </span><span class="k">elsif</span><span class="w"> </span><span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">            </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
-<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span>
-<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span>
-<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span>
+<span class="k">process</span><span class="p">(</span><span class="n">clk</span><span class="p">,</span><span class="n">reset</span><span class="p">)</span><span class="w"></span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">elsif</span><span class="w"> </span><span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">            </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="k">process</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 <p>SpinalHDL :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myRegister</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myRegister</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">mySignal</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
-<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">mySignal</span><span class="w">            </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
-<span class="w">    </span><span class="n">myRegister</span><span class="w">          </span><span class="o">:=</span><span class="w"> </span><span class="n">myRegister</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="p">}</span>
+<span class="n">mySignal</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">mySignal</span><span class="w">            </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="w">    </span><span class="n">myRegister</span><span class="w">          </span><span class="o">:=</span><span class="w"> </span><span class="n">myRegister</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myRegisterWithReset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>As for everything, you can get used to this event driven semantic, until you taste something better.</p>
 </div>
 <div class="section" id="recent-revision-of-vhdl-and-verilog-aren-t-usable">
-<h2>Recent revision of VHDL and Verilog aren’t usable<a class="headerlink" href="#recent-revision-of-vhdl-and-verilog-aren-t-usable" title="Permalink to this headline">¶</a></h2>
+<h2>Recent revision of VHDL and Verilog aren’t usable<a class="headerlink" href="#recent-revision-of-vhdl-and-verilog-aren-t-usable" title="Permalink to this heading">¶</a></h2>
 <p>The EDA industry is really slow to implement VHDL 2008 and SystemVerilog synthesis capabilities in their tools. Additionally, when it’s done, it appear that only a constraining subset of the language is implemented (not talking about simulation features). It result that using any interesting feature of those language revision isn’t safe as</p>
 <ul class="simple">
 <li><p>It will probably make your code incompatible with many EDA tools</p></li>
@@ -1109,135 +1111,135 @@
 <p>Let’s me tell you that I’m tired to wait on expensive and closed source tools.</p>
 </div>
 <div class="section" id="recent-revisions-of-vhdl-and-verilog-aren-t-that-good">
-<h2>Recent revisions of VHDL and Verilog aren’t that good.<a class="headerlink" href="#recent-revisions-of-vhdl-and-verilog-aren-t-that-good" title="Permalink to this headline">¶</a></h2>
+<h2>Recent revisions of VHDL and Verilog aren’t that good.<a class="headerlink" href="#recent-revisions-of-vhdl-and-verilog-aren-t-that-good" title="Permalink to this heading">¶</a></h2>
 <p>See VHDL 2008 parameterized packages and unconstrained records, sure it allow to write better VHDL sources, but from an OOP perspective they made me feel sick (See next topic for an SpinalHDL example).</p>
 <p>And still those revisions doesn’t change the heart of those HDL issues: They are based on a event driven paradigm which doesn’t make sense to describe digital hardware.</p>
 </div>
 <div class="section" id="vhdl-records-verilog-struct-are-broken-systemverilog-is-good-on-this-if-you-can-use-it">
-<h2>VHDL records, Verilog struct are broken (SystemVerilog is good on this, if you can use it)<a class="headerlink" href="#vhdl-records-verilog-struct-are-broken-systemverilog-is-good-on-this-if-you-can-use-it" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL records, Verilog struct are broken (SystemVerilog is good on this, if you can use it)<a class="headerlink" href="#vhdl-records-verilog-struct-are-broken-systemverilog-is-good-on-this-if-you-can-use-it" title="Permalink to this heading">¶</a></h2>
 <p>You can’t use them to define an interface, because you can’t define their internal signal directions. Even worst, you can’t give them construction parameters! So, define your RGB record/struct once, and hope you never have to use it with bigger/smaller color channels …</p>
 <p>Also a fancy thing with VHDL is the fact that if you want to add an array of something into a component entity, you have to define the type of this array into a package … which can’t be parameterized…</p>
 <p>A SpinalHDL APB3 bus definition:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Class which can be instantiated to represent a given APB3 configuration</span>
-<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">(</span>
-<span class="w">  </span><span class="n">addressWidth</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span>
-<span class="w">  </span><span class="n">dataWidth</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span>
-<span class="w">  </span><span class="n">selWidth</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">  </span><span class="n">useSlaveError</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-<span class="p">)</span>
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">addressWidth</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">dataWidth</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">selWidth</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">useSlaveError</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 
 <span class="c1">//Class which can be instantiated to represent a given hardware APB3 bus</span>
-<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PADDR</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSEL</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">selWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PENABLE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PREADY</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWRITE</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWDATA</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PRDATA</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PADDR</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSEL</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">selWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PENABLE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PREADY</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWRITE</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWDATA</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PRDATA</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSLVERROR</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="nc">Bool</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">null</span><span class="w">  </span><span class="c1">//Optional signal</span>
 
 <span class="w">  </span><span class="c1">//Can be used to setup a given APB3 bus into a master interface of the host component</span>
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">asMaster</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">out</span><span class="p">(</span><span class="nc">PADDR</span><span class="p">,</span><span class="nc">PSEL</span><span class="p">,</span><span class="nc">PENABLE</span><span class="p">,</span><span class="nc">PWRITE</span><span class="p">,</span><span class="nc">PWDATA</span><span class="p">)</span>
-<span class="w">    </span><span class="n">in</span><span class="p">(</span><span class="nc">PREADY</span><span class="p">,</span><span class="nc">PRDATA</span><span class="p">)</span>
-<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">PSLVERROR</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">asMaster</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">out</span><span class="p">(</span><span class="nc">PADDR</span><span class="p">,</span><span class="nc">PSEL</span><span class="p">,</span><span class="nc">PENABLE</span><span class="p">,</span><span class="nc">PWRITE</span><span class="p">,</span><span class="nc">PWDATA</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">in</span><span class="p">(</span><span class="nc">PREADY</span><span class="p">,</span><span class="nc">PRDATA</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">PSLVERROR</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then about the VHDL 2008 partial solution and the SystemVerilog interface/modport, lucky you are if your EDA tools / company flow / company policy allow you to use them.</p>
 </div>
 <div class="section" id="vhdl-and-verilog-are-so-verbose">
-<h2>VHDL and Verilog are so verbose<a class="headerlink" href="#vhdl-and-verilog-are-so-verbose" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL and Verilog are so verbose<a class="headerlink" href="#vhdl-and-verilog-are-so-verbose" title="Permalink to this heading">¶</a></h2>
 <p>Really, with VHDL and Verilog, when it start to be about component instanciation interconnection, the copypast good need to be invocated.</p>
 <p>To understand it more deeply, there is an SpinalHDL example which do some peripherals instanciation and add the APB3 decoder required to access them.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Instanciate an AXI4 to APB3 bridge</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">apbBridge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4ToApb3Bridge</span><span class="p">(</span>
-<span class="w">  </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<span class="w">  </span><span class="n">dataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">  </span><span class="n">idWidth</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
-<span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">apbBridge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4ToApb3Bridge</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">dataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">idWidth</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 
 <span class="c1">//Instanciate some APB3 peripherals</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">gpioACtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Gpio</span><span class="p">(</span><span class="n">gpioWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">gpioBCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Gpio</span><span class="p">(</span><span class="n">gpioWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">timerCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">PinsecTimerCtrl</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">uartCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3UartCtrl</span><span class="p">(</span><span class="n">uartCtrlConfig</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">vgaCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4VgaCtrl</span><span class="p">(</span><span class="n">vgaCtrlConfig</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">gpioACtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Gpio</span><span class="p">(</span><span class="n">gpioWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">gpioBCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Gpio</span><span class="p">(</span><span class="n">gpioWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">timerCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">PinsecTimerCtrl</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">uartCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3UartCtrl</span><span class="p">(</span><span class="n">uartCtrlConfig</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">vgaCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4VgaCtrl</span><span class="p">(</span><span class="n">vgaCtrlConfig</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">//Instanciate an APB3 decoder</span>
 <span class="c1">//- Drived by the apbBridge</span>
 <span class="c1">//- Map each peripherals in a memory region</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">apbDecoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Decoder</span><span class="p">(</span>
-<span class="w">  </span><span class="n">master</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">,</span>
-<span class="w">  </span><span class="n">slaves</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span>
-<span class="w">    </span><span class="n">gpioACtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x00000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">gpioBCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x01000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x10000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">timerCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x20000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w">   </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x30000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">)</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">apbDecoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Decoder</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">master</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">slaves</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">gpioACtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x00000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">gpioBCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x01000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x10000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">timerCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x20000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w">   </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x30000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>And done, that’s all, you don’t have to bind each signal one by one when you instantiate a module/component because you can access their interfaces in a object oriented manner.</p>
 <p>Also about VHDL/Verilog struct/records, i would just say that they are really dirty tricks, without true parameterization and reusability capabilities, some crutch which try to hide the fact that those languages were poorly designed.</p>
 </div>
 <div class="section" id="meta-hardware-description-capabilities">
-<h2>Meta Hardware Description capabilities<a class="headerlink" href="#meta-hardware-description-capabilities" title="Permalink to this headline">¶</a></h2>
+<h2>Meta Hardware Description capabilities<a class="headerlink" href="#meta-hardware-description-capabilities" title="Permalink to this heading">¶</a></h2>
 <p>Ok, this is a big chunk. Basically VHDL/Verilog/SystemVerilog will give you some elaboration tools which aren’t directly mapped into hardware as loops / generate statements / macro / function / procedure / task. But that’s all.</p>
 <p>And even them are really limited. As instance why you can’t define process/always/component/module blocks into a task/procedure? It is really a bottleneck for many fancy things. What if you can call a user defined task/procedure on a bus like that: myHandshakeBus.queue(depth=64) ? Wouldn’t it be nice and safe to use?</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define the concept of handshake bus</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w">  </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">dataType</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w">  </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">dataType</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Define an operator to connect the left operand (this) to the right operand (that)</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">&gt;&gt;</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">T</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="bp">this</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">that</span><span class="p">.</span><span class="n">valid</span>
-<span class="w">    </span><span class="n">that</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">ready</span>
-<span class="w">    </span><span class="bp">this</span><span class="p">.</span><span class="n">payload</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">that</span><span class="p">.</span><span class="n">payload</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">&gt;&gt;</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">T</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="bp">this</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">that</span><span class="p">.</span><span class="n">valid</span><span class="w"></span>
+<span class="w">    </span><span class="n">that</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">ready</span><span class="w"></span>
+<span class="w">    </span><span class="bp">this</span><span class="p">.</span><span class="n">payload</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">that</span><span class="p">.</span><span class="n">payload</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Return a Stream connected to this via a FIFO of depth elements</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">queue</span><span class="p">(</span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">T</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StreamFifo</span><span class="p">(</span><span class="n">dataType</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">)</span>
-<span class="w">    </span><span class="bp">this</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">fifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">push</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">fifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">pop</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">queue</span><span class="p">(</span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">T</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StreamFifo</span><span class="p">(</span><span class="n">dataType</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="bp">this</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">fifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">push</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">fifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">pop</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then let’s see further, imagine you want define a state machine, you will have to write raw VHDL/Verilog with some switch statements to do it. You can’t define kind of “StateMachine” abstraction which would give you a fancy syntax to define them, instead you will have to use a third party tool to draw your state machine and then generate your VHDL/Verilog equivalent code. Which is really messy anyway.</p>
 <p>So by meta-hardware description capabilities, i mean the fact that by using raw SpinalHDL syntax, you can define tools which then allow you to define things in abstracts ways, as for state-machine.</p>
 <p>There is an simple example of the usage of a state-machine abstraction defined on the top of SpinalHDL :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define a new state machine</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="p">{</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">fsm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StateMachine</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Define all states</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="p">,</span><span class="w"> </span><span class="n">stateB</span><span class="p">,</span><span class="w"> </span><span class="n">stateC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">stateA</span><span class="p">,</span><span class="w"> </span><span class="n">stateB</span><span class="p">,</span><span class="w"> </span><span class="n">stateC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">State</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Set the state machine entry point</span>
-<span class="w">  </span><span class="n">setEntry</span><span class="p">(</span><span class="n">stateA</span><span class="p">)</span>
+<span class="w">  </span><span class="n">setEntry</span><span class="p">(</span><span class="n">stateA</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Define a register used into the state machine</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Define the state machine behavioural</span>
-<span class="w">  </span><span class="n">stateA</span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">))</span>
+<span class="w">  </span><span class="n">stateA</span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateB</span><span class="p">))</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">stateB</span><span class="p">.</span><span class="n">onEntry</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">  </span><span class="n">stateB</span><span class="p">.</span><span class="n">onExit</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span>
-<span class="w">  </span><span class="n">stateB</span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">){</span>
-<span class="w">      </span><span class="n">goto</span><span class="p">(</span><span class="n">stateC</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">stateB</span><span class="p">.</span><span class="n">onEntry</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">stateB</span><span class="p">.</span><span class="n">onExit</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">stateB</span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">4</span><span class="p">){</span><span class="w"></span>
+<span class="w">      </span><span class="n">goto</span><span class="p">(</span><span class="n">stateC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">stateC</span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateA</span><span class="p">))</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">stateC</span><span class="p">.</span><span class="n">whenIsActive</span><span class="w"> </span><span class="p">(</span><span class="n">goto</span><span class="p">(</span><span class="n">stateA</span><span class="p">))</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Also imagine you want to generate the instruction decoding of your CPU, it could require some fancy elaboration time algorithms to generate the less logic possible. But in VHDL/Verilog/SystemVerilog, your only option to do this kind of things is to write a script which generates the .vhd .v that you want.</p>
@@ -1301,6 +1303,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/miscelenea/regular_hdl.html">dev</a></dd>
       <dd><a href="../../../master/index.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

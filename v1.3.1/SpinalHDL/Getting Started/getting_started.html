@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -342,10 +344,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="getting-started">
-<span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h1>
 <p><em>SpinalHDL</em> is a hardware description language written in <a class="reference external" href="https://scala-lang.org/">Scala</a>, a static-type functional language using the Java virtual machine (JVM). In order to start programming with <em>SpinalHDL</em>, you must have a JVM as well as the Scala compiler. In the next section, we will explain how to download those tools if you don’t have them already.</p>
 <div class="section" id="requirements-things-to-download-to-get-started">
-<span id="requirements"></span><h2>Requirements / Things to download to get started<a class="headerlink" href="#requirements-things-to-download-to-get-started" title="Permalink to this headline">¶</a></h2>
+<span id="requirements"></span><h2>Requirements / Things to download to get started<a class="headerlink" href="#requirements-things-to-download-to-get-started" title="Permalink to this heading">¶</a></h2>
 <p>Before you download the SpinalHDL tools, you need to install:</p>
 <ul class="simple">
 <li><p>A Java JDK, which can be downloaded from <a class="reference external" href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">here</a> for instance.</p></li>
@@ -359,14 +361,14 @@
 </ul>
 </div>
 <div class="section" id="how-to-start-programming-with-spinalhdl">
-<h2>How to start programming with SpinalHDL<a class="headerlink" href="#how-to-start-programming-with-spinalhdl" title="Permalink to this headline">¶</a></h2>
+<h2>How to start programming with SpinalHDL<a class="headerlink" href="#how-to-start-programming-with-spinalhdl" title="Permalink to this heading">¶</a></h2>
 <p>Once you have downloaded all the requirements, there are two ways to get started with SpinalHDL programming.</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#getting-started-sbt-way"><span class="std std-ref">The SBT way</span></a> : if you already are familiar with the SBT build system and/or if you don’t need an IDE.</p></li>
 <li><p><a class="reference internal" href="#getting-started-ide-way"><span class="std std-ref">The IDE way</span></a> : get a project already setup for you in an IDE and start programming right away.</p></li>
 </ol>
 <div class="section" id="the-sbt-way">
-<span id="getting-started-sbt-way"></span><h3>The SBT way<a class="headerlink" href="#the-sbt-way" title="Permalink to this headline">¶</a></h3>
+<span id="getting-started-sbt-way"></span><h3>The SBT way<a class="headerlink" href="#the-sbt-way" title="Permalink to this heading">¶</a></h3>
 <p>We have prepared a ready to go project for you on Github.</p>
 <ul class="simple">
 <li><p>Either clone or <a class="reference external" href="https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master">download</a> the <a class="reference external" href="https://github.com/SpinalHDL/SpinalTemplateSbt">“getting started” repository</a>.</p></li>
@@ -374,20 +376,20 @@
 </ul>
 <p>Normally, this command must generate an output file <code class="docutils literal notranslate"><span class="pre">MyTopLevel.vhd</span></code>, which corresponds to the top level <em>SpinalHDL</em> code defined in <code class="docutils literal notranslate"><span class="pre">src\main\scala\MyCode.scala</span></code>, which corresponds to the <a class="reference internal" href="#example"><span class="std std-ref">most simple SpinalHDL example</span></a></p>
 <p>From a clean Debian distribution you can type followings commands in the shell. It will install java, scala, sbt, download the base project and generate the corresponding VHDL file. Don’t worry if it takes time the first time that you run it.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-8-jdk
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>scala
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb https://dl.bintray.com/sbt/debian /&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/apt/sources.list.d/sbt.list
-sudo<span class="w"> </span>apt-key<span class="w"> </span>adv<span class="w"> </span>--keyserver<span class="w"> </span>hkp://keyserver.ubuntu.com:80<span class="w"> </span>--recv<span class="w"> </span>642AC823
-sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>sbt
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SpinalHDL/SpinalTemplateSbt.git
-<span class="nb">cd</span><span class="w"> </span>SpinalBaseProject/
-sbt<span class="w"> </span>run
-ls<span class="w"> </span>MyTopLevel.vhd
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install openjdk-8-jdk
+sudo apt-get install scala
+<span class="nb">echo</span> <span class="s2">&quot;deb https://dl.bintray.com/sbt/debian /&quot;</span> <span class="p">|</span> sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+sudo apt-get update
+sudo apt-get install sbt
+git clone https://github.com/SpinalHDL/SpinalTemplateSbt.git
+<span class="nb">cd</span> SpinalBaseProject/
+sbt run
+ls MyTopLevel.vhd
 </pre></div>
 </div>
 <div class="section" id="sbt-in-a-environnement-isolated-from-internet">
-<h4>SBT in a environnement isolated from internet<a class="headerlink" href="#sbt-in-a-environnement-isolated-from-internet" title="Permalink to this headline">¶</a></h4>
+<h4>SBT in a environnement isolated from internet<a class="headerlink" href="#sbt-in-a-environnement-isolated-from-internet" title="Permalink to this heading">¶</a></h4>
 <p>Basically, SBT use online repositories to download and cache your projects dependancies, this cache is located in your home/.ivy2 folder. The way to setup an internet free environnement is to copy this cache from an internet-full environnement where the cache was already filled once, and copy it on your internet less environnement.</p>
 <div class="line-block">
 <div class="line">You can get an portable SBT setups there :</div>
@@ -396,7 +398,7 @@ ls<span class="w"> </span>MyTopLevel.vhd
 </div>
 </div>
 <div class="section" id="the-ide-way-with-intellij-idea-and-its-scala-plugin">
-<span id="getting-started-ide-way"></span><h3>The IDE way, with IntelliJ IDEA and its Scala plugin<a class="headerlink" href="#the-ide-way-with-intellij-idea-and-its-scala-plugin" title="Permalink to this headline">¶</a></h3>
+<span id="getting-started-ide-way"></span><h3>The IDE way, with IntelliJ IDEA and its Scala plugin<a class="headerlink" href="#the-ide-way-with-intellij-idea-and-its-scala-plugin" title="Permalink to this heading">¶</a></h3>
 <p>In addition to the aforementioned <a class="reference internal" href="#requirements"><span class="std std-ref">requirements</span></a> , you also need to download the IntelliJ IDEA (the free <em>Community edition</em> is enough). When you have installed IntelliJ, also check that you have enabled its Scala plugin (<a class="reference external" href="https://www.jetbrains.com/help/idea/2016.1/enabling-and-disabling-plugins.html?origin=old_help">install information</a> can be found here).</p>
 <p>And do the following :</p>
 <ul class="simple">
@@ -409,75 +411,75 @@ ls<span class="w"> </span>MyTopLevel.vhd
 </div>
 </div>
 <div class="section" id="a-very-simple-spinalhdl-example">
-<span id="example"></span><h2>A very simple SpinalHDL example<a class="headerlink" href="#a-very-simple-spinalhdl-example" title="Permalink to this headline">¶</a></h2>
+<span id="example"></span><h2>A very simple SpinalHDL example<a class="headerlink" href="#a-very-simple-spinalhdl-example" title="Permalink to this heading">¶</a></h2>
 <p>The following code generates an <code class="docutils literal notranslate"><span class="pre">and</span></code> gate between two one bit inputs.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
 <span class="w">  </span><span class="cm">/**</span>
 <span class="cm">    * This is the component definition that corresponds to</span>
 <span class="cm">    * the VHDL entity of the component</span>
-<span class="cm">    */</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="cm">    */</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Here we define some asynchronous logic</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="p">{</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// Let&#39;s go</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>As you can see, the first line you have to write in SpinalHDL is <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">spinal.core._</span></code> which indicates that we are using the <em>Spinal</em> components in the file.</p>
 <div class="section" id="generated-code">
-<h3>Generated code<a class="headerlink" href="#generated-code" title="Permalink to this headline">¶</a></h3>
+<h3>Generated code<a class="headerlink" href="#generated-code" title="Permalink to this heading">¶</a></h3>
 <p>Once you have successfully compiled your code, the compiler should have emitted the following VHDL code:</p>
-<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">package</span><span class="w"> </span><span class="n">pkg_enum</span><span class="w"> </span><span class="k">is</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="k">end</span><span class="w"> </span><span class="nc">pkg_enum</span><span class="p">;</span>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">package</span><span class="w"> </span><span class="n">pkg_enum</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">pkg_enum</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">package</span><span class="w"> </span><span class="n">pkg_scala2hdl</span><span class="w"> </span><span class="k">is</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="k">end</span><span class="w">  </span><span class="nc">pkg_scala2hdl</span><span class="p">;</span>
+<span class="k">package</span><span class="w"> </span><span class="n">pkg_scala2hdl</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="k">end</span><span class="w">  </span><span class="nc">pkg_scala2hdl</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">library</span><span class="w"> </span><span class="nn">ieee</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">ieee.std_logic_1164.</span><span class="k">all</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">ieee.numeric_std.</span><span class="k">all</span><span class="p">;</span>
+<span class="k">library</span><span class="w"> </span><span class="nn">ieee</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">ieee.std_logic_1164.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">ieee.numeric_std.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">library</span><span class="w"> </span><span class="nn">work</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">work.pkg_scala2hdl.</span><span class="k">all</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">work.</span><span class="k">all</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">work.pkg_enum.</span><span class="k">all</span><span class="p">;</span>
+<span class="k">library</span><span class="w"> </span><span class="nn">work</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">work.pkg_scala2hdl.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">work.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">work.pkg_enum.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
 
 
-<span class="k">entity</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">is</span>
-<span class="w">  </span><span class="k">port</span><span class="p">(</span>
-<span class="w">    </span><span class="n">io_a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="w">    </span><span class="n">io_b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="w">    </span><span class="n">io_c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span>
-<span class="w">  </span><span class="p">);</span>
-<span class="k">end</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="p">;</span>
+<span class="k">entity</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span><span class="w"></span>
+<span class="w">  </span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">architecture</span><span class="w"> </span><span class="nc">arch</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">is</span>
+<span class="k">architecture</span><span class="w"> </span><span class="nc">arch</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
 
-<span class="k">begin</span>
-<span class="w">  </span><span class="n">io_c</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">io_a</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">io_b</span><span class="p">);</span>
-<span class="k">end</span><span class="w"> </span><span class="nc">arch</span><span class="p">;</span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">  </span><span class="n">io_c</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">io_a</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">io_b</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">arch</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="what-to-do-next">
-<h2>What to do next?<a class="headerlink" href="#what-to-do-next" title="Permalink to this headline">¶</a></h2>
+<h2>What to do next?<a class="headerlink" href="#what-to-do-next" title="Permalink to this heading">¶</a></h2>
 <p>It’s up to you, but why not have a look at what the <a class="reference internal" href="../Data%20types/index.html#type-introduction"><span class="std std-ref">types</span></a> are in SpinalHDL or discover what primitives the language provides to describe hardware components? You could also have a look at our <a class="reference internal" href="../Examples/index.html#example-introduction"><span class="std std-ref">examples</span></a> to see some samples of what you could do next.</p>
 </div>
 </div>
@@ -542,6 +544,11 @@ ls<span class="w"> </span>MyTopLevel.vhd
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Getting Started/getting_started.html">dev</a></dd>
       <dd><a href="../../../master/index.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.3.1.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.3.1.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

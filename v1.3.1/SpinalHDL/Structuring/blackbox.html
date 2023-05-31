@@ -35,7 +35,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -342,117 +344,117 @@
            <div itemprop="articleBody">
             
   <div class="section" id="instanciate-vhdl-and-verilog-ip">
-<h1>Instanciate VHDL and Verilog IP<a class="headerlink" href="#instanciate-vhdl-and-verilog-ip" title="Permalink to this headline">¶</a></h1>
+<h1>Instanciate VHDL and Verilog IP<a class="headerlink" href="#instanciate-vhdl-and-verilog-ip" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>A blackbox allows the user to integrate an existing VHDL/Verilog component into the design by just specifying the
 interfaces. It’s up to the simulator or synthesizer to do the elaboration correctly.</p>
 </div>
 <div class="section" id="defining-an-blackbox">
-<h2>Defining an blackbox<a class="headerlink" href="#defining-an-blackbox" title="Permalink to this headline">¶</a></h2>
+<h2>Defining an blackbox<a class="headerlink" href="#defining-an-blackbox" title="Permalink to this heading">¶</a></h2>
 <blockquote>
 <div><p>The example show how to define an blackbox.</p>
 </div></blockquote>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define a Ram as a BlackBox</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="n">wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="n">wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// SpinalHDL will look at Generic classes to get attributes which</span>
 <span class="w">  </span><span class="c1">// should be used ad VHDL gererics / Verilog parameter</span>
 <span class="w">  </span><span class="c1">// You can use String Int Double Boolean and all SpinalHDL base types</span>
 <span class="w">  </span><span class="c1">// as generic value</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Generic</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordCount</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordWidth</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Generic</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordCount</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordWidth</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Define io of the VHDL entiry / Verilog module</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">wordWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">wordWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">wordWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">wordWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Map the current clock domain to the io.clk pin</span>
-<span class="w">  </span><span class="n">mapClockDomain</span><span class="p">(</span><span class="n">clock</span><span class="o">=</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">mapClockDomain</span><span class="p">(</span><span class="n">clock</span><span class="o">=</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line">In VHDL, Bool type will be translated into std_logic and Bits into std_logic_vector. If you want to get std_ulogic, you have to use a BlackBoxULogic instead of BlackBox.</div>
 <div class="line">In Verilog, BlackBoxUlogic has no effect.</div>
 </div>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="n">wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBoxULogic</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="n">wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBoxULogic</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="generics">
-<h2>Generics<a class="headerlink" href="#generics" title="Permalink to this headline">¶</a></h2>
+<h2>Generics<a class="headerlink" href="#generics" title="Permalink to this heading">¶</a></h2>
 <p>There are two different ways to declare generic :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Ram</span><span class="p">(</span><span class="n">wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Ram</span><span class="p">(</span><span class="n">wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Generic</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordCount</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">wordWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordWidth</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Generic</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordCount</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">wordWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordWidth</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// OR</span>
 
-<span class="w">    </span><span class="n">addGeneric</span><span class="p">(</span><span class="s">&quot;wordCount&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">wordWidth</span><span class="p">)</span>
-<span class="w">    </span><span class="n">addGeneric</span><span class="p">(</span><span class="s">&quot;wordWidth&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">wordWidth</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">addGeneric</span><span class="p">(</span><span class="s">&quot;wordCount&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">wordWidth</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">addGeneric</span><span class="p">(</span><span class="s">&quot;wordWidth&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">wordWidth</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="instantiating-a-blackbox">
-<h2>Instantiating a blackbox<a class="headerlink" href="#instantiating-a-blackbox" title="Permalink to this headline">¶</a></h2>
+<h2>Instantiating a blackbox<a class="headerlink" href="#instantiating-a-blackbox" title="Permalink to this heading">¶</a></h2>
 <p>To instantiate an blackbox, it’s the same than for Component :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create the top level and instantiate the Ram</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Instantiate the blackbox</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Interconnect all that stuff</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">en</span><span class="w">   </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">en</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">addr</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">addr</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">data</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">en</span><span class="w">   </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">en</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">addr</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">addr</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">data</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">en</span><span class="w">   </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">en</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">addr</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">addr</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">wr</span><span class="p">.</span><span class="n">data</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">en</span><span class="w">   </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">en</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">addr</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">addr</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">rd</span><span class="p">.</span><span class="n">data</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">Main</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="clock-and-reset-mapping">
-<h2>Clock and reset mapping<a class="headerlink" href="#clock-and-reset-mapping" title="Permalink to this headline">¶</a></h2>
+<h2>Clock and reset mapping<a class="headerlink" href="#clock-and-reset-mapping" title="Permalink to this heading">¶</a></h2>
 <p>In your blackbox definition you have to explicitly define clock and reset wires. To map signals of a ClockDomain to corresponding inputs of the blackbox you can use the <code class="docutils literal notranslate"><span class="pre">mapClockDomain</span></code> or <code class="docutils literal notranslate"><span class="pre">mapCurrentClockDomain</span></code> function. <code class="docutils literal notranslate"><span class="pre">mapClockDomain</span></code> has the following parameters :</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -493,93 +495,93 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
 </table>
 <p><code class="docutils literal notranslate"><span class="pre">mapCurrentClockDomain</span></code> has almost the same parameters than the <code class="docutils literal notranslate"><span class="pre">mapClockDomain</span></code> but without the clockDomain.</p>
 <p>For example :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyRam</span><span class="p">(</span><span class="n">clkDomain</span><span class="p">:</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyRam</span><span class="p">(</span><span class="n">clkDomain</span><span class="p">:</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="p">..</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clkB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="p">..</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clkB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Clock A is map on a specific clock Domain</span>
-<span class="w">  </span><span class="n">mapClockDomain</span><span class="p">(</span><span class="n">clkDomain</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">clkA</span><span class="p">)</span>
+<span class="w">  </span><span class="n">mapClockDomain</span><span class="p">(</span><span class="n">clkDomain</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">clkA</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// Clock B is map on the current clock domain</span>
-<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clkB</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clkB</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="io-prefix">
-<h2>io prefix<a class="headerlink" href="#io-prefix" title="Permalink to this headline">¶</a></h2>
+<h2>io prefix<a class="headerlink" href="#io-prefix" title="Permalink to this heading">¶</a></h2>
 <p>In order to avoid the prefix “io_” on each IOs of the blackbox, you can use the function <code class="docutils literal notranslate"><span class="pre">noIoPrefix()</span></code> as shown below :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define the Ram as a BlackBox</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="n">wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">(</span><span class="n">wordWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">wordCount</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Generic</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordCount</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordWidth</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Generic</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordCount</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wordWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Ram_1w_1r</span><span class="p">.</span><span class="bp">this</span><span class="p">.</span><span class="n">wordWidth</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
 
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">_wordWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">_wordWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">wr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">_wordWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">en</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">_wordCount</span><span class="p">)</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="p">(</span><span class="n">_wordWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span>
+<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">clock</span><span class="o">=</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">clock</span><span class="o">=</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="rename-all-io-of-a-blackbox">
-<h2>Rename all io of a blackbox<a class="headerlink" href="#rename-all-io-of-a-blackbox" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyRam</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Blackbox</span><span class="w"> </span><span class="p">{</span>
+<h2>Rename all io of a blackbox<a class="headerlink" href="#rename-all-io-of-a-blackbox" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyRam</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Blackbox</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">portA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">cs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">rwn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dIn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">portB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">cs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">rwn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dIn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">portA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">cs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">rwn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dIn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">portB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">cs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">rwn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dIn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">dOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Map the clk</span>
-<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span>
+<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Remove io_ prefix</span>
-<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span>
+<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Function used to rename all signals of the blackbox</span>
-<span class="w">  </span><span class="k">private</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">renameIO</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">flatten</span><span class="p">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">bt</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">bt</span><span class="p">.</span><span class="n">getName</span><span class="p">().</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;portA&quot;</span><span class="p">))</span><span class="w"> </span><span class="n">bt</span><span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="n">bt</span><span class="p">.</span><span class="n">getName</span><span class="p">().</span><span class="n">repalce</span><span class="p">(</span><span class="s">&quot;portA_&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;_A&quot;</span><span class="p">)</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">bt</span><span class="p">.</span><span class="n">getName</span><span class="p">().</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;portB&quot;</span><span class="p">))</span><span class="w"> </span><span class="n">bt</span><span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="n">bt</span><span class="p">.</span><span class="n">getName</span><span class="p">().</span><span class="n">repalce</span><span class="p">(</span><span class="s">&quot;portB_&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;_B&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="p">})</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">private</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">renameIO</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">flatten</span><span class="p">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">bt</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">bt</span><span class="p">.</span><span class="n">getName</span><span class="p">().</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;portA&quot;</span><span class="p">))</span><span class="w"> </span><span class="n">bt</span><span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="n">bt</span><span class="p">.</span><span class="n">getName</span><span class="p">().</span><span class="n">repalce</span><span class="p">(</span><span class="s">&quot;portA_&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;_A&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">bt</span><span class="p">.</span><span class="n">getName</span><span class="p">().</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;portB&quot;</span><span class="p">))</span><span class="w"> </span><span class="n">bt</span><span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="n">bt</span><span class="p">.</span><span class="n">getName</span><span class="p">().</span><span class="n">repalce</span><span class="p">(</span><span class="s">&quot;portB_&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;_B&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">})</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Execute the function renameIO after the creation of the component</span>
-<span class="w">  </span><span class="n">addPrePostTask</span><span class="p">(()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">renameIO</span><span class="p">())</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">addPrePostTask</span><span class="p">(()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">renameIO</span><span class="p">())</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">// This code generate those names :</span>
 <span class="c1">//    clk</span>
@@ -589,66 +591,66 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
 </div>
 </div>
 <div class="section" id="add-rtl-source">
-<h2>Add RTL source<a class="headerlink" href="#add-rtl-source" title="Permalink to this headline">¶</a></h2>
+<h2>Add RTL source<a class="headerlink" href="#add-rtl-source" title="Permalink to this heading">¶</a></h2>
 <p>With the function <code class="docutils literal notranslate"><span class="pre">addRTLPath()</span></code> you can associate your RTL sources with the blackbox. After the generation of your Spinal code you can call the fonction <code class="docutils literal notranslate"><span class="pre">mergeRTLSource</span></code> for merging all sources together.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyBlackBox</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Blackbox</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyBlackBox</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Blackbox</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">dIn</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">dOut</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">dIn</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">dOut</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Map the clk</span>
-<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span>
+<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Remove io_ prefix</span>
-<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span>
+<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Add all rtl dependencies</span>
 <span class="w">  </span><span class="n">addRTLPath</span><span class="p">(</span><span class="s">&quot;./rtl/RegisterBank.v&quot;</span><span class="p">)</span><span class="w">                         </span><span class="c1">// Add a verilog file</span>
 <span class="w">  </span><span class="n">addRTLPath</span><span class="p">(</span><span class="s">s&quot;./rtl/myDesign.vhd&quot;</span><span class="p">)</span><span class="w">                          </span><span class="c1">// Add a vhdl file</span>
 <span class="w">  </span><span class="n">addRTLPath</span><span class="p">(</span><span class="s">s&quot;</span><span class="si">${</span><span class="n">sys</span><span class="p">.</span><span class="n">env</span><span class="p">(</span><span class="s">&quot;MY_PROJECT&quot;</span><span class="p">)</span><span class="si">}</span><span class="s">/myTopLevel.vhd&quot;</span><span class="p">)</span><span class="w">     </span><span class="c1">// Use an environement variable MY_PROJECT (System.getenv(&quot;MY_PROJECT&quot;))</span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="p">...</span>
+<span class="p">...</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">report</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyBlackBox</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">report</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyBlackBox</span><span class="p">)</span><span class="w"></span>
 <span class="n">report</span><span class="p">.</span><span class="n">mergeRTLSource</span><span class="p">(</span><span class="s">&quot;mergeRTL&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// merge all rtl sources into mergeRTL.vhd and mergeRTL.v file</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="vhdl-no-numeric-type">
-<h2>VHDL - No numeric type<a class="headerlink" href="#vhdl-no-numeric-type" title="Permalink to this headline">¶</a></h2>
+<h2>VHDL - No numeric type<a class="headerlink" href="#vhdl-no-numeric-type" title="Permalink to this heading">¶</a></h2>
 <p>If you want to get only <code class="docutils literal notranslate"><span class="pre">std_logic_vector</span></code> on your blackbox component, you can add the tag <code class="docutils literal notranslate"><span class="pre">noNumericType</span></code> to the blackbox.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyBlackBox</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">increment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">initValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyBlackBox</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">BlackBox</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">clk</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">increment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">initValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w">  </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span>
+<span class="w">  </span><span class="n">mapCurrentClockDomain</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">clk</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span>
+<span class="w">  </span><span class="n">noIoPrefix</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">  </span><span class="n">addTag</span><span class="p">(</span><span class="n">noNumericType</span><span class="p">)</span><span class="w">  </span><span class="c1">// only std_logic_vector</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Will generate:</p>
-<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">component</span><span class="w"> </span><span class="nc">MyBlackBox</span><span class="w"> </span><span class="k">is</span>
-<span class="w">  </span><span class="k">port</span><span class="p">(</span>
-<span class="w">    </span><span class="n">clk</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w">  </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="w">    </span><span class="n">increment</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w">  </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="w">    </span><span class="n">initValue</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w">  </span><span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="w">    </span><span class="n">counter</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">  </span><span class="p">);</span>
-<span class="k">end</span><span class="w"> </span><span class="k">component</span><span class="p">;</span>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">component</span><span class="w"> </span><span class="nc">MyBlackBox</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">clk</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w">  </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">increment</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w">  </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">initValue</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w">  </span><span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic_vector</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="k">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="k">component</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -714,6 +716,11 @@ interfaces. It’s up to the simulator or synthesizer to do the elaboration corr
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Structuring/blackbox.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Structuring/blackbox.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.3.1.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.3.1.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>

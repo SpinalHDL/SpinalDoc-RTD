@@ -35,7 +35,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
     
@@ -1044,9 +1046,9 @@
 <p>Variables and functions should be defined into <code class="docutils literal notranslate"><span class="pre">object</span></code>, <code class="docutils literal notranslate"><span class="pre">class</span></code>, <code class="docutils literal notranslate"><span class="pre">function</span></code>. You can’t define them on the root of a Scala file.</p>
 </div>
 <div class="section" id="basics">
-<h1>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h1>
+<h1>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">¶</a></h1>
 <div class="section" id="types">
-<h2>Types<a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h2>
+<h2>Types<a class="headerlink" href="#types" title="Permalink to this heading">¶</a></h2>
 <p>In Scala, there are 5 major types:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -1085,11 +1087,11 @@
 </table>
 </div>
 <div class="section" id="variables">
-<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this heading">¶</a></h2>
 <p>In Scala, you can define a variable by using the <code class="docutils literal notranslate"><span class="pre">var</span></code> keyword:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span>
-<span class="n">number</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
+<span class="n">number</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
 <span class="n">println</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="w"> </span><span class="c1">// 10</span>
 </pre></div>
 </div>
@@ -1098,90 +1100,90 @@
 </pre></div>
 </div>
 <p>However, it’s not very common to use <code class="docutils literal notranslate"><span class="pre">var</span></code> in Scala. Instead, constant values defined by <code class="docutils literal notranslate"><span class="pre">val</span></code> are often used:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">two</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">six</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">three</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">two</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">six</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">three</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h2>
 <p>For example, if you want to define a function which returns <code class="docutils literal notranslate"><span class="pre">true</span></code> if the sum of its two arguments is bigger than zero, you can do as follows:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then, to call this function, you can write:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sumBiggerThanZero</span><span class="p">(</span><span class="mf">2.3f</span><span class="p">,</span><span class="w"> </span><span class="mf">5.4f</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sumBiggerThanZero</span><span class="p">(</span><span class="mf">2.3f</span><span class="p">,</span><span class="w"> </span><span class="mf">5.4f</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can also specify arguments by name, which is useful if you have many arguments:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sumBiggerThanZero</span><span class="p">(</span>
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.3f</span><span class="p">,</span>
-<span class="w">  </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.4f</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sumBiggerThanZero</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.3f</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.4f</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="section" id="return">
-<h3>Return<a class="headerlink" href="#return" title="Permalink to this headline">¶</a></h3>
+<h3>Return<a class="headerlink" href="#return" title="Permalink to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">return</span></code> keyword is not necessary. In absence of it, Scala takes the last statement of your function as the returned value.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="return-type-inferation">
-<h3>Return type inferation<a class="headerlink" href="#return-type-inferation" title="Permalink to this headline">¶</a></h3>
+<h3>Return type inferation<a class="headerlink" href="#return-type-inferation" title="Permalink to this heading">¶</a></h3>
 <p>Scala is able to automatically infer the return type. You don’t need to specify it:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="curly-braces">
-<h3>Curly braces<a class="headerlink" href="#curly-braces" title="Permalink to this headline">¶</a></h3>
+<h3>Curly braces<a class="headerlink" href="#curly-braces" title="Permalink to this heading">¶</a></h3>
 <p>Scala functions don’t require curly braces if your function contains only one statement:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="function-that-returns-nothing">
-<h3>Function that returns nothing<a class="headerlink" href="#function-that-returns-nothing" title="Permalink to this headline">¶</a></h3>
+<h3>Function that returns nothing<a class="headerlink" href="#function-that-returns-nothing" title="Permalink to this heading">¶</a></h3>
 <p>If you want a function to return nothing, the return type should be set to <code class="docutils literal notranslate"><span class="pre">Unit</span></code>. It’s equivalent to the C/C++ <code class="docutils literal notranslate"><span class="pre">void</span></code> type.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">printer</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;1234&quot;</span><span class="p">)</span>
-<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;5678&quot;</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">printer</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;1234&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;5678&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="argument-default-values">
-<h3>Argument default values<a class="headerlink" href="#argument-default-values" title="Permalink to this headline">¶</a></h3>
+<h3>Argument default values<a class="headerlink" href="#argument-default-values" title="Permalink to this heading">¶</a></h3>
 <p>You can specify a default value for each argument of a function:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="apply">
-<h3>Apply<a class="headerlink" href="#apply" title="Permalink to this headline">¶</a></h3>
+<h3>Apply<a class="headerlink" href="#apply" title="Permalink to this heading">¶</a></h3>
 <p>Functions named <code class="docutils literal notranslate"><span class="pre">apply</span></code> are special because you can call them without having to type their name:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Array</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">index</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Array</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">index</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Array</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Array</span><span class="p">()</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w">   </span><span class="c1">//array(4) is interpreted as array.apply(4) and will return 7</span>
 </pre></div>
 </div>
 <p>This concept is also applicable for Scala <code class="docutils literal notranslate"><span class="pre">object</span></code> (static)</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="c1">// Will call MajorityVote.apply(4)</span>
 </pre></div>
@@ -1189,73 +1191,73 @@
 </div>
 </div>
 <div class="section" id="object">
-<h2>Object<a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h2>
+<h2>Object<a class="headerlink" href="#object" title="Permalink to this heading">¶</a></h2>
 <p>In Scala, there is no <code class="docutils literal notranslate"><span class="pre">static</span></code> keyword. In place of that, there is <code class="docutils literal notranslate"><span class="pre">object</span></code>. Everything defined inside an <code class="docutils literal notranslate"><span class="pre">object</span></code> definition is static.</p>
 <p>The following example defines a static function named <code class="docutils literal notranslate"><span class="pre">pow2</span></code> which takes a floating point value as parameter and returns a floating point value as well.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MathUtils</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pow2</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">value</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MathUtils</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pow2</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">value</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then you can call it by writing:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">MathUtils</span><span class="p">.</span><span class="n">pow2</span><span class="p">(</span><span class="mf">42.0f</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">MathUtils</span><span class="p">.</span><span class="n">pow2</span><span class="p">(</span><span class="mf">42.0f</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="entry-point-main">
-<h2>Entry point (main)<a class="headerlink" href="#entry-point-main" title="Permalink to this headline">¶</a></h2>
+<h2>Entry point (main)<a class="headerlink" href="#entry-point-main" title="Permalink to this heading">¶</a></h2>
 <p>The entry point of a Scala program (the main function) should be defined inside an object as a function named <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyTopLevelMain</span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello world&quot;</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyTopLevelMain</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello world&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="class">
-<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this heading">¶</a></h2>
 <p>The class syntax is very similar to Java. Imagine that you want to define a <code class="docutils literal notranslate"><span class="pre">Color</span></code> class which takes as construction parameters three Float values (r,g,b) :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getGrayLevel</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.3f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.4f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.4f</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getGrayLevel</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.3f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.4f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.4f</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then, to instantiate the class from the previous example and use its <code class="docutils literal notranslate"><span class="pre">getGrayLevel</span></code> function:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">grayLevelOfBlue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="p">.</span><span class="n">getGrayLevel</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">grayLevelOfBlue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="p">.</span><span class="n">getGrayLevel</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Be careful, if you want to access a construction parameter of the class from the outside, this construction parameter should be defined as a <code class="docutils literal notranslate"><span class="pre">val</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-<span class="p">...</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">redLevelOfBlue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="p">.</span><span class="n">r</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">redLevelOfBlue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="p">.</span><span class="n">r</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="section" id="inheritance">
-<h3>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline">¶</a></h3>
+<h3>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this heading">¶</a></h3>
 <p>As an example, suppose that you want to define two classes, <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> and <code class="docutils literal notranslate"><span class="pre">Square</span></code>, which extend the class <code class="docutils literal notranslate"><span class="pre">Shape</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Square</span><span class="p">(</span><span class="n">sideLength</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sideLength</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sideLength</span>
-<span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Square</span><span class="p">(</span><span class="n">sideLength</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sideLength</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sideLength</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span>
-<span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="case-class">
-<h3>Case class<a class="headerlink" href="#case-class" title="Permalink to this headline">¶</a></h3>
+<h3>Case class<a class="headerlink" href="#case-class" title="Permalink to this heading">¶</a></h3>
 <p>Case class is an alternative way of declaring classes.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then there are some differences between <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code> and <code class="docutils literal notranslate"><span class="pre">class</span></code> :</p>
@@ -1267,28 +1269,28 @@
 </div>
 </div>
 <div class="section" id="templates-type-parameterization">
-<h2>Templates / Type parameterization<a class="headerlink" href="#templates-type-parameterization" title="Permalink to this headline">¶</a></h2>
+<h2>Templates / Type parameterization<a class="headerlink" href="#templates-type-parameterization" title="Permalink to this heading">¶</a></h2>
 <p>Imagine you want to design a class which is a queue of a given datatype, in that case you need to provide a type parameter to the class:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w">  </span><span class="nc">Queue</span><span class="p">[</span><span class="nc">T</span><span class="p">](){</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">():</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w">  </span><span class="nc">Queue</span><span class="p">[</span><span class="nc">T</span><span class="p">](){</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">():</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>If you want to restrict the <code class="docutils literal notranslate"><span class="pre">T</span></code> type to be a sub class of a given type (for example <code class="docutils literal notranslate"><span class="pre">Shape</span></code>), you can use the <code class="docutils literal notranslate"><span class="pre">&lt;:</span> <span class="pre">Shape</span></code> syntax :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span>
-<span class="p">}</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w">  </span><span class="nc">Queue</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">():</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="k">class</span><span class="w">  </span><span class="nc">Queue</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">():</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The same is possible for functions:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">doSomething</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">](</span><span class="n">shape</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">Something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">shape</span><span class="p">.</span><span class="n">getArea</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">doSomething</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">](</span><span class="n">shape</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">Something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">shape</span><span class="p">.</span><span class="n">getArea</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1354,6 +1356,11 @@
       <dt>Branches</dt>
       <dd><a href="../../../../dev/SpinalHDL/Getting Started/Scala Guide/basics.html">dev</a></dd>
       <dd><a href="../../../../master/SpinalHDL/Getting Started/Scala Guide/basics.html">master</a></dd>
+    </dl>
+    <dl>
+      <dt>Downloads</dt>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.6.0.">HTML</a></dd>
+      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.6.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div>
