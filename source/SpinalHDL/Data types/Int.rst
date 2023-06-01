@@ -282,6 +282,11 @@ Comparison
      c.clearAll()
    }
 
+.. note::
+
+   When comparing ``UInt`` values in a way that allows for "wraparound" behavior, meaning that the values will "wrap around" to the minimum value when they exceed the maximum value.
+   The ``wrap`` method of ``UInt`` can be used as ``x.wrap < y`` for ``UInt`` variables ``x, y``, the result will be true if ``x`` is less than ``y`` in the wraparound sense.
+
 Type cast
 ~~~~~~~~~
 
