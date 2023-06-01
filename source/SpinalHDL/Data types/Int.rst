@@ -284,8 +284,8 @@ Comparison
 
 .. note::
 
-   ``UInt`` signals support a wrapping comparison by ``wrap`` method, so that the value U"8'xff" can be smaller than U"8'x01".
-   The ``UInt`` variables ``x, y`` can be used as ``x.wrap < y``, this would return a ``Bool`` signal.
+   When comparing ``UInt`` values in a way that allows for "wraparound" behavior, meaning that the values will "wrap around" to the minimum value when they exceed the maximum value.
+   The ``wrap`` method of ``UInt`` can be used as ``x.wrap < y`` for ``UInt`` variables ``x, y``, the result will be true if ``x`` is less than ``y`` in the wraparound sense.
 
 Type cast
 ~~~~~~~~~
