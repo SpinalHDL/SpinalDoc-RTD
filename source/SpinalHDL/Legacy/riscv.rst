@@ -3,7 +3,9 @@ RiscV
 =====
 
 .. warning::
-   This page document the first RISC-V cpu iteration done in SpinalHDL. The second iteration of this CPU is available `there <https://github.com/SpinalHDL/VexRiscv>`_ and already offer better perforance/area/features.
+   This page only documents the first generation of RISC-V CPU created in SpinalHDL. 
+   This page does not document the VexRiscV CPU, which is the second generation of this CPU and is available
+   `here <https://github.com/SpinalHDL/VexRiscv>`_ and offers better performance/area/features.
 
 Features
 --------
@@ -49,9 +51,9 @@ How to generate the CPU VHDL
 ----------------------------
 
 .. warning::
-   This avalon version of the CPU isn't present in recent releases of SpinalHDL. Please considarate the `VexRiscv <https://github.com/SpinalHDL/VexRiscv>`_ instead.
+   This avalon version of the CPU isn't present in recent releases of SpinalHDL. Please consider the `VexRiscv <https://github.com/SpinalHDL/VexRiscv>`_ instead.
 
-.. There is an example of a top level which generate an Altera QSys component that contain the CPU with Avalon interfaces and some timing buffer :
+.. There is an example of a top level which generate an Altera QSys component that contains the CPU with Avalon interfaces and some timing buffer :
 
 .. https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/cpu/riscv/impl/CoreQSysAvalon.scala#L97
 
@@ -60,11 +62,11 @@ How to generate the CPU VHDL
 How to debug
 ------------
 
-You can find the openOCD fork there :
+You can find the openOCD fork here :
 
 https://github.com/Dolu1990/openocd_riscv
 
-An example target configuration file could be find there :
+An example target configuration file could be find here :
 
 https://github.com/Dolu1990/openocd_riscv/blob/riscv_spinal/tcl/target/riscv_spinal.cfg
 

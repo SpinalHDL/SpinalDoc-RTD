@@ -1,10 +1,12 @@
 Build through Mill
 ==================
 
-SpinalHDL itself can be built with Mill. It can compile/test/publishLocal the existing modules.
+SpinalHDL itself can be built with Mill.  This is an alternative to the Sbt
+build tool that can be found at Introduction_to_Mill_.
+It can compile/test/publishLocal the existing modules.
 Build through mill can be much faster than Sbt, which is useful while debugging.
 
-Complie the library
+Compile the library
 -------------------
 
 .. code-block:: sh
@@ -45,3 +47,5 @@ Mill can also publish the library to the local ivy2 repository as a ``dev`` vers
 
    mill __.publishLocal
    sbt publishLocal # equivalent alternatives
+
+.. _Introduction_to_Mill: http://mill-build.com/mill/Intro_to_Mill.html

@@ -248,7 +248,7 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
 StreamFifoCC
 ^^^^^^^^^^^^
 
-You can instanciate the dual clock domain version of the fifo the following way :
+You can instantiate the dual clock domain version of the fifo the following way :
 
 .. code-block:: scala
 

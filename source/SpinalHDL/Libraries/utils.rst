@@ -142,7 +142,7 @@ When a ``Counter`` overflows (reached end value), it restarts the next cycle to 
 Timeout
 ^^^^^^^
 
-The Timeout tool can be used to easily instanciate an hardware timeout.
+The Timeout tool can be used to easily instantiate an hardware timeout.
 
 .. list-table::
    :header-rows: 1
@@ -168,7 +168,7 @@ There is an example of different syntaxes which could be used with the Counter t
    }
 
 .. note::
-   If you instanciate an ``Timeout`` with an time or frequency setup, the implicit ``ClockDomain`` should have an frequency setting.
+   If you instantiate an ``Timeout`` with an time or frequency setup, the implicit ``ClockDomain`` should have an frequency setting.
 
 ResetCtrl
 ^^^^^^^^^

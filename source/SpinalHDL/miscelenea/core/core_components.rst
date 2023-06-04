@@ -477,10 +477,10 @@ Memory
      - T
 
 
-Instanciate VHDL and Verilog IP
+Instantiate VHDL and Verilog IP
 -------------------------------
 
- In some cases, it could be usefull to instanciate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.
+ In some cases, it could be usefull to instantiate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.
 
 .. code-block:: scala
 

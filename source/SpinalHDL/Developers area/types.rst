@@ -21,7 +21,7 @@ The language provides 5 base types and 2 composite types that can be used.
 
 Those types and their usage (with examples) are explained hereafter.
 
-About the fixed point support it's documented :ref:`there <fixed>`
+About the fixed point support it's documented :ref:`here <fixed>`
 
 Bool
 ----
@@ -118,7 +118,7 @@ The BitVector family - (``Bits``, ``UInt``, ``SInt``)
 -----------------------------------------------------------------
 
 | ``BitVector`` is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviours:
-| ``Bits`` do not convey any sign information whereas the ``UInt`` (unsigned integer) and ``SInt`` (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetics is used.
+| ``Bits`` do not convey any sign information whereas the ``UInt`` (unsigned integer) and ``SInt`` (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetic is used.
 
 Declaration syntax
 ^^^^^^^^^^^^^^^^^^
@@ -143,7 +143,7 @@ Declaration syntax
      - Create a BitVector assigned with 'value'
      - Bits/UInt/SInt
    * - B/U/S([x bits], element, ...)
-     - Create a BitVector assigned with the value specified by elements (see bellow table)
+     - Create a BitVector assigned with the value specified by elements (see the table below)
      - Bits/UInt/SInt
 
 
@@ -163,12 +163,12 @@ Elements could be defined as follows:
      - Set bits in range x with y
    * - x : Range -> y : String
      - | Set bits in range x with y 
-       | The string format follow same rules than B/U/S"xyz" one
+       | The string format follow same rules as B/U/S"xyz" one
    * - x : Range -> y : T
      - Set bits in range x with y
    * - default -> y : Boolean/Bool
      - | Set all unconnected bits with the y value. 
-       | This feature could only be use to do assignments without the U/B/S prefix
+       | This feature can only be used to do assignments without the U/B/S prefix
 
 
 You can define a Range values
@@ -236,7 +236,7 @@ Operators
      - Bitwise XOR
      - T(max(w(x), w(y) bits)
    * - x(y)
-     - Readbit, y : Int/UInt
+     - Read bitfield, y : Int/UInt
      - Bool
    * - x(hi,lo)
      - Read bitfield, hi : Int, lo : Int
@@ -287,16 +287,17 @@ Operators
      - Set all bits to the given Bool value
      - 
    * - x.asBools
-     - Cast into a array of Bool
+     - Cast into an array of Bool
      - Vec(Bool(),width(x))
 
 
 Masked comparison
 ^^^^^^^^^^^^^^^^^
 
-Some time you need to check equality between a ``BitVector`` and a bits constant that contain hole (don't care values).
+Sometimes you need to check equality between a ``BitVector`` and a bits constant that contain
+holes defined as a bitmask (bit positions not to be compared by the equality expression).
 
-There is an example about how to do that :
+An example demonstrating how to do that (note the use of 'M' prefix) :
 
 .. code-block:: scala
 
@@ -329,7 +330,12 @@ Bits
      - Logical left rotation, y : UInt
      - T(w(x))
    * - x.resize(y)
-     - Return a resized copy of x, filled with zero, y : Int
+     - Return a resized copy of x, filled with zero bits as necessary at the
+       MSB to widen, may also truncate width retaining at the LSB side, y : Int
+     - T(y bits)
+   * - x.resizeLeft(y)
+     - Return a resized copy of x, filled with zero bits as necessary at the
+       LSB to widen, may also truncate width retraining at the MSB side, y : Int
      - T(y bits)
 
 
@@ -399,6 +405,9 @@ Bool, Bits, UInt, SInt
    * - x.asSInt
      - Binary cast in SInt
      - SInt(w(x) bits)
+   * - x.asBool
+     - Binary cast in Bool
+     - Bool(x.lsb)
 
 
 Vec
@@ -414,7 +423,7 @@ Vec
      - Create a vector of size time the given type
    * - Vec(x,y,..)
      - | Create a vector where indexes point to given elements. 
-       | this construct support mixed element width
+       | this construct supports mixed element width
 
 
 .. list-table::
@@ -460,7 +469,7 @@ The following example show an RGB bundle definition with some internal function.
 
 .. code-block:: scala
 
-   case class RGB(channelWidth : Int) extends Bundle{
+   case class RGB(channelWidth : Int) extends Bundle {
      val red   = UInt(channelWidth bits)
      val green = UInt(channelWidth bits)
      val blue  = UInt(channelWidth bits)
@@ -476,13 +485,13 @@ Then you can also incorporate a Bundle inside Bundle as deeply as you want:
 
 .. code-block:: scala
 
-   case class VGA(channelWidth : Int) extends Bundle{
+   case class VGA(channelWidth : Int) extends Bundle {
      val hsync = Bool()
      val vsync = Bool()
      val color = RGB(channelWidth)
    }
 
-And finaly instanciate your Bundles inside the hardware :
+And finaly instantiate your Bundles inside the hardware :
 
 .. code-block:: scala
 
@@ -496,8 +505,8 @@ If you want to specify your bundle as an input or an output of a Component, you 
 
 .. code-block:: scala
 
-   class MyComponent extends Component{
-     val io = Bundle{
+   class MyComponent extends Component {
+     val io = Bundle {
        val cmd = in(RGB(8))    //Don't forget the bracket around the bundle.
        val rsp = out(RGB(8))
      }
@@ -594,22 +603,23 @@ Then at some points, you will probably need to use the APB bus as master or as s
 
    // Example of usage
    val apbConfig = APBConfig(addressWidth = 8,dataWidth = 32,selWidth = 4,useSlaveError = false)
-   val io = new Bundle{
+   val io = new Bundle {
      val masterBus = APB(apbConfig).asMaster()
      val slaveBus = APB(apbConfig).asSlave()
    }
 
-Then to make that better, the spinal.lib integrate a small master slave utile named IMasterSlave. When a bundle extends IMasterSlave, it should implement/override the asMaster function. It give you the ability to setup a master or a slave interface by a smoother way :
+Then to make that better, the spinal.lib integrate a small master slave utility named IMasterSlave. When a bundle extends IMasterSlave, it should implement/override the asMaster function.
+It give you the ability to setup a master or a slave interface in a smoother way :
 
 .. code-block:: scala
 
    val apbConfig = APBConfig(addressWidth = 8,dataWidth = 32,selWidth = 4,useSlaveError = false)
-   val io = new Bundle{
+   val io = new Bundle {
      val masterBus = master(apbConfig)
      val slaveBus  = slave(apbConfig)
    }
 
-There is an example of an APB bus that implement this IMasterSlave :
+An example of an APB bus that implement this IMasterSlave :
 
 .. code-block:: scala
 
@@ -643,7 +653,7 @@ There is an example of an APB bus that implement this IMasterSlave :
 Enum
 ----
 
-SpinalHDL support enumeration with some encodings :
+SpinalHDL supports enumeration with some encodings :
 
 .. list-table::
    :header-rows: 1
@@ -660,18 +670,19 @@ SpinalHDL support enumeration with some encodings :
      - Use Bits to store states in declaration order (value from 0 to n-1)
    * - binaryOneHot
      - stateCount
-     - Use Bits to store state. Each bit correspond to one state
+     - Use Bits to store state. Each bit position correspond to one state,
+       only one bit is active at a time when encoded.
 
 
-Define a enumeration type:
+Define an enumeration type:
 
 .. code-block:: scala
 
-   object UartCtrlTxState extends SpinalEnum { // Or SpinalEnum(defaultEncoding=encodingOfYouChoice)
+   object UartCtrlTxState extends SpinalEnum { // Or SpinalEnum(defaultEncoding=encodingOfYourChoice)
      val sIdle, sStart, sData, sParity, sStop = newElement()
    }
 
-Instantiate a enumeration signal and assign it :
+Instantiate a signal to store the enumeration encoded value and assign it a value :
 
 .. code-block:: scala
 
@@ -735,8 +746,12 @@ Literals are generally use as a constant value. But you can also use them to do 
 
 
 * Define a wire which is assigned with a constant value
+* Setup inferred type: UInt(4 bits)
+* Clock cycles where `cond =/= True` will result in the constant being reinstated
+* Clock cycles where `cond === True` will result in the signal having the
+  value of `red` due to the last statement wins rule.
 
-There is an example :
+An example :
 
 .. code-block:: scala
 
@@ -745,7 +760,30 @@ There is an example :
    ...
    val valid = False          //Bool wire which is by default assigned with False
    val value = U"0100"        //UInt wire of 4 bits which is by default assigned with 4
-   when(cond){
+   when(cond) {
      valid := True
      value := red
+   }
+
+
+Continuous Assignment Literals as signal declaration
+----------------------------------------------------
+
+You can also use them in expressions to do three things at once :
+
+* Define a wire
+* Maintain the result of an equality operation with the constant value and another signal
+* Setup inferred type: Bool due to use of === equality operator having a
+  result of type Bool
+
+There is an example :
+
+.. code-block:: scala
+
+   val done = Bool(False)
+   val blue = in UInt(4 bits)
+   ...
+   val value = blue === U"0001"  // inferred type is Bool due to use of === operator
+   when(value) {
+     done := True
    }

@@ -311,8 +311,8 @@ Let's write ``UartCtrl`` that instantiates the ``UartCtrlRx`` and ``UartCtrlTx``
    :end-before: // end class UartCtrl
 
 To make it easier to use the UART with fixed settings, we introduce an companion object for ``UartCtrl``. It allows us to provide
-additional ways of instanciating a UartCtrl component with different sets of parameters. Here we define a ``UartCtrlInitConfig``
-holding the settings for a component that is not runtime configurable. Note that it is still possible to instanciate the UartCtrl
+additional ways of instantiating a UartCtrl component with different sets of parameters. Here we define a ``UartCtrlInitConfig``
+holding the settings for a component that is not runtime configurable. Note that it is still possible to instantiate the UartCtrl
 manually like all other components, which one would do if a runtime-configurable UART is needed (via ``val uart = new UartCtrl()``).
 
 .. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/Uart.scala
