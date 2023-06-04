@@ -190,10 +190,10 @@ Type cast
    * - x.asBits
      - Binary cast to Bits
      - Bits(w(x) bits)
-   * - x.asUInt
+   * - x.asBits.asUInt
      - Binary cast to UInt
      - UInt(w(x) bits)
-   * - x.asSInt
+   * - x.asBits.asSInt
      - Binary cast to SInt
      - SInt(w(x) bits)
    * - e.assignFromBits(bits)
