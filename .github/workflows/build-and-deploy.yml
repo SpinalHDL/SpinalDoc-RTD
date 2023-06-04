@@ -1,0 +1,588 @@
+name: "build_and_deploy"
+
+on:
+  workflow_dispatch:
+    inputs:
+      BUILD_SINGLE_DOC:
+        description: 'Build single version ?'
+        required: false
+        type: boolean
+        default: false
+      BUILD_MULTI_DOC:
+        description: 'Build multi version (live) ?'
+        required: false
+        type: boolean
+        default: true
+      FAILON_LINKCHECK:
+        description: 'Enforce make linkcheck (live) ?'
+        required: false
+        type: boolean
+        default: true
+      SKIP_LINKCHECK:
+        description: 'Skip make linkcheck ?'
+        required: false
+        type: boolean
+        default: false
+      DEPLOY_ENV_TEST:
+        description: 'Deploy to test ?'
+        required: false
+        type: boolean
+        default: false
+      DEPLOY_ENV_LIVE:
+        description: 'Deploy to live ?'
+        required: false
+        type: boolean
+        default: false
+  pull_request:
+    env:	# This doesn't error but doesn't work like you might expect, see the steps below
+      BUILD_SINGLE_DOC: true
+      BUILD_MULTI_DOC: false
+      FAILON_LINKCHECK: false
+      SKIP_LINKCHECK: true
+  push:
+    branches:
+      - 'test'
+    env:	# This doesn't error but doesn't work like you might expect, see the steps below
+      BUILD_SINGLE_DOC: true
+      BUILD_MULTI_DOC: true
+      FAILON_LINKCHECK: false
+      SKIP_LINKCHECK: true
+      DEPLOY_ENV_TEST: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # The purpose of these outputs is to allow the separate 'deploy' job to pickup the same values
+    outputs:
+      DEPLOY_ENV_TEST: ${{ steps.confenv.outputs.DEPLOY_ENV_TEST }}
+      DEPLOY_ENV_LIVE: ${{ steps.confenv.outputs.DEPLOY_ENV_LIVE }}
+      deploy: ${{ steps.github-pages.outputs.deploy }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0   ## all branches all tags
+
+    - name: 'CI-ENV on: workflow_dispatch'
+      if: github.event_name == 'workflow_dispatch'
+      env:
+        inputs_BUILD_SINGLE_DOC: ${{ inputs.BUILD_SINGLE_DOC }}
+        inputs_BUILD_MULTI_DOC:  ${{ inputs.BUILD_MULTI_DOC  }}
+        inputs_SKIP_LINKCHECK:   ${{ inputs.SKIP_LINKCHECK   }}
+        inputs_FAILON_LINKCHECK: ${{ inputs.FAILON_LINKCHECK }}
+        inputs_DEPLOY_ENV_TEST:  ${{ inputs.DEPLOY_ENV_TEST  }}
+        inputs_DEPLOY_ENV_LIVE:  ${{ inputs.DEPLOY_ENV_LIVE  }}
+      run: |
+        # Canonicalize variable values "true" or "false" or default (not set)
+        for ename in BUILD_SINGLE_DOC BUILD_MULTI_DOC SKIP_LINKCHECK FAILON_LINKCHECK DEPLOY_ENV_TEST DEPLOY_ENV_LIVE
+        do
+          iname="inputs_${ename}"
+          value="${!iname}"
+          # inputs context has lower precedence than existing env (which is usually notset)
+          # set ename (env) from iname (inputs) if ename notset and value being set is not blank
+          if [ "${!ename-notset}" = "notset" ] && [ "X${value}" != "X" ]
+          then
+            declare "${ename}=${value}"
+            echo "${ename}=${!ename}" >> $GITHUB_ENV
+          fi
+        done
+
+        cat $GITHUB_ENV
+
+    - name: 'CI-ENV on: release'
+      if: github.event_name == 'release'
+      run: |
+        # Actions don't support env setup from on: specification so we have to do it inside a step
+        for namevalue in {BUILD_SINGLE_DOC=false,BUILD_MULTI_DOC=true,FAILON_LINKCHECK=true,DEPLOY_ENV_LIVE=true}
+        do
+          name="${namevalue%=*}"
+          value="${namevalue#*=}"
+          if [ "${!name-notset}" = "notset" ]
+          then
+            declare "${name}=${value}"
+            echo "${name}=${!name}" >> $GITHUB_ENV
+          fi
+        done
+
+        cat $GITHUB_ENV
+
+    - name: 'CI-ENV on: schedule'
+      if: github.event_name == 'schedule'
+      run: |
+        # Actions don't support env setup from on: specification so we have to do it inside a step
+        for namevalue in {BUILD_SINGLE_DOC=false,BUILD_MULTI_DOC=true,FAILON_LINKCHECK=false,DEPLOY_ENV_LIVE=true}
+        do
+          name="${namevalue%=*}"
+          value="${namevalue#*=}"
+          if [ "${!name-notset}" = "notset" ]
+          then
+            declare "${name}=${value}"
+            echo "${name}=${!name}" >> $GITHUB_ENV
+          fi
+        done
+
+        cat $GITHUB_ENV
+
+    - name: 'CI-ENV on: push'	# if you use a branch called 'test' see on: push
+      if: github.event_name == 'push'
+      run: |
+        # Actions don't support env setup from on: specification so we have to do it inside a step
+        for namevalue in {BUILD_SINGLE_DOC=true,BUILD_MULTI_DOC=true,SKIP_LINKCHECK=true,DEPLOY_ENV_TEST=true}
+        do
+          name="${namevalue%=*}"
+          value="${namevalue#*=}"
+          if [ "${!name-notset}" = "notset" ]
+          then
+            declare "${name}=${value}"
+            echo "${name}=${!name}" >> $GITHUB_ENV
+          fi
+        done
+
+        cat $GITHUB_ENV
+
+    - name: 'CI-ENV on: pull_request'
+      if: github.event_name == 'pull_request'
+      run: |
+        # Actions don't support env setup from on: specification so we have to do it inside a step
+        for namevalue in {BUILD_SINGLE_DOC=true,SKIP_LINKCHECK=true}
+        do
+          name="${namevalue%=*}"
+          value="${namevalue#*=}"
+          if [ "${!name-notset}" = "notset" ]
+          then
+            declare "${name}=${value}"
+            echo "${name}=${!name}" >> $GITHUB_ENV
+          fi
+        done
+
+        cat $GITHUB_ENV
+
+    - name: 'CI-ENV Canonicalize'
+      run: |
+        # Canonicalize variable values "true" or "false" or default (not set)
+        for ename in BUILD_SINGLE_DOC BUILD_MULTI_DOC SKIP_LINKCHECK FAILON_LINKCHECK DEPLOY_ENV_TEST DEPLOY_ENV_LIVE
+        do
+          if [ "${!ename+set}" = "set" ]
+          then
+            # The ,, is bash for lowercase the value
+            if [ "${!ename,,}" != "true" ] && [ "${!ename,,}" != "false" ]
+            then
+              echo "ENV ${ename} invalid value: '${!ename}'" 1>&2
+              exit 1
+            fi
+            echo "${ename}=${!ename}" >> $GITHUB_ENV
+          fi
+        done
+
+        cat $GITHUB_ENV
+
+    - name: 'CI-ENV Validate'
+      run: |
+        # Only one DEPLOY mode is allowed, if any
+        if [ "$DEPLOY_ENV_TEST" = "true" ] && [ "$DEPLOY_ENV_LIVE" = "true" ]
+        then
+          echo "ENV invalid params DEPLOY_ENV_TEST=$DEPLOY_ENV_TEST and DEPLOY_ENV_LIVE=$DEPLOY_ENV_LIVE" 1>&2
+          exit 1
+        fi
+
+        if [ "$DEPLOY_ENV_LIVE" = "true" ]
+        then
+          # When deploying LIVE only one BUILD mode is allowed (this is to prevent accidents)
+          # disallow deployment of multiple versions
+          if [ "$BUILD_SINGLE_DOC" = "true" ] && [ "$BUILD_MULTI_DOC" = "true" ]
+          then
+            echo "ENV invalid params BUILD_SINGLE_DOC=$BUILD_SINGLE_DOC and BUILD_MULTI_DOC=$BUILD_MULTI_DOC" 1>&2
+            exit 1
+          fi
+
+          # Maybe this should be the rule for the policy at this time (this is to prevent accidents)
+          # force only BUILD_MULTI_DOC
+          if [ "$BUILD_MULTI_DOC" != "true" ]
+          then
+            echo "ENV invalid params BUILD_MULTI_DOC=$BUILD_MULTI_DOC" 1>&2
+            exit 1
+          fi
+        fi
+
+        echo "Validation: SUCCESS"
+        exit 0
+
+    - name: Configure ENV
+      id: confenv
+      run: |
+        ## transform: mayexist/username/reponame => reponame
+        export GITHUB_REPOSITORY_NAME=$(echo -n "${GITHUB_REPOSITORY}" | sed -e 's#^.*/\([^/]*\)$#\1#')
+        echo "GITHUB_REPOSITORY_NAME=${GITHUB_REPOSITORY_NAME}" >> $GITHUB_ENV
+        export sphinx_extra_version="latest"
+        echo "sphinx_extra_version=${sphinx_extra_version}" >> $GITHUB_ENV
+
+        # Needs trailing slash on these, as final value needs trailing slash
+        # Default is assume multi for production
+        _baseurl_prefix="${sphinx_extra_version}/"
+        if [ "$DEPLOY_ENV_TEST" = "true" ] && [ "$BUILD_MULTI_DOC" = "true" ] && [ "$BUILD_SINGLE_DOC" = "true" ]
+        then
+          # TEST: Prioritize multi when building both
+          _baseurl_prefix="docs_multi/html/${sphinx_extra_version}/"
+        elif [ "$DEPLOY_ENV_TEST" = "true" ] && [ "$BUILD_MULTI_DOC" = "true" ]
+        then
+          # TEST: Looks same as default
+          _baseurl_prefix="${sphinx_extra_version}/"
+        elif [ "$DEPLOY_ENV_TEST" = "true" ] && [ "$BUILD_SINGLE_DOC" = "true" ]
+        then
+          # TEST: This is moved toplevel now (no trailing slash as there is one already when this is empty)
+          #_baseurl_prefix="docs_single/html/${sphinx_extra_version}"
+          _baseurl_prefix=""
+        fi
+        echo "sphinx_html_baseurl=https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY_NAME}/${_baseurl_prefix}" >> $GITHUB_ENV
+
+        echo "sphinx_github_url=https://github.com/${GITHUB_REPOSITORY}" >> $GITHUB_ENV
+
+        # Latest version selection
+        echo "### git show-ref:"
+        git show-ref
+
+        echo "### git for-each-ref:"
+        git for-each-ref --format "%(refname)"
+
+        set +e
+        sphinx_latest_version=$(git for-each-ref --format "%(refname)" | sed 's/^refs\///g' | grep "tags/" | sed -e 's/^tags\///' | sort -g | tail -n1)
+        set -e
+        echo "sphinx_latest_version=${sphinx_latest_version}" >> $GITHUB_ENV
+        if [ "$DEPLOY_ENV_LIVE" != "true" ]
+        then
+          echo "sphinx_html_context_head_meta_robots=noindex,nofollow" >> $GITHUB_ENV
+        fi
+
+        # See if a tags/latest exists
+        if git show-ref -q latest
+        then
+          echo "$(git show-ref ${sphinx_extra_version})  ## ALREADY EXISTS, KEEPING"
+        else
+          gitref=$(git show-ref ${sphinx_latest_version} | cut -d ' ' -f1)
+          git tag "${sphinx_extra_version}" "${gitref}"
+          echo "$(git show-ref ${sphinx_extra_version})  ## CREATED LOCAL ALIAS TO ${sphinx_latest_version}"
+        fi
+
+        # Now we are all configured lets make these settings global
+        for varname in DEPLOY_ENV_TEST DEPLOY_ENV_LIVE
+        do
+          echo "$varname=${!varname}" >> $GITHUB_OUTPUT
+        done
+
+        echo "### $GITHUB_OUTPUT:"
+        cat $GITHUB_OUTPUT
+
+        echo "### $GITHUB_ENV:"
+        cat $GITHUB_ENV
+
+    - name: Setup python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        # FIXME use the same docker container, that already has all the trimmings
+        # https://hub.docker.com/r/sphinxdoc/sphinx-latexpdf/tags 5.3.0
+        # Hmm... it does not look like the docker is being updated anymore, stuck at version 5.3.0
+        # this is the version we use today but tomorrow it looks like we are going to have to
+        #  manually install like this anyway.
+        export DEBIAN_FRONTEND=noninteractive
+        sudo apt-get update -y || true
+
+        # Dep list taken from docker image
+        sudo apt-get install --no-install-recommends -y       graphviz       imagemagick       make             latexmk \
+              lmodern       fonts-freefont-otf       texlive-latex-recommended       texlive-latex-extra \
+              texlive-fonts-recommended       texlive-fonts-extra       texlive-lang-cjk \
+              texlive-lang-chinese       texlive-lang-japanese       texlive-luatex       texlive-xetex \
+              xindy       tex-gyre
+        sudo apt-get install -y git	# github-action image already has this
+        #apt-get autoremove  && apt-get clean  && rm -rf /var/lib/apt/lists/* # buildkit
+
+        python3 -m pip install --no-cache-dir -U pip # buildkit
+        python3 -m pip install --no-cache-dir Pillow # buildkit (removed Sphinx, this comes from requirements.txt)
+
+        source bin/setup_env.sh
+        echo "sphinx_latest_version=${sphinx_latest_version}" >> $GITHUB_ENV
+
+        pip install -r requirements.txt
+
+    - uses: ammaraskar/sphinx-problem-matcher@master
+
+    - name: make linkcheck - check links
+      if: ${{ env.SKIP_LINKCHECK != 'true' }}
+      run: |
+        source bin/setup_env.sh
+
+        set +e
+        # This can fail if 3rd party website is down (that maybe one of the points it is checking here)
+        make linkcheck >linkcheck.log 2>&1
+        retval=$?
+        set -e
+        cat linkcheck.log
+
+        if [ $retval -ne 0 ]
+        then
+          # GHA must have slow blocking stdout stream but large buffer
+          # This sleeps ensures the 'cat' above flushed the stream before we might writing to stderr here
+          sleep 3
+
+          # Repeat to STDERR to attract attention
+          echo "### ERROR $retval :" 1>&2
+          egrep "\s(broken)\s" linkcheck.log 1>&2 || true
+
+          if [ "$FAILON_LINKCHECK" = "true" ]
+          then
+            echo "ENV param FAILON_LINKCHECK=$FAILON_LINKCHECK so CI build halted due to: make linkcheck (exit-status=$retval)" 1>&2
+            exit $retval
+          fi
+        fi
+        # Force success if we get here
+        exit 0
+
+    - name: make html - single doc builder
+      if: ${{ env.BUILD_SINGLE_DOC == 'true' }}
+      run: |
+        source bin/setup_env.sh
+
+        rm -f /tmp/convert-wrapper.log
+
+        make html
+        rv=$?
+
+        # Report convert-wrapper failures for CI visibility
+        if grep -q "^FAIL" /tmp/convert-wrapper.log 2>/dev/null
+        then
+          echo "### /tmp/convert-wrapper.log:"
+          grep "^FAIL" /tmp/convert-wrapper.log
+          #rv=1 #this would force this into a step failure
+        fi
+
+        exit $rv
+
+    - name: "move dist/gh-pages/docs_single"
+      if: ${{ env.BUILD_SINGLE_DOC == 'true' }}
+      run: |
+        test -d dist/gh-pages || mkdir -p dist/gh-pages
+        mv -f docs/ dist/gh-pages/docs_single
+
+        if [ "$BUILD_MULTI_DOC" != "true" ]
+        then
+          # only building SINGLE so make it toplevel
+          mv -f dist/gh-pages/docs_single/* dist/gh-pages/
+          find  dist/gh-pages/docs_single -exec ls -lad {} \;
+          rmdir dist/gh-pages/docs_single # ensures dir empty
+          # this exposes doctree/** linkcheck/** (that seems ok)
+          mv -f dist/gh-pages/html/* dist/gh-pages/
+        fi
+
+    - name: sphinx-multiversion - multidoc builder
+      if: ${{ env.BUILD_MULTI_DOC == 'true' }}
+      run: |
+        source bin/setup_env.sh
+
+        test -d dist/gh-pages || mkdir -p dist/gh-pages
+        sphinx-multiversion -D "smv_latest_version=$sphinx_latest_version" --dump-metadata source docs/html > dist/gh-pages/sphinx_metadata.json
+        cat dist/gh-pages/sphinx_metadata.json
+
+        rm -f /tmp/convert-wrapper.log
+
+        # Make the docs
+        sphinx-multiversion -D "smv_latest_version=$sphinx_latest_version" source docs/html
+        rv=$?
+
+        # Report convert-wrapper failures for CI visibility
+        if grep -q "^FAIL" /tmp/convert-wrapper.log 2>/dev/null
+        then
+          echo "### /tmp/convert-wrapper.log:"
+          grep "^FAIL" /tmp/convert-wrapper.log
+          #rv=1 #this would force this into a step failure
+        fi
+
+        exit $rv
+
+    - name: "move dist/gh-pages/docs_multi"
+      if: ${{ env.BUILD_MULTI_DOC == 'true' }}
+      run: |
+        test -d dist/gh-pages || mkdir -p dist/gh-pages
+        mv -f docs/ dist/gh-pages/docs_multi
+
+        if [ "$BUILD_SINGLE_DOC" != "true" ]
+        then
+          # only building MULTI so make it toplevel
+          mv -f dist/gh-pages/docs_multi/* dist/gh-pages/
+          find  dist/gh-pages/docs_multi -exec ls -lad {} \;
+          rmdir dist/gh-pages/docs_multi # ensures dir empty
+          # this exposes doctree/** linkcheck/** (that seems ok)
+          mv -f dist/gh-pages/html/* dist/gh-pages/
+        fi
+
+    - name: "Prepare artifact"
+      run: |
+        set +e
+        # Provide a view of deployment structure to help with any diagnostic
+        for f in "dist/gh-pages/${sphinx_extra_version}/index.html" \
+                 "dist/gh-pages/docs_multi/html/${sphinx_extra_version}/index.html" \
+                 "dist/gh-pages/docs_multi/html/${sphinx_latest_version}/index.html" \
+                 "dist/gh-pages/docs_single/html/index.html" \
+                 "dist/gh-pages/" \
+                 "dist/gh-pages/docs_single/" \
+                 "dist/gh-pages/docs_single/html" \
+                 "dist/gh-pages/docs_multi/" \
+                 "dist/gh-pages/docs_multi/html"
+        do
+          if [ -d "$f" ]
+          then
+            echo "### $f (dir) :"
+            ls -la "$f" || true
+          else
+            echo "### $f (file) :"
+            ls -lad "$f" || true
+          fi
+        done
+        set -e
+
+        if [ -f "dist/gh-pages/${sphinx_extra_version}/index.html" ]
+        then
+          redirect_url="./${sphinx_extra_version}/index.html"
+        elif [ -f "dist/gh-pages/docs_multi/html/${sphinx_extra_version}/index.html" ]
+        then
+          redirect_url="./docs_multi/html/${sphinx_extra_version}/index.html"
+        elif [ -f "dist/gh-pages/docs_multi/html/${sphinx_latest_version}/index.html" ]
+        then
+          redirect_url="./docs_multi/html/${sphinx_latest_version}/index.html"
+        elif [ -f "dist/gh-pages/docs_single/html/index.html" ]
+        then
+          redirect_url="./docs_single/html/index.html"
+        else
+          redirect_url="./${sphinx_extra_version}/index.html"
+        fi
+
+        if [ "X${sphinx_html_context_head_meta_robots}" != "X" ]	# this is already configure in env
+        then
+          meta_robots="<meta http-equiv=\"robots\" content=\"${sphinx_html_context_head_meta_robots}\">"
+          echo "sphinx_html_context_head_meta_robots=$sphinx_html_context_head_meta_robots"
+        fi
+
+        if [ "$DEPLOY_ENV_TEST" = "true" ] && [ ! -f "dist/gh-pages/${sphinx_extra_version}/index.html" ]
+        then
+          # This is added because the page latest/index.html is considered the canonical top level page
+          # But when we deploy multiple to test it is one level down:
+          # Redirect: latest/index.html => docs_multi/latest/index.html
+
+          echo "### dist/gh-pages/${sphinx_extra_version}/index.html: "
+          echo "redirect_url=$redirect_url"
+          test -d "dist/gh-pages/${sphinx_extra_version}" || mkdir -p "dist/gh-pages/${sphinx_extra_version}"
+          sudo tee "dist/gh-pages/${sphinx_extra_version}/index.html" << EOF
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>${sphinx_extra_version} :: Redirecting to ${sphinx_extra_version}</title>
+              <meta charset="utf-8">
+              <meta http-equiv="refresh" content="0; url=${redirect_url}">
+              ${meta_robots}
+              <link rel="canonical" href="${sphinx_html_baseurl}index.html">
+            </head>
+          </html>
+        EOF
+          # This EOF is indented left one to ensure no leading space exists in shell code
+        fi
+
+        # Never overwrite index.html if it already exists by this stage (because we moved files to toplevel)
+        if [ ! -f "dist/gh-pages/index.html" ]
+        then
+          echo "### dist/gh-pages/index.html: "
+          echo "redirect_url=$redirect_url"
+          test -d "dist/gh-pages" || mkdir -p "dist/gh-pages"
+          sudo tee dist/gh-pages/index.html << EOF
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>${GITHUB_REPOSITORY_NAME} :: Redirecting to ${sphinx_extra_version}</title>
+              <meta charset="utf-8">
+              <meta http-equiv="refresh" content="0; url=${redirect_url}">
+              ${meta_robots}
+              <link rel="canonical" href="${sphinx_html_baseurl}index.html">
+            </head>
+          </html>
+        EOF
+          # This EOF is indented left one to ensure no leading space exists in shell code
+        fi
+
+        echo "### dist/gh-pages.tar.gz :"
+        echo "DU: $(du -s dist/gh-pages)"
+        echo "DIRS: $(find dist/gh-pages -type d | wc -l)"
+        echo "FILES: $(find dist/gh-pages -type f | wc -l)"
+        echo ""
+        tar -zcf dist/gh-pages.tar.gz -C dist/gh-pages .
+        ls -lad dist/gh-pages.tar.gz
+        sha1sum dist/gh-pages.tar.gz
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: sphinx-docs
+        path: dist/gh-pages.tar.gz
+
+    - name: Upload github-pages
+      if: ${{ env.DEPLOY_ENV_TEST == 'true' || env.DEPLOY_ENV_LIVE == 'true' }}
+      uses: actions/upload-pages-artifact@main
+      with:
+        name: github-pages
+        path: dist/gh-pages
+        retention-days: 90
+
+    - id: github-pages
+      name: Upload github-pages - set outputs
+      if: ${{ env.DEPLOY_ENV_TEST == 'true' || env.DEPLOY_ENV_LIVE == 'true' }}
+      run: |
+        # This really should be built into the upload-artifact actions with just a one-line option
+        if [ "$DEPLOY_ENV_LIVE" = "true" ]
+        then
+          echo "deploy=live" >> $GITHUB_OUTPUT
+        fi
+        if [ "$DEPLOY_ENV_TEST" = "true" ]
+        then
+          echo "deploy=test" >> $GITHUB_OUTPUT
+        fi
+
+        cat $GITHUB_OUTPUT
+
+  deploy:
+    needs: build
+
+    if: needs.build.outputs.DEPLOY_ENV_TEST == 'true' || needs.build.outputs.DEPLOY_ENV_LIVE == 'true'
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    env:
+      DEPLOY_ENV_TEST: ${{ needs.build.outputs.DEPLOY_ENV_TEST }}
+      DEPLOY_ENV_LIVE: ${{ needs.build.outputs.DEPLOY_ENV_LIVE }}
+      DEPLOY: ${{ needs.build.outputs.deploy }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        if: ${{ env.DEPLOY_ENV_TEST == 'true' || env.DEPLOY_ENV_LIVE == 'true' }}
+        uses: actions/deploy-pages@v2
+
+      - name: Summary
+        run: |
+          if [ "$DEPLOY_ENV_TEST" = "true" ]
+          then
+            echo ":white_check_mark: $DEPLOY DEPLOYMENT" >> $GITHUB_STEP_SUMMARY
+          elif [ "$DEPLOY_ENV_LIVE" = "true" ]
+          then
+            echo ":ballot_box_with_check: $DEPLOY DEPLOYMENT" >> $GITHUB_STEP_SUMMARY
+          else
+            echo ":large_orange_diamond: skip DEPLOYMENT" >> $GITHUB_STEP_SUMMARY
+          fi

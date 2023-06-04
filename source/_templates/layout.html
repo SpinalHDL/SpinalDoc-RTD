@@ -1,0 +1,38 @@
+{% extends "!layout.html" %}
+
+{% if page_source_suffix %}
+{% set suffix = page_source_suffix %}
+{% else %}
+{% set suffix = source_suffix %}
+{% endif %}
+
+{% block extrahead %}
+    {{ super() }}
+    <!-- source/_templates/layout.html -->
+    {% for key,value in head_meta.items() %}
+    {% if value %}
+    <meta http-equiv="{{ key|e }}" content="{{ value|e }}">
+    {% endif %}
+    {% endfor %}
+{% endblock %}
+{% block extrabody %}
+    {{ super() }}
+    {% if hasdoc(pagename) %}
+    {% if display_github %}
+    {% if check_meta and 'github_url' in meta %}
+    <div class="div-svg-github-corner github-corner-abs">
+    <!-- User defined GitHub URL -->
+    <a href="{{ meta['github_url'] }}" class="github-corner github-fork-ribbon" aria-label="Edit me on GitHub" data-ribbon="Edit me on GitHub" title="Edit me on GitHub">
+      <object id="svg-github-corner" data="{{ pathto('_static/github-corner-right.svg', 1) }}" class="svg-github-corner github-corner-abs" width="80" height="80"></object>
+    </a>
+    </div>
+    {% else %}
+    <div class="div-svg-github-corner github-corner-abs">
+    <a href="https://{{ github_host|default("github.com") }}/{{ github_user }}/{{ github_repo }}/{{ theme_vcs_pageview_mode or "blob" }}/{{ github_version }}{{ conf_py_path }}{{ pagename }}{{ suffix }}" class="github-corner github-fork-ribbon" aria-label="Edit on GitHub" data-ribbon="Edit on GitHub" title="Edit on GitHub">
+      <object id="svg-github-corner" data="{{ pathto('_static/github-corner-right.svg', 1) }}" class="svg-github-corner github-corner-abs" width="80" height="80"></object>
+    </a>
+    </div>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+#	Sphinx uses extension: sphinx.ext.imgconverter
+#
+#	This calls out to ImageMagicK convert.
+#
+#	The older docs tags we build have links to 3rd party websites (travis-ci) for SVG badges.
+#	This returns HTTP/404 but the HTML response is kept and processed as if it returned HTTP/200. (bug in spinix?)
+#	When 'convert' tries to convert foobar.svg (which is a .html format file error page) it has a parse error.
+#	This terminates the document building process completely.
+#
+#	This script is a wrapper for convert, if it fails it logs and provides an empty file instead.
+#
+#
+echo $0 $* >> /tmp/convert-wrapper.log
+
+convert "$@"
+rv=$?
+
+if [ $rv -ne 0 ]
+then
+	echo FAIL $rv $0 $* >> /tmp/convert-wrapper.log
+
+	touch "$2"
+
+	rv=0
+fi
+
+exit $rv

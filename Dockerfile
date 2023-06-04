@@ -11,5 +11,8 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apb/lists/*
 
+# source /docs/bin/setup_env.sh
+ENV PATH="$PATH:/docs/bin"
+
 ADD requirements.txt /docs
 RUN pip3 install -r requirements.txt
