@@ -1,37 +1,21 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Bus Slave Factory Implementation &mdash; SpinalHDL  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
-
-  
-  
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/gh-fork-ribbon.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/spinaldoc.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/logo3_32x32.png"/>
-  
-
-  
-  
-
-  
-
-  
+    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Developers area/bus_slave_factory_impl.html" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
@@ -40,58 +24,52 @@
         <script src="../../_static/sphinx_highlight.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+        <script src="../../_static/dialog.js"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="How to HACK this documentation" href="howtodocument.html" />
-    <link rel="prev" title="Developers area" href="index.html" /> 
+    <link rel="prev" title="Developers area" href="index.html" />
+     
+    <!-- source/_templates/layout.html -->
+    
+    
+    
+
 </head>
 
 <body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
+     
     
+    
+    
+    <div class="div-svg-github-corner github-corner-abs">
+    <a href="https://github.com/SpinalHDL/SpinalDoc-RTD/blob/master/source/SpinalHDL/Developers area/bus_slave_factory_impl.rst" class="github-corner github-fork-ribbon" aria-label="Edit on GitHub" data-ribbon="Edit on GitHub" title="Edit on GitHub">
+      <object id="svg-github-corner" data="../../_static/github-corner-right.svg" class="svg-github-corner github-corner-abs" width="80" height="80"></object>
+    </a>
+    </div>
+    
+    
+    
+
+  <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../index.html" class="icon icon-home"> SpinalHDL
           
-
-          
+          <a href="../../index.html" class="icon icon-home">
+            SpinalHDL
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../Foreword/index.html">Foreword</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Foreword/index.html#why-moving-away-from-traditional-hdl">Why moving away from traditional HDL</a><ul>
@@ -1124,84 +1102,60 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">SpinalHDL</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="index.html">Developers area</a> &raquo;</li>
-        
-      <li>Bus Slave Factory Implementation</li>
-    
-    
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developers area</a></li>
+      <li class="breadcrumb-item active">Bus Slave Factory Implementation</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
-            <a href="../../_sources/SpinalHDL/Developers area/bus_slave_factory_impl.rst.txt" rel="nofollow"> View page source</a>
-          
-        
+              <a href="https://github.com/SpinalHDL/SpinalDoc-RTD/blob/master/source/SpinalHDL/Developers area/bus_slave_factory_impl.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="bus-slave-factory-implementation">
-<span id="id1"></span><h1>Bus Slave Factory Implementation<a class="headerlink" href="#bus-slave-factory-implementation" title="Permalink to this heading">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+             <dialog id="doc-dialog-version" role="dialog" class="collapse-once" aria-modal="false" data-default-state="show" data-current-version="v1.8.0" data-latest-version="master">
+<p class="doc-version-warning-banner">
+  <strong>
+    
+    You're reading an old version of this documentation.<br/>
+    For the latest stable release version, please have a look at <a href="../../../master/SpinalHDL/Developers area/bus_slave_factory_impl.html">master</a>.
+    
+  </strong>
+  <div>
+    <form>
+      <button formmethod="dialog" type="submit" class="doc-dialog-dismiss" aria-label="close">Dismiss</button>
+    </form>
+  </div>
+</p>
+</dialog>
+
+
+
+
+  <section id="bus-slave-factory-implementation">
+<span id="id1"></span><h1>Bus Slave Factory Implementation<a class="headerlink" href="#bus-slave-factory-implementation" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
 <p>This page will document the implementation of the BusSlaveFactory tool and one of those variant. You can get more information about the functionality of that tool <a class="reference internal" href="../Libraries/bus_slave_factory.html#bus-slave-factory"><span class="std std-ref">there</span></a>.</p>
-</div>
-<div class="section" id="specification">
-<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="specification">
+<h2>Specification<a class="headerlink" href="#specification" title="Permalink to this heading"></a></h2>
 <p>The class diagram is the following :</p>
 <img alt="../../_images/bus_slave_factory_classes.svg" class="align-center" src="../../_images/bus_slave_factory_classes.svg" /><p>The <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> abstract class define minimum requirements that each implementation of it should provide :</p>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
 <col style="width: 17%" />
 <col style="width: 83%" />
@@ -1233,7 +1187,7 @@
 </tbody>
 </table>
 <p>By using them the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactory</span></code> should also be able to provide many utilities :</p>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
 <col style="width: 15%" />
 <col style="width: 8%" />
@@ -1319,11 +1273,11 @@
 </tbody>
 </table>
 <p>About <code class="docutils literal notranslate"><span class="pre">BusSlaveFactoryDelayed</span></code>, it’s still an abstract class, but it capture each primitives (BusSlaveFactoryElement) calls into a data-model. This datamodel is one list that contain all primitives, but also a HashMap that link each address used to a list of primitives that are using it. Then when they all are collected (at the end of the current component), it do a callback that should be implemented by classes that extends it. The implementation of this callback should implement the hardware corresponding to all primitives collected.</p>
-</div>
-<div class="section" id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h2>
-<div class="section" id="busslavefactory">
-<h3>BusSlaveFactory<a class="headerlink" href="#busslavefactory" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h2>
+<section id="busslavefactory">
+<h3>BusSlaveFactory<a class="headerlink" href="#busslavefactory" title="Permalink to this heading"></a></h3>
 <p>Let’s describe primitives abstract function :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span><span class="w"> </span><span class="nc">BusSlaveFactory</span><span class="w">  </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="p">{</span><span class="w"></span>
 
@@ -1457,9 +1411,9 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="busslavefactorydelayed">
-<h3>BusSlaveFactoryDelayed<a class="headerlink" href="#busslavefactorydelayed" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="busslavefactorydelayed">
+<h3>BusSlaveFactoryDelayed<a class="headerlink" href="#busslavefactorydelayed" title="Permalink to this heading"></a></h3>
 <p>Let’s implement classes that will be used to store primitives :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span><span class="w"> </span><span class="nc">BusSlaveFactoryElement</span><span class="w"></span>
 
@@ -1537,11 +1491,11 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="avalonmmslavefactory">
-<h3>AvalonMMSlaveFactory<a class="headerlink" href="#avalonmmslavefactory" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="avalonmmslavefactory">
+<h3>AvalonMMSlaveFactory<a class="headerlink" href="#avalonmmslavefactory" title="Permalink to this heading"></a></h3>
 <p>First let’s implement the companion object that provide the compatible AvalonMM configuration object that correspond to the following table :</p>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
 <col style="width: 22%" />
 <col style="width: 33%" />
@@ -1644,14 +1598,14 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="conclusion">
-<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading"></a></h2>
 <p>That’s all, you can check one example that use this <code class="docutils literal notranslate"><span class="pre">Apb3SlaveFactory</span></code> to create an Apb3UartCtrl <a class="reference internal" href="../Examples/Advanced%20ones/memory_mapped_uart.html#memory-mapped-uart"><span class="std std-ref">there</span></a>.</p>
 <p>If you want to add the support of a new memory bus, it’s very simple you just need to implement another variation of the <code class="docutils literal notranslate"><span class="pre">BusSlaveFactoryDelayed</span></code> trait. The <code class="docutils literal notranslate"><span class="pre">Apb3SlaveFactory</span></code> is probably a good starting point :D</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/javascript">
         function init() {
@@ -1660,38 +1614,37 @@
         window.onload = init;
     </script>
 
+
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="howtodocument.html" class="btn btn-neutral float-right" title="How to HACK this documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Developers area" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="howtodocument.html" class="btn btn-neutral float-right" title="How to HACK this documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2022, SpinalHDL.
-
-    </p>
+    <p>&#169; Copyright 2018 - 2023, SpinalHDL.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+     
+    <!-- source/_templates/footer.html -->
     
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    <div class="doc-footer-current-version"><p>
+    Version: v1.8.0 git~59a1ae38d 2022-12-02
+    </p></div>
+    
+
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
   
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
@@ -1701,6 +1654,15 @@
     <span class="fa fa-caret-down"></span>
   </span>
   <div class="rst-other-versions">
+    <dl>
+       <dt>Languages</dt>
+       <dd class="rtd-current-item">
+         <a href="#">en</a>
+       </dd>
+       <dd>
+         <a href="https://thucgra.github.io/SpinalHDL_Chinese_Doc/">zh_CN</a>
+      </dd>
+    </dl>
     <dl>
       <dt>Tags</dt>
       <dd><a href="../../../v1.3.1/SpinalHDL/Developers area/bus_slave_factory_impl.html">v1.3.1</a></dd>
@@ -1717,21 +1679,15 @@
     <dl>
       <dt>Downloads</dt>
       <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.">HTML</a></dd>
+      <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0-SingleHTML.zip">SingleHTML</a></dd>
       <dd><a href="../../artefacts/SpinalHDL_docs-v1.8.0.pdf">PDF</a></dd>
     </dl>
   </div>
-</div>
-
-  <script type="text/javascript">
+</div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
