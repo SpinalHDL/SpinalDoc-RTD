@@ -19,7 +19,7 @@ The following diagrams follow the UML nomenclature :
 - A link with a white arrow mean "base extend target"
 - A link with a black diamond mean "base contains target"
 - A link with a white diamond mean "base has a reference to target"
-- The * symbole mean "multiple"
+- The * symbol mean "multiple"
 
 Most of the data structure is stored via some double linked list to ease the insertion and the removal of elements.
 
@@ -37,7 +37,7 @@ So in general, if a element of the datamodel use some other Expression or Statem
 
 When using those iterating functions, you are allowed to remove the current element of the tree.
 
-Also asside the foreachXXX, which "only" iterate one level deep, there is often a walkXXX which will iterate recursively. So for instance myExpression.walkExpression on ((a+b)+c)+d will go through the whole tree of adders.
+Also as an aside the foreachXXX, which "only" iterate one level deep, there is often a walkXXX which will iterate recursively. So for instance myExpression.walkExpression on ((a+b)+c)+d will go through the whole tree of adders.
 
 There is also utilities as myExpression.remapExpressions(Expression => Expression) which will iterate over all used expression of myExpression, and change it for your returned one.
 
@@ -124,7 +124,7 @@ Which will produces :
     Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
     [Done] at 0.218    
     
-Note that in many case, there is shortcuts. All the recursive stuff above could have been remplaced by a single : 
+Note that in many case, there are shortcuts. All the recursive stuff above could have been replaced by a single : 
 
 .. code-block:: scala
 
@@ -146,7 +146,7 @@ Here are all the default phases (in order) used to modify / check / generate ver
 
 If as a use you add a new compilation phase using  SpinalConfig.addTransformationPhase(new MyPhase()), then the phase will be added directly after the user component elaboration (so quite early). At that time, you can still use the whole SpinalHDL user API to add elements into the netlist.
 
-If you use the SpinalConfig.phasesInserters api, then you will have to be carefull to only modify the netlist in a way which is compatible with the phases which were already executed. For instance, if you insert you phase after the `PhaseInferWidth`, then you have to specify the width of each nodes you insert.
+If you use the SpinalConfig.phasesInserters API, then you will have to be carefull to only modify the netlist in a way which is compatible with the phases which were already executed. For instance, if you insert you phase after the `PhaseInferWidth`, then you have to specify the width of each nodes you insert.
 
 Modifying a netlist as a user without plugins
 --------------------------------------------------------------
@@ -195,12 +195,12 @@ Here is an function, which allow to execute the `body` code as if nothing ever e
 .. code-block:: scala
   
   def atBeginingOfCurrentComponent[T](body : => T) : T = {
-    val body = Component.current.dslBody  // Get the head of the current component symboles tree (AST in other words)
+    val body = Component.current.dslBody  // Get the head of the current component symbols tree (AST in other words)
     val ctx = body.push()                 // Now all access to the SpinalHDL API will be append to it (instead of the current context)
-    val swapContext = body.swap()         // Empty the symbole tree (but keep a reference to the old content)
+    val swapContext = body.swap()         // Empty the symbol tree (but keep a reference to the old content)
     val ret = that                        // Execute the block of code (will be added to the recently empty body)
     ctx.restore()                         // Restore the original context in which this function was called
-    swapContext.appendBack()              // append the original symboles tree to the modified body
+    swapContext.appendBack()              // append the original symbols tree to the modified body
     ret                                   // return the value returned by that
   }
   
@@ -220,13 +220,13 @@ Here is an function, which allow to execute the `body` code as if nothing ever e
      ...
   }
   
-This kind of functionnality is for instance used in the VexRiscv pipeline to dynamicaly create things.  
+This kind of functionality is for instance used in the VexRiscv pipeline to dynamicaly create things.  
   
   
 User space netlist analysis
 --------------------------------------------------------------
 
-The SpinalHDL datamodel is also readable during usertime elaboration. Here is is an example which will find the shortest logical path (in therms of clock cycles) to travel through a list of signals. In the given case, it is to analyse the latency of the VexRiscv FPU design.
+The SpinalHDL datamodel is also readable during usertime elaboration. Here is is an example which will find the shortest logical path (in terms of clock cycles) to travel through a list of signals. In the given case, it is to analyse the latency of the VexRiscv FPU design.
 
 .. code-block:: scala
 

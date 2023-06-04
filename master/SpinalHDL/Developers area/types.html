@@ -1067,7 +1067,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mill%20support.html">Build through Mill</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="mill%20support.html#complie-the-library">Complie the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mill%20support.html#compile-the-library">Compile the library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mill%20support.html#run-all-test-suites">Run all test suites</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mill%20support.html#run-a-specified-test-suite">Run a specified test suite</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mill%20support.html#run-a-specified-app">Run a specified App</a></li>
@@ -1109,6 +1109,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#enum">Enum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#data-bool-bits-uint-sint-enum-bundle-vec">Data (Bool, Bits, UInt, SInt, Enum, Bundle, Vec)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#literals-as-signal-declaration">Literals as signal declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuous-assignment-literals-as-signal-declaration">Continuous Assignment Literals as signal declaration</a></li>
 </ul>
 </li>
 </ul>
@@ -1169,7 +1170,7 @@
 </ul>
 <a class="reference internal image-reference" href="../../_images/types.svg"><img alt="../../_images/types.svg" class="align-center" src="../../_images/types.svg" width="300" /></a>
 <p>Those types and their usage (with examples) are explained hereafter.</p>
-<p>About the fixed point support it’s documented <a class="reference internal" href="../Data%20types/Fix.html#fixed"><span class="std std-ref">there</span></a></p>
+<p>About the fixed point support it’s documented <a class="reference internal" href="../Data%20types/Fix.html#fixed"><span class="std std-ref">here</span></a></p>
 </section>
 <section id="bool">
 <h2>Bool<a class="headerlink" href="#bool" title="Permalink to this heading"></a></h2>
@@ -1295,7 +1296,7 @@
 <h2>The BitVector family - (<code class="docutils literal notranslate"><span class="pre">Bits</span></code>, <code class="docutils literal notranslate"><span class="pre">UInt</span></code>, <code class="docutils literal notranslate"><span class="pre">SInt</span></code>)<a class="headerlink" href="#the-bitvector-family-bits-uint-sint" title="Permalink to this heading"></a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">BitVector</span></code> is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviours:</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">Bits</span></code> do not convey any sign information whereas the <code class="docutils literal notranslate"><span class="pre">UInt</span></code> (unsigned integer) and <code class="docutils literal notranslate"><span class="pre">SInt</span></code> (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetics is used.</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Bits</span></code> do not convey any sign information whereas the <code class="docutils literal notranslate"><span class="pre">UInt</span></code> (unsigned integer) and <code class="docutils literal notranslate"><span class="pre">SInt</span></code> (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetic is used.</div>
 </div>
 <section id="declaration-syntax">
 <h3>Declaration syntax<a class="headerlink" href="#declaration-syntax" title="Permalink to this heading"></a></h3>
@@ -1329,7 +1330,7 @@
 <td><p>Bits/UInt/SInt</p></td>
 </tr>
 <tr class="row-even"><td><p>B/U/S([x bits], element, …)</p></td>
-<td><p>Create a BitVector assigned with the value specified by elements (see bellow table)</p></td>
+<td><p>Create a BitVector assigned with the value specified by elements (see the table below)</p></td>
 <td><p>Bits/UInt/SInt</p></td>
 </tr>
 </tbody>
@@ -1358,7 +1359,7 @@
 <tr class="row-odd"><td><p>x : Range -&gt; y : String</p></td>
 <td><div class="line-block">
 <div class="line">Set bits in range x with y</div>
-<div class="line">The string format follow same rules than B/U/S”xyz” one</div>
+<div class="line">The string format follow same rules as B/U/S”xyz” one</div>
 </div>
 </td>
 </tr>
@@ -1368,7 +1369,7 @@
 <tr class="row-odd"><td><p>default -&gt; y : Boolean/Bool</p></td>
 <td><div class="line-block">
 <div class="line">Set all unconnected bits with the y value.</div>
-<div class="line">This feature could only be use to do assignments without the U/B/S prefix</div>
+<div class="line">This feature can only be used to do assignments without the U/B/S prefix</div>
 </div>
 </td>
 </tr>
@@ -1452,7 +1453,7 @@
 <td><p>T(max(w(x), w(y) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x(y)</p></td>
-<td><p>Readbit, y : Int/UInt</p></td>
+<td><p>Read bitfield, y : Int/UInt</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-odd"><td><p>x(hi,lo)</p></td>
@@ -1520,7 +1521,7 @@
 <td></td>
 </tr>
 <tr class="row-odd"><td><p>x.asBools</p></td>
-<td><p>Cast into a array of Bool</p></td>
+<td><p>Cast into an array of Bool</p></td>
 <td><p>Vec(Bool(),width(x))</p></td>
 </tr>
 </tbody>
@@ -1528,8 +1529,9 @@
 </section>
 <section id="masked-comparison">
 <h3>Masked comparison<a class="headerlink" href="#masked-comparison" title="Permalink to this heading"></a></h3>
-<p>Some time you need to check equality between a <code class="docutils literal notranslate"><span class="pre">BitVector</span></code> and a bits constant that contain hole (don’t care values).</p>
-<p>There is an example about how to do that :</p>
+<p>Sometimes you need to check equality between a <code class="docutils literal notranslate"><span class="pre">BitVector</span></code> and a bits constant that contain
+holes defined as a bitmask (bit positions not to be compared by the equality expression).</p>
+<p>An example demonstrating how to do that (note the use of ‘M’ prefix) :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">itMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">M</span><span class="s">&quot;00--10--&quot;</span><span class="w"></span>
 </pre></div>
@@ -1572,7 +1574,13 @@
 <td><p>T(w(x))</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.resize(y)</p></td>
-<td><p>Return a resized copy of x, filled with zero, y : Int</p></td>
+<td><p>Return a resized copy of x, filled with zero bits as necessary at the
+MSB to widen, may also truncate width retaining at the LSB side, y : Int</p></td>
+<td><p>T(y bits)</p></td>
+</tr>
+<tr class="row-even"><td><p>x.resizeLeft(y)</p></td>
+<td><p>Return a resized copy of x, filled with zero bits as necessary at the
+LSB to widen, may also truncate width retraining at the MSB side, y : Int</p></td>
 <td><p>T(y bits)</p></td>
 </tr>
 </tbody>
@@ -1666,6 +1674,10 @@
 <td><p>Binary cast in SInt</p></td>
 <td><p>SInt(w(x) bits)</p></td>
 </tr>
+<tr class="row-odd"><td><p>x.asBool</p></td>
+<td><p>Binary cast in Bool</p></td>
+<td><p>Bool(x.lsb)</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1688,7 +1700,7 @@
 <tr class="row-odd"><td><p>Vec(x,y,..)</p></td>
 <td><div class="line-block">
 <div class="line">Create a vector where indexes point to given elements.</div>
-<div class="line">this construct support mixed element width</div>
+<div class="line">this construct supports mixed element width</div>
 </div>
 </td>
 </tr>
@@ -1741,7 +1753,7 @@
 <section id="simple-example-rgb-vga">
 <h3>Simple example (RGB/VGA)<a class="headerlink" href="#simple-example-rgb-vga" title="Permalink to this heading"></a></h3>
 <p>The following example show an RGB bundle definition with some internal function.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RGB</span><span class="p">(</span><span class="n">channelWidth</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RGB</span><span class="p">(</span><span class="n">channelWidth</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">red</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">channelWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">green</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">channelWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">channelWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
@@ -1755,14 +1767,14 @@
 </pre></div>
 </div>
 <p>Then you can also incorporate a Bundle inside Bundle as deeply as you want:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">VGA</span><span class="p">(</span><span class="n">channelWidth</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">VGA</span><span class="p">(</span><span class="n">channelWidth</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">hsync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vsync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RGB</span><span class="p">(</span><span class="n">channelWidth</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>And finaly instanciate your Bundles inside the hardware :</p>
+<p>And finaly instantiate your Bundles inside the hardware :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">vgaIn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">VGA</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w">         </span><span class="c1">//Create a RGB instance</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">vgaOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">VGA</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
 <span class="n">vgaOut</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">vgaIn</span><span class="w">            </span><span class="c1">//Assign the whole bundle</span>
@@ -1771,8 +1783,8 @@
 </pre></div>
 </div>
 <p>If you want to specify your bundle as an input or an output of a Component, you have to do it by the following way :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">RGB</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span><span class="w">    </span><span class="c1">//Don&#39;t forget the bracket around the bundle.</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">rsp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">RGB</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
@@ -1860,21 +1872,22 @@ Also if one time you need to add another construction parameter, you will only h
 
 <span class="c1">// Example of usage</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">apbConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">APBConfig</span><span class="p">(</span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="n">dataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="n">selWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="n">useSlaveError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">masterBus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">APB</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">).</span><span class="n">asMaster</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">slaveBus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">APB</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">).</span><span class="n">asSlave</span><span class="p">()</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Then to make that better, the spinal.lib integrate a small master slave utile named IMasterSlave. When a bundle extends IMasterSlave, it should implement/override the asMaster function. It give you the ability to setup a master or a slave interface by a smoother way :</p>
+<p>Then to make that better, the spinal.lib integrate a small master slave utility named IMasterSlave. When a bundle extends IMasterSlave, it should implement/override the asMaster function.
+It give you the ability to setup a master or a slave interface in a smoother way :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">apbConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">APBConfig</span><span class="p">(</span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="n">dataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="n">selWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="n">useSlaveError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">masterBus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">slaveBus</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>There is an example of an APB bus that implement this IMasterSlave :</p>
+<p>An example of an APB bus that implement this IMasterSlave :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//You need to import spinal.lib._ to use IMasterSlave</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="n">_</span>
@@ -1907,7 +1920,7 @@ Also if one time you need to add another construction parameter, you will only h
 </section>
 <section id="enum">
 <h2>Enum<a class="headerlink" href="#enum" title="Permalink to this heading"></a></h2>
-<p>SpinalHDL support enumeration with some encodings :</p>
+<p>SpinalHDL supports enumeration with some encodings :</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 8%" />
@@ -1931,17 +1944,18 @@ Also if one time you need to add another construction parameter, you will only h
 </tr>
 <tr class="row-even"><td><p>binaryOneHot</p></td>
 <td><p>stateCount</p></td>
-<td><p>Use Bits to store state. Each bit correspond to one state</p></td>
+<td><p>Use Bits to store state. Each bit position correspond to one state,
+only one bit is active at a time when encoded.</p></td>
 </tr>
 </tbody>
 </table>
-<p>Define a enumeration type:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">UartCtrlTxState</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">SpinalEnum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Or SpinalEnum(defaultEncoding=encodingOfYouChoice)</span>
+<p>Define an enumeration type:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">UartCtrlTxState</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">SpinalEnum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Or SpinalEnum(defaultEncoding=encodingOfYourChoice)</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sIdle</span><span class="p">,</span><span class="w"> </span><span class="n">sStart</span><span class="p">,</span><span class="w"> </span><span class="n">sData</span><span class="p">,</span><span class="w"> </span><span class="n">sParity</span><span class="p">,</span><span class="w"> </span><span class="n">sStop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newElement</span><span class="p">()</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Instantiate a enumeration signal and assign it :</p>
+<p>Instantiate a signal to store the enumeration encoded value and assign it a value :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">stateNext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UartCtrlTxState</span><span class="p">()</span><span class="w"> </span><span class="c1">// Or UartCtrlTxState(encoding=encodingOfYouChoice)</span>
 <span class="n">stateNext</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">UartCtrlTxState</span><span class="p">.</span><span class="n">sIdle</span><span class="w"></span>
 
@@ -2014,16 +2028,40 @@ Also if one time you need to add another construction parameter, you will only h
 <p>Literals are generally use as a constant value. But you can also use them to do two things in a single one :</p>
 <ul class="simple">
 <li><p>Define a wire which is assigned with a constant value</p></li>
+<li><p>Setup inferred type: UInt(4 bits)</p></li>
+<li><p>Clock cycles where <cite>cond =/= True</cite> will result in the constant being reinstated</p></li>
+<li><p>Clock cycles where <cite>cond === True</cite> will result in the signal having the
+value of <cite>red</cite> due to the last statement wins rule.</p></li>
 </ul>
-<p>There is an example :</p>
+<p>An example :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">red</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="p">...</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w">          </span><span class="c1">//Bool wire which is by default assigned with False</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;0100&quot;</span><span class="w">        </span><span class="c1">//UInt wire of 4 bits which is by default assigned with 4</span>
-<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">){</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
 <span class="w">  </span><span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">red</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="continuous-assignment-literals-as-signal-declaration">
+<h2>Continuous Assignment Literals as signal declaration<a class="headerlink" href="#continuous-assignment-literals-as-signal-declaration" title="Permalink to this heading"></a></h2>
+<p>You can also use them in expressions to do three things at once :</p>
+<ul class="simple">
+<li><p>Define a wire</p></li>
+<li><p>Maintain the result of an equality operation with the constant value and another signal</p></li>
+<li><p>Setup inferred type: Bool due to use of === equality operator having a
+result of type Bool</p></li>
+</ul>
+<p>There is an example :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;0001&quot;</span><span class="w">  </span><span class="c1">// inferred type is Bool due to use of === operator</span>
+<span class="n">when</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">done</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -2058,7 +2096,7 @@ Also if one time you need to add another construction parameter, you will only h
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~9e69a7be5 2023-06-04
+    Version: master git~efc6c1712 2023-06-04
     </p></div>
     
 

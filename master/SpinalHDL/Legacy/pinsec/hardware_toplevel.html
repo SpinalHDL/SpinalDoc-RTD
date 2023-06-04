@@ -1068,7 +1068,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Developers%20area/mill%20support.html">Build through Mill</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/mill%20support.html#complie-the-library">Complie the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/mill%20support.html#compile-the-library">Compile the library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/mill%20support.html#run-all-test-suites">Run all test suites</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/mill%20support.html#run-a-specified-test-suite">Run a specified test suite</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/mill%20support.html#run-a-specified-app">Run a specified App</a></li>
@@ -1110,6 +1110,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#enum">Enum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#data-bool-bits-uint-sint-enum-bundle-vec">Data (Bool, Bits, UInt, SInt, Enum, Bundle, Vec)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#literals-as-signal-declaration">Literals as signal declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Developers%20area/types.html#continuous-assignment-literals-as-signal-declaration">Continuous Assignment Literals as signal declaration</a></li>
 </ul>
 </li>
 </ul>
@@ -1165,10 +1166,10 @@
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Pinsec</span></code> is a little SoC designed for FPGA. It is available in the SpinalHDL library and some documentation could be find <a class="reference internal" href="introduction.html#pinsec-introduction"><span class="std std-ref">there</span></a></p>
-<p>Its toplevel implementation is an interesting example, because it mix some design pattern that make it very easy to modify. Adding a new master or a new peripheral to the bus fabric could be done in the seconde.</p>
-<p>This toplevel implementation could be consulted there :
+<p>Its toplevel implementation is an interesting example, because it is a mix some design patterns that make it very easy to modify. Adding a new master or a new peripheral to the bus fabric could be done with little effort.</p>
+<p>The toplevel implementation could be consulted at the links here :
 <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala">https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala</a></p>
-<p>There is the Pinsec toplevel hardware diagram :</p>
+<p>This is the Pinsec toplevel hardware diagram :</p>
 <img alt="../../../_images/pinsec_hardware.svg" class="align-center" src="../../../_images/pinsec_hardware.svg" /></section>
 <section id="defining-all-io">
 <h2>Defining all IO<a class="headerlink" href="#defining-all-io" title="Permalink to this heading"></a></h2>
@@ -1183,7 +1184,7 @@
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sdram</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">SdramInterface</span><span class="p">(</span><span class="nc">IS42x320D</span><span class="p">.</span><span class="n">layout</span><span class="p">))</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Peripherals IO</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">gpioA</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">TriStateArray</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w">   </span><span class="c1">//Each pin has it&#39;s individual output enable control</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">gpioA</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">TriStateArray</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w">   </span><span class="c1">//Each pin has an individual output enable control</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">gpioB</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">TriStateArray</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">uart</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Uart</span><span class="p">())</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vga</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Vga</span><span class="p">(</span><span class="nc">RgbConfig</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">)))</span><span class="w"></span>
@@ -1274,9 +1275,9 @@
 </pre></div>
 </div>
 </section>
-<section id="systems-clock-domains">
-<h3>Systems clock domains<a class="headerlink" href="#systems-clock-domains" title="Permalink to this heading"></a></h3>
-<p>Now that the reset controller is implemented, we can define clock domain for all part of Pinsec :</p>
+<section id="clock-domain-setup-for-each-system">
+<h3>Clock domain setup for each system<a class="headerlink" href="#clock-domain-setup-for-each-system" title="Permalink to this heading"></a></h3>
+<p>Now that the reset controller is implemented, we can define clock domain for all sub-systems of Pinsec :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axiClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="w"></span>
 <span class="w">  </span><span class="n">clock</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">axiClk</span><span class="p">,</span><span class="w"></span>
 <span class="w">  </span><span class="n">reset</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">axiReset</span><span class="p">,</span><span class="w"></span>
@@ -1350,7 +1351,7 @@
 <span class="w">    </span><span class="n">memDataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="w"></span>
 <span class="w">  </span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">//There is the instanciation of the CPU by using all those construction parameters</span>
+<span class="w">  </span><span class="c1">//There is the instantiation of the CPU by using all those construction parameters</span>
 <span class="w">  </span><span class="k">new</span><span class="w"> </span><span class="nc">RiscvAxi4</span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="n">coreConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coreConfig</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="n">iCacheConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iCacheConfig</span><span class="p">,</span><span class="w"></span>
@@ -1364,8 +1365,9 @@
 </section>
 <section id="on-chip-ram">
 <h3>On chip RAM<a class="headerlink" href="#on-chip-ram" title="Permalink to this heading"></a></h3>
-<p>The instanciation of the AXI4 on chip RAM is very simple.</p>
-<p>In fact it’s not an AXI4 but an Axi4Shared, which mean that a ARW channel replace the AR and AW ones. This solution use less area while being fully interoperable with full AXI4.</p>
+<p>The instantiation of the AXI4 on chip RAM is very simple.</p>
+<p>In fact it’s not an AXI4 but an Axi4Shared, which mean that a ARW channel replace the AR and AW ones.
+This solution uses less area while being fully interoperable with full AXI4.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4SharedOnChipRam</span><span class="p">(</span><span class="w"></span>
 <span class="w">  </span><span class="n">dataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
 <span class="w">  </span><span class="n">byteCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="nc">KiB</span><span class="p">,</span><span class="w"></span>
@@ -1427,7 +1429,7 @@
 </section>
 <section id="peripherals">
 <h2>Peripherals<a class="headerlink" href="#peripherals" title="Permalink to this heading"></a></h2>
-<p>Pinsec integrate some peripherals :</p>
+<p>Pinsec has some integrated peripherals :</p>
 <ul class="simple">
 <li><p>GPIO</p></li>
 <li><p>Timer</p></li>
@@ -1448,7 +1450,7 @@
 </section>
 <section id="timer">
 <h3>Timer<a class="headerlink" href="#timer" title="Permalink to this heading"></a></h3>
-<p>The Pinsec timer module is constituted of :</p>
+<p>The Pinsec timer module consists of :</p>
 <ul class="simple">
 <li><p>One prescaler</p></li>
 <li><p>One 32 bits timer</p></li>
@@ -1521,8 +1523,9 @@
 </section>
 <section id="axi4-crossbar">
 <h3>AXI4 crossbar<a class="headerlink" href="#axi4-crossbar" title="Permalink to this heading"></a></h3>
-<p>The AXI4 crossbar that interconnect AXI4 masters and slaves together  is generated by using an factory.
-The concept of this factory is to create it, then call many function on it to configure it, and finaly call the <code class="docutils literal notranslate"><span class="pre">build</span></code> function to ask the factory to generate the corresponding hardware :</p>
+<p>The AXI4 crossbar that interconnect AXI4 masters and slaves together is generated by using an factory.
+The concept of this factory is to create it, then call many function on it to configure it, and finaly call
+the <code class="docutils literal notranslate"><span class="pre">build</span></code> function to ask the factory to generate the corresponding hardware :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axiCrossbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4CrossbarFactory</span><span class="p">()</span><span class="w"></span>
 <span class="c1">// Where you will have to call function the the axiCrossbar factory to populate its configuration</span>
 <span class="n">axiCrossbar</span><span class="p">.</span><span class="n">build</span><span class="p">()</span><span class="w"></span>
@@ -1538,7 +1541,7 @@ The concept of this factory is to create it, then call many function on it to co
 <span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Then you need to populate interconnections between slaves and masters :</p>
+<p>Then you need to populate a matrix of interconnections between slaves and masters (this sets up visibility) :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//         Master -&gt; List of slaves which are accessible</span>
 
 <span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addConnections</span><span class="p">(</span><span class="w"></span>
@@ -1646,7 +1649,7 @@ The concept of this factory is to create it, then call many function on it to co
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~9e69a7be5 2023-06-04
+    Version: master git~efc6c1712 2023-06-04
     </p></div>
     
 
