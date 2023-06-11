@@ -4,6 +4,8 @@
 Instantiate VHDL and Verilog IP
 ===============================
 
+.. _BlackBox:
+
 Description
 -----------
 
