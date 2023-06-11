@@ -6,7 +6,7 @@ Using Spinal from VSCodium
 .. note::
    VSCode works the same way as VSCodium.
 
-The first time, in the extensions, install "Scala (Metals)".
+As a one-time setup task, in the extensions options, install "Scala (Metals)".
 
 Open the workspace: ``File`` > ``Open Folder...`` and open the folder you have
 downloaded earlier in :ref:`template`.

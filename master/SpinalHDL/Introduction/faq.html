@@ -1013,6 +1013,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#introduction">Introduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#riscv">RISCV</a></li>
@@ -1029,11 +1034,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#peripherals">Peripherals</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#bus-interconnects">Bus interconnects</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#misc">Misc</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a><ul>
@@ -1164,31 +1164,50 @@
 <h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this heading"></a></h1>
 <section id="what-is-the-overhead-of-spinalhdl-generated-rtl-compared-to-human-written-vhdl-verilog">
 <h2>What is the overhead of SpinalHDL generated RTL compared to human written VHDL/Verilog?<a class="headerlink" href="#what-is-the-overhead-of-spinalhdl-generated-rtl-compared-to-human-written-vhdl-verilog" title="Permalink to this heading"></a></h2>
-<p>The overhead is null, SpinalHDL is not an HLS approach. Its goal is not to translate any arbitrary code into RTL, but to provide a powerful language to describe RTL and raise the abstraction level.</p>
+<p>The overhead is nil.  SpinalHDL generates the same HDL constructs found in
+human written VHDL/Verilog with no additional instantiated artifacts present
+in the resulting implementation due to its use.  This makes the overhead
+zero when comparing the generated HDL against handwritten HDL.</p>
+<p>Due to the powerful expressive nature of the Scala/SpinalHDL languages, the
+design is more concise for a given complex hardware design and has strong type safety,
+strong HDL safety paradigms that result in fewer lines of code, able to achieve more
+functionality with fewer bugs.</p>
+<p>SpinalHDL does not take a HLS approach and is not itself a HLS solution. Its goal is not
+to translate any arbitrary code into RTL, but to provide a powerful language to describe RTL
+and raise the abstraction level and increase code reuse at the level the designer is working.</p>
 </section>
 <section id="what-if-spinalhdl-becomes-unsupported-in-the-future">
 <h2>What if SpinalHDL becomes unsupported in the future?<a class="headerlink" href="#what-if-spinalhdl-becomes-unsupported-in-the-future" title="Permalink to this heading"></a></h2>
 <p>This question has two sides:</p>
 <ol class="arabic simple">
 <li><p>SpinalHDL generates VHDL/Verilog files, which means that SpinalHDL will be supported by all EDA tools for many decades.</p></li>
-<li><p>If there is a bug in SpinalHDL and there is no longer support to fix it, it’s not a deadly situation, because the SpinalHDL compiler is fully open source. For simple issues, you may be able to fix the issue yourself in few hours. Remember how much time it takes to EDA companies to fix issues or to add new features in their closed tools.</p></li>
+<li><p>If there is a bug in SpinalHDL and there is no longer support to fix it, it’s not a deadly situation,
+because the SpinalHDL compiler is fully open source.  For simple issues, you may be able to fix the issue
+yourself within a few hours.</p></li>
+<li><p>Consider how much time it takes for a commercial EDA vendor to fix issues or to add new features in their closed tools.
+Consider also your cost and time savings achieved when using SpinalHDL and the potential for your own entity to give back
+to the community some of this as engineering time, open-source contribution time or donations to the project to improve
+its future.</p></li>
 </ol>
 </section>
 <section id="does-spinalhdl-keep-comments-in-generated-vhdl-verilog">
 <h2>Does SpinalHDL keep comments in generated VHDL/verilog?<a class="headerlink" href="#does-spinalhdl-keep-comments-in-generated-vhdl-verilog" title="Permalink to this heading"></a></h2>
-<p>No, it doesn’t. Generated files should be considered as a netlist. For example, when you compile C code, do you care about your comments in the generated assembly code?</p>
+<p>No, it doesn’t. Generated files should be considered as a netlist. For example, when you compile C code, do you care about
+your comments in the generated assembly code?</p>
 </section>
 <section id="could-spinalhdl-scale-up-to-big-projects">
 <h2>Could SpinalHDL scale up to big projects?<a class="headerlink" href="#could-spinalhdl-scale-up-to-big-projects" title="Permalink to this heading"></a></h2>
-<p>Yes, some experiments were done, and it appears that generating hundreds of 3KLUT CPUs with caches takes around 12 seconds, which is a ridiculously short time compared to the time required to simulate or synthesize this kind of design.</p>
+<p>Yes, some experiments were done, and it appears that generating hundreds of 3KLUT CPUs with caches takes around 12 seconds,
+which is a ridiculously short time compared to the time required to simulate or synthesize this kind of design.</p>
 </section>
 <section id="how-spinalhdl-came-to-be">
 <h2>How SpinalHDL came to be<a class="headerlink" href="#how-spinalhdl-came-to-be" title="Permalink to this heading"></a></h2>
-<p>Between December 2014 and April 2016, it was as a personal hobby project. But since April 2016 one person is working full time on it. Some people are also regularly contributing to the project.</p>
+<p>Between December 2014 and April 2016, it was as a personal hobby project.  But since April 2016 one person is working full
+time on it. Some people are also regularly contributing to the project.</p>
 </section>
 <section id="why-develop-a-new-language-when-there-is-vhdl-verilog-systemverilog">
 <h2>Why develop a new language when there is VHDL/Verilog/SystemVerilog?<a class="headerlink" href="#why-develop-a-new-language-when-there-is-vhdl-verilog-systemverilog" title="Permalink to this heading"></a></h2>
-<p>The <a class="reference internal" href="../Foreword/index.html#foreword"><span class="std std-ref">Foreword</span></a>  is dedicated to this topic.</p>
+<p>The <a class="reference internal" href="../Foreword/index.html#foreword"><span class="std std-ref">Foreword</span></a> is dedicated to this topic.</p>
 </section>
 <section id="how-to-use-an-unreleased-version-of-spinalhdl-but-committed-on-git">
 <h2>How to use an unreleased version of SpinalHDL (but committed on git)?<a class="headerlink" href="#how-to-use-an-unreleased-version-of-spinalhdl-but-committed-on-git" title="Permalink to this heading"></a></h2>
@@ -1255,7 +1274,7 @@ number.</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~8a422b1f9 2023-06-04
+    Version: master git~2c3308db1 2023-06-11
     </p></div>
     
 

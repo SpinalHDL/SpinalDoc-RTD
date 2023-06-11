@@ -27,11 +27,15 @@ fetch dependencies so it can take time the first time:
    compile
 
 Actually you never need to just ``compile`` as it is done automatically when
-needed. This time was just to evacuate the long first build, and to get all
-``sbt`` autocompletion features on the next commands.
+needed. The first build time will take a few moments longer compared to future builds
+as the sbt tool builds the entire project from a cold start and then uses incremental
+building where possible from that point on.  ``sbt`` supports autocompletion inside
+the interactive shell to assist discovery and usage of the available commands. 
+You can start the interactive shell with ``sbt shell`` or running ``sbt``
+with no arguments from the command line.
 
-To run a specific generation or simulation, the command is ``runMain``. So if
-you type ``runMain``, space, and tab, you should get this:
+To run a specific HDL code-generation or simulation, the command is ``runMain``. So
+if you type ``runMain``, space, and tab, you should get this:
 
 .. code-block::
 

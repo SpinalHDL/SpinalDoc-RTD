@@ -1013,6 +1013,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#introduction">Introduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#riscv">RISCV</a></li>
@@ -1029,11 +1034,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#peripherals">Peripherals</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#bus-interconnects">Bus interconnects</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#misc">Misc</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a><ul>
@@ -1196,8 +1196,8 @@
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a vector of 2 signed integers</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myVecOfSInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="c1">// assignment to populate index 0</span>
+<span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w">  </span><span class="c1">// assignment to populate index 1</span>
 
 <span class="c1">// Create a vector of 3 different type elements</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myVecOfMixedUInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">5</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
@@ -1247,6 +1247,8 @@
 <span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
 
 <span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">vec1</span><span class="w">  </span><span class="c1">// Compare all elements</span>
+<span class="c1">// is equivalent to:</span>
+<span class="c1">//myBool := vec2(0) === vec1(0) &amp;&amp; vec2(1) === vec1(1)</span>
 </pre></div>
 </div>
 </section>
@@ -1404,7 +1406,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~8a422b1f9 2023-06-04
+    Version: master git~2c3308db1 2023-06-11
     </p></div>
     
 

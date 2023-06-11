@@ -1013,6 +1013,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#introduction">Introduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#riscv">RISCV</a></li>
@@ -1029,11 +1034,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#peripherals">Peripherals</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#bus-interconnects">Bus interconnects</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#misc">Misc</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a><ul>
@@ -1164,7 +1164,43 @@
 <span id="id1"></span><h1>Bool<a class="headerlink" href="#bool" title="Permalink to this heading"></a></h1>
 <section id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Bool</span></code> type corresponds to a boolean value (True or False).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Bool</span></code> type corresponds to a boolean value (True or False) or a single bit/wire
+used in a hardware design.  While named similarly it should not be confused with
+Scala <cite>Boolean</cite> type which does not describe hardware but truth values in the Scala
+generator code.</p>
+<p>An important concept and rule-of-thumb to understand is that the Scala
+<cite>Boolean</cite> type is used in places where elaboration-time HDL code-generation
+decision making is occuring in Scala code.  Like any regular program it affects
+execution of the Scala program that is SpinalHDL at the time the program is
+being run to perform HDL code generation.</p>
+<p>Therefore the value of a Scala <cite>Boolean</cite> can not be observed from hardware,
+because it only exists ahead-of-time in the SpinalHDL program at the time of
+HDL code-gen.</p>
+<p>In scenarios where you might need this for your design, for example to pass a
+value (that maybe acting as a parameterized constant input) from Scala into your
+hardware design, you can type convert it to Bool with the constructor <cite>Bool(value: Boolean)</cite>.</p>
+<p>Similarly the value of a SpinalHDL <cite>Bool</cite> can not be seen at code-generation, all
+that can be seen and manipulated is the HDL construct concerning a <cite>wire</cite> and how it
+is routed (through modules/Components), driven (sourced) and connected (sunk).</p>
+<p>The signal direction of assignment operators <cite>:=</cite> is managed by SpinalHDL.
+The use of the Bool instance on the left-hand-side or the right-hand-side of the
+assignment operator <cite>:=</cite> dictates if it is a source (provides state) or sink
+(captures state) for a given assignment.</p>
+<p>Multiple uses of the assignment operator are allowed, such that it is normal
+for a signal wire to act as a source (provides a value to drive HDL state) to be
+able to connect and drive multiple inputs of other HDL constructs.  When a Bool
+instance used as a source the order the assignment statments appear or are
+executed in Scala does not matter, unlike when it is used as a sink
+(captures state).</p>
+<p>When multiple assignment operators drive the Bool (the Bool is on the
+left-hand-side of the assignment expression), the last assignment
+statement wins rule; take effect.  The last would be the last to execute in
+Scala code.  This matter can affect the layout and ordering of your SpinalHDL
+Scala code to ensure the correct precedence order is archived in the hardware
+design for assigning a new state to the Bool in hardware.</p>
+<p>It may help to understand the concept with relating the Scala/SpinalHDL
+<cite>Bool</cite> instance as a reference to a HDL <cite>net</cite> in the net-list.  Which the
+assignment <cite>:=</cite> operator is attaching HDL constructs into the same net.</p>
 </section>
 <section id="declaration">
 <h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this heading"></a></h2>
@@ -1195,13 +1231,14 @@
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-odd"><td><p>Bool(value: Boolean)</p></td>
-<td><p>Create a Bool assigned with a Scala Boolean(true, false)</p></td>
+<td><p>Create a Bool assigned with a value from a Scala Boolean type (true, false).
+This explicitly converts to <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></td>
 <td><p>Bool</p></td>
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myBool_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w">          </span><span class="c1">// Create a Bool</span>
-<span class="n">myBool_1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w">            </span><span class="c1">// := is the assignment operator</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myBool_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w">        </span><span class="c1">// Create a Bool</span>
+<span class="n">myBool_1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w">            </span><span class="c1">// := is the assignment operator (like verilog &lt;=)</span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">myBool_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w">         </span><span class="c1">// Equivalent to the code above</span>
 
@@ -1246,27 +1283,31 @@
 <td><p>Logical XOR</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-even"><td><p>x.set[()]</p></td>
+<tr class="row-even"><td><p>~x</p></td>
+<td><p>Logical NOT</p></td>
+<td><p>Bool</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.set[()]</p></td>
 <td><p>Set x to True</p></td>
-<td></td>
+<td><p>Unit (none)</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.clear[()]</p></td>
+<tr class="row-even"><td><p>x.clear[()]</p></td>
 <td><p>Set x to False</p></td>
-<td></td>
+<td><p>Unit (none)</p></td>
 </tr>
-<tr class="row-even"><td><p>x.setWhen(cond)</p></td>
+<tr class="row-odd"><td><p>x.setWhen(cond)</p></td>
 <td><p>Set x when cond is True</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.clearWhen(cond)</p></td>
+<tr class="row-even"><td><p>x.clearWhen(cond)</p></td>
 <td><p>Clear x when cond is True</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-even"><td><p>x.riseWhen(cond)</p></td>
+<tr class="row-odd"><td><p>x.riseWhen(cond)</p></td>
 <td><p>Set x when x is False and cond is True</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.fallWhen(cond)</p></td>
+<tr class="row-even"><td><p>x.fallWhen(cond)</p></td>
 <td><p>Clear x when x is True and cond is True</p></td>
 <td><p>Bool</p></td>
 </tr>
@@ -1277,11 +1318,11 @@
 
 <span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
 <span class="w"> </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="n">d</span><span class="p">.</span><span class="n">set</span><span class="p">()</span><span class="w">    </span><span class="c1">// equivalent to d := True</span>
+<span class="w">   </span><span class="n">d</span><span class="p">.</span><span class="n">set</span><span class="p">()</span><span class="w">                </span><span class="c1">// equivalent to d := True</span>
 <span class="w"> </span><span class="p">}</span><span class="w"></span>
 
 <span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
-<span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">setWhen</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="c1">// equivalent to when(cond) { d := True }</span>
+<span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">setWhen</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w">          </span><span class="c1">// equivalent to when(cond) { d := True }</span>
 
 <span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"> </span><span class="n">fallWhen</span><span class="p">(</span><span class="n">ack</span><span class="p">)</span><span class="w"> </span><span class="n">setWhen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="w"></span>
 <span class="w"> </span><span class="cm">/** equivalent to</span>
@@ -1291,7 +1332,7 @@
 <span class="cm">  * f := req || (f &amp;&amp; !ack)</span>
 <span class="cm">  */</span><span class="w"></span>
 
-<span class="c1">// mind the order of assignments!</span>
+<span class="c1">// mind the order of assignments!  last one wins</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"> </span><span class="n">setWhen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="w"> </span><span class="n">fallWhen</span><span class="p">(</span><span class="n">ack</span><span class="p">)</span><span class="w"></span>
 <span class="c1">// equivalent to g := ((!g) &amp;&amp; req) || (g &amp;&amp; !ack)</span>
 </pre></div>
@@ -1299,6 +1340,12 @@
 </section>
 <section id="edge-detection">
 <h3>Edge detection<a class="headerlink" href="#edge-detection" title="Permalink to this heading"></a></h3>
+<p>All edge detection functions will instantiate an additional register via <span class="xref std std-ref">RegNext</span>
+to get a delayed value of the <code class="docutils literal notranslate"><span class="pre">Bool</span></code> in question.</p>
+<p>This feature does not reconfigure a D-type Flip-Flop to use an alternative CLK
+source, it uses two D-type Flip-Flop in series chain (with both CLK pins inheriting
+the default ClockDomain).  It has combinational logic to perform edge detection
+based on the output Q states.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 25%" />
@@ -1343,6 +1390,10 @@
 <tr class="row-odd"><td><p>x.edges(initAt: Bool)</p></td>
 <td><p>Same as x.edges but with a reset value</p></td>
 <td><p>BoolEdges</p></td>
+</tr>
+<tr class="row-even"><td><p>x.toggle[()]</p></td>
+<td><p>Return True at every edge</p></td>
+<td><p>Bool</p></td>
 </tr>
 </tbody>
 </table>
@@ -1406,22 +1457,24 @@
 <tbody>
 <tr class="row-even"><td><p>x.asBits</p></td>
 <td><p>Binary cast to Bits</p></td>
-<td><p>Bits(w(x) bits)</p></td>
+<td><p>Bits(1 bit)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.asUInt</p></td>
 <td><p>Binary cast to UInt</p></td>
-<td><p>UInt(w(x) bits)</p></td>
+<td><p>UInt(1 bit)</p></td>
 </tr>
 <tr class="row-even"><td><p>x.asSInt</p></td>
 <td><p>Binary cast to SInt</p></td>
-<td><p>SInt(w(x) bits)</p></td>
+<td><p>SInt(1 bit)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.asUInt(bitCount)</p></td>
-<td><p>Binary cast to UInt and resize</p></td>
+<td><p>Binary cast to UInt and resize, putting Bool value in LSB and padding
+with zeros.</p></td>
 <td><p>UInt(bitCount bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x.asBits(bitCount)</p></td>
-<td><p>Binary cast to Bits and resize</p></td>
+<td><p>Binary cast to Bits and resize, putting Bool value in LSB and padding
+with zeros.</p></td>
 <td><p>Bits(bitCount bits)</p></td>
 </tr>
 </tbody>
@@ -1450,7 +1503,7 @@
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 
-<span class="c1">// Concatenation of three Bool into a Bits</span>
+<span class="c1">// Concatenation of three Bool into a single Bits(3 bits) type</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">##</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">##</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1458,8 +1511,8 @@
 <section id="maskedboolean">
 <h3>MaskedBoolean<a class="headerlink" href="#maskedboolean" title="Permalink to this heading"></a></h3>
 <p>A masked boolean allows don’t care values. They are usually not used on their own but through <a class="reference internal" href="bits.html#maskedliteral"><span class="std std-ref">MaskedLiteral</span></a>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// first argument: boolean value</span>
-<span class="c1">// second argument: do we care ?</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// first argument: Scala Boolean value</span>
+<span class="c1">// second argument: do we care ? expressed as a Scala Boolean</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">masked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">MaskedBoolean</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1496,7 +1549,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~8a422b1f9 2023-06-04
+    Version: master git~2c3308db1 2023-06-11
     </p></div>
     
 

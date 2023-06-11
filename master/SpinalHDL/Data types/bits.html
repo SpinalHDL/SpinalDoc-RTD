@@ -1013,6 +1013,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#introduction">Introduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#riscv">RISCV</a></li>
@@ -1029,11 +1034,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#peripherals">Peripherals</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#bus-interconnects">Bus interconnects</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#misc">Misc</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a><ul>
@@ -1183,7 +1183,8 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Bits [()]</p></td>
-<td><p>Create a BitVector, bits count is inferred</p></td>
+<td><p>Create a BitVector, bit count is inferred from the first assignment statment
+after construction</p></td>
 <td><p>Bits</p></td>
 </tr>
 <tr class="row-odd"><td><p>Bits(x bits)</p></td>
@@ -1209,7 +1210,14 @@
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Declaration</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">()</span><span class="w">     </span><span class="c1">// the size is inferred</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">()</span><span class="w">     </span><span class="c1">// the size is inferred from the widest assignment</span>
+<span class="c1">// ....</span>
+<span class="c1">// .resized needed to prevent WIDTH MISMATCH error as natural width does not match inferred size</span>
+<span class="n">myBits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="s">&quot;1010&quot;</span><span class="p">).</span><span class="n">resized</span><span class="w">  </span><span class="c1">// auto-widen Bits(4 bits) to Bits(6 bits)</span>
+<span class="n">when</span><span class="p">(</span><span class="n">condxMaybe</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">myBits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="s">&quot;110000&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// Bits(6 bits) would be inferred for myBits, this is the widest assignment</span>
+<span class="p">}</span><span class="w"></span>
+
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;8&#39;xFF&quot;</span><span class="w">   </span><span class="c1">// Base could be x,h (base 16)</span>
@@ -1272,36 +1280,84 @@
 <td><p>AND all bits of x</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-odd"><td><p>x &gt;&gt; y</p></td>
-<td><p>Logical shift right, y: Int</p></td>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">y = 1 // Int</div>
+<div class="line">x &gt;&gt; y</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Logical shift right, y: Int</div>
+<div class="line">Result may reduce width</div>
+</div>
+</td>
 <td><p>Bits(w(x) - y bits)</p></td>
 </tr>
-<tr class="row-even"><td><p>x &gt;&gt; y</p></td>
-<td><p>Logical shift right, y: UInt</p></td>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">y = U(1) // UInt</div>
+<div class="line">x &gt;&gt; y</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Logical shift right, y: UInt</div>
+<div class="line">Result is same width</div>
+</div>
+</td>
 <td><p>Bits(w(x) bits)</p></td>
 </tr>
-<tr class="row-odd"><td><p>x &lt;&lt; y</p></td>
-<td><p>Logical shift left, y: Int</p></td>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">y = 1 // Int</div>
+<div class="line">x &lt;&lt; y</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Logical shift left, y: Int</div>
+<div class="line">Result may increase width</div>
+</div>
+</td>
 <td><p>Bits(w(x) + y bits)</p></td>
 </tr>
-<tr class="row-even"><td><p>x &lt;&lt; y</p></td>
-<td><p>Logical shift left, y: UInt</p></td>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">y = U(1) // UInt</div>
+<div class="line">x &lt;&lt; y</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Logical shift left, y: UInt</div>
+<div class="line">Result may increase width</div>
+</div>
+</td>
 <td><p>Bits(w(x) + max(y) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x |&gt;&gt; y</p></td>
-<td><p>Logical shift right, y: Int/UInt</p></td>
+<td><div class="line-block">
+<div class="line">Logical shift right, y: Int/UInt</div>
+<div class="line">Result is same width</div>
+</div>
+</td>
 <td><p>Bits(w(x) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x |&lt;&lt; y</p></td>
-<td><p>Logical shift left, y: Int/UInt</p></td>
+<td><div class="line-block">
+<div class="line">Logical shift left, y: Int/UInt</div>
+<div class="line">Result is same width</div>
+</div>
+</td>
 <td><p>Bits(w(x) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.rotateLeft(y)</p></td>
-<td><p>Logical left rotation, y: UInt/Int</p></td>
+<td><div class="line-block">
+<div class="line">Logical left rotation, y: UInt/Int</div>
+<div class="line">Result is same width</div>
+</div>
+</td>
 <td><p>Bits(w(x) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x.rotateRight(y)</p></td>
-<td><p>Logical right rotation, y: UInt/Int</p></td>
+<td><div class="line-block">
+<div class="line">Logical right rotation, y: UInt/Int</div>
+<div class="line">Result is same width</div>
+</div>
+</td>
 <td><p>Bits(w(x) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.clearAll[()]</p></td>
@@ -1397,13 +1453,17 @@
 <td><p>Cast to an array of Bools</p></td>
 <td><p>Vec(Bool(), w(x))</p></td>
 </tr>
-<tr class="row-even"><td><p>B(x: T)</p></td>
+<tr class="row-even"><td><p>x.asBool</p></td>
+<td><p>Extract LSB of <code class="code docutils literal notranslate"><span class="pre">x</span></code></p></td>
+<td><p>Bool(x.lsb)</p></td>
+</tr>
+<tr class="row-odd"><td><p>B(x: T)</p></td>
 <td><p>Cast Data to Bits</p></td>
-<td><p> Bits(w(x) bits)</p></td>
+<td><p>Bits(w(x) bits)</p></td>
 </tr>
 </tbody>
 </table>
-<p>To cast a <code class="docutils literal notranslate"><span class="pre">Bool</span></code>, <code class="docutils literal notranslate"><span class="pre">UInt</span></code> or an <code class="docutils literal notranslate"><span class="pre">SInt</span></code> into a <code class="docutils literal notranslate"><span class="pre">Bits</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">B(something)</span></code>:</p>
+<p>To cast a <code class="docutils literal notranslate"><span class="pre">Bool</span></code>, <code class="docutils literal notranslate"><span class="pre">UInt</span></code> or an <code class="docutils literal notranslate"><span class="pre">SInt</span></code> into a <code class="docutils literal notranslate"><span class="pre">Bits</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">B(something)</span></code> or <code class="docutils literal notranslate"><span class="pre">B(something[,</span> <span class="pre">x</span> <span class="pre">bits])</span></code>:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// cast a Bits to SInt</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">mySInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits</span><span class="p">.</span><span class="n">asSInt</span><span class="w"></span>
 
@@ -1412,6 +1472,10 @@
 
 <span class="c1">// Cast a SInt to Bits</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="n">mySInt</span><span class="p">)</span><span class="w"></span>
+
+<span class="c1">// Cast the same SInt to Bits but resize to 3 bits</span>
+<span class="c1">//  (will expand/truncate as necessary, retaining LSB)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="n">mySInt</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1443,7 +1507,7 @@
 <td><p>Bits(range bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x(y) := z</p></td>
-<td><p>Assign bits, y: Int/UInt</p></td>
+<td><p>Assign a single bit, y: Int/UInt</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-even"><td><p>x(offset, width bits) := z</p></td>
@@ -1451,7 +1515,7 @@
 <td><p>Bits(width bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x(<a class="reference internal" href="../miscelenea/core/elements.html#range"><span class="std std-ref">range</span></a>) := z</p></td>
-<td><p>Assign a range of bit. Ex : myBits(4 downto 2) := B”010”</p></td>
+<td><p>Assign a range of bits. Ex : myBits(4 downto 2) := B”010”</p></td>
 <td><p>Bits(range bits)</p></td>
 </tr>
 </tbody>
@@ -1499,47 +1563,65 @@
 <td><p>Range</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.high</p></td>
-<td><p>Return the index of the MSB (highest allowed index for Bits)</p></td>
+<td><p>Return the index of the MSB (highest allowed zero-based index for Bits)</p></td>
 <td><p>Int</p></td>
 </tr>
 <tr class="row-even"><td><p>x.msb</p></td>
-<td><p>Return the most significant bit</p></td>
+<td><p>Return the value of the most significant bit</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.lsb</p></td>
-<td><p>Return the least significant bit</p></td>
+<td><p>Return the value of the least significant bit</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-even"><td><p>x ## y</p></td>
+<tr class="row-even"><td><p>x.reversed</p></td>
+<td><p>Return a representation of the same instance in reverse bit order,
+MSB&lt;&gt;LSB are mirrored.</p></td>
+<td><p>Bits(w(x) bits)</p></td>
+</tr>
+<tr class="row-odd"><td><p>x ## y</p></td>
 <td><p>Concatenate, x-&gt;high, y-&gt;low</p></td>
 <td><p>Bits(w(x) + w(y) bits)</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.subdivideIn(y slices)</p></td>
+<tr class="row-even"><td><p>x.subdivideIn(y slices)</p></td>
 <td><p>Subdivide x in y slices, y: Int</p></td>
 <td><p>Vec(Bits, y)</p></td>
 </tr>
-<tr class="row-even"><td><p>x.subdivideIn(y bits)</p></td>
+<tr class="row-odd"><td><p>x.subdivideIn(y bits)</p></td>
 <td><p>Subdivide x in multiple slices of y bits, y: Int</p></td>
 <td><p>Vec(Bits, w(x)/y)</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.resize(y)</p></td>
-<td><p>Return a resized copy of x, if enlarged, it is filled with zero, y: Int</p></td>
+<tr class="row-even"><td><p>x.resize(y)</p></td>
+<td><p>Return a resized representation of x, if enlarged, it is extended with zero
+padding at MSB as necessary, y: Int</p></td>
 <td><p>Bits(y bits)</p></td>
 </tr>
-<tr class="row-even"><td><p>x.resized</p></td>
-<td><p>Return a version of x which is allowed to be automatically resized were needed</p></td>
+<tr class="row-odd"><td><p>x.resized</p></td>
+<td><p>Return a version of x which is allowed to be automatically resized were
+needed.  The resize operation is deferred until the point of assignment later.
+The resize may widen or truncate, retaining the LSB.</p></td>
 <td><p>Bits(w(x) bits)</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.resizeLeft(x)</p></td>
-<td><p>Resize by keeping MSB at the same place, x:Int</p></td>
+<tr class="row-even"><td><p>x.resizeLeft(x)</p></td>
+<td><p>Resize by keeping MSB at the same place, x:Int
+The resize may widen or truncate, retaining the MSB.</p></td>
 <td><p>Bits(x bits)</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.getZero</p></td>
+<td><p>Return a new instance of Bits that is assigned a constant value of zeros the same width as x.</p></td>
+<td><p>Bits(0, w(x) bits)</p></td>
+</tr>
+<tr class="row-even"><td><p>x.getAllTrue</p></td>
+<td><p>Return a new instance of Bits that is assigned a constant value of ones the same width as x.</p></td>
+<td><p>Bits(w(x) bits).setAll()</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><cite>validRange</cite> can only be used for types where the minimum and maximum values fit into a signed
-32-bit integer. (This is a limitation given by the Scala range type which uses <cite>Int</cite>)</p>
+32-bit integer. (This is a limitation given by the Scala <code class="docutils literal notranslate"><span class="pre">scala.collection.immutable.Range</span></code>
+type which uses <cite>Int</cite>)</p>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">myBits_32bits</span><span class="p">.</span><span class="n">getWidth</span><span class="p">)</span><span class="w"> </span><span class="c1">// 32</span>
 
@@ -1611,7 +1693,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~8a422b1f9 2023-06-04
+    Version: master git~2c3308db1 2023-06-11
     </p></div>
     
 

@@ -1013,6 +1013,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#introduction">Introduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#riscv">RISCV</a></li>
@@ -1029,11 +1034,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#peripherals">Peripherals</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#bus-interconnects">Bus interconnects</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#misc">Misc</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a><ul>
@@ -1258,8 +1258,9 @@
 <span class="n">myUInt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="s">&quot;8&#39;h1A&quot;</span><span class="w"></span>
 <span class="n">myUInt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span><span class="w">             </span><span class="c1">// You can use a Scala Int as a literal value</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myUInt</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">,(</span><span class="mi">6</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myUInt</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="n">myUInt</span><span class="p">.</span><span class="n">range</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myUInt</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">,(</span><span class="mi">6</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
+<span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myUInt</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="n">myUInt</span><span class="p">.</span><span class="n">range</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">// For assignment purposes, you can omit the U/S, which also allows the use of the [default -&gt; ???] feature</span>
 <span class="n">myUInt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w">                        </span><span class="c1">// Assign myUInt with &quot;11111111&quot;</span>
@@ -1371,21 +1372,22 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Notice the difference between <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">2</span></code>:T(w(x)-2) and <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">U(2)</span></code>:T(w(x)).</p>
+<p>Notice the difference in behaviour between <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">2</span></code>:T(w(x)-2) and <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">U(2)</span></code>:T(w(x))
+due to the Scala type of <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
 <p>The difference is that in the first case 2 is an <code class="docutils literal notranslate"><span class="pre">Int</span></code> (which can be seen as an
-“elaboration integer”), and in the second case it is a hardware signal.</p>
+“elaboration integer”), and in the second case it is a hardware signal (type <code class="docutils literal notranslate"><span class="pre">UInt</span></code>).</p>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SInt</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">S</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
 <span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">S</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">// Bitwise operators</span>
-<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="c1">// Inverse(a AND b)</span>
+<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">     </span><span class="c1">// Inverse(a AND b)</span>
 <span class="n">assert</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">getWidth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">// Shift</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">arithShift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">// shift left (resulting in 10 bits)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">logicShift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="o">|&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c1">// shift left (resulting in 8 bits)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">arithShift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w">      </span><span class="c1">// shift left (resulting in 10 bits)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">logicShift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="o">|&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w">     </span><span class="c1">// shift left (resulting in 8 bits)</span>
 <span class="n">assert</span><span class="p">(</span><span class="n">arithShift</span><span class="p">.</span><span class="n">getWidth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
 <span class="n">assert</span><span class="p">(</span><span class="n">logicShift</span><span class="p">.</span><span class="n">getWidth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
 
@@ -1417,7 +1419,7 @@
 <td><p>T(max(w(x), w(y)) + 1 bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x +| y</p></td>
-<td><p>Addition by sat carry bit</p></td>
+<td><p>Addition of addend with <a class="reference external" href="https://en.wikipedia.org/wiki/Saturation_arithmetic">saturation</a> (see also <cite>T.maxValue</cite> and <cite>T.minValue</cite>)</p></td>
 <td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x - y</p></td>
@@ -1429,7 +1431,7 @@
 <td><p>T(max(w(x), w(y)) + 1 bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x -| y</p></td>
-<td><p>Subtraction by sat carry bit</p></td>
+<td><p>Subtraction of subtrahend with <a class="reference external" href="https://en.wikipedia.org/wiki/Saturation_arithmetic">saturation</a> (see also <cite>T.minValue</cite> and <cite>T.maxValue</cite>)</p></td>
 <td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x * y</p></td>
@@ -1443,6 +1445,14 @@
 <tr class="row-even"><td><p>x % y</p></td>
 <td><p>Modulo</p></td>
 <td><p>T(min(w(x), w(y)) bits)</p></td>
+</tr>
+<tr class="row-odd"><td><p>~x</p></td>
+<td><p>Unary One’s compliment, Bitwise NOT</p></td>
+<td><p>T(w(x) bits)</p></td>
+</tr>
+<tr class="row-even"><td><p>-x</p></td>
+<td><p>Unary Two’s compliment of SInt type.  Not available for UInt.</p></td>
+<td><p>SInt(w(x) bits)</p></td>
 </tr>
 </tbody>
 </table>
@@ -1549,15 +1559,19 @@ The <code class="docutils literal notranslate"><span class="pre">wrap</span></co
 <td><p>Cast into a array of Bool</p></td>
 <td><p>Vec(Bool(), w(x))</p></td>
 </tr>
-<tr class="row-even"><td><p>S(x: T)</p></td>
+<tr class="row-even"><td><p>x.asBool</p></td>
+<td><p>Extract LSB of <code class="code docutils literal notranslate"><span class="pre">x</span></code></p></td>
+<td><p>Bool(x.lsb)</p></td>
+</tr>
+<tr class="row-odd"><td><p>S(x: T)</p></td>
 <td><p>Cast a Data into a SInt</p></td>
 <td><p>SInt(w(x) bits)</p></td>
 </tr>
-<tr class="row-odd"><td><p>U(x: T)</p></td>
+<tr class="row-even"><td><p>U(x: T)</p></td>
 <td><p>Cast a Data into an UInt</p></td>
 <td><p>UInt(w(x) bits)</p></td>
 </tr>
-<tr class="row-even"><td><p>x.intoSInt</p></td>
+<tr class="row-odd"><td><p>x.intoSInt</p></td>
 <td><p>Convert to SInt expanding sign bit</p></td>
 <td><p>SInt(w(x) + 1 bits)</p></td>
 </tr>
@@ -1651,11 +1665,11 @@ The <code class="docutils literal notranslate"><span class="pre">wrap</span></co
 <td><p>Int</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.msb</p></td>
-<td><p>Return the most significant bit</p></td>
+<td><p>Return the bit-field value of the most significant bit</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-even"><td><p>x.lsb</p></td>
-<td><p>Return the least significant bit</p></td>
+<td><p>Return the bit-field value of the least significant bit</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.high</p></td>
@@ -1734,12 +1748,21 @@ The <code class="docutils literal notranslate"><span class="pre">wrap</span></co
 <td><p>Return the absolute value of the UInt value with symmetric, shrink 1 bit</p></td>
 <td><p>UInt(w(mySInt) - 1 bits)</p></td>
 </tr>
+<tr class="row-even"><td><p>x.getZero</p></td>
+<td><p>Return a new instance of type T that is assigned a constant value of zeros the same width as x.</p></td>
+<td><p>T(0, w(x) bits).clearAll()</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.getAllTrue</p></td>
+<td><p>Return a new instance of type T that is assigned a constant value of ones the same width as x.</p></td>
+<td><p>T(w(x) bits).setAll()</p></td>
+</tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><cite>validRange</cite> can only be used for types where the minimum and maximum values fit into a signed
-32-bit integer. (This is a limitation given by the Scala range type which uses <cite>Int</cite>)</p>
+32-bit integer. (This is a limitation given by the Scala <code class="docutils literal notranslate"><span class="pre">scala.collection.immutable.Range</span></code>
+type which uses <cite>Int</cite>)</p>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mySInt</span><span class="p">.</span><span class="n">lsb</span><span class="w">  </span><span class="c1">// equivalent to mySInt(0)</span>
 
@@ -1915,21 +1938,21 @@ The <code class="docutils literal notranslate"><span class="pre">wrap</span></co
 <p>In SpinalHDL <cite>ROUNDTOINF</cite> is the default RoundType (<code class="docutils literal notranslate"><span class="pre">round</span> <span class="pre">=</span> <span class="pre">roundToInf</span></code>)</p>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">A</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">SInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundToInf</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"> </span><span class="c1">// default &#39;align = false&#39; with carry, got 11 bit</span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundToInf</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">         </span><span class="c1">// default &#39;align = false&#39; with carry, got 11 bit</span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundToInf</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="c1">// sat 1 carry bit, got 10 bit</span>
-<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">             </span><span class="c1">// return 10 bit</span>
-<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">floorToZero</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">       </span><span class="c1">// return 10 bit</span>
-<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">              </span><span class="c1">// ceil with carry so return 11 bit</span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">              </span><span class="c1">// return 10 bit</span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">floorToZero</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">        </span><span class="c1">// return 10 bit</span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">               </span><span class="c1">// ceil with carry so return 11 bit</span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="c1">// ceil with carry then sat 1 bit return 10 bit</span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">ceilToInf</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundUp</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundDown</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundToInf</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundToZero</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">             </span><span class="c1">// SpinalHDL uses roundToInf as the default rounding mode</span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">              </span><span class="c1">// SpinalHDL uses roundToInf as the default rounding mode</span>
 
 <span class="kd">val</span><span class="w"> </span><span class="nc">B0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundToInf</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w">         </span><span class="c1">//  ---+</span>
-<span class="w">                                                  </span><span class="c1">//     |--&gt; equal</span>
+<span class="w">                                                    </span><span class="c1">//     |--&gt; equal</span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">A</span><span class="p">.</span><span class="n">roundToInf</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span><span class="n">sat</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c1">//  ---+</span>
 </pre></div>
 </div>
@@ -2112,7 +2135,7 @@ As a result, <code class="docutils literal notranslate"><span class="pre">roundU
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~8a422b1f9 2023-06-04
+    Version: master git~2c3308db1 2023-06-11
     </p></div>
     
 

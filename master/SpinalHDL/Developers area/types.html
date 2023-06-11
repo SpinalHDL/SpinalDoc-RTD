@@ -1012,6 +1012,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#introduction">Introduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#riscv">RISCV</a></li>
@@ -1028,11 +1033,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#peripherals">Peripherals</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#bus-interconnects">Bus interconnects</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#misc">Misc</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a><ul>
@@ -1170,11 +1170,11 @@
 </ul>
 <a class="reference internal image-reference" href="../../_images/types.svg"><img alt="../../_images/types.svg" class="align-center" src="../../_images/types.svg" width="300" /></a>
 <p>Those types and their usage (with examples) are explained hereafter.</p>
-<p>About the fixed point support it’s documented <a class="reference internal" href="../Data%20types/Fix.html#fixed"><span class="std std-ref">here</span></a></p>
+<p>Fixed point support is documented <a class="reference internal" href="../Data%20types/Fix.html#fixed"><span class="std std-ref">Fixed-Point</span></a></p>
 </section>
 <section id="bool">
 <h2>Bool<a class="headerlink" href="#bool" title="Permalink to this heading"></a></h2>
-<p>This is the standard <em>boolean</em> type that correspond to a bit.</p>
+<p>This is the standard <em>boolean</em> type that corresponds to a single bit.</p>
 <section id="declaration">
 <h3>Declaration<a class="headerlink" href="#declaration" title="Permalink to this heading"></a></h3>
 <p>The syntax to declare such as value is as follows:</p>
@@ -1359,7 +1359,7 @@
 <tr class="row-odd"><td><p>x : Range -&gt; y : String</p></td>
 <td><div class="line-block">
 <div class="line">Set bits in range x with y</div>
-<div class="line">The string format follow same rules as B/U/S”xyz” one</div>
+<div class="line">The string format follows the same rules as B/U/S”xyz” one</div>
 </div>
 </td>
 </tr>
@@ -1878,7 +1878,7 @@ Also if one time you need to add another construction parameter, you will only h
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Then to make that better, the spinal.lib integrate a small master slave utility named IMasterSlave. When a bundle extends IMasterSlave, it should implement/override the asMaster function.
+<p>Then to make that better, the spinal.lib integrates a small master slave utility named IMasterSlave. When a bundle extends IMasterSlave, it should implement/override the asMaster function.
 It give you the ability to setup a master or a slave interface in a smoother way :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">apbConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">APBConfig</span><span class="p">(</span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="n">dataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="n">selWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="n">useSlaveError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1944,7 +1944,7 @@ It give you the ability to setup a master or a slave interface in a smoother way
 </tr>
 <tr class="row-even"><td><p>binaryOneHot</p></td>
 <td><p>stateCount</p></td>
-<td><p>Use Bits to store state. Each bit position correspond to one state,
+<td><p>Use Bits to store state. Each bit position corresponds to one state,
 only one bit is active at a time when encoded.</p></td>
 </tr>
 </tbody>
@@ -2051,7 +2051,8 @@ value of <cite>red</cite> due to the last statement wins rule.</p></li>
 <p>You can also use them in expressions to do three things at once :</p>
 <ul class="simple">
 <li><p>Define a wire</p></li>
-<li><p>Maintain the result of an equality operation with the constant value and another signal</p></li>
+<li><p>Maintain the result of an equality operation in the hardware logic implementation with the constant
+value and another signal</p></li>
 <li><p>Setup inferred type: Bool due to use of === equality operator having a
 result of type Bool</p></li>
 </ul>
@@ -2096,7 +2097,7 @@ result of type Bool</p></li>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~8a422b1f9 2023-06-04
+    Version: master git~2c3308db1 2023-06-11
     </p></div>
     
 

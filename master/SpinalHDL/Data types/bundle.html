@@ -1013,6 +1013,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Legacy/pinsec/index.html">pinsec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/hardware.html">Hardware</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#introduction">Introduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware.html#riscv">RISCV</a></li>
@@ -1029,11 +1034,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#peripherals">Peripherals</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#bus-interconnects">Bus interconnects</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/hardware_toplevel.html#misc">Misc</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/introduction.html">Introduction</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#id1">Introduction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Legacy/pinsec/introduction.html#board-support">Board support</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Legacy/pinsec/software.html">Software</a><ul>
@@ -1228,7 +1228,9 @@ Unless <code class="docutils literal notranslate"><span class="pre">dataWidth</s
 <span class="n">color2</span><span class="p">.</span><span class="n">g</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="n">color2</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 
-<span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">color1</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">color2</span><span class="w"></span>
+<span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">color1</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">color2</span><span class="w">  </span><span class="c1">// Compare all elements of the bundle</span>
+<span class="c1">// is equivalent to:</span>
+<span class="c1">//myBool := color1.r === color2.r &amp;&amp; color1.g === color2.g &amp;&amp; color1.b === color2.b</span>
 </pre></div>
 </div>
 </section>
@@ -1252,8 +1254,9 @@ Unless <code class="docutils literal notranslate"><span class="pre">dataWidth</s
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">color1</span><span class="p">.</span><span class="n">asBits</span><span class="w"></span>
 </pre></div>
 </div>
-<p>The elements of the bundle will be mapped into place in the order in which they are defined.
-Thus, <code class="docutils literal notranslate"><span class="pre">r</span></code> in <code class="docutils literal notranslate"><span class="pre">color1</span></code> will occupy bits 0 to 8 of <code class="docutils literal notranslate"><span class="pre">myBits</span></code> (LSB), followed by <code class="docutils literal notranslate"><span class="pre">g</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> in that order.</p>
+<p>The elements of the bundle will be mapped into place in the order in which they are defined, LSB first.
+Thus, <code class="docutils literal notranslate"><span class="pre">r</span></code> in <code class="docutils literal notranslate"><span class="pre">color1</span></code> will occupy bits 0 to 8 of <code class="docutils literal notranslate"><span class="pre">myBits</span></code> (LSB), followed by <code class="docutils literal notranslate"><span class="pre">g</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> in that order,
+with <code class="docutils literal notranslate"><span class="pre">b.msb</span></code> also being the MSB of the resulting Bits type.</p>
 </section>
 <section id="convert-bits-back-to-bundle">
 <h3>Convert Bits back to Bundle<a class="headerlink" href="#convert-bits-back-to-bundle" title="Permalink to this heading"></a></h3>
@@ -1380,7 +1383,7 @@ It is common that there are more functions available for the master side than fo
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~8a422b1f9 2023-06-04
+    Version: master git~2c3308db1 2023-06-11
     </p></div>
     
 
