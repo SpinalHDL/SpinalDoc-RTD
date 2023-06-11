@@ -65,8 +65,9 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
    myUInt := U"8'h1A"       
    myUInt := 2             // You can use a Scala Int as a literal value
 
-   val myBool := myUInt === U(7 -> true,(6 downto 0) -> false)
-   val myBool := myUInt === U(myUInt.range -> true)
+   val myBool = Bool()
+   myBool := myUInt === U(7 -> true,(6 downto 0) -> false)
+   myBool := myUInt === U(myUInt.range -> true)
 
    // For assignment purposes, you can omit the U/S, which also allows the use of the [default -> ???] feature
    myUInt := (default -> true)                        // Assign myUInt with "11111111"
@@ -153,10 +154,11 @@ Logic
 
 .. note::
 
-   Notice the difference between ``x >> 2``:T(w(x)-2) and ``x >> U(2)``:T(w(x)).
+   Notice the difference in behaviour between ``x >> 2``:T(w(x)-2) and ``x >> U(2)``:T(w(x))
+   due to the Scala type of ``y``.
 
    The difference is that in the first case 2 is an ``Int`` (which can be seen as an
-   "elaboration integer"), and in the second case it is a hardware signal.
+   "elaboration integer"), and in the second case it is a hardware signal (type ``UInt``).
 
 .. code-block:: scala
 
@@ -165,12 +167,12 @@ Logic
    b := S(10)
 
    // Bitwise operators
-   c := ~(a & b) // Inverse(a AND b)
+   c := ~(a & b)     // Inverse(a AND b)
    assert(c.getWidth == 32)
 
    // Shift
-   val arithShift = UInt(8 bits) << 2  // shift left (resulting in 10 bits)
-   val logicShift = UInt(8 bits) |<< 2 // shift left (resulting in 8 bits)
+   val arithShift = UInt(8 bits) << 2      // shift left (resulting in 10 bits)
+   val logicShift = UInt(8 bits) |<< 2     // shift left (resulting in 8 bits)
    assert(arithShift.getWidth == 10)
    assert(logicShift.getWidth == 8)
 
@@ -197,7 +199,7 @@ Arithmetic
      - Addition with carry
      - T(max(w(x), w(y)) + 1 bits)
    * - x +| y
-     - Addition by sat carry bit
+     - Addition of addend with `saturation`_ (see also `T.maxValue` and `T.minValue`)
      - T(max(w(x), w(y)) bits)
    * - x - y
      - Subtraction
@@ -206,7 +208,7 @@ Arithmetic
      - Subtraction with carry
      - T(max(w(x), w(y)) + 1 bits)
    * - x -| y
-     - Subtraction by sat carry bit
+     - Subtraction of subtrahend with `saturation`_ (see also `T.minValue` and `T.maxValue`)
      - T(max(w(x), w(y)) bits)
    * - x * y
      - Multiplication
@@ -217,6 +219,12 @@ Arithmetic
    * - x % y
      - Modulo
      - T(min(w(x), w(y)) bits)
+   * - ~x
+     - Unary One's compliment, Bitwise NOT
+     - T(w(x) bits)
+   * - -x
+     - Unary Two's compliment of SInt type.  Not available for UInt.
+     - SInt(w(x) bits)
 
 .. code-block:: scala
 
@@ -308,6 +316,9 @@ Type cast
    * - x.asBools
      - Cast into a array of Bool
      - Vec(Bool(), w(x))
+   * - x.asBool
+     - Extract LSB of :code:`x`
+     - Bool(x.lsb)
    * - S(x: T)
      - Cast a Data into a SInt
      - SInt(w(x) bits)
@@ -389,10 +400,10 @@ Misc
      - Return bitcount
      - Int
    * - x.msb
-     - Return the most significant bit
+     - Return the bit-field value of the most significant bit
      - Bool
    * - x.lsb
-     - Return the least significant bit
+     - Return the bit-field value of the least significant bit
      - Bool
    * - x.high
      - Return the index of the MSB (highest allowed index for Int)
@@ -447,10 +458,17 @@ Misc
    * - mySInt.absWithSym
      - Return the absolute value of the UInt value with symmetric, shrink 1 bit
      - UInt(w(mySInt) - 1 bits)
+   * - x.getZero
+     - Return a new instance of type T that is assigned a constant value of zeros the same width as x.
+     - T(0, w(x) bits).clearAll()
+   * - x.getAllTrue
+     - Return a new instance of type T that is assigned a constant value of ones the same width as x.
+     - T(w(x) bits).setAll()
 
 .. note::
   `validRange` can only be used for types where the minimum and maximum values fit into a signed
-  32-bit integer. (This is a limitation given by the Scala range type which uses `Int`)
+  32-bit integer. (This is a limitation given by the Scala ``scala.collection.immutable.Range``
+  type which uses `Int`)
 
 .. code-block:: scala
 
@@ -535,21 +553,21 @@ You will find `ROUNDUP`, `ROUNDDOWN`, `ROUNDTOZERO`, `ROUNDTOINF`, `ROUNDTOEVEN`
 .. code-block:: scala
 
    val A  = SInt(16 bits)
-   val B  = A.roundToInf(6 bits) // default 'align = false' with carry, got 11 bit
+   val B  = A.roundToInf(6 bits)         // default 'align = false' with carry, got 11 bit
    val B  = A.roundToInf(6 bits, align = true) // sat 1 carry bit, got 10 bit
-   val B  = A.floor(6 bits)             // return 10 bit
-   val B  = A.floorToZero(6 bits)       // return 10 bit
-   val B  = A.ceil(6 bits)              // ceil with carry so return 11 bit
+   val B  = A.floor(6 bits)              // return 10 bit
+   val B  = A.floorToZero(6 bits)        // return 10 bit
+   val B  = A.ceil(6 bits)               // ceil with carry so return 11 bit
    val B  = A.ceil(6 bits, align = true) // ceil with carry then sat 1 bit return 10 bit
    val B  = A.ceilToInf(6 bits)
    val B  = A.roundUp(6 bits)
    val B  = A.roundDown(6 bits)
    val B  = A.roundToInf(6 bits)
    val B  = A.roundToZero(6 bits)
-   val B  = A.round(6 bits)             // SpinalHDL uses roundToInf as the default rounding mode
+   val B  = A.round(6 bits)              // SpinalHDL uses roundToInf as the default rounding mode
 
    val B0 = A.roundToInf(6 bits, align = true)         //  ---+
-                                                     //     |--> equal
+                                                       //     |--> equal
    val B1 = A.roundToInf(6 bits, align = false).sat(1) //  ---+
 
 .. note::
@@ -626,3 +644,6 @@ Factory Fix function with Auto Saturation:
    val B  = A.fixTo(16 downto 1, RoundType.ROUNDTOINF, sym = true )
    val B  = A.fixTo(10 downto 3, RoundType.FLOOR) // floor 3 bit, sat 5 bit @ highest
    val B  = A.fixTo(20 downto 3, RoundType.FLOOR) // floor 3 bit, expand 2 bit @ highest
+
+
+.. _saturation: https://en.wikipedia.org/wiki/Saturation_arithmetic

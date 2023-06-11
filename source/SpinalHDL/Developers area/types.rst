@@ -21,12 +21,12 @@ The language provides 5 base types and 2 composite types that can be used.
 
 Those types and their usage (with examples) are explained hereafter.
 
-About the fixed point support it's documented :ref:`here <fixed>`
+Fixed point support is documented :ref:`Fixed-Point <fixed>`
 
 Bool
 ----
 
-This is the standard *boolean* type that correspond to a bit.
+This is the standard *boolean* type that corresponds to a single bit.
 
 Declaration
 ^^^^^^^^^^^
@@ -163,7 +163,7 @@ Elements could be defined as follows:
      - Set bits in range x with y
    * - x : Range -> y : String
      - | Set bits in range x with y 
-       | The string format follow same rules as B/U/S"xyz" one
+       | The string format follows the same rules as B/U/S"xyz" one
    * - x : Range -> y : T
      - Set bits in range x with y
    * - default -> y : Boolean/Bool
@@ -608,7 +608,7 @@ Then at some points, you will probably need to use the APB bus as master or as s
      val slaveBus = APB(apbConfig).asSlave()
    }
 
-Then to make that better, the spinal.lib integrate a small master slave utility named IMasterSlave. When a bundle extends IMasterSlave, it should implement/override the asMaster function.
+Then to make that better, the spinal.lib integrates a small master slave utility named IMasterSlave. When a bundle extends IMasterSlave, it should implement/override the asMaster function.
 It give you the ability to setup a master or a slave interface in a smoother way :
 
 .. code-block:: scala
@@ -670,7 +670,7 @@ SpinalHDL supports enumeration with some encodings :
      - Use Bits to store states in declaration order (value from 0 to n-1)
    * - binaryOneHot
      - stateCount
-     - Use Bits to store state. Each bit position correspond to one state,
+     - Use Bits to store state. Each bit position corresponds to one state,
        only one bit is active at a time when encoded.
 
 
@@ -772,7 +772,8 @@ Continuous Assignment Literals as signal declaration
 You can also use them in expressions to do three things at once :
 
 * Define a wire
-* Maintain the result of an equality operation with the constant value and another signal
+* Maintain the result of an equality operation in the hardware logic implementation with the constant
+  value and another signal
 * Setup inferred type: Bool due to use of === equality operator having a
   result of type Bool
 

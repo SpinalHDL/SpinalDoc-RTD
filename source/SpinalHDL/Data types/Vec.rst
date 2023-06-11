@@ -36,8 +36,8 @@ Examples
 
    // Create a vector of 2 signed integers
    val myVecOfSInt = Vec(SInt(8 bits), 2)
-   myVecOfSInt(0) := 2
-   myVecOfSInt(1) := myVecOfSInt(0) + 3
+   myVecOfSInt(0) := 2                   // assignment to populate index 0
+   myVecOfSInt(1) := myVecOfSInt(0) + 3  // assignment to populate index 1
 
    // Create a vector of 3 different type elements
    val myVecOfMixedUInt = Vec(UInt(3 bits), UInt(5 bits), UInt(8 bits))
@@ -85,6 +85,8 @@ Comparison
    val vec1 = Vec(SInt(8 bits), 2)
 
    myBool := vec2 === vec1  // Compare all elements
+   // is equivalent to:
+   //myBool := vec2(0) === vec1(0) && vec2(1) === vec1(1)
 
 Type cast
 ~~~~~~~~~
