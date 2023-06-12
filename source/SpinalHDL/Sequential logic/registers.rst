@@ -3,9 +3,6 @@
 Registers
 =========
 
-Introduction
-------------
-
 Creating registers in SpinalHDL is very different than in VHDL or Verilog.
 
 In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.

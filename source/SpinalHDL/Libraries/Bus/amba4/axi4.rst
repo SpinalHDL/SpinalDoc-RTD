@@ -1,11 +1,5 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 Axi4
 ====
-
-Introduction
-------------
 
 The AXI4 is a high bandwidth bus defined by ARM.
 

@@ -1,11 +1,5 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 Preserving names
 ==================
-
-Introduction
-------------
 
 This page will describe how SpinalHDL propagate names from the scala code to the generated hardware. Knowing them should enable you to preserve those names as much as possible to generate understandable netlists.
 

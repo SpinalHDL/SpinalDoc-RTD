@@ -2,9 +2,6 @@
 USB device
 ============
 
-Introduction
-------------
-
 There is a USB device controller in the SpinalHDL library. In a few bullet points it can be resumed to :
 
 - Implemented to allow a CPU to configure and manage the endpoints

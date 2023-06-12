@@ -1,9 +1,5 @@
-
 Rules
 =====
-
-Introduction
-------------
 
 The semantics behind SpinalHDL are important to learn, so that you understand what is really happening behind the scenes, and how to control it.
 

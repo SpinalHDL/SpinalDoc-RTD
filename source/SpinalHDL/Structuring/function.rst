@@ -1,13 +1,7 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 .. _function:
 
 Function
 ========
-
-Introduction
-------------
 
 The ways you can use Scala functions to generate hardware are radically different than VHDL/Verilog for many reasons:
 

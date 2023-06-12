@@ -1,11 +1,5 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 Assignments
 ===========
-
-Assignments
------------
 
 There are multiple assignment operators:
 

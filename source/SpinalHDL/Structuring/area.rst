@@ -1,14 +1,7 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 Area
 ====
 
-Introduction
-------------
-
 Sometimes, creating a ``Component`` to define some logic is overkill because you:
-
 
 * Need to define all construction parameters and IO (verbosity, duplication)
 * Split your code (more than needed)

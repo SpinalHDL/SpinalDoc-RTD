@@ -2,9 +2,6 @@
 USB OHCI
 ============
 
-Introduction
-------------
-
 There is a USB OHCi controller (host) in the SpinalHDL library. In a few bullet points it can be resumed to :
 
 - It follow the `OpenHCI Open Host Controller Interface Specification for USB` specification (OHCI).

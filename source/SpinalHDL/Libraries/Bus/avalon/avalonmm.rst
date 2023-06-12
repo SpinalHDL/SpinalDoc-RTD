@@ -2,11 +2,7 @@
 AvalonMM
 ========
 
-Introduction
-------------
-
 The AvalonMM bus fit very well in FPGA. It is very flexible :
-
 
 * Able of the same simplicity than APB
 * Better for than AHB in many application that need bandwidth because AvalonMM has a mode that decouple read response from commands (reduce latency read latency impact).
