@@ -40,7 +40,7 @@ assignment operator `:=` dictates if it is a source (provides state) or sink
 Multiple uses of the assignment operator are allowed, such that it is normal
 for a signal wire to act as a source (provides a value to drive HDL state) to be
 able to connect and drive multiple inputs of other HDL constructs.  When a Bool
-instance used as a source the order the assignment statments appear or are
+instance used as a source the order the assignment statements appear or are
 executed in Scala does not matter, unlike when it is used as a sink
 (captures state).
 

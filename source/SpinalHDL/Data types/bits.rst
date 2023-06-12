@@ -21,7 +21,7 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
      - Description
      - Return
    * - Bits [()]
-     - Create a BitVector, bit count is inferred from the first assignment statment
+     - Create a BitVector, bit count is inferred from the widest assignment statement
        after construction
      - Bits
    * - Bits(x bits)
