@@ -103,13 +103,13 @@ Logic
      - Bitwise XOR
      - T(max(w(x), w(y)) bits)
    * - x.xorR
-     - XOR all bits of x
+     - XOR all bits of x (reduction operator)
      - Bool
    * - x.orR
-     - OR all bits of x
+     - OR all bits of x (reduction operator)
      - Bool
    * - x.andR
-     - AND all bits of x
+     - AND all bits of x (reduction operator)
      - Bool
    * - x \>\> y
      - Arithmetic shift right, y : Int
@@ -130,10 +130,12 @@ Logic
      - Logical shift left, y : Int/UInt
      - T(w(x) bits)
    * - x.rotateLeft(y)
-     - Logical left rotation, y : UInt/Int
+     - | Logical left rotation, y : UInt/Int
+       | The width of y is constrained to the width of log2Up(x) or less
      - T(w(x) bits)
    * - x.rotateRight(y)
-     - Logical right rotation, y : UInt/Int
+     - | Logical right rotation, y : UInt/Int
+       | The width of y is constrained to the width of log2Up(x) or less
      - T(w(x) bits)
    * - x.clearAll[()]
      - Clear all bits
@@ -150,15 +152,12 @@ Logic
 
 .. note::
 
-   ``x rotateLeft y`` and ``x rotateRight y`` are also valid syntax.
-
-.. note::
-
    Notice the difference in behaviour between ``x >> 2``:T(w(x)-2) and ``x >> U(2)``:T(w(x))
-   due to the Scala type of ``y``.
+   due to the Scala type of :code:`y`.
 
    The difference is that in the first case 2 is an ``Int`` (which can be seen as an
-   "elaboration integer"), and in the second case it is a hardware signal (type ``UInt``).
+   "elaboration integer constant"), and in the second case it is a hardware signal
+   (type ``UInt``) that may or may-not be a constant.
 
 .. code-block:: scala
 

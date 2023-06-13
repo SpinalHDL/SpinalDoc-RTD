@@ -1305,15 +1305,15 @@
 <td><p>T(max(w(x), w(y)) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x.xorR</p></td>
-<td><p>XOR all bits of x</p></td>
+<td><p>XOR all bits of x (reduction operator)</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.orR</p></td>
-<td><p>OR all bits of x</p></td>
+<td><p>OR all bits of x (reduction operator)</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-even"><td><p>x.andR</p></td>
-<td><p>AND all bits of x</p></td>
+<td><p>AND all bits of x (reduction operator)</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-odd"><td><p>x &gt;&gt; y</p></td>
@@ -1341,11 +1341,19 @@
 <td><p>T(w(x) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.rotateLeft(y)</p></td>
-<td><p>Logical left rotation, y : UInt/Int</p></td>
+<td><div class="line-block">
+<div class="line">Logical left rotation, y : UInt/Int</div>
+<div class="line">The width of y is constrained to the width of log2Up(x) or less</div>
+</div>
+</td>
 <td><p>T(w(x) bits)</p></td>
 </tr>
 <tr class="row-even"><td><p>x.rotateRight(y)</p></td>
-<td><p>Logical right rotation, y : UInt/Int</p></td>
+<td><div class="line-block">
+<div class="line">Logical right rotation, y : UInt/Int</div>
+<div class="line">The width of y is constrained to the width of log2Up(x) or less</div>
+</div>
+</td>
 <td><p>T(w(x) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.clearAll[()]</p></td>
@@ -1368,14 +1376,11 @@
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">rotateLeft</span> <span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">rotateRight</span> <span class="pre">y</span></code> are also valid syntax.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
 <p>Notice the difference in behaviour between <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">2</span></code>:T(w(x)-2) and <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">U(2)</span></code>:T(w(x))
-due to the Scala type of <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+due to the Scala type of <code class="code docutils literal notranslate"><span class="pre">y</span></code>.</p>
 <p>The difference is that in the first case 2 is an <code class="docutils literal notranslate"><span class="pre">Int</span></code> (which can be seen as an
-“elaboration integer”), and in the second case it is a hardware signal (type <code class="docutils literal notranslate"><span class="pre">UInt</span></code>).</p>
+“elaboration integer constant”), and in the second case it is a hardware signal
+(type <code class="docutils literal notranslate"><span class="pre">UInt</span></code>) that may or may-not be a constant.</p>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SInt</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">S</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
@@ -2135,7 +2140,7 @@ As a result, <code class="docutils literal notranslate"><span class="pre">roundU
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~f47842327 2023-06-13
+    Version: master git~c77580745 2023-06-13
     </p></div>
     
 
