@@ -45,6 +45,10 @@ Unless ``dataWidth`` is greater than 0, there will be no ``data`` signal in elab
      val data = (dataWidth > 0) generate (UInt(dataWidth bits))
    }
 
+.. note::
+
+   See also :ref:`generate <generate>` for information about this SpinalHDL method.
+
 Operators
 ^^^^^^^^^
 
