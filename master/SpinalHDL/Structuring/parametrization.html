@@ -432,7 +432,6 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Parametrization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#elaboration-time-parameters">Elaboration time parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optional-hardware">Optional hardware</a></li>
 </ul>
@@ -1162,52 +1161,112 @@
 
   <section id="parametrization">
 <h1>Parametrization<a class="headerlink" href="#parametrization" title="Permalink to this heading"></a></h1>
-<section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
-<p>There is multiple aspect to parametrization :</p>
+<p>There are multiple aspects to parametrization :</p>
 <ul class="simple">
-<li><p>Providing elaboration time parameters to the design</p></li>
-<li><p>Optionaly generate some hardware</p></li>
+<li><p>Providing and the management of, elaboration time parameters provided
+to SpinalHDL during elaboration of the design</p></li>
+<li><p>Using the parameter data to allow the designer to perform any kind
+of hardware construction, configuration and interconnection task
+needed in the design.  Such as optional component generation within
+the hardware design.</p></li>
 </ul>
-</section>
+<p>Parallels exist with the aims of HDL features such as Verilog module
+parameters and VHDL generics.  SpinalHDL brings a far richer and more
+powerful set of capabilities into this area with the additional
+protection of Scala type safety and SpinalHDL built in HDL design rule
+checking.</p>
+<p>The SpinalHDL mechanisms for parameterization of components is not built
+on top of any native HDL mechanism and so is not impeded by HDL language
+level/version support or restrictions about what can be achieved in hand
+written HDL.</p>
+<p>For readers looking to interoperate with parameterized Verilog or
+genericized VHDL using SpinalHDL, please see the section on <a class="reference internal" href="blackbox.html#blackbox"><span class="std std-ref">BlackBox</span></a>
+IP for those scenarios your project requires.</p>
 <section id="elaboration-time-parameters">
 <h2>Elaboration time parameters<a class="headerlink" href="#elaboration-time-parameters" title="Permalink to this heading"></a></h2>
-<p>You can use the whole scala syntax to provide elaboration time parameters.</p>
+<p>You can use the whole Scala syntax to provide elaboration time parameters.</p>
+<p>The whole syntax means you have the entire power and feature set of the
+Scala language at your disposal to solve parameterization requirements for
+your project at the level of complexity you choose.</p>
+<p>SpinalHDL does not place any opinionated restrictions on how to achieve
+your parameterization goals.  As such there are many Scala design patterns
+and a few SpinalHDL helpers that can be used to manage parameters that
+are suited to different parameter management scenarios.</p>
+<p>Here are some examples and ideas of the possibilities:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Hardwired code and constants (not strictly parameter management at all
+but serves to hilight the most basic mechanism, a code change, not a
+parameter data change)</p></li>
+<li><p>Constant values provided from a companion object that are static
+constants in Scala.</p></li>
+<li><p>Values provided to Scala class constructor, often a <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code> that
+causes Scala to capture those constructor argument values as constants.</p></li>
+<li><p>Regular Scala flow-control syntax, not limited to but including
+conditionals, looping, lambdas/monads, everything.</p></li>
+<li><p>Config class pattern (examples exist in library items such as
+<a class="reference external" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Examples/Intermediates%20ones/uart.html#controller-construction-parameters">UartCtrlConfig</a>, SpiMasterCtrlConfig)</p></li>
+<li><p>Project defined ‘Plugin’ pattern (examples exist in the <a class="reference external" href="https://github.com/SpinalHDL/VexRiscv#plugins">VexRiscV</a> project
+to configure the feature set the resulting CPU IP core is built with)</p></li>
+<li><p>Values and information loaded from a file or network based source, using
+standard Scala/JVM libraries and APIs.</p></li>
+<li><p><cite>any mechanism you can create</cite></p></li>
+</ul>
+</div></blockquote>
+<p>All of the mechanisms result in a change in resulting elaborated HDL output.</p>
+<p>This could vary from a single constant value change all the way through to
+describing the entire bus and interconnection architecture of an entire SoC
+all without leaving the Scala programming paradigm.</p>
 <p>Here is an example of class parameters</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>You can also use global variable defined in scala object’s, but note that recently was added the ScopeProperty feature which improve on that solution.</p>
+<p>You can also use global variable defined in Scala objects (companion object
+pattern).</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">ScopeProperty</span></code> can also be used for configuration.</p>
 </section>
 <section id="optional-hardware">
 <h2>Optional hardware<a class="headerlink" href="#optional-hardware" title="Permalink to this heading"></a></h2>
 <p>So here there is more possibilities.</p>
-<p>For optional signal :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span><span class="w">  </span><span class="c1">//Equivalent to &quot;if (flag) in Bool() else null&quot;</span>
+<p id="generate">For optional signal :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// equivalent to &quot;val mySignal = if (flag) Bool() else null&quot;</span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">generate</span></code> method is a mechanism to evaluate the expression
+that follows for an optional value.  If the predicate is true,
+generate will evaluate the given expression and return the
+result, otherwise it returns null.</p>
+<p>This may be used in cases to help parameterize the SpinalHDL hardware
+description using an elaboration-time conditional expression.  Causing HDL
+constructs to be emitted or not-emitted in the resulting HDL. The generate
+method can be seen as SpinalHDL syntatic sugar reducing language clutter.</p>
+<p>Project SpinalHDL code referencing <code class="docutils literal notranslate"><span class="pre">mySignal</span></code> would need to ensure it
+handles the possiblity of null gracefully.  This is usually not a problem
+as those parts of the design can also be omitted dependant on the <code class="docutils literal notranslate"><span class="pre">flag</span></code>
+value.  Thus the feature of parameterizing this component is demonstrated.</p>
 <p>You can do the same in Bundle.</p>
 <p>Note that you can also use scala Option.</p>
 <p>If you want to disable the generation of a chunk of hardware :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//optional hardware here</span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can also use scala for loops :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// hardware here</span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -1247,7 +1306,7 @@ to build some data model and then converting them into hardware in a procedural 
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~da4690ae6 2023-06-17
+    Version: master git~589dc5fae 2023-06-18
     </p></div>
     
 
