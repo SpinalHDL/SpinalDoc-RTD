@@ -172,7 +172,7 @@ You can add functions inside the config, along with requirements on the config a
    elaboration.  This generates non-generic HDL code. The methods described here do
    not use VHDL generics or Verilog parameters.
 
-   See also :ref:`BlackBoxes <BlackBox>` for more information around support for
+   See also :ref:`Blackbox <blackbox>` for more information around support for
    that mechanism.
 
 

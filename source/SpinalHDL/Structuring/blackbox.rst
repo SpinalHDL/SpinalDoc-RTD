@@ -1,5 +1,7 @@
 .. role:: raw-html-m2r(raw)
    :format: html
+   
+.. _blackbox:
 
 Instantiate VHDL and Verilog IP
 ===============================

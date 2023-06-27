@@ -391,6 +391,6 @@ If this is important to your design flow then check the output HDL for the
 expected attributes/generic insertion, while consulting your vendor's
 platform documentation.
 
-HDL attributes can also be added manually using the `addAttribute()` :ref:`addAttribute <addAttribute>`
+HDL attributes can also be added manually using the `addAttribute()` :ref:`addAttribute <vhdl-and-verilog-attributes>`
 mechanism.
 
