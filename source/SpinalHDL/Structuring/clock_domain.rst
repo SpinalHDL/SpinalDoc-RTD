@@ -86,6 +86,7 @@ When an `Area` is not needed, it is also possible to apply the clock domain dire
      val freeCounter = CounterFreeRun(16)
      io.freeCount := freeCounter.value
    
+     // In a real design consider using a glitch free single purpose CLKGATE primitive instead
      val gatedClk = ClockDomain.current.readClockWire && io.enable
      val gated = ClockDomain(gatedClk, ClockDomain.current.readResetWire)
    
@@ -296,7 +297,7 @@ Here is an example:
 .. code-block:: scala
 
   val clockedArea = new ClockEnableArea(clockEnable) {
-    val reg = RegNext(io.input) init False
+    val reg = RegNext(io.input) init(False)
   }
 
 It will generate VerilogHDL codes like:
@@ -330,7 +331,8 @@ The returned ``ClockDomain`` instance has the following functions that can be ca
      - Description
      - Return
    * - frequency.getValue
-     - Return the frequency of the clock domain
+     - | Return the frequency of the clock domain.
+       | This being the arbitrary value you configured the domain with.
      - Double
    * - hasReset
      - Return if the clock domain has a reset signal
@@ -503,8 +505,8 @@ A ``SlowArea`` is used to create a new clock domain area which is slower than th
 BootReset
 ^^^^^^^^^
 
-`clockDomain.withBootReset()` could specify register's resetkinde as boot. 
-`clockDomain.withSyncReset()` could specify register's resetkinde as Sync-reset. 
+`clockDomain.withBootReset()` could specify register's resetKind as BOOT.
+`clockDomain.withSyncReset()` could specify register's resetKind as SYNC (sync-reset).
 
 .. code-block:: scala 
 

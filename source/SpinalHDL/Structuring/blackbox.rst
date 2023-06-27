@@ -1,5 +1,7 @@
 .. role:: raw-html-m2r(raw)
    :format: html
+   
+.. _blackbox:
 
 Instantiate VHDL and Verilog IP
 ===============================
@@ -47,7 +49,7 @@ An example of how to define a blackbox is shown below:
    }
 
 | In VHDL, signals of type ``Bool`` will be translated into ``std_logic`` and ``Bits`` into ``std_logic_vector``. If you want to get ``std_ulogic``, you have to use a ``BlackBoxULogic`` instead of ``BlackBox``.
-| In Verilog, ``BlackBoxUlogic`` has no effect.
+| In Verilog, ``BlackBoxUlogic`` does not change the generated verilog.
 
 .. code-block:: scala
 

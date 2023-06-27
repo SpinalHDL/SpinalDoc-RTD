@@ -43,7 +43,7 @@ Here is an example declaring some registers:
    // UInt register of 4 bits
    val reg1 = Reg(UInt(4 bits))
 
-   // Register that samples reg1 each cycle
+   // Register that updates itself every cycle with a sample of reg1 incremented by 1
    val reg2 = RegNext(reg1 + 1)
 
    // UInt register of 4 bits initialized with 0 when the reset occurs
@@ -65,6 +65,10 @@ The code above will infer the following logic:
    The ``reg3`` example above shows how you can assign the value of a ``RegInit`` register.
    It's possible to use the same syntax to assign to the other register types as well (``Reg``, ``RegNext``, ``RegNextWhen``).
    Just like in combinational assignments, the rule is 'Last assignment wins', but if no assignment is done, the register keeps its value.
+   If the Reg is declared in a design and does not have suitable assignment and consumption it is likely to be pruned (removed from design) at some point by EDA flows after being deemed unnecessary.
+
+
+.. _RegNext:
 
 Also, ``RegNext`` is an abstraction which is built over the ``Reg`` syntax. The two following sequences of code are strictly equivalent:
 
@@ -78,6 +82,47 @@ Also, ``RegNext`` is an abstraction which is built over the ``Reg`` syntax. The 
    // Short way
    val something = Bool()
    val value = RegNext(something)
+
+
+It is possible to have multiple options at the same time in other ways and so
+slightly more advanced compositions built on top of the basic understand of
+the above:
+
+.. code-block:: scala
+
+   // UInt register of 6 bits (initialized with 42 when the reset occurs)
+   val reg1 = Reg(UInt(6 bits)) init(42)
+
+   // Register that samples reg1 each cycle (initialized with 0 when the reset occurs)
+   // using Scala named parameter argument format
+   val reg2 = RegNext(reg1, init=0)
+
+   // Register that has multiple features combined
+
+   // My register enable signal
+   val reg3Enable = Bool()
+   // UInt register of 6 bits (inferred from reg1 type)
+   //   assignment preconfigured to update from reg1
+   //   only updated when reg3Enable is set
+   //   initialized with 99 when the reset occurs
+   val reg3 = RegNextWhen(reg1, reg3Enable, U(99))
+   // when(reg3Enable) {
+   //   reg3 := reg1; // this expression is implied in the constructor use case
+   // }
+
+   when(cond2) {      // this is a valid assignment, will take priority when executed
+      reg3 := U(0)    //  (due to last assignment wins rule), assignment does not require
+   }                  //  reg3Enable condition, you would use `when(cond2 & reg3Enable)` for that
+
+   // UInt register of 8 bits, initialized with 99 when the reset occurs
+   val reg4 = Reg(UInt(8 bits), U(99))
+   // My register enable signal
+   val reg4Enable = Bool()
+   // no implied assignments exist, you must use enable explicitly as necessary
+   when(reg4Enable) {
+      reg4 := newValue
+   }
+
 
 Reset value
 -----------
@@ -179,7 +224,7 @@ the port with ``io.myBundle.PORT := PORT``. To do this, you just need to use
    }
 
    io.apb.PADDR.setAsReg()
-   io.apb.PWRITE.setAsReg() init (False)
+   io.apb.PWRITE.setAsReg() init(False)
 
    when(someCondition) {
       io.apb.PWRITE := True

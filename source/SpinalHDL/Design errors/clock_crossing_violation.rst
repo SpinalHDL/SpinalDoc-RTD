@@ -42,7 +42,7 @@ will throw:
 There are multiple possible fixes, listed below:
 
  - :ref:`crossClockDomain tags <crossclockdomain-tag>`
- - :ref:`setSyncronousWith method <setsynchronouswith>`
+ - :ref:`setSynchronousWith method <setsynchronouswith>`
  - :ref:`BufferCC type <buffercc>`
 
 .. _crossclockdomain-tag:
@@ -68,8 +68,8 @@ The ``crossClockDomain`` tag can be used to communicate "It's alright, don't pan
 
 .. _setsynchronouswith:
 
-setSyncronousWith
-^^^^^^^^^^^^^^^^^
+setSynchronousWith
+^^^^^^^^^^^^^^^^^^
 
 You can also specify that two clock domains are synchronous together by using the ``setSynchronousWith`` method of one of the ``ClockDomain`` objects.
 
@@ -78,7 +78,7 @@ You can also specify that two clock domains are synchronous together by using th
    class TopLevel extends Component {
      val clkA = ClockDomain.external("clkA")
      val clkB = ClockDomain.external("clkB")
-     clkB.setSyncronousWith(clkA)
+     clkB.setSynchronousWith(clkA)
 
      val regA = clkA(Reg(UInt(8 bits)))
      val regB = clkB(Reg(UInt(8 bits)))

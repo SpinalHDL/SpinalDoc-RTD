@@ -55,8 +55,8 @@ The following table show how to add access ports on a memory :
        |  [enable]
        |  [mask]
        | )
-     - Synchronous write with an optional mask.
-       If no enable is specified, it's automatically inferred from the conditional scope where this function is called
+     - | Synchronous write with an optional mask.
+       | If no enable is specified, it's automatically inferred from the conditional scope where this function is called
      - 
    * - | mem.readAsync(
        |  address
@@ -372,3 +372,25 @@ There are currently 4 kinds of technologies possible:
 * ``ramBlock``
 * ``distributedLut``
 * ``registerFile``
+
+Blackboxing can insert HDL attributes if ``SpinalConfig#setDevice(Device)``
+has been configured for your device-vendor.
+
+The resulting HDL attributes might look like:
+
+.. code-block:: verilog
+
+   (* ram_style = "distributed" *)
+   (* ramsyle = "no_rw_check" *)
+
+SpinalHDL tries to support many common memory types provided by well known
+vendors and devices, however this is an ever moving landscape and project
+requirements can be very specific in this area.
+
+If this is important to your design flow then check the output HDL for the
+expected attributes/generic insertion, while consulting your vendor's
+platform documentation.
+
+HDL attributes can also be added manually using the `addAttribute()` :ref:`addAttribute <vhdl-and-verilog-attributes>`
+mechanism.
+

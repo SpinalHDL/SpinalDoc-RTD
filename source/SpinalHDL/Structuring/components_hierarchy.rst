@@ -13,8 +13,8 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
    class AdderCell() extends Component {
      // Declaring external ports in a Bundle called `io` is recommended
      val io = new Bundle {
-       val a, b, cin = in Bool()
-       val sum, cout = out Bool()
+       val a, b, cin = in port Bool()
+       val sum, cout = out port Bool()
      }
      // Do some logic
      io.sum := io.a ^ io.b ^ io.cin
@@ -56,16 +56,23 @@ The syntax to define inputs and outputs is as follows:
    * - Syntax
      - Description
      - Return
-   * - in Bool()/out Bool()
+   * - | ``in port Bool()``
+       | ``out port Bool()``
      - Create an input Bool/output Bool
      - Bool
-   * - in/out Bits/UInt/SInt[(x bits)]
+   * - | ``in Bits/UInt/SInt[(x bits)]``
+       | ``out Bits/UInt/SInt[(x bits)]``
+       | ``in Bits(3 bits)``
      - Create an input/output of the corresponding type
      - Bits/UInt/SInt
-   * - in/out(T)
+   * - | ``in(T)``
+       | ``out(T)``
+       | ``out UInt(7 bits)``
      - For all other data types, you may have to add some brackets around it. Sorry, this is a Scala limitation.
      - T
-   * - master/slave(T)
+   * - | ``master(T)``
+       | ``slave(T)``
+       | ``master(Bool())``
      - This syntax is provided by the ``spinal.lib`` library (If you annotate your object with the ``slave`` syntax, then import ``spinal.lib.slave`` instead).
        T should extend ``IMasterSlave`` – Some documentation is available :ref:`here <interface_example_apb>`. You may not actually need the brackets, so ``master T`` is fine as well.
      - T
@@ -91,8 +98,8 @@ You can collect the list of all the removed ans useless signals via the ``printP
 
    class TopLevel extends Component {
      val io = new Bundle {
-       val a,b = in UInt(8 bits)
-       val result = out UInt(8 bits)
+       val a,b = in port UInt(8 bits)
+       val result = out port UInt(8 bits)
      }
 
      io.result := io.a + io.b
@@ -122,8 +129,8 @@ If you want to parameterize your component, you can give parameters to the const
 
    class MyAdder(width: BitCount) extends Component {
      val io = new Bundle {
-       val a, b   = in UInt(width)
-       val result = out UInt(width)
+       val a, b   = in port UInt(width)
+       val result = out port UInt(width)
      }
      io.result := io.a + io.b
    }
@@ -158,6 +165,16 @@ You can add functions inside the config, along with requirements on the config a
 
      require(dataWidth == 32 || dataWidth == 64, "Data width must be 32 or 64")
    }
+
+.. note::
+
+   This parametrization occurs entirely within the SpinalHDL code-generation during
+   elaboration.  This generates non-generic HDL code. The methods described here do
+   not use VHDL generics or Verilog parameters.
+
+   See also :ref:`Blackbox <blackbox>` for more information around support for
+   that mechanism.
+
 
 Synthesized component names
 ---------------------------
