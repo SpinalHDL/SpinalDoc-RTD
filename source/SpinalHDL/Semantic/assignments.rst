@@ -87,45 +87,36 @@ SpinalHDL checks that the bit count of the left side and the right side of an as
    * - Resizing techniques
      - Description
    * - x := y.resized
-     - | Assign x with a resized representation of y.
-       | The resized width is automatically inferred to match x and may cause it to widen or narrow.
+     - Assign x with a resized copy of y, size inferred from x.
    * - x := y.resize(newWidth)
-     - | Assign x with a resized representation of y to the newWidth.
-       | The value of newWidth may widen or narrow the width, retaining the value at the LSB side and pad with zero at MSB side.
+     - Assign x with a resized copy of y :code:`newWidth` bits wide.
    * - x := y.resizeLeft(newWidth)
-     - | Assign x with a resized representation of y to the newWidth.
-       | The value of newWidth may widen or narrow the width, retaining the value at the MSB side and pad with zero at LSB side.
+     - Assign x with a resized copy of y :code:`newWidth` bits wide. Pads at the LSB if needed.
 
 
-Resize methods may cause the resulting width to be wider or narrower than the
-original width of :code:`y`.  When widdening occurs the extra bits are padded
+All resize methods may cause the resulting width to be wider or narrower than the
+original width of :code:`y`. When widening occurs the extra bits are padded
 with zeros.
 
 The inferred conversion with ``x.resized`` is based on the target width on the left hand side of
-the assignment expression being resolved and obeys the same semantics as ``y.resize(newWidth)``.
-The expression ``x := y.resize(x.getBitsWidth bits)`` might be considered equivalent to
-``x := y.resized``.
+the assignment expression being resolved and obeys the same semantics as ``y.resize(someWidth)``.
+The expression ``x := y.resized`` is equivalent to ``x := y.resize(x.getBitsWidth bits)``.
 
 While the example code snippets show the use of an assignment statement, the
 resize family of methods can be chained like any ordinary Scala method.
 
-
 There is one case where Spinal automatically resizes a value:
 
-.. list-table::
-   :header-rows: 1
-   :widths: 4 7
+.. code-block:: scala
 
-   * - Assignment
-     - Problem
-   * - myUIntOf_8bits := U(3)
-     - U(3) creates an UInt of 2 bits, which doesn't match the left side (8 bits)
+   // U(3) creates an UInt of 2 bits, which doesn't match the left side (8 bits)
+   myUIntOf_8bits := U(3)
 
-Because U(3) is a "weak" bit count inferred signal, SpinalHDL resizes it automatically.
-This can be considered to be functionally equivalent to ``U(3, 2 bits).resize``
+Because ``U(3)`` is a "weak" bit count inferred signal, SpinalHDL widens it automatically.
+This can be considered to be functionally equivalent to ``U(3, 2 bits).resized``
 However rest reassured SpinalHDL will do the correct thing and continue to flag an error
-if the scenario would require narrowing for example if the value required 9
-bits ``U(0x100)`` trying to assign into ``myUIntOf_8bits``.
+if the scenario would require narrowing. An error is reported if the literal required 9
+bits (e.g. ``U(0x100)``) when trying to assign into ``myUIntOf_8bits``.
 
 
 Combinatorial loops
