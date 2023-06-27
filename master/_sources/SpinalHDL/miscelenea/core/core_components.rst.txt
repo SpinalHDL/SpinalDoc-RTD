@@ -389,7 +389,7 @@ For example if you want to convert a Red/Green/Blue color into a gray one by usi
 Valid Ready Payload bus
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-For instance if you define a simple Valid Ready Payload bus, you can then define usefull function inside it.
+For instance if you define a simple Valid Ready Payload bus, you can then define useful function inside it.
 
 .. code-block:: scala
 
@@ -480,7 +480,7 @@ Memory
 Instantiate VHDL and Verilog IP
 -------------------------------
 
- In some cases, it could be usefull to instantiate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.
+ In some cases, it could be useful to instantiate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.
 
 .. code-block:: scala
 
