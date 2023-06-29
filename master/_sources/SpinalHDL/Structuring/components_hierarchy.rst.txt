@@ -1,12 +1,10 @@
 .. _Component:
 
-Component and hierarchy
-=======================
+Components and hierarchy
+========================
 
-Introduction
-------------
-
-Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy. However, in SpinalHDL, you don't need to bind their ports at instantiation:
+Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy. However, in SpinalHDL,
+you don't need to bind their ports at instantiation:
 
 .. code-block:: scala
 
@@ -36,10 +34,11 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
 
 .. tip::
    | ``val io = new Bundle { ... }``
-   | Declaring external ports in a ``Bundle`` called ``io`` is recommended. If you name your bundle ``io``, SpinalHDL will check that all of its elements are defined as inputs or outputs.
+   | Declaring external ports in a ``Bundle`` called ``io`` is recommended. If you name your bundle ``io``, SpinalHDL
+     will check that all of its elements are defined as inputs or outputs.
    
 .. tip::
-   | If it is better to your taste, you can use the ``Module`` syntax instead of ``Component`` (they are the same thing)
+   If it is better to your taste, you can use the ``Module`` syntax instead of ``Component`` (they are the same thing)
 
 
 .. _io:
@@ -74,7 +73,7 @@ The syntax to define inputs and outputs is as follows:
        | ``slave(T)``
        | ``master(Bool())``
      - This syntax is provided by the ``spinal.lib`` library (If you annotate your object with the ``slave`` syntax, then import ``spinal.lib.slave`` instead).
-       T should extend ``IMasterSlave`` – Some documentation is available :ref:`here <interface_example_apb>`. You may not actually need the brackets, so ``master T`` is fine as well.
+       T must extend ``IMasterSlave``. Some documentation is available :ref:`here <interface_example_apb>`. You may not actually need the brackets, so ``master T`` is fine as well.
      - T
 
 
@@ -85,14 +84,17 @@ There are some rules to follow with component interconnection:
 * Components can read their own output port values (unlike in VHDL).
 
 .. tip::
-   If for some reason you need to read signals from far away in the hierarchy (such as for debugging or temporal patches), you can do it by using the value returned by ``some.where.else.theSignal.pull()``
+   If for some reason you need to read signals from far away in the hierarchy (such as for debugging or temporal
+   patches), you can do it by using the value returned by ``some.where.else.theSignal.pull()``
 
 Pruned signals
 --------------
 
-SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones are removed from the RTL generation.
+SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones
+are removed from the RTL generation.
 
-You can collect the list of all the removed ans useless signals via the ``printPruned`` and the ``printPrunedIo`` functions on the generated ``SpinalReport`` object:
+You can collect the list of all the removed ans useless signals via the ``printPruned`` and the ``printPrunedIo``
+functions on the generated ``SpinalReport`` object:
 
 .. code-block:: scala
 
@@ -185,7 +187,8 @@ You can use ``setName`` to replace this convention with a custom name.
 This is especially useful when interfacing with external components.
 The other methods are called ``getName``, ``setPartialName``, and ``getPartialName`` respectively.
 
-When synthesized, each module gets the name of the Scala class defining it. You can override this as well with ``setDefinitionName``.
+When synthesized, each module gets the name of the Scala class defining it. You can override this as well with
+``setDefinitionName``.
 
 .. raw:: html
 

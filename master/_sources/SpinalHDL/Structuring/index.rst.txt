@@ -2,6 +2,14 @@
 Structuring
 ===========
 
+The chapters below explain:
+
+- how to build reusable components
+- alternatives to components to group hardware
+- handling of clock/reset domains
+- instantitation of existing VHDL and Verilog IP
+- how names are assigned in SpinalHDL, and how naming can be influenced
+
 .. toctree::
    :maxdepth: 3
 

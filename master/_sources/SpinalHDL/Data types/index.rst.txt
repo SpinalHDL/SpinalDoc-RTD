@@ -1,34 +1,16 @@
+.. _type_introduction:
+
 ==========
 Data types
 ==========
-.. toctree::
-   :hidden:
-
-   bool
-   bits
-   Int
-   enum
-   bundle
-   Vec
-   Fix
-   Floating
-   AFix
-
-
-.. _type_introduction:
-
-Introduction
-============
 
 The language provides 5 base types, and 2 composite types that can be used.
-
 
 * Base types: :ref:`Bool <Bool>` , :ref:`Bits <Bits>` , :ref:`UInt <Int>` for unsigned integers, :ref:`SInt <Int>` for signed integers and :ref:`Enum <Enum>`.
 * Composite types: :ref:`Bundle <Bundle>` and :ref:`Vec <Vec>`.
 
 .. image:: /asset/picture/types.svg
    :width: 400px
-
 
 In addition to the base types, Spinal has support under development for:
 
@@ -45,3 +27,16 @@ Here is an example to show how you can achieve this (note the use of 'M' prefix)
 
    val myBits  = Bits(8 bits)
    val itMatch = myBits === M"00--10--" // - don't care value
+
+.. toctree::
+   :hidden: 
+
+   bool
+   bits
+   Int
+   enum
+   bundle
+   Vec
+   Fix
+   Floating
+   AFix

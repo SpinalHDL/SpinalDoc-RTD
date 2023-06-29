@@ -1,11 +1,5 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 RAM/ROM
 =======
-
-Syntax
-------
 
 To create a memory in SpinalHDL, the ``Mem`` class should be used.
 It allows you to define a memory and add read and write ports to it.

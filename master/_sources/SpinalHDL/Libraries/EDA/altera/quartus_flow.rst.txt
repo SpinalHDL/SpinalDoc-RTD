@@ -2,9 +2,6 @@
 QuartusFlow
 ===========
 
-Introduction
-------------
-
 A compilation flow is an Altera-defined sequence of commands that use a combination of command-line executables.
 A full compilation flow launches all Compiler modules in sequence to synthesize, fit, analyze final timing, and generate a device programming file. 
 

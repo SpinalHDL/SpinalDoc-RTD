@@ -2,11 +2,7 @@
 QSysify
 =======
 
-Introduction
-------------
-
 QSysify is a tool which is able to generate a QSys IP (tcl script) from a SpinalHDL component by analysing its IO definition. It currently implement the following interfaces features :
-
 
 * Master/Slave AvalonMM
 * Master/Slave APB3
