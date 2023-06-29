@@ -3,9 +3,6 @@
 TriState
 ========
 
-Introduction
-------------
-
 Tri-state signals are weird to handle in many cases:
 
 * They are not really kind of digital things

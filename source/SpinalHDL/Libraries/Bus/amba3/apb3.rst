@@ -2,9 +2,6 @@
 Apb3
 ====
 
-Introduction
-------------
-
 The AMBA3-APB bus is commonly used to interface low bandwidth peripherals.
 
 Configuration and instanciation

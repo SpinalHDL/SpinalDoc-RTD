@@ -1,6 +1,7 @@
- 
+=====
 RegIf
 =====
+
 Register Interface Builder
 
 - Automatic address, fields allocation and conflict detection
@@ -8,7 +9,7 @@ Register Interface Builder
 - Automatic documentation generation
 
 Automatic allocation
---------------------
+====================
 
 Automatic address allocation
 
@@ -66,7 +67,7 @@ confilict detection
   cause Exception
 
 28 Access Types
----------------
+===============
   
 Most of these come from UVM specification
 
@@ -108,7 +109,7 @@ CSTM        w: user custom Type, used for document                              
 ==========  =============================================================================   ====
 
 Automatic documentation generation
-----------------------------------
+==================================
 
 Document Type
 
@@ -135,7 +136,7 @@ generated HTML document:
 
 
 Special Access Usage
---------------------
+====================
 
 **CASE1:** ``RO`` usage
 
@@ -242,7 +243,7 @@ CSTM is only used to generate software interfaces, and does not generate actual 
    }
 
 
-CASE5:  ``parasiteField``
+**CASE5:** ``parasiteField``
 
 This is used for software to share the same register on multiple address instead of generating multiple register entities
 
@@ -269,13 +270,13 @@ example2: interrupt raw reg with foce interface for software
                 FORCE.parasiteField(raw, AccessType.W1S,   resetValue = 0, doc = s"force, write 1 set, debug use" )
 
 Byte Mask
----------
+=========
 
 withStrb
 
 
 Typical Example 
----------------
+===============
 
 Batch creat REG-Address and fields register
 
@@ -317,7 +318,7 @@ Batch creat REG-Address and fields register
 
 
 Interrupt Factory 
------------------
+=================
 
 Manual writing interruption
 
@@ -388,9 +389,6 @@ Easy Way creat interruption:
     }
 
 .. image:: /asset/image/regif/easy-intr.png
-
-Interrupt Design Spec
-=====================
 
 IP level interrupt Factory
 --------------------------
@@ -478,7 +476,7 @@ Example
 .. image:: /asset/image/intc/intc.jpeg
 
 DefaultReadValue
-----------------
+================
 
 When the software reads a reserved address, the current policy is to return normally, readerror=0.
 In order to facilitate software debugging, the read back value can be configured, which is 0 by default
@@ -498,7 +496,7 @@ In order to facilitate software debugging, the read back value can be configured
  
 
 Developers Area
----------------
+===============
 
 You can add your document Type by extending the `BusIfVistor` Trait 
 
