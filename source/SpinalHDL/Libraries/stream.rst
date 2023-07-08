@@ -534,6 +534,27 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
      outputCount = 3
    )
 
+StreamTransactionExtender
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This util helps to extend one input transaction with specified ``count``+1 times of output transactions with the same payload.
+The ``count`` signal would be captured and registered while inputStream fire.
+
+.. code-block:: scala
+
+   val inputStream = Stream(Bits(8 bits))
+   val outputStream = Stream(Bits(8 bits))
+   val count = UInt(3 bits)
+   val extender = StreamTransactionExtender(inputStream, outputStream, count) {
+       (id, payload, last) => payload
+   }
+
+This ``extender`` have provided several status signals, such as ``working``, ``last``, ``done`` where ``working`` means there is one transaction accepted and on going, ``last`` stands for waiting the last output stream fire, ``done`` represent the last output stream fire and the current input transcation process is done.
+
+.. note::
+
+   If only count for output stream is required then use ``StreamTransactionCounter`` instead. 
+
 Simulation support
 ------------------
 
