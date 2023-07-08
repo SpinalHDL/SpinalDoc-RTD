@@ -537,7 +537,7 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
 StreamTransactionExtender
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This util helps to extend one input transaction with specified ``count``+1 times of output transactions with the same payload.
+This util helps to extend one input transaction with specified ``count+1`` times of output transactions with the same payload.
 The ``count`` signal would be captured and registered while inputStream fire.
 
 .. code-block:: scala
