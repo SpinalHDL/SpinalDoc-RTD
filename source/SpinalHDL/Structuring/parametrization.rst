@@ -84,7 +84,7 @@ Here is an example of class parameters
 You can also use global variable defined in Scala objects (companion object
 pattern).
 
-A ``ScopeProperty`` can also be used for configuration.
+A :ref:`ScopeProperty <scopeproperty>` can also be used for configuration.
 
 Optional hardware
 ------------------------------------------
