@@ -104,14 +104,14 @@ HALT (0xFF0C)
 **********************
 
 This register allows placement of a single endpoint into a dormant state in order to ensure atomicity of CPU operations, allowing to do things as read/modify/write on the endpoint registers and descriptors.
-The peripheral will return NAK if the given endpoint is addressed by the usb host. 
+The peripheral will return NAK if the given endpoint is addressed by the usb host while halt is enabled and the endpoint is enabled.
 
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
 +=========================+======+===========+==================================================================+
 | endpointId              |  WO  | 3-0       | The endpoint you want to put in sleep                            |
 +-------------------------+------+-----------+------------------------------------------------------------------+
-| enable                  |  WO  | 4         |                                                                  |
+| enable                  |  WO  | 4         | When set halt is active, when clear endpoint is unhalted.        |
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | effective               |  RO  | 5         | After setting the enable, you need to wait for this bit to be    |
 | enable                  |      |           | set by the hardware itself to ensure atomicity                   |
