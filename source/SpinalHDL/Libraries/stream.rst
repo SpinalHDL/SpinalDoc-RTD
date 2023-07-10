@@ -537,7 +537,7 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
 StreamTransactionExtender
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This utility will take one input transfer and generate serval output transfers, it provides the facility to repeat the payload value ``count+1`` times into output transfers.
+This utility will take one input transfer and generate several output transfers, it provides the facility to repeat the payload value ``count+1`` times into output transfers.
 The ``count`` is captured and registered each time inputStream fires for an individual payload.
 
 .. code-block:: scala
