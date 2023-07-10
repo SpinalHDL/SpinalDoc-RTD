@@ -537,8 +537,8 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
 StreamTransactionExtender
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This util helps to extend one input transaction with specified ``count+1`` times of output transactions with the same payload.
-The ``count`` signal would be captured and registered while inputStream fire.
+This utility will take one input transfer and generate serval output transfers, it provides the facility to repeat the payload value ``count+1`` times into output transfers.
+The ``count`` is captured and registered each time inputStream fires for an individual payload.
 
 .. code-block:: scala
 
@@ -549,7 +549,7 @@ The ``count`` signal would be captured and registered while inputStream fire.
        (id, payload, last) => payload
    }
 
-This ``extender`` have provided several status signals, such as ``working``, ``last``, ``done`` where ``working`` means there is one transaction accepted and on going, ``last`` stands for waiting the last output stream fire, ``done`` represent the last output stream fire and the current input transcation process is done.
+This ``extender`` provides several status signals, such as ``working``, ``last``, ``done`` where ``working`` means there is one input transfer accepted and in-progress, ``last`` indicates the last output transfer is prepared and waiting to complete, ``done`` become valid represents the last output transfer is fireing and making the current input transaction process complete and ready to start another transaction.
 
 .. note::
 
