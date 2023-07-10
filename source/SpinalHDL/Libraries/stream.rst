@@ -546,6 +546,9 @@ The ``count`` is captured and registered each time inputStream fires for an indi
    val outputStream = Stream(Bits(8 bits))
    val count = UInt(3 bits)
    val extender = StreamTransactionExtender(inputStream, outputStream, count) {
+      // id, is the 0-based index of total output transfers so far in the current input transaction.
+      // last, is the last transfer indication, same as the last signal for extender.
+      // the returned payload is allowed to be modified only based on id and last signals, other translation should be done outside of this.
        (id, payload, last) => payload
    }
 
