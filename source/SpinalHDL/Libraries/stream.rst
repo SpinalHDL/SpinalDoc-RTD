@@ -555,9 +555,9 @@ This ``extender`` provides several status signals, such as ``working``, ``last``
 
   { "signal": [
     { "name": "clk",         "wave": "p........." },
-    { "name": "input",        "wave": "x3x.....4x", "data": ["T1", "T2"] },
+    { "name": "inputStream",        "wave": "x3x.....4x", "data": ["T1", "T2"] },
     { "name": "count",        "wave": "x3x.....4x", "data": ["2", "4"] },
-    { "name": "output",       "wave": "x..2x2x.2x", "data": ["D1", "D2", "D3"] },
+    { "name": "outputStream",       "wave": "x..2x2x.2x", "data": ["D1", "D2", "D3"] },
     { "name": "working",      "wave": "0.1......."},
     { "name": "done",      "wave": "0.......10"},
     { "name": "first",      "wave": "0.1.0....."},
