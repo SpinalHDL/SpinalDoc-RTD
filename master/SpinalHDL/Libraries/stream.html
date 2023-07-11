@@ -643,6 +643,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#streammux">StreamMux</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamdemux">StreamDemux</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#streamdispatchersequencial">StreamDispatcherSequencial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streamtransactionextender">StreamTransactionExtender</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#simulation-support">Simulation support</a></li>
@@ -1812,6 +1813,42 @@ For safe transaction, refer the notes above.</p>
 </pre></div>
 </div>
 </section>
+<section id="streamtransactionextender">
+<h3>StreamTransactionExtender<a class="headerlink" href="#streamtransactionextender" title="Permalink to this heading"></a></h3>
+<p>This utility will take one input transfer and generate several output transfers, it provides the facility to repeat the payload value <code class="docutils literal notranslate"><span class="pre">count+1</span></code> times into output transfers.
+The <code class="docutils literal notranslate"><span class="pre">count</span></code> is captured and registered each time inputStream fires for an individual payload.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">outputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">extender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamTransactionExtender</span><span class="p">(</span><span class="n">inputStream</span><span class="p">,</span><span class="w"> </span><span class="n">outputStream</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="c1">// id, is the 0-based index of total output transfers so far in the current input transaction.</span>
+<span class="w">   </span><span class="c1">// last, is the last transfer indication, same as the last signal for extender.</span>
+<span class="w">   </span><span class="c1">// the returned payload is allowed to be modified only based on id and last signals, other translation should be done outside of this.</span>
+<span class="w">    </span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">payload</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">extender</span></code> provides several status signals, such as <code class="docutils literal notranslate"><span class="pre">working</span></code>, <code class="docutils literal notranslate"><span class="pre">last</span></code>, <code class="docutils literal notranslate"><span class="pre">done</span></code> where <code class="docutils literal notranslate"><span class="pre">working</span></code> means there is one input transfer accepted and in-progress, <code class="docutils literal notranslate"><span class="pre">last</span></code> indicates the last output transfer is prepared and waiting to complete, <code class="docutils literal notranslate"><span class="pre">done</span></code> become valid represents the last output transfer is fireing and making the current input transaction process complete and ready to start another transaction.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{ "signal": [
+  { "name": "clk",         "wave": "p........." },
+  { "name": "inputStream",        "wave": "x3x.....4x", "data": ["T1", "T2"] },
+  { "name": "count",        "wave": "x3x.....4x", "data": ["2", "4"] },
+  { "name": "outputStream",       "wave": "x..2x2x.2x", "data": ["D1", "D2", "D3"] },
+  { "name": "working",      "wave": "0.1......."},
+  { "name": "done",      "wave": "0.......10"},
+  { "name": "first",      "wave": "0.1.0....."},
+  { "name": "last",      "wave": "0.....1..0"},
+]}
+</script>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If only count for output stream is required then use <code class="docutils literal notranslate"><span class="pre">StreamTransactionCounter</span></code> instead.</p>
+</div>
+</section>
 </section>
 <section id="simulation-support">
 <h2>Simulation support<a class="headerlink" href="#simulation-support" title="Permalink to this heading"></a></h2>
@@ -1910,7 +1947,7 @@ For safe transaction, refer the notes above.</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~7372e718e 2023-06-29
+    Version: master git~2f46857a3 2023-07-11
     </p></div>
     
 
