@@ -534,6 +534,43 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
      outputCount = 3
    )
 
+StreamTransactionExtender
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This utility will take one input transfer and generate several output transfers, it provides the facility to repeat the payload value ``count+1`` times into output transfers.
+The ``count`` is captured and registered each time inputStream fires for an individual payload.
+
+.. code-block:: scala
+
+   val inputStream = Stream(Bits(8 bits))
+   val outputStream = Stream(Bits(8 bits))
+   val count = UInt(3 bits)
+   val extender = StreamTransactionExtender(inputStream, outputStream, count) {
+      // id, is the 0-based index of total output transfers so far in the current input transaction.
+      // last, is the last transfer indication, same as the last signal for extender.
+      // the returned payload is allowed to be modified only based on id and last signals, other translation should be done outside of this.
+       (id, payload, last) => payload
+   }
+
+This ``extender`` provides several status signals, such as ``working``, ``last``, ``done`` where ``working`` means there is one input transfer accepted and in-progress, ``last`` indicates the last output transfer is prepared and waiting to complete, ``done`` become valid represents the last output transfer is fireing and making the current input transaction process complete and ready to start another transaction.
+
+.. wavedrom::
+
+  { "signal": [
+    { "name": "clk",         "wave": "p........." },
+    { "name": "inputStream",        "wave": "x3x.....4x", "data": ["T1", "T2"] },
+    { "name": "count",        "wave": "x3x.....4x", "data": ["2", "4"] },
+    { "name": "outputStream",       "wave": "x..2x2x.2x", "data": ["D1", "D2", "D3"] },
+    { "name": "working",      "wave": "0.1......."},
+    { "name": "done",      "wave": "0.......10"},
+    { "name": "first",      "wave": "0.1.0....."},
+    { "name": "last",      "wave": "0.....1..0"},
+  ]}
+
+.. note::
+
+   If only count for output stream is required then use ``StreamTransactionCounter`` instead. 
+
 Simulation support
 ------------------
 
