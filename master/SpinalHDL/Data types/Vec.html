@@ -1185,12 +1185,13 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Vec(type: Data, size: Int)</p></td>
-<td><p>Create a vector capable of holding <code class="docutils literal notranslate"><span class="pre">size</span></code> elements of type <code class="docutils literal notranslate"><span class="pre">Data</span></code></p></td>
+<tr class="row-even"><td><p>Vec.fill(size: Int)(type: Data)</p></td>
+<td><p>Create a vector of <code class="docutils literal notranslate"><span class="pre">size</span></code> elements of type <code class="docutils literal notranslate"><span class="pre">Data</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Vec(x, y, …)</p></td>
 <td><div class="line-block">
 <div class="line">Create a vector where indexes point to the provided elements.</div>
+<div class="line">Does not create new hardware signals.</div>
 <div class="line">This constructor supports mixed element width.</div>
 </div>
 </td>
@@ -1200,7 +1201,7 @@
 <section id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a vector of 2 signed integers</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myVecOfSInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myVecOfSInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="c1">// assignment to populate index 0</span>
 <span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myVecOfSInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w">  </span><span class="c1">// assignment to populate index 1</span>
 
@@ -1248,8 +1249,8 @@
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a vector of 2 signed integers</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
 <span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">vec1</span><span class="w">  </span><span class="c1">// Compare all elements</span>
 <span class="c1">// is equivalent to:</span>
@@ -1274,7 +1275,7 @@
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a vector of 2 signed integers</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
 <span class="n">myBits_16bits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">asBits</span><span class="w"></span>
 </pre></div>
@@ -1302,9 +1303,9 @@
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a vector of 2 signed integers</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span><span class="nc">SInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
-<span class="n">println</span><span class="p">(</span><span class="n">vec1</span><span class="p">.</span><span class="n">getBitsWidth</span><span class="p">)</span><span class="w"> </span><span class="c1">// 16</span>
+<span class="n">println</span><span class="p">(</span><span class="n">widthOf</span><span class="p">(</span><span class="n">vec1</span><span class="p">))</span><span class="w"> </span><span class="c1">// 16</span>
 </pre></div>
 </div>
 </section>
@@ -1360,7 +1361,7 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// Create a vector with 4 unsigned integers</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">4</span><span class="p">)(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
 <span class="c1">// ... the vector is actually assigned somewhere</span>
 
@@ -1411,7 +1412,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~2f46857a3 2023-07-11
+    Version: master git~3c7ed8e83 2023-07-24
     </p></div>
     
 
