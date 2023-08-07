@@ -16,7 +16,7 @@ This implementation avoid the use of Vec. Instead, it use Area which allow to mi
 
 Note that the `reader` API is for SpinalHDL version comming after 1.9.1
 
-.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/advanced/Timer.scala
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/advanced/Slots.scala
    :language: scala
    
    
