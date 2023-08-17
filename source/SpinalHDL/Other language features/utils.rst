@@ -1,6 +1,3 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 .. _utils:
 
 Utils
@@ -30,10 +27,39 @@ Many tools and utilities are present in :ref:`spinal.lib <lib_introduction>` but
    * - ``roundUp(that : BigInt, by : BigInt)``
      - BigInt
      - Return the first ``by`` multiply from ``that`` (included)
-   * - ``Cat(x : Data*)``
+   * - ``Cat(x: Data*)``
      - Bits
-     - Concatenate all arguments, the first in MSB, the last in LSB
+     - Concatenate all arguments, from MSB to LSB, see `Cat`_
+   * - ``Cat(x: Iterable[Data])``
+     - Bits
+     - Conactenate arguments, from LSB to MSB, see `Cat`_
 
+.. _Cat:
+
+Cat
+^^^
+
+As listed above, there are two version of ``Cat``. Both versions concatenate the signals they contain, with a subtle difference:
+
+- ``Cat(x: Data*)`` takes an arbitrary number of hardware signals as parameters.
+  It mimics other HDLs and the leftmost parameter becomes the MSB of the resulting ``Bits``, the rightmost the LSB side. Said differently:
+  the input is concatenated in the order as written.
+- ``Cat(x: Iterable[Data])`` which takes a single Scala iterable collection (Seq / Set / List / ...) containing hardware signals.
+  This version places the first element of the list into the LSB, and the last into the MSB.
+
+This seeming difference comes mostly from the convention that ``Bits`` are written from the hightest index to the lowest index, while
+Lists are written down starting from index 0 to the highest index. ``Cat`` places index 0 of both conventions at the LSB.
+
+.. code-block:: scala
+
+   val bit0, bit1, bit2 = Bool()
+
+   val first = Cat(bit2, bit1, bit0)
+
+   // is equivalent to
+   
+   val signals = List(bit0, bit1, bit2)
+   val second = Cat(signals)
 
 Cloning hardware datatypes
 --------------------------
