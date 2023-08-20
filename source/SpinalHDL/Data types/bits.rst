@@ -38,15 +38,6 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
 
 .. code-block:: scala
 
-   // Declaration
-   val myBits  = Bits()     // the size is inferred from the widest assignment
-   // ....
-   // .resized needed to prevent WIDTH MISMATCH error as natural width does not match inferred size
-   myBits := B("1010").resized  // auto-widen Bits(4 bits) to Bits(6 bits)
-   when(condxMaybe) {
-     myBits := B("110000")      // Bits(6 bits) would be inferred for myBits, this is the widest assignment
-   }
-
    val myBits1 = Bits(32 bits)   
    val myBits2 = B(25, 8 bits)
    val myBits3 = B"8'xFF"   // Base could be x,h (base 16)                         
@@ -55,11 +46,31 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
                             //               b   (base 2)    
    val myBits4 = B"1001_0011"  // _ can be used for readability
 
-   // Element
-   val myBits5 = B(8 bits, default -> True) // "11111111"
-   val myBits6 = B(8 bits, (7 downto 5) -> B"101", 4 -> true, 3 -> True, default -> false) // "10111000"
+   // Bits with all ones ("11111111")
+   val myBits5 = B(8 bits, default -> True)
+
+   // initialize with "10111000" through a few elements
+   val myBits6 = B(8 bits, (7 downto 5) -> B"101", 4 -> true, 3 -> True, default -> false)
+
+   // "10000000" (For assignment purposes, you can omit the B)
    val myBits7 = Bits(8 bits)
-   myBits7 := (7 -> true, default -> false) // "10000000" (For assignment purposes, you can omit the B)
+   myBits7 := (7 -> true, default -> false) 
+
+When inferring the width of a ``Bits`` the sizes of assigned values still have to match 
+the final size of the signal:
+
+.. code-block:: scala
+
+   // Declaration
+   val myBits = Bits()     // the size is inferred from the widest assignment
+   // ....
+   // .resized needed to prevent WIDTH MISMATCH error as the constants
+   // width does not match size that is inferred from assignment below
+   myBits := B("1010").resized  // auto-widen Bits(4 bits) to Bits(6 bits)
+   when(condxMaybe) {
+     // Bits(6 bits) is inferred for myBits, this is the widest assignment
+     myBits := B("110000")
+   }
 
 Operators
 ---------
