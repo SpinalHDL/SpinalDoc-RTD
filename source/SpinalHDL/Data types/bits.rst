@@ -8,31 +8,31 @@ The ``Bits`` type represents a vector of bits without conveying any arithmetic m
 Declaration
 -----------
 
-The syntax to declare a bit vector is as follows: (everything between [] is optional)
+The syntax to declare a bit vector is as follows (everything between [] is optional):
 
 .. list-table::
    :header-rows: 1
-   :widths: 5 10 2
+   :widths: 6 10 1
 
    * - Syntax
      - Description
      - Return
    * - Bits [()]
-     - Create a BitVector, bit count is inferred from the widest assignment statement
+     - Create Bits, bit count is inferred from the widest assignment statement
        after construction
      - Bits
    * - Bits(x bits)
-     - Create a BitVector with x bits
+     - Create Bits with x bits
      - Bits
    * - | B(value: Int[, x bits])
        | B(value: BigInt[, x bits])
-     - Create a BitVector with x bits assigned with 'value'
+     - Create Bits with x bits assigned with 'value'
      - Bits
    * - B"[[size']base]value"
-     - Create a BitVector assigned with 'value' (Base: 'h', 'd', 'o', 'b')
+     - Create Bits assigned with 'value' (base: 'h', 'd', 'o', 'b')
      - Bits
-   * - B([x bits,] :ref:`element <element>`\ , ...)
-     - Create a BitVector assigned with the value specified by elements
+   * - B([x bits,] elements: Element*)
+     - Create Bits assigned with the value specified by :ref:`elements <element>`
      - Bits
 
 
@@ -146,16 +146,16 @@ Logic
      - Bits(w(x) bits)
    * - x.clearAll[()]
      - Clear all bits
-     - 
+     - *modifies x*
    * - x.setAll[()]
      - Set all bits
-     - 
+     - *modifies x*
    * - x.setAllTo(value: Boolean)
      - Set all bits to the given Boolean value
-     - 
+     - *modifies x*
    * - x.setAllTo(value: Bool)
      - Set all bits to the given Bool value
-     - 
+     - *modifies x*
 
 .. code-block:: scala
 
@@ -198,10 +198,10 @@ Comparison
 .. code-block:: scala
 
    when(myBits === 3) {
+     // ...
    }
 
-   when(myBits_32 =/= B"32'x44332211") {
-   }
+   val notMySpecialValue = myBits_32 =/= B"32'x44332211"
 
 Type cast
 ^^^^^^^^^
@@ -260,7 +260,7 @@ can also be used to select a range of bits to be written.
 
 .. list-table::
    :header-rows: 1
-   :widths: 3 5 2
+   :widths: 2 4 2
 
    * - Operator
      - Description
@@ -282,10 +282,10 @@ can also be used to select a range of bits to be written.
      - Bits(range.size bits)
    * - x.subdivideIn(y slices, [strict: Boolean])
      - Subdivide x into y slices, y: Int
-     - Vec(Bits, y)
+     - Vec(Bits(...), y)
    * - x.subdivideIn(y bits, [strict: Boolean])
      - Subdivide x in multiple slices of y bits, y: Int
-     - Vec(Bits, ...)
+     - Vec(Bits(y bit), ...)
    * - x.msb
      - Access most significant bit of x (highest index)
      - Bool
