@@ -58,7 +58,7 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
    // Element
    val myBits5 = B(8 bits, default -> True) // "11111111"
    val myBits6 = B(8 bits, (7 downto 5) -> B"101", 4 -> true, 3 -> True, default -> false) // "10111000"
-   val myBits7 = Bits(8 bits)
+   val myBits7 = Bits(8 bits)
    myBits7 := (7 -> true, default -> false) // "10000000" (For assignment purposes, you can omit the B)
 
 Operators
@@ -397,7 +397,7 @@ to use the return values to assign to the original signal.
   type which uses `Int`)
 
 .. code-block:: scala
-
+   
    println(myBits_32bits.getWidth) // 32
 
    // Concatenation
@@ -416,7 +416,8 @@ to use the return values to assign to the original signal.
 MaskedLiteral
 -------------
 
-MaskedLiteral values are bit vectors with don’t care values denoted with `-`.
+MaskedLiteral values are bit vectors with don't care values denoted with ``-``.
+They can be used for direct comparison or for ``switch`` statements and ``mux`` es.
 
 .. code-block:: scala
 
