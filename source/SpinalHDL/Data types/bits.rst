@@ -241,50 +241,110 @@ To cast a ``Bool``, ``UInt`` or an ``SInt`` into a ``Bits``, you can use ``B(som
 Bit extraction
 ^^^^^^^^^^^^^^
 
+All of the bit extraction operations can be used to read a bit / group of bits. Like in other HDLs
+the extraction operators can also be used to assign a part of a ``Bits``.
+
+All of the bit extraction operations can be used to read a bit / group of bits. Like in other HDLs They
+can also be used to select a range of bits to be written.
+
 .. list-table::
    :header-rows: 1
-   :widths: 2 5 2
+   :widths: 3 5 2
 
    * - Operator
      - Description
      - Return
-   * - x(y)
-     - Readbit, y: Int/UInt
+   * - x(y: Int)
+     - Static bit access of y-th bit
      - Bool
-   * - x(offset,width bits)
-     - Read bitfield, offset: UInt, width: Int
-     - Bits(width bits)
-   * - x(\ :ref:`range <range>`\ )
-     - Read a range of bit. Ex : myBits(4 downto 2)
-     - Bits(range bits)
-   * - x(y) := z
-     - Assign a single bit, y: Int/UInt
+   * - x(x: UInt)
+     - Variable bit access of y-th bit
      - Bool
-   * - x(offset, width bits) := z
-     - Assign bitfield, offset: UInt, width: Int
+   * - x(offset: Int, width bits)
+     - Fixed part select of fixed width, offset is LSB index
      - Bits(width bits)
-   * - x(\ :ref:`range <range>`\ ) := z
-     - Assign a range of bits. Ex : myBits(4 downto 2) := B"010"
-     - Bits(range bits)
+   * - x(offset: UInt, width bits)
+     - Variable part-select of fixed width, offset is LSB index
+     - Bits(width bits)
+   * - x(range: Range)
+     - Access a :ref:`range <range>` of bits. Ex : myBits(4 downto 2)
+     - Bits(range.size bits)
+   * - x.subdivideIn(y slices, [strict: Boolean])
+     - Subdivide x into y slices, y: Int
+     - Vec(Bits, y)
+   * - x.subdivideIn(y bits, [strict: Boolean])
+     - Subdivide x in multiple slices of y bits, y: Int
+     - Vec(Bits, ...)
+   * - x.msb
+     - Access most significant bit of x (highest index)
+     - Bool
+   * - x.lsb
+     - Access lowest significant bit of x (index 0)
+     - Bool
 
+
+Some basic examples:
 
 .. code-block:: scala
 
    // get the element at the index 4
    val myBool = myBits(4)
-
-   // assign
+   // assign element 1
    myBits(1) := True
 
-   // Range
-   val myBits_8bits = myBits_16bits(7 downto 0)
-   val myBits_7bits = myBits_16bits(0 to 6)
-   val myBits_6bits = myBits_16Bits(0 until 6)
+   // index dynamically
+   val index = UInt(2 bit)
+   val indexed = myBits(index, 2 bit)
 
-   myBits_8bits(3 downto 0) := myBits_4bits
+   // range index
+   val myBits_8bit = myBits_16bit(7 downto 0)
+   val myBits_7bit = myBits_16bit(0 to 6)
+   val myBits_6bit = myBits_16bit(0 until 6)
+   // assign to myBits_16bit(3 downto 0)
+   myBits_8bit(3 downto 0) := myBits_4bit
+
+   // equivalent slices, no reversing occurs
+   val a = myBits_16bit(8 downto 4)
+   val b = myBits_16bit(4 to 8)
+
+   // read / assign the msb / leftmost bit / x.high bit
+   val isNegative = myBits_16bit.msb
+   myBits_16bit.msb := False
+
+Subdivide details
+"""""""""""""""""
+
+Both overloads of ``subdivideIn`` have an optional parameter ``strict`` (i.e. ``subdivideIn(slices: SlicesCount, strict: Boolean = true)``).
+If ``strict`` is ``true`` an error will be raised if the input could not be divided evenly. If set to ``false`` the generated pieces may
+have varying size if necessary.
+
+.. code-block:: scala
+
+   // Subdivide
+   val sel = UInt(2 bits)
+   val myBitsWord = myBits_128bits.subdivideIn(32 bits)(sel)
+       // sel = 0 => myBitsWord = myBits_128bits(127 downto 96)
+       // sel = 1 => myBitsWord = myBits_128bits( 95 downto 64)
+       // sel = 2 => myBitsWord = myBits_128bits( 63 downto 32)
+       // sel = 3 => myBitsWord = myBits_128bits( 31 downto  0)
+
+    // If you want to access in reverse order you can do:
+    val myVector   = myBits_128bits.subdivideIn(32 bits).reverse
+    val myBitsWord = myVector(sel)
+
+    // We can also assign through subdivides
+    val output8 = Bits(8 bit)
+    val pieces = someOutput.subdivideIn(2 slices)
+    // assign to output8
+    pieces(0) := 0xf
+    pieces(1) := 0x5
 
 Misc
 ^^^^
+
+The operations listed below that create hardware signals all create new signals.
+In contrast to the bit extraction operations listed above it's not possible
+to use the return values to assign to the original signal.
 
 .. list-table::
    :header-rows: 1
@@ -303,27 +363,14 @@ Misc
      - Return the range of minimum to maximum x values, interpreted as an unsigned integer (0 to 2 \*\* width - 1).
      - Range
    * - x.high
-     - Return the index of the MSB (highest allowed zero-based index for Bits)
+     - Return the index of the MSB (highest allowed zero-based index for x)
      - Int
-   * - x.msb
-     - Return the value of the most significant bit
-     - Bool
-   * - x.lsb
-     - Return the value of the least significant bit
-     - Bool
    * - x.reversed
-     - Return a representation of the same instance in reverse bit order,
-       MSB<>LSB are mirrored.
+     - Return a copy of x with reverse bit order, MSB<>LSB are mirrored.
      - Bits(w(x) bits)
    * - x ## y
      - Concatenate, x->high, y->low
      - Bits(w(x) + w(y) bits)
-   * - x.subdivideIn(y slices)
-     - Subdivide x in y slices, y: Int
-     - Vec(Bits, y)
-   * - x.subdivideIn(y bits)
-     - Subdivide x in multiple slices of y bits, y: Int
-     - Vec(Bits, w(x)/y)
    * - x.resize(y)
      - Return a resized representation of x, if enlarged, it is extended with zero
        padding at MSB as necessary, y: Int
@@ -353,22 +400,10 @@ Misc
 
    println(myBits_32bits.getWidth) // 32
 
-   myBool := myBits.lsb  // Equivalent to myBits(0)
-
    // Concatenation
    myBits_24bits := bits_8bits_1 ## bits_8bits_2 ## bits_8bits_3
-
-   // Subdivide
-   val sel = UInt(2 bits)
-   val myBitsWord = myBits_128bits.subdivideIn(32 bits)(sel)
-       // sel = 0 => myBitsWord = myBits_128bits(127 downto 96)
-       // sel = 1 => myBitsWord = myBits_128bits( 95 downto 64)
-       // sel = 2 => myBitsWord = myBits_128bits( 63 downto 32)
-       // sel = 3 => myBitsWord = myBits_128bits( 31 downto  0)
-
-    // If you want to access in reverse order you can do:
-    val myVector   = myBits_128bits.subdivideIn(32 bits).reverse
-    val myBitsWord = myVector(sel)
+   // or
+   myBits_24bits := Cat(bits_8bits_1, bits_8bits_2, bits_8bits_3)
 
    // Resize
    myBits_32bits := B"32'x112233344"
