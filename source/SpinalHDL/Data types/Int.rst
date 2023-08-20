@@ -4,12 +4,12 @@ UInt/SInt
 =========
 
 Description
-^^^^^^^^^^^
+-----------
 
 The ``UInt``/``SInt`` type corresponds to a vector of bits that can be used for signed/unsigned integer arithmetic.
 
 Declaration
-^^^^^^^^^^^
+-----------
 
 The syntax to declare an integer is as follows:  (everything between [] is optional)
 
@@ -73,12 +73,12 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
    myUInt := ((4 downto 1) -> true, default -> false) // Assign myUInt with "00011110"
 
 Operators
-^^^^^^^^^
+---------
 
 The following operators are available for the ``UInt`` and ``SInt`` types:
 
 Logic
-~~~~~
+^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -180,7 +180,7 @@ Logic
    when(a.andR) { b.setAll() }
 
 Arithmetic
-~~~~~~~~~~
+^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -243,7 +243,7 @@ Arithmetic
    assertions in the previous example (with ``==``).
 
 Comparison
-~~~~~~~~~~
+^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -292,7 +292,7 @@ Comparison
    The ``wrap`` method of ``UInt`` can be used as ``x.wrap < y`` for ``UInt`` variables ``x, y``, the result will be true if ``x`` is less than ``y`` in the wraparound sense.
 
 Type cast
-~~~~~~~~~
+^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -339,7 +339,7 @@ To cast a ``Bool``, a ``Bits``, or an ``SInt`` into a ``UInt``, you can use ``U(
    val mySInt = S(myBits)
 
 Bit extraction
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -383,7 +383,7 @@ Bit extraction
    mySInt_8bits(3 downto 0) := mySInt_4bits
 
 Misc
-~~~~
+^^^^
 
 .. list-table::
    :header-rows: 1
@@ -491,15 +491,9 @@ Misc
    myUInt_8bits  := myUInt_32bits.resized       // automatic resize (myUInt_8bits = 0x44)
    val lowest_8bits = myUInt_32bits.resize(8)  // resize to 8 bits (myUInt_8bits = 0x44)
 
-   // Two's complement
-   mySInt := myUInt.twoComplement(myBool)
-
-   // Absolute value
-   mySInt_abs := mySInt.abs
-
 
 FixPoint operations
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 For fixpoint, we can divide it into two parts:
 
@@ -507,7 +501,7 @@ For fixpoint, we can divide it into two parts:
  - High bit operations (saturation operations)
 
 Lower bit operations
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 .. image:: /asset/image/fixpoint/lowerBitOperation.png
 
@@ -590,7 +584,7 @@ You will find `ROUNDUP`, `ROUNDDOWN`, `ROUNDTOZERO`, `ROUNDTOINF`, `ROUNDTOEVEN`
    As a result, ``roundUp`` is strongly recommended for production use.
 
 High bit operations
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 
 .. image:: /asset/image/fixpoint/highBitOperation.png
 
@@ -615,7 +609,7 @@ Symmetric is only valid for ``SInt``.
    val C  = A.sat(3).symmetry  // return 5 bits and symmetry as (-16~15 to -15~15)
 
 fixTo function
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
 Two ways are provided in ``UInt``/``SInt`` to do fixpoint:
 

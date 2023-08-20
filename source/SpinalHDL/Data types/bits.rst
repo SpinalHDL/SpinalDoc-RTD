@@ -3,13 +3,10 @@
 Bits
 ====
 
-Description
-^^^^^^^^^^^
-
-The ``Bits`` type corresponds to a vector of bits that does not convey any arithmetic meaning.
+The ``Bits`` type represents a vector of bits without conveying any arithmetic meaning.
 
 Declaration
-^^^^^^^^^^^
+-----------
 
 The syntax to declare a bit vector is as follows: (everything between [] is optional)
 
@@ -65,12 +62,12 @@ The syntax to declare a bit vector is as follows: (everything between [] is opti
    myBits7 := (7 -> true, default -> false) // "10000000" (For assignment purposes, you can omit the B)
 
 Operators
-^^^^^^^^^
+---------
 
 The following operators are available for the ``Bits`` type:
 
 Logic
-~~~~~
+^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -171,7 +168,7 @@ Logic
    }
 
 Comparison
-~~~~~~~~~~
+^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -196,7 +193,7 @@ Comparison
    }
 
 Type cast
-~~~~~~~~~
+^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -242,7 +239,7 @@ To cast a ``Bool``, ``UInt`` or an ``SInt`` into a ``Bits``, you can use ``B(som
    val myBits = B(mySInt, 3 bits)
 
 Bit extraction
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -287,7 +284,7 @@ Bit extraction
    myBits_8bits(3 downto 0) := myBits_4bits
 
 Misc
-~~~~
+^^^^
 
 .. list-table::
    :header-rows: 1
@@ -382,7 +379,7 @@ Misc
 .. _maskedliteral:
 
 MaskedLiteral
-~~~~~~~~~~~~~~
+-------------
 
 MaskedLiteral values are bit vectors with don’t care values denoted with `-`.
 
