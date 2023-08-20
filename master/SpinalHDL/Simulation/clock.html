@@ -1312,23 +1312,23 @@
 <p>You can access the default <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> of your toplevel as shown below:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example of thread forking to generate a reset, and then toggling the clock each 5 time units.</span>
 <span class="c1">// dut.clockDomain refers to the implicit clock domain created during component instantiation.</span>
-<span class="n">fork</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">assertReset</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">fallingEdge</span><span class="p">()</span><span class="w"></span>
-<span class="w">  </span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">clockToggle</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="n">fork</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">assertReset</span><span class="p">()</span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">fallingEdge</span><span class="p">()</span>
+<span class="w">  </span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">clockToggle</span><span class="p">()</span>
+<span class="w">    </span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Note that you can also directly fork a standard reset/clock process:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>An example of how to wait for a rising edge on the clock:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitRisingEdge</span><span class="p">()</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitRisingEdge</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
@@ -1336,7 +1336,7 @@
 <h2>New ClockDomain<a class="headerlink" href="#new-clockdomain" title="Permalink to this heading"></a></h2>
 <p>If your toplevel defines some clock and reset inputs which aren’t directly integrated into their <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code>, you can define their corresponding <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> directly in the testbench:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// In the testbench</span>
-<span class="nc">ClockDomain</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">coreClk</span><span class="p">,</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">coreReset</span><span class="p">).</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="nc">ClockDomain</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">coreClk</span><span class="p">,</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">coreReset</span><span class="p">).</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

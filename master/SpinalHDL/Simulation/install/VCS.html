@@ -1181,11 +1181,11 @@
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">$VCS_HOME/bin</span></code> and <code class="docutils literal notranslate"><span class="pre">$VERDI_HOME/bin</span></code> to your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p></li>
 </ul>
 <p>Prepend the following paths to your <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> to enable PLI features.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/VCS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/IUS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/lib/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/Ius/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/MODELSIM/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/VCS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/IUS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/lib/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/Ius/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/MODELSIM/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
 </pre></div>
 </div>
 <p>If you encounter the <code class="docutils literal notranslate"><span class="pre">Compilation</span> <span class="pre">of</span> <span class="pre">SharedMemIface.cpp</span> <span class="pre">failed</span></code> error, make sure that you have installed C++ boost library correctly.
@@ -1195,15 +1195,15 @@ The header and library files path should be added to <code class="docutils liter
 <h2>User defined environment setup<a class="headerlink" href="#user-defined-environment-setup" title="Permalink to this heading"></a></h2>
 <p>Sometimes a VCS environment setup file <cite>synopsys_sim.setup</cite> is required to run VCS simulation. Also you may want to run some scripts or code
 to setup the environment just before VCS starting compilation. You can do this by <cite>withVCSSimSetup</cite>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">simConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="w"></span>
-<span class="w">  </span><span class="p">.</span><span class="n">withVCS</span><span class="w"></span>
-<span class="w">  </span><span class="p">.</span><span class="n">withVCSSimSetup</span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="n">setupFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;~/work/myproj/sim/synopsys_sim.setup&quot;</span><span class="p">,</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">simConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span>
+<span class="w">  </span><span class="p">.</span><span class="n">withVCS</span>
+<span class="w">  </span><span class="p">.</span><span class="n">withVCSSimSetup</span><span class="p">(</span>
+<span class="w">    </span><span class="n">setupFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;~/work/myproj/sim/synopsys_sim.setup&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">beforeAnalysis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// this code block will be run before VCS analysis step.</span>
-<span class="w">      </span><span class="s">&quot;pwd&quot;</span><span class="p">.</span><span class="o">!</span><span class="w"></span>
-<span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello, VCS&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;pwd&quot;</span><span class="p">.</span><span class="o">!</span>
+<span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello, VCS&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This method will copy your own <cite>synopsys_sim.setup</cite> file to the VCS work directory under the <cite>workspacePath</cite> (default as <cite>simWorkspace</cite>) directory,
@@ -1247,19 +1247,19 @@ and run your scripts.</p>
 </tbody>
 </table>
 <p>For example, you pass the <code class="docutils literal notranslate"><span class="pre">-kdb</span></code> flags to both compilation step and elaboration step, for Verdi debugging,</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">VCSFlags</span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="n">compileFlags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="s">&quot;-kdb&quot;</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">elaborateFlags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="s">&quot;-kdb&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">VCSFlags</span><span class="p">(</span>
+<span class="w">    </span><span class="n">compileFlags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="s">&quot;-kdb&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">elaborateFlags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="s">&quot;-kdb&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
-<span class="w">  </span><span class="nc">SimConfig</span><span class="w"></span>
-<span class="w">    </span><span class="p">.</span><span class="n">withVCS</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">.</span><span class="n">withFSDBWave</span><span class="w"></span>
-<span class="w">    </span><span class="p">.</span><span class="n">workspacePath</span><span class="p">(</span><span class="s">&quot;tb&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="nc">UIntAdder</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="nc">SimConfig</span>
+<span class="w">    </span><span class="p">.</span><span class="n">withVCS</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">withFSDBWave</span>
+<span class="w">    </span><span class="p">.</span><span class="n">workspacePath</span><span class="p">(</span><span class="s">&quot;tb&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="nc">UIntAdder</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
 
-<span class="p">...</span><span class="w"></span>
+<span class="p">...</span>
 </pre></div>
 </div>
 </section>

@@ -1173,21 +1173,21 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">fiber</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// Create two empty Handles</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span>
 
 <span class="c1">// Create a Handle which will be loaded asynchronously by the given body result</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">calculator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">calculator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">a</span><span class="p">.</span><span class="n">get</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">get</span><span class="w"> </span><span class="c1">// .get will block until they are loaded</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 
 <span class="c1">// Same as above</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">printer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">printer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">s&quot;a + b = </span><span class="si">${</span><span class="n">calculator</span><span class="p">.</span><span class="n">get</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// .get is blocking until the calculator body is done</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 
 <span class="c1">// Synchronously load a and b, this will unblock a.get and b.get</span>
-<span class="n">a</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
-<span class="n">b</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="n">a</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">b</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Its runtime will be :</p>
@@ -1205,7 +1205,7 @@
 <section id="handle-t">
 <h2>Handle[T]<a class="headerlink" href="#handle-t" title="Permalink to this heading"></a></h2>
 <p>Handle[T] are a bit like scala’s Future[T], they allow to talk about something before it is even existing, and wait on it.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">xPlus2</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c1">//x.produce can be used to generate a new Handle when x is loaded</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">xPlus3</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">derivate</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">    </span><span class="c1">//x.derivate is as x.produce, but also provide the x.get as argument of the lambda function</span>
 <span class="n">x</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="c1">//x will now contain the value 3</span>

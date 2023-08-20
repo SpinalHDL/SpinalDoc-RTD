@@ -1194,7 +1194,7 @@
 <p><code class="docutils literal notranslate"><span class="pre">AFix.SQ(8</span> <span class="pre">bits,</span> <span class="pre">4</span> <span class="pre">bits)</span></code> will have a range of -4096 (-256) to 4095 (255.9375)</p>
 <p><code class="docutils literal notranslate"><span class="pre">AFix.U(8</span> <span class="pre">exp,</span> <span class="pre">4</span> <span class="pre">exp)</span></code> will have a range of 0 to 256</p>
 <p>Custom range <code class="docutils literal notranslate"><span class="pre">AFix</span></code> values can be created be directly instantiating the class.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AFix</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="n">maxValue</span><span class="p">:</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">minValue</span><span class="p">:</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">exp</span><span class="p">:</span><span class="w"> </span><span class="nc">ExpNumber</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AFix</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="n">maxValue</span><span class="p">:</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">minValue</span><span class="p">:</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">exp</span><span class="p">:</span><span class="w"> </span><span class="nc">ExpNumber</span><span class="p">)</span>
 
 <span class="k">new</span><span class="w"> </span><span class="nc">AFix</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">exp</span><span class="p">)</span><span class="w">     </span><span class="c1">// [0 to 4096, 2^0]</span>
 <span class="k">new</span><span class="w"> </span><span class="nc">AFix</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="w"> </span><span class="n">exp</span><span class="p">)</span><span class="w">  </span><span class="c1">// [-256 to 256, 2^-2]</span>
@@ -1241,12 +1241,12 @@ It does this by selecting the aligned maximum and minimum ranges from each of th
 <section id="inequality-operations">
 <h2>Inequality Operations<a class="headerlink" href="#inequality-operations" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">AFix</span></code> supports standard inequality operations.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">A</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">B</span><span class="w"></span>
-<span class="nc">A</span><span class="w"> </span><span class="o">=\=</span><span class="w"> </span><span class="nc">B</span><span class="w"></span>
-<span class="nc">A</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nc">B</span><span class="w"></span>
-<span class="nc">A</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nc">B</span><span class="w"></span>
-<span class="nc">A</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nc">B</span><span class="w"></span>
-<span class="nc">A</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nc">B</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">A</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">B</span>
+<span class="nc">A</span><span class="w"> </span><span class="o">=\=</span><span class="w"> </span><span class="nc">B</span>
+<span class="nc">A</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nc">B</span>
+<span class="nc">A</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nc">B</span>
+<span class="nc">A</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nc">B</span>
+<span class="nc">A</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nc">B</span>
 </pre></div>
 </div>
 <p>Warning: Operations which are out of range at compile time will be optimized out!</p>
@@ -1272,17 +1272,17 @@ consider the exponent.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">AFix</span></code> rounding modes:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// The following require exp &lt; 0</span>
-<span class="p">.</span><span class="n">floor</span><span class="p">()</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="p">.</span><span class="n">truncate</span><span class="p">()</span><span class="w"></span>
-<span class="p">.</span><span class="n">ceil</span><span class="p">()</span><span class="w"></span>
-<span class="p">.</span><span class="n">floorToZero</span><span class="p">()</span><span class="w"></span>
-<span class="p">.</span><span class="n">ceilToInf</span><span class="p">()</span><span class="w"></span>
+<span class="p">.</span><span class="n">floor</span><span class="p">()</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="p">.</span><span class="n">truncate</span><span class="p">()</span>
+<span class="p">.</span><span class="n">ceil</span><span class="p">()</span>
+<span class="p">.</span><span class="n">floorToZero</span><span class="p">()</span>
+<span class="p">.</span><span class="n">ceilToInf</span><span class="p">()</span>
 <span class="c1">// The following require exp &lt; -1</span>
-<span class="p">.</span><span class="n">roundHalfUp</span><span class="p">()</span><span class="w"></span>
-<span class="p">.</span><span class="n">roundHalfDown</span><span class="p">()</span><span class="w"></span>
-<span class="p">.</span><span class="n">roundHalfToZero</span><span class="p">()</span><span class="w"></span>
-<span class="p">.</span><span class="n">roundHalfToInf</span><span class="p">()</span><span class="w"></span>
-<span class="p">.</span><span class="n">roundHalfToEven</span><span class="p">()</span><span class="w"></span>
-<span class="p">.</span><span class="n">roundHalfToOdd</span><span class="p">()</span><span class="w"></span>
+<span class="p">.</span><span class="n">roundHalfUp</span><span class="p">()</span>
+<span class="p">.</span><span class="n">roundHalfDown</span><span class="p">()</span>
+<span class="p">.</span><span class="n">roundHalfToZero</span><span class="p">()</span>
+<span class="p">.</span><span class="n">roundHalfToInf</span><span class="p">()</span>
+<span class="p">.</span><span class="n">roundHalfToEven</span><span class="p">()</span>
+<span class="p">.</span><span class="n">roundHalfToOdd</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>An mathematical example of these rounding modes is better explained here: <a class="reference external" href="https://en.wikipedia.org/wiki/Rounding">Rounding - Wikipedia</a></p>
@@ -1294,24 +1294,24 @@ consider shifting or use an assignment with the <code class="docutils literal no
 <p><code class="docutils literal notranslate"><span class="pre">AFix</span></code> will automatically check and expand range and precision during assignment. By default, it is an error to assign
 an <code class="docutils literal notranslate"><span class="pre">AFix</span></code> value to another <code class="docutils literal notranslate"><span class="pre">AFix</span></code> value with smaller range or precision.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">.truncated</span></code> function is used to control how assignments to smaller types.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">truncated</span><span class="p">(</span><span class="n">saturation</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">overflow</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">rounding</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="nc">RoundType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RoundType</span><span class="p">.</span><span class="nc">FLOOR</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">truncated</span><span class="p">(</span><span class="n">saturation</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">              </span><span class="n">overflow</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="n">rounding</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="nc">RoundType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RoundType</span><span class="p">.</span><span class="nc">FLOOR</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">saturated</span><span class="p">():</span><span class="w"> </span><span class="nc">AFix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">truncated</span><span class="p">(</span><span class="n">saturation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">overflow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
+<span class="k">def</span><span class="w"> </span><span class="nf">saturated</span><span class="p">():</span><span class="w"> </span><span class="nc">AFix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">this</span><span class="p">.</span><span class="n">truncated</span><span class="p">(</span><span class="n">saturation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">overflow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">RoundType</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">RoundType</span><span class="p">.</span><span class="nc">FLOOR</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">CEIL</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">FLOORTOZERO</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">CEILTOINF</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDUP</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDDOWN</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDTOZERO</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDTOINF</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDTOEVEN</span><span class="w"></span>
-<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDTOODD</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">RoundType</span><span class="p">.</span><span class="nc">FLOOR</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">CEIL</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">FLOORTOZERO</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">CEILTOINF</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDUP</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDDOWN</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDTOZERO</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDTOINF</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDTOEVEN</span>
+<span class="nc">RoundType</span><span class="p">.</span><span class="nc">ROUNDTOODD</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">saturation</span></code> flag will add logic to saturate to the assigned datatype range.</p>

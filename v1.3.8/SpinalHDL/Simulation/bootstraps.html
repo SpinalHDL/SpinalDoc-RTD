@@ -308,21 +308,21 @@
 <p>There is an example hardware defintion + testbench :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Your hardware toplevel</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
 
 <span class="c1">//Your toplevel tester</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">DutTests</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="k">object</span><span class="w"> </span><span class="nc">DutTests</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">]):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
 <span class="w">      </span><span class="c1">//Simulation code here</span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -372,32 +372,32 @@
 </tbody>
 </table>
 <p>For example :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">spinalConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">defaultClockDomainFrequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="nc">MHz</span><span class="p">))</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">spinalConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">defaultClockDomainFrequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="nc">MHz</span><span class="p">))</span>
 
-<span class="nc">SimConfig</span><span class="w"></span>
-<span class="w">  </span><span class="p">.</span><span class="n">withConfig</span><span class="p">(</span><span class="n">spinalConfig</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">.</span><span class="n">withWave</span><span class="w"></span>
-<span class="w">  </span><span class="p">.</span><span class="n">allOptimisation</span><span class="w"></span>
-<span class="w">  </span><span class="p">.</span><span class="n">workspacePath</span><span class="p">(</span><span class="s">&quot;~/tmp&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">.</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="nc">SimConfig</span>
+<span class="w">  </span><span class="p">.</span><span class="n">withConfig</span><span class="p">(</span><span class="n">spinalConfig</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="n">withWave</span>
+<span class="w">  </span><span class="p">.</span><span class="n">allOptimisation</span>
+<span class="w">  </span><span class="p">.</span><span class="n">workspacePath</span><span class="p">(</span><span class="s">&quot;~/tmp&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
 <span class="w">  </span><span class="c1">//Simulation code here</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Note that by default, the simulation will work into the simWorkspace/xxx folders. You can override the simWorkspace location by setting the SPINALSIM_WORKSPACE environnement variable.</p>
 </section>
 <section id="running-multiple-tests-on-the-same-hardware">
 <h2>Running multiple tests on the same hardware<a class="headerlink" href="#running-multiple-tests-on-the-same-hardware" title="Permalink to this heading"></a></h2>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">compiled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Dut</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">compiled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Dut</span><span class="p">)</span>
 
-<span class="n">compiled</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;testA&quot;</span><span class="p">){</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="n">compiled</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;testA&quot;</span><span class="p">){</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
 <span class="w">   </span><span class="c1">//Simulation code here</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 
-<span class="n">compiled</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;testB&quot;</span><span class="p">){</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="n">compiled</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;testB&quot;</span><span class="p">){</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
 <span class="w">   </span><span class="c1">//Simulation code here</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>

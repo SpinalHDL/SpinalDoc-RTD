@@ -1027,21 +1027,21 @@
 </tbody>
 </table>
 <p>One practical example could be to check that the <code class="docutils literal notranslate"><span class="pre">valid</span></code> signal of a handshake protocol never drops when <code class="docutils literal notranslate"><span class="pre">ready</span></code> is low:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
 
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">ready</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">ready</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="w">  </span><span class="c1">// some logic</span>
 
-<span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="n">assertion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">valid</span><span class="p">.</span><span class="n">fall</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">ready</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">message</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Valid dropped when ready was low&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">severity</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">ERROR</span><span class="w"></span>
-<span class="w">  </span><span class="p">)</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">assert</span><span class="p">(</span>
+<span class="w">    </span><span class="n">assertion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">valid</span><span class="p">.</span><span class="n">fall</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">ready</span><span class="p">),</span>
+<span class="w">    </span><span class="n">message</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Valid dropped when ready was low&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">severity</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">ERROR</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>

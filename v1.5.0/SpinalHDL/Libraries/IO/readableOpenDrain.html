@@ -993,26 +993,26 @@
 <section id="id1">
 <h2>ReadableOpenDrain<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <p>The ReadableOpenDrain bundle is defined as following :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ReadableOpenDrain</span><span class="p">[</span><span class="nc">T</span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">HardType</span><span class="p">[</span><span class="nc">T</span><span class="p">])</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">write</span><span class="p">,</span><span class="n">read</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataType</span><span class="p">()</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ReadableOpenDrain</span><span class="p">[</span><span class="nc">T</span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">HardType</span><span class="p">[</span><span class="nc">T</span><span class="p">])</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">write</span><span class="p">,</span><span class="n">read</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataType</span><span class="p">()</span>
 
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">asMaster</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">out</span><span class="p">(</span><span class="n">write</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">in</span><span class="p">(</span><span class="n">read</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">asMaster</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">out</span><span class="p">(</span><span class="n">write</span><span class="p">)</span>
+<span class="w">    </span><span class="n">in</span><span class="p">(</span><span class="n">read</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Then, as a master, you can use the <code class="docutils literal notranslate"><span class="pre">read</span></code> signal to read the outside value and use the <code class="docutils literal notranslate"><span class="pre">write</span></code> to set the value that you want to drive on the output.</p>
 <p>There is an example of usage :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">dataBus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">ReadableOpenDrain</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">dataBus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">ReadableOpenDrain</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span>
+<span class="p">}</span>
 
-<span class="n">io</span><span class="p">.</span><span class="n">dataBus</span><span class="p">.</span><span class="n">write</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mh">0x12345678</span><span class="w"></span>
-<span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">dataBus</span><span class="p">.</span><span class="n">read</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">42</span><span class="p">){</span><span class="w"></span>
+<span class="n">io</span><span class="p">.</span><span class="n">dataBus</span><span class="p">.</span><span class="n">write</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mh">0x12345678</span>
+<span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">dataBus</span><span class="p">.</span><span class="n">read</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">42</span><span class="p">){</span>
 
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
