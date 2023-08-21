@@ -6,7 +6,8 @@ UInt/SInt
 Description
 -----------
 
-The ``UInt``/``SInt`` type corresponds to a vector of bits that can be used for signed/unsigned integer arithmetic.
+The ``UInt``/``SInt`` types are a vectors of bits interpreted as two's complement unsigned/signed integers.
+They can do what ``Bits`` can do, with the addition of unsigned/signed integer arithmetic and comparisons.
 
 Declaration
 -----------
@@ -15,43 +16,33 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
 
 .. list-table::
    :header-rows: 1
-   :widths: 5 10 2
+   :widths: 5 10
 
    * - Syntax
      - Description
-     - Return
    * - | UInt[()]
        | SInt[()]
      - Create an unsigned/signed integer, bits count is inferred
-     - | UInt
-       | SInt
    * - | UInt(x bits)
        | SInt(x bits)
      - Create an unsigned/signed integer with x bits
-     - | UInt
-       | SInt
    * - | U(value: Int[,x bits])
        | U(value: BigInt[,x bits])
        | S(value: Int[,x bits])
        | S(value: BigInt[,x bits])
      - Create an unsigned/signed integer assigned with 'value'
-     - | UInt
-       | SInt
    * - | U"[[size']base]value"
        | S"[[size']base]value"
-     - Create an unsigned/signed integer assigned with 'value' (Base : 'h', 'd', 'o', 'b')
-     - | UInt
-       | SInt
-   * - | U([x bits,] :ref:`element <element>`, ...)
-       | S([x bits,] :ref:`element <element>`, ...)
-     - Create an unsigned integer assigned with the value specified by elements
-     - | UInt
-       | SInt
+     - | Create an unsigned/signed integer assigned with 'value'
+       | (base: 'h', 'd', 'o', 'b')
+   * - | U([x bits,] elements: Element*)
+       | S([x bits,] elements: Element*)
+     - Create an unsigned integer assigned with the value specified by :ref:`elements <element>`
 
 .. code-block:: scala
 
-   val myUInt = UInt(8 bits)
-   myUInt := U(2,8 bits)
+   val myUInt = UInt(8 bit)
+   myUInt := U(2, 8 bit)
    myUInt := U(2)
    myUInt := U"0000_0101"  // Base per default is binary => 5
    myUInt := U"h1A"        // Base could be x (base 16)
@@ -63,10 +54,12 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
    myUInt := 2             // You can use a Scala Int as a literal value
 
    val myBool = Bool()
-   myBool := myUInt === U(7 -> true,(6 downto 0) -> false)
+   myBool := myUInt === U(7 -> true, (6 downto 0) -> false)
+   myBool := myUInt === U(8 bit, 7 -> true, default -> false)
    myBool := myUInt === U(myUInt.range -> true)
 
-   // For assignment purposes, you can omit the U/S, which also allows the use of the [default -> ???] feature
+   // For assignment purposes, you can omit the U/S
+   // which also allows the use of "default -> ???"
    myUInt := (default -> true)                        // Assign myUInt with "11111111"
    myUInt := (myUInt.range -> true)                   // Assign myUInt with "11111111"
    myUInt := (7 -> true, default -> false)            // Assign myUInt with "10000000"
@@ -136,25 +129,25 @@ Logic
      - T(w(x) bits)
    * - x.clearAll[()]
      - Clear all bits
-     - 
+     - *modifies x*
    * - x.setAll[()]
      - Set all bits
-     - 
+     - *modifies x*
    * - x.setAllTo(value : Boolean)
      - Set all bits to the given Boolean value
-     - 
+     - *modifies x*
    * - x.setAllTo(value : Bool)
      - Set all bits to the given Bool value
-     - 
+     - *modifies x*
 
 .. note::
 
-   Notice the difference in behaviour between ``x >> 2``:T(w(x)-2) and ``x >> U(2)``:T(w(x))
+   Notice the difference in behaviour between ``x >> 2`` (result 2 bit narrower than x) and ``x >> U(2)`` (keeping width)
    due to the Scala type of :code:`y`.
 
-   The difference is that in the first case 2 is an ``Int`` (which can be seen as an
+   In the first case "2" is an ``Int`` (which can be seen as an
    "elaboration integer constant"), and in the second case it is a hardware signal
-   (type ``UInt``) that may or may-not be a constant.
+   (type ``UInt``) that may or may not be a constant.
 
 .. code-block:: scala
 
@@ -234,6 +227,7 @@ Arithmetic
    val d = a +^ b
    assert(d === U"9'x0ff")
 
+   // 0xf0 + 0x20 would overflow, the result therefore saturates
    val e = a +| U"8'x20"
    assert(e === U"8'xff")
 
@@ -542,7 +536,7 @@ to use the return values to assign to the original signal.
 
    // Concatenation
    val mySInt = mySInt_1 @@ mySInt_1 @@ myBool   
-   val myBits = mySInt_1 ## mySInt_1 ## myBool   
+   val myBits = mySInt_1 ## mySInt_1 ## myBool
 
    // Resize
    myUInt_32bits := U"32'x112233344"
