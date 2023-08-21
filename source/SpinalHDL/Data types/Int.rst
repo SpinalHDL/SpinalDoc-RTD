@@ -324,6 +324,19 @@ Type cast
    * - x.intoSInt
      - Convert to SInt expanding sign bit
      - SInt(w(x) + 1 bits)
+   * - myUInt.twoComplement(en: Bool)
+     - Generate two's complement of number if ``en`` is ``True``, unchanged otherwise. (``en`` makes result negative)
+     - SInt(w(myUInt) + 1, bits)
+   * - mySInt.abs
+     - Return the absolute value as a UInt value
+     - UInt(w(mySInt) bits)
+   * - mySInt.abs(en: Bool)
+     - Return the absolute value as a UInt value when ``en`` is ``True``, otherwise just reinterpret bits as unsigned
+     - UInt(w(mySInt) bits)
+   * - mySInt.absWithSym
+     - Return the absolute value of the UInt value with symmetric, shrink 1 bit
+     - UInt(w(mySInt) - 1 bits)
+
 
 To cast a ``Bool``, a ``Bits``, or an ``SInt`` into a ``UInt``, you can use ``U(something)``. To cast things into an ``SInt``, you can use ``S(something)``.
 
@@ -338,52 +351,136 @@ To cast a ``Bool``, a ``Bits``, or an ``SInt`` into a ``UInt``, you can use ``U(
    // Cast a Bits to SInt
    val mySInt = S(myBits)
 
+   // UInt to SInt conversion
+   val UInt_30 = U(30, 8 bit)
+
+   val SInt_30 = UInt_30.intoSInt
+   assert(SInt_30 === S(30, 9 bit))
+
+   mySInt := UInt_30.twoComplement(booleanDoInvert)
+       // if booleanDoInvert is True then we get S(-30, 9 bit)
+       // otherwise we get S(30, 9 bit)
+
+   // absolute values
+   val SInt_n_4 = S(-3, 3 bit)
+   val abs_en = SInt_n_3.abs(booleanDoAbs)
+       // if booleanDoAbs is True we get U(3, 3 bit)
+       // otherwise we get U"3'b101" or U(5, 3 bit) (raw bit pattern of -3)
+
+   val SInt_n_128 = S(-128, 8 bit)
+   val abs = SInt_n_128.abs
+   assert(abs === U(128, 8 bit))
+   val sym_abs = SInt_n_128.absWithSym
+   assert(sym_abs === U(127, 7 bit))
+
 Bit extraction
 ^^^^^^^^^^^^^^
 
+All of the bit extraction operations can be used to read a bit / group of bits. Like in other HDLs
+the extraction operators can also be used to assign a part of a ``UInt`` / ``SInt`` .
+
 .. list-table::
    :header-rows: 1
-   :widths: 2 6 2
+   :widths: 2 4 2
 
    * - Operator
      - Description
      - Return
-   * - x(y)
-     - Readbit, y : Int/UInt
+   * - x(y: Int)
+     - Static bit access of y-th bit
      - Bool
-   * - x(offset, width)
-     - Read bitfield, offset: UInt, width: Int
-     - T(width bits)
-   * - x(\ :ref:`range <range>`\ )
-     - Read a range of bits. Ex : myBits(4 downto 2)
-     - T(range bits)
-   * - x(y) := z
-     - Assign bits, y : Int/UInt
+   * - x(x: UInt)
+     - Variable bit access of y-th bit
      - Bool
-   * - x(offset, width) := z
-     - Assign bitfield, offset: UInt, width: Int
-     - T(width bits)
-   * - x(\ :ref:`range <range>`\ ) := z
-     - Assign a range of bit. Ex : myBits(4 downto 2) := U"010"
-     - T(range bits)
+   * - x(offset: Int, width bits)
+     - Fixed part select of fixed width, offset is LSB index
+     - Bits(width bits)
+   * - x(offset: UInt, width bits)
+     - Variable part-select of fixed width, offset is LSB index
+     - Bits(width bits)
+   * - x(range: Range)
+     - Access a :ref:`range <range>` of bits. Ex : myBits(4 downto 2)
+     - Bits(range.size bits)
+   * - x.subdivideIn(y slices, [strict: Boolean])
+     - Subdivide x into y slices, y: Int
+     - Vec(Bits(...), y)
+   * - x.subdivideIn(y bits, [strict: Boolean])
+     - Subdivide x in multiple slices of y bits, y: Int
+     - Vec(Bits(y bit), ...)
+   * - x.msb
+     - Access most significant bit of x (highest index)
+     - Bool
+   * - x.lsb
+     - Access lowest significant bit of x (index 0)
+     - Bool
+   * - mySInt.sign
+     - Access most significant (sign) bit
+     - Bool
+
+
+
+Some basic examples:
 
 .. code-block:: scala
 
-   // get the bit at index 4
+   // get the element at the index 4
    val myBool = myUInt(4)
+   // assign element 1
+   myUInt(1) := True
 
-   // assign bit 1 to True
-   mySInt(1) := True
+   // index dynamically
+   val index = UInt(2 bit)
+   val indexed = myUInt(index, 2 bit)
 
-   // Range
-   val myUInt_8bits = myUInt_16bits(7 downto 0)
-   val myUInt_7bits = myUInt_16bits(0 to 6)
-   val myUInt_6bits = myUInt_16Bits(0 until 6)
+   // range index
+   val myUInt_8bit = myUInt_16bit(7 downto 0)
+   val myUInt_7bit = myUInt_16bit(0 to 6)
+   val myUInt_6bit = myUInt_16bit(0 until 6)
+   // assign to myUInt_16bit(3 downto 0)
+   myUInt_8bit(3 downto 0) := myUInt_4bit
 
-   mySInt_8bits(3 downto 0) := mySInt_4bits
+   // equivalent slices, no reversing occurs
+   val a = myUInt_16bit(8 downto 4)
+   val b = myUInt_16bit(4 to 8)
+
+   // read / assign the msb / leftmost bit / x.high bit
+   val isNegative = mySInt_16bit.sign
+   myUInt_16bit.msb := False
+
+Subdivide details
+"""""""""""""""""
+
+Both overloads of ``subdivideIn`` have an optional parameter ``strict`` (i.e. ``subdivideIn(slices: SlicesCount, strict: Boolean = true)``).
+If ``strict`` is ``true`` an error will be raised if the input could not be divided evenly. If set to ``false`` the generated pieces may
+have varying size if necessary.
+
+.. code-block:: scala
+
+   // Subdivide
+   val sel = UInt(2 bits)
+   val myUIntWord = myUInt_128bits.subdivideIn(32 bits)(sel)
+       // sel = 3 => myUIntWord = myUInt_128bits(127 downto 96)
+       // sel = 2 => myUIntWord = myUInt_128bits( 95 downto 64)
+       // sel = 1 => myUIntWord = myUInt_128bits( 63 downto 32)
+       // sel = 0 => myUIntWord = myUInt_128bits( 31 downto  0)
+
+    // If you want to access in reverse order you can do:
+    val myVector   = myUInt_128bits.subdivideIn(32 bits).reverse
+    val myRevUIntWord = myVector(sel)
+
+    // We can also assign through subdivides
+    val output8 = UInt(8 bit)
+    val pieces = output8.subdivideIn(2 slices)
+    // assign to output8
+    pieces(0) := 0xf
+    pieces(1) := 0x5
 
 Misc
 ^^^^
+
+The operations listed below that create hardware signals all create new signals.
+In contrast to the bit extraction operations listed above it's not possible
+to use the return values to assign to the original signal.
 
 .. list-table::
    :header-rows: 1
@@ -395,12 +492,6 @@ Misc
    * - x.getWidth
      - Return bitcount
      - Int
-   * - x.msb
-     - Return the bit-field value of the most significant bit
-     - Bool
-   * - x.lsb
-     - Return the bit-field value of the least significant bit
-     - Bool
    * - x.high
      - Return the index of the MSB (highest allowed index for Int)
      - Int
@@ -422,12 +513,6 @@ Misc
    * - x @@ y
      - Concatenate x:T with y:Bool/SInt/UInt
      - T(w(x) + w(y) bits)
-   * - x.subdivideIn(y slices)
-     - Subdivide x into y slices, y: Int
-     - Vec(T,  y)
-   * - x.subdivideIn(y bits)
-     - Subdivide x into multiple slices of y bits, y: Int
-     - Vec(T, w(x)/y)
    * - x.resize(y)
      - | Return a resized copy of x, if enlarged, it is filled with zero
        | for UInt or filled with the sign for SInt, y: Int
@@ -436,24 +521,9 @@ Misc
      - | Return a version of x which is allowed to be automatically 
        | resized where needed
      - T(w(x) bits)
-   * - myUInt.twoComplement(en: Bool)
-     - Use the two's complement to transform an UInt into an SInt
-     - SInt(w(myUInt) + 1, bits)
-   * - mySInt.abs
-     - Return the absolute value as a UInt value
-     - UInt(w(mySInt), bits)
-   * - mySInt.abs(en: Bool)
-     - Return the absolute value as a UInt value when en is True
-     - UInt(w(mySInt), bits)
-   * - mySInt.sign
-     - Return most significant bit
-     - Bool
    * - x.expand
      - Return x with 1 bit expand
      - T(w(x)+1 bits)
-   * - mySInt.absWithSym
-     - Return the absolute value of the UInt value with symmetric, shrink 1 bit
-     - UInt(w(mySInt) - 1 bits)
    * - x.getZero
      - Return a new instance of type T that is assigned a constant value of zeros the same width as x.
      - T(0, w(x) bits).clearAll()
@@ -474,21 +544,9 @@ Misc
    val mySInt = mySInt_1 @@ mySInt_1 @@ myBool   
    val myBits = mySInt_1 ## mySInt_1 ## myBool   
 
-   // Subdivide
-   val sel = UInt(2 bits)
-   val mySIntWord = mySInt_128bits.subdivideIn(32 bits)(sel)
-       // sel = 3 => mySIntWord = mySInt_128bits(127 downto 96)
-       // sel = 2 => mySIntWord = mySInt_128bits( 95 downto 64)
-       // sel = 1 => mySIntWord = mySInt_128bits( 63 downto 32)
-       // sel = 0 => mySIntWord = mySInt_128bits( 31 downto  0)
-
-    // If you want to access in reverse order you can do:
-    val myVector   = mySInt_128bits.subdivideIn(32 bits).reverse
-    val mySIntWord = myVector(sel)
-
    // Resize
    myUInt_32bits := U"32'x112233344"
-   myUInt_8bits  := myUInt_32bits.resized       // automatic resize (myUInt_8bits = 0x44)
+   myUInt_8bits  := myUInt_32bits.resized      // automatic resize (myUInt_8bits = 0x44)
    val lowest_8bits = myUInt_32bits.resize(8)  // resize to 8 bits (myUInt_8bits = 0x44)
 
 
