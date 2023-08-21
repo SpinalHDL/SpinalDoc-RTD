@@ -3,7 +3,7 @@
 Bits
 ====
 
-The ``Bits`` type represents a vector of bits without conveying any arithmetic meaning.
+The ``Bits`` type is a vector of bits without conveying any arithmetic meaning.
 
 Declaration
 -----------
@@ -12,28 +12,22 @@ The syntax to declare a bit vector is as follows (everything between [] is optio
 
 .. list-table::
    :header-rows: 1
-   :widths: 6 10 1
+   :widths: 5 10
 
    * - Syntax
      - Description
-     - Return
    * - Bits [()]
      - Create Bits, bit count is inferred from the widest assignment statement
        after construction
-     - Bits
    * - Bits(x bits)
      - Create Bits with x bits
-     - Bits
    * - | B(value: Int[, x bits])
        | B(value: BigInt[, x bits])
      - Create Bits with x bits assigned with 'value'
-     - Bits
    * - B"[[size']base]value"
      - Create Bits assigned with 'value' (base: 'h', 'd', 'o', 'b')
-     - Bits
    * - B([x bits,] elements: Element*)
      - Create Bits assigned with the value specified by :ref:`elements <element>`
-     - Bits
 
 
 .. code-block:: scala
@@ -341,11 +335,11 @@ have varying size if necessary.
 
     // If you want to access in reverse order you can do:
     val myVector   = myBits_128bits.subdivideIn(32 bits).reverse
-    val myBitsWord = myVector(sel)
+    val myRevBitsWord = myVector(sel)
 
     // We can also assign through subdivides
     val output8 = Bits(8 bit)
-    val pieces = someOutput.subdivideIn(2 slices)
+    val pieces = output8.subdivideIn(2 slices)
     // assign to output8
     pieces(0) := 0xf
     pieces(1) := 0x5
