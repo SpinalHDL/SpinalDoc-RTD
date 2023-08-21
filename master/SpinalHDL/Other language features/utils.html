@@ -576,7 +576,10 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Other language features</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Utils</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general">General</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cat">Cat</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#cloning-hardware-datatypes">Cloning hardware datatypes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#passing-a-datatype-as-construction-parameter">Passing a datatype as construction parameter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#the-old-way">The old way</a></li>
@@ -1203,12 +1206,39 @@
 <td><p>BigInt</p></td>
 <td><p>Return the first <code class="docutils literal notranslate"><span class="pre">by</span></code> multiply from <code class="docutils literal notranslate"><span class="pre">that</span></code> (included)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Cat(x</span> <span class="pre">:</span> <span class="pre">Data*)</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Cat(x:</span> <span class="pre">Data*)</span></code></p></td>
 <td><p>Bits</p></td>
-<td><p>Concatenate all arguments, the first in MSB, the last in LSB</p></td>
+<td><p>Concatenate all arguments, from MSB to LSB, see <a class="reference internal" href="#cat">Cat</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Cat(x:</span> <span class="pre">Iterable[Data])</span></code></p></td>
+<td><p>Bits</p></td>
+<td><p>Conactenate arguments, from LSB to MSB, see <a class="reference internal" href="#cat">Cat</a></p></td>
 </tr>
 </tbody>
 </table>
+<section id="cat">
+<span id="id2"></span><h3>Cat<a class="headerlink" href="#cat" title="Permalink to this heading"></a></h3>
+<p>As listed above, there are two version of <code class="docutils literal notranslate"><span class="pre">Cat</span></code>. Both versions concatenate the signals they contain, with a subtle difference:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Cat(x:</span> <span class="pre">Data*)</span></code> takes an arbitrary number of hardware signals as parameters.
+It mimics other HDLs and the leftmost parameter becomes the MSB of the resulting <code class="docutils literal notranslate"><span class="pre">Bits</span></code>, the rightmost the LSB side. Said differently:
+the input is concatenated in the order as written.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cat(x:</span> <span class="pre">Iterable[Data])</span></code> which takes a single Scala iterable collection (Seq / Set / List / …) containing hardware signals.
+This version places the first element of the list into the LSB, and the last into the MSB.</p></li>
+</ul>
+<p>This seeming difference comes mostly from the convention that <code class="docutils literal notranslate"><span class="pre">Bits</span></code> are written from the hightest index to the lowest index, while
+Lists are written down starting from index 0 to the highest index. <code class="docutils literal notranslate"><span class="pre">Cat</span></code> places index 0 of both conventions at the LSB.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">bit0</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Cat</span><span class="p">(</span><span class="n">bit2</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit0</span><span class="p">)</span>
+
+<span class="c1">// is equivalent to</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">signals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">bit0</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit2</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Cat</span><span class="p">(</span><span class="n">signals</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="cloning-hardware-datatypes">
 <h2>Cloning hardware datatypes<a class="headerlink" href="#cloning-hardware-datatypes" title="Permalink to this heading"></a></h2>
@@ -1400,7 +1430,7 @@ This way of doing things is easier to use than the “old way”, because to cre
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~0dc121857 2023-08-07
+    Version: master git~1a3a237a4 2023-08-21
     </p></div>
     
 
