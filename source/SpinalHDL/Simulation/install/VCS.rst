@@ -126,4 +126,4 @@ Sometimes, IP vendors will provide you with some design entites in Verilog/VHDL 
 The integration can done by following two ways:
 
 1. In a ``Blackbox`` definition, use ``addRTLPath(path: String)`` to assign a external Verilog/VHDL file to this blackbox.
-2. Use the method ``mergeRTLSource(fileName: String=null)`` of ``SpinalConfig``.
+2. Use the method ``mergeRTLSource(fileName: String=null)`` of ``SpinalReport``.
