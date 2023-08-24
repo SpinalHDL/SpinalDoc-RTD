@@ -3,10 +3,7 @@
 UInt/SInt
 =========
 
-Description
------------
-
-The ``UInt``/``SInt`` types are a vectors of bits interpreted as two's complement unsigned/signed integers.
+The ``UInt``/``SInt`` types are vectors of bits interpreted as two's complement unsigned/signed integers.
 They can do what ``Bits`` can do, with the addition of unsigned/signed integer arithmetic and comparisons.
 
 Declaration
@@ -402,13 +399,13 @@ the extraction operators can also be used to assign a part of a ``UInt`` / ``SIn
      - Subdivide x in multiple slices of y bits, y: Int
      - Vec(Bits(y bit), ...)
    * - x.msb
-     - Access most significant bit of x (highest index)
+     - Access most significant bit of x (highest index, sign bit for SInt)
      - Bool
    * - x.lsb
      - Access lowest significant bit of x (index 0)
      - Bool
    * - mySInt.sign
-     - Access most significant (sign) bit
+     - Access most sign bit, only SInt
      - Bool
 
 
@@ -445,8 +442,8 @@ Subdivide details
 """""""""""""""""
 
 Both overloads of ``subdivideIn`` have an optional parameter ``strict`` (i.e. ``subdivideIn(slices: SlicesCount, strict: Boolean = true)``).
-If ``strict`` is ``true`` an error will be raised if the input could not be divided evenly. If set to ``false`` the generated pieces may
-have varying size if necessary.
+If ``strict`` is ``true`` an error will be raised if the input could not be divided into equal parts. If set to ``false`` the last element may
+be smaller than the other (equal sized) elements.
 
 .. code-block:: scala
 
@@ -472,7 +469,6 @@ have varying size if necessary.
 Misc
 ^^^^
 
-The operations listed below that create hardware signals all create new signals.
 In contrast to the bit extraction operations listed above it's not possible
 to use the return values to assign to the original signal.
 

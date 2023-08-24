@@ -320,8 +320,8 @@ Subdivide details
 """""""""""""""""
 
 Both overloads of ``subdivideIn`` have an optional parameter ``strict`` (i.e. ``subdivideIn(slices: SlicesCount, strict: Boolean = true)``).
-If ``strict`` is ``true`` an error will be raised if the input could not be divided evenly. If set to ``false`` the generated pieces may
-have varying size if necessary.
+If ``strict`` is ``true`` an error will be raised if the input could not be divided into equal parts. If set to ``false`` the last element may
+be smaller than the other (equal sized) elements.
 
 .. code-block:: scala
 
@@ -347,7 +347,6 @@ have varying size if necessary.
 Misc
 ^^^^
 
-The operations listed below that create hardware signals all create new signals.
 In contrast to the bit extraction operations listed above it's not possible
 to use the return values to assign to the original signal.
 
