@@ -13,7 +13,7 @@ Below is a list of ``ClockDomain`` stimulation functions:
    * - ClockDomain stimulus functions
      - Description
    * - ``forkStimulus(period)``
-     - Fork a simulation process to generate the clockdomain stimulus (clock, reset, softReset, clockEnable signals)
+     - Fork a simulation process to generate the ClockDomain stimulus (clock, reset, softReset, clockEnable signals)
    * - ``forkSimSpeedPrinter(printPeriod)``
      - Fork a simulation process which will periodically print the simulation speed in kilo-cycles per real time second. ``printPeriod`` is in realtime seconds
    * - ``clockToggle()``
@@ -67,7 +67,7 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
      
 
 .. warning::
-   All the functionalities of the wait API can only be called from inside of a thread, and not from a callback.
+   All the functionality of the wait API can only be called directly from inside a thread, and not from a callback executed via the Callback API.
 
 .. _sim_clock_threadless:
 
