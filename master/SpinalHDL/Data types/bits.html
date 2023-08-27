@@ -223,7 +223,6 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Bits</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#description">Description</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#declaration">Declaration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#operators">Operators</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#logic">Logic</a></li>
@@ -231,13 +230,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#type-cast">Type cast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#bit-extraction">Bit extraction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#misc">Misc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#maskedliteral">MaskedLiteral</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#maskedliteral">MaskedLiteral</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Int.html">UInt/SInt</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Int.html#description">Description</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Int.html#declaration">Declaration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Int.html#operators">Operators</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="Int.html#logic">Logic</a></li>
@@ -1174,63 +1172,44 @@
 
   <section id="bits">
 <span id="id1"></span><h1>Bits<a class="headerlink" href="#bits" title="Permalink to this heading"></a></h1>
-<section id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Bits</span></code> type corresponds to a vector of bits that does not convey any arithmetic meaning.</p>
-</section>
+<p>The <code class="docutils literal notranslate"><span class="pre">Bits</span></code> type is a vector of bits without conveying any arithmetic meaning.</p>
 <section id="declaration">
 <h2>Declaration<a class="headerlink" href="#declaration" title="Permalink to this heading"></a></h2>
-<p>The syntax to declare a bit vector is as follows: (everything between [] is optional)</p>
+<p>The syntax to declare a bit vector is as follows (everything between [] is optional):</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 29%" />
-<col style="width: 59%" />
-<col style="width: 12%" />
+<col style="width: 33%" />
+<col style="width: 67%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Syntax</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Return</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Bits [()]</p></td>
-<td><p>Create a BitVector, bit count is inferred from the widest assignment statement
+<td><p>Create Bits, bit count is inferred from the widest assignment statement
 after construction</p></td>
-<td><p>Bits</p></td>
 </tr>
 <tr class="row-odd"><td><p>Bits(x bits)</p></td>
-<td><p>Create a BitVector with x bits</p></td>
-<td><p>Bits</p></td>
+<td><p>Create Bits with x bits</p></td>
 </tr>
 <tr class="row-even"><td><div class="line-block">
 <div class="line">B(value: Int[, x bits])</div>
 <div class="line">B(value: BigInt[, x bits])</div>
 </div>
 </td>
-<td><p>Create a BitVector with x bits assigned with ‘value’</p></td>
-<td><p>Bits</p></td>
+<td><p>Create Bits with x bits assigned with ‘value’</p></td>
 </tr>
 <tr class="row-odd"><td><p>B”[[size’]base]value”</p></td>
-<td><p>Create a BitVector assigned with ‘value’ (Base: ‘h’, ‘d’, ‘o’, ‘b’)</p></td>
-<td><p>Bits</p></td>
+<td><p>Create Bits assigned with ‘value’ (base: ‘h’, ‘d’, ‘o’, ‘b’)</p></td>
 </tr>
-<tr class="row-even"><td><p>B([x bits,] <a class="reference internal" href="../miscelenea/core/elements.html#element"><span class="std std-ref">element</span></a>, …)</p></td>
-<td><p>Create a BitVector assigned with the value specified by elements</p></td>
-<td><p>Bits</p></td>
+<tr class="row-even"><td><p>B([x bits,] elements: Element*)</p></td>
+<td><p>Create Bits assigned with the value specified by <a class="reference internal" href="../miscelenea/core/elements.html#element"><span class="std std-ref">elements</span></a></p></td>
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Declaration</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">()</span><span class="w">     </span><span class="c1">// the size is inferred from the widest assignment</span>
-<span class="c1">// ....</span>
-<span class="c1">// .resized needed to prevent WIDTH MISMATCH error as natural width does not match inferred size</span>
-<span class="n">myBits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="s">&quot;1010&quot;</span><span class="p">).</span><span class="n">resized</span><span class="w">  </span><span class="c1">// auto-widen Bits(4 bits) to Bits(6 bits)</span>
-<span class="n">when</span><span class="p">(</span><span class="n">condxMaybe</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">myBits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="s">&quot;110000&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// Bits(6 bits) would be inferred for myBits, this is the widest assignment</span>
-<span class="p">}</span>
-
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myBits1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;8&#39;xFF&quot;</span><span class="w">   </span><span class="c1">// Base could be x,h (base 16)</span>
 <span class="w">                         </span><span class="c1">//               d   (base 10)</span>
@@ -1238,11 +1217,29 @@ after construction</p></td>
 <span class="w">                         </span><span class="c1">//               b   (base 2)</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myBits4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;1001_0011&quot;</span><span class="w">  </span><span class="c1">// _ can be used for readability</span>
 
-<span class="c1">// Element</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span><span class="w"> </span><span class="c1">// &quot;11111111&quot;</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;101&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">True</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="c1">// &quot;10111000&quot;</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="n">myBits7</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="c1">// &quot;10000000&quot; (For assignment purposes, you can omit the B)</span>
+<span class="c1">// Bits with all ones (&quot;11111111&quot;)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">True</span><span class="p">)</span>
+
+<span class="c1">// initialize with &quot;10111000&quot; through a few elements</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;101&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">True</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+
+<span class="c1">// &quot;10000000&quot; (For assignment purposes, you can omit the B)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="n">myBits7</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When inferring the width of a <code class="docutils literal notranslate"><span class="pre">Bits</span></code> the sizes of assigned values still have to match
+the final size of the signal:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Declaration</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">()</span><span class="w">     </span><span class="c1">// the size is inferred from the widest assignment</span>
+<span class="c1">// ....</span>
+<span class="c1">// .resized needed to prevent WIDTH MISMATCH error as the constants</span>
+<span class="c1">// width does not match size that is inferred from assignment below</span>
+<span class="n">myBits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="s">&quot;1010&quot;</span><span class="p">).</span><span class="n">resized</span><span class="w">  </span><span class="c1">// auto-widen Bits(4 bits) to Bits(6 bits)</span>
+<span class="n">when</span><span class="p">(</span><span class="n">condxMaybe</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Bits(6 bits) is inferred for myBits, this is the widest assignment</span>
+<span class="w">  </span><span class="n">myBits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="s">&quot;110000&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -1374,19 +1371,19 @@ after construction</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.clearAll[()]</p></td>
 <td><p>Clear all bits</p></td>
-<td></td>
+<td><p><em>modifies x</em></p></td>
 </tr>
 <tr class="row-even"><td><p>x.setAll[()]</p></td>
 <td><p>Set all bits</p></td>
-<td></td>
+<td><p><em>modifies x</em></p></td>
 </tr>
 <tr class="row-odd"><td><p>x.setAllTo(value: Boolean)</p></td>
 <td><p>Set all bits to the given Boolean value</p></td>
-<td></td>
+<td><p><em>modifies x</em></p></td>
 </tr>
 <tr class="row-even"><td><p>x.setAllTo(value: Bool)</p></td>
 <td><p>Set all bits to the given Bool value</p></td>
-<td></td>
+<td><p><em>modifies x</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -1432,10 +1429,10 @@ after construction</p></td>
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">myBits</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// ...</span>
 <span class="p">}</span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">myBits_32</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;32&#39;x44332211&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="p">}</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">notMySpecialValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_32</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;32&#39;x44332211&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -1493,11 +1490,15 @@ after construction</p></td>
 </section>
 <section id="bit-extraction">
 <h3>Bit extraction<a class="headerlink" href="#bit-extraction" title="Permalink to this heading"></a></h3>
+<p>All of the bit extraction operations can be used to read a bit / group of bits. Like in other HDLs
+the extraction operators can also be used to assign a part of a <code class="docutils literal notranslate"><span class="pre">Bits</span></code>.</p>
+<p>All of the bit extraction operations can be used to read a bit / group of bits. Like in other HDLs They
+can also be used to select a range of bits to be written.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 22%" />
-<col style="width: 56%" />
-<col style="width: 22%" />
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Operator</p></th>
@@ -1506,49 +1507,101 @@ after construction</p></td>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>x(y)</p></td>
-<td><p>Readbit, y: Int/UInt</p></td>
+<tr class="row-even"><td><p>x(y: Int)</p></td>
+<td><p>Static bit access of y-th bit</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-odd"><td><p>x(offset,width bits)</p></td>
-<td><p>Read bitfield, offset: UInt, width: Int</p></td>
-<td><p>Bits(width bits)</p></td>
-</tr>
-<tr class="row-even"><td><p>x(<a class="reference internal" href="../miscelenea/core/elements.html#range"><span class="std std-ref">range</span></a>)</p></td>
-<td><p>Read a range of bit. Ex : myBits(4 downto 2)</p></td>
-<td><p>Bits(range bits)</p></td>
-</tr>
-<tr class="row-odd"><td><p>x(y) := z</p></td>
-<td><p>Assign a single bit, y: Int/UInt</p></td>
+<tr class="row-odd"><td><p>x(x: UInt)</p></td>
+<td><p>Variable bit access of y-th bit</p></td>
 <td><p>Bool</p></td>
 </tr>
-<tr class="row-even"><td><p>x(offset, width bits) := z</p></td>
-<td><p>Assign bitfield, offset: UInt, width: Int</p></td>
+<tr class="row-even"><td><p>x(offset: Int, width bits)</p></td>
+<td><p>Fixed part select of fixed width, offset is LSB index</p></td>
 <td><p>Bits(width bits)</p></td>
 </tr>
-<tr class="row-odd"><td><p>x(<a class="reference internal" href="../miscelenea/core/elements.html#range"><span class="std std-ref">range</span></a>) := z</p></td>
-<td><p>Assign a range of bits. Ex : myBits(4 downto 2) := B”010”</p></td>
-<td><p>Bits(range bits)</p></td>
+<tr class="row-odd"><td><p>x(offset: UInt, width bits)</p></td>
+<td><p>Variable part-select of fixed width, offset is LSB index</p></td>
+<td><p>Bits(width bits)</p></td>
+</tr>
+<tr class="row-even"><td><p>x(range: Range)</p></td>
+<td><p>Access a <a class="reference internal" href="../miscelenea/core/elements.html#range"><span class="std std-ref">range</span></a> of bits. Ex : myBits(4 downto 2)</p></td>
+<td><p>Bits(range.size bits)</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.subdivideIn(y slices, [strict: Boolean])</p></td>
+<td><p>Subdivide x into y slices, y: Int</p></td>
+<td><p>Vec(Bits(…), y)</p></td>
+</tr>
+<tr class="row-even"><td><p>x.subdivideIn(y bits, [strict: Boolean])</p></td>
+<td><p>Subdivide x in multiple slices of y bits, y: Int</p></td>
+<td><p>Vec(Bits(y bit), …)</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.msb</p></td>
+<td><p>Access most significant bit of x (highest index)</p></td>
+<td><p>Bool</p></td>
+</tr>
+<tr class="row-even"><td><p>x.lsb</p></td>
+<td><p>Access lowest significant bit of x (index 0)</p></td>
+<td><p>Bool</p></td>
 </tr>
 </tbody>
 </table>
+<p>Some basic examples:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// get the element at the index 4</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myBool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-
-<span class="c1">// assign</span>
+<span class="c1">// assign element 1</span>
 <span class="n">myBits</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
 
-<span class="c1">// Range</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits_8bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16bits</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits_7bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16bits</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits_6bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16Bits</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
+<span class="c1">// index dynamically</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">indexed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
 
-<span class="n">myBits_8bits</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myBits_4bits</span>
+<span class="c1">// range index</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits_8bit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16bit</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits_7bit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16bit</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits_6bit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16bit</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
+<span class="c1">// assign to myBits_16bit(3 downto 0)</span>
+<span class="n">myBits_8bit</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myBits_4bit</span>
+
+<span class="c1">// equivalent slices, no reversing occurs</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16bit</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16bit</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+
+<span class="c1">// read / assign the msb / leftmost bit / x.high bit</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">isNegative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_16bit</span><span class="p">.</span><span class="n">msb</span>
+<span class="n">myBits_16bit</span><span class="p">.</span><span class="n">msb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
+</pre></div>
+</div>
+<section id="subdivide-details">
+<h4>Subdivide details<a class="headerlink" href="#subdivide-details" title="Permalink to this heading"></a></h4>
+<p>Both overloads of <code class="docutils literal notranslate"><span class="pre">subdivideIn</span></code> have an optional parameter <code class="docutils literal notranslate"><span class="pre">strict</span></code> (i.e. <code class="docutils literal notranslate"><span class="pre">subdivideIn(slices:</span> <span class="pre">SlicesCount,</span> <span class="pre">strict:</span> <span class="pre">Boolean</span> <span class="pre">=</span> <span class="pre">true)</span></code>).
+If <code class="docutils literal notranslate"><span class="pre">strict</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code> an error will be raised if the input could not be divided into equal parts. If set to <code class="docutils literal notranslate"><span class="pre">false</span></code> the last element may
+be smaller than the other (equal sized) elements.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Subdivide</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">sel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBitsWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_128bits</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)(</span><span class="n">sel</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// sel = 3 =&gt; myBitsWord = myBits_128bits(127 downto 96)</span>
+<span class="w">    </span><span class="c1">// sel = 2 =&gt; myBitsWord = myBits_128bits( 95 downto 64)</span>
+<span class="w">    </span><span class="c1">// sel = 1 =&gt; myBitsWord = myBits_128bits( 63 downto 32)</span>
+<span class="w">    </span><span class="c1">// sel = 0 =&gt; myBitsWord = myBits_128bits( 31 downto  0)</span>
+
+<span class="w"> </span><span class="c1">// If you want to access in reverse order you can do:</span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">myVector</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_128bits</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">).</span><span class="n">reverse</span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">myRevBitsWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myVector</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span>
+
+<span class="w"> </span><span class="c1">// We can also assign through subdivides</span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">output8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">pieces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">output8</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">slices</span><span class="p">)</span>
+<span class="w"> </span><span class="c1">// assign to output8</span>
+<span class="w"> </span><span class="n">pieces</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mh">0xf</span>
+<span class="w"> </span><span class="n">pieces</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mh">0x5</span>
 </pre></div>
 </div>
 </section>
+</section>
 <section id="misc">
 <h3>Misc<a class="headerlink" href="#misc" title="Permalink to this heading"></a></h3>
+<p>In contrast to the bit extraction operations listed above it’s not possible
+to use the return values to assign to the original signal.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 25%" />
@@ -1575,33 +1628,16 @@ after construction</p></td>
 <td><p>Range</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.high</p></td>
-<td><p>Return the index of the MSB (highest allowed zero-based index for Bits)</p></td>
+<td><p>Return the index of the MSB (highest allowed zero-based index for x)</p></td>
 <td><p>Int</p></td>
 </tr>
-<tr class="row-even"><td><p>x.msb</p></td>
-<td><p>Return the value of the most significant bit</p></td>
-<td><p>Bool</p></td>
-</tr>
-<tr class="row-odd"><td><p>x.lsb</p></td>
-<td><p>Return the value of the least significant bit</p></td>
-<td><p>Bool</p></td>
-</tr>
 <tr class="row-even"><td><p>x.reversed</p></td>
-<td><p>Return a representation of the same instance in reverse bit order,
-MSB&lt;&gt;LSB are mirrored.</p></td>
+<td><p>Return a copy of x with reverse bit order, MSB&lt;&gt;LSB are mirrored.</p></td>
 <td><p>Bits(w(x) bits)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x ## y</p></td>
 <td><p>Concatenate, x-&gt;high, y-&gt;low</p></td>
 <td><p>Bits(w(x) + w(y) bits)</p></td>
-</tr>
-<tr class="row-even"><td><p>x.subdivideIn(y slices)</p></td>
-<td><p>Subdivide x in y slices, y: Int</p></td>
-<td><p>Vec(Bits, y)</p></td>
-</tr>
-<tr class="row-odd"><td><p>x.subdivideIn(y bits)</p></td>
-<td><p>Subdivide x in multiple slices of y bits, y: Int</p></td>
-<td><p>Vec(Bits, w(x)/y)</p></td>
 </tr>
 <tr class="row-even"><td><p>x.resize(y)</p></td>
 <td><p>Return a resized representation of x, if enlarged, it is extended with zero
@@ -1637,22 +1673,10 @@ type which uses <cite>Int</cite>)</p>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">myBits_32bits</span><span class="p">.</span><span class="n">getWidth</span><span class="p">)</span><span class="w"> </span><span class="c1">// 32</span>
 
-<span class="n">myBool</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">myBits</span><span class="p">.</span><span class="n">lsb</span><span class="w">  </span><span class="c1">// Equivalent to myBits(0)</span>
-
 <span class="c1">// Concatenation</span>
 <span class="n">myBits_24bits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">bits_8bits_1</span><span class="w"> </span><span class="o">##</span><span class="w"> </span><span class="n">bits_8bits_2</span><span class="w"> </span><span class="o">##</span><span class="w"> </span><span class="n">bits_8bits_3</span>
-
-<span class="c1">// Subdivide</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">sel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBitsWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_128bits</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)(</span><span class="n">sel</span><span class="p">)</span>
-<span class="w">    </span><span class="c1">// sel = 0 =&gt; myBitsWord = myBits_128bits(127 downto 96)</span>
-<span class="w">    </span><span class="c1">// sel = 1 =&gt; myBitsWord = myBits_128bits( 95 downto 64)</span>
-<span class="w">    </span><span class="c1">// sel = 2 =&gt; myBitsWord = myBits_128bits( 63 downto 32)</span>
-<span class="w">    </span><span class="c1">// sel = 3 =&gt; myBitsWord = myBits_128bits( 31 downto  0)</span>
-
-<span class="w"> </span><span class="c1">// If you want to access in reverse order you can do:</span>
-<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">myVector</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">myBits_128bits</span><span class="p">.</span><span class="n">subdivideIn</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">).</span><span class="n">reverse</span>
-<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">myBitsWord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myVector</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span>
+<span class="c1">// or</span>
+<span class="n">myBits_24bits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Cat</span><span class="p">(</span><span class="n">bits_8bits_1</span><span class="p">,</span><span class="w"> </span><span class="n">bits_8bits_2</span><span class="p">,</span><span class="w"> </span><span class="n">bits_8bits_3</span><span class="p">)</span>
 
 <span class="c1">// Resize</span>
 <span class="n">myBits_32bits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;32&#39;x112233344&quot;</span>
@@ -1662,9 +1686,11 @@ type which uses <cite>Int</cite>)</p>
 </pre></div>
 </div>
 </section>
+</section>
 <section id="maskedliteral">
-<span id="id2"></span><h3>MaskedLiteral<a class="headerlink" href="#maskedliteral" title="Permalink to this heading"></a></h3>
-<p>MaskedLiteral values are bit vectors with don’t care values denoted with <cite>-</cite>.</p>
+<span id="id2"></span><h2>MaskedLiteral<a class="headerlink" href="#maskedliteral" title="Permalink to this heading"></a></h2>
+<p>MaskedLiteral values are bit vectors with don’t care values denoted with <code class="docutils literal notranslate"><span class="pre">-</span></code>.
+They can be used for direct comparison or for <code class="docutils literal notranslate"><span class="pre">switch</span></code> statements and <code class="docutils literal notranslate"><span class="pre">mux</span></code> es.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">B</span><span class="s">&quot;1101&quot;</span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">test1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">M</span><span class="s">&quot;1-01&quot;</span><span class="w"> </span><span class="c1">// True</span>
@@ -1672,7 +1698,6 @@ type which uses <cite>Int</cite>)</p>
 <span class="kd">val</span><span class="w"> </span><span class="n">test3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">M</span><span class="s">&quot;1--1&quot;</span><span class="w"> </span><span class="c1">// True</span>
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 
@@ -1705,7 +1730,7 @@ type which uses <cite>Int</cite>)</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~7f145307e 2023-08-24
+    Version: master git~b2d9e2199 2023-08-27
     </p></div>
     
 
