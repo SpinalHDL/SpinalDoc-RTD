@@ -5,6 +5,14 @@ Setup and installation of Verilator
 
 SpinalSim + Verilator is supported on both Linux and Windows platforms.
 
+It is recommended that v4.218 is the oldest Verilator version to use.  While it maybe
+possible to use older verilator versions, some optional and Scala source dependent
+features that SpinalHDL can use (such as Verilog ``$urandom`` support) may not be supported
+by older Verilator versions and will cause an error when trying to simulate.
+
+Ideally the latest v4.xxx and v5.xxx is well supported and bug reports should be opened
+with any issues you have.
+
 Scala
 ^^^^^
 
@@ -33,9 +41,9 @@ You will also need a recent version of Verilator installed :
    unsetenv VERILATOR_ROOT  # For csh; ignore error if on bash
    unset VERILATOR_ROOT  # For bash
    cd verilator
-   git pull        # Make sure we're up-to-date
-   git checkout v4.218
-   autoconf        # Create ./configure script
+   git pull             # Make sure we're up-to-date
+   git checkout v4.218  # Can use newer v4.228 and v5.xxx
+   autoconf             # Create ./configure script
    ./configure
    make -j$(nproc)
    sudo make install
@@ -87,7 +95,7 @@ From source
    unset VERILATOR_ROOT
    cd verilator
    git pull        
-   git checkout v4.040
+   git checkout v4.218   # Can use newer v4.228 and v5.xxx
    autoconf      
    ./configure
    export CPLUS_INCLUDE_PATH=/usr/include:$CPLUS_INCLUDE_PATH

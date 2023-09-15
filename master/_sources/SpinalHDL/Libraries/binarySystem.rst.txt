@@ -171,7 +171,7 @@ Int/Long/BigInt to Binary-List
    $: BigInt("123451118", 10).toBinInts
    List(0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1)
     
-align to fix width
+align to a fixed width
 
 .. code-block:: scala
 
@@ -179,7 +179,7 @@ align to fix width
 
    $: 39.toBinInts()
    List(1, 1, 1, 0, 0, 1)
-   $: 39.toBinInts(8)    // align to 8 bit fill with 0
+   $: 39.toBinInts(8)    // align to 8 bit zero filled at MSB
    List(1, 1, 1, 0, 0, 1, 0, 0)
 
 

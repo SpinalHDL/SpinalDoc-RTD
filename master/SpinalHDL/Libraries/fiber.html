@@ -973,7 +973,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#getting-started">Getting started</a></li>
 </ul>
 </li>
@@ -1172,23 +1171,28 @@
 
   <section id="fiber-framework">
 <span id="fiber"></span><h1>Fiber framework<a class="headerlink" href="#fiber-framework" title="Permalink to this heading"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This framework is not expected to be used for general RTL generation and targets large system
+design management and code generation. It is currently used as toplevel integration tool in SaxonSoC.</p>
+</div>
 <p>Currently in developpement.</p>
 <p>The Fiber to run the hardware elaboration in a out of order manner, a bit similarly to Makefile, where you can define rules and dependencies which will then be solved when you run a make command. It is very similar to the Scala Future feature.</p>
-<p>Such framework complexify simple things but provide some strong feature for complex cases :</p>
+<p>Using this framework can complicate simple things but provide some strong features for complex cases :</p>
 <ul class="simple">
-<li><p>You can define things before even knowing all their requirements, ex : instanciating a interruption controller, before knowing how many lines of interrupt you need</p></li>
+<li><p>You can define things before even knowing all their requirements, ex :
+instantiating a interruption controller, before knowing how many interrupt signal lines you need</p></li>
 <li><p>Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for further specialisations</p></li>
-<li><p>Automatic requirements negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus</p></li>
+<li><p>Automatic requirement negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus</p></li>
 </ul>
 <p>The framework is mainly composed of :</p>
 <ul class="simple">
-<li><p>Handle[T], which can be used later to store a value of type T.</p></li>
-<li><p>handle.load which allow to set the value of a handle (will reschedule all tasks waiting on it)</p></li>
-<li><p>handle.get, which return the value of the given handle. Will block the task execution if that handle isn’t loaded yet</p></li>
-<li><p>Handle{ code }, which fork a new task which will execute the given code. The result of that code will be loaded into the Handle</p></li>
-<li><p>soon(handle), which allow the current task to announce that soon it will load that handle with a value (used to track which handle will</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Handle[T]</span></code>, which can be used later to store a value of type <code class="docutils literal notranslate"><span class="pre">T</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">handle.load</span></code> which allow to set the value of a handle (will reschedule all tasks waiting on it)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">handle.get</span></code>, which return the value of the given handle. Will block the task execution if that handle isn’t loaded yet</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Handle{</span> <span class="pre">/*code*/</span> <span class="pre">}</span></code>, which fork a new task which will execute the given code. The result of that code will be loaded into the Handle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">soon(handle)</span></code>, which allows the current task to announce that it will load <code class="docutils literal notranslate"><span class="pre">handle</span></code> with a value (used for scheduling)</p></li>
 </ul>
-<p>Warning, this is realy not usual RTL description and aim large system generation. It is currently used as toplevel integration tool in SaxonSoC.</p>
 <section id="simple-dummy-example">
 <h2>Simple dummy example<a class="headerlink" href="#simple-dummy-example" title="Permalink to this heading"></a></h2>
 <p>There is a simple example :</p>
@@ -1269,7 +1273,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~b2d9e2199 2023-08-27
+    Version: master git~10051d6e2 2023-09-15
     </p></div>
     
 

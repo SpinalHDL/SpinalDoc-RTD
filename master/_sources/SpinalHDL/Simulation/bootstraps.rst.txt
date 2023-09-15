@@ -156,7 +156,9 @@ Note is it equivalent to:
       simThread.suspend() // Avoid the "doSim" completion
     }
 
-Note that by default, the simulation files will be placed into the ``simWorkspace/xxx`` folders. You can override the simWorkspace location by setting the ``SPINALSIM_WORKSPACE`` environnement variable.
+.. _env_SPINALSIM_WORKSPACE:
+
+Note that by default, the simulation files will be placed into the ``simWorkspace/xxx`` folders. You can override the simWorkspace location by setting the ``SPINALSIM_WORKSPACE`` environment variable.
 
 Running multiple tests on the same hardware
 -------------------------------------------

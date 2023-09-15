@@ -3,7 +3,7 @@
 TriState
 ========
 
-Tri-state signals are weird to handle in many cases:
+Tri-state signals are difficult to handle in many cases:
 
 * They are not really kind of digital things
 * And except for IO, they aren't used for digital design
@@ -25,7 +25,7 @@ The TriState bundle is defined as following :
 
 .. code-block:: scala
 
-   case class TriState[T <: Data](dataType : HardType[T]) extends Bundle with IMasterSlave{
+   case class TriState[T <: Data](dataType : HardType[T]) extends Bundle with IMasterSlave {
      val read,write : T = dataType()
      val writeEnable = Bool()
 
@@ -42,13 +42,13 @@ There is an example of usage:
 
 .. code-block:: scala
 
-   val io = new Bundle{
+   val io = new Bundle {
      val dataBus = master(TriState(Bits(32 bits)))
    }
 
    io.dataBus.writeEnable := True
    io.dataBus.write := 0x12345678
-   when(io.dataBus.read === 42){
+   when(io.dataBus.read === 42) {
 
    }
 
@@ -61,7 +61,7 @@ It is defined as following :
 
 .. code-block:: scala
 
-   case class TriStateArray(width : BitCount) extends Bundle with IMasterSlave{
+   case class TriStateArray(width : BitCount) extends Bundle with IMasterSlave {
      val read,write,writeEnable = Bits(width)
 
      override def asMaster(): Unit = {
@@ -76,12 +76,12 @@ There is an example of usage :
 
 .. code-block:: scala
 
-   val io = new Bundle{
+   val io = new Bundle {
      val dataBus = master(TriStateArray(32 bits)
    }
 
    io.dataBus.writeEnable := 0x87654321
    io.dataBus.write := 0x12345678
-   when(io.dataBus.read === 42){
+   when(io.dataBus.read === 42) {
 
    }

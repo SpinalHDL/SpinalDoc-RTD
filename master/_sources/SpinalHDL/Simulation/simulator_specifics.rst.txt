@@ -6,7 +6,7 @@ How SpinalHDL simulates the hardware with Verilator backend
 ===========================================================
 
 1. Behind the scenes, SpinalHDL generates a Verilog equivalent hardware model of the DUT and then uses Verilator to convert it to a C++ cycle-accurate model. 
-2. The C++ model is compiled into a shared object (.so), which is bound to Scala via JNR-FFI. 
+2. The C++ model is compiled into a shared object (.so), which is bound to Scala via JNI-FFI.
 3. The native Verilator API is abstracted by providing a simulation multi-threaded API.
 
 **Advantages:**
@@ -17,7 +17,7 @@ How SpinalHDL simulates the hardware with Verilator backend
 
 * Verilator accepts only synthesizable Verilog/System Verilog code. Therefore special care has to be taken when simulating Verilog blackbox components that may have non-synthesizable statements.
 * VHDL blackboxes cannot be simulated.
-* The simulation boot process is slow due to the necessity to compile and link the generated C++ model
+* The simulation boot process is slow due to the necessity to compile and link the generated C++ model.  Some support to incrementally compile and link exists which can provide speedups for subsequent simulations after building the first.
 
 How SpinalHDL simulates the hardware with GHDL/Icarus Verilog backend
 =====================================================================

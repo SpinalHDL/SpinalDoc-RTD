@@ -176,7 +176,7 @@ The following code will create this logic :
 
 .. code-block:: scala
 
-   case class RGB(channelWidth : Int) extends Bundle{
+   case class RGB(channelWidth : Int) extends Bundle {
      val red   = UInt(channelWidth bits)
      val green = UInt(channelWidth bits)
      val blue  = UInt(channelWidth bits)
@@ -459,7 +459,7 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
 StreamJoin
 ^^^^^^^^^^
 
-This utile takes multiple input streams and wait until all of them fire before letting all of them through.
+This utility takes multiple input streams and waits until all of them fire `valid` before letting all of them through by providing `ready`.
 
 .. code-block:: scala
 

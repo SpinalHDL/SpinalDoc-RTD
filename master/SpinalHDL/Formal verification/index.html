@@ -973,7 +973,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#getting-started">Getting started</a></li>
 </ul>
 </li>
@@ -1197,7 +1196,7 @@
 <p>To install the Symbi-Yosys, you have a few options. You can fetch a precompiled package at:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build/releases">https://github.com/YosysHQ/oss-cad-suite-build/releases</a></p></li>
-<li><p><a class="reference external" href="https://github.com/YosysHQ/fpga-toolchain/releases">https://github.com/YosysHQ/fpga-toolchain/releases</a></p></li>
+<li><p><a class="reference external" href="https://github.com/YosysHQ/fpga-toolchain/releases">https://github.com/YosysHQ/fpga-toolchain/releases</a> (EOL - superseded by oss-cad-suite)</p></li>
 </ul>
 <p>Or you can compile things from scratch :</p>
 <ul class="simple">
@@ -1212,10 +1211,10 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">//Here is our DUT</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">LimitedCounter</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LimitedCounter</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">//The value register will always be between [2:10]</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">){</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1245,9 +1244,9 @@
 <section id="internal-assertions">
 <h3>Internal assertions<a class="headerlink" href="#internal-assertions" title="Permalink to this heading"></a></h3>
 <p>If you want you can embed formal statements directly into the DUT:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LimitedCounterEmbedded</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LimitedCounterEmbedded</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">){</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">  </span><span class="p">}</span>
 
@@ -1273,11 +1272,11 @@
 <h3>External stimulus<a class="headerlink" href="#external-stimulus" title="Permalink to this heading"></a></h3>
 <p>If your DUT has inputs, you need to drive them from the testbench. You can use all the regular hardware statements to do it,
 but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cite>allseq</cite>, <cite>allconst</cite> statement:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LimitedCounterInc</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LimitedCounterInc</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">//Only increment the value when the inc input is set</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">inc</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">){</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">inc</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1307,7 +1306,7 @@ but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cit
 
 <span class="w">  </span><span class="c1">// Check that the value is incrementing.</span>
 <span class="w">  </span><span class="c1">// hasPast is used to ensure that the past(dut.value) had at least one sampling out of reset</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">pastValid</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">past</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="mi">10</span><span class="p">){</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">pastValid</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">past</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">past</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">})</span>
@@ -1317,7 +1316,7 @@ but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cit
 <section id="assuming-memory-content">
 <h3>Assuming memory content<a class="headerlink" href="#assuming-memory-content" title="Permalink to this heading"></a></h3>
 <p>Here is an example where we want to prevent the value <code class="docutils literal notranslate"><span class="pre">1</span></code> from ever being present in a memory :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DutWithRam</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DutWithRam</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">4</span><span class="p">)(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">write</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="n">ram</span><span class="p">.</span><span class="n">writePort</span><span class="p">)</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">read</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="n">ram</span><span class="p">.</span><span class="n">readAsyncPort</span><span class="p">)</span>
@@ -1331,13 +1330,13 @@ but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cit
 <span class="w">    </span><span class="n">assumeInitial</span><span class="p">(</span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">isResetActive</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c1">// assume that no word in the ram has the value 1</span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">ram</span><span class="p">.</span><span class="n">wordCount</span><span class="p">){</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">ram</span><span class="p">.</span><span class="n">wordCount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="n">assumeInitial</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">ram</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="c1">// Allow the write anything but value 1 in the ram</span>
 <span class="w">    </span><span class="n">anyseq</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">write</span><span class="p">)</span>
-<span class="w">    </span><span class="n">clockDomain</span><span class="p">.</span><span class="n">withoutReset</span><span class="p">(){</span><span class="w"> </span><span class="c1">//As the memory write can occur during reset, we need to ensure the assume apply there too</span>
+<span class="w">    </span><span class="n">clockDomain</span><span class="p">.</span><span class="n">withoutReset</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">//As the memory write can occur during reset, we need to ensure the assume apply there too</span>
 <span class="w">      </span><span class="n">assume</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 
@@ -1356,7 +1355,7 @@ but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cit
 <h3>Assertions / clock / reset<a class="headerlink" href="#assertions-clock-reset" title="Permalink to this heading"></a></h3>
 <p>Assertions are always clocked and disabled during resets. This also apply for assumes and covers.</p>
 <p>If you want to keep your assertion enabled during reset you can do:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">withoutReset</span><span class="p">(){</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">withoutReset</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">wuff</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
@@ -1379,7 +1378,7 @@ but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cit
 <h3>Memory content (Mem)<a class="headerlink" href="#memory-content-mem" title="Permalink to this heading"></a></h3>
 <p>If you have a Mem in your design, and you want to check its content, you can do it the following ways :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Manual access</span>
-<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">ram</span><span class="p">.</span><span class="n">wordCount</span><span class="p">){</span>
+<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">ram</span><span class="p">.</span><span class="n">wordCount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">assumeInitial</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">ram</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="nc">X</span><span class="p">)</span><span class="w"> </span><span class="c1">//No occurence of the word X</span>
 <span class="p">}</span>
 
@@ -1444,11 +1443,11 @@ but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cit
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">changed(that</span> <span class="pre">:</span> <span class="pre">Bool)</span></code></p></td>
 <td><p>Bool</p></td>
-<td><p>Return True when <code class="docutils literal notranslate"><span class="pre">that</span></code> current value changed between comparred to the last cycle</p></td>
+<td><p>Return True when <code class="docutils literal notranslate"><span class="pre">that</span></code> current value changed between compared to the last cycle</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stable(that</span> <span class="pre">:</span> <span class="pre">Bool)</span></code></p></td>
 <td><p>Bool</p></td>
-<td><p>Return True when <code class="docutils literal notranslate"><span class="pre">that</span></code> current value didn’t changed between comparred to the last cycle</p></td>
+<td><p>Return True when <code class="docutils literal notranslate"><span class="pre">that</span></code> current value didn’t changed between compared to the last cycle</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">initstate()</span></code></p></td>
 <td><p>Bool</p></td>
@@ -1460,13 +1459,13 @@ but you can also use the formal <cite>anyseq</cite>, <cite>anyconst</cite>, <cit
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pastValidAfterReset()</span></code></p></td>
 <td><p>Bool</p></td>
-<td><p>Simliar to <code class="docutils literal notranslate"><span class="pre">pastValid</span></code>, where only difference is that this would take reset into account. Can be understand as <code class="docutils literal notranslate"><span class="pre">pastValid</span> <span class="pre">&amp;</span> <span class="pre">past(!reset)</span></code>.</p></td>
+<td><p>Simliar to <code class="docutils literal notranslate"><span class="pre">pastValid</span></code>, where only difference is that this would take reset into account. Can be understood as <code class="docutils literal notranslate"><span class="pre">pastValid</span> <span class="pre">&amp;</span> <span class="pre">past(!reset)</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
 </div></blockquote>
 <p>Note that you can use the init statement on past:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">past</span><span class="p">(</span><span class="n">enable</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="nc">False</span><span class="p">)){</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">past</span><span class="p">(</span><span class="n">enable</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="nc">False</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -1520,7 +1519,7 @@ Master/Slave are target interface type, so that <code class="docutils literal no
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~b2d9e2199 2023-08-27
+    Version: master git~10051d6e2 2023-09-15
     </p></div>
     
 

@@ -973,7 +973,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../Examples/index.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../Examples/index.html#getting-started">Getting started</a></li>
 </ul>
 </li>
@@ -1174,6 +1173,12 @@
   <section id="setup-and-installation-of-verilator">
 <h1>Setup and installation of Verilator<a class="headerlink" href="#setup-and-installation-of-verilator" title="Permalink to this heading"></a></h1>
 <p>SpinalSim + Verilator is supported on both Linux and Windows platforms.</p>
+<p>It is recommended that v4.218 is the oldest Verilator version to use.  While it maybe
+possible to use older verilator versions, some optional and Scala source dependent
+features that SpinalHDL can use (such as Verilog <code class="docutils literal notranslate"><span class="pre">$urandom</span></code> support) may not be supported
+by older Verilator versions and will cause an error when trying to simulate.</p>
+<p>Ideally the latest v4.xxx and v5.xxx is well supported and bug reports should be opened
+with any issues you have.</p>
 <section id="scala">
 <h2>Scala<a class="headerlink" href="#scala" title="Permalink to this heading"></a></h2>
 <p>Don’t forget to add the following in your <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> file:</p>
@@ -1194,9 +1199,9 @@ git<span class="w"> </span>clone<span class="w"> </span>http://git.veripool.org/
 unsetenv<span class="w"> </span>VERILATOR_ROOT<span class="w">  </span><span class="c1"># For csh; ignore error if on bash</span>
 <span class="nb">unset</span><span class="w"> </span>VERILATOR_ROOT<span class="w">  </span><span class="c1"># For bash</span>
 <span class="nb">cd</span><span class="w"> </span>verilator
-git<span class="w"> </span>pull<span class="w">        </span><span class="c1"># Make sure we&#39;re up-to-date</span>
-git<span class="w"> </span>checkout<span class="w"> </span>v4.218
-autoconf<span class="w">        </span><span class="c1"># Create ./configure script</span>
+git<span class="w"> </span>pull<span class="w">             </span><span class="c1"># Make sure we&#39;re up-to-date</span>
+git<span class="w"> </span>checkout<span class="w"> </span>v4.218<span class="w">  </span><span class="c1"># Can use newer v4.228 and v5.xxx</span>
+autoconf<span class="w">             </span><span class="c1"># Create ./configure script</span>
 ./configure
 make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
 sudo<span class="w"> </span>make<span class="w"> </span>install
@@ -1243,7 +1248,7 @@ git<span class="w"> </span>clone<span class="w"> </span>http://git.veripool.org/
 <span class="nb">unset</span><span class="w"> </span>VERILATOR_ROOT
 <span class="nb">cd</span><span class="w"> </span>verilator
 git<span class="w"> </span>pull
-git<span class="w"> </span>checkout<span class="w"> </span>v4.040
+git<span class="w"> </span>checkout<span class="w"> </span>v4.218<span class="w">   </span><span class="c1"># Can use newer v4.228 and v5.xxx</span>
 autoconf
 ./configure
 <span class="nb">export</span><span class="w"> </span><span class="nv">CPLUS_INCLUDE_PATH</span><span class="o">=</span>/usr/include:<span class="nv">$CPLUS_INCLUDE_PATH</span>
@@ -1298,7 +1303,7 @@ This is why it is safer to add them as the last elements of the <code class="doc
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~b2d9e2199 2023-08-27
+    Version: master git~10051d6e2 2023-09-15
     </p></div>
     
 

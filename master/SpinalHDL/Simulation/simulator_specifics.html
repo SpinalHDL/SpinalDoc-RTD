@@ -973,7 +973,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Examples/index.html#getting-started">Getting started</a></li>
 </ul>
 </li>
@@ -1176,7 +1175,7 @@
 <h2>How SpinalHDL simulates the hardware with Verilator backend<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-verilator-backend" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>Behind the scenes, SpinalHDL generates a Verilog equivalent hardware model of the DUT and then uses Verilator to convert it to a C++ cycle-accurate model.</p></li>
-<li><p>The C++ model is compiled into a shared object (.so), which is bound to Scala via JNR-FFI.</p></li>
+<li><p>The C++ model is compiled into a shared object (.so), which is bound to Scala via JNI-FFI.</p></li>
 <li><p>The native Verilator API is abstracted by providing a simulation multi-threaded API.</p></li>
 </ol>
 <p><strong>Advantages:</strong></p>
@@ -1187,7 +1186,7 @@
 <ul class="simple">
 <li><p>Verilator accepts only synthesizable Verilog/System Verilog code. Therefore special care has to be taken when simulating Verilog blackbox components that may have non-synthesizable statements.</p></li>
 <li><p>VHDL blackboxes cannot be simulated.</p></li>
-<li><p>The simulation boot process is slow due to the necessity to compile and link the generated C++ model</p></li>
+<li><p>The simulation boot process is slow due to the necessity to compile and link the generated C++ model.  Some support to incrementally compile and link exists which can provide speedups for subsequent simulations after building the first.</p></li>
 </ul>
 </section>
 <section id="how-spinalhdl-simulates-the-hardware-with-ghdl-icarus-verilog-backend">
@@ -1265,7 +1264,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~b2d9e2199 2023-08-27
+    Version: master git~10051d6e2 2023-09-15
     </p></div>
     
 
