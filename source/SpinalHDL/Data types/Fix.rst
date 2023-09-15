@@ -219,7 +219,7 @@ Comparison
    * - x >= y
      - Greater than or equal
      - Bool
-   * - x > y
+   * - x < y
      - Less than
      - Bool
    * - x >= y
