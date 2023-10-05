@@ -19,6 +19,12 @@ Before you download the SpinalHDL tools, you need to install a Scala environment
   environment
 * `SBT <https://www.scala-sbt.org/download.html>`_, a Scala build tool
 
+These tools enable to use Spinal; but without any other tools, it is limited to
+code generation.
+
+Linux Installation
+----------------------
+
 For instance, to install them on the Debian distribution:
 
 .. code-block:: sh
@@ -31,10 +37,37 @@ For instance, to install them on the Debian distribution:
    sudo apt-get update
    sudo apt-get install sbt
 
-These tools enable to use Spinal; but without any other tools, it is limited to
-code generation.
+Mac OS X Installation
+----------------------
+You can use homebrew to install on Mac OS X.  By default homebrew installs Java 21, but the  SpinalHDL tutorial 
+SpinalTemplateSbt uses Scala version 2.12.16, which is not supported by Java 21 (17 is still the recommended LTS version, https://whichjdk.com/). So to install Java version 1.7 do:
 
+.. code-block:: sh
 
+    brew install openjdk@17
+
+And then add this to your path.
+
+.. code-block:: sh
+
+   export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+
+To manage multiple versions of Java, it is also essential to have jenv installed.
+
+.. code-block:: sh
+
+   brew install jenv
+
+Jenv added these lines to my .bash_profile
+
+.. code-block:: sh
+
+   export PATH="$HOME/.jenv/bin:$PATH"
+   eval "$(jenv init -)"
+
+If this works for you, please let us know.  If this does not work for you, you can read the github issue about Mac o SX installation here. 
+https://github.com/SpinalHDL/SpinalHDL/issues/1216
+ 
 Installing SBT in an internet-free environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

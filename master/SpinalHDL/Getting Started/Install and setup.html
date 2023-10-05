@@ -124,7 +124,9 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Getting Started</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Install and setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#mandatory-requirements">Mandatory requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mandatory-requirements">Mandatory requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linux-installation">Linux Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mac-os-x-installation">Mac OS X Installation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#installing-sbt-in-an-internet-free-environment">Installing SBT in an internet-free environment</a></li>
 </ul>
 </li>
@@ -1184,6 +1186,11 @@ variations.</p>
 environment</p></li>
 <li><p><a class="reference external" href="https://www.scala-sbt.org/download.html">SBT</a>, a Scala build tool</p></li>
 </ul>
+<p>These tools enable to use Spinal; but without any other tools, it is limited to
+code generation.</p>
+</section>
+<section id="linux-installation">
+<h2>Linux Installation<a class="headerlink" href="#linux-installation" title="Permalink to this heading"></a></h2>
 <p>For instance, to install them on the Debian distribution:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-8-jdk
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>scala
@@ -1194,8 +1201,29 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>sbt
 </pre></div>
 </div>
-<p>These tools enable to use Spinal; but without any other tools, it is limited to
-code generation.</p>
+</section>
+<section id="mac-os-x-installation">
+<h2>Mac OS X Installation<a class="headerlink" href="#mac-os-x-installation" title="Permalink to this heading"></a></h2>
+<p>You can use homebrew to install on Mac OS X.  By default homebrew installs Java 21, but the  SpinalHDL tutorial
+SpinalTemplateSbt uses Scala version 2.12.16, which is not supported by Java 21 (17 is still the recommended LTS version, <a class="reference external" href="https://whichjdk.com/">https://whichjdk.com/</a>). So to install Java version 1.7 do:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>openjdk@17
+</pre></div>
+</div>
+<p>And then add this to your path.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/homebrew/opt/openjdk@17/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>To manage multiple versions of Java, it is also essential to have jenv installed.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>jenv
+</pre></div>
+</div>
+<p>Jenv added these lines to my .bash_profile</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.jenv/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>jenv<span class="w"> </span>init<span class="w"> </span>-<span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>If this works for you, please let us know.  If this does not work for you, you can read the github issue about Mac o SX installation here.
+<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues/1216">https://github.com/SpinalHDL/SpinalHDL/issues/1216</a></p>
 <section id="installing-sbt-in-an-internet-free-environment">
 <h3>Installing SBT in an internet-free environment<a class="headerlink" href="#installing-sbt-in-an-internet-free-environment" title="Permalink to this heading"></a></h3>
 <div class="admonition note">
@@ -1364,7 +1392,7 @@ development environment:</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~d8104590a 2023-10-05
+    Version: master git~cc9409340 2023-10-05
     </p></div>
     
 
