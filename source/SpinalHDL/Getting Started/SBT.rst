@@ -39,25 +39,25 @@ if you type ``runMain``, space, and tab, you should get this:
 
 .. code-block::
 
-   sbt:SpinalTemplateSbt> runMain
-   ;                                         mylib.MyTopLevelVerilog
-   mylib.MyTopLevelFormal                    mylib.MyTopLevelVerilogWithCustomConfig
-   mylib.MyTopLevelSim                       mylib.MyTopLevelVhdl
+   sbt:SpinalTemplateSbt> runMain 
+;                               projectname.MyTopLevelVerilog
+projectname.MyTopLevelFormal    projectname.MyTopLevelVhdl
+projectname.MyTopLevelSim
 
 The autocompletion suggests all things that can be run. Let's run the Verilog
 generation for instance:
 
 .. code-block::
 
-   runMain mylib.MyTopLevelVerilog
+   runMain projectname.MyTopLevelVerilog
 
-Look at the directory: there is a new ``MyTopLevel.v`` file!
+Look at the directory ./hw/gen/: there is a new ``MyTopLevel.v`` file!
 
 Now add a ``~`` at the beginning of the command:
 
 .. code-block::
 
-   ~ runMain mylib.MyTopLevelVerilog
+   ~ runMain projectname.MyTopLevelVerilog
 
 It prints this:
 
@@ -68,13 +68,17 @@ It prints this:
    [info] [Runtime] SpinalHDL v1.7.3    git head : aeaeece704fe43c766e0d36a93f2ecbb8a9f2003
    [info] [Runtime] JVM max memory : 3968,0MiB
    [info] [Runtime] Current date : 2022.11.17 21:35:10
-   [info] [Progress] at 0,000 : Elaborate components
-   [info] [Progress] at 0,385 : Checks and transforms
-   [info] [Progress] at 0,533 : Generate Verilog
-   [info] [Done] at 0,634
-   [success] Total time: 2 s, completed 17 nov. 2022, 21:35:11
-   [info] 1. Monitoring source files for mylib/runMain mylib.MyTopLevelVerilog...
-   [info]    Press <enter> to interrupt or '?' for more options.
+   [info] running (fork) projectname.MyTopLevelVerilog 
+   [info] [Runtime] SpinalHDL v1.9.3    git head : 029104c77a54c53f1edda327a3bea333f7d65fd9
+   [info] [Runtime] JVM max memory : 4096.0MiB
+   [info] [Runtime] Current date : 2023.10.05 19:30:19
+   [info] [Progress] at 0.000 : Elaborate components
+   [info] [Progress] at 0.508 : Checks and transforms
+   [info] [Progress] at 0.560 : Generate Verilog
+  [info] [Done] at 0.603
+  [success] Total time: 1 s, completed Oct 5, 2023, 7:30:19 PM
+  [info] 1. Monitoring source files for projectname/runMain projectname.MyTopLevelVerilog...
+  [info]    Press <enter> to interrupt or '?' for more options.
 
 So now, each time you save a source file, it will re-generate ``MyTopLevel.v``.
 To do this, it automatically compiles the source files and it performs lint
