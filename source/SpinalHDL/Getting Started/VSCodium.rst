@@ -19,11 +19,9 @@ corner: "Multiple build definitions found. Which would you like to use?". Click
 Wait while running ``sbt bloopInstall``. Then a warning pop-up appears, you can
 ignore it (don't show again).
 
-In the search bar, find and open ``MyTopLevel.scala``. Wait a little bit, and see
-the ``run | debug`` line that is displayed by Metals, before each ``App``. For
-instance, click on ``run`` just above ``object MyTopLevelVerilog``. It performs
+In the search bar, find and open ``MyTopLevel.scala``.  Once it loads select Menu Bar -> Run -> Run Without Debugging.  It performs
 design checks and, as the checks pass, it generates the Verilog file
-``MyTopLevel.v`` at the root of the workspace.
+``MyTopLevel.v`` at the root of the workspace, in ./hw/gen/MyTopLevel.v
 
 This is all you need to do to use Spinal from VSCodium!
 
