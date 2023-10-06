@@ -44,6 +44,34 @@ Each interface signal of the toplevel can be read and written from Scala:
    dut.io.a #= BigInt("0123456789ABCDEF", 16)
    println(dut.io.b.toInt)
 
+
+.. _simulation_of_memory:
+
+Load and Store of Memory in Simulation
+--------------------------------------
+
+It is possible to modify the contents of ``Mem`` hardware interface
+components in simulation.  The `data` argument should be a word-width
+value with the `address` being the word-address within.
+
+There is no API to convert address and/or individual data bits into
+units other than the natural word size.
+
+There is no API to mark any memory location with simulation `X` (undefined)
+state.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 3 5
+
+   * - Syntax
+     - Description
+   * - ``Mem.getBigInt(address: Long): BigInt``
+     - Read a word from simulator at the word-address.
+   * - ``Mem.setBigInt(address: Long, data: BigInt)``
+     - Write a word to simulator at the word-address.
+
+
 Accessing signals inside the component's hierarchy
 --------------------------------------------------
 
