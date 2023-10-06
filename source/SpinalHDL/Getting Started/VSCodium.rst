@@ -6,7 +6,7 @@ Using Spinal from VSCodium
 .. note::
     `VSCodium <https://vscodium.com/>`_ is the open source Microsoft Visual Studio application, but without the telemetry included in Microsoft's downloadable version.  
 
-As a one-time setup task, go to view->extensions search for "Scala" and install the "Scala (Metals)" extemsion. `WebPage <https://marketplace.visualstudio.com/items?itemName=scalameta.metals>`_
+As a one-time setup task, go to view->extensions search for "Scala" and install the "Scala (Metals)" `extension <https://marketplace.visualstudio.com/items?itemName=scalameta.metals>`_
 
 Open the workspace: ``File`` > ``Open Folder...`` and open the folder you have downloaded earlier in :ref:`template`.
 
