@@ -4,7 +4,7 @@ Using Spinal from VSCodium
 ==========================
 
 .. note::
-    `VSCodium <https://vscodium.com/>`_ is the open source Microsoft Visual Studio application, but without the telemetry included in Microsoft's downloadable version.  
+    `VSCodium <https://vscodium.com/>`_ is the open source build of Visual Studio Code, but without the telemetry included in Microsoft's downloadable version.
 
 As a one-time setup task, go to view->extensions search for "Scala" and install the "Scala (Metals)" `extension <https://marketplace.visualstudio.com/items?itemName=scalameta.metals>`_
 
