@@ -21,7 +21,7 @@ ignore it (don't show again).
 
 In the search bar, find and open ``MyTopLevel.scala``.  Once it loads select Menu Bar -> Run -> Run Without Debugging.  It performs
 design checks and, as the checks pass, it generates the Verilog file
-``MyTopLevel.v`` at the root of the workspace, in ./hw/gen/MyTopLevel.v
+``MyTopLevel.v`` at the root of the workspace, in ``./hw/gen/MyTopLevel.v``
 
 This is all you need to do to use Spinal from VSCodium!
 
