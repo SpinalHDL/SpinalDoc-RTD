@@ -10,7 +10,7 @@ As a one-time setup task, go to view->extensions search for "Scala" and install 
 
 Open the workspace: ``File`` > ``Open Folder...`` and open the folder you have downloaded earlier in :ref:`template`.
 
-The other way to start it, is to cd into the spinaltemplatesbt directory and type ``codium .``
+The other way to start it, is to cd into the appropriate directory and type ``codium .``
 
 Wait a little bit, a notification pop-up should appear on the bottom-right
 corner: "Multiple build definitions found. Which would you like to use?". Click
