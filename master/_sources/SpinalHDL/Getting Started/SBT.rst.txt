@@ -40,9 +40,9 @@ if you type ``runMain``, space, and tab, you should get this:
 .. code-block::
 
    sbt:SpinalTemplateSbt> runMain 
-;                               projectname.MyTopLevelVerilog
-projectname.MyTopLevelFormal    projectname.MyTopLevelVhdl
-projectname.MyTopLevelSim
+      ;                               projectname.MyTopLevelVerilog
+      projectname.MyTopLevelFormal    projectname.MyTopLevelVhdl
+      projectname.MyTopLevelSim
 
 The autocompletion suggests all things that can be run. Let's run the Verilog
 generation for instance:

@@ -1223,7 +1223,8 @@
 <td><p>null</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">frequency</span></code></p></td>
-<td><p>Allows you to specify the frequency of the given clock domain and later read it in your design</p></td>
+<td><p>Allows you to specify the frequency of the given clock domain and later read it in your design.
+This parameter does not generate and PLL or other hardware to control the frequency</p></td>
 <td><p>UnknownFrequency</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config</span></code></p></td>
@@ -1426,6 +1427,12 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In other components then the one you created the ClockDomain in, you must not use <code class="docutils literal notranslate"><span class="pre">.clock</span></code> and <code class="docutils literal notranslate"><span class="pre">.reset</span></code>,
+but <code class="docutils literal notranslate"><span class="pre">.readClockWire</span></code> and <code class="docutils literal notranslate"><span class="pre">.readResetWire</span></code> as listed below. For the global ClockDomain you must always
+use those <code class="docutils literal notranslate"><span class="pre">.readXXX</span></code> functions.</p>
+</div>
 </section>
 <section id="external-clock">
 <h3>External clock<a class="headerlink" href="#external-clock" title="Permalink to this heading"></a></h3>
@@ -1446,7 +1453,7 @@
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 <span class="w">  </span><span class="p">}</span>
 
-<span class="w">  </span><span class="c1">// On the top level you have two signals  :</span>
+<span class="w">  </span><span class="c1">// On the top level you have two signals  :</span>
 <span class="w">  </span><span class="c1">//     myClockName_clk and myClockName_reset</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;myClockName&quot;</span><span class="p">)</span>
 
@@ -1526,11 +1533,11 @@
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-odd"><td><p>readResetWire</p></td>
-<td><p>Return a signal derived from the soft reset signal</p></td>
+<td><p>Return a signal derived from the reset signal</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-even"><td><p>readSoftResetWire</p></td>
-<td><p>Return a signal derived from the reset signal</p></td>
+<td><p>Return a signal derived from the soft reset signal</p></td>
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-odd"><td><p>readClockEnableWire</p></td>
@@ -1766,7 +1773,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~cc9409340 2023-10-05
+    Version: master git~7f64d75a1 2023-10-06
     </p></div>
     
 
