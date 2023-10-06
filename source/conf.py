@@ -231,6 +231,7 @@ online_wavedrom_js_url = "https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8"
 
 #Option for linkcheck
 linkcheck_anchors=False
+tls_verify = False # disable since Intel urls don't verify on github infra
 
 # Whitelist pattern for tags (set to None to ignore all tags)
 smv_tag_whitelist = r'^.*$'
