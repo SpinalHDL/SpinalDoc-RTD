@@ -832,6 +832,7 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Accessing signals of the simulation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#read-and-write-signals">Read and write signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-and-store-of-memory-in-simulation">Load and Store of Memory in Simulation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#accessing-signals-inside-the-component-s-hierarchy">Accessing signals inside the component’s hierarchy</a></li>
 </ul>
 </li>
@@ -1230,6 +1231,35 @@
 </pre></div>
 </div>
 </section>
+<section id="load-and-store-of-memory-in-simulation">
+<span id="simulation-of-memory"></span><h2>Load and Store of Memory in Simulation<a class="headerlink" href="#load-and-store-of-memory-in-simulation" title="Permalink to this heading"></a></h2>
+<p>It is possible to modify the contents of <code class="docutils literal notranslate"><span class="pre">Mem</span></code> hardware interface
+components in simulation.  The <cite>data</cite> argument should be a word-width
+value with the <cite>address</cite> being the word-address within.</p>
+<p>There is no API to convert address and/or individual data bits into
+units other than the natural word size.</p>
+<p>There is no API to mark any memory location with simulation <cite>X</cite> (undefined)
+state.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Syntax</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Mem.getBigInt(address:</span> <span class="pre">Long):</span> <span class="pre">BigInt</span></code></p></td>
+<td><p>Read a word from simulator at the word-address.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Mem.setBigInt(address:</span> <span class="pre">Long,</span> <span class="pre">data:</span> <span class="pre">BigInt)</span></code></p></td>
+<td><p>Write a word to simulator at the word-address.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="accessing-signals-inside-the-component-s-hierarchy">
 <h2>Accessing signals inside the component’s hierarchy<a class="headerlink" href="#accessing-signals-inside-the-component-s-hierarchy" title="Permalink to this heading"></a></h2>
 <p>To access signals which are inside the component’s hierarchy, you have first to set the given signal as <code class="docutils literal notranslate"><span class="pre">simPublic</span></code>.</p>
@@ -1312,7 +1342,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~7f64d75a1 2023-10-06
+    Version: master git~16b7eb454 2023-10-07
     </p></div>
     
 
