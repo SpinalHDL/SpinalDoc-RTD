@@ -6,7 +6,7 @@ Using Spinal from VSCodium
 .. note::
     `VSCodium <https://vscodium.com/>`_ is the open source build of Visual Studio Code, but without the telemetry included in Microsoft's downloadable version.
 
-As a one-time setup task, go to view->extensions search for "Scala" and install the "Scala (Metals)" `extension <https://marketplace.visualstudio.com/items?itemName=scalameta.metals>`_
+As a one-time setup task, go to view->extensions search for "Scala" and install the "Scala (Metals)" `extension <https://marketplace.visualstudio.com/items?itemName=scalameta.metals>`_.
 
 Open the workspace: ``File`` > ``Open Folder...`` and open the folder you have downloaded earlier in :ref:`template`.
 
@@ -19,10 +19,9 @@ corner: "Multiple build definitions found. Which would you like to use?". Click
 Wait while running ``sbt bloopInstall``. Then a warning pop-up appears, you can
 ignore it (don't show again).
 
-In the search bar, find and open ``MyTopLevel.scala``.  Once it loads select Menu Bar -> Run -> Run Without Debugging.  It performs
-design checks and, as the checks pass, it generates the Verilog file
-``MyTopLevel.v`` at the root of the workspace, in ``./hw/gen/MyTopLevel.v``
+Find and open ``hw/spinal/projectname/MyTopLevel.scala``.  Wait a little bit, and see the ``run | debug`` line that is displayed by Metals, before each ``App``. For instance, click on ``run`` just above ``object MyTopLevelVerilog``. Alternatively, you can select Menu Bar -> Run -> Run Without Debugging.  Either approach performs design checks and, as the checks pass, generates the Verilog file
+``./hw/gen/MyTopLevel.v``
 
-This is all you need to do to use Spinal from VSCodium!
+This is all you need to do to use SpinalHDL from VSCodium.  You now have the design-rule-checked Verilog and/or VHDL which you can use as input to your favorite synthesis tool.   
 
-Now you can use your environment, let's explore the code: :ref:`Simple example`.
+Now that you know how to use the VSCodium development environment, let's explore the code: :ref:`Simple example`.
