@@ -4,12 +4,13 @@ Using Spinal from VSCodium
 ==========================
 
 .. note::
-   VSCode works the same way as VSCodium.
+    `VSCodium <https://vscodium.com/>`_ is the open source build of Visual Studio Code, but without the telemetry included in Microsoft's downloadable version.
 
-As a one-time setup task, in the extensions options, install "Scala (Metals)".
+As a one-time setup task, go to view->extensions search for "Scala" and install the "Scala (Metals)" `extension <https://marketplace.visualstudio.com/items?itemName=scalameta.metals>`_.
 
-Open the workspace: ``File`` > ``Open Folder...`` and open the folder you have
-downloaded earlier in :ref:`template`.
+Open the workspace: ``File`` > ``Open Folder...`` and open the folder you have downloaded earlier in :ref:`template`.
+
+The other way to start it, is to cd into the appropriate directory and type ``codium .``
 
 Wait a little bit, a notification pop-up should appear on the bottom-right
 corner: "Multiple build definitions found. Which would you like to use?". Click
@@ -18,12 +19,9 @@ corner: "Multiple build definitions found. Which would you like to use?". Click
 Wait while running ``sbt bloopInstall``. Then a warning pop-up appears, you can
 ignore it (don't show again).
 
-In the explorer, find and open ``MyTopLevel.scala``. Wait a little bit, and see
-the ``run | debug`` line that is displayed by Metals, before each ``App``. For
-instance, click on ``run`` just above ``object MyTopLevelVerilog``. It performs
-design checks and, as the checks pass, it generates the Verilog file
-``MyTopLevel.v`` at the root of the workspace.
+Find and open ``hw/spinal/projectname/MyTopLevel.scala``.  Wait a little bit, and see the ``run | debug`` line that is displayed by Metals, before each ``App``. For instance, click on ``run`` just above ``object MyTopLevelVerilog``. Alternatively, you can select Menu Bar -> Run -> Run Without Debugging.  Either approach performs design checks and, as the checks pass, generates the Verilog file
+``./hw/gen/MyTopLevel.v``
 
-This is all you need to do to use Spinal from VSCodium!
+This is all you need to do to use SpinalHDL from VSCodium.  You now have the design-rule-checked Verilog and/or VHDL which you can use as input to your favorite synthesis tool.   
 
-Now you can use your environment, let's explore the code: :ref:`Simple example`.
+Now that you know how to use the VSCodium development environment, let's explore the code: :ref:`Simple example`.
