@@ -65,6 +65,12 @@ Jenv added these lines to my .bash_profile
    export PATH="$HOME/.jenv/bin:$PATH"
    eval "$(jenv init -)"
 
+Next you have to install scala's interactive build tool sbt. 
+
+.. code-block:: sh
+
+    brew install sbt
+
 If this works for you, please let us know.  If this does not work for you, you can read the github issue about Mac o SX installation here. 
 https://github.com/SpinalHDL/SpinalHDL/issues/1216
  
