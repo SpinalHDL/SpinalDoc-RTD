@@ -1,8 +1,5 @@
-Installation instructions
-=========================
-
-Scala
-^^^^^
+SBT setup for simulation
+========================
 
 To enable SpinalSim, the following lines have to be added in your build.sbt file :
 
@@ -16,6 +13,8 @@ Also the following imports have to be added in testbenches sources :
 
    import spinal.core._
    import spinal.core.sim._
+
+.. _sim backend install:
 
 Backend-dependent installation instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
