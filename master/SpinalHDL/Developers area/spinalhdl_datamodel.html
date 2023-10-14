@@ -1094,7 +1094,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#compilation-phases">Compilation Phases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modifying-a-netlist-as-a-user-without-plugins">Modifying a netlist as a user without plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#user-space-netlist-analysis">User space netlist analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#enumerating-every-clockdomain-used">Enumerating every ClockDomain used</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enumerating-every-clockdomain-in-use">Enumerating every ClockDomain in use</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="types.html">Types</a><ul>
@@ -1176,7 +1176,7 @@
 <h1>SpinalHDL internal datamodel<a class="headerlink" href="#spinalhdl-internal-datamodel" title="Permalink to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
-<p>This page document the internal data structure user by SpinalHDL to store and modify the netlist described by the user through the SpinalHDL API.</p>
+<p>This page provides documentation on the internal data structure utilized by SpinalHDL for storing and modifying the netlist described by users via the SpinalHDL API.</p>
 </section>
 <section id="general-structure">
 <h2>General structure<a class="headerlink" href="#general-structure" title="Permalink to this heading"></a></h2>
@@ -1187,20 +1187,20 @@
 <li><p>A link with a white diamond mean “base has a reference to target”</p></li>
 <li><p>The * symbol mean “multiple”</p></li>
 </ul>
-<p>Most of the data structure is stored via some double linked list to ease the insertion and the removal of elements.</p>
+<p>The majority of the data structures are stored using double-linked lists, which facilitate the insertion and removal of elements.</p>
 <p>There is a diagram of the global data structure :</p>
 <img alt="../../_images/astGlobal.png" class="align-center" src="../../_images/astGlobal.png" />
-<p>And here more details about the Statement class :</p>
+<p>And here more details about the <cite>Statement</cite> class :</p>
 <img alt="../../_images/astStatement.png" class="align-center" src="../../_images/astStatement.png" />
-<p>So in general, if a element of the datamodel use some other Expression or Statements, that element will have some functions to iterate over those usages. For instance, each Expression has a <cite>foreachExpression</cite> function.</p>
-<p>When using those iterating functions, you are allowed to remove the current element of the tree.</p>
-<p>Also as an aside the foreachXXX, which “only” iterate one level deep, there is often a walkXXX which will iterate recursively. So for instance myExpression.walkExpression on ((a+b)+c)+d will go through the whole tree of adders.</p>
-<p>There is also utilities as myExpression.remapExpressions(Expression =&gt; Expression) which will iterate over all used expression of myExpression, and change it for your returned one.</p>
+<p>In general, when an element within the data model utilizes other expressions or statements, that element typically includes functions for iterating over these usages. For example, each Expression is equipped with a <em>foreachExpression</em> function.</p>
+<p>When using these iteration functions, you have the option to remove the current element from the tree.</p>
+<p>Additionally, as a side note, while the <em>foreachXXX</em> functions iterate only one level deep, there are often corresponding <em>walkXXX</em> functions that perform recursive iteration. For instance, using <em>myExpression.walkExpression</em> on <em>((a+b)+c)+d</em> will traverse the entire tree of addition operations.</p>
+<p>There are also utilities like <em>myExpression.remapExpressions(Expression =&gt; Expression),</em> which iterate through all the expressions used within <em>myExpression</em> and replace them with the one you provide.</p>
 <p>More generaly, most of the graph checks and transformations done by SpinalHDL are located in &lt;<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala">https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala</a>&gt;</p>
 </section>
 <section id="exploring-the-datamodel">
 <h2>Exploring the datamodel<a class="headerlink" href="#exploring-the-datamodel" title="Permalink to this heading"></a></h2>
-<p>Here is an example which find all adders of the netlist without using “shortcuts” :</p>
+<p>Here is an example that identifies all adders within the netlist without utilizing shortcuts. :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">FindAllAddersManualy</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">Toplevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
@@ -1273,7 +1273,7 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 [Done] at 0.218
 </pre></div>
 </div>
-<p>Note that in many case, there are shortcuts. All the recursive stuff above could have been replaced by a single :</p>
+<p>Please note that in many cases, shortcuts are available. All the recursive processes mentioned earlier could have been replaced by a single one. :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">impl</span><span class="p">(</span><span class="n">pc</span><span class="p">:</span><span class="w"> </span><span class="nc">PhaseContext</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 <span class="w">  </span><span class="n">pc</span><span class="p">.</span><span class="n">walkExpression</span><span class="p">{</span>
@@ -1286,14 +1286,14 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 </section>
 <section id="compilation-phases">
 <h2>Compilation Phases<a class="headerlink" href="#compilation-phases" title="Permalink to this heading"></a></h2>
-<p>Here are all the default phases (in order) used to modify / check / generate verilog from a toplevel component :</p>
+<p>Here is the complete list of default phases, arranged in order, that are employed to modify, check, and generate Verilog code from a top-level component. :</p>
 <p>&lt;<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/internals/Phase.scala#L2487">https://github.com/SpinalHDL/SpinalHDL/blob/ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/internals/Phase.scala#L2487</a>&gt;</p>
-<p>If as a use you add a new compilation phase using  SpinalConfig.addTransformationPhase(new MyPhase()), then the phase will be added directly after the user component elaboration (so quite early). At that time, you can still use the whole SpinalHDL user API to add elements into the netlist.</p>
-<p>If you use the SpinalConfig.phasesInserters API, then you will have to be carefull to only modify the netlist in a way which is compatible with the phases which were already executed. For instance, if you insert you phase after the <cite>PhaseInferWidth</cite>, then you have to specify the width of each nodes you insert.</p>
+<p>If you, as a user, add a new compilation phase by using <em>SpinalConfig.addTransformationPhase(new MyPhase())</em>, this phase will be inserted immediately after the user component elaboration process, which is relatively early in the compilation sequence. During this phase, you can still make use of the complete SpinalHDL user API to introduce elements into the netlist.</p>
+<p>If you choose to use the SpinalConfig.phasesInserters API, it’s essential to exercise caution and ensure that any modifications made to the netlist align with the phases that have already been executed. For instance, if you insert your phase after the <em>PhaseInferWidth</em>, you must specify the width of each node you introduce.</p>
 </section>
 <section id="modifying-a-netlist-as-a-user-without-plugins">
 <h2>Modifying a netlist as a user without plugins<a class="headerlink" href="#modifying-a-netlist-as-a-user-without-plugins" title="Permalink to this heading"></a></h2>
-<p>There is quite a few user API which allow to modify things durring the user elaboration time :</p>
+<p>There are several user APIs that enable you to make modifications during the user elaboration phase. :</p>
 <ul class="simple">
 <li><p>mySignal.removeAssignments : Will remove all previous <cite>:=</cite> affecting the given signal</p></li>
 <li><p>mySignal.removeStatement : Will void the existance of the signal</p></li>
@@ -1302,7 +1302,7 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <li><p>mySubComponent.mySignal.pull() : Will provide a readable copy of the given signal, even if that signal is somewhere else in the hierarchy</p></li>
 <li><p>myComponent.rework{ myCode } : Execute <cite>myCode</cite> in the context of <cite>myComponent</cite>, allowing modifying it with the user API</p></li>
 </ul>
-<p>For instance, the following code will rework a toplevel component to insert a 3 stages shift register on each input / output of the component. (Usefull for synthesis tests)</p>
+<p>For example, the following code can be used to modify a top-level component by adding a three-stage shift register to each input and output of the component. This is particularly useful for synthesis testing.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ffIo</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Component</span><span class="p">](</span><span class="n">c</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="p">{</span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">buf1</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">that</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">KeepAttribute</span><span class="p">(</span><span class="nc">RegNext</span><span class="p">(</span><span class="n">that</span><span class="p">)).</span><span class="n">addAttribute</span><span class="p">(</span><span class="s">&quot;DONT_TOUCH&quot;</span><span class="p">)</span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">buf</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">that</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buf1</span><span class="p">(</span><span class="n">buf1</span><span class="p">(</span><span class="n">buf1</span><span class="p">(</span><span class="n">that</span><span class="p">)))</span>
@@ -1324,11 +1324,11 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Which can be used the following way :</p>
+<p>You can use the code in the following manner: :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="n">ffIo</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyToplevel</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>Here is an function, which allow to execute the <cite>body</cite> code as if nothing ever existed in the current component. This can be used for example to define new signals clean of the current conditional scope (when/switch)</p>
+<p>Here is a function that enables you to execute the body code as if the current component’s context did not exist. This can be particularly useful for defining new signals without the influence of the current conditional scope (such as when or switch).</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">atBeginingOfCurrentComponent</span><span class="p">[</span><span class="nc">T</span><span class="p">](</span><span class="n">body</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Component</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">dslBody</span><span class="w">  </span><span class="c1">// Get the head of the current component symbols tree (AST in other words)</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body</span><span class="p">.</span><span class="n">push</span><span class="p">()</span><span class="w">                 </span><span class="c1">// Now all access to the SpinalHDL API will be append to it (instead of the current context)</span>
@@ -1356,11 +1356,11 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This kind of functionality is for instance used in the VexRiscv pipeline to dynamicaly create things.</p>
+<p>This kind of functionality is, for instance, employed in the VexRiscv pipeline to dynamically create components or elements as needed.</p>
 </section>
 <section id="user-space-netlist-analysis">
 <h2>User space netlist analysis<a class="headerlink" href="#user-space-netlist-analysis" title="Permalink to this heading"></a></h2>
-<p>The SpinalHDL datamodel is also readable during usertime elaboration. Here is is an example which will find the shortest logical path (in terms of clock cycles) to travel through a list of signals. In the given case, it is to analyse the latency of the VexRiscv FPU design.</p>
+<p>The SpinalHDL data model is also accessible and can be read during user-time elaboration. Here’s an example that can help find the shortest logical path (in terms of clock cycles) to traverse a list of signals. In this specific case, it is being used to analyze the latency of the VexRiscv FPU design.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="s">&quot;cpuDecode to fpuDispatch &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nc">LatencyAnalysis</span><span class="p">(</span><span class="n">vex</span><span class="p">.</span><span class="n">decode</span><span class="p">.</span><span class="n">arbitration</span><span class="p">.</span><span class="n">isValid</span><span class="p">,</span><span class="w"> </span><span class="n">logic</span><span class="p">.</span><span class="n">decode</span><span class="p">.</span><span class="n">input</span><span class="p">.</span><span class="n">valid</span><span class="p">))</span>
 <span class="n">println</span><span class="p">(</span><span class="s">&quot;fpuDispatch to cpuRsp    &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nc">LatencyAnalysis</span><span class="p">(</span><span class="n">logic</span><span class="p">.</span><span class="n">decode</span><span class="p">.</span><span class="n">input</span><span class="p">.</span><span class="n">valid</span><span class="p">,</span><span class="w"> </span><span class="n">plugin</span><span class="p">.</span><span class="n">port</span><span class="p">.</span><span class="n">rsp</span><span class="p">.</span><span class="n">valid</span><span class="p">))</span>
 
@@ -1375,9 +1375,9 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <p>Here you can find the implementation of that LatencyAnalysis tool :
 &lt;<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620">https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620</a>&gt;</p>
 </section>
-<section id="enumerating-every-clockdomain-used">
-<h2>Enumerating every ClockDomain used<a class="headerlink" href="#enumerating-every-clockdomain-used" title="Permalink to this heading"></a></h2>
-<p>So here it is done after the elaboration using the SpinalHDL report.</p>
+<section id="enumerating-every-clockdomain-in-use">
+<h2>Enumerating every ClockDomain in use<a class="headerlink" href="#enumerating-every-clockdomain-in-use" title="Permalink to this heading"></a></h2>
+<p>In this case, this is accomplished after the elaboration process by utilizing the SpinalHDL report.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyTopLevelVerilog</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="p">{</span>
 <span class="w">  </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">cdA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;rawrr&quot;</span><span class="p">)</span>
@@ -1447,7 +1447,7 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~f1a39023d 2023-10-09
+    Version: master git~3b2882a20 2023-10-14
     </p></div>
     
 
