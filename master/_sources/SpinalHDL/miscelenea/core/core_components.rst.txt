@@ -444,39 +444,6 @@ There is a small component and a ``main`` that generate the corresponding VHDL.
      }
    }
 
-Memory
-------
-
-.. list-table::
-   :header-rows: 1
-   :widths: 2 1
-
-   * - Syntax
-     - Description
-   * - Mem(type : Data,size : Int)
-     - Create a RAM
-   * - Mem(type : Data,initialContent : Array[Data])
-     - Create a ROM
-
-
-.. list-table::
-   :header-rows: 1
-   :widths: 3 2 1
-
-   * - Syntax
-     - Description
-     - Return
-   * - mem(x)
-     - Asynchronous read
-     - T
-   * - mem(x) := y
-     - Synchronous write
-     - 
-   * - mem.readSync(address,enable)
-     - Synchronous read
-     - T
-
-
 Instantiate VHDL and Verilog IP
 -------------------------------
 
