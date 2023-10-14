@@ -9,7 +9,7 @@ SpinalHDL internal datamodel
 Introduction
 ------------------------------------------------
 
-This page document the internal data structure user by SpinalHDL to store and modify the netlist described by the user through the SpinalHDL API.
+This page provides documentation on the internal data structure utilized by SpinalHDL for storing and modifying the netlist described by users via the SpinalHDL API.
 
 General structure
 ------------------------
@@ -21,32 +21,32 @@ The following diagrams follow the UML nomenclature :
 - A link with a white diamond mean "base has a reference to target"
 - The * symbol mean "multiple"
 
-Most of the data structure is stored via some double linked list to ease the insertion and the removal of elements.
+The majority of the data structures are stored using double-linked lists, which facilitate the insertion and removal of elements.
 
 There is a diagram of the global data structure : 
 
 .. image:: /asset/picture/astGlobal.png
    :align: center
    
-And here more details about the Statement class : 
+And here more details about the `Statement` class : 
 
 .. image:: /asset/picture/astStatement.png
    :align: center
 
-So in general, if a element of the datamodel use some other Expression or Statements, that element will have some functions to iterate over those usages. For instance, each Expression has a `foreachExpression` function.
+In general, when an element within the data model utilizes other expressions or statements, that element typically includes functions for iterating over these usages. For example, each Expression is equipped with a *foreachExpression* function.
 
-When using those iterating functions, you are allowed to remove the current element of the tree.
+When using these iteration functions, you have the option to remove the current element from the tree.
 
-Also as an aside the foreachXXX, which "only" iterate one level deep, there is often a walkXXX which will iterate recursively. So for instance myExpression.walkExpression on ((a+b)+c)+d will go through the whole tree of adders.
+Additionally, as a side note, while the *foreachXXX* functions iterate only one level deep, there are often corresponding *walkXXX* functions that perform recursive iteration. For instance, using *myExpression.walkExpression* on *((a+b)+c)+d* will traverse the entire tree of addition operations.
 
-There is also utilities as myExpression.remapExpressions(Expression => Expression) which will iterate over all used expression of myExpression, and change it for your returned one.
+There are also utilities like *myExpression.remapExpressions(Expression => Expression),* which iterate through all the expressions used within *myExpression* and replace them with the one you provide.
 
 More generaly, most of the graph checks and transformations done by SpinalHDL are located in <https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala> 
 
 Exploring the datamodel
 -------------------------------
 
-Here is an example which find all adders of the netlist without using "shortcuts" : 
+Here is an example that identifies all adders within the netlist without utilizing shortcuts. : 
 
 .. code-block:: scala
 
@@ -124,7 +124,7 @@ Which will produces :
     Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
     [Done] at 0.218    
     
-Note that in many case, there are shortcuts. All the recursive stuff above could have been replaced by a single : 
+Please note that in many cases, shortcuts are available. All the recursive processes mentioned earlier could have been replaced by a single one. : 
 
 .. code-block:: scala
 
@@ -140,18 +140,18 @@ Note that in many case, there are shortcuts. All the recursive stuff above could
 Compilation Phases
 -------------------------------
 
-Here are all the default phases (in order) used to modify / check / generate verilog from a toplevel component : 
+Here is the complete list of default phases, arranged in order, that are employed to modify, check, and generate Verilog code from a top-level component. : 
 
 <https://github.com/SpinalHDL/SpinalHDL/blob/ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/internals/Phase.scala#L2487>
 
-If as a use you add a new compilation phase using  SpinalConfig.addTransformationPhase(new MyPhase()), then the phase will be added directly after the user component elaboration (so quite early). At that time, you can still use the whole SpinalHDL user API to add elements into the netlist.
+If you, as a user, add a new compilation phase by using *SpinalConfig.addTransformationPhase(new MyPhase())*, this phase will be inserted immediately after the user component elaboration process, which is relatively early in the compilation sequence. During this phase, you can still make use of the complete SpinalHDL user API to introduce elements into the netlist.
 
-If you use the SpinalConfig.phasesInserters API, then you will have to be carefull to only modify the netlist in a way which is compatible with the phases which were already executed. For instance, if you insert you phase after the `PhaseInferWidth`, then you have to specify the width of each nodes you insert.
+If you choose to use the SpinalConfig.phasesInserters API, it's essential to exercise caution and ensure that any modifications made to the netlist align with the phases that have already been executed. For instance, if you insert your phase after the *PhaseInferWidth*, you must specify the width of each node you introduce.
 
 Modifying a netlist as a user without plugins
 --------------------------------------------------------------
 
-There is quite a few user API which allow to modify things durring the user elaboration time :
+There are several user APIs that enable you to make modifications during the user elaboration phase. :
 
 - mySignal.removeAssignments : Will remove all previous `:=` affecting the given signal
 - mySignal.removeStatement : Will void the existance of the signal
@@ -160,7 +160,7 @@ There is quite a few user API which allow to modify things durring the user elab
 - mySubComponent.mySignal.pull() : Will provide a readable copy of the given signal, even if that signal is somewhere else in the hierarchy
 - myComponent.rework\{ myCode \} : Execute `myCode` in the context of `myComponent`, allowing modifying it with the user API
 
-For instance, the following code will rework a toplevel component to insert a 3 stages shift register on each input / output of the component. (Usefull for synthesis tests)
+For example, the following code can be used to modify a top-level component by adding a three-stage shift register to each input and output of the component. This is particularly useful for synthesis testing.
 
 .. code-block:: scala
 
@@ -184,13 +184,13 @@ For instance, the following code will rework a toplevel component to insert a 3 
     c
   }
   
-Which can be used the following way : 
+You can use the code in the following manner: : 
   
 .. code-block:: scala
 
   SpinalVerilog(ffIo(new MyToplevel))
   
-Here is an function, which allow to execute the `body` code as if nothing ever existed in the current component. This can be used for example to define new signals clean of the current conditional scope (when/switch)
+Here is a function that enables you to execute the body code as if the current component's context did not exist. This can be particularly useful for defining new signals without the influence of the current conditional scope (such as when or switch).
 
 .. code-block:: scala
   
@@ -220,13 +220,12 @@ Here is an function, which allow to execute the `body` code as if nothing ever e
      ...
   }
   
-This kind of functionality is for instance used in the VexRiscv pipeline to dynamicaly create things.  
-  
+This kind of functionality is, for instance, employed in the VexRiscv pipeline to dynamically create components or elements as needed.  
   
 User space netlist analysis
 --------------------------------------------------------------
 
-The SpinalHDL datamodel is also readable during usertime elaboration. Here is is an example which will find the shortest logical path (in terms of clock cycles) to travel through a list of signals. In the given case, it is to analyse the latency of the VexRiscv FPU design.
+The SpinalHDL data model is also accessible and can be read during user-time elaboration. Here's an example that can help find the shortest logical path (in terms of clock cycles) to traverse a list of signals. In this specific case, it is being used to analyze the latency of the VexRiscv FPU design.
 
 .. code-block:: scala
 
@@ -244,10 +243,10 @@ Here you can find the implementation of that LatencyAnalysis tool :
 <https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620>
 
 
-Enumerating every ClockDomain used
+Enumerating every ClockDomain in use
 ----------------------------------------------------
 
-So here it is done after the elaboration using the SpinalHDL report.
+In this case, this is accomplished after the elaboration process by utilizing the SpinalHDL report.
 
 .. code-block:: scala
 
