@@ -1,6 +1,8 @@
 Projects using SpinalHDL
 ------------------------
 
+Note that the following lists are very incompletes.
+
 .. _users_repositories:
 
 Repositories
@@ -12,6 +14,7 @@ Repositories
 * `SaxonSoc <https://github.com/SpinalHDL/SaxonSoc/tree/dev-0.3/bsp/digilent/ArtyA7SmpLinux>`_
 * `open-rdma <https://github.com/datenlord/open-rdma>`_
 * `MicroRV32 SoC <https://github.com/agra-uni-bremen/microrv32>`_
+* \.\.\.
 
 
 Companies
@@ -40,7 +43,7 @@ Companies
 
     `SpinalHDL for ASIC (PDF slideshow)
     <https://github.com/SpinalHDL/SpinalHDL/files/10239051/SpinalHDL.for.ASIC.pdf>`_
-
+* \.\.\.
 
 Universities
 ^^^^^^^^^^^^
@@ -57,3 +60,4 @@ Universities
     `A Network Attached Deep Learning Accelerator for FPGA Clusters (PDF
     slideshow)
     <https://github.com/SpinalHDL/SpinalHDL/files/10238707/A_Network_Attached_Deep_Learning_Accelerator_for_FPGA_Clusters.pdf>`_
+* \.\.\.
