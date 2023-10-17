@@ -189,3 +189,33 @@ For instance, to make the simulation fail after 1000 times the duration of a clo
     val period = 10
     dut.clockDomain.forkStimulus(period)
     SimTimeout(1000 * period)
+
+Capturing wave for a given window before failure
+------------------------------------------------
+
+In the case you have a very long simulation, and you don't want to capture the wave on all of it (too bug, too slow), you have mostly 2 ways to do it.
+
+Either you know already at which ``simTime`` the simulation failed, in which case you can do the following in your testbench : 
+
+.. code-block:: scala
+    
+    disableSimWave()
+    delayed(timeFromWhichIWantToCapture)(enableSimWave())
+
+Either you can run a dual lock-step simulation, with one running a bit delayed from the the other one, and which will start recording the wave once the other simulation had a failure.
+
+To do this, you can use the DualSimTracer utility, which will ask you the compiled hardware, the window of time you want to capture the wave before falure, and a seed.
+
+Here is an example :
+
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/libraries/sim/DualSimExample.scala
+   :language: scala
+
+This will generate the following file structure : 
+
+- simWorkspace/Toplevel/explorer/stdout.log : stdout of the simulation which is ahead
+- simWorkspace/Toplevel/tracer/stdout.log : stdout of the simulation doing the wave tracing
+- simWorkspace/Toplevel/tracer.fst : Waveform of the failure
+
+The scala terminal will show the explorer simulation stdout.
+
