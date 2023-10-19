@@ -295,7 +295,7 @@ if have_image_converter:
     image_converter='convert-wrapper'
 else:
     print("ERROR: convert-wrapper not found in $PATH, did you: source $PWD/bin/setup_env.sh", file=sys.stderr)
-    sys.exit(1)
+    #sys.exit(1)
 
 ## Want the footer.html to contain the specific details of the version being displayed
 ##  sphinx-multiversion doesn't appear to have an obvious feature to allow the
