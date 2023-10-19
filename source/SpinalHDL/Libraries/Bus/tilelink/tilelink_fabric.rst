@@ -23,6 +23,11 @@ You can note that they all are Handles. Handle is a way in SpinalHDL to have sha
 
 There is also a set of attribues like m2s, but reversed (named s2m) which specify the parameters for the transactions initiated by the slave side of the interconnect (ex memory coherency).
 
+There is two talks which where introducing the tilelink.fabric.Node. Those talk may not exactly follow the actual syntax, they are still follow the concepts : 
+
+- Introduction : https://youtu.be/hVi9xOGuuek
+- In depth : https://peertube.f-si.org/videos/watch/bcf49c84-d21d-4571-a73e-96d7eb89e907
+
 Example Toplevel
 -------------------
 
