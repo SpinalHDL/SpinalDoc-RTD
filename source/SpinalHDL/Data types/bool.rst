@@ -307,6 +307,9 @@ Misc
    * - x ## y
      - Concatenate, x->high, y->low
      - Bits(w(x) + w(y) bits)
+   * - x #* n
+     - Repeat x n-times
+     - Bits(n bits)
 
 
 .. code-block:: scala

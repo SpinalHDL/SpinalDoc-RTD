@@ -375,6 +375,9 @@ to use the return values to assign to the original signal.
    * - x ## y
      - Concatenate, x->high, y->low
      - Bits(w(x) + w(y) bits)
+   * - x #* n
+     - Repeat x n-times
+     - Bits(w(x) * n bits)
    * - x.resize(y)
      - Return a resized representation of x, if enlarged, it is extended with zero
        padding at MSB as necessary, y: Int
