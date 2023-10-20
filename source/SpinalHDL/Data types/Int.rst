@@ -500,6 +500,9 @@ to use the return values to assign to the original signal.
    * - x ## y
      - Concatenate, x->high, y->low
      - Bits(w(x) + w(y) bits)
+   * - x #* n
+     - Repeat x n-times
+     - Bits(w(x) * n bits)
    * - x @@ y
      - Concatenate x:T with y:Bool/SInt/UInt
      - T(w(x) + w(y) bits)
