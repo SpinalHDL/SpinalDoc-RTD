@@ -202,7 +202,7 @@ Either you know already at which ``simTime`` the simulation failed, in which cas
     disableSimWave()
     delayed(timeFromWhichIWantToCapture)(enableSimWave())
 
-Either you can run a dual lock-step simulation, with one running a bit delayed from the the other one, and which will start recording the wave once the other simulation had a failure.
+Or you can run a dual lock-step simulation, with one running a bit delayed from the the other one, and which will start recording the wave once the leading simulation had a failure.
 
 To do this, you can use the DualSimTracer utility, which will ask you the compiled hardware, the window of time you want to capture the wave before falure, and a seed.
 
