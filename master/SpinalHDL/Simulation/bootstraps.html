@@ -828,6 +828,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-multiple-tests-on-the-same-hardware">Running multiple tests on the same hardware</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#throw-success-or-failure-of-the-simulation-from-a-thread">Throw Success or Failure of the simulation from a thread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#capturing-wave-for-a-given-window-before-failure">Capturing wave for a given window before failure</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="signal.html">Accessing signals of the simulation</a><ul>
@@ -1353,6 +1354,57 @@ the simulation will continue. The simulation will report an error if it gets ful
 </pre></div>
 </div>
 </section>
+<section id="capturing-wave-for-a-given-window-before-failure">
+<h2>Capturing wave for a given window before failure<a class="headerlink" href="#capturing-wave-for-a-given-window-before-failure" title="Permalink to this heading"></a></h2>
+<p>In the case you have a very long simulation, and you don’t want to capture the wave on all of it (too bug, too slow), you have mostly 2 ways to do it.</p>
+<p>Either you know already at which <code class="docutils literal notranslate"><span class="pre">simTime</span></code> the simulation failed, in which case you can do the following in your testbench :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">disableSimWave</span><span class="p">()</span>
+<span class="n">delayed</span><span class="p">(</span><span class="n">timeFromWhichIWantToCapture</span><span class="p">)(</span><span class="n">enableSimWave</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Or you can run a dual lock-step simulation, with one running a bit delayed from the the other one, and which will start recording the wave once the leading simulation had a failure.</p>
+<p>To do this, you can use the DualSimTracer utility, with parameters for the compiled hardware, the window of time you want to capture before failure, and a seed.</p>
+<p>Here is an example :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">package</span><span class="w"> </span><span class="nn">spinaldoc</span><span class="p">.</span><span class="nn">libraries</span><span class="p">.</span><span class="n">sim</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">misc</span><span class="p">.</span><span class="nn">test</span><span class="p">.</span><span class="nc">DualSimTracer</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Toplevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+
+<span class="k">object</span><span class="w"> </span><span class="nc">Example</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">compiled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withFstWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Toplevel</span><span class="p">())</span>
+
+<span class="w">  </span><span class="nc">DualSimTracer</span><span class="p">(</span><span class="n">compiled</span><span class="p">,</span><span class="w"> </span><span class="n">window</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">){</span><span class="n">dut</span><span class="o">=&gt;</span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">onSamplings</span><span class="p">{</span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span>
+
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mh">0x1000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span>
+<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="s">f&quot;Value=0x</span><span class="si">$</span><span class="n">value</span><span class="s">%x at </span><span class="si">${</span><span class="n">simTime</span><span class="p">()</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="c1">// Throw a simulation failure after 64K cycles</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0xFFFF</span><span class="p">){</span>
+<span class="w">        </span><span class="n">simFailure</span><span class="p">()</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This will generate the following file structure :</p>
+<ul class="simple">
+<li><p>simWorkspace/Toplevel/explorer/stdout.log : stdout of the simulation which is ahead</p></li>
+<li><p>simWorkspace/Toplevel/tracer/stdout.log : stdout of the simulation doing the wave tracing</p></li>
+<li><p>simWorkspace/Toplevel/tracer.fst : Waveform of the failure</p></li>
+</ul>
+<p>The scala terminal will show the explorer simulation stdout.</p>
+</section>
 </section>
 
     <script type="text/javascript">
@@ -1384,7 +1436,7 @@ the simulation will continue. The simulation will report an error if it gets ful
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~13939908d 2023-10-17
+    Version: master git~22b7e4ccf 2023-10-20
     </p></div>
     
 
