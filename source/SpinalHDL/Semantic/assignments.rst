@@ -12,7 +12,7 @@ There are multiple assignment operators:
    * - ``:=``
      - Standard assignment, equivalent to ``<=`` in VHDL/Verilog.
    * - ``\=``
-     - Equivalent to ``:=`` in VHDL and ``=`` in Verilog. The value is updated instantly in-place.
+     - Equivalent to ``:=`` in VHDL and ``=`` in Verilog. The value is updated instantly in-place. Only works with combinational signals, does not work with registers.
    * - ``<>``
      - Automatic connection between 2 signals or two bundles of the same type. Direction is inferred by using signal direction (in/out). (Similar behavior to ``:=``\ )
 
