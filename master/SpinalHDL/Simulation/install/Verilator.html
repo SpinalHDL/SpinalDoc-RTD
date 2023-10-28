@@ -124,14 +124,19 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../Getting%20Started/index.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html">Install and setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#mandatory-requirements">Mandatory requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#required-recommended-tools">Required/Recommended tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#linux-installation">Linux Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#mac-os-x-installation">Mac OS X Installation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#installing-sbt-in-an-internet-free-environment">Installing SBT in an internet-free environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#mac-os-x-installation">Mac OS X Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#windows-installation">Windows installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#msys2-verilator-for-simulation">MSYS2 verilator for simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#msys2-for-formal-verification">MSYS2 for formal verification</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#recommended-requirements">Recommended requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#create-a-spinalhdl-project">Create a SpinalHDL project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#oci-container">OCI Container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#installing-sbt-in-an-internet-free-linux-environment">Installing SBT in an internet-free Linux environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#create-a-first-spinalhdl-project">Create a first SpinalHDL project</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#the-directory-structure-of-a-project">The directory structure of a project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#using-spinal-on-spinalhdl-code">Using Spinal on SpinalHDL code</a></li>
 </ul>
@@ -812,8 +817,7 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Simulation</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">Installation instructions</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="index.html#scala">Scala</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">SBT setup for simulation</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#backend-dependent-installation-instructions">Backend-dependent installation instructions</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="GHDL.html">Setup and installation of GHDL</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Icarus%20Verilog.html">Setup and installation of Icarus Verilog</a></li>
@@ -1144,7 +1148,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Simulation</a></li>
-          <li class="breadcrumb-item"><a href="index.html">Installation instructions</a></li>
+          <li class="breadcrumb-item"><a href="index.html">SBT setup for simulation</a></li>
       <li class="breadcrumb-item active">Setup and installation of Verilator</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/SpinalHDL/SpinalDoc-RTD/blob/master/source/SpinalHDL/Simulation/install/Verilator.rst" class="fa fa-github"> Edit on GitHub</a>
@@ -1175,6 +1179,11 @@
 
   <section id="setup-and-installation-of-verilator">
 <h1>Setup and installation of Verilator<a class="headerlink" href="#setup-and-installation-of-verilator" title="Permalink to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you installed the recommended oss-cad-suite during SpinalHDL <a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#install"><span class="std std-ref">setup</span></a> you
+can skip the instructions below - but you need to activate the oss-cad-suite environment.</p>
+</div>
 <p>SpinalSim + Verilator is supported on both Linux and Windows platforms.</p>
 <p>It is recommended that v4.218 is the oldest Verilator version to use.  While it maybe
 possible to use older verilator versions, some optional and Scala source dependent
@@ -1219,7 +1228,7 @@ sudo<span class="w"> </span>make<span class="w"> </span>install
 <li><p>Install <a class="reference external" href="https://www.msys2.org/">MSYS2</a></p></li>
 <li><p>Via MSYS2 get gcc/g++/verilator (for Verilator you can compile it from the sources)</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">bin</span></code> and <code class="docutils literal notranslate"><span class="pre">usr\bin</span></code> of MSYS2 into your windows <code class="docutils literal notranslate"><span class="pre">PATH</span></code> (ie : <code class="docutils literal notranslate"><span class="pre">C:\msys64\usr\bin;C:\msys64\mingw64\bin</span></code>)</p></li>
-<li><p>Check that the JAVA_HOME environnement variable point to the JDK installation folder (ie : <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\Java\jdk-13.0.2</span></code>)</p></li>
+<li><p>Check that the JAVA_HOME environment variable points to the JDK installation folder (i.e.: <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\Java\jdk-13.0.2</span></code>)</p></li>
 </ul>
 <p>Then you should be able to run SpinalSim + Verilator from your Scala project without having to use MSYS2 anymore.</p>
 <p>From a fresh install of MSYS2 MinGW 64-bit, you will have to run the following commands inside the MSYS2 MinGW 64-bits shell (enter commands one by one):</p>
@@ -1306,7 +1315,7 @@ This is why it is safer to add them as the last elements of the <code class="doc
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~ab4d3f3d0 2023-10-27
+    Version: master git~b88c0a1b3 2023-10-28
     </p></div>
     
 

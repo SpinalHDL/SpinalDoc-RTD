@@ -124,14 +124,19 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Getting Started</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Install and setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#mandatory-requirements">Mandatory requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#required-recommended-tools">Required/Recommended tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#linux-installation">Linux Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#mac-os-x-installation">Mac OS X Installation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#installing-sbt-in-an-internet-free-environment">Installing SBT in an internet-free environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mac-os-x-installation">Mac OS X Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows-installation">Windows installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#msys2-verilator-for-simulation">MSYS2 verilator for simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#msys2-for-formal-verification">MSYS2 for formal verification</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#recommended-requirements">Recommended requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#create-a-spinalhdl-project">Create a SpinalHDL project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oci-container">OCI Container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-sbt-in-an-internet-free-linux-environment">Installing SBT in an internet-free Linux environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-first-spinalhdl-project">Create a first SpinalHDL project</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#the-directory-structure-of-a-project">The directory structure of a project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#using-spinal-on-spinalhdl-code">Using Spinal on SpinalHDL code</a></li>
 </ul>
@@ -812,8 +817,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../Simulation/index.html">Simulation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation/install/index.html">Installation instructions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Simulation/install/index.html#scala">Scala</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation/install/index.html">SBT setup for simulation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Simulation/install/index.html#backend-dependent-installation-instructions">Backend-dependent installation instructions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Simulation/install/GHDL.html">Setup and installation of GHDL</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Simulation/install/Icarus%20Verilog.html">Setup and installation of Icarus Verilog</a></li>
@@ -1174,98 +1178,26 @@
 
   <section id="install-and-setup">
 <span id="install"></span><h1>Install and setup<a class="headerlink" href="#install-and-setup" title="Permalink to this heading"></a></h1>
-<p>Spinal is a Scala library so it requires setting up a Scala environment; there
-are many ways to do so. Also, it generates VHDL, Verilog or SystemVerilog, which
-can be used by many different tools. This section describes the supported way to
-install a <em>SpinalHDL description to Simulation</em> flow, but there can be many
-variations.</p>
-<section id="mandatory-requirements">
-<h2>Mandatory requirements<a class="headerlink" href="#mandatory-requirements" title="Permalink to this heading"></a></h2>
+<p>Spinal is a Scala library (a programming language using the Java VM) so it
+requires setting up a Scala environment; there are many ways to do so.
+Also, it generates VHDL, Verilog or SystemVerilog, which can be used by many
+different tools. This section describes the supported way to install a
+<em>SpinalHDL description to Simulation</em> flow, but there can be many variations.</p>
+<section id="required-recommended-tools">
+<h2>Required/Recommended tools<a class="headerlink" href="#required-recommended-tools" title="Permalink to this heading"></a></h2>
 <p>Before you download the SpinalHDL tools, you need to install a Scala environment:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.oracle.com/java/technologies/downloads/">Java JDK</a>, a Java
 environment</p></li>
+<li><p><a class="reference external" href="https://www.scala-lang.org/">Scala 2</a>, compiler and library</p></li>
 <li><p><a class="reference external" href="https://www.scala-sbt.org/download.html">SBT</a>, a Scala build tool</p></li>
 </ul>
 <p>These tools enable to use Spinal; but without any other tools, it is limited to
-code generation.</p>
-</section>
-<section id="linux-installation">
-<h2>Linux Installation<a class="headerlink" href="#linux-installation" title="Permalink to this heading"></a></h2>
-<p>For instance, to install them on the Debian distribution:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-8-jdk
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>scala
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb https://repo.scala-sbt.org/scalasbt/debian all main&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/sbt.list
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb https://repo.scala-sbt.org/scalasbt/debian /&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/sbt_old.list
-curl<span class="w"> </span>-sL<span class="w"> </span><span class="s2">&quot;https://keyserver.ubuntu.com/pks/lookup?op=get&amp;search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add
-sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>sbt
-</pre></div>
-</div>
-</section>
-<section id="mac-os-x-installation">
-<h2>Mac OS X Installation<a class="headerlink" href="#mac-os-x-installation" title="Permalink to this heading"></a></h2>
-<p>You can use homebrew to install on Mac OS X.  By default homebrew installs Java 21, but the  SpinalHDL tutorial
-SpinalTemplateSbt uses Scala version 2.12.16, which is not supported by Java 21 (17 is still the recommended LTS version, <a class="reference external" href="https://whichjdk.com/">https://whichjdk.com/</a>). So to install Java version 1.7 do:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>openjdk@17
-</pre></div>
-</div>
-<p>And then add this to your path.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/homebrew/opt/openjdk@17/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
-</pre></div>
-</div>
-<p>To manage multiple versions of Java, it is also essential to have jenv installed.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>jenv
-</pre></div>
-</div>
-<p>Jenv added these lines to my .bash_profile</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.jenv/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
-<span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>jenv<span class="w"> </span>init<span class="w"> </span>-<span class="k">)</span><span class="s2">&quot;</span>
-</pre></div>
-</div>
-<p>Next you have to install scala’s interactive build tool sbt.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>sbt
-</pre></div>
-</div>
-<p>If this works for you, please let us know.  If this does not work for you, you can read the github issue about Mac o SX installation here.
-<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues/1216">https://github.com/SpinalHDL/SpinalHDL/issues/1216</a></p>
-<section id="installing-sbt-in-an-internet-free-environment">
-<h3>Installing SBT in an internet-free environment<a class="headerlink" href="#installing-sbt-in-an-internet-free-environment" title="Permalink to this heading"></a></h3>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you do not need this, you can skip to the next section:
-<a class="reference internal" href="#recommended"><span class="std std-ref">Recommended requirements</span></a>.</p>
-</div>
-<p>Normally, SBT uses online repositories to download and cache your projects
-dependencies. This cache is located in several folders:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">~/.sbt</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">~/.cache/JNA</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">~/.cache/coursier</span></code></p></li>
-</ul>
-<p>To set up an internet-free environment, you can:</p>
-<ol class="arabic simple">
-<li><p>Set up an environment with internet</p></li>
-<li><p>Launch a Spinal command (see <a class="reference internal" href="SBT.html#using-sbt"><span class="std std-ref">Using Spinal from CLI with SBT</span></a>) to fetch dependencies (for
-instance using the <a class="reference external" href="https://github.com/SpinalHDL/SpinalTemplateSbt">getting started</a> repository)</p></li>
-<li><p>Copy the caches to the internet-free environment.</p></li>
-</ol>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can get a portable SBT setup here: <a class="reference external" href="https://www.scala-sbt.org/download.html">https://www.scala-sbt.org/download.html</a></p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You might be interested in <a class="reference external" href="https://github.com/SpinalHDL/SpinalNomad/tree/main/sbt">SpinalNomad</a>.</p>
-</div>
-</section>
-</section>
-<section id="recommended-requirements">
-<span id="recommended"></span><h2>Recommended requirements<a class="headerlink" href="#recommended-requirements" title="Permalink to this heading"></a></h2>
-<p>To enable more features:</p>
+HDL code generation.</p>
+<p>To enable more features we recommend:</p>
 <ul>
-<li><p>An IDE (for instance <a class="reference external" href="https://www.jetbrains.com/idea/">IntelliJ</a> with its
-Scala plugin or <a class="reference external" href="https://vscodium.com/">VSCodium</a> with Metals extension) to
+<li><p>An IDE (for instance the currently recommended <a class="reference external" href="https://www.jetbrains.com/idea/">IntelliJ</a>
+with its Scala plugin or <a class="reference external" href="https://vscodium.com/">VSCodium</a> with Metals extension) to
 get features such as:</p>
 <blockquote>
 <div><ul class="simple">
@@ -1282,10 +1214,172 @@ to test the design right from SpinalHDL.</p></li>
 <li><p><a class="reference external" href="https://gtkwave.sourceforge.net/">Gtkwave</a> to view the waves generated by
 Verilator during simulation.</p></li>
 <li><p><a class="reference external" href="https://git-scm.com/">Git</a> for version control system</p></li>
+<li><p>A C++ toolchain, needed for simulating with Verilator</p></li>
+<li><p>A linux shell, needed for simulating with Verilator</p></li>
 </ul>
 </section>
-<section id="create-a-spinalhdl-project">
-<span id="template"></span><h2>Create a SpinalHDL project<a class="headerlink" href="#create-a-spinalhdl-project" title="Permalink to this heading"></a></h2>
+<section id="linux-installation">
+<h2>Linux Installation<a class="headerlink" href="#linux-installation" title="Permalink to this heading"></a></h2>
+<p>At time of writing the recommended way of installing Scala and SBT is via <a class="reference external" href="https://get-coursier.io/docs/cli-installation">Coursier</a>.
+Coursier is able to in addition to the scala tools install a Java JDK to use, in the
+example below we install Java from the package manager. We recommend to install JDK 17 (LTS)
+because of compatibility with the used Scala version.</p>
+<p>For Debian or Ubuntu we run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-17-jdk-headless<span class="w"> </span>curl<span class="w"> </span>git
+curl<span class="w"> </span>-fL<span class="w"> </span><span class="s2">&quot;https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>cs
+chmod<span class="w"> </span>+x<span class="w"> </span>cs
+<span class="c1"># should find the just installed jdk, agree to cs&#39; questions for adding to your PATH</span>
+./cs<span class="w"> </span>setup
+<span class="nb">source</span><span class="w"> </span>~/.profile
+</pre></div>
+</div>
+<p>If you want to install the tools for simulation and/or formal proofs, we recommend <a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build">oss-cad-suite</a>.
+It contains a waveform viewer (gtkWave), verilog simulators (verilator and iverilog), VHDL simulator (GHDL) and other tools.
+In case you want to build the tools yourself have a look at the legacy simulation tool <a class="reference internal" href="../Simulation/install/index.html#sim-backend-install"><span class="std std-ref">installation instructions</span></a>.</p>
+<p>We first install the needed C++ toolchain and download oss-cad-suite. To use it we must load the oss-cad-suite
+environment for each shell we want to use it in. Note that oss-cad-suite contains a Python 3 interpreter that
+may interfere with the system Python installation if loaded permanently.</p>
+<p>Go to the oss-cad-suite <a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build/releases/latest">release page</a> to get the
+download link for the latest version. You can download/extract oss-cad-suite to a folder of your choice.
+(last tested version of oss-cad-suite is <cite>2023-10-22</cite>, but more recent ones will most likely also work)</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>make<span class="w"> </span>gcc<span class="w"> </span>g++<span class="w"> </span>zlib1g-dev
+curl<span class="w"> </span>-fLO<span class="w"> </span>&lt;download<span class="w"> </span>link&gt;
+tar<span class="w"> </span>xzf<span class="w"> </span>&lt;file<span class="w"> </span>that<span class="w"> </span>you<span class="w"> </span>downloaded&gt;
+</pre></div>
+</div>
+<p>To use oss-cad-suite in a shell you need to load it’s environment, e.g. via <code class="docutils literal notranslate"><span class="pre">souce</span> <span class="pre">&lt;path</span> <span class="pre">to</span> <span class="pre">oss-cad-suite&gt;/environment</span></code>.</p>
+</section>
+<section id="mac-os-x-installation">
+<h2>Mac OS X Installation<a class="headerlink" href="#mac-os-x-installation" title="Permalink to this heading"></a></h2>
+<p>You can use homebrew to install on Mac OS X.  By default homebrew installs Java 21, but the  SpinalHDL tutorial
+SpinalTemplateSbt uses Scala version 2.12.16, which is not supported by Java 21 (17 is still the recommended LTS version,
+<a class="reference external" href="https://whichjdk.com/">https://whichjdk.com/</a>). So to install Java version 1.7 do:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>openjdk@17
+</pre></div>
+</div>
+<p>And then add this to your path.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/homebrew/opt/openjdk@17/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>To manage multiple versions of Java it is also essential to have jenv installed.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>jenv
+</pre></div>
+</div>
+<p>Jenv added these lines to my .bash_profile</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.jenv/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>jenv<span class="w"> </span>init<span class="w"> </span>-<span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>Next you have to install scala’s interactive build tool sbt.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>sbt
+</pre></div>
+</div>
+<p>If this works for you, please let us know.  If this does not work for you, you can read the github issue about Mac o SX installation here.
+<a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues/1216">https://github.com/SpinalHDL/SpinalHDL/issues/1216</a></p>
+<p>If you want to install the tools for simulation and/or formal proofs, we recommend <a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build">oss-cad-suite</a>.</p>
+</section>
+<section id="windows-installation">
+<h2>Windows installation<a class="headerlink" href="#windows-installation" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While a native installation is possible the simpler and currently recommended way is to use WSL on Windows.
+If you want to use WSL, install <a class="reference external" href="https://learn.microsoft.com/en-us/windows/wsl/install">it</a>, a distribution of your choice and
+follow the Linux installation instructions. Data in your WSL instance can be accessed from windows under <code class="docutils literal notranslate"><span class="pre">\\wsl$</span></code>.
+In case you want to use IntelliJ you’ll have to download the Linux version to WSL, if you want to use VSCode then the Windows
+version can be used to remotely edit in WSL.</p>
+</div>
+<p>At time of writing the recommended way of installing Scala and SBT is via <a class="reference external" href="https://get-coursier.io/docs/cli-installation">Coursier</a>.
+Coursier is able to in addition to the scala tools install a Java JDK to use, in the
+example below we install Java manually. We recommend to install JDK 17 (LTS) because of
+compatibility with Scala.</p>
+<p>First download and install <a class="reference external" href="https://adoptium.net/temurin/releases/?os=windows&amp;version=17">Adoptium JDK 17</a>.
+Download, unzip and run the <a class="reference external" href="https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-win32.zip">Coursier installer</a>,
+when asked agree to an update of your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> variable. Reboot to force an update of <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+<p>This is sufficient for generating hardware. For simulation continue with either choice below.
+In case you want to build the tools yourself have a look at the legacy simulation tool <a class="reference internal" href="../Simulation/install/index.html#sim-backend-install"><span class="std std-ref">installation instructions</span></a>.</p>
+<section id="msys2-verilator-for-simulation">
+<h3>MSYS2 verilator for simulation<a class="headerlink" href="#msys2-verilator-for-simulation" title="Permalink to this heading"></a></h3>
+<p>We recommend to install compiler/verilator through <cite>MSYS2 &lt;https://www.msys2.org&gt;</cite>.
+Other methods of installing gcc/make/shell (e.g. chocolatey, scoop, etc.) may also work but are untested.</p>
+<p>SpinalHDL maintainer <cite>Readon &lt;https://github.com/Readon&gt;</cite> is maintaining a MSYS2 fork that default
+installs all needed officially available and custom built packages (also maintained by Readon <cite>here &lt;https://github.com/Readon/MINGW-SpinalHDL&gt;</cite>)
+for simulation and formal verification. It can be found <cite>here &lt;https://github.com/Readon/msys2-installer&gt;</cite>.
+If used then the packages installed below via <code class="docutils literal notranslate"><span class="pre">pacman</span></code> are already installed and those
+installation steps can be skipped.</p>
+<p>Currently verilator 4.228 is latest available version known to work.</p>
+<p>Download the latest installer and install MSYS2 with default settings. You should get a MSYS2 terminal at
+the end of the installation, there run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman<span class="w"> </span>-Syuu
+<span class="c1"># will (request) close down terminal</span>
+<span class="c1"># open &#39;MSYS2 MINGW64&#39; from start menu</span>
+pacman<span class="w"> </span>-Syuu
+pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>base-devel<span class="w"> </span>mingw-w64-x86_64-toolchain<span class="w"> </span>mingw-w64-x86_64-iverilog<span class="w"> </span>mingw-w64-x86_64-ghdl-llvm<span class="w"> </span>git
+curl<span class="w"> </span>-O<span class="w"> </span>https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
+pacman<span class="w"> </span>-U<span class="w"> </span>mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
+</pre></div>
+</div>
+<p>In a MSYS2 MINGW64 terminal we need to set some environment variables to make Java/sbt available (you can make these
+settings persistent by adding them to <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> in MSYS2):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">VERILATOR_ROOT</span><span class="o">=</span>/mingw64/share/verilator/
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/c/Program<span class="se">\ </span>Files/Eclipse<span class="se">\ </span>Adoptium/jdk-17.0.8.101-hotspot/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/c/Users/User/AppData/Local/Coursier/data/bin:<span class="nv">$PATH</span>
+</pre></div>
+</div>
+<p>With this you should be able to run sbt/verilator simulations from MSYS2 terminals (sbt via calling <code class="docutils literal notranslate"><span class="pre">sbt.bat</span></code>).</p>
+</section>
+<section id="msys2-for-formal-verification">
+<h3>MSYS2 for formal verification<a class="headerlink" href="#msys2-for-formal-verification" title="Permalink to this heading"></a></h3>
+<p>In addition to the steps above we also need to install yosys, sby, z3 and yices. Both yosys and sby are
+not available as official MSYS2 packages, but packages are provided by <cite>Readon &lt;https://github.com/Readon&gt;</cite>.
+If you used their installer then these steps are not needed (you should check if there are newer packages available).</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman<span class="w"> </span>-S<span class="w"> </span>mingw-w64-x86_64-z3<span class="w"> </span>mingw-w64-x86_64-yices<span class="w"> </span>mingw-w64-x86_64-autotools<span class="w"> </span>mingw-w64-x86_64-python3-pip
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>click
+curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-yosys-0.31-1-any.pkg.tar.zst
+curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-python-sby-0.31-1-any.pkg.tar.zst
+pacman<span class="w"> </span>-U<span class="w"> </span>*-yosys-*.pkg.tar.*
+pacman<span class="w"> </span>-U<span class="w"> </span>*-python-sby-*.pkg.tar*
+</pre></div>
+</div>
+</section>
+</section>
+<section id="oci-container">
+<h2>OCI Container<a class="headerlink" href="#oci-container" title="Permalink to this heading"></a></h2>
+<p>A container for SpinalHDL development is available as well.
+The container is hosted at <code class="docutils literal notranslate"><span class="pre">ghcr.io/spinalhdl/docker:master</span></code> and can be used with Docker/Podman/Github Codespaces.
+It is used for the SpinalHDL CI regression and can therefore be an easy way to run the CI commands locally.</p>
+<p>To run the container run e.g. <code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">run</span> <span class="pre">-v</span> <span class="pre">.:/workspace</span> <span class="pre">-it</span> <span class="pre">ghcr.io/spinalhdl/docker:master</span></code> in a SpinalHDL project
+root directory, making the project directory available in <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>.</p>
+<p>Please consult the documentation of you Distribution (Linux, WSL) or Docker (Windows) on how to install the container
+runtime you want to use. Multiple editors/IDEs (e.g. VSCode, IntelliJ, Neovide) allow for remote development in a container.
+Please consult the documentation of the editor on how to do remote development.</p>
+</section>
+<section id="installing-sbt-in-an-internet-free-linux-environment">
+<h2>Installing SBT in an internet-free Linux environment<a class="headerlink" href="#installing-sbt-in-an-internet-free-linux-environment" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are not using an air-gapped environment we recommend to
+go with the normal linux installation. (which is a subset of the
+installation for an air-gapped environment)</p>
+</div>
+<p>Normally, SBT uses online repositories to download and cache your projects
+dependencies. This cache is located in several folders:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.sbt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.cache/JNA</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.cache/coursier</span></code></p></li>
+</ul>
+<p>To set up an internet-free environment, you can:</p>
+<ol class="arabic simple">
+<li><p>Set up an environment with internet (see above)</p></li>
+<li><p>Launch a Spinal command (see <a class="reference internal" href="SBT.html#using-sbt"><span class="std std-ref">Using Spinal from CLI with SBT</span></a>) to fetch dependencies (for
+instance using the <a class="reference external" href="https://github.com/SpinalHDL/SpinalTemplateSbt">getting started</a> repository)</p></li>
+<li><p>Copy the caches to the internet-free environment.</p></li>
+</ol>
+</section>
+</section>
+<section id="create-a-first-spinalhdl-project">
+<span id="template"></span><h1>Create a first SpinalHDL project<a class="headerlink" href="#create-a-first-spinalhdl-project" title="Permalink to this heading"></a></h1>
 <p>We have prepared a ready-to-go project for you the: <a class="reference external" href="https://github.com/SpinalHDL/SpinalTemplateSbt">getting started</a> repository.</p>
 <p>You can <a class="reference external" href="https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master">download</a> it, or clone it.</p>
 <p>The following commands clone the project into a new directory named
@@ -1298,7 +1392,6 @@ git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit from template&quot;</span>
 </pre></div>
 </div>
-</section>
 <section id="the-directory-structure-of-a-project">
 <h2>The directory structure of a project<a class="headerlink" href="#the-directory-structure-of-a-project" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
@@ -1397,7 +1490,7 @@ development environment:</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~ab4d3f3d0 2023-10-27
+    Version: master git~b88c0a1b3 2023-10-28
     </p></div>
     
 

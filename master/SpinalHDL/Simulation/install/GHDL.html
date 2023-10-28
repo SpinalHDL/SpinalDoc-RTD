@@ -32,7 +32,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Setup and installation of Icarus Verilog" href="Icarus%20Verilog.html" />
-    <link rel="prev" title="Installation instructions" href="index.html" />
+    <link rel="prev" title="SBT setup for simulation" href="index.html" />
      
     <!-- source/_templates/layout.html -->
     
@@ -124,14 +124,19 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../Getting%20Started/index.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html">Install and setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#mandatory-requirements">Mandatory requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#required-recommended-tools">Required/Recommended tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#linux-installation">Linux Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#mac-os-x-installation">Mac OS X Installation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#installing-sbt-in-an-internet-free-environment">Installing SBT in an internet-free environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#mac-os-x-installation">Mac OS X Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#windows-installation">Windows installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#msys2-verilator-for-simulation">MSYS2 verilator for simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#msys2-for-formal-verification">MSYS2 for formal verification</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#recommended-requirements">Recommended requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#create-a-spinalhdl-project">Create a SpinalHDL project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#oci-container">OCI Container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#installing-sbt-in-an-internet-free-linux-environment">Installing SBT in an internet-free Linux environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#create-a-first-spinalhdl-project">Create a first SpinalHDL project</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#the-directory-structure-of-a-project">The directory structure of a project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#using-spinal-on-spinalhdl-code">Using Spinal on SpinalHDL code</a></li>
 </ul>
@@ -812,8 +817,7 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Simulation</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">Installation instructions</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="index.html#scala">Scala</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">SBT setup for simulation</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#backend-dependent-installation-instructions">Backend-dependent installation instructions</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Setup and installation of GHDL</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Icarus%20Verilog.html">Setup and installation of Icarus Verilog</a></li>
@@ -1144,7 +1148,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Simulation</a></li>
-          <li class="breadcrumb-item"><a href="index.html">Installation instructions</a></li>
+          <li class="breadcrumb-item"><a href="index.html">SBT setup for simulation</a></li>
       <li class="breadcrumb-item active">Setup and installation of GHDL</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/SpinalHDL/SpinalDoc-RTD/blob/master/source/SpinalHDL/Simulation/install/GHDL.rst" class="fa fa-github"> Edit on GitHub</a>
@@ -1175,6 +1179,11 @@
 
   <section id="setup-and-installation-of-ghdl">
 <h1>Setup and installation of GHDL<a class="headerlink" href="#setup-and-installation-of-ghdl" title="Permalink to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you installed the recommended oss-cad-suite during SpinalHDL <a class="reference internal" href="../../Getting%20Started/Install%20and%20setup.html#install"><span class="std std-ref">setup</span></a> you
+can skip the instructions below - but you need to activate the oss-cad-suite environment.</p>
+</div>
 <p>Even though GHDL is generally available in linux distributions package system, SpinalHDL depends on bugfixes of GHDL codebase that were added after the release of GHDL v0.37. Therefore it is reccomended to install GHDL from source.
 The C++ library boost-interprocess, which is contained in the libboost-dev package in debian-like distributions, has to be installed too. boost-interprocess is required to generate the shared memory communication interface.</p>
 <section id="linux">
@@ -1206,7 +1215,7 @@ sudo<span class="w"> </span>make<span class="w"> </span>install
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Installation instructions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="SBT setup for simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Icarus%20Verilog.html" class="btn btn-neutral float-right" title="Setup and installation of Icarus Verilog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
@@ -1224,7 +1233,7 @@ sudo<span class="w"> </span>make<span class="w"> </span>install
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~ab4d3f3d0 2023-10-27
+    Version: master git~b88c0a1b3 2023-10-28
     </p></div>
     
 
