@@ -16,6 +16,8 @@ Also the following imports have to be added in testbenches sources :
 
 .. _sim backend install:
 
+Also, if you need to use gmake instead of make (ex OpenBSD) you can set the SPINAL_MAKE_CMD environnement variable to "gmake"
+
 Backend-dependent installation instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
