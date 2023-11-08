@@ -93,7 +93,7 @@ Here is the same example but using more of the API :
       val VALUE = Stageable(UInt(16 bits))
       
       val io = new Bundle{
-        val up = slave Stream(VALUE)  //VALUE can also be used as a HardType
+        val up = slave Stream(VALUE)  // Stageable can also be used as a HardType
         val down = master Stream(VALUE)
       }
 
@@ -142,11 +142,29 @@ Node
 
 Node mostly host the valid/ready arbitration signal, and the hardware signal required for all the Stageable values going through it.
 
-You can access its arbitration signals via :
+You can access its arbitration via :
 
-- node.valid / node.isValid
-- node.ready / node.isReady
-- node.isFireing which is a shortcut for `valid && ready`
+
+.. list-table::
+   :header-rows: 1
+   :widths: 1 5
+
+   * - API
+     - Description
+   * - node.valid
+     - Is the signal which specify if a transaction is present on the node
+   * - node.ready
+     - Is the signal which specify if the node transaction can move away.
+   * - node.isValid
+     - node.valid's read only accessor
+   * - node.isReady
+     - node.ready's read only accessor
+   * - node.isFireing
+     - True when the node transaction is successfuly moving futher (isValid && isReady && !isRemoved). Usefull to commit state changes
+   * - node.isMoving
+     - True when the node transaction is moving (isValid && (isReady || isRemoved)). Usefull to "reset" states
+   * - node.isRemoved
+     - True when the node is being flushed
 
 You can access its stageable's signals via : 
 
