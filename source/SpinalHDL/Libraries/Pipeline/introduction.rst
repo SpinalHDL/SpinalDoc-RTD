@@ -159,7 +159,7 @@ You can access its arbitration via :
      - node.valid's read only accessor
    * - node.isReady
      - node.ready's read only accessor
-   * - node.isFireing
+   * - node.isFiring
      - True when the node transaction is successfuly moving futher (isValid && isReady && !isRemoved). Usefull to commit state changes
    * - node.isMoving
      - True when the node transaction is moving (isValid && (isReady || isRemoved)). Usefull to "reset" states
