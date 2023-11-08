@@ -26,7 +26,7 @@ Here is an example to illustrate :
 Simple example
 ----------------
 
-Here is a simple example
+Here is a simple example which only use the basics of the API :
 
 
 .. code-block:: scala
@@ -79,7 +79,45 @@ Here is a simulation wave :
 
 .. image:: /asset/image/pipeline/simple_wave.png
 
+Here is the same example but using more of the API :
 
+
+.. code-block:: scala
+
+    import spinal.core._
+    import spinal.core.sim._
+    import spinal.lib._
+    import spinal.lib.misc.pipeline._
+
+    class TopLevel extends Component {
+      val VALUE = Stageable(UInt(16 bits))
+      
+      val io = new Bundle{
+        val up = slave Stream(VALUE)  //VALUE can also be used as a HardType
+        val down = master Stream(VALUE)
+      }
+
+      // Let's define 3 Nodes for our pipeline
+      val n0, n1, n2 = Node()
+
+      // Let's connect those nodes by using simples registers
+      val s01 = StageConnector(n0, n1)
+      val s12 = StageConnector(n1, n2)
+
+      // Let's bind io.up to n0
+      n0.arbitrateFrom(io.up)
+      n0(VALUE) := io.up.payload
+
+      // Let's do some processing on n1
+      val RESULT = n1.insert(n1(VALUE) + 0x1200)
+
+      // Let's bind n2 to io.down
+      n2.arbitrateTo(io.down)
+      io.down.payload := n2(RESULT)
+
+      // Let's ask the builder to generate all the required hardware
+      Builder(s01, s12)
+    }
 
 Stageable
 ============
@@ -97,6 +135,7 @@ Stageable class can be instanciated to represent some data which can go through 
     n0(PC) := 0x42
     n1(PC_PLUS_4) := n1(PC) + 4
 
+Note that I got used to name the Stageable instances using uppercase. This is to make it very explicit that the thing isn't a hardware signal, but are more like a "key" to access things.
 
 Node
 ============
@@ -137,6 +176,73 @@ You can access its stageable's signals via :
     val SOMETHING = n0.insert(myHardwareSignal) //This create a new Stageable
     when(n1(SOMETHING) === 0xFFAA){ ... }
     
+
+Also, there is an API to define nodes which are always valid / ready 
+
+.. list-table::
+   :header-rows: 1
+   :widths: 2 5
+
+   * - API
+     - Description
+   * - node.setAlwaysValid()
+     - Specify that the valid signal of the given node is always True. To use on the first node of a pipeline
+   * - node.setAlwaysReady()
+     - Specify that the ready signal of the given node is always True. To use on the last node of a pipeline, usefull if you don't have to implement backpresure.
+
+.. code-block:: scala
+    
+    val n0, n1, n2 = Node()
+    val OUT = Stageable(UInt(16 bits))
+
+    val outputFlow = master Flow(UInt(16 bits))
+    outputFlow.valid := n2.valid
+    outputFlow.payload := n2(OUT)
+    n2.setAlwaysReady() // Equivalent to n2.ready := True, but also notify the pipeline elaboration about it, leading to eventual optimisations
+
+While you can manualy drive/read the arbitration/data of the first/last stage of your pipeline, there is a few utilities to connect its boundaries.
+
+
+.. list-table::
+   :header-rows: 1
+   :widths: 5 5
+
+   * - API
+     - Description
+   * - node.arbitrateFrom(Stream[T]])
+     - Drive a node arbitration from a stream.
+   * - node.arbitrateFrom(Flow[T]])
+     - Drive a node arbitration from the Flow. 
+   * - node.arbitrateTo(Stream[T]])
+     - Drive a stream arbitration from the node. 
+   * - node.arbitrateTo(Flow[T]])
+     - Drive a Flow arbitration from the node. 
+   * - node.driveFrom(Stream[T]])((Node, T) => Unit)
+     - Drive a node from a stream. The provided landa function can be use to connect the data
+   * - node.driveFrom(Flow[T]])((Node, T) => Unit)
+     - Same as above but for Flow
+   * - node.driveTo(Stream[T]])((T, Node) => Unit)
+     - Drive a stream from the node. The provided landa function can be use to connect the data
+   * - node.driveTo(Flow[T]])((T, Node) => Unit)
+     - Same as above but for Flow
+
+
+.. code-block:: scala
+    
+    val n0, n1, n2 = Node()
+
+    val IN = Stageable(UInt(16 bits))
+    val OUT = Stageable(UInt(16 bits))
+
+    n1(OUT) := n1(IN) + 0x42
+
+    // Define the input / output stream that will be later connected to the pipeline
+    val up = slave Stream(UInt(16 bits))
+    val down = master Stream(UInt(16 bits)) //Note master Stream(OUT) is good aswell
+
+    n0.driveFrom(up)((self, payload) => self(IN) := payload)
+    n2.driveTo(down)((payload, self) => payload := self(OUT))
+
 
 Connectors
 ============
