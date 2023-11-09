@@ -2,9 +2,9 @@
 Introduction
 ============
 
-spinal.lib.misc.pipeline provide a pipelining API. The main advantages over manual pipelining are : 
+spinal.lib.misc.pipeline provides a pipelining API. The main advantages over manual pipelining are : 
 
-- You don't have to pre define upfront all the signal elements needed for the entire staged system, you can create and consume stagable signals in a more adhoc fashion as your design requires without needing to refactor all the intervening stages to know about the signal
+- You don't have to predefine all the signal elements needed for the entire staged system upfront. You can create and consume stagable signals in a more ad hoc fashion as your design requires - without needing to refactor all the intervening stages to know about the signal
 - Signals of the pipeline can utilize the powerful parametrization capabilities of SpinalHDL and be subject to optimization/removal if a specific design build does not require a particular parametrized feature, without any need to modify the staging system design or project code base in a significant way.
 - Manual retiming is much easier, as you don't have to handle the registers / arbitration manualy
 - Manage the arbitration by itself
@@ -12,7 +12,7 @@ spinal.lib.misc.pipeline provide a pipelining API. The main advantages over manu
 The API is composed of 4 main things : 
 
 - Node : which represents a layer in the pipeline
-- Connector : which allows to connect nodes to each others
+- Connector : which allows to connect nodes to each other
 - Builder : which will generate the hardware required for a whole pipeline
 - SignalKey : which are used to retrieve hardware signals on nodes along the pipeline
 
@@ -26,7 +26,7 @@ Here is an example to illustrate :
 Simple example
 ----------------
 
-Here is a simple example which only use the basics of the API :
+Here is a simple example which only uses the basics of the API :
 
 
 .. code-block:: scala
@@ -124,7 +124,7 @@ Here is the same example but using more of the API :
 SignalKey
 ============
 
-SignalKey class can be instanciated to represent some data which can go through the pipeline. Technicaly speaking, SignalKey is a HardType which has a name and is used as a "key" to retrieve stuff.
+SignalKey objects are used to refer to data which can go through the pipeline. Technicaly speaking, SignalKey is a HardType which has a name and is used as a "key" to retrieve the signals in a certain pipeline stage.
 
 .. code-block:: scala
     
@@ -142,7 +142,7 @@ Note that I got used to name the SignalKey instances using uppercase. This is to
 Node
 ============
 
-Node mostly host the valid/ready arbitration signal, and the hardware signal required for all the SignalKey values going through it.
+Node mostly hosts the valid/ready arbitration signals, and the hardware signals required for all the SignalKey values going through it.
 
 You can access its arbitration via :
 
@@ -156,7 +156,7 @@ You can access its arbitration via :
      - Description
    * - node.valid
      - RW
-     - Is the signal which specify if a transaction is present on the node. It is driven by the upstream. Once asserted, it can only be dropped the cycle after which ready is high or node.isRemoved.
+     - Is the signal which specifies if a transaction is present on the node. It is driven by the upstream. Once asserted, it must only be de-asserted the cycle after which either both valid and ready or node.isRemoved are high. valid must not depend on ready.
    * - node.ready
      - RW
      - Is the signal which specify if the node's transaction should move away. It is driven by the downstream to create backpresure. The signal has no meaning when there is no transaction (node.valid being deasserted)
@@ -173,7 +173,7 @@ You can access its arbitration via :
      - RO
      - True when the node transaction is moving away from the node (will not be in the node anymore starting from the next cycle),
        either because downstream is ready to take the transaction,
-       either because the transaction is removed/flushed from the while pipeline. (isValid && (isReady || isRemoved)). Useful to "reset" states.
+       or because the transaction is removed/flushed from the pipeline. (isValid && (isReady || isRemoved)). Useful to "reset" states.
    * - node.isRemoved
      - RO
      - True when the node is being marked to be removed/flushed. Meaning that it will not appear anywhere in the pipeline in future cycles.
@@ -185,7 +185,7 @@ Here is a list of arbitration cases you can have on a node. valid/ready/isRemove
 +-------+-------+-----------+------------------------------+----------+----------+
 | valid | ready | isRemoved | Description                  | isFiring | isMoving |
 +=======+=======+===========+==============================+==========+==========+
-|   0   |   X   |     0     | No transaction               |    0     |    0     |
+|   0   |   X   |     X     | No transaction               |    0     |    0     |
 +-------+-------+-----------+------------------------------+----------+----------+
 |   1   |   1   |     0     | Going through                |    1     |    1     |
 +-------+-------+-----------+------------------------------+----------+----------+
@@ -196,9 +196,9 @@ Here is a list of arbitration cases you can have on a node. valid/ready/isRemove
 |   1   |   0   |     1     | Blocked and Removed          |    0     |    1     |
 +-------+-------+-----------+------------------------------+----------+----------+
 
-Note that if you want to model things like for instance a CPU stage which can block and flush stuff, take a look a the CtrlConnector, as it provide the API to do such things.
+Note that if you want to model things like for instance a CPU stage which can block and flush stuff, take a look a the CtrlConnector, as it provides the API to do such things.
 
-You can access its SignalKey's signals via : 
+You can access signals referenced by a SignalKey via: 
 
 .. list-table::
    :header-rows: 1
@@ -209,7 +209,7 @@ You can access its SignalKey's signals via :
    * - node(SignalKey)
      - Return the corresponding hardware signal
    * - node(SignalKey, Any)
-     - Same as above, but include a second argument which is used as a "secondary key". This ease the construction of multi lane hardware. For instance, when you have a multi issue CPU pipeline, you can use the lane Int id as secondary key
+     - Same as above, but include a second argument which is used as a "secondary key". This eases the construction of multi-lane hardware. For instance, when you have a multi issue CPU pipeline, you can use the lane Int id as secondary key
    * - node.insert(Data)
      - Return a new SignalKey instance which is connected to the given Data hardware signal
 
@@ -373,7 +373,7 @@ CtrlConnector
 
 This is kind of a special connector, as connect two nodes with optional flow control / bypass logic. Its API should be flexible enough to implement a CPU stage with it.
 
-Here is its flow control API (The Bool argument enable the feature) :
+Here is its flow control API (The Bool arguments enable the features) :
 
 .. list-table::
    :header-rows: 1
@@ -405,7 +405,7 @@ Also note that if you want to do flow control in a conditional scope (ex in a wh
         c01.haltIt()
     }
 
-You can retrieve which node are connected using node.up / node.down.
+You can retrieve which nodes are connected to the connector using node.up / node.down.
 
 The CtrlConnector also provide an API to access SignalKey :
 
@@ -508,18 +508,18 @@ For instance there is the NodesBuilder class which can be used to create sequent
 Composability
 ========================
 
-One good thing about the API, is that it easily allows to compose a pipeline with multiple parallel things. What i mean by "compose" is that sometime the pipeline you need to design has parallel processing to do. 
+One good thing about the API is that it easily allows to compose a pipeline with multiple parallel things. What i mean by "compose" is that sometime the pipeline you need to design has parallel processing to do. 
 
-Imagine you need to do floating point multiplication on 4 pairs of numbers (to later sum them). If those 4 pairs a provided at the same time by a single stream of data, then you don't want 4 different pipeline to multiple them, instead you want to process them all in parallel in the same pipeline.
+Imagine you need to do floating point multiplication on 4 pairs of numbers (to later sum them). If those 4 pairs a provided at the same time by a single stream of data, then you don't want 4 different pipelines to multiply them, instead you want to process them all in parallel in the same pipeline.
 
-The example below show a pattern which compose a pipeline with multiple lanes to process them in parallel.
+The example below show a pattern which composes a pipeline with multiple lanes to process them in parallel.
 
 
 .. code-block:: scala
 
     // This area allows to take a input value and do +1 +1 +1 over 3 stages.
     // I know that's useless, but let's pretend that instead it does a multiplication between two numbers over 3 stages (for FMax reasons)
-    class PLus3(INPUT: SignalKey[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
+    class Plus3(INPUT: SignalKey[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
       val ONE = stage1.insert(stage1(INPUT) + 1)
       val TWO = stage2.insert(stage2(ONE) + 1)
       val THREE = stage3.insert(stage3(TWO) + 1)
@@ -546,7 +546,7 @@ The example below show a pattern which compose a pipeline with multiple lanes to
       val LANES_INPUT = io.up.payload.map(n0.insert(_))
 
       // Let's use our "reusable" Plus3 area to generate each processing lane
-      val lanes = for(i <- 0 until lanesCount) yield new PLus3(LANES_INPUT(i), n0, n1, n2)
+      val lanes = for(i <- 0 until lanesCount) yield new Plus3(LANES_INPUT(i), n0, n1, n2)
 
       // Let's bind n2 to io.down
       n2.arbitrateTo(io.down)
@@ -565,9 +565,9 @@ This will produce the following data path (assuming lanesCount = 2), abitration 
 Retiming / Variable lenth
 ================================================
 
-Sometime you want to design a pipeline, but you don't realy know where will be the critical paths / right balance between stages, and you can't realy rely on the synthesis tool doing a good job with automatic retiming.
+Sometime you want to design a pipeline, but you don't really know where the critical paths will be and what the right balance between stages is. And often you can't rely on the synthesis tool doing a good job with automatic retiming.
 
-So, you kind of need a easy way to move around the logic of your pipeline.
+So, you kind of need a easy way to move the logic of your pipeline around.
 
 Here is how it can be done with this pipelining API : 
 
@@ -613,7 +613,7 @@ Here is how it can be done with this pipelining API :
         val INV = insert(~adder.SUM)
       }
 
-      // multiplie the inverted bits with 0xEE
+      // multiply the inverted bits with 0xEE
       val multiplier = new mulNode.Area {
         val MUL = insert(inverter.INV*0xEE)
       }
@@ -764,7 +764,7 @@ Note the generated hardware verilog is kinda clean (by my standards at least :P)
     endmodule
 
 
-Also, you can easily tweek how many stages and where you want the processing to be done, for instance you may want to move the invertion hardware in the same stage as the adder. This can be done the following way : 
+Also, you can easily tweak how many stages and where you want the processing to be done, for instance you may want to move the inversion hardware in the same stage as the adder. This can be done the following way : 
 
 
 .. code-block:: scala
