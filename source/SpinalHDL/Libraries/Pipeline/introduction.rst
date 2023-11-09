@@ -14,9 +14,9 @@ The API is composed of 4 main things :
 - Node : which represent a layer in the pipeline
 - Connector : which allows to connect nodes to each others
 - Builder : which will generate the hardware required for a whole pipeline
-- Stageable : which represent a data thing that you can retrieve Nodes the pipeline 
+- NamedType : which are used to define a hardware signal which can go through the pipeline
 
-It is important to understande that Stageable isn't a hardware data instance, but a key to retrieve a data along the pipeline on nodes.
+It is important to understande that NamedType isn't a hardware data instance, but a key to retrieve a data along the pipeline on nodes.
 
 Here is an example to illustrate : 
 
@@ -49,9 +49,9 @@ Here is a simple example which only use the basics of the API :
       val s01 = StageConnector(n0, n1)
       val s12 = StageConnector(n1, n2)
 
-      // Let's define a few stageable things that can go through the pipeline
-      val VALUE = Stageable(UInt(16 bits))
-      val RESULT = Stageable(UInt(16 bits))
+      // Let's define a few NamedType things that can go through the pipeline
+      val VALUE = NamedType(UInt(16 bits))
+      val RESULT = NamedType(UInt(16 bits))
 
       // Let's bind io.up to n0
       io.up.ready := n0.ready
@@ -90,7 +90,7 @@ Here is the same example but using more of the API :
     import spinal.lib.misc.pipeline._
 
     class TopLevel extends Component {
-      val VALUE = Stageable(UInt(16 bits))
+      val VALUE = NamedType(UInt(16 bits))
 
       val io = new Bundle{
         val up = slave Stream(VALUE)  //VALUE can also be used as a HardType
@@ -121,15 +121,15 @@ Here is the same example but using more of the API :
       builder.genStagedPipeline()
     }
 
-Stageable
+NamedType
 ============
 
-Stageable class can be instanciated to represent some data which can go through the pipeline. Technicaly speaking, Stageable is a HardType which has a name and is used as a "key" to retrieve stuff.
+NamedType class can be instanciated to represent some data which can go through the pipeline. Technicaly speaking, NamedType is a HardType which has a name and is used as a "key" to retrieve stuff.
 
 .. code-block:: scala
     
-    val PC = Stageable(UInt(32 bits))
-    val PC_PLUS_4 = Stageable(UInt(32 bits))
+    val PC = NamedType(UInt(32 bits))
+    val PC_PLUS_4 = NamedType(UInt(32 bits))
 
     val n0, n1 = Node()
     val s01 = StageConnector(n0, n1)
@@ -137,12 +137,12 @@ Stageable class can be instanciated to represent some data which can go through 
     n0(PC) := 0x42
     n1(PC_PLUS_4) := n1(PC) + 4
 
-Note that I got used to name the Stageable instances using uppercase. This is to make it very explicit that the thing isn't a hardware signal, but are more like a "key" to access things.
+Note that I got used to name the NamedType instances using uppercase. This is to make it very explicit that the thing isn't a hardware signal, but are more like a "key/type" to access things.
 
 Node
 ============
 
-Node mostly host the valid/ready arbitration signal, and the hardware signal required for all the Stageable values going through it.
+Node mostly host the valid/ready arbitration signal, and the hardware signal required for all the NamedType values going through it.
 
 You can access its arbitration via :
 
@@ -168,7 +168,7 @@ You can access its arbitration via :
    * - node.isRemoved
      - True when the node is being flushed
 
-You can access its stageable's signals via : 
+You can access its NamedType's signals via : 
 
 .. list-table::
    :header-rows: 1
@@ -176,12 +176,12 @@ You can access its stageable's signals via :
 
    * - API
      - Description
-   * - node(Stageable)
+   * - node(NamedType)
      - Return the corresponding hardware signal
-   * - node(Stageable, Any)
+   * - node(NamedType, Any)
      - Same as above, but include a second argument which is used as a "secondary key". This ease the construction of multi lane hardware. For instance, when you have a multi issue CPU pipeline, you can use the lane Int id as secondary key
    * - node.insert(Data)
-     - Return a new Stageable instance which is connected to the given Data hardware signal
+     - Return a new NamedType instance which is connected to the given Data hardware signal
 
 
 
@@ -189,11 +189,11 @@ You can access its stageable's signals via :
     
     val n0, n1 = Node()
 
-    val PC = Stageable(UInt(32 bits))
+    val PC = NamedType(UInt(32 bits))
     n0(PC) := 0x42
     n0(PC, "true") := 0x42
     n0(PC, 0x666) := 0xEE
-    val SOMETHING = n0.insert(myHardwareSignal) //This create a new Stageable
+    val SOMETHING = n0.insert(myHardwareSignal) //This create a new NamedType
     when(n1(SOMETHING) === 0xFFAA){ ... }
     
 
@@ -213,7 +213,7 @@ Also, there is an API to define nodes which are always valid / ready
 .. code-block:: scala
     
     val n0, n1, n2 = Node()
-    val OUT = Stageable(UInt(16 bits))
+    val OUT = NamedType(UInt(16 bits))
 
     val outputFlow = master Flow(UInt(16 bits))
     outputFlow.valid := n2.valid
@@ -251,8 +251,8 @@ While you can manualy drive/read the arbitration/data of the first/last stage of
     
     val n0, n1, n2 = Node()
 
-    val IN = Stageable(UInt(16 bits))
-    val OUT = Stageable(UInt(16 bits))
+    val IN = NamedType(UInt(16 bits))
+    val OUT = NamedType(UInt(16 bits))
 
     n1(OUT) := n1(IN) + 0x42
 
@@ -264,11 +264,11 @@ While you can manualy drive/read the arbitration/data of the first/last stage of
     n2.driveTo(down)((payload, self) => payload := self(OUT))
 
 
-In order to reduce verbosity, there is a set of implicit convertions between stageable toward their data representation which can be used when you are in the context of a Node : 
+In order to reduce verbosity, there is a set of implicit convertions between NamedType toward their data representation which can be used when you are in the context of a Node : 
 
 .. code-block:: scala
 
-    val VALUE = Stageable(UInt(16 bits))
+    val VALUE = NamedType(UInt(16 bits))
     val n1 = new Node{
         val PLUS_ONE = insert(VALUE + 1) // VALUE is implicitly converted into its n1(VALUE) representation
     }
@@ -277,7 +277,7 @@ You can also use those implicit convertions by importing them :
 
 .. code-block:: scala
 
-    val VALUE = Stageable(UInt(16 bits))
+    val VALUE = NamedType(UInt(16 bits))
     val n1 = Node()
 
     val n1Stuff = new Area {
@@ -291,7 +291,7 @@ There is also an API which alows you to create new Area which provide the whole 
 .. code-block:: scala
 
     val n1 = Node()
-    val VALUE = Stageable(UInt(16 bits))
+    val VALUE = NamedType(UInt(16 bits))
 
     val n1Stuff = new n1.Area{
         val PLUS_ONE = insert(VALUE) + 1 // Equivalent to n1.insert(n1(VALUE)) + 1
@@ -375,7 +375,7 @@ Also note that if you want to do flow control in a conditional scope (ex in a wh
 
 You can retrieve which node are connected using node.up / node.down.
 
-The CtrlConnector also provide an API to access stageable :
+The CtrlConnector also provide an API to access NamedType :
 
 .. list-table::
    :header-rows: 1
@@ -383,25 +383,25 @@ The CtrlConnector also provide an API to access stageable :
 
    * - API
      - Description
-   * - connector(Stageable)
-     - Same as connector.down(Stageable)
-   * - connector(Stageable, Any)
-     - Same as connector.down(Stageable, Any)
+   * - connector(NamedType)
+     - Same as connector.down(NamedType)
+   * - connector(NamedType, Any)
+     - Same as connector.down(NamedType, Any)
    * - connector.insert(Data)
      - Same as connector.down.insert(Data)
-   * - connector.bypass(Stageable)
-     - Allows to conditionaly override a stageable value between connector.up -> connector.down. This can be used to fix data hazard in CPU pipelines for instance.
+   * - connector.bypass(NamedType)
+     - Allows to conditionaly override a NamedType value between connector.up -> connector.down. This can be used to fix data hazard in CPU pipelines for instance.
 
 
 .. code-block:: scala
     
     val c01 = CtrlConnector(n0, n1)
 
-    val PC = Stageable(UInt(32 bits))
+    val PC = NamedType(UInt(32 bits))
     c01(PC) := 0x42
     c01(PC, 0x666) := 0xEE
 
-    val DATA = Stageable(UInt(32 bits))
+    val DATA = NamedType(UInt(32 bits))
     // Let's say Data is inserted in the pipeline before c01
     when(hazard){
         c01.bypass(DATA) := fixedValue
@@ -487,7 +487,7 @@ The example below show a pattern which compose a pipeline with multiple lanes to
 
     // This area allows to take a input value and do +1 +1 +1 over 3 stages.
     // I know that's useless, but let's pretend that instead it does a multiplication between two numbers over 3 stages (for FMax reasons)
-    class PLus3(INPUT: Stageable[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
+    class PLus3(INPUT: NamedType[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
       val ONE = stage1.insert(stage1(INPUT) + 1)
       val TWO = stage2.insert(stage2(ONE) + 1)
       val THREE = stage3.insert(stage3(TWO) + 1)
