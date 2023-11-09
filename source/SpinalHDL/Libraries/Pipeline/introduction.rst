@@ -4,19 +4,19 @@ Introduction
 
 spinal.lib.misc.pipeline provide a pipelining API. The main advantages over manual pipelining are : 
 
-- You don't have to pre define data structure with all the element which goes through each individual stage
-- You can compose the pipeline (as a consequence of the above point)
+- You don't have to pre define upfront all the signal elements needed for the entire staged system, you can create and consume stagable signals in a more adhoc fashion as your design requires without needing to refactor all the intervening stages to know about the signal
+- Signals of the pipeline can utilize the powerful parametrization capabilities of SpinalHDL and be subject to optimization/removal if a specific design build does not require a particular parametrized feature, without any need to modify the staging system design or project code base in a significant way.
 - Manual retiming is much easier, as you don't have to handle the registers / arbitration manualy
 - Manage the arbitration by itself
 
 The API is composed of 4 main things : 
 
-- Node : which represent a layer in the pipeline
+- Node : which represents a layer in the pipeline
 - Connector : which allows to connect nodes to each others
 - Builder : which will generate the hardware required for a whole pipeline
-- NamedType : which are used to define a hardware signal which can go through the pipeline
+- SignalKey : which are used to retrieve hardware signals on nodes along the pipeline
 
-It is important to understande that NamedType isn't a hardware data instance, but a key to retrieve a data along the pipeline on nodes.
+It is important to understand that SignalKey isn't a hardware data/signal instance, but a key to retrieve a data/signal on nodes along the pipeline, and that the pipeline builder will then automatically interconnect/pipeline every occurrence of a given SignalKey between nodes.
 
 Here is an example to illustrate : 
 
@@ -49,9 +49,9 @@ Here is a simple example which only use the basics of the API :
       val s01 = StageConnector(n0, n1)
       val s12 = StageConnector(n1, n2)
 
-      // Let's define a few NamedType things that can go through the pipeline
-      val VALUE = NamedType(UInt(16 bits))
-      val RESULT = NamedType(UInt(16 bits))
+      // Let's define a few SignalKey things that can go through the pipeline
+      val VALUE = SignalKey(UInt(16 bits))
+      val RESULT = SignalKey(UInt(16 bits))
 
       // Let's bind io.up to n0
       io.up.ready := n0.ready
@@ -90,7 +90,7 @@ Here is the same example but using more of the API :
     import spinal.lib.misc.pipeline._
 
     class TopLevel extends Component {
-      val VALUE = NamedType(UInt(16 bits))
+      val VALUE = SignalKey(UInt(16 bits))
 
       val io = new Bundle{
         val up = slave Stream(VALUE)  //VALUE can also be used as a HardType
@@ -121,15 +121,15 @@ Here is the same example but using more of the API :
       builder.genStagedPipeline()
     }
 
-NamedType
+SignalKey
 ============
 
-NamedType class can be instanciated to represent some data which can go through the pipeline. Technicaly speaking, NamedType is a HardType which has a name and is used as a "key" to retrieve stuff.
+SignalKey class can be instanciated to represent some data which can go through the pipeline. Technicaly speaking, SignalKey is a HardType which has a name and is used as a "key" to retrieve stuff.
 
 .. code-block:: scala
     
-    val PC = NamedType(UInt(32 bits))
-    val PC_PLUS_4 = NamedType(UInt(32 bits))
+    val PC = SignalKey(UInt(32 bits))
+    val PC_PLUS_4 = SignalKey(UInt(32 bits))
 
     val n0, n1 = Node()
     val s01 = StageConnector(n0, n1)
@@ -137,38 +137,68 @@ NamedType class can be instanciated to represent some data which can go through 
     n0(PC) := 0x42
     n1(PC_PLUS_4) := n1(PC) + 4
 
-Note that I got used to name the NamedType instances using uppercase. This is to make it very explicit that the thing isn't a hardware signal, but are more like a "key/type" to access things.
+Note that I got used to name the SignalKey instances using uppercase. This is to make it very explicit that the thing isn't a hardware signal, but are more like a "key/type" to access things.
 
 Node
 ============
 
-Node mostly host the valid/ready arbitration signal, and the hardware signal required for all the NamedType values going through it.
+Node mostly host the valid/ready arbitration signal, and the hardware signal required for all the SignalKey values going through it.
 
 You can access its arbitration via :
 
 
 .. list-table::
    :header-rows: 1
-   :widths: 1 5
+   :widths: 2 1 10
 
    * - API
+     - Access
      - Description
    * - node.valid
-     - Is the signal which specify if a transaction is present on the node
+     - RW
+     - Is the signal which specify if a transaction is present on the node. It is driven by the upstream. Once asserted, it can only be dropped the cycle after which ready is high or node.isRemoved.
    * - node.ready
-     - Is the signal which specify if the node transaction can move away.
+     - RW
+     - Is the signal which specify if the node's transaction should move away. It is driven by the downstream to create backpresure. The signal has no meaning when there is no transaction (node.valid being deasserted)
    * - node.isValid
+     - RO
      - node.valid's read only accessor
    * - node.isReady
+     - RO
      - node.ready's read only accessor
    * - node.isFiring
-     - True when the node transaction is successfuly moving futher (isValid && isReady && !isRemoved). Usefull to commit state changes
+     - RO
+     - True when the node transaction is successfuly moving futher (isValid && isReady && !isRemoved). Useful to commit state changes.
    * - node.isMoving
-     - True when the node transaction is moving (isValid && (isReady || isRemoved)). Usefull to "reset" states
+     - RO
+     - True when the node transaction is moving away from the node (will not be in the node anymore starting from the next cycle),
+       either because downstream is ready to take the transaction,
+       either because the transaction is removed/flushed from the while pipeline. (isValid && (isReady || isRemoved)). Useful to "reset" states.
    * - node.isRemoved
-     - True when the node is being flushed
+     - RO
+     - True when the node is being marked to be removed/flushed. Meaning that it will not appear anywhere in the pipeline in future cycles.
 
-You can access its NamedType's signals via : 
+Note that the node.valid/node.ready signals follows the same conventions than the Stream's ones.
+
+Here is a list of arbitration cases you can have on a node. valid/ready/isRemoved define the state we are in, while isFiring/isMoving result of those :
+
++-------+-------+-----------+------------------------------+----------+----------+
+| valid | ready | isRemoved | Description                  | isFiring | isMoving |
++=======+=======+===========+==============================+==========+==========+
+|   0   |   X   |     0     | No transaction               |    0     |    0     |
++-------+-------+-----------+------------------------------+----------+----------+
+|   1   |   1   |     0     | Going through                |    1     |    1     |
++-------+-------+-----------+------------------------------+----------+----------+
+|   1   |   0   |     0     | Blocked                      |    0     |    0     |
++-------+-------+-----------+------------------------------+----------+----------+
+|   1   |   X   |     1     | Removed                      |    0     |    1     |
++-------+-------+-----------+------------------------------+----------+----------+
+|   1   |   0   |     1     | Blocked and Removed          |    0     |    1     |
++-------+-------+-----------+------------------------------+----------+----------+
+
+Note that if you want to model things like for instance a CPU stage which can block and flush stuff, take a look a the CtrlConnector, as it provide the API to do such things.
+
+You can access its SignalKey's signals via : 
 
 .. list-table::
    :header-rows: 1
@@ -176,12 +206,12 @@ You can access its NamedType's signals via :
 
    * - API
      - Description
-   * - node(NamedType)
+   * - node(SignalKey)
      - Return the corresponding hardware signal
-   * - node(NamedType, Any)
+   * - node(SignalKey, Any)
      - Same as above, but include a second argument which is used as a "secondary key". This ease the construction of multi lane hardware. For instance, when you have a multi issue CPU pipeline, you can use the lane Int id as secondary key
    * - node.insert(Data)
-     - Return a new NamedType instance which is connected to the given Data hardware signal
+     - Return a new SignalKey instance which is connected to the given Data hardware signal
 
 
 
@@ -189,11 +219,11 @@ You can access its NamedType's signals via :
     
     val n0, n1 = Node()
 
-    val PC = NamedType(UInt(32 bits))
+    val PC = SignalKey(UInt(32 bits))
     n0(PC) := 0x42
     n0(PC, "true") := 0x42
     n0(PC, 0x666) := 0xEE
-    val SOMETHING = n0.insert(myHardwareSignal) //This create a new NamedType
+    val SOMETHING = n0.insert(myHardwareSignal) //This create a new SignalKey
     when(n1(SOMETHING) === 0xFFAA){ ... }
     
 
@@ -208,12 +238,12 @@ Also, there is an API to define nodes which are always valid / ready
    * - node.setAlwaysValid()
      - Specify that the valid signal of the given node is always True. To use on the first node of a pipeline
    * - node.setAlwaysReady()
-     - Specify that the ready signal of the given node is always True. To use on the last node of a pipeline, usefull if you don't have to implement backpresure.
+     - Specify that the ready signal of the given node is always True. To use on the last node of a pipeline, useful if you don't have to implement backpresure.
 
 .. code-block:: scala
     
     val n0, n1, n2 = Node()
-    val OUT = NamedType(UInt(16 bits))
+    val OUT = SignalKey(UInt(16 bits))
 
     val outputFlow = master Flow(UInt(16 bits))
     outputFlow.valid := n2.valid
@@ -238,11 +268,11 @@ While you can manualy drive/read the arbitration/data of the first/last stage of
    * - node.arbitrateTo(Flow[T]])
      - Drive a Flow arbitration from the node. 
    * - node.driveFrom(Stream[T]])((Node, T) => Unit)
-     - Drive a node from a stream. The provided landa function can be use to connect the data
+     - Drive a node from a stream. The provided lambda function can be use to connect the data
    * - node.driveFrom(Flow[T]])((Node, T) => Unit)
      - Same as above but for Flow
    * - node.driveTo(Stream[T]])((T, Node) => Unit)
-     - Drive a stream from the node. The provided landa function can be use to connect the data
+     - Drive a stream from the node. The provided lambda function can be use to connect the data
    * - node.driveTo(Flow[T]])((T, Node) => Unit)
      - Same as above but for Flow
 
@@ -251,8 +281,8 @@ While you can manualy drive/read the arbitration/data of the first/last stage of
     
     val n0, n1, n2 = Node()
 
-    val IN = NamedType(UInt(16 bits))
-    val OUT = NamedType(UInt(16 bits))
+    val IN = SignalKey(UInt(16 bits))
+    val OUT = SignalKey(UInt(16 bits))
 
     n1(OUT) := n1(IN) + 0x42
 
@@ -264,20 +294,20 @@ While you can manualy drive/read the arbitration/data of the first/last stage of
     n2.driveTo(down)((payload, self) => payload := self(OUT))
 
 
-In order to reduce verbosity, there is a set of implicit convertions between NamedType toward their data representation which can be used when you are in the context of a Node : 
+In order to reduce verbosity, there is a set of implicit conversions between SignalKey toward their data representation which can be used when you are in the context of a Node : 
 
 .. code-block:: scala
 
-    val VALUE = NamedType(UInt(16 bits))
+    val VALUE = SignalKey(UInt(16 bits))
     val n1 = new Node{
         val PLUS_ONE = insert(VALUE + 1) // VALUE is implicitly converted into its n1(VALUE) representation
     }
 
-You can also use those implicit convertions by importing them : 
+You can also use those implicit conversions by importing them : 
 
 .. code-block:: scala
 
-    val VALUE = NamedType(UInt(16 bits))
+    val VALUE = SignalKey(UInt(16 bits))
     val n1 = Node()
 
     val n1Stuff = new Area {
@@ -291,19 +321,21 @@ There is also an API which alows you to create new Area which provide the whole 
 .. code-block:: scala
 
     val n1 = Node()
-    val VALUE = NamedType(UInt(16 bits))
+    val VALUE = SignalKey(UInt(16 bits))
 
     val n1Stuff = new n1.Area{
         val PLUS_ONE = insert(VALUE) + 1 // Equivalent to n1.insert(n1(VALUE)) + 1
     }
 
-Such feature is very usefull when you have parametrable pipelines locations for your hardware (see retiming example).
+Such feature is very useful when you have parametrizable pipeline locations for your hardware (see retiming example).
 
 
 Connectors
 ============
 
-There is few different connectors already implemented (but you could also create your own custom one) :
+There is few different connectors already implemented (but you could also create your own custom one).
+The idea of connectors is to connect two nodes together in various ways.
+They generally have a `up` Node and a `down` Node.
 
 DirectConnector
 ------------------
@@ -330,7 +362,7 @@ This connect two nodes using registers on the data / valid signals and some arbi
 S2mConnector
 ------------------
 
-This connect two nodes using registers on the ready signal, which can be usefull to improve backpresure combinatorial timings.
+This connect two nodes using registers on the ready signal, which can be useful to improve backpresure combinatorial timings.
 
 .. code-block:: scala
     
@@ -375,7 +407,7 @@ Also note that if you want to do flow control in a conditional scope (ex in a wh
 
 You can retrieve which node are connected using node.up / node.down.
 
-The CtrlConnector also provide an API to access NamedType :
+The CtrlConnector also provide an API to access SignalKey :
 
 .. list-table::
    :header-rows: 1
@@ -383,25 +415,25 @@ The CtrlConnector also provide an API to access NamedType :
 
    * - API
      - Description
-   * - connector(NamedType)
-     - Same as connector.down(NamedType)
-   * - connector(NamedType, Any)
-     - Same as connector.down(NamedType, Any)
+   * - connector(SignalKey)
+     - Same as connector.down(SignalKey)
+   * - connector(SignalKey, Any)
+     - Same as connector.down(SignalKey, Any)
    * - connector.insert(Data)
      - Same as connector.down.insert(Data)
-   * - connector.bypass(NamedType)
-     - Allows to conditionaly override a NamedType value between connector.up -> connector.down. This can be used to fix data hazard in CPU pipelines for instance.
+   * - connector.bypass(SignalKey)
+     - Allows to conditionaly override a SignalKey value between connector.up -> connector.down. This can be used to fix data hazard in CPU pipelines for instance.
 
 
 .. code-block:: scala
     
     val c01 = CtrlConnector(n0, n1)
 
-    val PC = NamedType(UInt(32 bits))
+    val PC = SignalKey(UInt(32 bits))
     c01(PC) := 0x42
     c01(PC, 0x666) := 0xEE
 
-    val DATA = NamedType(UInt(32 bits))
+    val DATA = SignalKey(UInt(32 bits))
     // Let's say Data is inserted in the pipeline before c01
     when(hazard){
         c01.bypass(DATA) := fixedValue
@@ -409,7 +441,7 @@ The CtrlConnector also provide an API to access NamedType :
     
     // c01(DATA) and below will get the hazard patch
 
-Note that if you create a CtrlConnector without node arguements, it will create its own nodes internaly.
+Note that if you create a CtrlConnector without node arguments, it will create its own nodes internally.
 
 .. code-block:: scala
 
@@ -461,7 +493,7 @@ To generate the hardware of your pipeline, you need to give a list of all the co
 
 There is also a set of "all in one" builders that you can instanciate to help yourself. 
 
-For instance there is the NodesBuilder class which can be used to create sequencialy staged pipelines : 
+For instance there is the NodesBuilder class which can be used to create sequentially staged pipelines : 
 
 .. code-block:: scala
   
@@ -487,7 +519,7 @@ The example below show a pattern which compose a pipeline with multiple lanes to
 
     // This area allows to take a input value and do +1 +1 +1 over 3 stages.
     // I know that's useless, but let's pretend that instead it does a multiplication between two numbers over 3 stages (for FMax reasons)
-    class PLus3(INPUT: NamedType[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
+    class PLus3(INPUT: SignalKey[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
       val ONE = stage1.insert(stage1(INPUT) + 1)
       val TWO = stage2.insert(stage2(ONE) + 1)
       val THREE = stage3.insert(stage3(TWO) + 1)
