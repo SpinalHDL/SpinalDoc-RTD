@@ -118,3 +118,51 @@ Combinatorial loops
 
 SpinalHDL checks that there are no combinatorial loops (latches) in your design.
 If one is detected, it raises an error and SpinalHDL will print the path of the loop.
+
+CombInit
+--------
+
+The special ``CombInit`` method can be used to "clone" a combinatorial value for latter modification.
+
+.. code-block:: scala
+
+    val a = UInt(8 bits)
+    a := 1
+
+    val b = a
+    when(sel) {
+        b := 2
+        //At this point, a and b are evaluated to 2 : they represent the same set of wire
+    }
+
+    val c = UInt(8 bits)
+    c := 1
+
+    val d = CombInit(c)
+    // Here c and d are evaluated to 1
+    when(sel) {
+        d := 2
+        // At this point c === 1 and d === 2.
+    }
+
+``CombInit`` clones a circuit, and initially drive it with the same input at the cloned value.
+But you can now update the circuit without impacting the initial value.
+
+If we look at the resulting Verilog, ``b`` is not present :
+
+.. code-block:: verilog
+
+    always @(*) begin
+      a = 8'h01;
+      if(sel) begin
+        a = 8'h02;
+      end
+    end
+
+    assign c = 8'h01;
+    always @(*) begin
+      d = c;
+      if(sel) begin
+        d = 8'h02;
+      end
+    end
