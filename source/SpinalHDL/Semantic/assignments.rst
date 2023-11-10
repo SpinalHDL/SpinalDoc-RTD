@@ -168,15 +168,16 @@ If we look at the resulting Verilog, ``b`` is not present. Since it is a copy of
 ``CombInit`` is particularly helpful in helper functions to ensure that the returned value is not referencing an input.
 
 .. code-block:: scala
-   // note that condition is an elaboration time constant
-   def invertedIf(b: Bits, condition: Boolean): Bits = if(condition) { ~b } else { CombInit(b) }
 
-   val a2 = invertedIf(a1, c)
+    // note that condition is an elaboration time constant
+    def invertedIf(b: Bits, condition: Boolean): Bits = if(condition) { ~b } else { CombInit(b) }
 
-   when(sel) {
-      a2 := 0
-   }
+    val a2 = invertedIf(a1, c)
 
-   // Without CombInit, if c == false (but not if c == true), a1 and a2 reference the same signal and the zero assignment is also applied to a1.
-   // With CombInit we have a coherent behaviour whatever the c value.
+    when(sel) {
+       a2 := 0
+    }
+
+Without ``CombInit``, if ``c`` == false (but not if ``c`` == true), ``a1`` and ``a2`` reference the same signal and the zero assignment is also applied to ``a1``.
+With ``CombInit`` we have a coherent behaviour whatever the ``c`` value.
 
