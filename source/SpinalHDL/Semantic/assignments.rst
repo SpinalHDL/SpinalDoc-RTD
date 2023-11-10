@@ -145,10 +145,8 @@ CombInit
         // At this point c === 1 and d === 2.
     }
 
-``CombInit`` clones a circuit, and initially drive it with the same input as the cloned value.
-But you can now update the circuit without impacting the initial value.
 
-If we look at the resulting Verilog, ``b`` is not present :
+If we look at the resulting Verilog, ``b`` is not present. Since it is a copy of ``a`` by reference, these variables designate the same Verilog wire.
 
 .. code-block:: verilog
 
@@ -166,3 +164,19 @@ If we look at the resulting Verilog, ``b`` is not present :
         d = 8'h02;
       end
     end
+
+``CombInit`` is particularly helpful in helper functions to ensure that the returned value is not referencing an input.
+
+.. code-block:: scala
+   // note that condition is an elaboration time constant
+   def invertedIf(b: Bits, condition: Boolean): Bits = if(condition) { ~b } else { CombInit(b) }
+
+   val a2 = invertedIf(a1, c)
+
+   when(sel) {
+      a2 := 0
+   }
+
+   // Without CombInit, if c == false (but not if c == true), a1 and a2 reference the same signal and the zero assignment is also applied to a1.
+   // With CombInit we have a coherent behaviour whatever the c value.
+
