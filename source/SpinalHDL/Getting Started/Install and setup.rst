@@ -195,7 +195,7 @@ With this you should be able to run sbt/verilator simulations from MSYS2 termina
 MSYS2 for formal verification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In addition to the steps above we also need to install yosys, sby, z3 and yices. Both yosys and sby are
+In addition to the steps above we also need to install yosys, sby, z3 and yices. Both yosys(yosys-smtbmc workable) and sby are
 not available as official MSYS2 packages, but packages are provided by `Readon <https://github.com/Readon>`.
 If you used their installer then these steps are not needed (you should check if there are newer packages available).
 
