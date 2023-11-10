@@ -132,7 +132,7 @@ CombInit
     val b = a
     when(sel) {
         b := 2
-        //At this point, a and b are evaluated to 2 : they represent the same set of wire
+        // At this point, a and b are evaluated to 2: they reference the same signal
     }
 
     val c = UInt(8 bits)
