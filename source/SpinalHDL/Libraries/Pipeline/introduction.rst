@@ -177,9 +177,9 @@ You can access its arbitration via :
      - Is the signal which specifies if a transaction is present on the node. It is driven by the upstream. Once asserted, it must only be de-asserted the cycle after which either both valid and ready or node.cancel are high. valid must not depend on ready.
    * - node.ready
      - RW
-     - Is the signal which specify if the node's transaction should move away. It is driven by the downstream to create backpresure. The signal has no meaning when there is no transaction (node.valid being deasserted)
+     - Is the signal which specifies if the node's transaction can proceed downstream. It is driven by the downstream to create backpresure. The signal has no meaning when there is no transaction (node.valid being deasserted)
    * - node.cancel
-     - RW
+     - RO
      - Is the signal which specify if the node's transaction in being canceled from the pipeline. It is driven by the downstream. The signal has no meaning when there is no transaction (node.valid being deasserted)
    * - node.isValid
      - RO
@@ -192,14 +192,14 @@ You can access its arbitration via :
      - True when the node transaction is successfuly moving futher (valid && ready && !cancel). Useful to commit state changes.
    * - node.isMoving
      - RO
-     - True when the node transaction is moving away from the node (will not be in the node anymore starting from the next cycle),
+     - True when the node transaction will not be present anymore on the node (starting from the next cycle),
        either because downstream is ready to take the transaction,
        or because the transaction is canceled from the pipeline. (valid && (ready || cancel)). Useful to "reset" states.
    * - node.isCanceling
      - RO
      - True when the node transaction is being canceled. Meaning that it will not appear anywhere in the pipeline in future cycles.
 
-Note that the node.valid/node.ready signals follows the same conventions than the Stream's ones.
+Note that the node.valid/node.ready signals follows the same conventions than the :doc:`../stream`'s ones .
 
 Here is a list of arbitration cases you can have on a node. valid/ready/cancel define the state we are in, while isFiring/isMoving result of those :
 
