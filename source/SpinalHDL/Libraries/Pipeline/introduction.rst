@@ -156,10 +156,13 @@ You can access its arbitration via :
      - Description
    * - node.valid
      - RW
-     - Is the signal which specifies if a transaction is present on the node. It is driven by the upstream. Once asserted, it must only be de-asserted the cycle after which either both valid and ready or node.isRemoved are high. valid must not depend on ready.
+     - Is the signal which specifies if a transaction is present on the node. It is driven by the upstream. Once asserted, it must only be de-asserted the cycle after which either both valid and ready or node.cancel are high. valid must not depend on ready.
    * - node.ready
      - RW
      - Is the signal which specify if the node's transaction should move away. It is driven by the downstream to create backpresure. The signal has no meaning when there is no transaction (node.valid being deasserted)
+   * - node.cancel
+     - RW
+     - Is the signal which specify if the node's transaction in being canceled from the pipeline. It is driven by the downstream. The signal has no meaning when there is no transaction (node.valid being deasserted)
    * - node.isValid
      - RO
      - node.valid's read only accessor
@@ -168,22 +171,22 @@ You can access its arbitration via :
      - node.ready's read only accessor
    * - node.isFiring
      - RO
-     - True when the node transaction is successfuly moving futher (isValid && isReady && !isRemoved). Useful to commit state changes.
+     - True when the node transaction is successfuly moving futher (valid && ready && !cancel). Useful to commit state changes.
    * - node.isMoving
      - RO
      - True when the node transaction is moving away from the node (will not be in the node anymore starting from the next cycle),
        either because downstream is ready to take the transaction,
-       or because the transaction is removed/flushed from the pipeline. (isValid && (isReady || isRemoved)). Useful to "reset" states.
-   * - node.isRemoved
+       or because the transaction is canceled from the pipeline. (valid && (ready || cancel)). Useful to "reset" states.
+   * - node.isCanceling
      - RO
-     - True when the node is being marked to be removed/flushed. Meaning that it will not appear anywhere in the pipeline in future cycles.
+     - True when the node transaction is being canceled. Meaning that it will not appear anywhere in the pipeline in future cycles.
 
 Note that the node.valid/node.ready signals follows the same conventions than the Stream's ones.
 
-Here is a list of arbitration cases you can have on a node. valid/ready/isRemoved define the state we are in, while isFiring/isMoving result of those :
+Here is a list of arbitration cases you can have on a node. valid/ready/cancel define the state we are in, while isFiring/isMoving result of those :
 
 +-------+-------+-----------+------------------------------+----------+----------+
-| valid | ready | isRemoved | Description                  | isFiring | isMoving |
+| valid | ready | cancel    | Description                  | isFiring | isMoving |
 +=======+=======+===========+==============================+==========+==========+
 |   0   |   X   |     X     | No transaction               |    0     |    0     |
 +-------+-------+-----------+------------------------------+----------+----------+
@@ -191,10 +194,9 @@ Here is a list of arbitration cases you can have on a node. valid/ready/isRemove
 +-------+-------+-----------+------------------------------+----------+----------+
 |   1   |   0   |     0     | Blocked                      |    0     |    0     |
 +-------+-------+-----------+------------------------------+----------+----------+
-|   1   |   X   |     1     | Removed                      |    0     |    1     |
+|   1   |   X   |     1     | Canceled                     |    0     |    1     |
 +-------+-------+-----------+------------------------------+----------+----------+
-|   1   |   0   |     1     | Blocked and Removed          |    0     |    1     |
-+-------+-------+-----------+------------------------------+----------+----------+
+
 
 Note that if you want to model things like for instance a CPU stage which can block and flush stuff, take a look a the CtrlConnector, as it provides the API to do such things.
 
@@ -384,9 +386,11 @@ Here is its flow control API (The Bool arguments enable the features) :
    * - haltWhen(Bool)
      - Allows to block the current transaction (clear up.ready down.valid)
    * - throwWhen(Bool)
-     - Allows to remove the current transaction from the pipeline (clear down.valid and remove the transaction driver)
-   * - removeSeedWhen(Bool)
-     - Allows to remove the transaction driver (but doesn't clear the down.valid)
+     - Allows to cancel the current transaction from the pipeline (clear down.valid and c the transaction driver)
+   * - forgetOneWhen(Bool)
+     - Allows to request the upstream to forget the current transaction  (but doesn't clear the down.valid)
+   * - ignoreReadyWhen(Bool)
+     - Allows to ignore the downstream ready (set up.ready)
    * - duplicateWhen(Bool)
      - Allows to duplicate the current transaction (clear up.ready)
    * - terminateWhen(Bool)
@@ -394,7 +398,7 @@ Here is its flow control API (The Bool arguments enable the features) :
 
 Also note that if you want to do flow control in a conditional scope (ex in a when statement), you can call the following functions :
 
-- haltIt(), duplicateIt(), terminateIt(), removeSeedIt(), throwIt()
+- haltIt(), duplicateIt(), terminateIt(), forgetOneNow(), ignoreReadyNow(), throwIt()
 
 .. code-block:: scala
     
