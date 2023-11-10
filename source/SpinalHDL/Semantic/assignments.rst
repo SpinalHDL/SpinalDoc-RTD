@@ -122,7 +122,7 @@ If one is detected, it raises an error and SpinalHDL will print the path of the 
 CombInit
 --------
 
-The special ``CombInit`` method can be used to "clone" a combinatorial value for latter modification.
+``CombInit`` can be used to copy a signal and its current combinatorial assignments. The main use-case is to be able to overwrite the copied later, without impacting the original signal.
 
 .. code-block:: scala
 
