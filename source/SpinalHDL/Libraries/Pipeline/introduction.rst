@@ -77,7 +77,25 @@ This will produce the following hardware :
 
 Here is a simulation wave : 
 
-.. image:: /asset/image/pipeline/simple_wave.png
+.. wavedrom::
+
+   {signal: [
+     {name: 'clk', wave: '0...p........'},
+     {name: 'reset', wave: '1..0.........'},
+     {name: 'io_up_valid', wave: '0.....10.....'},
+     {},
+     {name: 'n0_valid', wave: '0.....10.....'},
+     {name: 'n0_VALUE', wave: 'x.....2......', data: ['0042']},
+     {},
+     {name: 'n1_valid', wave: '0......10....'},
+     {name: 'n1_VALUE', wave: 'x......2.....', data: ['0042']},
+     {name: 'n1_RESULT', wave: 'x......2.....', data: ['1242']},
+     {},
+     {name: 'n2_valid', wave: '0.......10...'},
+     {name: 'n2_RESULT', wave: 'x.......2....', data: ['1242']},
+     {},
+     {name: 'io_down_valid', wave: '0.......10...'},
+   ]}
 
 Here is the same example but using more of the API :
 
