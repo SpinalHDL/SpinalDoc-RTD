@@ -145,7 +145,7 @@ CombInit
         // At this point c === 1 and d === 2.
     }
 
-``CombInit`` clones a circuit, and initially drive it with the same input at the cloned value.
+``CombInit`` clones a circuit, and initially drive it with the same input as the cloned value.
 But you can now update the circuit without impacting the initial value.
 
 If we look at the resulting Verilog, ``b`` is not present :
