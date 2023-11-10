@@ -118,3 +118,66 @@ Combinatorial loops
 
 SpinalHDL checks that there are no combinatorial loops (latches) in your design.
 If one is detected, it raises an error and SpinalHDL will print the path of the loop.
+
+CombInit
+--------
+
+``CombInit`` can be used to copy a signal and its current combinatorial assignments. The main use-case is to be able to overwrite the copied later, without impacting the original signal.
+
+.. code-block:: scala
+
+    val a = UInt(8 bits)
+    a := 1
+
+    val b = a
+    when(sel) {
+        b := 2
+        // At this point, a and b are evaluated to 2: they reference the same signal
+    }
+
+    val c = UInt(8 bits)
+    c := 1
+
+    val d = CombInit(c)
+    // Here c and d are evaluated to 1
+    when(sel) {
+        d := 2
+        // At this point c === 1 and d === 2.
+    }
+
+
+If we look at the resulting Verilog, ``b`` is not present. Since it is a copy of ``a`` by reference, these variables designate the same Verilog wire.
+
+.. code-block:: verilog
+
+    always @(*) begin
+      a = 8'h01;
+      if(sel) begin
+        a = 8'h02;
+      end
+    end
+
+    assign c = 8'h01;
+    always @(*) begin
+      d = c;
+      if(sel) begin
+        d = 8'h02;
+      end
+    end
+
+``CombInit`` is particularly helpful in helper functions to ensure that the returned value is not referencing an input.
+
+.. code-block:: scala
+
+    // note that condition is an elaboration time constant
+    def invertedIf(b: Bits, condition: Boolean): Bits = if(condition) { ~b } else { CombInit(b) }
+
+    val a2 = invertedIf(a1, c)
+
+    when(sel) {
+       a2 := 0
+    }
+
+Without ``CombInit``, if ``c`` == false (but not if ``c`` == true), ``a1`` and ``a2`` reference the same signal and the zero assignment is also applied to ``a1``.
+With ``CombInit`` we have a coherent behaviour whatever the ``c`` value.
+

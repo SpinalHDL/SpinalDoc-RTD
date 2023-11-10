@@ -440,6 +440,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Assignments</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#width-checking">Width checking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#combinatorial-loops">Combinatorial loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combinit">CombInit</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="when_switch.html">When/Switch/Mux</a><ul>
@@ -1309,6 +1310,60 @@ bits (e.g. <code class="docutils literal notranslate"><span class="pre">U(0x100)
 <p>SpinalHDL checks that there are no combinatorial loops (latches) in your design.
 If one is detected, it raises an error and SpinalHDL will print the path of the loop.</p>
 </section>
+<section id="combinit">
+<h2>CombInit<a class="headerlink" href="#combinit" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">CombInit</span></code> can be used to copy a signal and its current combinatorial assignments. The main use-case is to be able to overwrite the copied later, without impacting the original signal.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="c1">// At this point, a and b are evaluated to 2: they reference the same signal</span>
+<span class="p">}</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CombInit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="c1">// Here c and d are evaluated to 1</span>
+<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="c1">// At this point c === 1 and d === 2.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If we look at the resulting Verilog, <code class="docutils literal notranslate"><span class="pre">b</span></code> is not present. Since it is a copy of <code class="docutils literal notranslate"><span class="pre">a</span></code> by reference, these variables designate the same Verilog wire.</p>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h01</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h02</span><span class="p">;</span>
+<span class="w">  </span><span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">assign</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h01</span><span class="p">;</span>
+<span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">  </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h02</span><span class="p">;</span>
+<span class="w">  </span><span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">CombInit</span></code> is particularly helpful in helper functions to ensure that the returned value is not referencing an input.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// note that condition is an elaboration time constant</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">invertedIf</span><span class="p">(</span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Bits</span><span class="p">,</span><span class="w"> </span><span class="n">condition</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">):</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">~</span><span class="n">b</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nc">CombInit</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="n">a2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">invertedIf</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">a2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Without <code class="docutils literal notranslate"><span class="pre">CombInit</span></code>, if <code class="docutils literal notranslate"><span class="pre">c</span></code> == false (but not if <code class="docutils literal notranslate"><span class="pre">c</span></code> == true), <code class="docutils literal notranslate"><span class="pre">a1</span></code> and <code class="docutils literal notranslate"><span class="pre">a2</span></code> reference the same signal and the zero assignment is also applied to <code class="docutils literal notranslate"><span class="pre">a1</span></code>.
+With <code class="docutils literal notranslate"><span class="pre">CombInit</span></code> we have a coherent behaviour whatever the <code class="docutils literal notranslate"><span class="pre">c</span></code> value.</p>
+</section>
 </section>
 
     <script type="text/javascript">
@@ -1340,7 +1395,7 @@ If one is detected, it raises an error and SpinalHDL will print the path of the 
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~c1513e2c2 2023-11-08
+    Version: master git~d8212d6ab 2023-11-10
     </p></div>
     
 
