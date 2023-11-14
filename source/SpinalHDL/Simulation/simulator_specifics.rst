@@ -72,7 +72,7 @@ How SpinalHDL simulates the hardware with Xilinx XSim backend
 
 **Limitations:**
 
-* Xilinx XSim is a **commercial** tool installed with Vivado. It is close source and not free. You have to own the licenses to **legally** use it.
+* Xilinx XSim is a **commercial** tool installed with Vivado. It is closed source and subject to licensing terms to use. You have to own the licenses to **legally** use it.
 * Vivado versions prior to 2019.1 do not work properly.
 
 Before using XSim as the simulation backend, make sure that you have done following steps.
