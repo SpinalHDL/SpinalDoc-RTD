@@ -59,6 +59,26 @@ How SpinalHDL simulates the hardware with Synopsys VCS backend
 
 Before using VCS as the simulation backend, make sure that you have checked your system environment as :ref:`VCS environment<vcs_env>`.
 
+How SpinalHDL simulates the hardware with Xilinx XSim backend
+==============================================================
+
+1. SpinalHDL generates a Verilog/VHDL (depended on your choice) hardware model of the DUT.
+2. The HDL model is loaded in the simulator.
+3. The communication between the simulation and the JVM is established through shared memory. The commands are issued to the simulator using XSI.
+
+**Advantages:**
+
+* Support Xilinx built-in primitives and cores.
+
+**Limitations:**
+
+* Xilinx XSim is a **commercial** tool installed with Vivado. It is closed source and subject to licensing terms to use. You have to own the licenses to **legally** use it.
+* Vivado versions prior to 2019.1 do not work properly.
+
+Before using XSim as the simulation backend, make sure that you have done following steps.
+1. Define VIVADO_HOME environment variable to specify where your vivado located. ex `export VIVADO_HOME=/d/Xilinx/Vivado/2022.1` (under MSYS2).
+2. Make sure two vivado path is inside the PATH. For Windows MSYS2 user, run shell command like `export PATH=$PATH:$VIVADO_HOME/bin:$VIVADO_HOME/lib/win64.o`. For Linux user just source the Vivado's settings64.sh file located at `VIVADO_HOME`.
+
 Performance
 ===========
 
