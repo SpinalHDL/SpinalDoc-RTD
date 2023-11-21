@@ -12,11 +12,11 @@ spinal.lib.misc.pipeline provides a pipelining API. The main advantages over man
 The API is composed of 4 main things : 
 
 - Node : which represents a layer in the pipeline
-- Connector : which allows to connect nodes to each other
+- Link : which allows to connect nodes to each other
 - Builder : which will generate the hardware required for a whole pipeline
-- SignalKey : which are used to retrieve hardware signals on nodes along the pipeline
+- Payload : which are used to retrieve hardware signals on nodes along the pipeline
 
-It is important to understand that SignalKey isn't a hardware data/signal instance, but a key to retrieve a data/signal on nodes along the pipeline, and that the pipeline builder will then automatically interconnect/pipeline every occurrence of a given SignalKey between nodes.
+It is important to understand that Payload isn't a hardware data/signal instance, but a key to retrieve a data/signal on nodes along the pipeline, and that the pipeline builder will then automatically interconnect/pipeline every occurrence of a given Payload between nodes.
 
 Here is an example to illustrate : 
 
@@ -46,12 +46,12 @@ Here is a simple example which only uses the basics of the API :
       val n0, n1, n2 = Node()
 
       // Let's connect those nodes by using simples registers
-      val s01 = StageConnector(n0, n1)
-      val s12 = StageConnector(n1, n2)
+      val s01 = StageLink(n0, n1)
+      val s12 = StageLink(n1, n2)
 
-      // Let's define a few SignalKey things that can go through the pipeline
-      val VALUE = SignalKey(UInt(16 bits))
-      val RESULT = SignalKey(UInt(16 bits))
+      // Let's define a few Payload things that can go through the pipeline
+      val VALUE = Payload(UInt(16 bits))
+      val RESULT = Payload(UInt(16 bits))
 
       // Let's bind io.up to n0
       io.up.ready := n0.ready
@@ -108,7 +108,7 @@ Here is the same example but using more of the API :
     import spinal.lib.misc.pipeline._
 
     class TopLevel extends Component {
-      val VALUE = SignalKey(UInt(16 bits))
+      val VALUE = Payload(UInt(16 bits))
 
       val io = new Bundle{
         val up = slave Stream(VALUE)  //VALUE can also be used as a HardType
@@ -139,28 +139,28 @@ Here is the same example but using more of the API :
       builder.genStagedPipeline()
     }
 
-SignalKey
+Payload
 ============
 
-SignalKey objects are used to refer to data which can go through the pipeline. Technicaly speaking, SignalKey is a HardType which has a name and is used as a "key" to retrieve the signals in a certain pipeline stage.
+Payload objects are used to refer to data which can go through the pipeline. Technicaly speaking, Payload is a HardType which has a name and is used as a "key" to retrieve the signals in a certain pipeline stage.
 
 .. code-block:: scala
     
-    val PC = SignalKey(UInt(32 bits))
-    val PC_PLUS_4 = SignalKey(UInt(32 bits))
+    val PC = Payload(UInt(32 bits))
+    val PC_PLUS_4 = Payload(UInt(32 bits))
 
     val n0, n1 = Node()
-    val s01 = StageConnector(n0, n1)
+    val s01 = StageLink(n0, n1)
 
     n0(PC) := 0x42
     n1(PC_PLUS_4) := n1(PC) + 4
 
-Note that I got used to name the SignalKey instances using uppercase. This is to make it very explicit that the thing isn't a hardware signal, but are more like a "key/type" to access things.
+Note that I got used to name the Payload instances using uppercase. This is to make it very explicit that the thing isn't a hardware signal, but are more like a "key/type" to access things.
 
 Node
 ============
 
-Node mostly hosts the valid/ready arbitration signals, and the hardware signals required for all the SignalKey values going through it.
+Node mostly hosts the valid/ready arbitration signals, and the hardware signals required for all the Payload values going through it.
 
 You can access its arbitration via :
 
@@ -216,9 +216,9 @@ Here is a list of arbitration cases you can have on a node. valid/ready/cancel d
 +-------+-------+-----------+------------------------------+----------+----------+
 
 
-Note that if you want to model things like for instance a CPU stage which can block and flush stuff, take a look a the CtrlConnector, as it provides the API to do such things.
+Note that if you want to model things like for instance a CPU stage which can block and flush stuff, take a look a the CtrlLink, as it provides the API to do such things.
 
-You can access signals referenced by a SignalKey via: 
+You can access signals referenced by a Payload via: 
 
 .. list-table::
    :header-rows: 1
@@ -226,12 +226,12 @@ You can access signals referenced by a SignalKey via:
 
    * - API
      - Description
-   * - node(SignalKey)
+   * - node(Payload)
      - Return the corresponding hardware signal
-   * - node(SignalKey, Any)
+   * - node(Payload, Any)
      - Same as above, but include a second argument which is used as a "secondary key". This eases the construction of multi-lane hardware. For instance, when you have a multi issue CPU pipeline, you can use the lane Int id as secondary key
    * - node.insert(Data)
-     - Return a new SignalKey instance which is connected to the given Data hardware signal
+     - Return a new Payload instance which is connected to the given Data hardware signal
 
 
 
@@ -239,11 +239,11 @@ You can access signals referenced by a SignalKey via:
     
     val n0, n1 = Node()
 
-    val PC = SignalKey(UInt(32 bits))
+    val PC = Payload(UInt(32 bits))
     n0(PC) := 0x42
     n0(PC, "true") := 0x42
     n0(PC, 0x666) := 0xEE
-    val SOMETHING = n0.insert(myHardwareSignal) //This create a new SignalKey
+    val SOMETHING = n0.insert(myHardwareSignal) //This create a new Payload
     when(n1(SOMETHING) === 0xFFAA){ ... }
     
 
@@ -263,7 +263,7 @@ Also, there is an API to define nodes which are always valid / ready
 .. code-block:: scala
     
     val n0, n1, n2 = Node()
-    val OUT = SignalKey(UInt(16 bits))
+    val OUT = Payload(UInt(16 bits))
 
     val outputFlow = master Flow(UInt(16 bits))
     outputFlow.valid := n2.valid
@@ -301,8 +301,8 @@ While you can manualy drive/read the arbitration/data of the first/last stage of
     
     val n0, n1, n2 = Node()
 
-    val IN = SignalKey(UInt(16 bits))
-    val OUT = SignalKey(UInt(16 bits))
+    val IN = Payload(UInt(16 bits))
+    val OUT = Payload(UInt(16 bits))
 
     n1(OUT) := n1(IN) + 0x42
 
@@ -314,11 +314,11 @@ While you can manualy drive/read the arbitration/data of the first/last stage of
     n2.driveTo(down)((payload, self) => payload := self(OUT))
 
 
-In order to reduce verbosity, there is a set of implicit conversions between SignalKey toward their data representation which can be used when you are in the context of a Node : 
+In order to reduce verbosity, there is a set of implicit conversions between Payload toward their data representation which can be used when you are in the context of a Node : 
 
 .. code-block:: scala
 
-    val VALUE = SignalKey(UInt(16 bits))
+    val VALUE = Payload(UInt(16 bits))
     val n1 = new Node{
         val PLUS_ONE = insert(VALUE + 1) // VALUE is implicitly converted into its n1(VALUE) representation
     }
@@ -327,7 +327,7 @@ You can also use those implicit conversions by importing them :
 
 .. code-block:: scala
 
-    val VALUE = SignalKey(UInt(16 bits))
+    val VALUE = Payload(UInt(16 bits))
     val n1 = Node()
 
     val n1Stuff = new Area {
@@ -341,7 +341,7 @@ There is also an API which alows you to create new Area which provide the whole 
 .. code-block:: scala
 
     val n1 = Node()
-    val VALUE = SignalKey(UInt(16 bits))
+    val VALUE = Payload(UInt(16 bits))
 
     val n1Stuff = new n1.Area{
         val PLUS_ONE = insert(VALUE) + 1 // Equivalent to n1.insert(n1(VALUE)) + 1
@@ -350,14 +350,14 @@ There is also an API which alows you to create new Area which provide the whole 
 Such feature is very useful when you have parametrizable pipeline locations for your hardware (see retiming example).
 
 
-Connectors
+Links
 ============
 
-There is few different connectors already implemented (but you could also create your own custom one).
-The idea of connectors is to connect two nodes together in various ways.
+There is few different Links already implemented (but you could also create your own custom one).
+The idea of Links is to connect two nodes together in various ways.
 They generally have a `up` Node and a `down` Node.
 
-DirectConnector
+DirectLink
 ------------------
 
 Very simple, it connect two nodes with wires only. Here is an example : 
@@ -365,33 +365,33 @@ Very simple, it connect two nodes with wires only. Here is an example :
 
 .. code-block:: scala
     
-    val c01 = DirectConnector(n0, n1)
+    val c01 = DirectLink(n0, n1)
 
 
 
-StageConnector
+StageLink
 ------------------
 
 This connect two nodes using registers on the data / valid signals and some arbitration on the ready.
 
 .. code-block:: scala
     
-    val c01 = StageConnector(n0, n1)
+    val c01 = StageLink(n0, n1)
 
 
-S2mConnector
+S2mLink
 ------------------
 
 This connect two nodes using registers on the ready signal, which can be useful to improve backpresure combinatorial timings.
 
 .. code-block:: scala
     
-    val c01 = S2mConnector(n0, n1)
+    val c01 = S2mLink(n0, n1)
 
-CtrlConnector
+CtrlLink
 ------------------
 
-This is kind of a special connector, as connect two nodes with optional flow control / bypass logic. Its API should be flexible enough to implement a CPU stage with it.
+This is kind of a special Link, as connect two nodes with optional flow control / bypass logic. Its API should be flexible enough to implement a CPU stage with it.
 
 Here is its flow control API (The Bool arguments enable the features) :
 
@@ -420,16 +420,16 @@ Also note that if you want to do flow control in a conditional scope (ex in a wh
 
 .. code-block:: scala
     
-    val c01 = CtrlConnector(n0, n1)
+    val c01 = CtrlLink(n0, n1)
 
     c01.haltWhen(something)
     when(somethingElse){
         c01.haltIt()
     }
 
-You can retrieve which nodes are connected to the connector using node.up / node.down.
+You can retrieve which nodes are connected to the Link using node.up / node.down.
 
-The CtrlConnector also provide an API to access SignalKey :
+The CtrlLink also provide an API to access Payload :
 
 .. list-table::
    :header-rows: 1
@@ -437,25 +437,25 @@ The CtrlConnector also provide an API to access SignalKey :
 
    * - API
      - Description
-   * - connector(SignalKey)
-     - Same as connector.down(SignalKey)
-   * - connector(SignalKey, Any)
-     - Same as connector.down(SignalKey, Any)
-   * - connector.insert(Data)
-     - Same as connector.down.insert(Data)
-   * - connector.bypass(SignalKey)
-     - Allows to conditionaly override a SignalKey value between connector.up -> connector.down. This can be used to fix data hazard in CPU pipelines for instance.
+   * - link(Payload)
+     - Same as Link.down(Payload)
+   * - link(Payload, Any)
+     - Same as Link.down(Payload, Any)
+   * - link.insert(Data)
+     - Same as Link.down.insert(Data)
+   * - link.bypass(Payload)
+     - Allows to conditionaly override a Payload value between link.up -> link.down. This can be used to fix data hazard in CPU pipelines for instance.
 
 
 .. code-block:: scala
     
-    val c01 = CtrlConnector(n0, n1)
+    val c01 = CtrlLink(n0, n1)
 
-    val PC = SignalKey(UInt(32 bits))
+    val PC = Payload(UInt(32 bits))
     c01(PC) := 0x42
     c01(PC, 0x666) := 0xEE
 
-    val DATA = SignalKey(UInt(32 bits))
+    val DATA = Payload(UInt(32 bits))
     // Let's say Data is inserted in the pipeline before c01
     when(hazard){
         c01.bypass(DATA) := fixedValue
@@ -463,29 +463,29 @@ The CtrlConnector also provide an API to access SignalKey :
     
     // c01(DATA) and below will get the hazard patch
 
-Note that if you create a CtrlConnector without node arguments, it will create its own nodes internally.
+Note that if you create a CtrlLink without node arguments, it will create its own nodes internally.
 
 .. code-block:: scala
 
-    val decode = CtrlConnector()
-    val execute = CtrlConnector()
+    val decode = CtrlLink()
+    val execute = CtrlLink()
 
-    val d2e = StageConnector(decode.down, execute.up)
+    val d2e = StageLink(decode.down, execute.up)
 
 
-Other connectors
+Other Links
 ------------------------------------
 
-There is also a JoinConnector / ForkConnector implemented.
+There is also a JoinLink / ForkLink implemented.
 
-Your custom connector
+Your custom Link
 ------------------------------------
 
-You can implement your custom connectors by implementing the Connector base class.
+You can implement your custom links by implementing the Link base class.
 
 .. code-block:: scala
 
-    trait Connector extends Area{
+    trait Link extends Area{
       def ups : Seq[Node]
       def downs : Seq[Node]
 
@@ -494,11 +494,12 @@ You can implement your custom connectors by implementing the Connector base clas
       def build() : Unit
     }
 
+But that API may change a bit, as it is still fresh.
 
 Builder
 ============
 
-To generate the hardware of your pipeline, you need to give a list of all the connectors used in your pipeline.
+To generate the hardware of your pipeline, you need to give a list of all the Links used in your pipeline.
 
 
 .. code-block:: scala
@@ -507,8 +508,8 @@ To generate the hardware of your pipeline, you need to give a list of all the co
       val n0, n1, n2 = Node()
 
       // Let's connect those nodes by using simples registers
-      val s01 = StageConnector(n0, n1)
-      val s12 = StageConnector(n1, n2)
+      val s01 = StageLink(n0, n1)
+      val s12 = StageLink(n1, n2)
 
       // Let's ask the builder to generate all the required hardware
       Builder(s01, s12)
@@ -541,7 +542,7 @@ The example below show a pattern which composes a pipeline with multiple lanes t
 
     // This area allows to take a input value and do +1 +1 +1 over 3 stages.
     // I know that's useless, but let's pretend that instead it does a multiplication between two numbers over 3 stages (for FMax reasons)
-    class Plus3(INPUT: SignalKey[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
+    class Plus3(INPUT: Payload[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
       val ONE = stage1.insert(stage1(INPUT) + 1)
       val TWO = stage2.insert(stage2(ONE) + 1)
       val THREE = stage3.insert(stage3(TWO) + 1)
@@ -560,8 +561,8 @@ The example below show a pattern which composes a pipeline with multiple lanes t
       val n0, n1, n2 = Node()
 
       // Let's connect those nodes by using simples registers
-      val s01 = StageConnector(n0, n1)
-      val s12 = StageConnector(n1, n2)
+      val s01 = StageLink(n0, n1)
+      val s12 = StageLink(n1, n2)
 
       // Let's bind io.up to n0
       n0.arbitrateFrom(io.up)
@@ -647,10 +648,10 @@ Here is how it can be done with this pipelining API :
       }
 
       // Let's connect those nodes sequencialy by using simples registers
-      val connectors = for (i <- 0 to resultAt - 1) yield StageConnector(nodes(i), nodes(i + 1))
+      val links = for (i <- 0 to resultAt - 1) yield StageLink(nodes(i), nodes(i + 1))
 
       // Let's ask the builder to generate all the required hardware
-      Builder(connectors)
+      Builder(links)
     }
 
 If then you generate this component like this : 
@@ -712,9 +713,9 @@ Note the generated hardware verilog is kinda clean (by my standards at least :P)
       reg                 nodes_2_ready;
       reg                 nodes_3_valid;
       wire                nodes_3_ready;
-      wire                when_StageConnector_l56;
-      wire                when_StageConnector_l56_1;
-      wire                when_StageConnector_l56_2;
+      wire                when_StageLink_l56;
+      wire                when_StageLink_l56_1;
+      wire                when_StageLink_l56_2;
 
       assign _zz_nodes_0_adder_SUM = (nodes_0_inserter_RGB_r + nodes_0_inserter_RGB_g);
       assign nodes_0_valid = io_up_valid;
@@ -730,28 +731,28 @@ Note the generated hardware verilog is kinda clean (by my standards at least :P)
       assign io_down_payload = nodes_3_multiplier_MUL;
       always @(*) begin
         nodes_0_ready = nodes_1_ready;
-        if(when_StageConnector_l56) begin
+        if(when_StageLink_l56) begin
           nodes_0_ready = 1'b1;
         end
       end
 
-      assign when_StageConnector_l56 = (! nodes_1_valid);
+      assign when_StageLink_l56 = (! nodes_1_valid);
       always @(*) begin
         nodes_1_ready = nodes_2_ready;
-        if(when_StageConnector_l56_1) begin
+        if(when_StageLink_l56_1) begin
           nodes_1_ready = 1'b1;
         end
       end
 
-      assign when_StageConnector_l56_1 = (! nodes_2_valid);
+      assign when_StageLink_l56_1 = (! nodes_2_valid);
       always @(*) begin
         nodes_2_ready = nodes_3_ready;
-        if(when_StageConnector_l56_2) begin
+        if(when_StageLink_l56_2) begin
           nodes_2_ready = 1'b1;
         end
       end
 
-      assign when_StageConnector_l56_2 = (! nodes_3_valid);
+      assign when_StageLink_l56_2 = (! nodes_3_valid);
       always @(posedge clk or posedge reset) begin
         if(reset) begin
           nodes_1_valid <= 1'b0;
