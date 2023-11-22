@@ -404,9 +404,9 @@ Here is its flow control API (The Bool arguments enable the features) :
    * - haltWhen(Bool)
      - Allows to block the current transaction (clear up.ready down.valid)
    * - throwWhen(Bool)
-     - Allows to cancel the current transaction from the pipeline (clear down.valid and c the transaction driver)
+     - Allows to cancel the current transaction from the pipeline (clear down.valid and make the transaction driver forget its current state)
    * - forgetOneWhen(Bool)
-     - Allows to request the upstream to forget the current transaction  (but doesn't clear the down.valid)
+     - Allows to request the upstream to forget its current transaction  (but doesn't clear the down.valid)
    * - ignoreReadyWhen(Bool)
      - Allows to ignore the downstream ready (set up.ready)
    * - duplicateWhen(Bool)
@@ -422,9 +422,10 @@ Also note that if you want to do flow control in a conditional scope (ex in a wh
     
     val c01 = CtrlLink(n0, n1)
 
-    c01.haltWhen(something)
+    c01.haltWhen(something) // Explicit halt request
+
     when(somethingElse){
-        c01.haltIt()
+        c01.haltIt() // Conditional scope sensitive halt request, same as c01.haltWhen(somethingElse)
     }
 
 You can retrieve which nodes are connected to the Link using node.up / node.down.
