@@ -1,136 +1,254 @@
 
 msgid ""
 msgstr ""
-"Project-Id-Version:SpinalHDL"
-"Report-Msgid-Bugs-To:"
-"POT-Creation-Date:2023-12-01 11:48+0800"
-"PO-Revision-Date:YEAR-MO-DA HO:MI+ZONE"
-"Last-Translator:FULL NAME <EMAIL@ADDRESS>"
-"Language:zh_CN"
-"Language-Team:zh_CN <LL@li.org>"
-"Plural-Forms:nplurals=1; plural=0;"
-"MIME-Version:1.0"
-"Content-Type:text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding:8bit"
-"Generated-By:Babel 2.13.1"
+"Project-Id-Version: SpinalHDLReport-Msgid-Bugs-To:POT-Creation-"
+"Date:2023-12-01 11:48+0800PO-Revision-Date:YEAR-MO-DA HO:MI+ZONELast-"
+"Translator:FULL NAME <EMAIL@ADDRESS>Language:zh_CNLanguage-Team:zh_CN "
+"<LL@li.org>Plural-Forms:nplurals=1; plural=0;MIME-Version:1.0Content-"
+"Type:text/plain; charset=UTF-8\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-12-02 00:23+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
 
-#: ../../source/SpinalHDL/Semantic/assignments.rst:5
-#: ../../source/SpinalHDL/Semantic/assignments.rst:8
+#: ../../SpinalHDL/Semantic/assignments.rst:2
 msgid "Assignments"
 msgstr "作业"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:10
+
+#: ../../SpinalHDL/Semantic/assignments.rst:4
 msgid "There are multiple assignment operators:"
 msgstr "有多个赋值运算符："
-#: ../../source/SpinalHDL/Semantic/assignments.rst:16
+
+#: ../../SpinalHDL/Semantic/assignments.rst:10
 msgid "Symbol"
 msgstr "象征"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:17
-#: ../../source/SpinalHDL/Semantic/assignments.rst:82
+
+#: ../../SpinalHDL/Semantic/assignments.rst:11
+#: ../../SpinalHDL/Semantic/assignments.rst:82
 msgid "Description"
 msgstr "描述"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:18
+
+#: ../../SpinalHDL/Semantic/assignments.rst:12
 msgid "``:=``"
 msgstr "``:=``"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:19
+
+#: ../../SpinalHDL/Semantic/assignments.rst:13
 msgid "Standard assignment, equivalent to ``<=`` in VHDL/Verilog."
 msgstr "标准赋值，相当于 VHDL/Verilog 中的``<=``。"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:20
+
+#: ../../SpinalHDL/Semantic/assignments.rst:14
 msgid "``\\=``"
 msgstr "``\\=``"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:21
+
+#: ../../SpinalHDL/Semantic/assignments.rst:15
+#, fuzzy
 msgid ""
 "Equivalent to ``:=`` in VHDL and ``=`` in Verilog. The value is updated "
-"instantly in-place."
+"instantly in-place. Only works with combinational signals, does not work "
+"with registers."
 msgstr "相当于 VHDL 中的 ``:=`` 和 Verilog 中的 ``=``。该值会立即就地更新。"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:22
+
+#: ../../SpinalHDL/Semantic/assignments.rst:16
 msgid "``<>``"
 msgstr "``<>``"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:23
+
+#: ../../SpinalHDL/Semantic/assignments.rst:17
 msgid ""
 "Automatic connection between 2 signals or two bundles of the same type. "
-"Direction is inferred by using signal direction (in/out). (Similar behavior "
-"to ``:=``\\ )"
+"Direction is inferred by using signal direction (in/out). (Similar "
+"behavior to ``:=``\\ )"
 msgstr "2 个信号或相同类型的两个信号束之间的自动连接。通过使用信号方向（输入/输出）来推断方向。 （与 ``:=``\\ 类似的行为）"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:25
+
+#: ../../SpinalHDL/Semantic/assignments.rst:19
+#, fuzzy
 msgid ""
-"When muxing (for instance using ``when``, see :doc:`when_switch`.), the last"
-" valid standard assignment wins. Else, assigning twice to the same assignee "
-"results in an assignment overlap (see :doc:`../Design "
-"errors/assignment_overlap`)."
+"When muxing (for instance using ``when``, see :doc:`when_switch`.), the "
+"last valid standard assignment ``:=`` wins. Else, assigning twice to the "
+"same assignee from the same scope results in an assignment overlap.  "
+"SpinalHDL will assume this is a unintentional design error by default and"
+" halt elaboration with error. For special use-cases assignment overlap "
+"can be programatically permitted on a case by case basis. (see "
+":doc:`../Design errors/assignment_overlap`)."
+msgstr "当混合时（例如使用“when”，请参阅:doc:`when_switch`。），最后一个有效的标准分配获胜。否则，向同一受让人分配两次会导致分配重叠（请参阅:doc:`../设计错误/分配_重叠`）。"
+
+#: ../../SpinalHDL/Semantic/assignments.rst:45
+msgid ""
+"It also supports Bundle assignment (convert all bit signals into a single"
+" bit-bus of suitable width of type Bits, to then use that wider form in "
+"an assignment expression).  Bundle multiple signals together using ``()``"
+" (Scala Tuple syntax) on both the left hand side and right hand side of "
+"an assignment expression."
 msgstr ""
-"当混合时（例如使用“when”，请参阅:doc:`when_switch`。），最后一个有效的标准分配获胜。否则，向同一受让人分配两次会导致分配重叠（请参阅:doc:`../设计错误/分配_重叠`）。"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:47
-msgid ""
-"It also supports Bundle assignment. Bundle multiple signals together using "
-"``()`` to assign and assign to"
-msgstr "它还支持 Bundle 分配。使用“()”将多个信号捆绑在一起进行分配和分配"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:63
+
+#: ../../SpinalHDL/Semantic/assignments.rst:62
 msgid ""
 "It is important to understand that in SpinalHDL, the nature of a signal "
-"(combinational/sequential) is defined in its declaration, not by the way it "
-"is assigned. All datatype instances will define a combinational signal, "
-"while a datatype instance wrapped with ``Reg(...)`` will define a sequential"
-" (registered) signal."
+"(combinational/sequential) is defined in its declaration, not by the way "
+"it is assigned. All datatype instances will define a combinational "
+"signal, while a datatype instance wrapped with ``Reg(...)`` will define a"
+" sequential (registered) signal."
 msgstr ""
 "重要的是要理解，在 SpinalHDL "
 "中，信号的性质（组合/顺序）是在其声明中定义的，而不是通过分配的方式定义的。所有数据类型实例都将定义一个组合信号，而用“Reg(...)”包装的数据类型实例将定义一个顺序（注册）信号。"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:73
+
+#: ../../SpinalHDL/Semantic/assignments.rst:73
 msgid "Width checking"
 msgstr "宽度检查"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:75
+
+#: ../../SpinalHDL/Semantic/assignments.rst:75
 msgid ""
-"SpinalHDL checks that the bit count of the left side and the right side of "
-"an assignment matches. There are multiple ways to adapt the width of a given"
-" BitVector (``Bits``, ``UInt``, ``SInt``):"
+"SpinalHDL checks that the bit count of the left side and the right side "
+"of an assignment matches. There are multiple ways to adapt the width of a"
+" given BitVector (``Bits``, ``UInt``, ``SInt``):"
 msgstr ""
-"SpinalHDL 检查赋值左侧和右侧的位数是否匹配。有多种方法可以调整给定 BitVector 的宽度（“Bits”、“UInt”、“SInt”）："
-#: ../../source/SpinalHDL/Semantic/assignments.rst:81
+"SpinalHDL 检查赋值左侧和右侧的位数是否匹配。有多种方法可以调整给定 BitVector "
+"的宽度（“Bits”、“UInt”、“SInt”）："
+
+#: ../../SpinalHDL/Semantic/assignments.rst:81
 msgid "Resizing techniques"
 msgstr "调整大小技巧"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:83
+
+#: ../../SpinalHDL/Semantic/assignments.rst:83
 msgid "x := y.resized"
 msgstr "x := y.调整大小"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:84
-msgid ""
-"Assign x with a resized copy of y, resize value is automatically inferred to"
-" match x"
+
+#: ../../SpinalHDL/Semantic/assignments.rst:84
+#, fuzzy
+msgid "Assign x with a resized copy of y, size inferred from x."
 msgstr "将 y 的调整大小副本分配给 x，调整大小值会自动推断以匹配 x"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:85
+
+#: ../../SpinalHDL/Semantic/assignments.rst:85
 msgid "x := y.resize(newWidth)"
 msgstr "x := y.resize(newWidth)"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:86
-msgid "Assign x with a resized copy of y, size is manually calculated"
+
+#: ../../SpinalHDL/Semantic/assignments.rst:86
+#, fuzzy
+msgid "Assign x with a resized copy of y :code:`newWidth` bits wide."
 msgstr "将调整大小的 y 副本分配给 x，大小是手动计算的"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:89
+
+#: ../../SpinalHDL/Semantic/assignments.rst:87
+#, fuzzy
+msgid "x := y.resizeLeft(newWidth)"
+msgstr "x := y.resize(newWidth)"
+
+#: ../../SpinalHDL/Semantic/assignments.rst:88
+#, fuzzy
+msgid ""
+"Assign x with a resized copy of y :code:`newWidth` bits wide. Pads at the"
+" LSB if needed."
+msgstr "将 y 的调整大小副本分配给 x，调整大小值会自动推断以匹配 x"
+
+#: ../../SpinalHDL/Semantic/assignments.rst:91
+msgid ""
+"All resize methods may cause the resulting width to be wider or narrower "
+"than the original width of :code:`y`. When widening occurs the extra bits"
+" are padded with zeros."
+msgstr ""
+
+#: ../../SpinalHDL/Semantic/assignments.rst:95
+msgid ""
+"The inferred conversion with ``x.resized`` is based on the target width "
+"on the left hand side of the assignment expression being resolved and "
+"obeys the same semantics as ``y.resize(someWidth)``. The expression ``x "
+":= y.resized`` is equivalent to ``x := y.resize(x.getBitsWidth bits)``."
+msgstr ""
+
+#: ../../SpinalHDL/Semantic/assignments.rst:99
+msgid ""
+"While the example code snippets show the use of an assignment statement, "
+"the resize family of methods can be chained like any ordinary Scala "
+"method."
+msgstr ""
+
+#: ../../SpinalHDL/Semantic/assignments.rst:102
 msgid "There is one case where Spinal automatically resizes a value:"
 msgstr "在一种情况下，Spinal 会自动调整值的大小："
-#: ../../source/SpinalHDL/Semantic/assignments.rst:95
-msgid "Assignment"
-msgstr "任务"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:96
-msgid "Problem"
-msgstr "问题"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:97
-msgid "SpinalHDL action"
-msgstr "脊髓HDL作用"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:98
-msgid "myUIntOf_8bit := U(3)"
-msgstr "myUIntOf_8bit := U(3)"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:99
+
+#: ../../SpinalHDL/Semantic/assignments.rst:109
 msgid ""
-"U(3) creates an UInt of 2 bits, which doesn't match the left side (8 bits)"
-msgstr "U(3) 创建一个 2 位的 UInt，与左侧（8 位）不匹配"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:100
-msgid ""
-"Because U(3) is a \"weak\" bit count inferred signal, SpinalHDL resizes it "
-"automatically"
-msgstr "由于 U(3) 是“弱”位计数推断信号，SpinalHDL 会自动调整其大小"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:104
+"Because ``U(3)`` is a \"weak\" bit count inferred signal, SpinalHDL "
+"widens it automatically. This can be considered to be functionally "
+"equivalent to ``U(3, 2 bits).resized`` However rest reassured SpinalHDL "
+"will do the correct thing and continue to flag an error if the scenario "
+"would require narrowing. An error is reported if the literal required 9 "
+"bits (e.g. ``U(0x100)``) when trying to assign into ``myUIntOf_8bits``."
+msgstr ""
+
+#: ../../SpinalHDL/Semantic/assignments.rst:117
 msgid "Combinatorial loops"
 msgstr "组合循环"
-#: ../../source/SpinalHDL/Semantic/assignments.rst:106
+
+#: ../../SpinalHDL/Semantic/assignments.rst:119
 msgid ""
 "SpinalHDL checks that there are no combinatorial loops (latches) in your "
-"design. If one is detected, it raises an error and SpinalHDL will print the "
-"path of the loop."
+"design. If one is detected, it raises an error and SpinalHDL will print "
+"the path of the loop."
 msgstr "SpinalHDL 检查您的设计中是否存在组合环（锁存器）。如果检测到，它会引发错误，并且 SpinalHDL 将打印循环的路径。"
+
+#: ../../SpinalHDL/Semantic/assignments.rst:123
+msgid "CombInit"
+msgstr ""
+
+#: ../../SpinalHDL/Semantic/assignments.rst:125
+msgid ""
+"``CombInit`` can be used to copy a signal and its current combinatorial "
+"assignments. The main use-case is to be able to overwrite the copied "
+"later, without impacting the original signal."
+msgstr ""
+
+#: ../../SpinalHDL/Semantic/assignments.rst:149
+msgid ""
+"If we look at the resulting Verilog, ``b`` is not present. Since it is a "
+"copy of ``a`` by reference, these variables designate the same Verilog "
+"wire."
+msgstr ""
+
+#: ../../SpinalHDL/Semantic/assignments.rst:168
+msgid ""
+"``CombInit`` is particularly helpful in helper functions to ensure that "
+"the returned value is not referencing an input."
+msgstr ""
+
+#: ../../SpinalHDL/Semantic/assignments.rst:181
+msgid ""
+"Without ``CombInit``, if ``c`` == false (but not if ``c`` == true), "
+"``a1`` and ``a2`` reference the same signal and the zero assignment is "
+"also applied to ``a1``. With ``CombInit`` we have a coherent behaviour "
+"whatever the ``c`` value."
+msgstr ""
+
+#~ msgid ""
+#~ "It also supports Bundle assignment. "
+#~ "Bundle multiple signals together using "
+#~ "``()`` to assign and assign to"
+#~ msgstr "它还支持 Bundle 分配。使用“()”将多个信号捆绑在一起进行分配和分配"
+
+#~ msgid "Assignment"
+#~ msgstr "任务"
+
+#~ msgid "Problem"
+#~ msgstr "问题"
+
+#~ msgid "SpinalHDL action"
+#~ msgstr "脊髓HDL作用"
+
+#~ msgid "myUIntOf_8bit := U(3)"
+#~ msgstr "myUIntOf_8bit := U(3)"
+
+#~ msgid ""
+#~ "U(3) creates an UInt of 2 bits,"
+#~ " which doesn't match the left side"
+#~ " (8 bits)"
+#~ msgstr "U(3) 创建一个 2 位的 UInt，与左侧（8 位）不匹配"
+
+#~ msgid ""
+#~ "Because U(3) is a \"weak\" bit "
+#~ "count inferred signal, SpinalHDL resizes "
+#~ "it automatically"
+#~ msgstr "由于 U(3) 是“弱”位计数推断信号，SpinalHDL 会自动调整其大小"
+
