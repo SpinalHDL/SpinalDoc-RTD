@@ -36,6 +36,7 @@ Here is an example to show how you can achieve this (note the use of 'M' prefix)
    Int
    enum
    bundle
+   TaggedUnion
    Vec
    Fix
    Floating
