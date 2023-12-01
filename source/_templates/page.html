@@ -1,0 +1,42 @@
+{% extends "!page.html" %}
+{% block body %}
+
+{%- if current_version and latest_version -%}
+
+{%- set dialog_default_state = 'close' -%}
+{%- if current_version and latest_version and current_version != latest_version and current_version.name != 'latest' -%}
+{%- set dialog_default_state = 'show' -%}
+{%- endif -%}
+
+<dialog id="doc-dialog-version" role="dialog" class="collapse-once" aria-modal="false" data-default-state="{{ dialog_default_state }}" data-current-version="{{ current_version.name|e }}" data-latest-version="{{ latest_version.name|e }}">
+<p class="doc-version-warning-banner">
+  <strong>
+    {% if current_version.is_released %}
+    You're reading an old version of this documentation.<br/>
+    For the latest stable release version, please have a look at <a href="{{ vpathto(latest_version.name) }}">{{latest_version.name}}</a>.
+    {% elif current_version.name == 'master' %}
+    You're reading an pre-release version of this documentation.<br/>
+    For the latest stable release version, please have a look at <a href="{{ vpathto(latest_version.name) }}">{{latest_version.name}}</a>.
+    {% elif sphinx_extra_version and current_version.name == sphinx_extra_version %}
+    You're reading the documentation for a latest stable version {{current_version.name}}.<br/>
+    {% elif sphinx_latest_version and current_version.name == sphinx_latest_version %}
+    You're reading the documentation for a latest stable version {{current_version.name}}.<br/>
+    {% elif current_version and latest_version and current_version == latest_version %}
+    You're reading the documentation for a latest stable version {{current_version.name}}.<br/>
+    {% else %}
+    You're reading the documentation for a development version.<br/>
+    For the latest stable release version, please have a look at <a href="{{ vpathto(latest_version.name) }}">{{latest_version.name}}</a>.
+    {% endif %}
+  </strong>
+  <div>
+    <form>
+      <button formmethod="dialog" type="submit" class="doc-dialog-dismiss" aria-label="close">Dismiss</button>
+    </form>
+  </div>
+</p>
+</dialog>
+
+{% endif %}
+
+{{ super() }}
+{% endblock %}%

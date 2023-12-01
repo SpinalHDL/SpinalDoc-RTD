@@ -2,6 +2,8 @@
 VCS Simulation Configuration
 ==============================
 
+.. _vcs_env:
+
 Environment variable
 ----------------------
 
@@ -11,7 +13,7 @@ You should have several environment variables defined before:
 * ``VERDI_HOME``: The home path to your Verdi installation.
 * Add ``$VCS_HOME/bin`` and ``$VERDI_HOME/bin`` to your ``PATH``.
 
-Prepend the following paths to your ``LD_LIBRARY_PATH`` 
+Prepend the following paths to your ``LD_LIBRARY_PATH`` to enable PLI features.
 
 .. code-block:: bash
 
@@ -20,6 +22,30 @@ Prepend the following paths to your ``LD_LIBRARY_PATH``
   export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/lib/LINUX64:$LD_LIBRARY_PATH 
   export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/Ius/LINUX64:$LD_LIBRARY_PATH 
   export LD_LIBRARY_PATH=$VERDI_HOME/share/PLI/MODELSIM/LINUX64:$LD_LIBRARY_PATH 
+
+If you encounter the ``Compilation of SharedMemIface.cpp failed`` error, make sure that you have installed C++ boost library correctly.
+The header and library files path should be added to ``CPLUS_INCLUDE_PATH``, ``LIBRARY_PATH`` and ``LD_LIBRARY_PATH`` respectively.
+
+User defined environment setup
+------------------------------
+
+Sometimes a VCS environment setup file `synopsys_sim.setup` is required to run VCS simulation. Also you may want to run some scripts or code 
+to setup the environment just before VCS starting compilation. You can do this by `withVCSSimSetup`.
+
+.. code-block:: scala
+  
+  val simConfig = SimConfig
+    .withVCS
+    .withVCSSimSetup(
+      setupFile = "~/work/myproj/sim/synopsys_sim.setup",
+      beforeAnalysis = () => { // this code block will be run before VCS analysis step.
+        "pwd".!
+        println("Hello, VCS")
+      }
+    )
+
+This method will copy your own `synopsys_sim.setup` file to the VCS work directory under the `workspacePath` (default as `simWorkspace`) directory,
+and run your scripts.
 
 VCS Flags
 ---------
@@ -96,5 +122,8 @@ Also, you can control the wave trace depth by using ``withWaveDepth(depth: Int)`
 Simulation with ``Blackbox``
 ----------------------------
 
+Sometimes, IP vendors will provide you with some design entites in Verilog/VHDL format and you want to integrate them into your SpinalHDL design. 
+The integration can done by following two ways:
+
 1. In a ``Blackbox`` definition, use ``addRTLPath(path: String)`` to assign a external Verilog/VHDL file to this blackbox.
-2. Use the method ``mergeRTLSource(fileName: String=null)`` of ``SpinalConfig``.
+2. Use the method ``mergeRTLSource(fileName: String=null)`` of ``SpinalReport``.

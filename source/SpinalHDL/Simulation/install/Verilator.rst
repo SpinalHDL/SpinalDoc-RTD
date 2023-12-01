@@ -2,8 +2,19 @@
 Setup and installation of Verilator
 ===================================
 
+.. note::
+   If you installed the recommended oss-cad-suite during SpinalHDL :ref:`setup <Install>` you
+   can skip the instructions below - but you need to activate the oss-cad-suite environment.
 
 SpinalSim + Verilator is supported on both Linux and Windows platforms.
+
+It is recommended that v4.218 is the oldest Verilator version to use.  While it maybe
+possible to use older verilator versions, some optional and Scala source dependent
+features that SpinalHDL can use (such as Verilog ``$urandom`` support) may not be supported
+by older Verilator versions and will cause an error when trying to simulate.
+
+Ideally the latest v4.xxx and v5.xxx is well supported and bug reports should be opened
+with any issues you have.
 
 Scala
 ^^^^^
@@ -33,9 +44,9 @@ You will also need a recent version of Verilator installed :
    unsetenv VERILATOR_ROOT  # For csh; ignore error if on bash
    unset VERILATOR_ROOT  # For bash
    cd verilator
-   git pull        # Make sure we're up-to-date
-   git checkout v4.040
-   autoconf        # Create ./configure script
+   git pull             # Make sure we're up-to-date
+   git checkout v4.218  # Can use newer v4.228 and v5.xxx
+   autoconf             # Create ./configure script
    ./configure
    make -j$(nproc)
    sudo make install
@@ -49,7 +60,7 @@ In order to get SpinalSim + Verilator working on Windows, you have to do the fol
 * Install `MSYS2 <https://www.msys2.org/>`_
 * Via MSYS2 get gcc/g++/verilator (for Verilator you can compile it from the sources)
 * Add ``bin`` and ``usr\bin`` of MSYS2 into your windows ``PATH`` (ie : ``C:\msys64\usr\bin;C:\msys64\mingw64\bin``)
-* Check that the JAVA_HOME environnement variable point to the JDK installation folder (ie : ``C:\Program Files\Java\jdk-13.0.2``)
+* Check that the JAVA_HOME environment variable points to the JDK installation folder (i.e.: ``C:\Program Files\Java\jdk-13.0.2``)
 
 Then you should be able to run SpinalSim + Verilator from your Scala project without having to use MSYS2 anymore.
 
@@ -87,7 +98,7 @@ From source
    unset VERILATOR_ROOT
    cd verilator
    git pull        
-   git checkout v4.040
+   git checkout v4.218   # Can use newer v4.228 and v5.xxx
    autoconf      
    ./configure
    export CPLUS_INCLUDE_PATH=/usr/include:$CPLUS_INCLUDE_PATH

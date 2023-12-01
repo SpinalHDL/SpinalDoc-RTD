@@ -176,7 +176,7 @@ The following code will create this logic :
 
 .. code-block:: scala
 
-   case class RGB(channelWidth : Int) extends Bundle{
+   case class RGB(channelWidth : Int) extends Bundle {
      val red   = UInt(channelWidth bits)
      val green = UInt(channelWidth bits)
      val blue  = UInt(channelWidth bits)
@@ -248,7 +248,7 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
 StreamFifoCC
 ^^^^^^^^^^^^
 
-You can instanciate the dual clock domain version of the fifo the following way :
+You can instantiate the dual clock domain version of the fifo the following way :
 
 .. code-block:: scala
 
@@ -459,7 +459,7 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
 StreamJoin
 ^^^^^^^^^^
 
-This utile takes multiple input streams and wait until all of them fire before letting all of them through.
+This utility takes multiple input streams and waits until all of them fire `valid` before letting all of them through by providing `ready`.
 
 .. code-block:: scala
 
@@ -489,6 +489,37 @@ or
    val inputStream = Stream(Bits(8 bits))
    val outputStreams = StreamFork(inputStream,portCount=2, synchronous=true)
 
+StreamMux
+^^^^^^^^^
+
+A mux implementation for ``Stream``. 
+It takes a ``select`` signal and streams in ``inputs``, and returns a ``Stream`` which is connected to one of the input streams specified by ``select``.
+``StreamArbiter`` is a facility works similar to this but is more powerful.
+
+.. code-block:: scala
+
+   val inputStreams = Vec(Stream(Bits(8 bits)), portCount)
+   val select = UInt(log2Up(inputStreams.length) bits)
+   val outputStream = StreamMux(select, inputStreams)
+
+.. note::
+
+   The ``UInt`` type of ``select`` signal could not be changed while output stream is stalled, or it might break the transaction on the fly.
+   Use ``Stream`` typed ``select`` can generate a stream interface which only fire and change the routing when it is safe.
+
+
+StreamDemux
+^^^^^^^^^^^
+
+A demux implementation for ``Stream``. 
+It takes a ``input``, a ``select`` and a ``portCount`` and returns a ``Vec(Stream)`` where the output stream specified by ``select`` is connected to ``input``, the other output streams are inactive. 
+For safe transaction, refer the notes above.
+
+.. code-block:: scala
+
+   val inputStream = Stream(Bits(8 bits))
+   val select = UInt(log2Up(portCount) bits)
+   val outputStreams = StreamDemux(inputStream, select, portCount)
 
 StreamDispatcherSequencial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -502,3 +533,98 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
      input = inputStream,
      outputCount = 3
    )
+
+StreamTransactionExtender
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This utility will take one input transfer and generate several output transfers, it provides the facility to repeat the payload value ``count+1`` times into output transfers.
+The ``count`` is captured and registered each time inputStream fires for an individual payload.
+
+.. code-block:: scala
+
+   val inputStream = Stream(Bits(8 bits))
+   val outputStream = Stream(Bits(8 bits))
+   val count = UInt(3 bits)
+   val extender = StreamTransactionExtender(inputStream, outputStream, count) {
+      // id, is the 0-based index of total output transfers so far in the current input transaction.
+      // last, is the last transfer indication, same as the last signal for extender.
+      // the returned payload is allowed to be modified only based on id and last signals, other translation should be done outside of this.
+       (id, payload, last) => payload
+   }
+
+This ``extender`` provides several status signals, such as ``working``, ``last``, ``done`` where ``working`` means there is one input transfer accepted and in-progress, ``last`` indicates the last output transfer is prepared and waiting to complete, ``done`` become valid represents the last output transfer is fireing and making the current input transaction process complete and ready to start another transaction.
+
+.. wavedrom::
+
+  { "signal": [
+    { "name": "clk",         "wave": "p........." },
+    { "name": "inputStream",        "wave": "x3x.....4x", "data": ["T1", "T2"] },
+    { "name": "count",        "wave": "x3x.....4x", "data": ["2", "4"] },
+    { "name": "outputStream",       "wave": "x..2x2x.2x", "data": ["D1", "D2", "D3"] },
+    { "name": "working",      "wave": "0.1......."},
+    { "name": "done",      "wave": "0.......10"},
+    { "name": "first",      "wave": "0.1.0....."},
+    { "name": "last",      "wave": "0.....1..0"},
+  ]}
+
+.. note::
+
+   If only count for output stream is required then use ``StreamTransactionCounter`` instead. 
+
+Simulation support
+------------------
+
+For simulation master and slave implementations are available:
+
+.. list-table::
+  :header-rows: 1
+  :widths: 1 5
+  
+  * - Class
+    - Usage
+  * - StreamMonitor
+    - Used for both master and slave sides, calls function with payload if Stream fires.
+  * - StreamDriver
+    - Testbench master side, drives values by calling function to apply value (if available). Function must return if value was available. Supports random delays.
+  * - StreamReadyRandmizer
+    - Randomizes ``ready`` for reception of data, testbench is the slave side.
+  * - ScoreboardInOrder
+    - Often used to compare reference/dut data
+
+.. code-block:: scala
+
+  import spinal.core._
+  import spinal.core.sim._
+  import spinal.lib._
+  import spinal.lib.sim.{StreamMonitor, StreamDriver, StreamReadyRandomizer, ScoreboardInOrder}
+
+  object Example extends App {
+    val dut = SimConfig.withWave.compile(StreamFifo(Bits(8 bits), 2))
+
+    dut.doSim("simple test") { dut =>
+      SimTimeout(10000)
+      
+      val scoreboard = ScoreboardInOrder[Int]()
+      
+      dut.io.flush #= false
+      
+      // drive random data and add pushed data to scoreboard
+      StreamDriver(dut.io.push, dut.clockDomain) { payload =>
+        payload.randomize()
+        true
+      }
+      StreamMonitor(dut.io.push, dut.clockDomain) { payload =>
+        scoreboard.pushRef(payload.toInt)
+      }
+
+      // randmize ready on the output and add popped data to scoreboard
+      StreamReadyRandomizer(dut.io.pop, dut.clockDomain)
+      StreamMonitor(dut.io.pop, dut.clockDomain) { payload =>
+        scoreboard.pushDut(payload.toInt)
+      }
+
+      dut.clockDomain.forkStimulus(10)
+
+      dut.clockDomain.waitActiveEdgeWhere(scoreboard.matches == 100)
+    }
+  }

@@ -32,7 +32,7 @@ For instance:
      val DQM   = Bits(g.bytePerWord bits)
      val ADDR  = Bits(g.chipAddressWidth bits)
      val BA    = Bits(g.bankWidth bits)
-     val CKE, CSn, CASn, RASn, WEn  = Bool
+     val CKE, CSn, CASn, RASn, WEn  = Bool()
    }
 
 inout
@@ -49,7 +49,7 @@ For instance:
      val DQM   = Bits(g.bytePerWord bits)
      val ADDR  = Bits(g.chipAddressWidth bits)
      val BA    = Bits(g.bankWidth bits)
-     val CKE, CSn, CASn, RASn, WEn  = Bool
+     val CKE, CSn, CASn, RASn, WEn  = Bool()
 
      override def asMaster() : Unit = {
        out(ADDR, BA, CASn, CKE, CSn, DQM, RASn, WEn)

@@ -1,11 +1,10 @@
 
 USB device
-============
+==========
 
-Introduction
-------------
+Here exists a USB device controller in the SpinalHDL library.
 
-There is a USB device controller in the SpinalHDL library. In a few bullet points it can be resumed to :
+A few bullet points to summarise support:
 
 - Implemented to allow a CPU to configure and manage the endpoints
 - A internal ram which store the endpoints states and transactions descriptors
@@ -30,23 +29,25 @@ Deployments :
 
 
 Architecture
---------------
+------------
 
 The controller is composed of : 
 
 - A few control registers
 - A internal ram used to store the endpoint status, the transfer descriptors and the endpoint 0 SETUP data.
 
-A linked list of descriptors for each endpoint in order to handle of the USB IN/OUT transactions and data.
+A linked list of descriptors for each endpoint in order to handle the USB IN/OUT transactions and data.
 
 The endpoint 0 manage the IN/OUT transactions like all the other endpoints but has some additional hardware to manage the SETUP transactions : 
 
 - Its linked list is cleared on each setup transactions
-- The data of the SETUP transaction are stored in a fixed location (SETUP_DATA)
+- The data from the SETUP transaction is stored in a fixed location (SETUP_DATA)
 - It has a specific interrupt flag for SETUP transactions  
 
 Registers
---------------
+---------
+
+Note that all registers and memories of the controller are only accessible in 32 bits word access, bytes access isn't supported.
 
 FRAME (0xFF00)
 **********************
@@ -64,43 +65,53 @@ ADDRESS (0xFF04)
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
 +=========================+======+===========+==================================================================+
-| usbAddressFilter        |  WO  | 6-0       | The device will only listen at tokens with the specified address |
+| address                 |  WO  | 6-0       | The device will only listen at tokens with the specified address |
 |                         |      |           | This field is automaticaly cleared on usb reset events           |
 +-------------------------+------+-----------+------------------------------------------------------------------+
+| enable                  |  WO  | 8         | Enable the USB address filtering if set                          |
++-------------------------+------+-----------+------------------------------------------------------------------+
+| trigger                 |  WO  | 9         | Set the enable (see above) on the next EP0 IN tocken completion  |
+|                         |      |           | Cleared by the hardware after any EP0 completion                 |
++-------------------------+------+-----------+------------------------------------------------------------------+
+
+The idea here is to keep the whole register cleared until a USB SET_ADDRESS setup packet is received on EP0.
+At that moment, you can set the address and the trigger field, then provide the IN zero length descriptor to EP0 to 
+finalise the SET_ADDRESS sequance. The controller will then automaticaly turn on the address filtering at the completion of that descriptor.
 
 INTERRUPT (0xFF08)
 **********************
 
-All bits of this register can be cleared by writing '1' in them.
+Individual bits of this register can be cleared by writing '1' in them.
+Reading this register returns the current interrupt status.
 
-+--------------+------+-----------+------------------------------------------------------------------+
-| Name         | Type | Bits      | Description                                                      |
-+==============+======+===========+==================================================================+
-| endpoints    |  RC  | 15-0      | Raised when a enpoint generate a interrupt                       |
-+--------------+------+-----------+------------------------------------------------------------------+
-| reset        |  RC  | 16        | Raised when a USB reset appeared                                 |
-+--------------+------+-----------+------------------------------------------------------------------+
-| ep0Setup     |  RC  | 17        | Raised when endpoint 0 receive a setup transaction               |
-+--------------+------+-----------+------------------------------------------------------------------+
-| suspend      |  RC  | 18        | Raised when a USB suspend appeared                               |
-+--------------+------+-----------+------------------------------------------------------------------+
-| resume       |  RC  | 19        | Raised when a USB resume appeared                                |
-+--------------+------+-----------+------------------------------------------------------------------+
-| disconnect   |  RC  | 20        | Raised when a USB disconnect appeared                            |
-+--------------+------+-----------+------------------------------------------------------------------+
++--------------+-------+-----------+------------------------------------------------------------------+
+| Name         | Type  | Bits      | Description                                                      |
++==============+=======+===========+==================================================================+
+| endpoints    |  W1C  | 15-0      | Raised when an endpoint generates an interrupt                   |
++--------------+-------+-----------+------------------------------------------------------------------+
+| reset        |  W1C  | 16        | Raised when a USB reset occurs                                   |
++--------------+-------+-----------+------------------------------------------------------------------+
+| ep0Setup     |  W1C  | 17        | Raised when endpoint 0 receives a setup transaction              |
++--------------+-------+-----------+------------------------------------------------------------------+
+| suspend      |  W1C  | 18        | Raised when a USB suspend occurs                                 |
++--------------+-------+-----------+------------------------------------------------------------------+
+| resume       |  W1C  | 19        | Raised when a USB resume occurs                                  |
++--------------+-------+-----------+------------------------------------------------------------------+
+| disconnect   |  W1C  | 20        | Raised when a USB disconnect occurs                              |
++--------------+-------+-----------+------------------------------------------------------------------+
 
 HALT (0xFF0C)
 **********************
 
-This register allow to place a single enpoint in a dormant state in order to ensure atomicity of CPU operations.
-The peripheral will return NAK if the given endpoint is addressed by the usb host.
+This register allows placement of a single endpoint into a dormant state in order to ensure atomicity of CPU operations, allowing to do things as read/modify/write on the endpoint registers and descriptors.
+The peripheral will return NAK if the given endpoint is addressed by the usb host while halt is enabled and the endpoint is enabled.
 
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
 +=========================+======+===========+==================================================================+
 | endpointId              |  WO  | 3-0       | The endpoint you want to put in sleep                            |
 +-------------------------+------+-----------+------------------------------------------------------------------+
-| enable                  |  WO  | 4         |                                                                  |
+| enable                  |  WO  | 4         | When set halt is active, when clear endpoint is unhalted.        |
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | effective               |  RO  | 5         | After setting the enable, you need to wait for this bit to be    |
 | enable                  |      |           | set by the hardware itself to ensure atomicity                   |
@@ -121,7 +132,7 @@ CONFIG (0xFF10)
 | interruptEnableClear    |  SO  | 3         |                                                                  |
 +-------------------------+------+-----------+------------------------------------------------------------------+
 
-INFO (0xFF14)
+INFO (0xFF20)
 **********************
 
 +---------------+------+-----------+------------------------------------------------------------------+
@@ -155,15 +166,25 @@ The endpoints status are stored at the begining of the internal ram over one 32 
 | maxPacketSize |  RW  | 31-22     |                                                                  |
 +---------------+------+-----------+------------------------------------------------------------------+
 
+To get a endpoint responsive you need : 
+
+- Set its enable flag to 1
+
+Then the there is a few cases :
+- Either you have the stall or nack flag set, and so, the controller will always respond with the corresponding responses 
+- Either, for EP0 setup request, the controller will not use descriptors, but will instead write the data into the SETUP_DATA register, and ACK
+- Either you have a empty linked list (head==0) in which case it will answer NACK
+- Either you have at least one descriptor pointed by head, in which case it will execute it and ACK if all was going smooth
+
 SETUP_DATA (0x0040 - 0x0047)
 *********************************
 
-When endpoint 0 receive a SETUP transaction, the data of the transaction will be stored at that place. 
+When endpoint 0 receives a SETUP transaction, the data of the transaction will be stored in this location. 
 
 Descriptors 
-----------------------------
+-----------
 
-Descriptors allows to specify how a endpoint need to handle the data phase of IN/OUT transactions.
+Descriptors allows to specify how an endpoint needs to handle the data phase of IN/OUT transactions.
 They are stored in the internal ram, can be linked together via their linked lists and need to be aligned on 16 bytes boundaries
 
 +-------------------+------+-----------+------------------------------------------------------------------+
@@ -173,30 +194,33 @@ They are stored in the internal ram, can be linked together via their linked lis
 +-------------------+------+-----------+------------------------------------------------------------------+
 | code              | 0    | 19-16     | 0xF => in progress, 0x0 => success                               |
 +-------------------+------+-----------+------------------------------------------------------------------+
-| next              | 1    | 15-4      | Point the the next descriptor                                    |
+| next              | 1    | 15-4      | Pointer to the next descriptor                                   |
 |                   |      |           | 0 => nothing, byte address = this << 4                           |
 +-------------------+------+-----------+------------------------------------------------------------------+
 | length            | 1    | 31-16     | Number of bytes allocated for the data field                     |
 +-------------------+------+-----------+------------------------------------------------------------------+
 | direction         | 2    | 16        | '0' => OUT, '1' => IN                                            |
 +-------------------+------+-----------+------------------------------------------------------------------+
-| interrupt         | 2    | 17        | If set, the completion of the descriptor will generate a         |
+| interrupt         | 2    | 17        | If set, the completion of the descriptor will generate an        |
 |                   |      |           | interrupt.                                                       |
 +-------------------+------+-----------+------------------------------------------------------------------+
-| completionOnFull  | 2    | 18        | Normaly, a descriptor completion only occure when a USB transfer |
+| completionOnFull  | 2    | 18        | Normally, a descriptor completion only occurs when a USB transfer|
 |                   |      |           | is smaller than the maxPacketSize. But if this field is set,     |
 |                   |      |           | then when the descriptor become full is also a considered        |
 |                   |      |           | as a completion event. (offset == length)                        |
 +-------------------+------+-----------+------------------------------------------------------------------+
 | data1OnCompletion | 2    | 19        | force the endpoint dataPhase to DATA1 on the completion of the   |
-|                   |      |           | descriptoo                                                       |
+|                   |      |           | descriptor                                                       |
 +-------------------+------+-----------+------------------------------------------------------------------+
 | data              | ...  | ...       |                                                                  |
 +-------------------+------+-----------+------------------------------------------------------------------+
-                
+
+Note, if the controller receives a frame where the IN/OUT does not match the descriptor IN/OUT, the frame will be ignored.
+
+Also, to initialise a descriptor, the CPU should set the code field to 0xF
 
 Usage
---------------
+-----
 
 .. code-block:: scala
 

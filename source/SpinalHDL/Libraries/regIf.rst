@@ -1,24 +1,25 @@
- 
+=====
 RegIf
 =====
+
 Register Interface Builder
 
 - Automatic address, fields allocation and conflict detection
-- 28 Register Access types(Covering the 25 types defined by the UVM standard)
+- 28 Register Access types (Covering the 25 types defined by the UVM standard)
 - Automatic documentation generation
 
 Automatic allocation
---------------------
+====================
 
 Automatic address allocation
 
 .. code:: scala
 
-  class RegBankExample extends Component{
-    val io = new Bundle{
+  class RegBankExample extends Component {
+    val io = new Bundle {
       apb = Apb3(Apb3Config(16,32))
     }
-    val busif = BusInterface(io.apb,(0x0000, 100 Byte)
+    val busif = Apb3BusInterface(io.apb,(0x0000, 100 Byte)
     val M_REG0  = busif.newReg(doc="REG0")
     val M_REG1  = busif.newReg(doc="REG1")
     val M_REG2  = busif.newReg(doc="REG2")
@@ -26,9 +27,11 @@ Automatic address allocation
     val M_REGn  = busif.newRegAt(address=0x40, doc="REGn")
     val M_REGn1 = busif.newReg(doc="REGn1")
 
-    busif.accept(HtmlGenerator("regif.html", "AP"))
-    // busif.accept(CHeaderGenerator("header.h", "AP"))
-    // busif.accept(JsonGenerator("regif.json"))
+    busif.accept(HtmlGenerator("regif", "AP"))
+    // busif.accept(CHeaderGenerator("header", "AP"))
+    // busif.accept(JsonGenerator("regif"))
+    // busif.accept(RalfGenerator("regbank"))
+    // busif.accept(SystemRdlGenerator("regif", "AP"))
   }
 
 .. image:: /asset/image/regif/reg-auto-allocate.gif
@@ -48,7 +51,7 @@ Automatic fileds allocation
 
 .. image:: /asset/image/regif/field-auto-allocate.gif
 
-confilict detection
+conflict detection
 
 .. code:: scala
 
@@ -64,7 +67,7 @@ confilict detection
   cause Exception
 
 28 Access Types
----------------
+===============
   
 Most of these come from UVM specification
 
@@ -99,23 +102,28 @@ WO1         w: first one after hard reset is as-is, other w have no effects, r: 
 NA          w: reserved, r: reserved                                                        New
 W1P         w: 1/0 pulse/no effect on matching bit, r: no effect                            New
 W0P         w: 0/1 pulse/no effect on matching bit, r: no effect                            New
+HSRW        w: Hardware Set, SoftWare RW                                                    New
+RWHS        w: SoftWare RW, Hardware Set                                                    New
+ROV         w: ReadOnly Value, used for hardware version                                    New
+CSTM        w: user custom Type, used for document                                          New
 ==========  =============================================================================   ====
 
 Automatic documentation generation
-----------------------------------
+==================================
 
 Document Type
 
-==========  =============================================================================   ======
-Document    Usage                                                                           Status
-==========  =============================================================================   ======
-HTML        ``busif.accept(HtmlGenerator("regif", title = "XXX register file"))``             Y
-CHeader     ``busif.accept(CHeaderGenerator("header", "AP"))``                                Y
-JSON        ``busif.accept(JsonGenerator("regif"))``                                          Y
-RALF(UVM)   ``busif.accept(RalfGenerator("header"))``                                         Y
-Latex(pdf)                                                                                    N
-docx                                                                                          N
-==========  =============================================================================   ======
+==========  =========================================================================================   ======
+Document    Usage                                                                                       Status
+==========  =========================================================================================   ======
+HTML        ``busif.accept(HtmlGenerator("regif", title = "XXX register file"))``                         Y
+CHeader     ``busif.accept(CHeaderGenerator("header", "AP"))``                                            Y
+JSON        ``busif.accept(JsonGenerator("regif"))``                                                      Y
+RALF(UVM)   ``busif.accept(RalfGenerator("header"))``                                                     Y
+SystemRDL   ``busif.accept(SystemRdlGenerator("regif", "addrmap_name", Some("name"), Some("desc")))``     Y
+Latex(pdf)                                                                                                N
+docx                                                                                                      N
+==========  =========================================================================================   ======
 
 HTML auto-doc is now complete, Example source Code:
 
@@ -126,10 +134,151 @@ generated HTML document:
 
 .. image:: /asset/image/regif/regif-html.png
 
-Example 
--------
 
-Batch creat REG-Address and fields register
+Special Access Usage
+====================
+
+**CASE1:** ``RO`` usage
+
+``RO`` is different from other types. It does not create registers and requires an external signal to drive it,
+Attention, please don't forget to drive it.
+
+.. code:: scala
+
+   val io = new Bundle {
+     val cnt = in UInt(8 bit)
+   }
+
+   val counter = M_REG0.field(UInt(8 bit), RO, 0, "counter")
+   counter :=  io.cnt
+
+
+.. code:: scala
+
+   val xxstate = M_REG0.field(UInt(8 bit), RO, 0, "xx-ctrl state").asInput
+
+.. code:: scala
+
+   val overflow = M_REG0.field(Bits(32 bit), RO, 0, "xx-ip paramete")
+   val ovfreg = Reg(32 bit)
+   overflow := ovfreg
+   
+   
+.. code:: scala
+
+   val inc    = in Bool()
+   val couter = M_REG0.field(UInt(8 bit), RO, 0, "counter")
+   val cnt = Counter(100,  inc)
+   couter := cnt
+
+      
+**CASE2:** ``ROV`` usage
+
+ASIC design often requires some solidified version information. Unlike RO, it is not expected to generate wire signals
+
+old way:
+
+.. code:: scala
+   
+   val version = M_REG0.field(Bits(32 bit), RO, 0, "xx-device version")
+   version := BigInt("F000A801", 16)
+   
+new way: 
+
+.. code:: scala
+   
+   M_REG0.field(Bits(32 bit), ROV, BigInt("F000A801", 16), "xx-device version")(Symbol("Version"))
+
+   
+
+**CASE3:** ``HSRW/RWHS`` hardware set type
+In some cases, such registers are not only configured by software, but also set by hardware signals
+
+.. code:: scala
+
+   val io = new Bundle {
+     val xxx_set = in Bool()
+     val xxx_set_val = in Bits(32 bit)
+   }
+
+   val reg0 = M_REG0.fieldHSRW(io.xxx_set, io.xxx_set_val, 0, "xx-device version")  //0x0000
+   val reg1 = M_REG1.fieldRWHS(io.xxx_set, io.xxx_set_val, 0, "xx-device version")  //0x0004
+
+.. code:: verilog
+
+   always @(posedge clk or negedge rstn)
+     if(!rstn) begin
+        reg0  <= '0;
+        reg0  <= '0;
+     end else begin
+        if(hit_0x0000) begin
+           reg0 <= wdata ;
+        end
+        if(io.xxx_set) begin      //HW have High priority than SW
+           reg0 <= io.xxx_set_val ;
+        end
+
+        if(io.xxx_set) begin
+           reg1 <= io.xxx_set_val ;
+        end 
+        if(hit_0x0004) begin      //SW have High priority than HW
+           reg1 <= wdata ;
+        end
+     end
+
+   
+
+**CASE4:** ``CSTM`` Although SpinalHDL includes 25 register types and 6 extension types, 
+there are still various demands for private register types in practical application.
+Therefore, we reserve CSTM types for scalability. 
+CSTM is only used to generate software interfaces, and does not generate actual circuits
+
+.. code:: scala
+
+   val reg = Reg(Bits(16 bit)) init 0
+   REG.registerAtOnlyReadLogic(0, reg, CSTM("BMRW"), resetValue = 0, "custom field")
+
+   when(busif.dowrite) {
+      reg :=  reg & ~busif.writeData(31 downto 16) |  busif.writeData(15 downto 0) & busif.writeData(31 downto 16)
+   }
+
+
+**CASE5:** ``parasiteField``
+
+This is used for software to share the same register on multiple address instead of generating multiple register entities
+
+example1: clock gate software enable 
+
+.. code:: scala
+
+   val M_CG_ENS_SET = busif.newReg(doc="Clock Gate Enables")  //0x0000
+   val M_CG_ENS_CLR = busif.newReg(doc="Clock Gate Enables")  //0x0004
+   val M_CG_ENS_RO  = busif.newReg(doc="Clock Gate Enables")  //0x0008
+
+   val xx_sys_cg_en = M_CG_ENS_SET.field(Bits(4 bit), W1S, 0, "clock gate enalbes, write 1 set" ) 
+                      M_CG_ENS_CLR.parasiteField(xx_sys_cg_en, W1C, 0, "clock gate enalbes, write 1 clear" ) 
+                      M_CG_ENS_RO.parasiteField(xx_sys_cg_en, RO, 0, "clock gate enables, read only"
+
+example2: interrupt raw reg with foce interface for software
+
+.. code:: scala
+
+   val RAW    = this.newRegAt(offset,"Interrupt Raw status Register\n set when event \n clear raw when write 1")
+   val FORCE  = this.newReg("Interrupt Force  Register\n for SW debug use \n write 1 set raw")
+
+   val raw    = RAW.field(Bool(), AccessType.W1C,    resetValue = 0, doc = s"raw, default 0" )
+                FORCE.parasiteField(raw, AccessType.W1S,   resetValue = 0, doc = s"force, write 1 set, debug use" )
+
+Byte Mask
+=========
+
+withStrb
+
+
+Typical Example 
+===============
+
+Batch create REG-Address and fields register
 
 .. code:: scala   
 
@@ -143,7 +292,7 @@ Batch creat REG-Address and fields register
     }
     val busif = Apb3BusInterface(io.apb, (0x000, 100 Byte), regPre = "AP")
 
-    (0 to 9).map{ i =>
+    (0 to 9).map { i =>
       //here use setName give REG uniq name for Docs usage
       val REG = busif.newReg(doc = s"Register${i}").setName(s"REG${i}")
       val real = REG.field(SInt(8 bit), AccessType.RW, 0, "Complex real")
@@ -159,6 +308,7 @@ Batch creat REG-Address and fields register
       busif.accept(HtmlGenerator("regbank", "Interupt Example"))
       busif.accept(JsonGenerator("regbank"))
       busif.accept(RalfGenerator("regbank"))
+      busif.accept(SystemRdlGenerator("regbank", "AP"))
     }
 
     this.genDocs()
@@ -168,7 +318,7 @@ Batch creat REG-Address and fields register
 
 
 Interrupt Factory 
------------------
+=================
 
 Manual writing interruption
 
@@ -201,26 +351,28 @@ Manual writing interruption
       val rx_int_status      = M_CP_INT_STATUS.field(Bool(), RO, doc="rx interrupt state register")
       val frame_int_status   = M_CP_INT_STATUS.field(Bool(), RO, doc="frame interrupt state register")
 
-      rx_int_raw.setwhen(rx_done)
-      tx_int_raw.setwhen(tx_done)
-      frame_int_raw.setwhen(frame_int_raw)
+      rx_int_raw.setWhen(io.rx_done)
+      tx_int_raw.setWhen(io.tx_done)
+      frame_int_raw.setWhen(io.frame_end)
 
-      io.interrupt := (rx_int_raw || rx_int_force) && (!rx_int_mask)  ||
-        (tx_int_raw || rx_int_force) && (!rx_int_mask) ||
-        (frame_int_raw || fram_int_force) && (!frame_int_mask)
+      rx_int_status := (rx_int_raw || rx_int_force) && (!rx_int_mask)
+      tx_int_status := (tx_int_raw || rx_int_force) && (!rx_int_mask)
+      frame_int_status := (frame_int_raw || frame_int_force) && (!frame_int_mask)
+
+      io.interrupt := rx_int_status || tx_int_status || frame_int_status
 
    }
 
 this is a very tedious and repetitive work, a better way is to use the "factory" paradigm to auto-generate the documentation for each signal.
 
-now th InterruptFactory can do that.
+now the InterruptFactory can do that.
     
-Easy Way creat interruption:
+Easy Way create interruption:
 
 .. code:: scala   
     
     class EasyInterrupt extends Component {
-      val io = new Bundle{
+      val io = new Bundle {
         val apb = slave(Apb3(Apb3Config(16,32)))
         val a, b, c, d, e = in Bool()
       }
@@ -233,12 +385,10 @@ Easy Way creat interruption:
       busif.accept(HtmlGenerator("intrreg", "Interupt Example"))
       busif.accept(JsonGenerator("intrreg"))
       busif.accept(RalfGenerator("intrreg"))
+      busif.accept(SystemRdlGenerator("intrreg", "AP"))
     }
 
 .. image:: /asset/image/regif/easy-intr.png
-
-Interrupt Design Spec
-=====================
 
 IP level interrupt Factory
 --------------------------
@@ -249,7 +399,7 @@ Register   AccessType  Description
 RAW        W1C         int raw register, set by int event, clear when bus write 1  
 FORCE      RW          int force register, for SW debug use 
 MASK       RW          int mask register, 1: off; 0: open; defualt 1 int off 
-STATUS     RO          int status, Read Only, ``status = (raw || force) && ! mask``                 
+STATUS     RO          int status, Read Only, ``status = raw && ! mask``                 
 ========== ==========  ======================================================================
  
 
@@ -282,24 +432,24 @@ SpinalUsage:
 Spinal Factory
 --------------
                                                                                                                                                  
-=================================================================================== ===========================================================
+=================================================================================== ============================================================
 BusInterface method                                                                 Description                                                        
-=================================================================================== ===========================================================
-``InterruptFactory(regNamePre: String, triggers: Bool*)``                            creat RAW/FORCE/MASK/STATUS for pulse event      
-``InterruptFactoryNoForce(regNamePre: String, triggers: Bool*)``                     creat RAW/MASK/STATUS for pulse event      
-``InterruptFactory(regNamePre: String, triggers: Bool*)``                            creat MASK/STATUS for level_int merge       
-``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         creat RAW/FORCE/MASK/STATUS for pulse event at addrOffset 
-``InterruptFactoryNoForceAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``  creat RAW/MASK/STATUS for pulse event at addrOffset     
-``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         creat MASK/STATUS for level_int merge at addrOffset      
-=================================================================================== ===========================================================
+=================================================================================== ============================================================
+``InterruptFactory(regNamePre: String, triggers: Bool*)``                            create RAW/FORCE/MASK/STATUS for pulse event      
+``InterruptFactoryNoForce(regNamePre: String, triggers: Bool*)``                     create RAW/MASK/STATUS for pulse event      
+``InterruptFactory(regNamePre: String, triggers: Bool*)``                            create MASK/STATUS for level_int merge       
+``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         create RAW/FORCE/MASK/STATUS for pulse event at addrOffset 
+``InterruptFactoryNoForceAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``  create RAW/MASK/STATUS for pulse event at addrOffset     
+``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         create MASK/STATUS for level_int merge at addrOffset      
+=================================================================================== ============================================================
                                
 Example
 -------
 
 .. code:: scala 
 
-   class RegFileIntrExample extends Component{
-      val io = new Bundle{
+   class RegFileIntrExample extends Component {
+      val io = new Bundle {
         val apb = slave(Apb3(Apb3Config(16,32)))
         val int_pulse0, int_pulse1, int_pulse2, int_pulse3 = in Bool()
         val int_level0, int_level1, int_level2 = in Bool()
@@ -315,6 +465,8 @@ Example
         busif.accept(CHeaderGenerator("intrreg","Intr"))
         busif.accept(HtmlGenerator("intrreg", "Interupt Example"))
         busif.accept(JsonGenerator("intrreg"))
+        busif.accept(RalfGenerator("intrreg"))
+        busif.accept(SystemRdlGenerator("intrreg", "Intr"))
         this
       }
 
@@ -323,8 +475,28 @@ Example
 
 .. image:: /asset/image/intc/intc.jpeg
 
+DefaultReadValue
+================
+
+When the software reads a reserved address, the current policy is to return normally, readerror=0.
+In order to facilitate software debugging, the read back value can be configured, which is 0 by default
+
+.. code:: scala 
+
+   busif.setReservedAddressReadValue(0x0000EF00)
+
+
+.. code:: verilog
+
+   default: begin
+      busif_rdata  <= 32'h0000EF00 ;
+      busif_rderr  <= 1'b0         ;
+   end
+
+ 
+
 Developers Area
----------------
+===============
 
 You can add your document Type by extending the `BusIfVistor` Trait 
 
@@ -336,7 +508,7 @@ BusIfVistor give access BusIf.RegInsts to do what you want
 
     // lib/src/main/scala/lib/bus/regif/BusIfVistor.scala 
 
-    trait  BusIfVisitor {
+    trait BusIfVisitor {
       def begin(busDataWidth : Int) : Unit
       def visit(descr : FifoDescr)  : Unit  
       def visit(descr : RegDescr)   : Unit
@@ -344,3 +516,4 @@ BusIfVistor give access BusIf.RegInsts to do what you want
     }
        
  
+

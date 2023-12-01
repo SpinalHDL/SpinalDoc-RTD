@@ -12,16 +12,19 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
+import os
+import sys
+import re
+import datetime
+import subprocess
 # sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'SpinalHDL'
-copyright = '2022, SpinalHDL'
-author = 'Spinal'
+copyright = '2018 - ' + str(datetime.date.today().year) + ', SpinalHDL'
+author = 'SpinalHDL contributors'
 
 # The short X.Y version
 version = ''
@@ -43,6 +46,7 @@ extensions = [
     'sphinxcontrib.wavedrom',
     'sphinx_multiversion',
     'sphinx.ext.imgconverter',
+    'sphinx_copybutton'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -62,7 +66,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -115,7 +119,7 @@ htmlhelp_basename = 'SpinalHDLdoc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
-    # 'papersize': 'letterpaper',
+    'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
     #
@@ -135,7 +139,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'SpinalHDL.tex', 'SpinalHDL Documentation',
-     'penis', 'manual'),
+     author, 'manual'),
 ]
 
 
@@ -179,9 +183,12 @@ epub_title = project
 epub_exclude_files = ['search.html']
 
 
+html_baseurl = os.getenv('sphinx_html_baseurl', '')
+
 # -- Extension configuration -------------------------------------------------
 html_theme_options = {
-    'canonical_url': '',
+    # canonical_url is deprecated for html_baseurl
+    'canonical_url': os.getenv('sphinx_canonical_url', ''),
     'analytics_id': '',
     'logo_only': False,
     'display_version': True,
@@ -195,19 +202,167 @@ html_theme_options = {
     'titles_only': False
 }
 
+html_css_files = [
+    'theme_overrides.css',  # override wide tables in RTD theme
+    'gh-fork-ribbon.css',
+    'spinaldoc.css'
+]
+
+html_js_files = [
+    'dialog.js'
+]
+
 html_context = {
-    'css_files': [
-        '_static/theme_overrides.css',  # override wide tables in RTD theme
-        ],
-     }
+    'head_meta': {
+        'robots': os.getenv('sphinx_html_context_head_meta_robots', None)
+    },
+    'display_github': bool(os.getenv('sphinx_github_url', '') != ''),
+    'github_url': os.getenv('sphinx_github_url', ''), # Single URL method (not used)
+    'github_user':  os.getenv('GITHUB_REPOSITORY_OWNER', 'SpinalHDL'), # Username
+    'github_repo': os.getenv('GITHUB_REPOSITORY_NAME', 'SpinalDoc-RTD'), # Repo name
+    'github_version': os.getenv('GITHUB_REF_NAME', 'master'), # Version
+    'conf_py_path': '/source/', # Path in the checkout to the docs root
+
+    'sphinx_latest_version': os.getenv('sphinx_latest_version', None)
+}
 
 #This is a temporary fix for wavedrom
 online_wavedrom_js_url = "https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8"
 
 #Option for linkcheck
 linkcheck_anchors=False
+tls_verify = False # disable since Intel urls don't verify on github infra
 
-smv_branch_whitelist = r'^(master|dev).*$'
-smv_remote_whitelist = r'^.*$'
+# Whitelist pattern for tags (set to None to ignore all tags)
 smv_tag_whitelist = r'^.*$'
+
+# The branch called "latest" is not a real branch/tag, it is aliased by the document
+#  build process to the most recent stable release.
+# Whitelist pattern for branches (set to None to ignore all branches)
+smv_branch_whitelist = r'^(master|dev|latest)$'
+
+# Whitelist pattern for remotes (set to None to use local branches only)
+smv_remote_whitelist = r'^.*$'
+
+# The suggested documented default pattern does not work in all scenarios, local,
+#  github clone, github original repository project locations.
+# Pattern for released versions
+#smv_released_pattern = r'/?tags/v\d+.*'
+#smv_released_pattern = r'v\d+.*'
+smv_released_pattern = r'.*/?tags/v\d+.*$'
+
+# Format for versioned output directories inside the build directory
+smv_outputdir_format = '{ref.name}'
+
+# Determines whether remote or local git branches/tags are preferred if their output dirs conflict
 smv_prefer_remote_refs = True
+
+# Run a command before invoking sphinx-build
+#smv_prebuild_command = ''
+
+# Regular expression of files and directories to export to outputdir after running smv_prebuild_command
+#smv_prebuild_export_pattern = ''
+
+# Export files and directories matching smv_prebuild_export_pattern to this subdirectory of outputdir
+#smv_prebuild_export_destination = ''
+
+# Specify build targets and whether the resulting artefacts should be downloadable
+smv_build_targets = {
+    "HTML" : {
+        "builder": "html",
+        "downloadable": False,
+        "download_format": "",
+    },
+    "SingleHTML" : {
+        "builder": "singlehtml",
+        "downloadable": True,
+        "download_format": "zip",
+    },
+    "PDF" : {
+        "builder": "latexpdf",
+        "downloadable": True,
+        "download_format": "pdf",
+    }
+}
+
+# Flag indicating whether the intermediate build directories should be removed after artefacts are produced
+smv_clean_intermediate_files = True
+
+# This is in the project as bin/convert-wrapper, check we are setup correctly.
+have_image_converter = subprocess.call(['which', 'convert-wrapper'],
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0
+if have_image_converter:
+    image_converter='convert-wrapper'
+else:
+    print("ERROR: convert-wrapper not found in $PATH, did you: source $PWD/bin/setup_env.sh", file=sys.stderr)
+    sys.exit(1)
+
+## Want the footer.html to contain the specific details of the version being displayed
+##  sphinx-multiversion doesn't appear to have an obvious feature to allow the
+##  current_version object available in the template to be mutated by a custom mutator
+## So we attach a dict to the globally accessible html_context built with the function below.
+
+# Mutator
+def html_context_add_git(attr):
+    ## run: git show-ref   ## for-each line returned:
+    ## git show -q --pretty=format:%cs fc210e67f7ff69c20d021a019851433b75cad3eb => 2022-11-15
+    ## git show -q --pretty=format:%h fc210e67f7ff69c20d021a019851433b75cad3eb => fc210e67f
+    git_show_ref = subprocess.getoutput('git show-ref')
+
+    lines = re.split(r'[\r\n]+', git_show_ref, 0, re.MULTILINE)
+    attr['git_refs'] = {}
+
+    for l in lines:
+        # 59a1ae38d291ddcceb21df03752a7ab20b755e35 refs/tags/latest
+        #print("LINE={}".format(l))
+
+        words = re.split(r'\s+', l)
+        commit = words[0]
+        ref = words[1]
+        #print("commit={} ref={}".format(commit, ref))
+        #commit = '59a1ae38d291ddcceb21df03752a7ab20b755e35'
+        #ref = 'refs/tags/latest'
+
+        ref_parts = re.split(r'/', ref)
+        name = ref_parts[-1]
+
+        git_format_cs = subprocess.getoutput('git show -q --pretty=format:%cs "{}"'.format(commit))
+        git_format_h = subprocess.getoutput('git show -q --pretty=format:%h "{}"'.format(commit))
+        #print("git_format_cs={} git_format_h={}".format(git_format_cs, git_format_h))
+        is_branch = False
+        if re.search('^refs/heads/', ref):
+            is_branch = True
+        is_tag = False
+        if re.search('^refs/tags/', ref):
+            is_tag = True
+        is_synthetic = False
+        if re.search('^refs/tags/latest$', ref):	# os.getenv('sphinx_extra_version') ?
+            is_synthetic = True
+        entry = {
+            'name': name, 			# 'latest',
+            'format:cs': git_format_cs, 	# '2022-11-15',
+            'format:h': git_format_h,   	# 'fc210e67f',
+            'commit': commit,           	# 'fc210e67f7ff69c20d021a019851433b75cad3eb'
+            'ref': ref,                 	# 'refs/tags/latest',
+            'is_tag': is_tag,           	# True,
+            'is_branch': is_branch,     	# False,
+            'is_synthetic': is_synthetic	# False
+            #'alias': ['v1.8.0']		# added below
+        }
+        attr['git_refs'][name] = entry
+
+    # This creates a list of other 'name' that have same commit-id (aliases)
+    for k,v in attr['git_refs'].items():
+        alias = []
+        for inner in attr['git_refs'].values():
+            if inner is v:
+                continue
+            if inner['commit'] == v['commit']:
+                alias.append(inner['name'])
+        v['alias'] = alias
+        #print("ALIAS={} {}".format(k, ','.join(alias)))
+
+    return attr
+
+
+html_context = html_context_add_git(html_context)

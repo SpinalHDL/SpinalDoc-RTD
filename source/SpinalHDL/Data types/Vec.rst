@@ -22,10 +22,11 @@ The syntax to declare a vector is as follows:
 
    * - Declaration
      - Description
-   * - Vec(type: Data, size: Int)
-     - Create a vector capable of holding ``size`` elements of type ``Data``
+   * - Vec.fill(size: Int)(type: Data)
+     - Create a vector of ``size`` elements of type ``Data``
    * - Vec(x, y, ...)
-     - | Create a vector where indexes point to the provided elements.
+     - | Create a vector where indexes point to the provided elements. 
+       | Does not create new hardware signals.
        | This constructor supports mixed element width.
 
 
@@ -35,9 +36,9 @@ Examples
 .. code-block:: scala
 
    // Create a vector of 2 signed integers
-   val myVecOfSInt = Vec(SInt(8 bits), 2)
-   myVecOfSInt(0) := 2
-   myVecOfSInt(1) := myVecOfSInt(0) + 3
+   val myVecOfSInt = Vec.fill(2)(SInt(8 bits))
+   myVecOfSInt(0) := 2                   // assignment to populate index 0
+   myVecOfSInt(1) := myVecOfSInt(0) + 3  // assignment to populate index 1
 
    // Create a vector of 3 different type elements
    val myVecOfMixedUInt = Vec(UInt(3 bits), UInt(5 bits), UInt(8 bits))
@@ -81,10 +82,12 @@ Comparison
 .. code-block:: scala
 
    // Create a vector of 2 signed integers
-   val vec2 = Vec(SInt(8 bits), 2)
-   val vec1 = Vec(SInt(8 bits), 2)
+   val vec2 = Vec.fill(2)(SInt(8 bits))
+   val vec1 = Vec.fill(2)(SInt(8 bits))
 
    myBool := vec2 === vec1  // Compare all elements
+   // is equivalent to:
+   //myBool := vec2(0) === vec1(0) && vec2(1) === vec1(1)
 
 Type cast
 ~~~~~~~~~
@@ -103,7 +106,7 @@ Type cast
 .. code-block:: scala
 
    // Create a vector of 2 signed integers
-   val vec1 = Vec(SInt(8 bits), 2)
+   val vec1 = Vec.fill(2)(SInt(8 bits))
 
    myBits_16bits := vec1.asBits
 
@@ -125,9 +128,9 @@ Misc
 .. code-block:: scala
 
    // Create a vector of 2 signed integers
-   val vec1 = Vec(SInt(8 bits), 2)
+   val vec1 = Vec.fill(2)(SInt(8 bits))
 
-   println(vec1.getBitsWidth) // 16
+   println(widthOf(vec1)) // 16
 
 
 Lib helper functions
@@ -170,7 +173,7 @@ Lib helper functions
     import spinal.lib._
 
     // Create a vector with 4 unsigned integers
-    val vec1 = Vec(UInt(8 bits), 4)
+    val vec1 = Vec.fill(4)(UInt(8 bits))
 
     // ... the vector is actually assigned somewhere
 

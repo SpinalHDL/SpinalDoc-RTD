@@ -278,8 +278,8 @@ Like in VHDL and Verilog, you can define components that could be used to build 
    class AdderCell extends Component {
      //Declaring all in/out in an io Bundle is probably a good practice
      val io = new Bundle {
-       val a, b, cin = in Bool
-       val sum, cout = out Bool
+       val a, b, cin = in Bool()
+       val sum, cout = out Bool()
      }
      //Do some logic
      io.sum := io.a ^ io.b ^ io.cin
@@ -309,10 +309,10 @@ Syntax to define in/out is the following :
    * - in/out(x : Data)
      - Set x an input/output
      - x
-   * - in/out Bool
+   * - in/out Bool()
      - Create an input/output Bool
      - Bool
-   * - in/out Bits/UInt/SInt[(x bits)]
+   * - in/out Bits/UInt/SInt(x bits)
      - Create an input/output of the corresponding type
      - T
 
@@ -389,13 +389,13 @@ For example if you want to convert a Red/Green/Blue color into a gray one by usi
 Valid Ready Payload bus
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-For instance if you define a simple Valid Ready Payload bus, you can then define usefull function inside it.
+For instance if you define a simple Valid Ready Payload bus, you can then define useful function inside it.
 
 .. code-block:: scala
 
    class MyBus(payloadWidth:  Int) extends Bundle {
-     val valid = Bool
-     val ready = Bool
+     val valid = Bool()
+     val ready = Bool()
      val payload = Bits(payloadWidth bits)
 
      //connect that to this
@@ -427,9 +427,9 @@ There is a small component and a ``main`` that generate the corresponding VHDL.
    class MyTopLevel extends Component {
      //Define some input/output. Bundle like a VHDL record or a verilog struct.
      val io = new Bundle {
-       val a = in Bool
-       val b = in Bool
-       val c = out Bool
+       val a = in Bool()
+       val b = in Bool()
+       val c = out Bool()
      }
 
      //Define some asynchronous logic
@@ -444,43 +444,10 @@ There is a small component and a ``main`` that generate the corresponding VHDL.
      }
    }
 
-Memory
-------
-
-.. list-table::
-   :header-rows: 1
-   :widths: 2 1
-
-   * - Syntax
-     - Description
-   * - Mem(type : Data,size : Int)
-     - Create a RAM
-   * - Mem(type : Data,initialContent : Array[Data])
-     - Create a ROM
-
-
-.. list-table::
-   :header-rows: 1
-   :widths: 3 2 1
-
-   * - Syntax
-     - Description
-     - Return
-   * - mem(x)
-     - Asynchronous read
-     - T
-   * - mem(x) := y
-     - Synchronous write
-     - 
-   * - mem.readSync(address,enable)
-     - Synchronous read
-     - T
-
-
-Instanciate VHDL and Verilog IP
+Instantiate VHDL and Verilog IP
 -------------------------------
 
- In some cases, it could be usefull to instanciate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.
+ In some cases, it could be useful to instantiate a VHDL or a Verilog component into a SpinalHDL design. To do that, you need to define BlackBox which is like a Component, but its internal implementation should be provided by a separate VHDL/Verilog file to the simulator/synthesis tool.
 
 .. code-block:: scala
 
@@ -491,15 +458,15 @@ Instanciate VHDL and Verilog IP
      }
 
      val io = new Bundle {
-       val clk = in Bool
+       val clk = in Bool()
 
        val wr = new Bundle {
-         val en = in Bool
+         val en = in Bool()
          val addr = in UInt (log2Up(_wordCount) bits)
          val data = in Bits (_wordWidth bits)
        }
        val rd = new Bundle {
-         val en = in Bool
+         val en = in Bool()
          val addr = in UInt (log2Up(_wordCount) bits)
          val data = out Bits (_wordWidth bits)
        }

@@ -54,7 +54,7 @@ State less utilities
      - | Apply a mask on x to only keep the bit set from ``requests``.
        | it start looking in ``requests`` from the ``ohPriority`` position.
        | For example if ``requests`` is "1001" and ``ohPriority`` is "0010", the ``roundRobin`` function will start looking in `requests` from its second bit and will return "1000".
-   * - | `MuxOH <http://spinalhdl.github.io/SpinalHDL/#spinal.lib.MuxOH$>`_ (
+   * - | MuxOH (
        |   oneHot : IndexedSeq[Bool],
        |   inputs : Iterable[T]
        | )
@@ -99,46 +99,50 @@ State full utilities
 Counter
 ^^^^^^^
 
-The Counter tool can be used to easily instanciate an hardware counter.
+The Counter tool can be used to easily instantiate a hardware counter.
 
 .. list-table::
    :header-rows: 1
    :widths: 1 1
 
-   * - Instanciation syntax
+   * - Instantiation syntax
      - Notes
-   * - Counter(start: BigInt, end: BigInt[, inc : Bool])
+   * - ``Counter(start: BigInt, end: BigInt[, inc : Bool])``
      - 
-   * - Counter(range : Range[, inc : Bool])
+   * - ``Counter(range : Range[, inc : Bool])``
      - Compatible with the  ``x to y`` ``x until y`` syntaxes
-   * - Counter(stateCount: BigInt[, inc : Bool])
-     - Start at zero and finish at ``stateCount - 1``
-   * - Counter(bitCount: BitCount[, inc : Bool])
-     - Start at zero and finish at ``(1 << bitCount) - 1``
+   * - ``Counter(stateCount: BigInt[, inc : Bool])``
+     - Starts at zero and ends at ``stateCount - 1``
+   * - ``Counter(bitCount: BitCount[, inc : Bool])``
+     - Starts at zero and ends at ``(1 << bitCount) - 1``
 
-
-There is an example of different syntaxes which could be used with the Counter tool
+A counter can be controlled by methods, and wires can be read:
 
 .. code-block:: scala
 
-   val counter = Counter(2 to 9)  //Create a counter of 10 states (2 to 9)
-   counter.clear()            //When called it ask to reset the counter.
-   counter.increment()        //When called it ask to increment the counter.
-   counter.value              //current value
-   counter.valueNext          //Next value
-   counter.willOverflow       //Flag that indicate if the counter overflow this cycle
-   counter.willOverflowIfInc  //Flag that indicate if the counter overflow this cycle if an increment is done
-   when(counter === 5){ ... }
+   val counter = Counter(2 to 9) // Creates a counter of 8 states (2 to 9)
+   // Methods
+   counter.clear()               // Resets the counter
+   counter.increment()           // Increments the counter
+   // Wires
+   counter.value                 // Current value
+   counter.valueNext             // Next value
+   counter.willOverflow          // True if the counter overflows this cycle
+   counter.willOverflowIfInc     // True if the counter would overflow this cycle if an increment was done
+   // Cast
+   when(counter === 5){ ... }    // counter is implicitly casted to its current value
 
-When a ``Counter`` overflow its end value, it restart to its start value.
+When a ``Counter`` overflows (reached end value), it restarts the next cycle to its start value.
 
 .. note::
    Currently, only up counter are supported.
 
+``CounterFreeRun`` builds an always running counter: ``CounterFreeRun(stateCount: BigInt)``.
+
 Timeout
 ^^^^^^^
 
-The Timeout tool can be used to easily instanciate an hardware timeout.
+The Timeout tool can be used to easily instantiate an hardware timeout.
 
 .. list-table::
    :header-rows: 1
@@ -159,12 +163,12 @@ There is an example of different syntaxes which could be used with the Counter t
 .. code-block:: scala
 
    val timeout = Timeout(10 ms)  //Timeout who tick after 10 ms
-   when(timeout){                //Check if the timeout has tick
+   when(timeout) {               //Check if the timeout has tick
        timeout.clear()           //Ask the timeout to clear its flag
    }
 
 .. note::
-   If you instanciate an ``Timeout`` with an time or frequency setup, the implicit ``ClockDomain`` should have an frequency setting.
+   If you instantiate an ``Timeout`` with an time or frequency setup, the implicit ``ClockDomain`` should have an frequency setting.
 
 ResetCtrl
 ^^^^^^^^^
@@ -174,7 +178,7 @@ The ResetCtrl provide some utilities to manage resets.
 asyncAssertSyncDeassert
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You can filter an asynchronous reset by using an asynchronously asserted synchronously deaserted logic. To do it you can use the ``ResetCtrl.asyncAssertSyncDeassert`` function which will return you the filtred value.
+You can filter an asynchronous reset by using an asynchronously asserted synchronously deaserted logic. To do it you can use the ``ResetCtrl.asyncAssertSyncDeassert`` function which will return you the filtered value.
 
 .. list-table::
    :header-rows: 1
@@ -200,7 +204,7 @@ You can filter an asynchronous reset by using an asynchronously asserted synchro
      - Number of register stages used to avoid metastability (default=2)
 
 
-There is also an ``ResetCtrl.asyncAssertSyncDeassertDrive`` version of tool which directly assign the ``clockDomain`` reset with the filtred value.
+There is also an ``ResetCtrl.asyncAssertSyncDeassertDrive`` version of tool which directly assign the ``clockDomain`` reset with the filtered value.
 
 Special utilities
 -----------------
@@ -214,6 +218,6 @@ Special utilities
      - Description
    * - LatencyAnalysis(paths : Node*)
      - Int
-     - | Return the shortest path,in therm of cycle, that travel through all nodes,
+     - | Return the shortest path, in terms of cycles, that travel through all nodes,
        | from the first one to the last one
 

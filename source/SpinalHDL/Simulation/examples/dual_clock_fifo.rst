@@ -17,7 +17,6 @@ The FIFO pop thread handles checking the the :abbr:`DUT (Device Under Test)`'s o
 
 .. code-block:: scala
 
-   import spinal.sim._
    import spinal.core._
    import spinal.core.sim._
 
@@ -32,7 +31,7 @@ The FIFO pop thread handles checking the the :abbr:`DUT (Device Under Test)`'s o
            dataType = Bits(32 bits),
            depth = 32,
            pushClock = ClockDomain.external("clkA"),
-           popClock = ClockDomain.external("clkB")
+           popClock = ClockDomain.external("clkB",withReset = false)
          )
        )
 
@@ -46,15 +45,12 @@ The FIFO pop thread handles checking the the :abbr:`DUT (Device Under Test)`'s o
            dut.pushClock.fallingEdge()
            dut.popClock.fallingEdge()
            dut.pushClock.deassertReset()
-           dut.popClock.deassertReset()
            sleep(0)
 
            // Do the resets.
            dut.pushClock.assertReset()
-           dut.popClock.assertReset()
            sleep(10)
            dut.pushClock.deassertReset()
-           dut.popClock.deassertReset()
            sleep(1)
 
            // Forever, randomly toggle one of the clocks.

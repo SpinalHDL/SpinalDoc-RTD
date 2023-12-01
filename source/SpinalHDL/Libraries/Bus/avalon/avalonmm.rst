@@ -2,11 +2,7 @@
 AvalonMM
 ========
 
-Introduction
-------------
-
 The AvalonMM bus fit very well in FPGA. It is very flexible :
-
 
 * Able of the same simplicity than APB
 * Better for than AHB in many application that need bandwidth because AvalonMM has a mode that decouple read response from commands (reduce latency read latency impact).
@@ -15,7 +11,7 @@ The AvalonMM bus fit very well in FPGA. It is very flexible :
 Configuration and instanciation
 -------------------------------
 
-The ``AvalonMM`` Bundle has a construction argument ``AvalonMMConfig``. Because of the flexible nature of the Avalon bus, the ``AvalonMMConfig`` as many configuration elements. For more information the Avalon spec could be find `there <https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/manual/mnl_avalon_spec.pdf>`_.
+The ``AvalonMM`` Bundle has a construction argument ``AvalonMMConfig``. Because of the flexible nature of the Avalon bus, the ``AvalonMMConfig`` as many configuration elements. For more information the Avalon spec could be find on the intel website.
 
 .. code-block:: scala
 

@@ -2,18 +2,18 @@
 Stub
 ======
 
-You can emtpy an Component Hierarchy as stub:
+You can empty an Component Hierarchy as stub:
 
 .. code-block:: scala 
 
-    class SubSysModule extends Component{
-       val io = new Bundle{
+    class SubSysModule extends Component {
+       val io = new Bundle {
          val dx = slave(Stream(Bits(32 bits)))
          val dy = master(Stream(Bits(32 bits)))
        }
        io.dy <-< io.dx
     }
-    class TopLevle extends Component {
+    class TopLevel extends Component {
        val dut = new SubSysModule().stub   //instance an SubSysModule as empty stub
     }
    
@@ -40,17 +40,17 @@ It will generate the following Verilog code for example:
     endmodule
 
 
-You can also emtpy the top Compoent
+You can also empty the top Component
 
 .. code-block:: scala
 
     SpinalVerilog(new Pinsec(500 MHz).stub)
 
-what `stub` do
+What does `stub` do ?
 
-* first walk all the component and find out clock ,then keep clock 
-* remove all children component
-* reomove all assignment and logic we dont wan't 
+* first walk all the components and find out clock, then keep clock 
+* then remove all children component
+* then remove all assignment and logic we dont want 
 * tile 0 to output port
 
 

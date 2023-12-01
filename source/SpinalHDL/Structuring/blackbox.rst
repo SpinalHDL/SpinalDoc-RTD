@@ -1,5 +1,4 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
+.. _blackbox:
 
 Instantiate VHDL and Verilog IP
 ===============================
@@ -45,7 +44,7 @@ An example of how to define a blackbox is shown below:
    }
 
 | In VHDL, signals of type ``Bool`` will be translated into ``std_logic`` and ``Bits`` into ``std_logic_vector``. If you want to get ``std_ulogic``, you have to use a ``BlackBoxULogic`` instead of ``BlackBox``.
-| In Verilog, ``BlackBoxUlogic`` has no effect.
+| In Verilog, ``BlackBoxUlogic`` does not change the generated verilog.
 
 .. code-block:: scala
 
@@ -234,8 +233,8 @@ This function takes a no-argument function to be applied during compilation, and
      // Function used to rename all signals of the blackbox 
      private def renameIO(): Unit = {
        io.flatten.foreach(bt => {
-         if(bt.getName().contains("portA")) bt.setName(bt.getName().repalce("portA_", "") + "_A") 
-         if(bt.getName().contains("portB")) bt.setName(bt.getName().repalce("portB_", "") + "_B") 
+         if(bt.getName().contains("portA")) bt.setName(bt.getName().replace("portA_", "") + "_A") 
+         if(bt.getName().contains("portB")) bt.setName(bt.getName().replace("portB_", "") + "_B") 
        })
      }
 
@@ -279,7 +278,13 @@ With the function ``addRTLPath()`` you can associate your RTL sources with the 
 
    ...
 
-   val report = SpinalVhdl(new MyBlackBox)
+   class TopLevel() extends Component{
+     //...
+     val bb = new MyBlackBox()
+     //...
+   }
+
+   val report = SpinalVhdl(new TopLevel)
    report.mergeRTLSource("mergeRTL") // Merge all rtl sources into mergeRTL.vhd and mergeRTL.v files
 
 VHDL - No numeric type

@@ -18,8 +18,8 @@ You can find more documentation about the internal implementation of the ``BusSl
 Functionality
 -------------
 
-| Currently there is three implementation of the ``BusSlaveFactory`` tool : APB3, AXI-lite 3 and Avalon. 
-| Each implementation of that tool take as argument one instance of the corresponding bus and then offer following functions to map your hardware into the memory mapping :
+| There are many implementations of the ``BusSlaveFactory`` tool : AHB3-lite, APB3, APB4, AvalonMM, AXI-lite 3, AXI4, BMB, Wishbone and PipelinedMemoryBus.
+| Each implementation of that tool take as an argument one instance of the corresponding bus and then offers the following functions to map your hardware into the memory mapping :
 
 .. list-table::
    :header-rows: 1
@@ -87,7 +87,7 @@ Functionality
        |                                  address,
        |                                  bitOffset)
      - 
-     - | Instanciate an internal register which at each cycle do :
+     - | Instantiate an internal register which at each cycle do :
        | reg := reg | that
        | Then when a read occur, the register is cleared. This register is readable at ``address`` and placed at ``bitOffset`` in the word
 

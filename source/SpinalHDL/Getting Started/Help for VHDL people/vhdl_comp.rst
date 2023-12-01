@@ -296,7 +296,7 @@ SpinalHDL is flexible when it comes to signal declarations.
 
 .. code-block:: scala
 
-   val a = Bool
+   val a = Bool()
    a := x & y
 
 It also allows you to define and assign signals in a single line.
@@ -360,7 +360,7 @@ boolean/std_logic:
 .. code-block:: scala
 
    val value = UInt(8 bits)
-   val valueBiggerThanTwo = Bool
+   val valueBiggerThanTwo = Bool()
    valueBiggerThanTwo := value > 2  // value > 2 return a Bool
 
 unsigned/integer:

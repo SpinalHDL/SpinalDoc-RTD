@@ -1,11 +1,5 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 Preserving names
 ==================
-
-Introduction
-------------
 
 This page will describe how SpinalHDL propagate names from the scala code to the generated hardware. Knowing them should enable you to preserve those names as much as possible to generate understandable netlists.
 
@@ -25,7 +19,7 @@ There is a few example of that Nameable API
 
 .. code-block:: scala
 
-  class MyComponent extends Component{
+  class MyComponent extends Component {
     val a, b, c, d = Bool()
     b.setName("rawrr") // Force name
     c.setName("rawrr", weak = true) // Propose a name, will not be applied if a stronger name is already applied
@@ -56,7 +50,7 @@ There is a example showing more or less how SpinalHDL itself is implemented :
 .. code-block:: scala
 
     //spinal.idslplugin.ValCallback is the Scala compiler plugin feature which will provide the callbacks
-    class Component extends spinal.idslplugin.ValCallback{
+    class Component extends spinal.idslplugin.ValCallback {
       override def valCallback[T](ref: T, name: String) : T = {
         println(s"Got $ref named $name") // Here we just print what we got as a demo.
         ref
@@ -65,14 +59,14 @@ There is a example showing more or less how SpinalHDL itself is implemented :
 
     class UInt
     class Bits
-    class MyComponent extends Component{
+    class MyComponent extends Component {
       val two = 2
       val wuff = "miaou"
       val toto = new UInt
       val rawrr = new Bits
     }
 
-    object Debug3 extends App{
+    object Debug3 extends App {
       new MyComponent()
       // ^ This will print :
       // Got 2 named two
@@ -81,7 +75,7 @@ There is a example showing more or less how SpinalHDL itself is implemented :
       // Got spinal.tester.code.sandbox.Bits@161b062a named rawrr
     }
 
-Using that ValCallback "introspection" feature, SpinalHDL's Component classes are able to be aware of their content and its name.
+Using that ValCallback "introspection" feature, SpinalHDL's Component classes are able to be aware of their content and the content's name.
 
 But this also mean that if you want something to get a name, and you only rely on this automatic naming feature, the reference to your Data (UInt, SInt, ...) instances should be stored somewhere in a Component val.
 
@@ -94,7 +88,8 @@ For instance :
     val toto = out UInt(8 bits)   // same
 
     def doStuff(): Unit = {
-      val tmp = UInt(8 bits) // This will not be named, as it isn't stored anywhere in a component val (but there is a solution explained later)
+      val tmp = UInt(8 bits) // This will not be named, as it isn't stored anywhere in a
+                             // component val (but there is a solution explained later)
       tmp := 0x20
       toto := tmp
     }
@@ -110,7 +105,8 @@ Will generate :
       input      [7:0]    b,
       output     [7:0]    toto
     );
-      //Note that the tmp signal defined in scala was "shortcuted" by SpinalHDL, as it was unamed and technicaly "shortcutable"
+      // Note that the tmp signal defined in scala was "shortcuted" by SpinalHDL,
+      //  as it was unamed and technicaly "shortcutable"
       assign toto = 8'h20;
     endmodule
 
@@ -125,8 +121,8 @@ For instance via Area :
 .. code-block:: scala
 
     class MyComponent extends Component {
-      val logicA = new Area{   //This define a new namespace named "logicA
-        val toggle = Reg(Bool) //This register will be named "logicA_toggle"
+      val logicA = new Area {    // This define a new namespace named "logicA
+        val toggle = Reg(Bool()) // This register will be named "logicA_toggle"
         toggle := !toggle
       }
     }
@@ -187,10 +183,11 @@ Added in SpinalHDL 1.5.0, Composite which allow you to create a scope which will
 .. code-block:: scala
 
   class MyComponent extends Component {
-    //Basicaly, a Composite is an Area that use its construction parameter as namespace prefix
+    // Basicaly, a Composite is an Area that use its construction parameter as namespace prefix
     def isZero(value: UInt) = new Composite(value) {
       val comparator = value === 0
-    }.comparator  //Note we don't return the Composite, but the element of the composite that we are interested in
+    }.comparator  // Note we don't return the Composite,
+                  //  but the element of the composite that we are interested in
 
     val value = in UInt (8 bits)
     val result = out Bool()
@@ -255,7 +252,7 @@ Composite in a Bundle's function
 ------------------------------------
 
 
-This behaviour can be very useful when implementing Bundles utilities. For instance in the spinal.lib.Stream class is defined the following :
+This behaviour can be very useful when implementing Bundle utilities. For instance in the spinal.lib.Stream class is defined the following :
 
 .. code-block:: scala
 
@@ -264,9 +261,10 @@ This behaviour can be very useful when implementing Bundles utilities. For insta
       val ready   = Bool()
       val payload = payloadType()
 
-      def queue(size: Int): Stream[T] = new Composite(this){
+      def queue(size: Int): Stream[T] = new Composite(this) {
         val fifo = new StreamFifo(payloadType, size)
-        fifo.io.push << self    // 'self' refer to the Composite construction argument (this in that example). It avoid having to do a boring 'Stream.this'
+        fifo.io.push << self    // 'self' refers to the Composite construction argument ('this' in
+                                //  the example). It avoids having to do a boring 'Stream.this'
       }.fifo.io.pop
 
       def m2sPipe(): Stream[T] = new Composite(this) {
@@ -410,8 +408,11 @@ There is a instance of how a very long expression chain will be splited up by Sp
 .. code-block:: scala
 
   class MyComponent extends Component {
-    val conditions = in Vec(Bool, 64)
-    val result = conditions.reduce(_ || _) // Do a logical or between all the conditions elements
+    val conditions = in Vec(Bool(), 64)
+    // Perform a logical OR between all the condition elements
+    val result = conditions.reduce(_ || _)
+
+    // For Bits/UInt/SInt signals the 'orR' methods implements this reduction operation
   }
 
 Will generate
@@ -457,7 +458,7 @@ The `when(cond) { }` statements condition are generated into separated signals n
     val counter = out(Reg(UInt(8 bits)))
 
     isZero := False
-    when(value === 0){ //At line 117
+    when(value === 0) { // At line 117
       isZero := True
       counter := counter + 1
     }
@@ -508,7 +509,7 @@ In last resort, if a signal has no name (anonymous signal), SpinalHDL will seek 
 
     def count(cond : Bool): UInt = {
       val ret = Reg(UInt(8 bits)) // This register is not named (on purpose for the example)
-      when(cond){
+      when(cond) {
         ret := ret + 1
       }
       return ret
@@ -527,7 +528,8 @@ Will generate
       input               clk,
       input               reset
     );
-      reg        [7:0]    _zz_value; //Name given to the register in last resort by looking what was driven by it
+      // Name given to the register in last resort by looking what was driven by it
+      reg        [7:0]    _zz_value;
 
       assign value = _zz_value;
       always @ (posedge clk) begin

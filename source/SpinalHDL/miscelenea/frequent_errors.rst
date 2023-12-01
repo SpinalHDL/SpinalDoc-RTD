@@ -3,8 +3,8 @@
 .. role:: raw-html-m2r(raw)
    :format: html
 
-Introduction
-------------
+Frequent Errors
+---------------
 
 This page will talk about errors which could happen when people are using SpinalHDL.
 
@@ -21,7 +21,7 @@ Exception in thread "main" java.lang.NullPointerException
 
 .. code-block:: scala
 
-   val a = b + 1         //b can't be read at that time, because b isn't instanciated yet
+   val a = b + 1         //b can't be read at that time, because b isn't instantiated yet
    val b = UInt(4 bits)
 
 **Issue explanation :**

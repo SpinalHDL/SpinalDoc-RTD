@@ -190,7 +190,7 @@ The entry point of a Scala program (the main function) should be defined inside 
 
 .. code-block:: scala
 
-   object MyTopLevelMain{
+   object MyTopLevelMain {
      def main(args: Array[String]) {
        println("Hello world")
      }
@@ -267,7 +267,7 @@ Imagine you want to design a class which is a queue of a given datatype, in that
 
 .. code-block:: scala
 
-   class  Queue[T](){
+   class  Queue[T]() {
      def push(that: T) : Unit = ...
      def pop(): T = ...
    }

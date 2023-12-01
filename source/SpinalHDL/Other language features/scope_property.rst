@@ -3,7 +3,7 @@
 ScopeProperty
 ==================
 
-A scope property is a thing which can store values localy to the current thread. Its API can be used to set/get that value, but also to apply modification to the value for a portion of the execution in a stack manner.
+A scope property is a thing which can store values locally to the current thread. Its API can be used to set/get that value, but also to apply modification to the value for a portion of the execution in a stack manner.
 
 In other words it is a alternative to global variable, scala implicit, ThreadLocal.
 
@@ -16,12 +16,12 @@ In other words it is a alternative to global variable, scala implicit, ThreadLoc
 
   object Xlen extends ScopeProperty[Int]
 
-  object ScopePropertyMiaou extends App{
+  object ScopePropertyMiaou extends App {
     Xlen.set(1)
     println(Xlen.get) //1
-    Xlen(2){
+    Xlen(2) {
       println(Xlen.get) //2
-      Xlen(3){
+      Xlen(3) {
         println(Xlen.get) //3
         Xlen.set(4)
         println(Xlen.get) //4

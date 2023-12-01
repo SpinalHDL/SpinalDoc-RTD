@@ -2,11 +2,7 @@
 QSysify
 =======
 
-Introduction
-------------
-
 QSysify is a tool which is able to generate a QSys IP (tcl script) from a SpinalHDL component by analysing its IO definition. It currently implement the following interfaces features :
-
 
 * Master/Slave AvalonMM
 * Master/Slave APB3
@@ -22,8 +18,8 @@ In the case of a UART controller :
 
 .. code-block:: scala
 
-   case class AvalonMMUartCtrl(...) extends Component{
-     val io = new Bundle{
+   case class AvalonMMUartCtrl(...) extends Component {
+     val io = new Bundle {
        val bus =  slave(AvalonMM(AvalonMMUartCtrl.getAvalonMMConfig))
        val uart = master(Uart())
      }
@@ -35,7 +31,7 @@ The following  ``main`` will generate the Verilog and the QSys TCL script with i
 
 .. code-block:: scala
 
-   object AvalonMMUartCtrl{
+   object AvalonMMUartCtrl {
      def main(args: Array[String]) {
        //Generate the Verilog
        val toplevel = SpinalVerilog(AvalonMMUartCtrl(UartCtrlMemoryMappedConfig(...))).toplevel

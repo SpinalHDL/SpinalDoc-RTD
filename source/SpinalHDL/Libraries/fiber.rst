@@ -6,26 +6,29 @@
 Fiber framework
 ====================
 
+.. warning::
+   This framework is not expected to be used for general RTL generation and targets large system
+   design management and code generation. It is currently used as toplevel integration tool in SaxonSoC.
+
 Currently in developpement.
 
 The Fiber to run the hardware elaboration in a out of order manner, a bit similarly to Makefile, where you can define rules and dependencies which will then be solved when you run a make command. It is very similar to the Scala Future feature.
 
-Such framework complexify simple things but provide some strong feature for complex cases :
+Using this framework can complicate simple things but provide some strong features for complex cases :
 
-- You can define things before even knowing all their requirements, ex : instanciating a interruption controller, before knowing how many lines of interrupt you need
+- You can define things before even knowing all their requirements, ex :
+  instantiating a interruption controller, before knowing how many interrupt signal lines you need
 - Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for further specialisations
-- Automatic requirements negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus
+- Automatic requirement negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus
 
 The framework is mainly composed of : 
 
-- Handle[T], which can be used later to store a value of type T. 
-- handle.load which allow to set the value of a handle (will reschedule all tasks waiting on it)
-- handle.get, which return the value of the given handle. Will block the task execution if that handle isn't loaded yet
-- Handle{ code }, which fork a new task which will execute the given code. The result of that code will be loaded into the Handle
-- soon(handle), which allow the current task to announce that soon it will load that handle with a value (used to track which handle will
+- ``Handle[T]``, which can be used later to store a value of type ``T``.
+- ``handle.load`` which allow to set the value of a handle (will reschedule all tasks waiting on it)
+- ``handle.get``, which return the value of the given handle. Will block the task execution if that handle isn't loaded yet
+- ``Handle{ /*code*/ }``, which fork a new task which will execute the given code. The result of that code will be loaded into the Handle
+- ``soon(handle)``, which allows the current task to announce that it will load ``handle`` with a value (used for scheduling)
 
-
-Warning, this is realy not usual RTL description and aim large system generation. It is currently used as toplevel integration tool in SaxonSoC.
 
 Simple dummy example
 --------------------

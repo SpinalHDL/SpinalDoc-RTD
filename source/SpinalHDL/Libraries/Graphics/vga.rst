@@ -11,7 +11,7 @@ An VGA bus definition is available via the Vga bundle.
 
 .. code-block:: scala
 
-   case class Vga (rgbConfig: RgbConfig) extends Bundle with IMasterSlave{
+   case class Vga (rgbConfig: RgbConfig) extends Bundle with IMasterSlave {
      val vSync = Bool()
      val hSync = Bool()
 
@@ -46,7 +46,7 @@ VGA timings could be modeled in hardware by using an VgaTimings bundle :
 VGA controller
 --------------
 
-An VGA controller is available. It's definition is the following :
+An VGA controller is available. Its definition is the following :
 
 .. code-block:: scala
 

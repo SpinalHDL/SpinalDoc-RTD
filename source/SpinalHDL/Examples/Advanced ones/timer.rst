@@ -1,6 +1,3 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 .. _Timer:
 
 Timer
@@ -68,29 +65,11 @@ And also some inputs/outputs:
 Implementation
 ^^^^^^^^^^^^^^
 
-.. code-block:: scala
-
-   case class Timer(width : Int) extends Component{
-     val io = new Bundle{
-       val tick      = in Bool()
-       val clear     = in Bool()
-       val limit     = in UInt(width bits)
-
-       val full  = out Bool()
-       val value     = out UInt(width bits)
-     }
-
-     val counter = Reg(UInt(width bits))
-     when(io.tick && !io.full){
-       counter := counter + 1
-     }
-     when(io.clear){
-       counter := 0
-     }
-
-     io.full := counter === io.limit && io.tick
-     io.value := counter
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/advanced/Timer.scala
+   :language: scala
+   :start-at: case class Timer
+   :end-before: // Timer bus interface
+   :append: }
 
 Bridging function
 -----------------
@@ -177,48 +156,17 @@ Implementation
 
 Let's add this bridging function inside the ``Timer`` component.
 
-.. code-block:: scala
-
-   case class Timer(width : Int) extends Component{
-     val io = new Bundle{
-       val tick      = in Bool()
-       val clear     = in Bool()
-       val limit     = in UInt(width bits)
-
-       val full  = out Bool()
-       val value     = out UInt(width bits)
-     }  
-
-     // Logic previously defined
-     // ....
-
-     // The function prototype uses Scala currying funcName(arg1,arg2)(arg3,arg3)
-     // which allow to call the function with a nice syntax later
-     // This function also returns an area, which allows to keep names of inner signals in the generated VHDL/Verilog.
-     def driveFrom(busCtrl : BusSlaveFactory,baseAddress : BigInt)(ticks : Seq[Bool],clears : Seq[Bool]) = new Area {
-       //Address 0 => clear/tick masks + bus
-       val ticksEnable  = busCtrl.createReadWrite(Bits(ticks.length bits),baseAddress + 0,0) init(0)
-       val clearsEnable = busCtrl.createReadWrite(Bits(clears.length bits),baseAddress + 0,16) init(0)
-       val busClearing  = False
-
-       io.clear := (clearsEnable & clears.asBits).orR | busClearing
-       io.tick  := (ticksEnable  & ticks.asBits ).orR
-
-       //Address 4 => read/write limit (+ auto clear)
-       busCtrl.driveAndRead(io.limit,baseAddress + 4)
-       busClearing setWhen(busCtrl.isWriting(baseAddress + 4))
-
-       //Address 8 => read timer value / write => clear timer value
-       busCtrl.read(io.value,baseAddress + 8)
-       busClearing setWhen(busCtrl.isWriting(baseAddress + 8))
-     }
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/advanced/Timer.scala
+   :language: scala
+   :start-after: // Timer bus interface
+   :end-before: // end case class Timer
+   :prepend: case class Timer(width : Int) extends Component {
+             ...
 
 Usage
 ^^^^^
 
 Here is some demonstration code which is very close to the one used in the Pinsec SoC timer module. Basically it instantiates following elements:
-
 
 * One 16 bit prescaler
 * One 32 bit timer
@@ -226,54 +174,7 @@ Here is some demonstration code which is very close to the one used in the Pinse
 
 Then by using an ``Apb3SlaveFactory`` and functions defined inside the ``Timer``\ s, it creates bridging logic between the APB3 bus and all instantiated components.
 
-.. code-block:: scala
-
-   val io = new Bundle{
-     val apb = Apb3(ApbConfig(addressWidth = 8, dataWidth = 32))
-     val interrupt = in Bool()
-     val external = new Bundle{
-       val tick  = Bool()
-       val clear = Bool()
-     }
-   }
-
-   //Prescaler is very similar to the timer, it mainly integrates a piece of auto reload logic.
-   val prescaler = Prescaler(width = 16)
-
-   val timerA = Timer(width = 32)
-   val timerB,timerC,timerD = Timer(width = 16)
-
-   val busCtrl = Apb3SlaveFactory(io.apb)
-   val prescalerBridge = prescaler.driveFrom(busCtrl,0x00)
-
-   val timerABridge = timerA.driveFrom(busCtrl,0x40)(
-     // The first element is True, which allows you to have a mode where the timer is always counting up.
-     ticks  = List(True, prescaler.io.overflow),
-     // By looping the timer full to the clears, it allows you to create an autoreload mode.
-     clears = List(timerA.io.full)
-   )
-
-   val timerBBridge = timerB.driveFrom(busCtrl,0x50)(
-     //The external.tick could allow to create an impulsion counter mode
-     ticks  = List(True, prescaler.io.overflow, io.external.tick),
-     //external.clear could allow to create an timeout mode.
-     clears = List(timerB.io.full, io.external.clear)
-   )
-
-   val timerCBridge = timerC.driveFrom(busCtrl,0x60)(
-     ticks  = List(True, prescaler.io.overflow, io.external.tick),
-     clears = List(timerC.io.full, io.external.clear)
-   )
-
-   val timerDBridge = timerD.driveFrom(busCtrl,0x70)(
-     ticks  = List(True, prescaler.io.overflow, io.external.tick),
-     clears = List(timerD.io.full, io.external.clear)
-   )
-
-   val interruptCtrl = InterruptCtrl(4)
-   val interruptCtrlBridge = interruptCtrl.driveFrom(busCtrl,0x10)
-   interruptCtrl.io.inputs(0) := timerA.io.full
-   interruptCtrl.io.inputs(1) := timerB.io.full
-   interruptCtrl.io.inputs(2) := timerC.io.full
-   interruptCtrl.io.inputs(3) := timerD.io.full
-   io.interrupt := interruptCtrl.io.pendings.orR
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/advanced/Timer.scala
+   :language: scala
+   :start-after: case class ApbTimer
+   :end-before: // end case class ApbTimer

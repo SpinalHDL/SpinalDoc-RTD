@@ -1,9 +1,5 @@
-
 Rules
 =====
-
-Introduction
-------------
 
 The semantics behind SpinalHDL are important to learn, so that you understand what is really happening behind the scenes, and how to control it.
 
@@ -38,17 +34,33 @@ This is equivalent to:
    a := b + 3  // a will be set to 5
    c := a + b  // c will be set to 7
 
-More generally, when you use the ``:=`` assignment operator, it's like specifying a new rule for the left side signal/register.
+More generally, when you use the ``:=`` assignment operator, it's like specifying an additional new rule for the left side signal/register.
 
 Last valid assignment wins
 --------------------------
 
-If a combinational signal or register is assigned multiple times, the last valid one wins.
+If a combinational signal or register is assigned multiple times through the
+use of the SpinalHDL ``:=`` operator, the last assignment that may execute wins
+(and so gets to set the value as a result for this state).
+
+It could be said that top to bottom evaluation occurs based on the state that
+exists at that time.  If your upstream signal inputs are driven from registers
+and so have synchronous behaviour, then it could be said that at each clock
+cycle the assignments are re-evaluated based on the new state at the time.
+
+Some reasons why an assignment statement may not get to execute in hardware this
+clock cycle, maybe due to it being wrapped in a ``when(cond)`` clause.
+
+Another reason maybe that the SpinalHDL code never made it through elaboration
+because the feature was paramaterized and disabled during HDL code-generation,
+see ``paramIsFalse`` use below.
 
 As an example:
 
 .. code-block:: scala
 
+   // Every clock cycle  evaluation starts here
+   val paramIsFalse = false
    val x, y = Bool()           // Define two combinational signals
    val result = UInt(8 bits)   // Define a combinational signal
 
@@ -59,6 +71,9 @@ As an example:
        result := 3
      }
    }
+   if(paramIsFalse) {          // This assignment should win as it is last, but it was never elaborated
+     result := 4               //  into hardware due to the use of if() and it evaluating to false at the time
+   }                           //  of elaboration.  The three := assignments above are elaborated into hardware.
 
 This will produce the following truth table:
 
@@ -103,8 +118,8 @@ As an example, the following code implements a register which is incremented whe
      counter := counter + 1
    }
    when(clear) {
-     counter := 0    // If inc and clear are True, then this  assignment wins (Last valid assignment rule)
-   }
+     counter := 0    // If inc and clear are True, then this  assignment wins
+   }                 //  (last value assignment wins rule)
 
 You can implement exactly the same functionality by mixing the previous example with a function that assigns to ``counter``:
 

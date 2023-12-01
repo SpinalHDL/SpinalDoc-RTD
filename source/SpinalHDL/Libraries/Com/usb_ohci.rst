@@ -1,20 +1,19 @@
 
 USB OHCI
-============
+========
 
-Introduction
-------------
+Here exists a USB OHCi controller (host) in the SpinalHDL library.
 
-There is a USB OHCi controller (host) in the SpinalHDL library. In a few bullet points it can be resumed to :
+A few bullet points to summarise support:
 
 - It follow the `OpenHCI Open Host Controller Interface Specification for USB` specification (OHCI).
-- It is compatible with the upstream linux / uboot OHCI drivers already. (there is also a OHCI driver on tinyUSB)
-- This provide USB host full speed and low speed capabilities (12Mbps and 1.5Mbps)
+- It is compatible with the upstream linux / uboot OHCI drivers already. (there is also an OHCI driver on tinyUSB)
+- This provides USB host full speed and low speed capabilities (12Mbps and 1.5Mbps)
 - Tested on linux and uboot
 - One controller can host multiple ports (up to 16)
 - Bmb memory interface for DMA accesses
 - Bmb memory interace for the configuration
-- Require a clock for the internal phy which is a multiple of 12 Mhz at least 48 Mhz
+- Requires a clock for the internal phy which is a multiple of 12 Mhz at least 48 Mhz
 - The controller frequency is not restricted
 - No external phy required
 
@@ -29,7 +28,7 @@ Limitations :
 
 - Some USB hub (had one so far) do not like having a full speed host with low speed devices attached.
 - Some modern devices will not work on USB full speed (ex :  Gbps ethernet adapter)
-- Require memory coherency with the CPU (or the cpu need to flush his data cache in the driver)
+- Require memory coherency with the CPU (or the cpu need to be able to flush its data cache in the driver)
 
 Deployments :
 
@@ -74,7 +73,7 @@ Usage
       val management = phy.io.management.toIo
     }
 
-    object UsbHostGen extends App{
+    object UsbHostGen extends App {
       val p = UsbOhciParameter(
         noPowerSwitching = true,
         powerSwitchingMode = true,

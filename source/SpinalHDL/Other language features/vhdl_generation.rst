@@ -277,6 +277,8 @@ VHDL:
      end process;
    end arch;
 
+.. _vhdl-and-verilog-attributes:
+
 VHDL and Verilog attributes
 ---------------------------
 

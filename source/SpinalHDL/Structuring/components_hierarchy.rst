@@ -1,21 +1,18 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
+.. _Component:
 
-Component and hierarchy
-=======================
+Components and hierarchy
+========================
 
-Introduction
-------------
-
-Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy. However, in SpinalHDL, you don't need to bind their ports at instantiation:
+Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy. However, in SpinalHDL,
+you don't need to bind their ports at instantiation:
 
 .. code-block:: scala
 
    class AdderCell() extends Component {
      // Declaring external ports in a Bundle called `io` is recommended
      val io = new Bundle {
-       val a, b, cin = in Bool()
-       val sum, cout = out Bool()
+       val a, b, cin = in port Bool()
+       val sum, cout = out port Bool()
      }
      // Do some logic
      io.sum := io.a ^ io.b ^ io.cin
@@ -37,7 +34,14 @@ Like in VHDL and Verilog, you can define components that can be used to build a 
 
 .. tip::
    | ``val io = new Bundle { ... }``
-   | Declaring external ports in a ``Bundle`` called ``io`` is recommended. If you name your bundle ``io``, SpinalHDL will check that all of its elements are defined as inputs or outputs.
+   | Declaring external ports in a ``Bundle`` called ``io`` is recommended. If you name your bundle ``io``, SpinalHDL
+     will check that all of its elements are defined as inputs or outputs.
+   
+.. tip::
+   If it is better to your taste, you can use the ``Module`` syntax instead of ``Component`` (they are the same thing)
+
+
+.. _io:
 
 Input / output definition
 -------------------------
@@ -51,18 +55,25 @@ The syntax to define inputs and outputs is as follows:
    * - Syntax
      - Description
      - Return
-   * - in Bool()/out Bool()
+   * - | ``in port Bool()``
+       | ``out port Bool()``
      - Create an input Bool/output Bool
      - Bool
-   * - in/out Bits/UInt/SInt[(x bits)]
+   * - | ``in Bits/UInt/SInt[(x bits)]``
+       | ``out Bits/UInt/SInt[(x bits)]``
+       | ``in Bits(3 bits)``
      - Create an input/output of the corresponding type
      - Bits/UInt/SInt
-   * - in/out(T)
+   * - | ``in(T)``
+       | ``out(T)``
+       | ``out UInt(7 bits)``
      - For all other data types, you may have to add some brackets around it. Sorry, this is a Scala limitation.
      - T
-   * - master/slave(T)
+   * - | ``master(T)``
+       | ``slave(T)``
+       | ``master(Bool())``
      - This syntax is provided by the ``spinal.lib`` library (If you annotate your object with the ``slave`` syntax, then import ``spinal.lib.slave`` instead).
-       T should extend ``IMasterSlave`` – Some documentation is available :ref:`here <interface_example_apb>`. You may not actually need the brackets, so ``master T`` is fine as well.
+       T must extend ``IMasterSlave``. Some documentation is available :ref:`here <interface_example_apb>`. You may not actually need the brackets, so ``master T`` is fine as well.
      - T
 
 
@@ -73,21 +84,24 @@ There are some rules to follow with component interconnection:
 * Components can read their own output port values (unlike in VHDL).
 
 .. tip::
-   If for some reason you need to read signals from far away in the hierarchy (such as for debugging or temporal patches), you can do it by using the value returned by ``some.where.else.theSignal.pull()``
+   If for some reason you need to read signals from far away in the hierarchy (such as for debugging or temporal
+   patches), you can do it by using the value returned by ``some.where.else.theSignal.pull()``
 
 Pruned signals
 --------------
 
-SpinalHDL only generates things which are directly or indirectly required to drive the outputs of your top-level entity.
+SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones
+are removed from the RTL generation.
 
-All other signals (the useless ones) are removed from the RTL generation and are inserted into a list of pruned signals. You can get this list via the ``printPruned`` and the ``printPrunedIo`` functions on the generated ``SpinalReport`` object:
+You can collect the list of all the removed ans useless signals via the ``printPruned`` and the ``printPrunedIo``
+functions on the generated ``SpinalReport`` object:
 
 .. code-block:: scala
 
    class TopLevel extends Component {
      val io = new Bundle {
-       val a,b = in UInt(8 bits)
-       val result = out UInt(8 bits)
+       val a,b = in port UInt(8 bits)
+       val result = out port UInt(8 bits)
      }
 
      io.result := io.a + io.b
@@ -107,31 +121,6 @@ All other signals (the useless ones) are removed from the RTL generation and are
      }
    }
 
-If you want to keep a pruned signal in the generated RTL for debugging reasons, you can use the ``keep`` function of that signal:
-
-.. code-block:: scala
-
-   class TopLevel extends Component {
-     val io = new Bundle {
-       val a, b = in UInt(8 bits)
-       val result = out UInt(8 bits)
-     }
-
-     io.result := io.a + io.b
-
-     val unusedSignal = UInt(8 bits)
-     val unusedSignal2 = UInt(8 bits).keep()
-
-     unusedSignal  := 0
-     unusedSignal2 := unusedSignal
-   }
-
-   object Main {
-     def main(args: Array[String]) {
-       SpinalVhdl(new TopLevel).printPruned()
-       // This will report nothing
-     }
-   }
 
 Parametrized Hardware ("Generic" in VHDL, "Parameter" in Verilog)
 -----------------------------------------------------------------
@@ -142,8 +131,8 @@ If you want to parameterize your component, you can give parameters to the const
 
    class MyAdder(width: BitCount) extends Component {
      val io = new Bundle {
-       val a, b   = in UInt(width)
-       val result = out UInt(width)
+       val a, b   = in port UInt(width)
+       val result = out port UInt(width)
      }
      io.result := io.a + io.b
    }
@@ -167,6 +156,28 @@ If you have several parameters, it is a good practice to give a specific configu
      ...
    }
 
+You can add functions inside the config, along with requirements on the config attributes:
+
+.. code-block:: scala
+
+   case class MyBusConfig(addressWidth: Int, dataWidth: Int) {
+     def bytePerWord = dataWidth / 8
+     def addressType = UInt(addressWidth bits)
+     def dataType = Bits(dataWidth bits)
+
+     require(dataWidth == 32 || dataWidth == 64, "Data width must be 32 or 64")
+   }
+
+.. note::
+
+   This parametrization occurs entirely within the SpinalHDL code-generation during
+   elaboration.  This generates non-generic HDL code. The methods described here do
+   not use VHDL generics or Verilog parameters.
+
+   See also :ref:`Blackbox <blackbox>` for more information around support for
+   that mechanism.
+
+
 Synthesized component names
 ---------------------------
 
@@ -176,7 +187,8 @@ You can use ``setName`` to replace this convention with a custom name.
 This is especially useful when interfacing with external components.
 The other methods are called ``getName``, ``setPartialName``, and ``getPartialName`` respectively.
 
-When synthesized, each module gets the name of the Scala class defining it. You can override this as well with ``setDefinitionName``.
+When synthesized, each module gets the name of the Scala class defining it. You can override this as well with
+``setDefinitionName``.
 
 .. raw:: html
 
