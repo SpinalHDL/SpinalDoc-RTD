@@ -1,0 +1,212 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2022, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 11:48+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:5
+msgid "Preserving names"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:8
+msgid "Introduction"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:10
+msgid "This page will describe how SpinalHDL propagate names from the scala code to the generated hardware. Knowing them should enable you to preserve those names as much as possible to generate understandable netlists."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:13
+msgid "Nameable base class"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:15
+msgid "All the things which can be named in SpinalHDL extends the Nameable base class which."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:17
+msgid "So in practice, the following classes extends Nameable :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:19
+msgid "Component"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:20
+msgid "Area"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:21
+msgid "Data (UInt, SInt, Bundle, ...)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:24
+msgid "There is a few example of that Nameable API"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:35
+msgid "Will generation :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:47
+msgid "In general, you don't realy need to access that API, unless you want to do tricky stuff for debug reasons or for elaboration purposes."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:50
+msgid "Name extraction from Scala"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:52
+msgid "First, since version 1.4.0, SpinalHDL use a scala compiler plugin which can provide a call back each time a new val is defined during the construction of an class."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:54
+msgid "There is a example showing more or less how SpinalHDL itself is implemented :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:84
+msgid "Using that ValCallback \"introspection\" feature, SpinalHDL's Component classes are able to be aware of their content and its name."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:86
+msgid "But this also mean that if you want something to get a name, and you only rely on this automatic naming feature, the reference to your Data (UInt, SInt, ...) instances should be stored somewhere in a Component val."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:88
+msgid "For instance :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:104
+#: ../../source/SpinalHDL/Structuring/naming.rst:200
+#: ../../source/SpinalHDL/Structuring/naming.rst:237
+msgid "Will generate :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:119
+msgid "Area in a Component"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:121
+msgid "One important aspect in the naming system is that you can define new namespaces inside components and manipulate"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:123
+msgid "For instance via Area :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:134
+#: ../../source/SpinalHDL/Structuring/naming.rst:300
+#: ../../source/SpinalHDL/Structuring/naming.rst:385
+#: ../../source/SpinalHDL/Structuring/naming.rst:417
+#: ../../source/SpinalHDL/Structuring/naming.rst:466
+#: ../../source/SpinalHDL/Structuring/naming.rst:520
+msgid "Will generate"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:149
+msgid "Area in a function"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:151
+msgid "You can also define function which will create new Area which will provide a namespace for all its content :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:167
+msgid "Which will generate :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:183
+msgid "Composite in a function"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:185
+msgid "Added in SpinalHDL 1.5.0, Composite which allow you to create a scope which will use as prefix another Nameable:"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:216
+msgid "Composite chains"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:218
+msgid "You can also chain composites :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:255
+msgid "Composite in a Bundle's function"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:258
+msgid "This behaviour can be very useful when implementing Bundles utilities. For instance in the spinal.lib.Stream class is defined the following :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:290
+msgid "Which allow nested calls while preserving the names :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:365
+msgid "Unamed signal handling"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:367
+msgid "Since 1.5.0, for signal which end up without name, SpinalHDL will find a signal which is driven by that unamed signal and propagate its name. This can produce useful results as long you don't have too large island of unamed stuff."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:369
+msgid "The name attributed to such unamed signal is : _zz_ + drivenSignal.getName()"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:371
+msgid "Note that this naming pattern is also used by the generation backend when they need to breakup some specific expressions or long chain of expression into multiple signals."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:374
+msgid "Verilog expression splitting"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:376
+msgid "There is an instance of expressions (ex : the + operator) that SpinalHDL need to express in dedicated signals to match the behaviour with the Scala API :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:406
+msgid "Verilog long expression splitting"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:408
+msgid "There is a instance of how a very long expression chain will be splited up by SpinalHDL :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:447
+msgid "When statement condition"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:449
+msgid "The `when(cond) { }` statements condition are generated into separated signals named `when_` + fileName + line. A similar thing will also be done for switch statements."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:499
+msgid "In last resort"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:501
+msgid "In last resort, if a signal has no name (anonymous signal), SpinalHDL will seek for a named signal which is driven by the anonymous signal, and use it as a name postfix :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:540
+msgid "This last resort naming skim isn't ideal in all cases, but can help out."
+msgstr ""
+
+#: ../../source/SpinalHDL/Structuring/naming.rst:542
+msgid "Note that signal starting with a underscore aren't stored in the Verilator waves (on purpose)"
+msgstr ""

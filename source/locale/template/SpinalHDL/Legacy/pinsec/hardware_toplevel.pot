@@ -1,0 +1,359 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2022, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 11:48+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:7
+msgid "SoC toplevel (Pinsec)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:10
+msgid "Introduction"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:12
+msgid "``Pinsec`` is a little SoC designed for FPGA. It is available in the SpinalHDL library and some documentation could be find :ref:`there <pinsec_introduction>`"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:14
+msgid "Its toplevel implementation is an interesting example, because it mix some design pattern that make it very easy to modify. Adding a new master or a new peripheral to the bus fabric could be done in the seconde."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:16
+msgid "This toplevel implementation could be consulted there : `https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala <https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/soc/pinsec/Pinsec.scala>`_"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:19
+msgid "There is the Pinsec toplevel hardware diagram :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:25
+msgid "Defining all IO"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:47
+msgid "Clock and resets"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:49
+msgid "Pinsec has three clocks inputs :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:52
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:70
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:73
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:76
+msgid "axiClock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:53
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:79
+msgid "vgaClock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:54
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:82
+msgid "jtag.tck"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:56
+msgid "And one reset input :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:59
+msgid "asyncReset"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:61
+msgid "Which will finally give 5 ClockDomain (clock/reset couple) :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:66
+msgid "Name"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:67
+msgid "Clock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:68
+msgid "Description"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:69
+msgid "resetCtrlClockDomain"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:71
+msgid "Used by the reset controller, Flops of this clock domain are initialized by the FPGA bitstream"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:72
+msgid "axiClockDomain"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:74
+msgid "Used by all component connected to the AXI and the APB interconnect"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:75
+msgid "coreClockDomain"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:77
+msgid "The only difference with the axiClockDomain, is the fact that the reset could also be asserted by the debug module"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:78
+msgid "vgaClockDomain"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:80
+msgid "Used by the VGA controller backend as a pixel clock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:81
+msgid "jtagClockDomain"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:83
+msgid "Used to clock the frontend of the JTAG controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:87
+msgid "Reset controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:89
+msgid "First we need to define the reset controller clock domain, which has no reset wire, but use the FPGA bitstream loading to setup flipflops."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:100
+msgid "Then we can define a simple reset controller under this clock domain."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:131
+msgid "Systems clock domains"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:133
+msgid "Now that the reset controller is implemented, we can define clock domain for all part of Pinsec :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:157
+msgid "Also all the core system of Pinsec will be defined into a ``axi`` clocked area :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:166
+msgid "Main components"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:168
+msgid "Pinsec is constituted mainly by 4 main components :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:171
+msgid "One RISCV CPU"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:172
+msgid "One SDRAM controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:173
+msgid "One on chip memory"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:174
+msgid "One JTAG controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:177
+msgid "RISCV CPU"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:179
+msgid "The RISCV CPU used in Pinsec as many parametrization possibilities :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:226
+msgid "On chip RAM"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:228
+msgid "The instanciation of the AXI4 on chip RAM is very simple."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:230
+msgid "In fact it's not an AXI4 but an Axi4Shared, which mean that a ARW channel replace the AR and AW ones. This solution use less area while being fully interoperable with full AXI4."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:241
+msgid "SDRAM controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:243
+msgid "First you need to define the layout and timings of your SDRAM device. On the DE1-SOC, the SDRAM device is an IS42x320D one."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:270
+msgid "Then you can used those definition to parametrize the SDRAM controller instantiation."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:283
+msgid "JTAG controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:285
+msgid "The JTAG controller could be used to access memories and debug the CPU from an PC."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:297
+msgid "Peripherals"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:299
+msgid "Pinsec integrate some peripherals :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:302
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:308
+msgid "GPIO"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:303
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:321
+msgid "Timer"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:304
+msgid "UART"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:305
+msgid "VGA"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:323
+msgid "The Pinsec timer module is constituted of :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:326
+msgid "One prescaler"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:327
+msgid "One 32 bits timer"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:328
+msgid "Three 16 bits timers"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:330
+msgid "All of them are packed into the PinsecTimerCtrl component."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:337
+msgid "UART controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:339
+msgid "First we need to define a configuration for our UART controller :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:355
+msgid "Then we can use it to instantiate the UART controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:362
+msgid "VGA controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:364
+msgid "First we need to define a configuration for our VGA controller :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:378
+msgid "Then we can use it to instantiate the VGA controller"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:385
+msgid "Bus interconnects"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:387
+msgid "There is three interconnections components :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:390
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:408
+msgid "AXI4 crossbar"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:391
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:395
+msgid "AXI4 to APB3 bridge"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:392
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:469
+msgid "APB3 decoder"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:397
+msgid "This bridge will be used to connect low bandwidth peripherals to the AXI crossbar."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:410
+msgid "The AXI4 crossbar that interconnect AXI4 masters and slaves together  is generated by using an factory. The concept of this factory is to create it, then call many function on it to configure it, and finaly call the ``build`` function to ask the factory to generate the corresponding hardware :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:419
+msgid "First you need to populate slaves interfaces :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:431
+msgid "Then you need to populate interconnections between slaves and masters :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:444
+msgid "Then to reduce combinatorial path length and have a good design FMax, you can ask the factory to insert pipelining stages between itself a given master or slave :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:0
+msgid "``halfPipe`` / >> / << / >/->  in the following code are provided by the Stream bus library."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:0
+msgid "Some documentation could be find :ref:`there <stream>`. In short, it's just some pipelining and interconnection stuff."
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:471
+msgid "The interconnection between the APB3 bridge and all peripherals is done via an APB3Decoder :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:488
+msgid "Misc"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:490
+msgid "To connect all toplevel IO to components, the following code is required :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Legacy/pinsec/hardware_toplevel.rst:501
+msgid "And finally some connections between components are required like interrupts and core debug module resets"
+msgstr ""

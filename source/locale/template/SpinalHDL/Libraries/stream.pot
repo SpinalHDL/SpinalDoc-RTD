@@ -1,0 +1,765 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2022, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 11:48+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:7
+msgid "Stream"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:10
+msgid "Specification"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:12
+msgid "The Stream interface is a simple handshake protocol to carry payload."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:13
+msgid "It could be used for example to push and pop elements into a FIFO, send requests to a UART controller, etc."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:19
+msgid "Signal"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:20
+#: ../../source/SpinalHDL/Libraries/stream.rst:217
+#: ../../source/SpinalHDL/Libraries/stream.rst:232
+#: ../../source/SpinalHDL/Libraries/stream.rst:273
+#: ../../source/SpinalHDL/Libraries/stream.rst:294
+#: ../../source/SpinalHDL/Libraries/stream.rst:335
+#: ../../source/SpinalHDL/Libraries/stream.rst:353
+msgid "Type"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:21
+msgid "Driver"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:22
+#: ../../source/SpinalHDL/Libraries/stream.rst:96
+#: ../../source/SpinalHDL/Libraries/stream.rst:218
+#: ../../source/SpinalHDL/Libraries/stream.rst:233
+#: ../../source/SpinalHDL/Libraries/stream.rst:274
+#: ../../source/SpinalHDL/Libraries/stream.rst:295
+#: ../../source/SpinalHDL/Libraries/stream.rst:336
+#: ../../source/SpinalHDL/Libraries/stream.rst:354
+#: ../../source/SpinalHDL/Libraries/stream.rst:423
+#: ../../source/SpinalHDL/Libraries/stream.rst:438
+msgid "Description"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:23
+msgid "Don't care when"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:24
+msgid "valid"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:25
+#: ../../source/SpinalHDL/Libraries/stream.rst:30
+#: ../../source/SpinalHDL/Libraries/stream.rst:110
+#: ../../source/SpinalHDL/Libraries/stream.rst:114
+#: ../../source/SpinalHDL/Libraries/stream.rst:241
+msgid "Bool"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:26
+#: ../../source/SpinalHDL/Libraries/stream.rst:36
+msgid "Master"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:27
+msgid "When high => payload present on the interface"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:29
+msgid "ready"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:31
+msgid "Slave"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:32
+msgid "When low => transaction are not consumed by the slave"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:33
+#: ../../source/SpinalHDL/Libraries/stream.rst:38
+msgid "valid is low"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:34
+msgid "payload"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:35
+#: ../../source/SpinalHDL/Libraries/stream.rst:220
+#: ../../source/SpinalHDL/Libraries/stream.rst:276
+#: ../../source/SpinalHDL/Libraries/stream.rst:338
+msgid "T"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:37
+msgid "Content of the transaction"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:49
+msgid "There is some examples of usage in SpinalHDL :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:70
+msgid "Each slave can or can't allow the payload to change when valid is high and ready is low. For examples:"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:73
+msgid "An priority arbiter without lock logic can switch from one input to the other (which will change the payload)."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:74
+msgid "An UART controller could directly use the write port to drive UART pins and only consume the transaction at the end of the transmission. Be careful with that."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:78
+msgid "Semantics"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:80
+msgid "When manually reading/driving the signals of a Stream keep in mind that:"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:82
+msgid "After being asserted, ``valid`` may only be deasserted once the current payload was acknowleged. This means ``valid`` can only toggle to 0 the cycle after a the slave did a read by asserting ``ready``."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:83
+msgid "In contrast to that ``ready`` may change at any time."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:84
+msgid "A transfer is only done on cycles where both ``valid`` and ``ready`` are asserted."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:85
+msgid "``valid`` of a Stream must not depend on ``ready`` in a combinatorial way and any path between the two must be registered."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:86
+msgid "It is recommended that ``valid`` does not depend on ``ready`` at all."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:89
+msgid "Functions"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:95
+msgid "Syntax"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:97
+#: ../../source/SpinalHDL/Libraries/stream.rst:453
+msgid "Return"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:98
+msgid "Latency"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:99
+msgid "Stream(type : Data)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+#: ../../source/SpinalHDL/Libraries/stream.rst:100
+msgid "Create a Stream of a given type"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:101
+#: ../../source/SpinalHDL/Libraries/stream.rst:106
+#: ../../source/SpinalHDL/Libraries/stream.rst:118
+#: ../../source/SpinalHDL/Libraries/stream.rst:125
+#: ../../source/SpinalHDL/Libraries/stream.rst:131
+#: ../../source/SpinalHDL/Libraries/stream.rst:137
+#: ../../source/SpinalHDL/Libraries/stream.rst:163
+#: ../../source/SpinalHDL/Libraries/stream.rst:168
+#: ../../source/SpinalHDL/Libraries/stream.rst:235
+#: ../../source/SpinalHDL/Libraries/stream.rst:238
+#: ../../source/SpinalHDL/Libraries/stream.rst:297
+#: ../../source/SpinalHDL/Libraries/stream.rst:300
+#: ../../source/SpinalHDL/Libraries/stream.rst:356
+#: ../../source/SpinalHDL/Libraries/stream.rst:359
+#: ../../source/SpinalHDL/Libraries/stream.rst:455
+#: ../../source/SpinalHDL/Libraries/stream.rst:457
+msgid "Stream[T]"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:103
+msgid "master/slave Stream(type : Data)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Initialized with corresponding in/out setup"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:108
+msgid "x.fire"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:109
+msgid "Return True when a transaction is consumed on the bus (valid && ready)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:112
+msgid "x.isStall"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:113
+msgid "Return True when a transaction is stall on the bus (valid && ! ready)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:116
+msgid "x.queue(size:Int)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:117
+msgid "Return a Stream connected to x through a FIFO"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:119
+msgid "2"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "x.m2sPipe()"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "x.stage()"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Return a Stream drived by x"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "through a register stage that cut valid/payload paths"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Cost = (payload width + 1) flop flop"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:126
+#: ../../source/SpinalHDL/Libraries/stream.rst:138
+#: ../../source/SpinalHDL/Libraries/stream.rst:148
+#: ../../source/SpinalHDL/Libraries/stream.rst:159
+msgid "1"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:127
+msgid "x.s2mPipe()"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "ready paths is cut by a register stage"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Cost = payload width * (mux2 + 1 flip flop)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:132
+#: ../../source/SpinalHDL/Libraries/stream.rst:143
+#: ../../source/SpinalHDL/Libraries/stream.rst:153
+#: ../../source/SpinalHDL/Libraries/stream.rst:164
+#: ../../source/SpinalHDL/Libraries/stream.rst:169
+msgid "0"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:133
+msgid "x.halfPipe()"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "valid/ready/payload paths are cut by some register"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Cost = (payload width + 2) flip flop, bandwidth divided by two"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "x << y"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "y >> x"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:141
+msgid "Connect y to x"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "x <-< y"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "y >-> x"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:146
+msgid "Connect y to x through a m2sPipe"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "x </< y"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "y >/> x"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:151
+msgid "Connect y to x through a s2mPipe"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "x <-/< y"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "y >/-> x"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Connect y to x through s2mPipe().m2sPipe()"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Which imply no combinatorial path between x and y"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:160
+msgid "x.haltWhen(cond : Bool)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Return a Stream connected to x"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Halted when cond is true"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:165
+msgid "x.throwWhen(cond : Bool)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "When cond is true, transaction are dropped"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:172
+msgid "The following code will create this logic :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:192
+msgid "Utils"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:194
+msgid "There is many utils that you can use in your design in conjunction with the Stream bus, this chapter will document them."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:197
+msgid "StreamFifo"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:199
+msgid "On each stream you can call the .queue(size) to get a buffered stream. But you can also instantiate the FIFO component itself :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:216
+#: ../../source/SpinalHDL/Libraries/stream.rst:272
+#: ../../source/SpinalHDL/Libraries/stream.rst:334
+msgid "parameter name"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:219
+#: ../../source/SpinalHDL/Libraries/stream.rst:275
+#: ../../source/SpinalHDL/Libraries/stream.rst:337
+msgid "dataType"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:221
+#: ../../source/SpinalHDL/Libraries/stream.rst:277
+#: ../../source/SpinalHDL/Libraries/stream.rst:339
+msgid "Payload data type"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:222
+#: ../../source/SpinalHDL/Libraries/stream.rst:278
+msgid "depth"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:223
+#: ../../source/SpinalHDL/Libraries/stream.rst:279
+msgid "Int"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:224
+#: ../../source/SpinalHDL/Libraries/stream.rst:280
+msgid "Size of the memory used to store elements"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:231
+#: ../../source/SpinalHDL/Libraries/stream.rst:293
+#: ../../source/SpinalHDL/Libraries/stream.rst:352
+msgid "io name"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:234
+#: ../../source/SpinalHDL/Libraries/stream.rst:296
+msgid "push"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:236
+#: ../../source/SpinalHDL/Libraries/stream.rst:298
+#: ../../source/SpinalHDL/Libraries/stream.rst:357
+msgid "Used to push elements"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:237
+#: ../../source/SpinalHDL/Libraries/stream.rst:299
+msgid "pop"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:239
+#: ../../source/SpinalHDL/Libraries/stream.rst:301
+#: ../../source/SpinalHDL/Libraries/stream.rst:360
+msgid "Used to pop elements"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:240
+msgid "flush"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:242
+msgid "Used to remove all elements inside the FIFO"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:243
+msgid "occupancy"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:244
+#: ../../source/SpinalHDL/Libraries/stream.rst:303
+#: ../../source/SpinalHDL/Libraries/stream.rst:306
+msgid "UInt of log2Up(depth + 1) bits"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:245
+msgid "Indicate the internal memory occupancy"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:249
+msgid "StreamFifoCC"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:251
+msgid "You can instanciate the dual clock domain version of the fifo the following way :"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:281
+msgid "pushClock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:282
+#: ../../source/SpinalHDL/Libraries/stream.rst:285
+#: ../../source/SpinalHDL/Libraries/stream.rst:341
+#: ../../source/SpinalHDL/Libraries/stream.rst:344
+msgid "ClockDomain"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:283
+#: ../../source/SpinalHDL/Libraries/stream.rst:342
+msgid "Clock domain used by the push side"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:284
+msgid "popClock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:286
+#: ../../source/SpinalHDL/Libraries/stream.rst:345
+msgid "Clock domain used by the pop side"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:302
+msgid "pushOccupancy"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:304
+msgid "Indicate the internal memory occupancy (from the push side perspective)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:305
+msgid "popOccupancy"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:307
+msgid "Indicate the internal memory occupancy  (from the pop side perspective)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:311
+msgid "StreamCCByToggle"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:313
+msgid "Component that connects Streams across clock domains based on toggling signals."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:314
+msgid "This way of implementing a cross clock domain bridge is characterized by a small area usage but also a low bandwidth."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:340
+msgid "inputClock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:343
+msgid "outputClock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:355
+msgid "input"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:358
+msgid "output"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:363
+msgid "Alternatively you can also use a this shorter syntax which directly return you the cross clocked stream:"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:377
+msgid "StreamWidthAdapter"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:379
+msgid "This component adapts the width of the input stream to the output stream. When the width of the ``outStream`` payload is greater than the ``inStream``, by combining the payloads of several input transactions into one; conversely, if the payload width of the ``outStream`` is less than the ``inStream``, one input transaction will be split into several output transactions."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:382
+msgid "In the best case, the width of the payload of the ``inStream`` should be an integer multiple of the ``outStream`` as shown below."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:390
+msgid "As in the example above, the two ``inStream`` transactions will be merged into one ``outStream`` transaction, and the payload of the first input transaction will be placed on the lower bits of the output payload by default."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:392
+msgid "If the expected order of input transaction payload placement is different from the default setting, here is an example."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:400
+msgid "There is also a traditional parameter called ``endianness``, which has the same effect as ``ORDER``. The value of ``endianness`` is the same as ``LOWER_FIRST`` of ``order`` when it is ``LITTLE``, and the same as ``HIGHER_FIRST`` when it is ``BIG``. The ``padding`` parameter is an optional boolean value to determine whether the adapter accepts non-integer multiples of the input and output payload width."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:406
+msgid "StreamArbiter"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:408
+msgid "When you have multiple Streams and you want to arbitrate them to drive a single one, you can use the StreamArbiterFactory."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:422
+msgid "Arbitration functions"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:424
+msgid "lowerFirst"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:425
+msgid "Lower port have priority over higher port"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:426
+msgid "roundRobin"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:427
+msgid "Fair round robin arbitration"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:428
+msgid "sequentialOrder"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Could be used to retrieve transaction in a sequancial order"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "First transaction should come from port zero, then from port one, ..."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:437
+msgid "Lock functions"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:439
+msgid "noLock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:440
+msgid "The port selection could change every cycle, even if the transaction on the selected port is not consumed."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:441
+msgid "transactionLock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:442
+msgid "The port selection is locked until the transaction on the selected port is consumed."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:443
+msgid "fragmentLock"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "Could be used to arbitrate Stream[Flow[T]]."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:0
+msgid "In this mode, the port selection is locked until the selected port finish is burst (last=True)."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:452
+msgid "Generation functions"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:454
+msgid "on(inputs : Seq[Stream[T]])"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:456
+msgid "onArgs(inputs : Stream[T]*)"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:460
+msgid "StreamJoin"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:462
+msgid "This utile takes multiple input streams and wait until all of them fire before letting all of them through."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:471
+msgid "StreamFork"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:473
+msgid "A StreamFork will clone each incoming data to all its output streams. If synchronous is true, all output streams will always fire together, which means that the stream will halt until all output streams are ready. If synchronous is false, output streams may be ready one at a time, at the cost of an additional flip flop (1 bit per output). The input stream will block until all output streams have processed each item regardlessly."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:485
+msgid "or"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:493
+msgid "StreamMux"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:495
+msgid "A mux implementation for ``Stream``. It takes a ``select`` signal and streams in ``inputs``, and returns a ``Stream`` which is connected to one of the input streams specified by ``select``. ``StreamArbiter`` is a facility works similar to this but is more powerful."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:507
+msgid "The ``UInt`` type of ``select`` signal could not be changed while output stream is stalled, or it might break the transaction on the fly. Use ``Stream`` typed ``select`` can generate a stream interface which only fire and change the routing when it is safe."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:512
+msgid "StreamDemux"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:514
+msgid "A demux implementation for ``Stream``. It takes a ``input``, a ``select`` and a ``portCount`` and returns a ``Vec(Stream)`` where the output stream specified by ``select`` is connected to ``input``, the other output streams are inactive. For safe transaction, refer the notes above."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:525
+msgid "StreamDispatcherSequencial"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:527
+msgid "This util take its input stream and routes it to ``outputCount`` stream in a sequential order."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:538
+msgid "Simulation support"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:540
+msgid "For simulation master and slave implementations are available:"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:546
+msgid "Class"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:547
+msgid "Usage"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:548
+msgid "StreamMonitor"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:549
+msgid "Used for both master and slave sides, calls function with payload if Stream fires."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:550
+msgid "StreamDriver"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:551
+msgid "Testbench master side, drives values by calling function to apply value (if available). Function must return if value was available. Supports random delays."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:552
+msgid "StreamReadyRandmizer"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:553
+msgid "Randomizes ``ready`` for reception of data, testbench is the slave side."
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:554
+msgid "ScoreboardInOrder"
+msgstr ""
+
+#: ../../source/SpinalHDL/Libraries/stream.rst:555
+msgid "Often used to compare reference/dut data"
+msgstr ""
