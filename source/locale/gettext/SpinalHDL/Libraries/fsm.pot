@@ -1,0 +1,249 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018 - 2023, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-12 00:21+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../SpinalHDL/Libraries/fsm.rst:7
+msgid "State machine"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:10
+msgid "Introduction"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:12
+msgid "In SpinalHDL you can define your state machine like in VHDL/Verilog, by using enumerations and switch/case statements. But in SpinalHDL you can also use a dedicated syntax."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:14
+msgid "The state machine below is implemented in the following examples:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:20
+msgid "Style A:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:54
+msgid "Style B:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:92
+msgid "StateMachine"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:94
+msgid "``StateMachine`` is the base class. It manages the logic of the FSM."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:102
+msgid "``StateMachine`` also provides some accessors:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:108
+#: ../../SpinalHDL/Libraries/fsm.rst:189
+msgid "Name"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:109
+msgid "Return"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:110
+#: ../../SpinalHDL/Libraries/fsm.rst:190
+msgid "Description"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:111
+msgid "``isActive(state)``"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:112
+#: ../../SpinalHDL/Libraries/fsm.rst:115
+msgid "``Bool``"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:113
+msgid "Returns ``True`` when the state machine is in the given state"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:114
+msgid "``isEntering(state)``"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:116
+msgid "Returns ``True`` when the state machine is entering the given state"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:119
+msgid "Entry point"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:121
+msgid "A state can be defined as the entry point of the state machine by extending the EntryPoint trait:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:127
+msgid "Or by using ``setEntry(state)``:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:135
+msgid "Transitions"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:137
+msgid "Transitions are represented by ``goto(nextState)``, which schedules the state machine to be in ``nextState`` the next cycle."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:138
+msgid "``exit()`` schedules the state machine to be in the boot state the next cycle (or, in ``StateFsm``, to exit the current nested state machine)."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:140
+msgid "These two functions can be used inside state definitions (see below) or using ``always { yourStatements }``, which always applies ``yourStatements``, with a priority over states."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:144
+msgid "State encoding"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:146
+msgid "By default the FSM state vector will be encoded using the native encoding of the language/tools the RTL is generated for (Verilog or VHDL). This default can be overriden by using the ``setEncoding(...)`` method which either takes a ``SpinalEnumEncoding`` or varargs of type ``(State, BigInt)`` for a custom encoding."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:150
+msgid "Using a ``SpinalEnumEncoding``"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:159
+msgid "Using a custom encoding"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:169
+msgid "When using the ``graySequential`` enum encoding, no check is done to verify that the FSM transitions only produce single-bit changes in the state vector. The encoding is done according to the order of state definitions and the designer must ensure that only valid transitions are done if needed."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:174
+msgid "States"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:176
+msgid "Multiple kinds of states can be used:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:178
+msgid "``State`` (the base one)"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:179
+msgid "``StateDelay``"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:180
+msgid "``StateFsm``"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:181
+msgid "``StateParallelFsm``"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:183
+msgid "Each of them provides the following functions to define the logic associated to them:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:196
+msgid "``yourStatements`` is applied when the state machine is not in ``state`` and will be in ``state`` the next cycle"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:202
+msgid "``yourStatements`` is applied when the state machine is in ``state`` and will be in another state the next cycle"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:208
+msgid "``yourStatements`` is applied when the state machine is in ``state``"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:214
+msgid "``yourStatements`` is executed when the state machine will be in ``state`` the next cycle (even if it is already in it)"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:216
+msgid "``state.`` is implicit in a ``new State`` block:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:236
+msgid "StateDelay"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:238
+msgid "``StateDelay`` allows you to create a state which waits for a fixed number of cycles before executing statements in ``whenCompleted {...}``. The preferred way to use it is:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:248
+msgid "It can also be written in one line:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:255
+msgid "StateFsm"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:257
+msgid "``StateFsm`` allows you to describe a state containing a nested state machine. When the nested state machine is done (exited), statements in ``whenCompleted { ... }`` are executed."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:259
+msgid "There is an example of StateFsm definition :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:290
+msgid "In the example above, ``exit()`` makes the state machine jump to the boot state (a internal hidden state). This notifies ``StateFsm`` about the completion of the inner state machine."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:293
+msgid "StateParallelFsm"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:295
+msgid "``StateParallelFsm`` allows you to handle multiple nested state machines. When all nested state machine are done, statements in ``whenCompleted { ... }`` are executed."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:297
+#: ../../SpinalHDL/Libraries/fsm.rst:322
+msgid "Example:"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:308
+msgid "Notes about the entry state"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:310
+msgid "The way the entry state has been defined above makes it so that between the reset and the first clock sampling, the state machine is in a boot state. It is only after the first clock sampling that the defined entry state becomes active. This allows to properly enter the entry state (applying statements in ``onEntry``), and allows nested state machines."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:312
+msgid "While it is usefull, it is also possible to bypass that feature and directly having a state machine booting into a user state."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:314
+msgid "To do so, use `makeInstantEntry()` instead of defining a ``new State``. This function returns the boot state, active directly after reset."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:317
+msgid "The ``onEntry`` of that state will only be called when it transitions from another state to this state and not during boot."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/fsm.rst:320
+msgid "During simulation, the boot state is always named ``BOOT``."
+msgstr ""
