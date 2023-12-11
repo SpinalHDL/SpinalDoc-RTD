@@ -366,3 +366,5 @@ def html_context_add_git(attr):
 
 
 html_context = html_context_add_git(html_context)
+locale_dirs = ['locale/']   # path is example but recommended.
+gettext_compact = False     # optional.
