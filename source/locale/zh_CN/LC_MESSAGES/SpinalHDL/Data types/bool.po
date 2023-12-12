@@ -9,7 +9,7 @@ msgstr ""
 "Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME <EMAIL@ADDRESS"
 ">Language-Team:LANGUAGE <LL@li.org>MIME-Version:1.0Content-Type:text/plain; "
 "charset=UTF-8\n"
-"PO-Revision-Date: 2023-12-11 15:31+0000\n"
+"PO-Revision-Date: 2023-12-12 09:30+0000\n"
 "Last-Translator: Readon <xydarcher@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "spinaldoc-rtd/spinalhdldata-typesbool/zh_Hans/>\n"
@@ -52,15 +52,18 @@ msgid ""
 "affects execution of the Scala program that is SpinalHDL at the time the "
 "program is being run to perform HDL code generation."
 msgstr ""
-"需要理解的一个重要概念和经验法则是，Scala“布尔”类型用于在 Scala 代码中进行精化时 HDL "
-"代码生成决策的地方。与任何常规程序一样，它会在运行程序以执行 HDL 代码生成时影响 Scala 程序（即 SpinalHDL）的执行。"
+"需要理解的一个重要概念和经验是，Scala `Boolean` "
+"类型用于在实例细化时决定如何生成 HDL 代码。与任何常规程序一样，在运行 "
+"SpinalHDL 程序以执行 HDL 代码生成时，它会影响 Scala 程序的执行。"
 
 #: ../../SpinalHDL/Data types/bool.rst:20
 msgid ""
 "Therefore the value of a Scala `Boolean` can not be observed from hardware, "
 "because it only exists ahead-of-time in the SpinalHDL program at the time of"
 " HDL code-gen."
-msgstr "因此，Scala“Boolean”的值无法从硬件中观察到，因为它仅在 HDL 代码生成时提前存在于 SpinalHDL 程序中。"
+msgstr ""
+"因此，Scala `Boolean` 的值无法从硬件中观察到，因为它仅在 HDL "
+"代码生成时存在于 SpinalHDL 程序中，这在硬件仿真/运行之前。"
 
 #: ../../SpinalHDL/Data types/bool.rst:24
 msgid ""
@@ -69,8 +72,9 @@ msgid ""
 "into your hardware design, you can type convert it to Bool with the "
 "constructor `Bool(value: Boolean)`."
 msgstr ""
-"在您的设计可能需要此功能的情况下，例如将一个值（可能充当参数化常量输入）从 Scala 传递到您的硬件设计中，您可以使用构造函数 "
-"`Bool(value: Boolean) 将其转换为 Bool 类型）`。"
+"在您的设计中可能需要这样做，例如从 Scala "
+"向硬件设计中传递一个值（该值可能作为参数化常量输入），您可以使用构造函数 "
+"`Bool(value: Boolean)` 将其类型转换为 `Bool` 。"
 
 #: ../../SpinalHDL/Data types/bool.rst:28
 msgid ""
@@ -79,8 +83,9 @@ msgid ""
 "concerning a `wire` and how it is routed (through modules/Components), "
 "driven (sourced) and connected (sunk)."
 msgstr ""
-"同样，SpinalHDL“Bool”的值在代码生成时无法看到，所有可以看到和操作的都是有关“wire”的 HDL "
-"构造以及它如何路由（通过模块/组件）、驱动（来源）并连接（沉没）。"
+"同样，SpinalHDL `Bool` 的值在代码生成时无法看到，"
+"所有可以看到和操作的都是有关 `wire` 的 HDL "
+"构造以及它如何路由（通过模块/组件）、驱动（源）并连接（汇据点）。"
 
 #: ../../SpinalHDL/Data types/bool.rst:32
 msgid ""
@@ -89,7 +94,8 @@ msgid ""
 " the assignment operator `:=` dictates if it is a source (provides state) or"
 " sink (captures state) for a given assignment."
 msgstr ""
-"赋值运算符‘:=’的信号方向由 SpinalHDL 管理。在赋值运算符“:=”左侧或右侧使用 Bool "
+"赋值运算符 `:=` 的信号方向由 SpinalHDL 管理。在赋值运算符 `:=` "
+"左侧或右侧使用 `Bool` "
 "实例指示它是给定赋值的源（提供状态）还是接收器（捕获状态）。"
 
 #: ../../SpinalHDL/Data types/bool.rst:37
@@ -101,8 +107,10 @@ msgid ""
 "appear or are executed in Scala does not matter, unlike when it is used as a"
 " sink (captures state)."
 msgstr ""
-"允许多次使用赋值运算符，因此信号线充当源（提供驱动 HDL 状态的值）以能够连接和驱动其他 HDL 结构的多个输入是正常的。当 Bool "
-"实例用作源时，赋值语句在 Scala 中出现或执行的顺序并不重要，这与用作接收器（捕获状态）时不同。"
+"允许多次使用赋值运算符，因此信号线作为源（提供值以驱动 HDL 状态）"
+"连接并驱动其他 HDL 结构的多个输入是很正常的。 当 Bool 实例用作源时，"
+"赋值语句在 Scala "
+"中出现或执行的顺序并不重要，而当它用作汇（捕获状态）时则不同。"
 
 #: ../../SpinalHDL/Data types/bool.rst:44
 msgid ""
@@ -113,9 +121,11 @@ msgid ""
 "to ensure the correct precedence order is archived in the hardware design "
 "for assigning a new state to the Bool in hardware."
 msgstr ""
-"当多个赋值运算符驱动 Bool 时（Bool 位于赋值表达式的左侧），最后一个赋值语句获胜；生效。最后一个将是 Scala "
-"代码中最后执行的一个。这个问题可能会影响 SpinalHDL Scala 代码的布局和顺序，以确保在硬件设计中存档正确的优先顺序，以便为硬件中的 "
-"Bool 分配新状态。"
+"当多个赋值操作符驱动 Bool（Bool "
+"位于赋值表达式的左侧）时，最后一个赋值语句将赢得胜利；并开始生效。 "
+"最后一个将在 Scala 代码中最后执行。 此事会影响 SpinalHDL Scala "
+"代码的布局和排序，以确保在硬件设计中获得正确的优先顺序，以便在硬件中为 Bool "
+"赋值新状态。"
 
 #: ../../SpinalHDL/Data types/bool.rst:51
 msgid ""
@@ -123,8 +133,9 @@ msgid ""
 "`Bool` instance as a reference to a HDL `net` in the net-list.  Which the "
 "assignment `:=` operator is attaching HDL constructs into the same net."
 msgstr ""
-"将 Scala/SpinalHDL ‘Bool’ 实例关联为对网表中 HDL ‘net’ 的引用可能有助于理解这个概念。其中赋值运算符“:=”将 HDL"
-" 结构附加到同一个网络中。"
+"将 Scala/SpinalHDL `Bool` 实例作为对 net-list 中 HDL `net` "
+"的引用，可能有助于理解这一概念。 其中，赋值 `:=` 操作符将 HDL "
+"结构加入到同一个网中。"
 
 #: ../../SpinalHDL/Data types/bool.rst:57
 msgid "Declaration"
@@ -143,11 +154,11 @@ msgstr "语法"
 #: ../../SpinalHDL/Data types/bool.rst:67 types/bool.rst:272
 #: types/bool.rst:306
 msgid "Return"
-msgstr "返回值"
+msgstr "返回类型"
 
 #: ../../SpinalHDL/Data types/bool.rst:68
 msgid "Bool()"
-msgstr "布尔()"
+msgstr "Bool()"
 
 #: ../../SpinalHDL/Data types/bool.rst:69
 msgid "Create a Bool"
@@ -155,30 +166,30 @@ msgstr "创建布尔值"
 
 #: ../../SpinalHDL/Data types/bool.rst:71
 msgid "True"
-msgstr "真的"
+msgstr "True"
 
 #: ../../SpinalHDL/Data types/bool.rst:72
 msgid "Create a Bool assigned with ``true``"
-msgstr "创建一个分配有“true”的 Bool"
+msgstr "创建一个分配有 ``true`` 值的 Bool对象"
 
 #: ../../SpinalHDL/Data types/bool.rst:74
 msgid "False"
-msgstr "错误的"
+msgstr "False"
 
 #: ../../SpinalHDL/Data types/bool.rst:75
 msgid "Create a Bool assigned with ``false``"
-msgstr "创建一个布尔值并赋值为“false”"
+msgstr "创建一个布尔值并赋值为 ``false``"
 
 #: ../../SpinalHDL/Data types/bool.rst:77
 msgid "Bool(value: Boolean)"
-msgstr "布尔（值：布尔值）"
+msgstr "Bool(value: Boolean)"
 
 #: ../../SpinalHDL/Data types/bool.rst:78
-#, fuzzy
 msgid ""
 "Create a Bool assigned with a value from a Scala Boolean type (true, false)."
 " This explicitly converts to ``True`` or ``False``."
-msgstr "创建一个 Bool，并分配一个 Scala 布尔类型（true、false）的值。这显式地转换为“True”或“False”。"
+msgstr "创建一个 Bool，并分配一个 Scala "
+"布尔类型（true、false）的值。这显式地转换为``True`` 或 ``False``。"
 
 #: ../../SpinalHDL/Data types/bool.rst:93
 msgid "Operators"
@@ -186,11 +197,11 @@ msgstr "运算符"
 
 #: ../../SpinalHDL/Data types/bool.rst:95
 msgid "The following operators are available for the ``Bool`` type:"
-msgstr "以下运算符可用于“Bool”类型："
+msgstr "以下运算符可用于 ``Bool`` 类型："
 
 #: ../../SpinalHDL/Data types/bool.rst:102
 msgid "Logic"
-msgstr "逻辑"
+msgstr "逻辑运算"
 
 #: ../../SpinalHDL/Data types/bool.rst:107 types/bool.rst:187
 #: types/bool.rst:243 types/bool.rst:270 types/bool.rst:304
@@ -204,7 +215,7 @@ msgstr "返回类型"
 
 #: ../../SpinalHDL/Data types/bool.rst:110
 msgid "!x"
-msgstr "！X"
+msgstr "!x"
 
 #: ../../SpinalHDL/Data types/bool.rst:111 types/bool.rst:125
 msgid "Logical NOT"
@@ -224,7 +235,7 @@ msgstr "逻辑与"
 
 #: ../../SpinalHDL/Data types/bool.rst
 msgid "x || y"
-msgstr "x|| y"
+msgstr "x || y"
 
 #: ../../SpinalHDL/Data types/bool.rst
 msgid "x | y"
@@ -256,11 +267,11 @@ msgstr "将 x 设置为 True"
 
 #: ../../SpinalHDL/Data types/bool.rst:129 types/bool.rst:132
 msgid "Unit (none)"
-msgstr "单位（无）"
+msgstr "Unit (none)"
 
 #: ../../SpinalHDL/Data types/bool.rst:130
 msgid "x.clear[()]"
-msgstr "x.清除[()]"
+msgstr "x.clear[()]"
 
 #: ../../SpinalHDL/Data types/bool.rst:131
 msgid "Set x to False"
@@ -268,35 +279,35 @@ msgstr "将 x 设置为 False"
 
 #: ../../SpinalHDL/Data types/bool.rst:133
 msgid "x.setWhen(cond)"
-msgstr "x.setWhen(条件)"
+msgstr "x.setWhen(cond)"
 
 #: ../../SpinalHDL/Data types/bool.rst:134
 msgid "Set x when cond is True"
-msgstr "当 cond 为 True 时设置 x"
+msgstr "当 cond 为 True 时设置 x 为 True"
 
 #: ../../SpinalHDL/Data types/bool.rst:136
 msgid "x.clearWhen(cond)"
-msgstr "x.clearWhen(条件)"
+msgstr "x.clearWhen(cond)"
 
 #: ../../SpinalHDL/Data types/bool.rst:137
 msgid "Clear x when cond is True"
-msgstr "当 cond 为 True 时清除 x"
+msgstr "当 cond 为 True 时设置 x 为 False"
 
 #: ../../SpinalHDL/Data types/bool.rst:139
 msgid "x.riseWhen(cond)"
-msgstr "x.riseWhen(条件)"
+msgstr "x.riseWhen(cond)"
 
 #: ../../SpinalHDL/Data types/bool.rst:140
 msgid "Set x when x is False and cond is True"
-msgstr "当 x 为 False 并且 cond 为 True 时设置 x"
+msgstr "当 x 为 False 并且 cond 为 True 时设置 x 为 True"
 
 #: ../../SpinalHDL/Data types/bool.rst:142
 msgid "x.fallWhen(cond)"
-msgstr "x.fallWhen(条件)"
+msgstr "x.fallWhen(cond)"
 
 #: ../../SpinalHDL/Data types/bool.rst:143
 msgid "Clear x when x is True and cond is True"
-msgstr "当 x 为 True 并且 cond 为 True 时清除 x"
+msgstr "当 x 为 True 并且 cond 为 True 时设置 x 为False"
 
 #: ../../SpinalHDL/Data types/bool.rst:173
 msgid "Edge detection"
@@ -306,7 +317,9 @@ msgstr "边缘检测"
 msgid ""
 "All edge detection functions will instantiate an additional register via "
 ":ref:`RegNext <regnext>` to get a delayed value of the ``Bool`` in question."
-msgstr "所有边缘检测函数都将通过 RegNext <regnext>` 实例化一个附加寄存器，以获取相关“Bool”的延迟值。"
+msgstr ""
+"所有边缘检测函数都将通过 :ref:`RegNext <regnext>` 实例化一个附加寄存器，"
+"以获取相关 ``Bool`` 的延迟值（一拍）。"
 
 #: ../../SpinalHDL/Data types/bool.rst:178
 msgid ""
@@ -315,16 +328,17 @@ msgid ""
 " inheriting the default ClockDomain).  It has combinational logic to perform"
 " edge detection based on the output Q states."
 msgstr ""
-"此功能不会重新配置 D 型触发器以使用备用 CLK 源，它使用串联链中的两个 D 型触发器（两个 CLK 引脚都继承默认的 "
-"ClockDomain）。它具有组合逻辑，可根据输出 Q 状态执行边缘检测。"
+"此功能不会重新配置 D 型触发器以使用其他 CLK 时钟，它使用串联链中的两个 D "
+"型触发器（两个 CLK 引脚都继承默认的 ClockDomain）。它具有组合逻辑，"
+"可根据输出 Q 状态进行边缘检测。"
 
 #: ../../SpinalHDL/Data types/bool.rst:190
 msgid "x.edge[()]"
-msgstr "x.边[()]"
+msgstr "x.edge[()]"
 
 #: ../../SpinalHDL/Data types/bool.rst:191
 msgid "Return True when x changes state"
-msgstr "当 x 改变状态时返回 True"
+msgstr "当 x 状态改变时返回 True"
 
 #: ../../SpinalHDL/Data types/bool.rst:193
 msgid "x.edge(initAt: Bool)"
@@ -332,11 +346,11 @@ msgstr "x.edge(initAt: Bool)"
 
 #: ../../SpinalHDL/Data types/bool.rst:194
 msgid "Same as x.edge but with a reset value"
-msgstr "与 x.edge 相同但具有重置值"
+msgstr "与 x.edge 相同但具有重置后的初始值"
 
 #: ../../SpinalHDL/Data types/bool.rst:196
 msgid "x.rise[()]"
-msgstr "x.上升[()]"
+msgstr "x.rise[()]"
 
 #: ../../SpinalHDL/Data types/bool.rst:197
 msgid "Return True when x was low at the last cycle and is now high"
@@ -348,7 +362,7 @@ msgstr "x.rise(initAt: Bool)"
 
 #: ../../SpinalHDL/Data types/bool.rst:200
 msgid "Same as x.rise but with a reset value"
-msgstr "与 x.rise 相同但具有重置值"
+msgstr "与 x.rise 相同但具有重置后的初始值"
 
 #: ../../SpinalHDL/Data types/bool.rst:202
 msgid "x.fall[()]"
@@ -364,11 +378,11 @@ msgstr "x.fall(initAt: Bool)"
 
 #: ../../SpinalHDL/Data types/bool.rst:206
 msgid "Same as x.fall but with a reset value"
-msgstr "与 x.fall 相同但具有重置值"
+msgstr "与 x.fall 相同但具有重置后的初始值"
 
 #: ../../SpinalHDL/Data types/bool.rst:208
 msgid "x.edges[()]"
-msgstr "x.边[()]"
+msgstr "x.edges[()]"
 
 #: ../../SpinalHDL/Data types/bool.rst:209
 msgid "Return a bundle (rise, fall, toggle)"
@@ -376,7 +390,7 @@ msgstr "返回捆绑包（上升、下降、切换）"
 
 #: ../../SpinalHDL/Data types/bool.rst:210 types/bool.rst:213
 msgid "BoolEdges"
-msgstr "布尔边"
+msgstr "BoolEdges"
 
 #: ../../SpinalHDL/Data types/bool.rst:211
 msgid "x.edges(initAt: Bool)"
@@ -384,12 +398,11 @@ msgstr "x.edges(initAt: Bool)"
 
 #: ../../SpinalHDL/Data types/bool.rst:212
 msgid "Same as x.edges but with a reset value"
-msgstr "与 x.edges 相同但具有重置值"
+msgstr "与 x.edges 相同但具有重置后的初始值"
 
 #: ../../SpinalHDL/Data types/bool.rst:214
-#, fuzzy
 msgid "x.toggle[()]"
-msgstr "x.切换[()]"
+msgstr "x.toggle[()]"
 
 #: ../../SpinalHDL/Data types/bool.rst:215
 msgid "Return True at every edge"
@@ -397,7 +410,7 @@ msgstr "在每个边缘返回 True"
 
 #: ../../SpinalHDL/Data types/bool.rst:238
 msgid "Comparison"
-msgstr "比较"
+msgstr "比较运算"
 
 #: ../../SpinalHDL/Data types/bool.rst:246
 msgid "x === y"
@@ -413,7 +426,7 @@ msgstr "x =/= y"
 
 #: ../../SpinalHDL/Data types/bool.rst:250
 msgid "Inequality"
-msgstr "不等价判断"
+msgstr "不等价判断运算"
 
 #: ../../SpinalHDL/Data types/bool.rst:265
 msgid "Type cast"
@@ -428,9 +441,8 @@ msgid "Binary cast to Bits"
 msgstr "二进制转换为 Bits"
 
 #: ../../SpinalHDL/Data types/bool.rst:275
-#, fuzzy
 msgid "Bits(1 bit)"
-msgstr "位(1位)"
+msgstr "Bits(1 bit)"
 
 #: ../../SpinalHDL/Data types/bool.rst:276
 msgid "x.asUInt"
@@ -441,9 +453,8 @@ msgid "Binary cast to UInt"
 msgstr "二进制转换为 UInt"
 
 #: ../../SpinalHDL/Data types/bool.rst:278
-#, fuzzy
 msgid "UInt(1 bit)"
-msgstr "UInt(1 位)"
+msgstr "UInt(1 bit)"
 
 #: ../../SpinalHDL/Data types/bool.rst:279
 msgid "x.asSInt"
@@ -454,9 +465,8 @@ msgid "Binary cast to SInt"
 msgstr "二进制转换为SInt"
 
 #: ../../SpinalHDL/Data types/bool.rst:281
-#, fuzzy
 msgid "SInt(1 bit)"
-msgstr "SInt(1 位)"
+msgstr "SInt(1 bit)"
 
 #: ../../SpinalHDL/Data types/bool.rst:282
 msgid "x.asUInt(bitCount)"
@@ -470,7 +480,7 @@ msgstr "二进制转换为 UInt 并调整大小，将 Bool 值放入 LSB 并用�
 
 #: ../../SpinalHDL/Data types/bool.rst:285
 msgid "UInt(bitCount bits)"
-msgstr "UInt(bitCount 位)"
+msgstr "UInt(bitCount bits)"
 
 #: ../../SpinalHDL/Data types/bool.rst:286
 msgid "x.asBits(bitCount)"
@@ -484,7 +494,7 @@ msgstr "二进制转换为位并调整大小，将布尔值放入 LSB 并用零�
 
 #: ../../SpinalHDL/Data types/bool.rst:289
 msgid "Bits(bitCount bits)"
-msgstr "位(bitCount 位)"
+msgstr "Bits(bitCount bits)"
 
 #: ../../SpinalHDL/Data types/bool.rst:299
 msgid "Misc"
@@ -508,12 +518,11 @@ msgstr "x #* n"
 
 #: ../../SpinalHDL/Data types/bool.rst:311
 msgid "Repeat x n-times"
-msgstr "重复x n次"
+msgstr "n次重复x并合并"
 
 #: ../../SpinalHDL/Data types/bool.rst:312
-#, fuzzy
 msgid "Bits(n bits)"
-msgstr "位(n位)"
+msgstr "Bits(n bits)"
 
 #: ../../SpinalHDL/Data types/bool.rst:324
 msgid "MaskedBoolean"
