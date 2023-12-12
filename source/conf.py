@@ -223,6 +223,8 @@ html_context = {
     'github_version': os.getenv('GITHUB_REF_NAME', 'master'), # Version
     'conf_py_path': '/source/', # Path in the checkout to the docs root
 
+    'current_language': 'en',
+    'languages': [["zh_CN", "./zh_CN/"]],
     'sphinx_latest_version': os.getenv('sphinx_latest_version', None)
 }
 
