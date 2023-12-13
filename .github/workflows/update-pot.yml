@@ -32,12 +32,14 @@ jobs:
         source bin/setup_env.sh
         make gettext -e BUILDDIR=source/locale/
     - name: Commit changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "update .pot files"
-    - name: Push changes
-      uses: actions/git/push@v2
+      uses: stefanzweifel/git-auto-commit-action@v5
       with: 
-        branch: master
+        commit_message: update .pot files
+        commit_user_email: action@github.com
+        commit_user_name: GiHub Action Bot
+        commit_author: GiHub Action Bot <action@github.com>
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
