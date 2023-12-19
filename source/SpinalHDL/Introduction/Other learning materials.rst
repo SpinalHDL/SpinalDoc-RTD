@@ -11,6 +11,10 @@ There is also a few more specific videos online :
 * `On youtube <https://www.youtube.com/results?search_query=SpinalHDL>`_
 * `On f-si's peertube <https://peertube.f-si.org/search?search=SpinalHDL>`_
 
+A few SpinalHDL webinar were made and are recorded here : 
+
+* `Datenlord's youtube channel <https://www.youtube.com/@datenlord>`_
+
 
 .. note::
 
