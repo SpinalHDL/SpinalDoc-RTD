@@ -9,7 +9,7 @@ msgstr ""
 "Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME <EMAIL@ADDRESS"
 ">Language-Team:LANGUAGE <LL@li.org>MIME-Version:1.0Content-Type:text/plain; "
 "charset=UTF-8\n"
-"PO-Revision-Date: 2023-12-15 15:56+0000\n"
+"PO-Revision-Date: 2023-12-19 09:19+0000\n"
 "Last-Translator: Readon <xydarcher@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "spinaldoc-rtd/spinalhdlsequential-logicregisters/zh_Hans/>\n"
@@ -33,23 +33,25 @@ msgid ""
 "In Spinal, there are no process/always blocks. Registers are explicitly "
 "defined at declaration. This difference from traditional event-driven HDL "
 "has a big impact:"
-msgstr "在 Spinal 中，没有 process/always 块。寄存器在声明时明确定义。这种与传统的事件驱动 HDL 的区别具有很大的影响："
+msgstr "在 Spinal 中，没有 process/always 块。寄存器在声明时明确定义。"
+"这种与传统的事件驱动 HDL 的区别具有很大的影响："
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:11
 msgid ""
 "You can assign registers and wires in the same scope, meaning the code "
 "doesn't need to be split between process/always blocks"
-msgstr "您可以在同一范围内分配寄存器和连线，这意味着代码不需要在 process/always 块之间拆分"
+msgstr "您可以在同一范围内赋值寄存器和连线，这意味着代码不需要在 process/always "
+"块之间拆分"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:12
 msgid "It make things much more flexible (see :ref:`Functions <function>`)"
-msgstr "它使事情变得更加灵活（参见:ref:`Functions <function>`）"
+msgstr "它使事情变得更加灵活（参见 :ref:`Functions <function>`）"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:14
 msgid ""
 "Clocks and resets are handled separately, see the :ref:`Clock domain "
 "<clock_domain>` chapter for details."
-msgstr "时钟和复位是分开处理的，有关详细信息，请参阅时钟域 <clock_domain>` 章节。"
+msgstr "时钟和复位是分开处理的，有关详细信息，请参阅 `时钟域 <clock_domain>` 章节。"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:17
 msgid "Instantiation"
@@ -69,35 +71,35 @@ msgstr "描述"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:27
 msgid "``Reg(type : Data)``"
-msgstr "``Reg（类型：数据）``"
+msgstr "``Reg(type : Data)``"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:28
 msgid "Register of the given type"
-msgstr "给定类型的寄存器"
+msgstr "创建给定类型的寄存器"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:29
 msgid "``RegInit(resetValue : Data)``"
-msgstr "``RegInit（重置值：数据）``"
+msgstr "``RegInit(resetValue : Data)``"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:30
 msgid "Register loaded with the given ``resetValue`` when a reset occurs"
-msgstr "当发生重置时，寄存器加载给定的“resetValue”"
+msgstr "当发生复位时，为寄存器加载给定的 ``resetValue``"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:31
 msgid "``RegNext(nextValue : Data)``"
-msgstr "``RegNext（下一个值：数据）``"
+msgstr "``RegNext(nextValue : Data)``"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:32
 msgid "Register that samples the given ``nextValue`` each cycle"
-msgstr "每个周期对给定的“nextValue”进行采样的寄存器"
+msgstr "创建寄存器，且每个周期对给定的 ``nextValue`` 进行采样"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:33
 msgid "``RegNextWhen(nextValue : Data, cond : Bool)``"
-msgstr "``RegNextWhen(nextValue：数据，cond：Bool)``"
+msgstr "``RegNextWhen(nextValue : Data, cond : Bool)``"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:34
 msgid "Register that samples the given ``nextValue`` when a condition occurs"
-msgstr "当条件发生时对给定的“nextValue”进行采样的寄存器"
+msgstr "创建寄存器，当条件发生时对 ``nextValue`` 进行采样"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:36
 msgid "Here is an example declaring some registers:"
@@ -108,7 +110,6 @@ msgid "The code above will infer the following logic:"
 msgstr "上面的代码将推断出以下逻辑："
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:62
-#, fuzzy
 msgid ""
 "The ``reg3`` example above shows how you can assign the value of a "
 "``RegInit`` register. It's possible to use the same syntax to assign to the "
@@ -119,21 +120,26 @@ msgid ""
 "it is likely to be pruned (removed from design) at some point by EDA flows "
 "after being deemed unnecessary."
 msgstr ""
-"上面的“reg3”示例显示了如何分配“RegInit”寄存器的值。也可以使用相同的语法分配给其他寄存器类型（“Reg”、“RegNext”、“RegNextWhen”）。就像组合赋值一样，规则是“最后一个赋值获胜”，但如果没有完成赋值，寄存器将保留其值。如果"
-" Reg 在设计中声明并且没有适当的分配和消耗，则在被认为不必要后，它可能会在某个时刻被 EDA 流程修剪（从设计中删除）。"
+"上面 ``reg3`` 示例显示了如何为 ``RegInit`` 创建寄存器赋值。也可以使用相同的语"
+"法赋值其他寄存器类型（“Reg”、“RegNext”、“RegNextWhen”）。就像组合赋值一样，规"
+"则是“最后一个赋值生效”，但如果没有完成赋值，寄存器将保留其值。"
+"如果在设计中声明 Reg 并且没有适当地赋值和使用， EDA "
+"流程中的工具会在它认为该寄存器不必要时裁剪寄存器（从设计中删除）。"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:70
 msgid ""
 "Also, ``RegNext`` is an abstraction which is built over the ``Reg`` syntax. "
 "The two following sequences of code are strictly equivalent:"
-msgstr "另外，“RegNext”是一个基于“Reg”语法构建的抽象。以下两个代码序列严格等效："
+msgstr "另外，``RegNext`` 是一个基于 ``Reg`` "
+"语法构建的抽象。下面两个代码序列严格等效："
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:84
 msgid ""
 "It is possible to have multiple options at the same time in other ways and "
 "so slightly more advanced compositions built on top of the basic understand "
 "of the above:"
-msgstr "可以通过其他方式同时拥有多个选项，因此在上述基本理解的基础上构建稍微更高级的组合："
+msgstr "可以通过其他方式同时拥有多个选项，因此可在上述基本理解的基础上构建稍微更高级"
+"的组合："
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:125
 msgid "Reset value"
@@ -145,18 +151,19 @@ msgid ""
 "the register with a reset value, you can also set the reset value by calling"
 " the ``init(value : Data)`` function on the register."
 msgstr ""
-"除了直接创建具有重置值的寄存器的“RegInit(value : Data)”语法之外，您还可以通过在寄存器上调用“init(value : "
-"Data)”函数来设置重置值。"
+"除了直接创建具有复位值的寄存器的 ``RegInit(value : Data)`` 语法之外，"
+"您还可以通过在寄存器上调用 ``init(value : Data)`` 函数来设置复位值。"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:135
 msgid ""
 "If you have a register containing a Bundle, you can use the ``init`` "
 "function on each element of the Bundle."
-msgstr "如果您有一个包含 Bundle 的寄存器，则可以对 Bundle 的每个元素使用“init”函数。"
+msgstr "如果您有一个包含线束（Bundle）的寄存器，则可以对线束的每个元素使用 ``init`` "
+"函数。"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:148
 msgid "Initialization value for simulation purposes"
-msgstr "用于模拟目的的初始化值"
+msgstr "用于仿真目的的初始化值"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:150
 msgid ""
@@ -164,22 +171,25 @@ msgid ""
 "initialization value for simulation (to avoid x-propagation), you can ask "
 "for a random initialization value by calling the ``randBoot()`` function."
 msgstr ""
-"对于在 RTL 中不需要复位值，但需要模拟初始化值（以避免 x 传播）的寄存器，您可以通过调用“randBoot()”函数来请求随机初始化值。"
+"对于在 RTL "
+"中不需要复位值，但需要仿真初始化值（以避免未知状态X传播）的寄存器，"
+"您可以通过调用 ``randBoot()`` 函数来请求随机初始化值。"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:158
 msgid "Register vectors"
-msgstr "注册向量"
+msgstr "寄存器组"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:160
 msgid ""
 "As for wires, it is possible to define a vector of registers with ``Vec``."
-msgstr "至于连线，可以使用“Vec”定义寄存器向量。"
+msgstr "至于连线，可以使用 ``Vec`` 定义寄存器组。"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:167
 msgid ""
 "Initialization can be done with the ``init`` method as usual, which can be "
 "combined with the ``foreach`` iteration on the registers."
-msgstr "初始化可以像往常一样使用“init”方法完成，它可以与寄存器上的“foreach”迭代相结合。"
+msgstr "初始化可以像往常一样使用 ``init`` 方法完成，它可以与寄存器上的 ``foreach`` "
+"迭代相结合。"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:175
 msgid ""
@@ -189,7 +199,7 @@ msgstr "如果由于初始化值未知而必须推迟初始化，请使用如下
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:208
 msgid "Transforming a wire into a register"
-msgstr "将电线转换为寄存器"
+msgstr "将线缆/信号转换为寄存器"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:210
 msgid ""
@@ -201,10 +211,10 @@ msgid ""
 " this, you just need to use ``.setAsReg()`` on the ports you want to control"
 " as registers:"
 msgstr ""
-"有时将现有的连线转换为寄存器很有用。例如，当您使用 Bundle 时，如果您希望 Bundle 的某些输出成为寄存器，您可能更愿意编写 "
-"``io.myBundle.PORT := newValue`` 而不用 ``val PORT = Reg( ...)`` "
-"并将其输出连接到带有``io.myBundle.PORT := PORT`` "
-"的端口。为此，您只需在要控制为寄存器的端口上使用``.setAsReg()``："
+"有时将现有的连线转换为寄存器很有用。例如，当您使用线束（Bundle）时，如果您希"
+"望线束的某些输出成为寄存器，您可能更愿意编写 ``io.myBundle.PORT := newValue``"
+" 而不用 ``val PORT = Reg( ...)`` 并将其输出连接到带有``io.myBundle.PORT := "
+"PORT`` 的端口。为此，您只需在要实例化为寄存器的端口上使用 ``.setAsReg()``："
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:230
 msgid ""
@@ -215,7 +225,8 @@ msgstr "请注意，在上面的代码中，您还可以指定初始化值。"
 msgid ""
 "The register is created in the clock domain of the wire, and does not depend"
 " on the place where ``.setAsReg()`` is used."
-msgstr "该寄存器是在线路的时钟域中创建的，并且不依赖于使用``.setAsReg()``的位置。"
+msgstr "该寄存器是在线路/信号的时钟域中创建的，并且不依赖于使用 ``.setAsReg()`` "
+"的位置。"
 
 #: ../../SpinalHDL/Sequential logic/registers.rst:237
 msgid ""
@@ -225,7 +236,9 @@ msgid ""
 "would use the clock domain of the component and not the one of the "
 "``ClockingArea``."
 msgstr ""
-"在上面的示例中，线路在“io”捆绑包中定义，与组件位于同一时钟域中。即使“io.apb.PADDR.setAsReg()”写入具有不同时钟域的“ClockingArea”中，寄存器也将使用组件的时钟域，而不是“ClockingArea”的时钟域`。"
+"在上面的示例中，线路在 ``io`` 线束中定义，与组件位于同一时钟域中。即使 ``io."
+"apb.PADDR.setAsReg()`` 这条代码写在具有不同时钟域的 ``ClockingArea`` "
+"中，寄存器也将使用组件的时钟域，而不是 ``ClockingArea`` 的时钟域。"
 
 #~ msgid "Introduction"
 #~ msgstr "介绍"
