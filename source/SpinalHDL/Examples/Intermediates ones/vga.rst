@@ -6,7 +6,7 @@ Introduction
 
 VGA interfaces are becoming an endangered species, but implementing a VGA controller is still a good exercise.
 
-An explanation about the VGA protocol can be found `here <http://www.xess.com/blog/vga-the-rest-of-the-story/>`_.
+An explanation about the VGA protocol can be found `here <https://web.mit.edu/6.111/www/s2004/NEWKIT/vga.shtml>`_.
 
 This VGA controller tutorial is based on `this <https://github.com/SpinalHDL/SpinalHDL/blob/master/lib/src/main/scala/spinal/lib/graphic/vga/VgaCtrl.scala>`_ implementation.
 

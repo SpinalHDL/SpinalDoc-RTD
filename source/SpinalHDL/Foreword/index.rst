@@ -233,9 +233,9 @@ With SpinalHDL you can call a user-defined task/procedure on a bus like that:
 
      // Define an operator to connect the left operand (this) to the right operand (that)
      def >>(that: Stream[T]): Unit = {
-       this.valid := that.valid
-       that.ready := this.ready
-       this.payload := that.payload
+       that.valid := this.valid
+       this.ready := that.ready
+       that.payload := this.payload
      }
 
      // Return a Stream connected to this via a FIFO of depth elements
