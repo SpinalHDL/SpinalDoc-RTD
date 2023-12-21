@@ -9,7 +9,7 @@ msgstr ""
 "Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME <EMAIL@ADDRESS"
 ">Language-Team:LANGUAGE <LL@li.org>MIME-Version:1.0Content-Type:text/plain; "
 "charset=UTF-8\n"
-"PO-Revision-Date: 2023-12-20 16:13+0000\n"
+"PO-Revision-Date: 2023-12-22 15:07+0000\n"
 "Last-Translator: tsy0123 <675526215@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "spinaldoc-rtd/spinalhdllibrariesstream/zh_Hans/>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bitGenerated-By:Babel 2.13.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.3\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: ../../SpinalHDL/Libraries/stream.rst:7
 msgid "Stream"
-msgstr "溪流"
+msgstr "反压流"
 
 #: ../../SpinalHDL/Libraries/stream.rst:10
 msgid "Specification"
@@ -29,13 +29,13 @@ msgstr "规范"
 
 #: ../../SpinalHDL/Libraries/stream.rst:12
 msgid "The Stream interface is a simple handshake protocol to carry payload."
-msgstr "Stream接口是一个简单的握手协议来承载有效负载。"
+msgstr "反压数据流接口是一个用于承载有效负载的简单握手协议。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:13
 msgid ""
 "It could be used for example to push and pop elements into a FIFO, send "
 "requests to a UART controller, etc."
-msgstr "例如，它可用于将元素推入和弹出到 FIFO、向 UART 控制器发送请求等。"
+msgstr "例如，它可用于对FIFO推入和弹出数据、向UART控制器发送请求等。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:19
 msgid "Signal"
@@ -70,11 +70,11 @@ msgstr "描述"
 
 #: ../../SpinalHDL/Libraries/stream.rst:23
 msgid "Don't care when"
-msgstr "不在乎什么时候"
+msgstr "何时忽略"
 
 #: ../../SpinalHDL/Libraries/stream.rst:24
 msgid "valid"
-msgstr "有效的"
+msgstr "valid"
 
 #: ../../SpinalHDL/Libraries/stream.rst:25
 #: ../../SpinalHDL/Libraries/stream.rst:30
@@ -91,11 +91,11 @@ msgstr "Master"
 
 #: ../../SpinalHDL/Libraries/stream.rst:27
 msgid "When high => payload present on the interface"
-msgstr "当高 => 接口上存在有效负载时"
+msgstr "当为高时 => 接口上存在有效负载(payload)"
 
 #: ../../SpinalHDL/Libraries/stream.rst:29
 msgid "ready"
-msgstr "准备好"
+msgstr "ready"
 
 #: ../../SpinalHDL/Libraries/stream.rst:31
 msgid "Slave"
@@ -103,16 +103,16 @@ msgstr "Slave"
 
 #: ../../SpinalHDL/Libraries/stream.rst:32
 msgid "When low => transaction are not consumed by the slave"
-msgstr "当低电平时 => 事务不被从机消耗"
+msgstr "当为低时 => 从端不接收传输"
 
 #: ../../SpinalHDL/Libraries/stream.rst:33
 #: ../../SpinalHDL/Libraries/stream.rst:38
 msgid "valid is low"
-msgstr "有效值低"
+msgstr "valid为低"
 
 #: ../../SpinalHDL/Libraries/stream.rst:34
 msgid "payload"
-msgstr "有效载荷"
+msgstr "payload"
 
 #: ../../SpinalHDL/Libraries/stream.rst:35
 #: ../../SpinalHDL/Libraries/stream.rst:220
@@ -123,39 +123,40 @@ msgstr "T"
 
 #: ../../SpinalHDL/Libraries/stream.rst:37
 msgid "Content of the transaction"
-msgstr "交易内容"
+msgstr "传输任务内容"
 
 #: ../../SpinalHDL/Libraries/stream.rst:49
 msgid "There is some examples of usage in SpinalHDL :"
-msgstr "SpinalHDL 有一些用法示例："
+msgstr "这里有一些在SpinalHDL中的用法示例："
 
 #: ../../SpinalHDL/Libraries/stream.rst:70
 msgid ""
 "Each slave can or can't allow the payload to change when valid is high and "
 "ready is low. For examples:"
-msgstr "当 valid 为高且 Ready 为低时，每个从设备可以或不允许更改有效负载。举些例子："
+msgstr "当valid为高且ready为低时，每个从端都可以控制是否允许有效负载变化。例如："
 
 #: ../../SpinalHDL/Libraries/stream.rst:73
 msgid ""
 "An priority arbiter without lock logic can switch from one input to the "
 "other (which will change the payload)."
-msgstr "没有锁定逻辑的优先级仲裁器可以从一个输入切换到另一个输入（这将改变有效负载）。"
+msgstr "没有锁逻辑的优先级仲裁器可以从一个输入切换到另一个输入（这将改变有效负载）。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:74
 msgid ""
 "An UART controller could directly use the write port to drive UART pins and "
 "only consume the transaction at the end of the transmission. Be careful with"
 " that."
-msgstr "UART 控制器可以直接使用写入端口来驱动 UART 引脚，并且仅在传输结束时消耗事务。对此要小心。"
+msgstr "UART控制器可以直接使用写端口驱动UART引脚，并且只在传输结束时完成数据交换。对"
+"此需要注意。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:78
 msgid "Semantics"
-msgstr "语义学"
+msgstr "语义"
 
 #: ../../SpinalHDL/Libraries/stream.rst:80
 msgid ""
 "When manually reading/driving the signals of a Stream keep in mind that:"
-msgstr "当手动读取/驱动流的信号时，请记住："
+msgstr "当手动读取/驱动反压流的信号时，请记住："
 
 #: ../../SpinalHDL/Libraries/stream.rst:82
 msgid ""
