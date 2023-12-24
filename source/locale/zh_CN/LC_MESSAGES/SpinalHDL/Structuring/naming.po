@@ -9,7 +9,7 @@ msgstr ""
 "Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME <EMAIL@ADDRESS"
 ">Language-Team:LANGUAGE <LL@li.org>MIME-Version:1.0Content-Type:text/plain; "
 "charset=UTF-8\n"
-"PO-Revision-Date: 2023-12-18 07:38+0000\n"
+"PO-Revision-Date: 2023-12-24 15:38+0000\n"
 "Last-Translator: Readon <xydarcher@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "spinaldoc-rtd/spinalhdlstructuringnaming/zh_Hans/>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bitGenerated-By:Babel 2.13.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.3\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: ../../SpinalHDL/Structuring/naming.rst:2
 msgid "Preserving names"
-msgstr "保留名字"
+msgstr "保留名称的方法"
 
 #: ../../SpinalHDL/Structuring/naming.rst:4
 msgid ""
@@ -29,11 +29,12 @@ msgid ""
 " the generated hardware. Knowing them should enable you to preserve those "
 "names as much as possible to generate understandable netlists."
 msgstr ""
-"本页将描述 SpinalHDL 如何将名称从 scala 代码传播到生成的硬件。了解它们应该使您能够尽可能保留这些名称，以生成可理解的网表。"
+"本页将描述 SpinalHDL 如何将名称从 scala 代码传播到生成的硬件 "
+"RTL。您应该了解它们，从而尽可能保留这些名称，以生成可理解的网表。"
 
 #: ../../SpinalHDL/Structuring/naming.rst:7
 msgid "Nameable base class"
-msgstr "可命名基类"
+msgstr "Nameable 基类"
 
 #: ../../SpinalHDL/Structuring/naming.rst:9
 msgid ""
@@ -43,33 +44,34 @@ msgstr "所有可以在 SpinalHDL 中命名的事物都扩展了 Nameable 基类
 
 #: ../../SpinalHDL/Structuring/naming.rst:11
 msgid "So in practice, the following classes extends Nameable :"
-msgstr "因此在实践中，以下类扩展了 Nameable ："
+msgstr "因此在实践中，以下类扩展了 Nameable 类："
 
 #: ../../SpinalHDL/Structuring/naming.rst:13
 msgid "Component"
-msgstr "组件"
+msgstr "Component"
 
 #: ../../SpinalHDL/Structuring/naming.rst:14
 msgid "Area"
-msgstr "逻辑区"
+msgstr "Area"
 
 #: ../../SpinalHDL/Structuring/naming.rst:15
 msgid "Data (UInt, SInt, Bundle, ...)"
-msgstr "数据（UInt、SInt、捆绑包……）"
+msgstr "Data (UInt, SInt, Bundle, ...)"
 
 #: ../../SpinalHDL/Structuring/naming.rst:18
 msgid "There is a few example of that Nameable API"
-msgstr "有一些可命名 API 的示例"
+msgstr "有一些 Nameable 类型 API 的示例"
 
 #: ../../SpinalHDL/Structuring/naming.rst:29
 msgid "Will generation :"
-msgstr "遗嘱代："
+msgstr "会生成："
 
 #: ../../SpinalHDL/Structuring/naming.rst:41
 msgid ""
 "In general, you don't realy need to access that API, unless you want to do "
 "tricky stuff for debug reasons or for elaboration purposes."
-msgstr "一般来说，您实际上并不需要访问该 API，除非您出于调试原因或出于详细说明的目的想要执行一些棘手的操作。"
+msgstr "一般来说，您实际上并不需要访问该 "
+"API，除非您出于调试原因或出于详细说明的目的想要做一些精巧的工作。"
 
 #: ../../SpinalHDL/Structuring/naming.rst:44
 msgid "Name extraction from Scala"
@@ -80,16 +82,17 @@ msgid ""
 "First, since version 1.4.0, SpinalHDL use a scala compiler plugin which can "
 "provide a call back each time a new val is defined during the construction "
 "of an class."
-msgstr "首先，从 1.4.0 版本开始，SpinalHDL 使用 scala 编译器插件，该插件可以在类构造期间每次定义新 val 时提供回调。"
+msgstr ""
+"首先，从 1.4.0 版本开始，SpinalHDL 使用 scala 编译器插件，"
+"该插件可以在类构造期间在每次定义新 val 时，实现函数回调。"
 
 #: ../../SpinalHDL/Structuring/naming.rst:48
 msgid ""
 "There is a example showing more or less how SpinalHDL itself is implemented "
 ":"
-msgstr "有一个示例或多或少地展示了 SpinalHDL 本身是如何实现的："
+msgstr "这个示例或多或少地展示了 SpinalHDL 本身是如何实现的："
 
 #: ../../SpinalHDL/Structuring/naming.rst:78
-#, fuzzy
 msgid ""
 "Using that ValCallback \"introspection\" feature, SpinalHDL's Component "
 "classes are able to be aware of their content and the content's name."
@@ -101,8 +104,8 @@ msgid ""
 "rely on this automatic naming feature, the reference to your Data (UInt, "
 "SInt, ...) instances should be stored somewhere in a Component val."
 msgstr ""
-"但这也意味着，如果您希望某些东西获得名称，并且仅依赖于此自动命名功能，则对 Data (UInt、SInt、...) 实例的引用应存储在 "
-"Component val 中的某个位置。"
+"但这也意味着，如果您希望某些东西获得名称，并且仅依赖于此自动命名功能，则对 "
+"Data (UInt、SInt、...) 实例的引用应存储在组件的某个 val 对象定义中。"
 
 #: ../../SpinalHDL/Structuring/naming.rst:82
 msgid "For instance :"
@@ -139,13 +142,13 @@ msgstr "会生成"
 
 #: ../../SpinalHDL/Structuring/naming.rst:145
 msgid "Area in a function"
-msgstr "函数中的面积"
+msgstr "函数中的逻辑区"
 
 #: ../../SpinalHDL/Structuring/naming.rst:147
 msgid ""
 "You can also define function which will create new Area which will provide a"
 " namespace for all its content :"
-msgstr "您还可以定义将创建新区域的函数，该区域将为其所有内容提供命名空间："
+msgstr "您还可以定义将创建新逻辑区的函数，该逻辑区将为其所有内容提供命名空间："
 
 #: ../../SpinalHDL/Structuring/naming.rst:163
 msgid "Which will generate :"
@@ -153,36 +156,36 @@ msgstr "这将生成："
 
 #: ../../SpinalHDL/Structuring/naming.rst:179
 msgid "Composite in a function"
-msgstr "复合在一个函数中"
+msgstr "函数中的复合区（Composite）"
 
 #: ../../SpinalHDL/Structuring/naming.rst:181
 msgid ""
 "Added in SpinalHDL 1.5.0, Composite which allow you to create a scope which "
 "will use as prefix another Nameable:"
-msgstr "SpinalHDL 1.5.0 中添加了 Composite，它允许您创建一个范围，该范围将用作另一个 Nameable 的前缀："
+msgstr "SpinalHDL 1.5.0 中添加了复合区，它允许您创建一个范围，该范围将用作另一个 "
+"Nameable 的前缀："
 
 #: ../../SpinalHDL/Structuring/naming.rst:213
 msgid "Composite chains"
-msgstr "复合链条"
+msgstr "复合区级联链"
 
 #: ../../SpinalHDL/Structuring/naming.rst:215
 msgid "You can also chain composites :"
-msgstr "您还可以链接复合材料："
+msgstr "您还可以级联复合区："
 
 #: ../../SpinalHDL/Structuring/naming.rst:252
 msgid "Composite in a Bundle's function"
-msgstr "复合在一个Bundle的函数中"
+msgstr "在一个线束（Bundle）的函数中的复合区"
 
 #: ../../SpinalHDL/Structuring/naming.rst:255
-#, fuzzy
 msgid ""
 "This behaviour can be very useful when implementing Bundle utilities. For "
 "instance in the spinal.lib.Stream class is defined the following :"
-msgstr "在实现 Bundle 实用程序时，此行为非常有用。例如，在 spin.lib.Stream 类中定义如下："
+msgstr "在实现线束工具时，此行为非常有用。例如，在 ``spin.lib.Stream`` 类中定义如下："
 
 #: ../../SpinalHDL/Structuring/naming.rst:288
 msgid "Which allow nested calls while preserving the names :"
-msgstr "允许嵌套调用，同时保留名称："
+msgstr "这将允许嵌套调用，同时保留名称："
 
 #: ../../SpinalHDL/Structuring/naming.rst:363
 msgid "Unamed signal handling"
@@ -195,8 +198,8 @@ msgid ""
 "can produce useful results as long you don't have too large island of unamed"
 " stuff."
 msgstr ""
-"从 1.5.0 开始，对于最终没有名称的信号，SpinalHDL "
-"将找到由该未命名信号驱动的信号并传播其名称。只要您没有太多未命名的东西，这就可以产生有用的结果。"
+"从 1.5.0 开始，对于最终没有名称的信号，SpinalHDL 将找到由该信号驱动的信号并传"
+"播其名称。只要您没有太多未命名的东西，这就可以产生有用的结果。"
 
 #: ../../SpinalHDL/Structuring/naming.rst:367
 msgid ""
@@ -208,7 +211,8 @@ msgid ""
 "Note that this naming pattern is also used by the generation backend when "
 "they need to breakup some specific expressions or long chain of expression "
 "into multiple signals."
-msgstr "请注意，当生成后端需要将某些特定表达式或长表达式链分解为多个信号时，也会使用此命名模式。"
+msgstr "请注意，当生成后端需要将某些特定表达式或表达式链分解为多个信号时，也会使用此"
+"命名模式。"
 
 #: ../../SpinalHDL/Structuring/naming.rst:372
 msgid "Verilog expression splitting"
@@ -219,7 +223,8 @@ msgid ""
 "There is an instance of expressions (ex : the + operator) that SpinalHDL "
 "need to express in dedicated signals to match the behaviour with the Scala "
 "API :"
-msgstr "SpinalHDL 需要在专用信号中表达一个表达式实例（例如：+ 运算符），以将行为与 Scala API 相匹配："
+msgstr "下例中， SpinalHDL 需要使用指定信号描述一个表达式（例如：+ 运算符），"
+"以将其行为与 Scala API 相匹配："
 
 #: ../../SpinalHDL/Structuring/naming.rst:404
 msgid "Verilog long expression splitting"
@@ -229,7 +234,7 @@ msgstr "Verilog 长表达式分割"
 msgid ""
 "There is a instance of how a very long expression chain will be splited up "
 "by SpinalHDL :"
-msgstr "有一个例子说明 SpinalHDL 如何分割很长的表达链："
+msgstr "下例说明了 SpinalHDL 如何分割一个长表达式链："
 
 #: ../../SpinalHDL/Structuring/naming.rst:448
 msgid "When statement condition"
@@ -241,8 +246,8 @@ msgid ""
 "signals named `when_` + fileName + line. A similar thing will also be done "
 "for switch statements."
 msgstr ""
-"`when(cond) { }` 语句条件生成为名为 `when_` + fileName + line 的单独信号。 switch "
-"语句也会做类似的事情。"
+"`when(cond) { }` 语句条件生成为名为 `when_` + fileName + line 的单独信号。 "
+"对 switch 语句也会做类似的事情。"
 
 #: ../../SpinalHDL/Structuring/naming.rst:500
 msgid "In last resort"
@@ -253,18 +258,19 @@ msgid ""
 "In last resort, if a signal has no name (anonymous signal), SpinalHDL will "
 "seek for a named signal which is driven by the anonymous signal, and use it "
 "as a name postfix :"
-msgstr "最后，如果信号没有名称（匿名信号），SpinalHDL 将寻找由匿名信号驱动的命名信号，并将其用作名称后缀："
+msgstr "最后，如果信号没有名称（匿名信号），SpinalHDL "
+"将寻找由匿名信号驱动的命名信号，并将其用作名称后缀："
 
 #: ../../SpinalHDL/Structuring/naming.rst:542
 msgid ""
 "This last resort naming skim isn't ideal in all cases, but can help out."
-msgstr "最后的命名略读方法并不适合所有情况，但可以提供帮助。"
+msgstr "最后的命名方法并不适合所有情况，但可以提供帮助。"
 
 #: ../../SpinalHDL/Structuring/naming.rst:544
 msgid ""
 "Note that signal starting with a underscore aren't stored in the Verilator "
 "waves (on purpose)"
-msgstr "请注意，以下划线开头的信号不会存储在 Verilator 波形中（故意）"
+msgstr "请注意，以下划线开头的信号不会存储在 Verilator 波形中（这是故意的）"
 
 #~ msgid "Introduction"
 #~ msgstr "介绍"
