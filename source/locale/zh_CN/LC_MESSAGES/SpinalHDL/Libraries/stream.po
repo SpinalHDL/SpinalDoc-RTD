@@ -9,8 +9,8 @@ msgstr ""
 "Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME <EMAIL@ADDRESS"
 ">Language-Team:LANGUAGE <LL@li.org>MIME-Version:1.0Content-Type:text/plain; "
 "charset=UTF-8\n"
-"PO-Revision-Date: 2023-12-26 05:04+0000\n"
-"Last-Translator: Readon <xydarcher@qq.com>\n"
+"PO-Revision-Date: 2023-12-27 09:25+0000\n"
+"Last-Translator: tsy0123 <675526215@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "spinaldoc-rtd/spinalhdllibrariesstream/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -164,27 +164,30 @@ msgid ""
 "payload was acknowleged. This means ``valid`` can only toggle to 0 the cycle"
 " after a the slave did a read by asserting ``ready``."
 msgstr ""
-"断言后，“valid”只有在当前有效负载被确认后才能被取消断言。这意味着“valid”只能在从机通过断言“ready”进行读取后的周期切换到 0。"
+"当 ``valid`` 被置为有效后，它只有在当前负载被使用后才能被置为无效。这意味着 "
+"``valid`` 只能在从端通过置高 ``ready`` "
+"完成一次读取后的下一个周期，才可以切换到0。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:83
 msgid "In contrast to that ``ready`` may change at any time."
-msgstr "与此相反，“准备好”可能随时改变。"
+msgstr "相反， ``ready`` 可以随时改变。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:84
 msgid ""
 "A transfer is only done on cycles where both ``valid`` and ``ready`` are "
 "asserted."
-msgstr "仅在“valid”和“ready”均已断言的周期上进行传输。"
+msgstr "传输仅在 ``valid`` 和 ``ready`` 均已置高的周期内进行。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:85
 msgid ""
 "``valid`` of a Stream must not depend on ``ready`` in a combinatorial way "
 "and any path between the two must be registered."
-msgstr "Stream 的“valid”不能以组合方式依赖于“ready”，并且必须注册两者之间的任何路径。"
+msgstr "一个反压流的 ``valid`` 不能以组合逻辑方式和 ``ready`` "
+"连接，并且两者之间的任何路径都必须经过寄存器。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:86
 msgid "It is recommended that ``valid`` does not depend on ``ready`` at all."
-msgstr "建议“valid”根本不依赖于“ready”。"
+msgstr "推荐 ``valid`` 和 ``ready`` 之间没有任何依赖。"
 
 #: ../../SpinalHDL/Libraries/stream.rst:89
 msgid "Functions"
@@ -201,16 +204,16 @@ msgstr "返回类型"
 
 #: ../../SpinalHDL/Libraries/stream.rst:98
 msgid "Latency"
-msgstr "潜伏"
+msgstr "延迟"
 
 #: ../../SpinalHDL/Libraries/stream.rst:99
 msgid "Stream(type : Data)"
-msgstr "流（类型：数据）"
+msgstr "Stream(type : Data)"
 
 #: ../../SpinalHDL/Libraries/stream.rst
 #: ../../SpinalHDL/Libraries/stream.rst:100
 msgid "Create a Stream of a given type"
-msgstr "创建给定类型的 Stream"
+msgstr "创建一个给定类型的Stream反压流"
 
 #: ../../SpinalHDL/Libraries/stream.rst:101
 #: ../../SpinalHDL/Libraries/stream.rst:106
@@ -229,11 +232,11 @@ msgstr "创建给定类型的 Stream"
 #: ../../SpinalHDL/Libraries/stream.rst:455
 #: ../../SpinalHDL/Libraries/stream.rst:457
 msgid "Stream[T]"
-msgstr "流[T]"
+msgstr "Stream[T]"
 
 #: ../../SpinalHDL/Libraries/stream.rst:103
 msgid "master/slave Stream(type : Data)"
-msgstr "主/从流（类型：数据）"
+msgstr "master/slave Stream(type : Data)"
 
 #: ../../SpinalHDL/Libraries/stream.rst
 msgid "Initialized with corresponding in/out setup"
@@ -241,27 +244,27 @@ msgstr "使用相应的输入/输出设置进行初始化"
 
 #: ../../SpinalHDL/Libraries/stream.rst:108
 msgid "x.fire"
-msgstr "x.火"
+msgstr "x.fire"
 
 #: ../../SpinalHDL/Libraries/stream.rst:109
 msgid "Return True when a transaction is consumed on the bus (valid && ready)"
-msgstr "当交易在总线上被消费时返回 True（有效 && 就绪）"
+msgstr "当总线上的传输完成时返回 True(valid && ready)"
 
 #: ../../SpinalHDL/Libraries/stream.rst:112
 msgid "x.isStall"
-msgstr "x. 失速"
+msgstr "x.isStall"
 
 #: ../../SpinalHDL/Libraries/stream.rst:113
 msgid "Return True when a transaction is stall on the bus (valid && ! ready)"
-msgstr "当事务在总线上停止时返回 True（有效 && ！就绪）"
+msgstr "当总线上的传输停滞时返回True(valid && ! ready)"
 
 #: ../../SpinalHDL/Libraries/stream.rst:116
 msgid "x.queue(size:Int)"
-msgstr "x.queue(大小:Int)"
+msgstr "x.queue(size:Int)"
 
 #: ../../SpinalHDL/Libraries/stream.rst:117
 msgid "Return a Stream connected to x through a FIFO"
-msgstr "返回通过 FIFO 连接到 x 的 Stream"
+msgstr "返回一个通过FIFO连接到x的Stream"
 
 #: ../../SpinalHDL/Libraries/stream.rst:119
 msgid "2"
@@ -277,7 +280,7 @@ msgstr "x.stage()"
 
 #: ../../SpinalHDL/Libraries/stream.rst
 msgid "Return a Stream drived by x"
-msgstr "返回由 x 驱动的 Stream"
+msgstr "返回由x驱动的Stream反压流"
 
 #: ../../SpinalHDL/Libraries/stream.rst
 msgid "through a register stage that cut valid/payload paths"
