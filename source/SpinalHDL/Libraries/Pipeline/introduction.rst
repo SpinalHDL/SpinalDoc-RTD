@@ -23,6 +23,11 @@ Here is an example to illustrate :
 .. image:: /asset/image/pipeline/intro_pip.png
    :scale: 70 %
 
+
+Here is a video about this API : 
+
+- https://www.youtube.com/watch?v=74h_-FMWWIM
+
 Simple example
 ----------------
 
