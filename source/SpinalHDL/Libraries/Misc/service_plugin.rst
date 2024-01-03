@@ -107,7 +107,7 @@ Note each "during build" fork an elaboration thread, the DriverPlugin.logic thre
 Interlocking / Ordering
 ----------------------------------------
 
-Plugins can interlock each others using Lock/retain/release.
+Plugins can interlock each others using Retainer instances.
 Each plugin instance has a built in lock which can be controlled using retain/release functions.
 
 Here is an example based on the above `Simple example` but that time, the DriverPlugin will increment the StatePlugin.logic.signal
@@ -116,57 +116,66 @@ the SetupPlugin uses the DriverPlugin.retain/release functions.
 
 .. code-block:: verilog
 
-      import spinal.core._
-      import spinal.lib.misc.plugin._
+  import spinal.core._
+  import spinal.lib.misc.plugin._
+  import spinal.core.fiber._
 
-      class SubComponent extends Component {
-        val host = new PluginHost()
-      }
+  class SubComponent extends Component {
+    val host = new PluginHost()
+  }
 
-      class StatePlugin extends FiberPlugin {
-        val logic = during build new Area {
-          val signal = Reg(UInt(32 bits))
-        }
-      }
+  class StatePlugin extends FiberPlugin {
+    val logic = during build new Area {
+      val signal = Reg(UInt(32 bits))
+    }
+  }
 
-      class DriverPlugin extends FiberPlugin {
-        lazy val sp = host[StatePlugin].logic.get
+  class DriverPlugin extends FiberPlugin {
+    // incrementBy will be set by others plugin at elaboration time
+    var incrementBy = 0
+    // retainer allows other plugins to create locks, on which this plugin will wait before using incrementBy
+    val retainer = Retainer()
 
-        // incrementBy will be set by others plugin at elaboration time
-        var incrementBy = 0
-        val logic = during build new Area {
-          // Generate the incrementer hardware
-          sp.signal := sp.signal + incrementBy
-        }
-      }
+    val logic = during build new Area {
+      val sp = host[StatePlugin].logic.get
+      retainer.await()
 
-      // Let's define a plugin which will modify the DriverPlugin.incrementBy variable because letting it elaborate its hardware
-      class SetupPlugin extends FiberPlugin {
-        def dp = host[DriverPlugin]
-        // during setup { body } will run the body of code in the Fiber setup phase (it is before the Fiber build phase)
-        during setup {
-          // Prevent the DriverPlugin from executing its build's body (until release() is called)
-          dp.retain()
-        }
-        val logic = during build new Area {
-          // Let's mutate DriverPlugin.incrementBy
-          dp.incrementBy += 1
+      // Generate the incrementer hardware
+      sp.signal := sp.signal + incrementBy
+    }
+  }
 
-          // Allows the DriverPlugin to execute its build's body
-          dp.release()
-        }
-      }
+  // Let's define a plugin which will modify the DriverPlugin.incrementBy variable because letting it elaborate its hardware
+  class SetupPlugin extends FiberPlugin {
+    // during setup { body } will spawn the body of code in the Fiber setup phase (it is before the Fiber build phase)
+    val logic = during setup new Area {
+      // *** Setup phase code ***
+      val dp = host[DriverPlugin]
 
-      class TopLevel extends Component {
-        val sub = new SubComponent()
+      // Prevent the DriverPlugin from executing its build's body (until release() is called)
+      val lock = dp.retainer()
+      // Wait until the fiber phase reached build phase
+      awaitBuild()
 
-        sub.host.asHostOf(
-          new DriverPlugin(),
-          new StatePlugin(),
-          new SetupPlugin(), 
-          new SetupPlugin()  //Let's add a second SetupPlugin, because we can
-        )
-      }
+      // *** Build phase code ***
+      // Let's mutate DriverPlugin.incrementBy
+      dp.incrementBy += 1
+
+      // Allows the DriverPlugin to execute its build's body
+      lock.release()
+    }
+  }
+
+  class TopLevel extends Component {
+    val sub = new SubComponent()
+
+    sub.host.asHostOf(
+      new DriverPlugin(),
+      new StatePlugin(),
+      new SetupPlugin(),
+      new SetupPlugin() //Let's add a second SetupPlugin, because we can
+    )
+  }
 
 Here is the generated verilog
 
@@ -197,6 +206,8 @@ Here is the generated verilog
       end
     endmodule
 
+Clearly, those examples are overkilled for what they do, the idea in general is more about : 
 
-
-
+- Negociate / create interfaces between plugins (ex jump / flush ports)
+- Schedule the elaboration (ex decode / dispatch specification)
+- Provide a distributed framework which can scale up (minimal hardcoding)
