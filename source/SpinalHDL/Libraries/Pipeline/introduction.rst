@@ -179,14 +179,17 @@ You can access its arbitration via :
      - RW
      - Is the signal which specifies if the node's transaction can proceed downstream. It is driven by the downstream to create backpresure. The signal has no meaning when there is no transaction (node.valid being deasserted)
    * - node.cancel
-     - RO
-     - Is the signal which specify if the node's transaction in being canceled from the pipeline. It is driven by the downstream. The signal has no meaning when there is no transaction (node.valid being deasserted)
+     - RW
+     - Is the signal which specifies if the node's transaction in being canceled from the pipeline. It is driven by the downstream. The signal has no meaning when there is no transaction (node.valid being deasserted)
    * - node.isValid
      - RO
      - node.valid's read only accessor
    * - node.isReady
      - RO
      - node.ready's read only accessor
+   * - node.isCancel
+     - RO
+     - node.cancel's read only accessor
    * - node.isFiring
      - RO
      - True when the node transaction is successfuly moving futher (valid && ready && !cancel). Useful to commit state changes.
@@ -200,6 +203,9 @@ You can access its arbitration via :
      - True when the node transaction is being canceled. Meaning that it will not appear anywhere in the pipeline in future cycles.
 
 Note that the node.valid/node.ready signals follows the same conventions than the :doc:`../stream`'s ones .
+
+The Node controls (valid/ready/cancel) and status (isValid, isReady, isCancel, isFiring, ...) signals are created on demande.
+So for instance you can create pipeline with no backpresure by never refering to the ready signal. That's why it is important to use status signals when you want to read the status of something and only use control signals when you to drive something.
 
 Here is a list of arbitration cases you can have on a node. valid/ready/cancel define the state we are in, while isFiring/isMoving result of those :
 
@@ -246,29 +252,6 @@ You can access signals referenced by a Payload via:
     val SOMETHING = n0.insert(myHardwareSignal) //This create a new Payload
     when(n1(SOMETHING) === 0xFFAA){ ... }
     
-
-Also, there is an API to define nodes which are always valid / ready 
-
-.. list-table::
-   :header-rows: 1
-   :widths: 2 5
-
-   * - API
-     - Description
-   * - node.setAlwaysValid()
-     - Specify that the valid signal of the given node is always True. To use on the first node of a pipeline
-   * - node.setAlwaysReady()
-     - Specify that the ready signal of the given node is always True. To use on the last node of a pipeline, useful if you don't have to implement backpresure.
-
-.. code-block:: scala
-    
-    val n0, n1, n2 = Node()
-    val OUT = Payload(UInt(16 bits))
-
-    val outputFlow = master Flow(UInt(16 bits))
-    outputFlow.valid := n2.valid
-    outputFlow.payload := n2(OUT)
-    n2.setAlwaysReady() // Equivalent to n2.ready := True, but also notify the pipeline elaboration about it, leading to eventual optimisations
 
 While you can manualy drive/read the arbitration/data of the first/last stage of your pipeline, there is a few utilities to connect its boundaries.
 
