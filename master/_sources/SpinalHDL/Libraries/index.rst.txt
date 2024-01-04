@@ -37,5 +37,6 @@ To use features introduced in followings chapter you need, in most of cases, to 
    IO/index
    Graphics/index
    EDA/index
+   Pipeline/index
    Misc/index
 
