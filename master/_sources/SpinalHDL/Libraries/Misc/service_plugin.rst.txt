@@ -30,6 +30,33 @@ While VexRiscv use a strict synchronous 2 phase system (setup/build callback), N
 
 The Plugin API provide a NaxRiscv like system to define composable components using plugins.
 
+Execution order
+--------------------
+
+The main idea is that you have multiple 2 executions phases : 
+
+- Setup phase, in which plugins can lock/retain each others. The idea is not to start negociation / elaboration yet.
+- Build phase, in which plugins can negociation / elaboration hardware.
+
+The build phase will not start before all FiberPlugin are done with their setup phase.
+
+.. code-block:: scala
+
+      class MyPlugin extends FiberPlugin {
+        val logic = during setup new Area {
+          // Here we are executing code in the setup phase
+          awaitBuild()
+          // Here we are executing code in the build phase
+        }
+      }
+
+      class MyPlugin2 extends FiberPlugin {
+        val logic = during build new Area {
+          // Here we are executing code in the build phase
+        }
+      }
+
+
 Simple example
 --------------------
 
@@ -114,7 +141,7 @@ Here is an example based on the above `Simple example` but that time, the Driver
 by an amount set by other plugins (SetupPlugin in our case). And to ensure that the DriverPlugin doesn't generate the hardware too early, 
 the SetupPlugin uses the DriverPlugin.retain/release functions.
 
-.. code-block:: verilog
+.. code-block:: scala
 
   import spinal.core._
   import spinal.lib.misc.plugin._
