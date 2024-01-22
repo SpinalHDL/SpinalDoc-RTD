@@ -12,7 +12,7 @@ on:
     # gh-pages have a lifetime ?  90 days ? so we do this once a month to refresh
 
 jobs:
-  test:
+  pots:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -33,6 +33,7 @@ jobs:
         make gettext -e BUILDDIR=source/locale/
     - name: "update po files"
       run: |
+        source bin/setup_env.sh
         sphinx-intl update -p source/locale/gettext/ -l zh_CN
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v5
