@@ -842,6 +842,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#builder">Builder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#retiming-variable-lenth">Retiming / Variable lenth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-cpu-example">Simple CPU example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Misc/index.html">Misc</a><ul>
@@ -2017,6 +2018,102 @@ They generally have a <cite>up</cite> Node and a <cite>down</cite> Node.</p>
 </pre></div>
 </div>
 </section>
+<section id="simple-cpu-example">
+<h1>Simple CPU example<a class="headerlink" href="#simple-cpu-example" title="Permalink to this heading"></a></h1>
+<p>Here is a simple/stupid 8 bits CPU example with :</p>
+<ul class="simple">
+<li><p>3 stages (fetch, decode, execute)</p></li>
+<li><p>embedded fetch memory</p></li>
+<li><p>add / jump / led /delay instructions</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Cpu</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">fetch</span><span class="p">,</span><span class="w"> </span><span class="n">decode</span><span class="p">,</span><span class="w"> </span><span class="n">execute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CtrlLink</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">f2d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StageLink</span><span class="p">(</span><span class="n">fetch</span><span class="p">.</span><span class="n">down</span><span class="p">,</span><span class="w"> </span><span class="n">decode</span><span class="p">.</span><span class="n">up</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">d2e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StageLink</span><span class="p">(</span><span class="n">decode</span><span class="p">.</span><span class="n">down</span><span class="p">,</span><span class="w"> </span><span class="n">execute</span><span class="p">.</span><span class="n">up</span><span class="p">)</span>
+
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">INSTRUCTION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">led</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">fetcher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">fetch</span><span class="p">.</span><span class="nc">Area</span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">pcReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">PC</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">up</span><span class="p">(</span><span class="nc">PC</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">pcReg</span>
+<span class="w">    </span><span class="n">up</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">up</span><span class="p">.</span><span class="n">isFiring</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">pcReg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">PC</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">256</span><span class="p">)(</span><span class="nc">INSTRUCTION</span><span class="p">).</span><span class="n">simPublic</span>
+<span class="w">    </span><span class="nc">INSTRUCTION</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mem</span><span class="p">.</span><span class="n">readAsync</span><span class="p">(</span><span class="nc">PC</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">decoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">decode</span><span class="p">.</span><span class="nc">Area</span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">opcode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">INSTRUCTION</span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">IS_ADD</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">opcode</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mh">0x1</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">IS_JUMP</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">opcode</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mh">0x2</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">IS_LED</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">opcode</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mh">0x3</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">IS_DELAY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">opcode</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mh">0x4</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+
+
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">alu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">execute</span><span class="p">.</span><span class="nc">Area</span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">regfile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">flush</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">stage</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">fetch</span><span class="p">,</span><span class="w"> </span><span class="n">decode</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">stage</span><span class="p">.</span><span class="n">throwWhen</span><span class="p">(</span><span class="n">flush</span><span class="p">,</span><span class="w"> </span><span class="n">usingReady</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">delayCounter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">isValid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">decoder</span><span class="p">.</span><span class="nc">IS_ADD</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">regfile</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">regfile</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="nc">INSTRUCTION</span><span class="p">(</span><span class="mi">15</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">8</span><span class="p">))</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">decoder</span><span class="p">.</span><span class="nc">IS_JUMP</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">flush</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
+<span class="w">        </span><span class="n">fetcher</span><span class="p">.</span><span class="n">pcReg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="nc">INSTRUCTION</span><span class="p">(</span><span class="mi">15</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">8</span><span class="p">))</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">decoder</span><span class="p">.</span><span class="nc">IS_LED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">led</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="n">regfile</span><span class="p">)</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">when</span><span class="p">(</span><span class="n">decoder</span><span class="p">.</span><span class="nc">IS_DELAY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">delayCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">delayCounter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">delayCounter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="nc">INSTRUCTION</span><span class="p">(</span><span class="mi">15</span><span class="w"> </span><span class="n">downto</span><span class="w"> </span><span class="mi">8</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">delayCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">execute</span><span class="p">.</span><span class="n">haltIt</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nc">Builder</span><span class="p">(</span><span class="n">fetch</span><span class="p">,</span><span class="w"> </span><span class="n">decode</span><span class="p">,</span><span class="w"> </span><span class="n">execute</span><span class="p">,</span><span class="w"> </span><span class="n">f2d</span><span class="p">,</span><span class="w"> </span><span class="n">d2e</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here is a simple testbench which implement a loop which will make the led counting up.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withFstWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Cpu</span><span class="p">).</span><span class="n">doSim</span><span class="p">(</span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">){</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">nop</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">))</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">jump</span><span class="p">(</span><span class="n">target</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">))</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">led</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">delay</span><span class="p">(</span><span class="n">cycles</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">cycles</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">))</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">fetcher</span><span class="p">.</span><span class="n">mem</span>
+<span class="w">  </span><span class="n">mem</span><span class="p">.</span><span class="n">setBigInt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">nop</span><span class="p">())</span>
+<span class="w">  </span><span class="n">mem</span><span class="p">.</span><span class="n">setBigInt</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nop</span><span class="p">())</span>
+<span class="w">  </span><span class="n">mem</span><span class="p">.</span><span class="n">setBigInt</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="mh">0x1</span><span class="p">))</span>
+<span class="w">  </span><span class="n">mem</span><span class="p">.</span><span class="n">setBigInt</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">led</span><span class="p">())</span>
+<span class="w">  </span><span class="n">mem</span><span class="p">.</span><span class="n">setBigInt</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+<span class="w">  </span><span class="n">mem</span><span class="p">.</span><span class="n">setBigInt</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">jump</span><span class="p">(</span><span class="mh">0x2</span><span class="p">))</span>
+
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSampling</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
 
     <script type="text/javascript">
         function init() {
@@ -2047,7 +2144,7 @@ They generally have a <cite>up</cite> Node and a <cite>down</cite> Node.</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~fc720a3c03 2024-01-12
+    Version: master git~997b2ef021 2024-01-22
     </p></div>
     
 
