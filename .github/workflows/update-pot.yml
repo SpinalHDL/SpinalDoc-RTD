@@ -24,13 +24,16 @@ jobs:
         python-version: 3.9
     - name: "install dependencies"
       run: |
-        apt-get update -y && apt-get install -y git gettext
+        apt-get update -y && apt-get install -y git gettext sphinx-intl
         pip install -r requirements.txt
     - uses: ammaraskar/sphinx-problem-matcher@master
     - name: "update pot"
       run: |
         source bin/setup_env.sh
         make gettext -e BUILDDIR=source/locale/
+    - name: "update po files"
+      run: |
+        sphinx-intl update -p source/locale/gettext/ -l zh_CN
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with: 
@@ -38,7 +41,7 @@ jobs:
         commit_user_email: action@github.com
         commit_user_name: GiHub Action Bot
         commit_author: GiHub Action Bot <action@github.com>
-        file_pattern: 'source/locale/*.pot'
+        file_pattern: 'source/locale/*.pot source/locale/*.po'
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
