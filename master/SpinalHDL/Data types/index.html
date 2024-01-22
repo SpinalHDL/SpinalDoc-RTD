@@ -1237,11 +1237,16 @@
 <li><p><a class="reference internal" href="AFix.html#afix"><span class="std std-ref">Auto-range Fixed-point</span></a> numbers (add,sub,mul support)</p></li>
 <li><p><a class="reference internal" href="Floating.html#floating"><span class="std std-ref">Floating-point</span></a> numbers (experimental support)</p></li>
 </ul>
+<p>Additionaly, if you want to assign a don’t care value to some hardware, for instance, to provide a default value, you can use the assignDontCare API to do so.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="n">myBits</span><span class="p">.</span><span class="n">assignDontCare</span><span class="p">()</span><span class="w"> </span><span class="c1">// Will assign all the bits to &#39;x&#39;</span>
+</pre></div>
+</div>
 <p>Finally, a special type is available for checking equality between a BitVector and a bit constant pattern that contains
 holes defined like a bitmask (bit positions not to be compared by the equality expression).</p>
 <p>Here is an example to show how you can achieve this (note the use of ‘M’ prefix) :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">itMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">M</span><span class="s">&quot;00--10--&quot;</span><span class="w"> </span><span class="c1">// - don&#39;t care value</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">itMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">M</span><span class="s">&quot;00--10--&quot;</span><span class="w"> </span><span class="c1">// - for don&#39;t care value</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
@@ -1277,7 +1282,7 @@ holes defined like a bitmask (bit positions not to be compared by the equality e
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~997b2ef021 2024-01-22
+    Version: master git~ad30895882 2024-01-22
     </p></div>
     
 
