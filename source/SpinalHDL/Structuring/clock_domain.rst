@@ -508,6 +508,11 @@ A ``SlowArea`` is used to create a new clock domain area which is slower than th
      ).generateVhdl(new TopLevel)
    }
 
+.. warning::
+   The ClockDomain in a SlowArea is the same as the parent one, provided a clock-enable signal that arranges
+   for the slowing of the clock signal. ``ClockDomain.current.readClockWire`` will return the fast (parent
+   domain) clock. To obtain the slower clock, use ``ClockDomain.current.readClockEnableWire``
+
 BootReset
 ^^^^^^^^^
 
