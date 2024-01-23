@@ -29,3 +29,11 @@ Since SpinalHDL 1.4.4, the following syntax is also supported:
 .. code-block:: scala
 
     report(L"miaou $a $b $c $d")
+
+You can display the current simulation time using the REPORT_TIME object
+.. code-block:: scala
+    report(L"miaou $REPORT_TIME")
+
+will result in:
+.. code-block:: verilog
+    $display("NOTE miaou %t", $time);
