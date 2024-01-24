@@ -509,9 +509,9 @@ A ``SlowArea`` is used to create a new clock domain area which is slower than th
    }
 
 .. warning::
-   The ClockDomain in a SlowArea is the same as the parent one, provided a clock-enable signal that arranges
-   for the slowing of the clock signal. ``ClockDomain.current.readClockWire`` will return the fast (parent
-   domain) clock. To obtain the slower clock, use ``ClockDomain.current.readClockEnableWire``
+   The clock signal used in a SlowArea is the same as the parent one. The SlowArea add instead a clock-enable signal that will slow down 
+   the sampling rate inside it. In other words, ``ClockDomain.current.readClockWire`` will return the fast (parent
+   domain) clock. To obtain the clock enable, use ``ClockDomain.current.readClockEnableWire``
 
 BootReset
 ^^^^^^^^^
