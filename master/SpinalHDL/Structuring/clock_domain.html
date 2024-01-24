@@ -1740,6 +1740,12 @@ use those <code class="docutils literal notranslate"><span class="pre">.readXXX<
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The clock signal used in a SlowArea is the same as the parent one. The SlowArea add instead a clock-enable signal that will slow down
+the sampling rate inside it. In other words, <code class="docutils literal notranslate"><span class="pre">ClockDomain.current.readClockWire</span></code> will return the fast (parent
+domain) clock. To obtain the clock enable, use <code class="docutils literal notranslate"><span class="pre">ClockDomain.current.readClockEnableWire</span></code></p>
+</div>
 </section>
 <section id="bootreset">
 <h3>BootReset<a class="headerlink" href="#bootreset" title="Permalink to this heading"></a></h3>
@@ -1826,7 +1832,7 @@ use those <code class="docutils literal notranslate"><span class="pre">.readXXX<
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~85837febc8 2024-01-23
+    Version: master git~76eb26f7cb 2024-01-24
     </p></div>
     
 
