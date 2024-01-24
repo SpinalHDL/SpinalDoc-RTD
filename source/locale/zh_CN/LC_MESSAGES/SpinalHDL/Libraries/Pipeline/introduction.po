@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: SpinalHDL\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-22 03:53+0000\n"
-"PO-Revision-Date: 2024-01-23 07:01+0000\n"
+"PO-Revision-Date: 2024-01-25 03:01+0000\n"
 "Last-Translator: tsy0123 <675526215@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "spinaldoc-rtd/spinalhdllibrariespipelineintroduction/zh_Hans/>\n"
@@ -91,7 +91,7 @@ msgid ""
 "interconnect/pipeline every occurrence of a given Payload between nodes."
 msgstr ""
 "重要的是，Payload不是硬件数据/信号实例，而是用于检索流水线在节点中数据/信号的"
-"关键，并且流水线构建器随后将在节点之间的每次给定有效载荷出现时自动互连/流水线"
+"关键，并且流水线构建器随后将在节点之间的每次给定Payload出现时自动互连/流水线"
 "。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:21
@@ -137,8 +137,8 @@ msgid ""
 " is used as a \"key\" to retrieve the signals in a certain pipeline "
 "stage."
 msgstr ""
-"Payload对象用于引用可以通过管道的数据。从技术上讲，Payload是一个HardType，它"
-"有一个名字，并被用作在管道某个级中检索信号的“键”。"
+"Payload对象用于引用可以通过流水线的数据。从技术上讲，Payload是一个HardType，"
+"它有一个名字，并被用作在流水线某个级中检索信号的“键”。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:163
 msgid ""
@@ -213,22 +213,24 @@ msgid ""
 "downstream. It is driven by the downstream to create backpresure. The "
 "signal has no meaning when there is no transaction (node.valid being "
 "deasserted)"
-msgstr ""
+msgstr "指定节点的事务是否可以向下游进行的信号。它是由下游驱动以创建反压。当没有事务"
+"（node.valid被置0）时，该信号无意义"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:186
 msgid "node.cancel"
-msgstr ""
+msgstr "node.cancel"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:188
 msgid ""
 "Is the signal which specifies if the node's transaction in being canceled"
 " from the pipeline. It is driven by the downstream. The signal has no "
 "meaning when there is no transaction (node.valid being deasserted)"
-msgstr ""
+msgstr "指定节点的事务是否正在从流水线中取消的信号。它由下游驱动。当没有事务时（node."
+"valid被置0），该信号没有意义"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:189
 msgid "node.isValid"
-msgstr ""
+msgstr "node.isValid"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:190
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:193
@@ -237,41 +239,42 @@ msgstr ""
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:202
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:207
 msgid "RO"
-msgstr ""
+msgstr "RO"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:191
 msgid "node.valid's read only accessor"
-msgstr ""
+msgstr "node.valid的只读访问器"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:192
 msgid "node.isReady"
-msgstr ""
+msgstr "node.isReady"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:194
 msgid "node.ready's read only accessor"
-msgstr ""
+msgstr "node.ready的只读访问器"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:195
 msgid "node.isCancel"
-msgstr ""
+msgstr "node.isCancel"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:197
 msgid "node.cancel's read only accessor"
-msgstr ""
+msgstr "node.cancel的只读访问器"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:198
 msgid "node.isFiring"
-msgstr ""
+msgstr "node.isFiring"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:200
 msgid ""
 "True when the node transaction is successfuly moving futher (valid && "
 "ready && !cancel). Useful to commit state changes."
-msgstr ""
+msgstr "当节点事务成功继续进行时为True（valid && ready && "
+"!cancel）。用于提交状态更改。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:201
 msgid "node.isMoving"
-msgstr ""
+msgstr "node.isMoving"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:203
 msgid ""
@@ -280,22 +283,26 @@ msgid ""
 "take the transaction, or because the transaction is canceled from the "
 "pipeline. (valid && (ready || cancel)). Useful to \"reset\" states."
 msgstr ""
+"当节点事务将不再存在于节点上时（从下一周期开始）为True，要么是因为下游准备好"
+"接收事务，要么是因为事务已从流水线中取消。（valid && (ready || "
+"cancel)）用于“复位”(reset)状态。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:206
 msgid "node.isCanceling"
-msgstr ""
+msgstr "node.isCanceling"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:208
 msgid ""
 "True when the node transaction is being canceled. Meaning that it will "
 "not appear anywhere in the pipeline in future cycles."
-msgstr ""
+msgstr "当节点事务正在被取消时为True。这意味着在将来的周期中它不会出现在流水线中的任"
+"何地方。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:210
 msgid ""
 "Note that the node.valid/node.ready signals follows the same conventions "
 "than the :doc:`../stream`'s ones ."
-msgstr ""
+msgstr "请注意，node.valid/node.ready信号遵循与 :doc:`../stream` 中相同的规范。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:212
 msgid ""
@@ -306,6 +313,10 @@ msgid ""
 "want to read the status of something and only use control signals when "
 "you to drive something."
 msgstr ""
+"Node的控制信号（valid/ready/cancel）和状态信号（isValid、isReady、isCancel、i"
+"sFiring等）是按需创建的。因此，例如，您可以通过永远不引用ready信号来创建没有"
+"反压的流水线。这就是在想要读取某物的状态时使用状态信号，仅在想要驱动某物时使"
+"用控制信号的重要性所在。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:215
 msgid ""
@@ -313,83 +324,86 @@ msgid ""
 "valid/ready/cancel define the state we are in, while isFiring/isMoving "
 "result of those :"
 msgstr ""
+"以下是节点上可能出现的仲裁情况列表。valid/ready/"
+"cancel定义了我们所处的状态，而isFiring/isMoving是这些状态的结果："
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:218
 msgid "valid"
-msgstr ""
+msgstr "valid"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:218
 msgid "ready"
-msgstr ""
+msgstr "ready"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:218
 msgid "cancel"
-msgstr ""
+msgstr "cancel"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:218
 msgid "isFiring"
-msgstr ""
+msgstr "isFiring"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:218
 msgid "isMoving"
-msgstr ""
+msgstr "isMoving"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:220
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:222
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:224
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:226
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:220
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:226
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:220
 msgid "No transaction"
-msgstr ""
+msgstr "无事务"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:222
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:224
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:226
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:222
 msgid "Going through"
-msgstr ""
+msgstr "正在进行"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:224
 msgid "Blocked"
-msgstr ""
+msgstr "阻塞"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:226
 msgid "Canceled"
-msgstr ""
+msgstr "取消"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:230
 msgid ""
 "Note that if you want to model things like for instance a CPU stage which"
 " can block and flush stuff, take a look a the CtrlLink, as it provides "
 "the API to do such things."
-msgstr ""
+msgstr "请注意，如果您想要建模诸如CPU级可能的阻塞和刷新的情况，可以查看 CtrlLink，"
+"因为它提供了执行此类操作的 API。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:232
 msgid "You can access signals referenced by a Payload via:"
-msgstr ""
+msgstr "您可以通过以下方式访问由Payload引用的信号："
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:240
 msgid "node(Payload)"
-msgstr ""
+msgstr "node(Payload)"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:241
 msgid "Return the corresponding hardware signal"
-msgstr ""
+msgstr "返回对应的硬件信号"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:242
 msgid "node(Payload, Any)"
-msgstr ""
+msgstr "node(Payload, Any)"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:243
 msgid ""
@@ -398,116 +412,120 @@ msgid ""
 "For instance, when you have a multi issue CPU pipeline, you can use the "
 "lane Int id as secondary key"
 msgstr ""
+"与上述相同，但包括一个用作“次要键”的第二个参数。这有助于构建多通道硬件。例如"
+"，当您有一个多发射CPU流水线时，您可以使用通道Int id作为次要键"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:244
 msgid "node.insert(Data)"
-msgstr ""
+msgstr "node.insert(Data)"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:245
 msgid ""
 "Return a new Payload instance which is connected to the given Data "
 "hardware signal"
-msgstr ""
+msgstr "返回一个新的Payload实例，该实例连接到给定的Data硬件信号"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:261
 msgid ""
 "While you can manualy drive/read the arbitration/data of the first/last "
 "stage of your pipeline, there is a few utilities to connect its "
 "boundaries."
-msgstr ""
+msgstr "虽然您可以手动驱动/读取流水线的第一个/最后一级的仲裁/数据，但有一些实用工具可"
+"以连接其边界。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:270
 msgid "node.arbitrateFrom(Stream[T]])"
-msgstr ""
+msgstr "node.arbitrateFrom(Stream[T]])"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:271
 msgid "Drive a node arbitration from a stream."
-msgstr ""
+msgstr "由反压流驱动节点仲裁。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:272
 msgid "node.arbitrateFrom(Flow[T]])"
-msgstr ""
+msgstr "node.arbitrateFrom(Flow[T]])"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:273
 msgid "Drive a node arbitration from the Flow."
-msgstr ""
+msgstr "由数据流驱动节点仲裁。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:274
 msgid "node.arbitrateTo(Stream[T]])"
-msgstr ""
+msgstr "node.arbitrateTo(Stream[T]])"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:275
 msgid "Drive a stream arbitration from the node."
-msgstr ""
+msgstr "由节点驱动反压流仲裁。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:276
 msgid "node.arbitrateTo(Flow[T]])"
-msgstr ""
+msgstr "node.arbitrateTo(Flow[T]])"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:277
 msgid "Drive a Flow arbitration from the node."
-msgstr ""
+msgstr "由节点驱动数据流仲裁。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:278
 msgid "node.driveFrom(Stream[T]])((Node, T) => Unit)"
-msgstr ""
+msgstr "node.driveFrom(Stream[T]])((Node, T) => Unit)"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:279
 msgid ""
 "Drive a node from a stream. The provided lambda function can be use to "
 "connect the data"
-msgstr ""
+msgstr "由反压流驱动节点。提供的lambda函数可以用于连接数据"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:280
 msgid "node.driveFrom(Flow[T]])((Node, T) => Unit)"
-msgstr ""
+msgstr "node.driveFrom(Flow[T]])((Node, T) => Unit)"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:281
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:285
 msgid "Same as above but for Flow"
-msgstr ""
+msgstr "与上述类似，但适用于Flow"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:282
 msgid "node.driveTo(Stream[T]])((T, Node) => Unit)"
-msgstr ""
+msgstr "node.driveTo(Stream[T]])((T, Node) => Unit)"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:283
 msgid ""
 "Drive a stream from the node. The provided lambda function can be use to "
 "connect the data"
-msgstr ""
+msgstr "由节点驱动反压流。提供的lambda函数可以用于连接数据"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:284
 msgid "node.driveTo(Flow[T]])((T, Node) => Unit)"
-msgstr ""
+msgstr "node.driveTo(Flow[T]])((T, Node) => Unit)"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:305
 msgid ""
 "In order to reduce verbosity, there is a set of implicit conversions "
 "between Payload toward their data representation which can be used when "
 "you are in the context of a Node :"
-msgstr ""
+msgstr "为了减少冗长，在Payload与其数据表示之间有一组隐式转换，可在Node下使用："
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:314
 msgid "You can also use those implicit conversions by importing them :"
-msgstr ""
+msgstr "您还可以通过导入它们来使用这些隐式转换："
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:327
 msgid ""
 "There is also an API which alows you to create new Area which provide the"
 " whole API of a given node instance (including implicit convertion) "
 "without import :"
-msgstr ""
+msgstr "还有一个API，它允许你创建新的Area，这个Area提供了给定节点实例的全部API（包括"
+"隐式转换），而无需导入："
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:338
 msgid ""
 "Such feature is very useful when you have parametrizable pipeline "
 "locations for your hardware (see retiming example)."
-msgstr ""
+msgstr "当硬件具有可参数化的流水线位置时，这样的功能非常有用（请参阅重定时示例）。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:342
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:344
 msgid ""
@@ -516,38 +534,41 @@ msgid ""
 "together in various ways. They generally have a `up` Node and a `down` "
 "Node."
 msgstr ""
+"目前已经实现了一些不同的Links（但您也可以创建自己的自定义Links）。Links的思想"
+"是以各种方式将两个节点连接在一起，它们通常有一个 `up` 节点和一个 `down` "
+"节点。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:349
 msgid "DirectLink"
-msgstr ""
+msgstr "DirectLink"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:351
 msgid "Very simple, it connect two nodes with wires only. Here is an example :"
-msgstr ""
+msgstr "非常简单，它只使用导线连接两个节点。以下是一个示例："
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:361
 msgid "StageLink"
-msgstr ""
+msgstr "StageLink"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:363
 msgid ""
 "This connect two nodes using registers on the data / valid signals and "
 "some arbitration on the ready."
-msgstr ""
+msgstr "这使用data/valid信号上的寄存器和ready信号上的一些仲裁连接了两个节点。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:371
 msgid "S2mLink"
-msgstr ""
+msgstr "S2mLink"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:373
 msgid ""
 "This connect two nodes using registers on the ready signal, which can be "
 "useful to improve backpresure combinatorial timings."
-msgstr ""
+msgstr "这使用ready信号上的寄存器连接两个节点，这对于改进反压组合时序非常有用。"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:380
 msgid "CtrlLink"
-msgstr ""
+msgstr "CtrlLink"
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:382
 msgid ""
