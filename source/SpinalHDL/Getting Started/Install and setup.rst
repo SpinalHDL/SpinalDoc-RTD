@@ -17,7 +17,7 @@ Before you download the SpinalHDL tools, you need to install a Scala environment
 * `Java JDK <https://www.oracle.com/java/technologies/downloads/>`_, a Java
   environment
 * `Scala 2 <https://www.scala-lang.org/>`_, compiler and library
-* `SBT <https://www.scala-sbt.org/download.html>`_, a Scala build tool
+* `SBT <https://www.scala-sbt.org/download/>`_, a Scala build tool
 
 These tools enable to use Spinal; but without any other tools, it is limited to
 HDL code generation.
