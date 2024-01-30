@@ -1,0 +1,426 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDLReport-Msgid-Bugs-To:POT-Creation-Date:2023-12-"
+"01 11:48+0800PO-Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME "
+"<EMAIL@ADDRESS>Language:zh_CNLanguage-Team:zh_CN <LL@li.org>Plural-"
+"Forms:nplurals=1; plural=0;MIME-Version:1.0Content-Type:text/plain; "
+"charset=UTF-8\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESSPOT-Creation-Date:2023-12-02 00:23+0800PO-"
+"Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME <EMAIL@ADDRESS"
+">Language-Team:LANGUAGE <LL@li.org>MIME-Version:1.0Content-Type:text/plain; "
+"charset=UTF-8\n"
+"PO-Revision-Date: 2024-01-10 17:06+0000\n"
+"Last-Translator: tsy0123 <675526215@qq.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"spinaldoc-rtd/spinalhdldevelopers-areabus_slave_factory_impl/zh_Hans/>\n"
+"Language: zh_CN\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bitGenerated-By:Babel 2.13.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.4-dev\n"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:7
+msgid "Bus Slave Factory Implementation"
+msgstr "总线从端（Factory）实现"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:10
+msgid "Introduction"
+msgstr "简介"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:12
+msgid ""
+"This page will document the implementation of the BusSlaveFactory tool and "
+"one of those variant. You can get more information about the functionality "
+"of that tool :ref:`here <bus_slave_factory>`."
+msgstr ""
+"本页将记录 BusSlaveFactory 工具及其变体之一的实现。"
+"您可以在此处获取有关该工具功能的更多信息 :ref:`here <bus_slave_factory>`。"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:15
+msgid "Specification"
+msgstr "规范"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:17
+msgid "The class diagram is the following :"
+msgstr "类图如下："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:23
+msgid ""
+"The ``BusSlaveFactory`` abstract class define minimum requirements that each"
+" implementation of it should provide :"
+msgstr "``BusSlaveFactory`` 抽象类定义了每个实现应提供的最低要求："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:29
+#: area/bus_slave_factory_impl.rst:52
+msgid "Name"
+msgstr "名称"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:30
+#: area/bus_slave_factory_impl.rst:54 area/bus_slave_factory_impl.rst:340
+msgid "Description"
+msgstr "描述"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:31
+msgid "busDataWidth"
+msgstr "busDataWidth"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:32
+msgid "Return the data width of the bus"
+msgstr "返回总线的数据宽度"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:33
+msgid "read(that,address,bitOffset)"
+msgstr "read(that,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:34
+msgid ""
+"When the bus read the ``address``\\ , fill the response with ``that`` at "
+"``bitOffset``"
+msgstr "当通过总线读取地址 ``address`` 时，用 ``that`` 中 ``bitOffset`` "
+"位置的数据填充响应"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:35
+msgid "write(that,address,bitOffset)"
+msgstr "write(that,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:36
+msgid ""
+"When the bus write the ``address``\\ , assign ``that`` with bus's data from "
+"``bitOffset``"
+msgstr "当通过总线写入地址 ``address`` 时，将总线上 ``bitOffset`` 位置的数据赋值 "
+"``that``"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:37
+msgid "onWrite(address)(doThat)"
+msgstr "onWrite(address)(doThat)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:38
+msgid "Call ``doThat`` when a write transaction occur on ``address``"
+msgstr "当 ``address`` 地址上发生写操作（出现写事务）时调用 ``doThat``"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:39
+msgid "onRead(address)(doThat)"
+msgstr "onRead(address)(doThat)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:40
+msgid "Call ``doThat`` when a read transaction occur on ``address``"
+msgstr "当 ``address`` 上发生读操作（出现读事务）时调用 ``doThat``"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:41
+msgid "nonStopWrite(that,bitOffset)"
+msgstr "nonStopWrite(that,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:42
+msgid "Permanently assign ``that`` by the bus write data from ``bitOffset``"
+msgstr "将通过总线写入的 ``bitOffset`` 的数据赋值到 ``that``"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:45
+msgid ""
+"By using them the ``BusSlaveFactory`` should also be able to provide many "
+"utilities :"
+msgstr "通过使用它们， ``BusSlaveFactory`` 还能够提供许多实用工具："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:53
+msgid "Return"
+msgstr "返回类型"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:55
+msgid "readAndWrite(that,address,bitOffset)"
+msgstr "readAndWrite(that,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:57
+msgid ""
+"Make ``that`` readable and writable at ``address`` and placed at "
+"``bitOffset`` in the word"
+msgstr "使 ``that`` 信号可通过 ``address`` 地址读写，并且该信号放置在数据的 "
+"``bitOffset`` 位置"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:58
+msgid "readMultiWord(that,address)"
+msgstr "readMultiWord(that,address)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "Create the memory mapping to read ``that`` from 'address'. :"
+msgstr "创建内存映射以从 'address' 地址读取 ``that`` 信号。 ："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid ""
+"If ``that`` is bigger than one word it extends the register on followings "
+"addresses"
+msgstr "如果 ``that`` 的位宽大于一个字（32位），它将在以下地址上扩展寄存器"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:62
+msgid "writeMultiWord(that,address)"
+msgstr "writeMultiWord(that,address)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "Create the memory mapping to write ``that`` at 'address'. :"
+msgstr "创建内存映射以通过总线 'address' 地址写入 ``that`` 信号。 ："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:66
+msgid "createWriteOnly(dataType,address,bitOffset)"
+msgstr "createWriteOnly(dataType,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:67
+#: area/bus_slave_factory_impl.rst:70
+msgid "T"
+msgstr "T"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:68
+msgid ""
+"Create a write only register of type ``dataType`` at ``address`` and placed "
+"at ``bitOffset`` in the word"
+msgstr "在 ``address`` 地址处创建一个 ``dataType`` 类型的只写寄存器，"
+"并将其放置在字中的 ``bitOffset`` 位置"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:69
+msgid "createReadWrite(dataType,address,bitOffset)"
+msgstr "createReadWrite(dataType,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:71
+msgid ""
+"Create a read write register of type ``dataType`` at ``address`` and placed "
+"at ``bitOffset`` in the word"
+msgstr "在 ``address`` 处创建一个 ``dataType`` 类型的读写寄存器，并将其放置在字中的 "
+"``bitOffset`` 位置"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:72
+msgid "createAndDriveFlow(dataType,address,bitOffset)"
+msgstr "createAndDriveFlow(dataType,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:73
+msgid "Flow[T]"
+msgstr "Flow[T]"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:74
+msgid ""
+"Create a writable Flow register of type ``dataType`` at ``address`` and "
+"placed at ``bitOffset`` in the word"
+msgstr ""
+"在 ``address`` 地址处创建一个 ``dataType`` 类型的可写流（Flow）寄存器，"
+"并将其放置在字中的 ``bitOffset`` 位置"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:75
+msgid "drive(that,address,bitOffset)"
+msgstr "drive(that,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:77
+msgid ""
+"Drive ``that`` with a register writable at ``address`` placed at "
+"``bitOffset`` in the word"
+msgstr "使用位于 ``address`` 地址的可写寄存器中 ``bitOffset`` 位置的信号驱动 ``that``"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:78
+msgid "driveAndRead(that,address,bitOffset)"
+msgstr "driveAndRead(that,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:80
+msgid ""
+"Drive ``that`` with a register writable and readable at ``address`` placed "
+"at ``bitOffset`` in the word"
+msgstr "使用位于 ``address`` 地址的可读写寄存器中 ``bitOffset`` 位置的信号驱动 "
+"``that``"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:81
+msgid "driveFlow(that,address,bitOffset)"
+msgstr "driveFlow(that,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:83
+msgid ""
+"Emit on ``that`` a transaction when a write happen at ``address`` by using "
+"data placed at ``bitOffset`` in the word"
+msgstr "当对 ``address`` 地址写入时，通过使用位于 ``bitOffset`` 位的数据，在 ``that``"
+" 流（Flow）上发出事务"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "readStreamNonBlocking(that,address,"
+msgstr "readStreamNonBlocking(that,address,"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "validBitOffset,payloadBitOffset)"
+msgstr "validBitOffset,payloadBitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid ""
+"Read ``that`` and consume the transaction when a read happen at ``address``."
+msgstr "读取 ``that`` 信号并在读取 ``address`` 地址时消耗事务。"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "valid <= validBitOffset bit"
+msgstr "valid <= validBitOffset bit"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid ""
+"payload <= payloadBitOffset+widthOf(payload) downto ``payloadBitOffset``"
+msgstr ""
+"payload <= payloadBitOffset+widthOf(payload) downto ``payloadBitOffset``"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "doBitsAccumulationAndClearOnRead"
+msgstr "doBitsAccumulationAndClearOnRead"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "(that,address,bitOffset)"
+msgstr "(that,address,bitOffset)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "Instantiate an internal register which at each cycle do :"
+msgstr "实例化一个内部寄存器，该寄存器在每个周期执行以下操作："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid "reg := reg | that"
+msgstr "reg := reg | that"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst
+msgid ""
+"Then when a read occur, the register is cleared. This register is readable "
+"at ``address`` and placed at ``bitOffset`` in the word"
+msgstr "然后，当发生读取时，寄存器被清除。该寄存器可通过 ``address`` 地址读取，"
+"并放置在字中的 ``bitOffset`` 位置"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:98
+msgid ""
+"About ``BusSlaveFactoryDelayed``, it's still an abstract class, but it "
+"capture each primitives (BusSlaveFactoryElement) calls into a data-model. "
+"This datamodel is one list that contain all primitives, but also a HashMap "
+"that link each address used to a list of primitives that are using it. Then "
+"when they all are collected (at the end of the current component), it do a "
+"callback that should be implemented by classes that extends it. The "
+"implementation of this callback should implement the hardware corresponding "
+"to all primitives collected."
+msgstr ""
+"关于 ``BusSlaveFactoryDelayed``，它仍然是一个抽象类，但它捕获每个原语（BusSla"
+"veFactoryElement）对数据模型的调用。该数据模型是一个包含所有原语的列表，"
+"也是一个 HashMap，它将使用的每个地址链接到正在使用它的原语列表。然后，当它们"
+"全部被收集时（在当前组件的末尾），它会执行一个回调，该回调应该由扩展它的类实"
+"现。该回调函数中实现了这个原语列表中每个原语相对应的硬件。"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:101
+msgid "Implementation"
+msgstr "实现"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:104
+msgid "BusSlaveFactory"
+msgstr "BusSlaveFactory"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:106
+msgid "Let's describe primitives abstract function :"
+msgstr "让我们来描述一下原语抽象函数："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:133
+msgid "Then let's operate the magic to implement all utile based on them :"
+msgstr "然后让我们利用这些来实现一些有用的工具："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:246
+msgid "BusSlaveFactoryDelayed"
+msgstr "BusSlaveFactoryDelayed"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:248
+msgid "Let's implement classes that will be used to store primitives :"
+msgstr "让我们实现用于存储原语的类："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:279
+msgid "Then let's implement the ``BusSlaveFactoryDelayed`` itself :"
+msgstr "然后让我们实现 ``BusSlaveFactoryDelayed`` 本身："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:330
+msgid "AvalonMMSlaveFactory"
+msgstr "AvalonMMSlaveFactory"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:332
+msgid ""
+"First let's implement the companion object that provide the compatible "
+"AvalonMM configuration object that correspond to the following table :"
+msgstr "首先，让我们实现提供兼容 AvalonMM 配置对象的伴随对象，对应于下表："
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:338
+msgid "Pin name"
+msgstr "信号名称"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:339
+msgid "Type"
+msgstr "类型"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:341
+msgid "read"
+msgstr "read"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:342
+#: area/bus_slave_factory_impl.rst:345 area/bus_slave_factory_impl.rst:354
+msgid "Bool"
+msgstr "Bool"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:343
+msgid "High one cycle to produce a read request"
+msgstr "保持一个周期高电平来产生一个读请求"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:344
+msgid "write"
+msgstr "write"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:346
+msgid "High one cycle to produce a write request"
+msgstr "保持一个周期高电平来产生一个写请求"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:347
+msgid "address"
+msgstr "address"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:348
+msgid "UInt(addressWidth bits)"
+msgstr "UInt(addressWidth bits)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:349
+msgid "Byte granularity but word aligned"
+msgstr "字节为粒度但是字对齐的"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:350
+msgid "writeData"
+msgstr "writeData"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:351
+#: area/bus_slave_factory_impl.rst:357
+msgid "Bits(dataWidth bits)"
+msgstr "Bits(dataWidth bits)"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:353
+msgid "readDataValid"
+msgstr "readDataValid"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:355
+msgid "High to respond a read command"
+msgstr "保持高电平来响应读命令"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:356
+msgid "readData"
+msgstr "readData"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:358
+msgid "Valid when readDataValid is high"
+msgstr "readDataValid 为高时有效"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:378
+msgid "Then, let's implement the AvalonMMSlaveFactory itself."
+msgstr "然后，让我们实现 AvalonMMSlaveFactory 本身。"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:429
+msgid "Conclusion"
+msgstr "结论"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:431
+msgid ""
+"That's all, you can check one example that use this ``Apb3SlaveFactory`` to "
+"create an Apb3UartCtrl :ref:`here <memory_mapped_uart>`."
+msgstr ""
+"就这些了，您可以在此处查看一个使用 ``Apb3SlaveFactory`` 来创建 Apb3UartCtrl "
+"的 :ref:`示例 <memory_mapped_uart>`。"
+
+#: ../../SpinalHDL/Developers area/bus_slave_factory_impl.rst:433
+msgid ""
+"If you want to add the support of a new memory bus, it's very simple you "
+"just need to implement another variation of the ``BusSlaveFactoryDelayed`` "
+"trait. The ``Apb3SlaveFactory`` is probably a good starting point :D"
+msgstr ""
+"如果您想添加对新内存总线的支持，非常简单，您只需继承、实现 "
+"``BusSlaveFactoryDelayed`` 特征（trait）的另一个变体即可。 "
+"``Apb3SlaveFactory`` 可能是一个很好的参考：D"

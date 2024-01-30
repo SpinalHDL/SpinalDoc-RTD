@@ -51,6 +51,12 @@ and then you can use ``make`` the usual way
 
 all the outputs will be in docs folder (for html: docs/html)
 
+The Chinese version can be built by
+
+.. code:: shell
+
+   make -e SPHINXOPTS="-D language='zh_CN'" html # for html in Chinese
+
 
 With Docker
 -----------

@@ -18,6 +18,8 @@ jobs:
       sphinx_html_baseurl: 'https://spinalhdl.github.io/SpinalDoc-RTD/master/'
       sphinx_github_url: 'https://github.com/SpinalHDL/SpinalDoc-RTD'
       sphinx_extra_version: 'master'
+
+    if: github.event.head_commit.author.email != 'action.github.com'
     steps:
     - uses: actions/checkout@v3
       with:
@@ -36,6 +38,8 @@ jobs:
         file: pdf.Dockerfile
     - name: Check links
       run: docker run --rm -u $(id -u $USER):$(id -g $USER) -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf make linkcheck
+    - name: Build zh-cn translated doc
+      run: docker run --rm -u $(id -u $USER):$(id -g $USER) -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf sphinx-build -b html -D language=zh_CN ./source/ docs/html/zh_CN
     - name: Build multiversioned doc
       run: docker run --rm -u $(id -u $USER):$(id -g $USER) -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf sphinx-multiversion source docs/html
     - name: Add .nojekill

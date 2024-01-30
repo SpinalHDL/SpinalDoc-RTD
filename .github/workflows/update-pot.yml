@@ -1,0 +1,50 @@
+name: "Update translation template pot files."
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+  schedule:
+    # * is a special character in YAML
+    # setup monthly background build
+    - cron: '45 4 20 * *'
+    # gh-pages have a lifetime ?  90 days ? so we do this once a month to refresh
+
+jobs:
+  pots:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: "setup python"
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    - name: "install dependencies"
+      run: |
+        apt-get update -y && apt-get install -y git gettext sphinx-intl
+        pip install -r requirements.txt
+    - uses: ammaraskar/sphinx-problem-matcher@master
+    - name: "update pot"
+      run: |
+        source bin/setup_env.sh
+        make gettext -e BUILDDIR=source/locale/
+    - name: "update po files"
+      run: |
+        source bin/setup_env.sh
+        sphinx-intl update -p source/locale/gettext/ -l zh_CN
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with: 
+        commit_message: update .pot files
+        commit_user_email: action@github.com
+        commit_user_name: GiHub Action Bot
+        commit_author: GiHub Action Bot <action@github.com>
+        file_pattern: 'source/locale/*.pot source/locale/*.po'
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}

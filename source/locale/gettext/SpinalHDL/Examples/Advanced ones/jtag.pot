@@ -1,0 +1,182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018 - 2024, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-02 16:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:3
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:60
+msgid "JTAG TAP"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:6
+msgid "Introduction"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:9
+msgid "The goal of this page is to show the implementation of a JTAG TAP (a slave) by a non-conventional way."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:0
+msgid "This implementation is not a simple one, it mix object oriented programming, abstract interfaces decoupling, hardware generation and hardware description."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:0
+msgid "Of course a simple JTAG TAP implementation could be done only with a simple hardware description, but the goal here is really to going forward and creating an very reusable and extensible JTAG TAP generator"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:16
+msgid "This page will not explain how JTAG works. A good tutorial can be found `there <https://www.fpga4fun.com/JTAG.html>`_."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:18
+msgid "One big difference between commonly used HDL and Spinal, is the fact that SpinalHDL allow you to define hardware generators/builders. It's very different than describing hardware. Let's take a look into the example bellow because the difference between generate/build/describing could seem \"playing with word\" or could be interpreted differently."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:21
+msgid "The example bellow is a JTAG TAP which allow the JTAG master to read ``switchs``\\ /\\ ``keys`` inputs and write ``leds`` outputs. This TAP could also be recognized by a master by using the UID 0x87654321."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:28
+msgid "As you can see, a JtagTap is created but then some Generator/Builder functions (idcode,read,write) are called to create each JTAG instruction. This is what i call \"Hardware generator/builder\", then these Generator/Builder are used by the user to describing an hardware. And there is the point, in commonly HDL you can only describe your hardware, which imply many donkey job."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:30
+msgid "This JTAG TAP tutorial is based on `this <https://github.com/SpinalHDL/SpinalHDL/tree/master/lib/src/main/scala/spinal/lib/com/jtag>`_ implementation."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:35
+msgid "JTAG bus"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:37
+msgid "First we need to define a JTAG bus bundle."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:44
+msgid "As you can see this bus don't contain the TCK pin because it will be provided by the clock domain."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:47
+msgid "JTAG state machine"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:49
+msgid "Let's define the JTAG state machine as explained `here <https://www.fpga4fun.com/JTAG2.html>`_"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:57
+msgid "The ``randBoot()`` on ``state`` make it initialized with a random state. It's only for simulation purpose."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:62
+msgid "Let's implement the core of the JTAG TAP, without any instruction, just the base manage the instruction register (IR) and the bypass."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:71
+msgid "Ignore the reference to `with JTagTapAccess` for now, it will be explained further down."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:74
+msgid "Jtag instructions"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:76
+msgid "Now that the JTAG TAP core is done, we can think about how to implement JTAG instructions by an reusable way."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:79
+msgid "JTAG TAP class interface"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:81
+msgid "First we need to define how an instruction could interact with the JTAG TAP core. We could of course directly take the JtagTap area, but it's not very nice because is some situation the JTAG TAP core is provided by another IP (Altera virtual JTAG for example)."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:83
+msgid "So let's define a simple and abstract interface between the JTAG TAP core and instructions :"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:91
+msgid "Then let the ``JtagTap`` implement this abstract interface:"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:93
+msgid "Additions to ``class JtagTap``"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:102
+msgid "Base class"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:104
+msgid "Let's define a useful base class for JTAG instruction that provide some callback (doCapture/doShift/doUpdate/doReset) depending the selected instruction and the state of the JTAG TAP :"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:0
+msgid "About the Component.current.addPrePopTask(...) :"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:0
+msgid "This allows you to call the given code at the end of the current component construction. Because of object oriented nature of JtagInstruction, doCapture, doShift, doUpdate and doReset should not be called before children classes construction (because children classes will use it as a callback to do some logic)."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:116
+msgid "Read instruction"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:118
+msgid "Let's implement an instruction that allow the JTAG to read a signal."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:126
+msgid "Write instruction"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:128
+msgid "Let's implement an instruction that allow the JTAG to write a register (and also read its current value)."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:136
+msgid "Idcode instruction"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:138
+msgid "Let's implement the instruction that return a idcode to the JTAG and also, when a reset occur, set the instruction register (IR) to it own instructionId."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:146
+msgid "User friendly wrapper"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:148
+msgid "Let's add some user friendly function to the JtagTapAccess to make instructions instantiation easier ."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:150
+msgid "Additions to ``trait JtagTapAccess``"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:159
+msgid "Usage demonstration"
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:161
+msgid "And there we are, we can now very easily create an application specific JTAG TAP without having to write any logic or any interconnections."
+msgstr ""
+
+#: ../../SpinalHDL/Examples/Advanced ones/jtag.rst:168
+msgid "This way of doing things (Generating hardware) could also be applied to, for example, generating an APB/AHB/AXI bus slave."
+msgstr ""

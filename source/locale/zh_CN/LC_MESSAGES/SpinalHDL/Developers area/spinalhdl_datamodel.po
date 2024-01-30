@@ -1,0 +1,301 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDLReport-Msgid-Bugs-To:POT-Creation-Date:2023-12-"
+"01 11:48+0800PO-Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME "
+"<EMAIL@ADDRESS>Language:zh_CNLanguage-Team:zh_CN <LL@li.org>Plural-"
+"Forms:nplurals=1; plural=0;MIME-Version:1.0Content-Type:text/plain; "
+"charset=UTF-8\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESSPOT-Creation-Date:2023-12-02 00:23+0800PO-"
+"Revision-Date:YEAR-MO-DA HO:MI+ZONELast-Translator:FULL NAME <EMAIL@ADDRESS"
+">Language-Team:LANGUAGE <LL@li.org>MIME-Version:1.0Content-Type:text/plain; "
+"charset=UTF-8\n"
+"PO-Revision-Date: 2023-12-18 07:38+0000\n"
+"Last-Translator: Readon <xydarcher@qq.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"spinaldoc-rtd/spinalhdldevelopers-areaspinalhdl_datamodel/zh_Hans/>\n"
+"Language: zh_CN\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bitGenerated-By:Babel 2.13.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.3\n"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:3
+msgid "SpinalHDL internal datamodel"
+msgstr "SpinalHDL 内部数据模型"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:10
+msgid "Introduction"
+msgstr "简介"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:12
+msgid ""
+"This page provides documentation on the internal data structure utilized by "
+"SpinalHDL for storing and modifying the netlist described by users via the "
+"SpinalHDL API."
+msgstr "本页面提供有关 SpinalHDL 使用的内部数据结构的文档，用于存储和修改用户通过 "
+"SpinalHDL API 描述的网表。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:15
+msgid "General structure"
+msgstr "总体结构"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:17
+msgid "The following diagrams follow the UML nomenclature :"
+msgstr "下图遵循 UML 命名法："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:19
+msgid "A link with a white arrow mean \"base extend target\""
+msgstr "带有白色箭头的链接表示“源继承目标”"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:20
+msgid "A link with a black diamond mean \"base contains target\""
+msgstr "带有黑色菱形的链接表示“源包含目标”"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:21
+msgid "A link with a white diamond mean \"base has a reference to target\""
+msgstr "带有白色菱形的链接意味着“源中有一个对目标的引用”"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:22
+msgid "The * symbol mean \"multiple\""
+msgstr "``* `` 符号表示“多个”"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:24
+msgid ""
+"The majority of the data structures are stored using double-linked lists, "
+"which facilitate the insertion and removal of elements."
+msgstr "大多数数据结构都是使用双向链表存储，这方便了元素的插入和删除。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:26
+msgid "There is a diagram of the global data structure :"
+msgstr "全局数据结构图如下："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:31
+msgid "And here more details about the `Statement` class :"
+msgstr "这里是关于 `Statement` 类的更多细节："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:36
+msgid ""
+"In general, when an element within the data model utilizes other expressions"
+" or statements, that element typically includes functions for iterating over"
+" these usages. For example, each Expression is equipped with a "
+"*foreachExpression* function."
+msgstr ""
+"一般来说，当数据模型内的元素使用其他表达式或语句时，该元素通常包括迭代这些用"
+"法的函数。例如，每个表达式都配有一个 *foreachExpression* 函数。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:38
+msgid ""
+"When using these iteration functions, you have the option to remove the "
+"current element from the tree."
+msgstr "使用这些迭代函数时，您也可以从树中删除当前元素。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:40
+msgid ""
+"Additionally, as a side note, while the *foreachXXX* functions iterate only "
+"one level deep, there are often corresponding *walkXXX* functions that "
+"perform recursive iteration. For instance, using "
+"*myExpression.walkExpression* on *((a+b)+c)+d* will traverse the entire tree"
+" of addition operations."
+msgstr ""
+"此外，作为旁注，虽然 *foreachXXX* 函数仅迭代一层深度，但通常有相应的 "
+"*walkXXX* 函数执行递归迭代。例如，在 *((a+b)+c)+d* 表达式上使用 *myExpression"
+".walkExpression* ，这将遍历整个加法运算树。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:42
+msgid ""
+"There are also utilities like *myExpression.remapExpressions(Expression => "
+"Expression),* which iterate through all the expressions used within "
+"*myExpression* and replace them with the one you provide."
+msgstr ""
+"还有像 *myExpression.remapExpressions(Expression => Expression),* "
+"这样的实用工具，它会迭代 *myExpression* "
+"中使用的所有表达式，并将它们替换为您提供的表达式。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:44
+msgid ""
+"More generaly, most of the graph checks and transformations done by "
+"SpinalHDL are located in "
+"<https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala>"
+msgstr ""
+"通常来说，SpinalHDL 完成的大多数图(graph)关系检查和转换都位于 <https://github"
+".com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/"
+"Phase.scala >"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:47
+msgid "Exploring the datamodel"
+msgstr "探索数据模型"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:49
+msgid ""
+"Here is an example that identifies all adders within the netlist without "
+"utilizing shortcuts. :"
+msgstr "在不使用快捷方式的情况下，识别网表中所有加法器的示例如下 ："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:109
+msgid "Which will produces :"
+msgstr "这将生成："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:127
+msgid ""
+"Please note that in many cases, shortcuts are available. All the recursive "
+"processes mentioned earlier could have been replaced by a single one. :"
+msgstr "请注意，在许多情况下，都可以使用快捷方式。前面提到的所有递归过程，都可以用一"
+"个递归过程代替。 ："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:141
+msgid "Compilation Phases"
+msgstr "编译环节"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:143
+msgid ""
+"Here is the complete list of default phases, arranged in order, that are "
+"employed to modify, check, and generate Verilog code from a top-level "
+"component. :"
+msgstr "以下是按顺序排列的默认环节的完整列表，用于从顶级组件修改、检查和生成 Verilog "
+"代码。 ："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:145
+msgid ""
+"<https://github.com/SpinalHDL/SpinalHDL/blob/ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/internals/Phase.scala#L2487>"
+msgstr ""
+"<https://github.com/SpinalHDL/SpinalHDL/blob/"
+"ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/"
+"internals/Phase.scala#L2487>"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:147
+msgid ""
+"If you, as a user, add a new compilation phase by using "
+"*SpinalConfig.addTransformationPhase(new MyPhase())*, this phase will be "
+"inserted immediately after the user component elaboration process, which is "
+"relatively early in the compilation sequence. During this phase, you can "
+"still make use of the complete SpinalHDL user API to introduce elements into"
+" the netlist."
+msgstr ""
+"如果您作为用户使用 *SpinalConfig.addTransformationPhase(new MyPhase())* 添加"
+"新的编译环节，则该环节将在用户组件实例细化后立即插入，这在编译序列中相对较早"
+"。在此环节，您仍然可以使用完整的 SpinalHDL 用户 API 将元素引入网表。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:149
+msgid ""
+"If you choose to use the SpinalConfig.phasesInserters API, it's essential to"
+" exercise caution and ensure that any modifications made to the netlist "
+"align with the phases that have already been executed. For instance, if you "
+"insert your phase after the *PhaseInferWidth*, you must specify the width of"
+" each node you introduce."
+msgstr ""
+"如果您选择使用 SpinalConfig.phasesInserters "
+"API，则必须谨慎行事并确保对网表所做的任何修改与已执行的阶段保持一致。例如，"
+"如果您在 *PhaseInferWidth* 之后插入环节，则必须指定引入的每个节点的位宽。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:152
+msgid "Modifying a netlist as a user without plugins"
+msgstr "在不使用插件的情况下，以用户身份修改网表"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:154
+msgid ""
+"There are several user APIs that enable you to make modifications during the"
+" user elaboration phase. :"
+msgstr "有多个用户 API 使您能够在用户实例细化环节进行修改。 ："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:156
+msgid ""
+"mySignal.removeAssignments : Will remove all previous `:=` affecting the "
+"given signal"
+msgstr "mySignal.removeAssignments ：将删除所有先前对给定信号的赋值 `:=`"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:157
+msgid "mySignal.removeStatement : Will void the existance of the signal"
+msgstr "mySignal.removeStatement：将消除存在的信号"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:158
+msgid ""
+"mySignal.setAsDirectionLess : Will turn a in / out signal into a internal "
+"signal"
+msgstr "mySignal.setAsDirectionLess ：将输入/输出信号转换为内部信号（无方向）"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:159
+msgid ""
+"mySignal.setName : Enforce a given name on a signal (there is many other "
+"variants)"
+msgstr "mySignal.setName ：在信号上强制指定名称（还有许多其他变体）"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:160
+msgid ""
+"mySubComponent.mySignal.pull() : Will provide a readable copy of the given "
+"signal, even if that signal is somewhere else in the hierarchy"
+msgstr "mySubComponent.mySignal.pull() "
+"：将提供给定信号的可读副本，即使该信号位于层次结构中的其他位置"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:161
+msgid ""
+"myComponent.rework\\{ myCode \\} : Execute `myCode` in the context of "
+"`myComponent`, allowing modifying it with the user API"
+msgstr ""
+"myComponent.rework\\{ myCode \\} ：在 `myComponent` 上下文中执行 `myCode`，"
+"允许使用用户 API 修改它"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:163
+msgid ""
+"For example, the following code can be used to modify a top-level component "
+"by adding a three-stage shift register to each input and output of the "
+"component. This is particularly useful for synthesis testing."
+msgstr "例如，以下代码可用于修改顶级组件，向组件的每个输入和输出添加三级移位寄存器。"
+"这对于综合器测试特别有用。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:187
+msgid "You can use the code in the following manner: :"
+msgstr "您可以通过以下方式使用该代码："
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:193
+msgid ""
+"Here is a function that enables you to execute the body code as if the "
+"current component's context did not exist. This can be particularly useful "
+"for defining new signals without the influence of the current conditional "
+"scope (such as when or switch)."
+msgstr ""
+"这是一个函数，使您能够执行主体代码，就好像当前组件的上下文不存在一样。这对于"
+"定义新信号特别有用，这样信号不受当前条件范围（例如when或switch）的影响。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:223
+msgid ""
+"This kind of functionality is, for instance, employed in the VexRiscv "
+"pipeline to dynamically create components or elements as needed."
+msgstr "例如，这种功能被用在 VexRiscv 管道中，以根据需要动态创建组件或元素。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:226
+msgid "User space netlist analysis"
+msgstr "用户空间网表分析"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:228
+msgid ""
+"The SpinalHDL data model is also accessible and can be read during user-time"
+" elaboration. Here's an example that can help find the shortest logical path"
+" (in terms of clock cycles) to traverse a list of signals. In this specific "
+"case, it is being used to analyze the latency of the VexRiscv FPU design."
+msgstr ""
+"SpinalHDL 的数据模型也是可访问的，并且可以在用户实力细化时读取。下面的示例可"
+"以帮助找到遍历信号列表的最短逻辑路径（就时钟周期而言）。在本例中，它用于分析 "
+"VexRiscv FPU 设计的延迟。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:242
+msgid ""
+"Here you can find the implementation of that LatencyAnalysis tool : "
+"<https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620>"
+msgstr ""
+"在这里您可以找到该 LatencyAnalysis 工具的实现：<https://github.com/SpinalHDL/"
+"SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/"
+"spinal/lib/Utils.scala#L620>"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:247
+msgid "Enumerating every ClockDomain in use"
+msgstr "遍历、枚举正在使用的每个时钟域"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:249
+msgid ""
+"In this case, this is accomplished after the elaboration process by "
+"utilizing the SpinalHDL report."
+msgstr "在本例中，这是在实例细化完成之后利用 SpinalHDL 报告完成的。"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:285
+msgid "Will print out"
+msgstr "打印信息是"
