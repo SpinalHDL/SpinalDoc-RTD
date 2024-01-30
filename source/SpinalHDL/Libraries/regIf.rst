@@ -62,7 +62,7 @@ conflict detection
   cause Exception
   val M_REG1  = busif.newReg(doc="REG1")
   val r1fd0 = M_REG1.field(Bits(16 bits), RW, doc="fields 1")
-  val r1fd2 = M_REG1.field(offset=10, Bits(2 bits), RW, doc="fields 1")
+  val r1fd2 = M_REG1.fieldAt(pos=10, Bits(2 bits), RW, doc="fields 1")
     ...
   cause Exception
 
