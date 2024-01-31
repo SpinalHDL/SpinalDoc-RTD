@@ -11,8 +11,8 @@ simulation API, it is easy to integrate testbenches with the most common Scala u
 To be able to simulate user-defined components, SpinalHDL uses external HDL simulators as backend. Currently, four simulators are supported:
 
 - `Verilator <https://www.veripool.org/verilator/>`_
-- `GHDL <http://ghdl.free.fr/>`_ **(experimental, since SpinalHDL 1.4.1)**
-- `Icarus Verilog <https://steveicarus.github.io/iverilog/>`_ **(experimental, since SpinalHDL 1.4.1)**
+- `GHDL <http://ghdl.free.fr/>`_
+- `Icarus Verilog <https://steveicarus.github.io/iverilog/>`_
 - `VCS <https://www.synopsys.com/verification/simulation/vcs.html>`_ **(experimental, since SpinalHDL 1.7.0)**
 - `XSim <https://www.google.com/search?q=site%3Axilinx.com+xsim>`_ **(experimental, since SpinalHDL 1.7.0)**
 
