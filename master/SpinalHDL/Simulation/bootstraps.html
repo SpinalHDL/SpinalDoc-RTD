@@ -1379,7 +1379,14 @@ the simulation will continue. The simulation will report an error if it gets ful
 <span class="p">}</span>
 </pre></div>
 </div>
-<p id="env-spinalsim-workspace">Note that by default, the simulation files will be placed into the <code class="docutils literal notranslate"><span class="pre">simWorkspace/xxx</span></code> folders. You can override the simWorkspace location by setting the <code class="docutils literal notranslate"><span class="pre">SPINALSIM_WORKSPACE</span></code> environment variable.</p>
+<p>The location where the simulation files will be placed is defined by default in $WORKSPACE/$COMPILED.</p>
+<ul class="simple">
+<li><p>$WORKSPACE being by default <code class="docutils literal notranslate"><span class="pre">simWorkspace</span></code>, you can override it with the <code class="docutils literal notranslate"><span class="pre">SPINALSIM_WORKSPACE</span></code> environnement variable.</p></li>
+<li><p>$COMPILED being the name of the toplevel being simulated.</p></li>
+<li><p>The location of the wave file depend the backend used. For verilator it will be in the folder (<code class="docutils literal notranslate"><span class="pre">$WORKSPACE/$COMPILED/$TEST</span></code> by default).</p></li>
+<li><p>For the verilator backend, you can override the location of the test folder via the <code class="docutils literal notranslate"><span class="pre">SimConfig.setTestPath(path)</span></code> function.</p></li>
+<li><p>You can retrieve the location of the test path durring simulation by calling the currentTestPath() function.</p></li>
+</ul>
 </section>
 <section id="running-multiple-tests-on-the-same-hardware">
 <h2>Running multiple tests on the same hardware<a class="headerlink" href="#running-multiple-tests-on-the-same-hardware" title="Permalink to this heading"></a></h2>
@@ -1488,7 +1495,7 @@ the simulation will continue. The simulation will report an error if it gets ful
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~4a68cb347b 2024-01-30
+    Version: master git~70b168a387 2024-02-01
     </p></div>
     
 

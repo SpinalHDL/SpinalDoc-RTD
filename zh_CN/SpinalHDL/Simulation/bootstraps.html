@@ -1358,7 +1358,14 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p id="env-spinalsim-workspace">请注意，默认情况下，仿真文件将放置在 <code class="docutils literal notranslate"><span class="pre">simWorkspace/xxx</span></code> 文件夹中。您可以通过设置 <code class="docutils literal notranslate"><span class="pre">SPINALSIM_WORKSPACE</span></code> 环境变量来覆盖 simWorkspace 位置。</p>
+<p>The location where the simulation files will be placed is defined by default in $WORKSPACE/$COMPILED.</p>
+<ul class="simple">
+<li><p>$WORKSPACE being by default <code class="docutils literal notranslate"><span class="pre">simWorkspace</span></code>, you can override it with the <code class="docutils literal notranslate"><span class="pre">SPINALSIM_WORKSPACE</span></code> environnement variable.</p></li>
+<li><p>$COMPILED being the name of the toplevel being simulated.</p></li>
+<li><p>The location of the wave file depend the backend used. For verilator it will be in the folder (<code class="docutils literal notranslate"><span class="pre">$WORKSPACE/$COMPILED/$TEST</span></code> by default).</p></li>
+<li><p>For the verilator backend, you can override the location of the test folder via the <code class="docutils literal notranslate"><span class="pre">SimConfig.setTestPath(path)</span></code> function.</p></li>
+<li><p>You can retrieve the location of the test path durring simulation by calling the currentTestPath() function.</p></li>
+</ul>
 </section>
 <section id="running-multiple-tests-on-the-same-hardware">
 <h2>在同一硬件上运行多个测试<a class="headerlink" href="#running-multiple-tests-on-the-same-hardware" title="此标题的永久链接"></a></h2>

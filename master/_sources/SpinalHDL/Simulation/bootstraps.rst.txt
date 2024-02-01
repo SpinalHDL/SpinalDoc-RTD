@@ -156,9 +156,14 @@ Note is it equivalent to:
       simThread.suspend() // Avoid the "doSim" completion
     }
 
-.. _env_SPINALSIM_WORKSPACE:
+The location where the simulation files will be placed is defined by default in $WORKSPACE/$COMPILED. 
 
-Note that by default, the simulation files will be placed into the ``simWorkspace/xxx`` folders. You can override the simWorkspace location by setting the ``SPINALSIM_WORKSPACE`` environment variable.
+- $WORKSPACE being by default ``simWorkspace``, you can override it with the ``SPINALSIM_WORKSPACE`` environnement variable.
+- $COMPILED being the name of the toplevel being simulated.
+- The location of the wave file depend the backend used. For verilator it will be in the folder (``$WORKSPACE/$COMPILED/$TEST`` by default). 
+- For the verilator backend, you can override the location of the test folder via the ``SimConfig.setTestPath(path)`` function.
+- You can retrieve the location of the test path durring simulation by calling the currentTestPath() function.
+
 
 Running multiple tests on the same hardware
 -------------------------------------------
