@@ -17,9 +17,9 @@ Automatic address allocation
 
   class RegBankExample extends Component {
     val io = new Bundle {
-      apb = Apb3(Apb3Config(16,32))
+      apb = slave(Apb3(Apb3Config(16,32)))
     }
-    val busif = Apb3BusInterface(io.apb,(0x0000, 100 Byte)
+    val busif = Apb3BusInterface(io.apb,(0x0000, 100 Byte))
     val M_REG0  = busif.newReg(doc="REG0")
     val M_REG1  = busif.newReg(doc="REG1")
     val M_REG2  = busif.newReg(doc="REG2")
@@ -268,6 +268,19 @@ example2: interrupt raw reg with foce interface for software
 
    val raw    = RAW.field(Bool(), AccessType.W1C,    resetValue = 0, doc = s"raw, default 0" )
                 FORCE.parasiteField(raw, AccessType.W1S,   resetValue = 0, doc = s"force, write 1 set, debug use" )
+
+**CASE6:** ``SpinalEnum``
+
+When the field type is SpinalEnum, the resetValue specifies the index of the enum elements.
+
+.. code:: scala
+
+   object UartCtrlTxState extends SpinalEnum(defaultEncoding = binaryOneHot) {
+      val sIdle, sStart, sData, sParity, sStop = newElement()
+   }
+
+   val raw = M_REG2.field(UartCtrlTxState(), AccessType.RW, resetValue = 2, doc="state")
+   // raw will be init to sData
 
 Byte Mask
 =========
