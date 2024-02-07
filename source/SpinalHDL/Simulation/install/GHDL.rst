@@ -2,6 +2,10 @@
 Setup and installation of GHDL
 ==============================
 
+.. note::
+   If you installed the recommended oss-cad-suite during SpinalHDL :ref:`setup <Install>` you
+   can skip the instructions below - but you need to activate the oss-cad-suite environment.
+
 Even though GHDL is generally available in linux distributions package system, SpinalHDL depends on bugfixes of GHDL codebase that were added after the release of GHDL v0.37. Therefore it is reccomended to install GHDL from source.
 The C++ library boost-interprocess, which is contained in the libboost-dev package in debian-like distributions, has to be installed too. boost-interprocess is required to generate the shared memory communication interface. 
 

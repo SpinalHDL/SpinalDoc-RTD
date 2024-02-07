@@ -223,6 +223,8 @@ html_context = {
     'github_version': os.getenv('GITHUB_REF_NAME', 'master'), # Version
     'conf_py_path': '/source/', # Path in the checkout to the docs root
 
+    'current_language': 'en',
+    'languages': [["zh_CN", "/SpinalDoc-RTD/zh_CN"]],
     'sphinx_latest_version': os.getenv('sphinx_latest_version', None)
 }
 
@@ -366,3 +368,5 @@ def html_context_add_git(attr):
 
 
 html_context = html_context_add_git(html_context)
+locale_dirs = ['locale/']   # path is example but recommended.
+gettext_compact = False     # optional.

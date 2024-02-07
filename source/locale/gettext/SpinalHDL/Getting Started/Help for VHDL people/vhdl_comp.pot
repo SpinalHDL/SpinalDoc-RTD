@@ -1,0 +1,277 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018 - 2024, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-02 16:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:5
+msgid "VHDL comparison"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:8
+msgid "Introduction"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:10
+msgid "This page will show the main differences between VHDL and SpinalHDL. Things will not be explained in depth."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:13
+msgid "Process"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:15
+msgid "Processes are often needed when you write RTL, however, their semantics can be clunky to work with. Due to how they work in VHDL, they can force you to split your code and duplicate things."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:17
+msgid "To produce the following RTL:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:21
+msgid "You will have to write the following VHDL:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:57
+msgid "While in SpinalHDL, it's:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:73
+msgid "Implicit vs explicit definitions"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:75
+msgid "In VHDL, when you declare a signal, you don't specify if it is a combinatorial signal or a register. Where and how you assign to it decides whether it is combinatorial or registered."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:77
+msgid "In SpinalHDL these kinds of things are explicit. Registers are defined as registers directly in their declaration."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:80
+msgid "Clock domains"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:82
+msgid "In VHDL, every time you want to define a bunch of registers, you need the carry the clock and the reset wire to them. In addition, you have to hardcode everywhere how those clock and reset signals should be used (clock edge, reset polarity, reset nature (async, sync))."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:84
+msgid "In SpinalHDL you can define a ``ClockDomain``, and then define the area of your hardware that uses it."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:86
+msgid "For example:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:107
+msgid "Component's internal organization"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:109
+msgid "In VHDL, there is a ``block`` feature that allows you to define sub-areas of logic inside your component. However, almost no one uses this feature, because most people don't know about them, and also because all signals defined inside these regions are not readable from the outside."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:111
+msgid "In SpinalHDL you have an ``Area`` feature that does this concept much more nicely:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:131
+msgid "Variables and signals defined inside of an ``Area`` are accessible elsewhere in the component, including in other ``Area`` regions."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:134
+msgid "Safety"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:136
+msgid "In VHDL as in SpinalHDL, it's easy to write combinatorial loops, or to infer a latch by forgetting to drive a signal in the path of a process."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:138
+msgid "Then, to detect those issues, you can use some ``lint`` tools that will analyze your VHDL, but those tools aren't free. In SpinalHDL the ``lint`` process in integrated inside the compiler, and it won't generate the RTL code until everything is fine. It also checks clock domain crossing."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:141
+msgid "Functions and procedures"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:143
+msgid "Functions and procedures are not used very often in VHDL, probably because they are very limited:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:145
+msgid "You can only define a chunk of combinational hardware, or only a chunk of registers (if you call the function/procedure inside a clocked process)."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:146
+msgid "You can't define a process inside them."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:147
+msgid "You can't instantiate a component inside them."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:148
+msgid "The scope of what you can read/write inside them is limited."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:150
+msgid "In SpinalHDL, all those limitations are removed."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:152
+msgid "An example that mixes combinational logic and a register in a single function:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:168
+msgid "An example with the queue function inside the Stream Bundle (handshake). This function instantiates a FIFO component:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:184
+msgid "An example where a function assigns a signal defined outside of itself:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:200
+msgid "Buses and Interfaces"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:202
+msgid "VHDL is very boring when it comes to buses and interfaces. You have two options:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:204
+msgid "Define buses and interfaces wire-by-wire, each time and everywhere:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:216
+msgid "Use records but lose parameterization (statically fixed in the package), and you have to define one for each directions:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:223
+msgid "SpinalHDL has very strong support for bus and interface declarations with limitless parameterizations:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:229
+msgid "You can also use object oriented programming to define configuration objects:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:273
+msgid "Signal declaration"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:275
+msgid "VHDL forces you to define all signals at the top of your architecture description, which is annoying."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:295
+msgid "SpinalHDL is flexible when it comes to signal declarations."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:302
+msgid "It also allows you to define and assign signals in a single line."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:309
+msgid "Component instantiation"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:311
+msgid "VHDL is very verbose about this, as you have to redefine all signals of your sub-component entity, and then bind them one-by-one when you instantiate your component."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:338
+msgid "SpinalHDL removes that, and allows you to access the IO of sub-components in an object-oriented way."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:349
+msgid "Casting"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:351
+msgid "There are two annoying casting methods in VHDL:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:353
+msgid "boolean <> std_logic (ex: To assign a signal using a condition such as ``mySignal <= myValue < 10`` is not legal)"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:354
+msgid "unsigned <> integer  (ex: To access an array)"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:356
+msgid "SpinalHDL removes these casts by unifying things."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:358
+msgid "boolean/std_logic:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:366
+msgid "unsigned/integer:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:375
+msgid "Resizing"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:377
+msgid "The fact that VHDL is strict about bit size is probably a good thing."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:383
+msgid "In SpinalHDL you have two ways to do the same:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:394
+msgid "Parameterization"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:396
+msgid "VHDL prior to the 2008 revision has many issues with generics. For example, you can't parameterize records, you can't parameterize arrays in the entity, and you can't have type parameters."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:397
+msgid "Then VHDL 2008 came and fixed those issues. But RTL tool support for VHDL 2008 is really weak depending on the vendor."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:399
+msgid "SpinalHDL has full support for generics integrated natively in its compiler, and it doesn't rely on VHDL generics."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:401
+msgid "Here is an example of parameterized data structures:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:409
+msgid "Here is an example of a parameterized component:"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:422
+msgid "Meta hardware description"
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:424
+msgid "VHDL has kind of a closed syntax. You can't add abstraction layers on top of it."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:426
+msgid "SpinalHDL, because it's built on top of Scala, is very flexible, and allows you to define new abstraction layers very easily."
+msgstr ""
+
+#: ../../SpinalHDL/Getting Started/Help for VHDL people/vhdl_comp.rst:428
+msgid "Some examples of this flexibility are the :ref:`FSM <state_machine>` library, the :ref:`BusSlaveFactory <bus_slave_factory>` library, and also the :ref:`JTAG <jtag>` library."
+msgstr ""

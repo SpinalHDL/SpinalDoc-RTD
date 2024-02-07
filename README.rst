@@ -8,6 +8,10 @@ This is the documentation repository for
 It is published on
 `spinalhdl.github.io/SpinalDoc-RTD <https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html>`_.
 
+There is also a Chinese version on
+`spinalhdl-cn.github.io/SpinalDoc-RTD <https://spinalhdl-cn.github.io/SpinalDoc-RTD/zh_CN/index.html>`_.
+This continuous localization version is maintained with the help of `Weblate <https://hosted.weblate.org/projects/spinaldoc-rtd/>`_.
+
 You can also find the API documentation on
 `spinalhdl.github.io/SpinalHDL <https://spinalhdl.github.io/SpinalHDL/dev/spinal/index.html>`_.
 
@@ -46,6 +50,12 @@ and then you can use ``make`` the usual way
    make          # list all the available output format
 
 all the outputs will be in docs folder (for html: docs/html)
+
+The Chinese version can be built by
+
+.. code:: shell
+
+   make -e SPHINXOPTS="-D language='zh_CN'" html # for html in Chinese
 
 
 With Docker
