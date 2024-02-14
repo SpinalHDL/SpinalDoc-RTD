@@ -159,8 +159,8 @@ Lib helper functions
      - Check if there is an element with a given value present in the Vec.
      - Bool
    * - x.sFindFirst(condition: T => Bool)
-     - Find the first element matching the given condition in the Vec, return the index of that element.
-     - UInt
+     - Find the first element matching the given condition in the Vec, return if any index was successfully found and the index of that element.
+     - (Bool, UInt)
    * - x.reduceBalancedTree(op: (T, T) => T)
      - Balanced reduce function, to try to minimize the depth of the resulting circuit. ``op`` should be commutative and associative.
      - T
@@ -183,7 +183,7 @@ Lib helper functions
     val b1: Bool = vec1.sExists(_ > 250) // is there a element bigger than 250
     val b2: Bool = vec1.sContains(0) // is there a zero in vec
 
-    val u1: UInt = vec1.sFindFirst(_ < 10) // get the index of the first element lower than 10
+    val (u1Found, u1): (Bool, UInt) = vec1.sFindFirst(_ < 10) // get the index of the first element lower than 10
     val u2: UInt = vec1.reduceBalancedTree(_ + _) // sum all elements together
 
 

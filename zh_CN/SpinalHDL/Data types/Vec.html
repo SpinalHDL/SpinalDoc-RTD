@@ -1389,8 +1389,8 @@
 <td><p>Bool</p></td>
 </tr>
 <tr class="row-even"><td><p>x.sFindFirst(condition: T =&gt; Bool)</p></td>
-<td><p>查找 Vec 中与给定条件匹配的第一个元素，返回该元素的索引。</p></td>
-<td><p>UInt</p></td>
+<td><p>Find the first element matching the given condition in the Vec, return if any index was successfully found and the index of that element.</p></td>
+<td><p>(Bool, UInt)</p></td>
 </tr>
 <tr class="row-odd"><td><p>x.reduceBalancedTree(op: (T, T) =&gt; T)</p></td>
 <td><p>具有自动平衡功能的reduce函数，尽量减少生成电路的深度。 <code class="docutils literal notranslate"><span class="pre">op</span></code> 应该是具有可交换性和可结合性的。</p></td>
@@ -1415,7 +1415,7 @@
 <span class="kd">val</span><span class="w"> </span><span class="n">b1</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sExists</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">250</span><span class="p">)</span><span class="w"> </span><span class="c1">// is there a element bigger than 250</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">b2</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sContains</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c1">// is there a zero in vec</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">u1</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sFindFirst</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="c1">// get the index of the first element lower than 10</span>
+<span class="kd">val</span><span class="w"> </span><span class="p">(</span><span class="n">u1Found</span><span class="p">,</span><span class="w"> </span><span class="n">u1</span><span class="p">):</span><span class="w"> </span><span class="p">(</span><span class="nc">Bool</span><span class="p">,</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">sFindFirst</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="c1">// get the index of the first element lower than 10</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">u2</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec1</span><span class="p">.</span><span class="n">reduceBalancedTree</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="c1">// sum all elements together</span>
 </pre></div>
 </div>
