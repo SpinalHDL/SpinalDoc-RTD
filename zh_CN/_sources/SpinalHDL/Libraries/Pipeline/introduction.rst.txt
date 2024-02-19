@@ -602,29 +602,36 @@ Here is how it can be done with this pipelining API :
       // Let's define the Nodes for our pipeline
       val nodes = Array.fill(resultAt+1)(Node())
 
+      // Let's specify which node will be used for what part of the pipeline
+      val insertNode = nodes(0)
+      val addNode = nodes(addAt)
+      val invNode = nodes(invAt)
+      val mulNode = nodes(mulAt)
+      val resultNode = nodes(resultAt)
+
       // Define the hardware which will feed the io.up stream into the pipeline
-      val inserter = new nodes(0).Area {
+      val inserter = new insertNode.Area {
         arbitrateFrom(io.up)
         val RGB = insert(io.up.payload)
       }
 
       // sum the r g b values of the color
-      val adder = new nodes(addAt).Area {
+      val adder = new addNode.Area {
         val SUM = insert(inserter.RGB.r + inserter.RGB.g + inserter.RGB.b)
       }
 
       // flip all the bit of the RGB sum
-      val inverter = new nodes(invAt).Area {
+      val inverter = new invNode.Area {
         val INV = insert(~adder.SUM)
       }
 
       // multiply the inverted bits with 0xEE
-      val multiplier = new nodes(mulAt).Area {
+      val multiplier = new mulNode.Area {
         val MUL = insert(inverter.INV*0xEE)
       }
 
       // Connect the end of the pipeline to the io.down stream
-      val resulter = new nodes(resultAt).Area {
+      val resulter = new resultNode.Area {
         arbitrateTo(io.down)
         io.down.payload := multiplier.MUL
       }
