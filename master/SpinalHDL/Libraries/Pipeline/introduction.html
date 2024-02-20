@@ -2017,6 +2017,23 @@ They generally have a <cite>up</cite> Node and a <cite>down</cite> Node.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
+<p>One thing about this example is the necessity intermediate val as <cite>addNode</cite>. I mean :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">addNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes</span><span class="p">(</span><span class="n">addAt</span><span class="p">)</span>
+<span class="c1">// sum the r g b values of the color</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">adder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">addNode</span><span class="p">.</span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Unfortunatly, scala doesn’t allow to replace <cite>new addNode.Area</cite> with <cite>new nodes(addAt).Area</cite>.
+One workaround is to define a class as :</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">NodeArea</span><span class="p">(</span><span class="n">at</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">NodeMirror</span><span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">at</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">adder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">NodeArea</span><span class="p">(</span><span class="n">addAt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Depending the scale of your pipeline, it can payoff.</p>
 </section>
 <section id="simple-cpu-example">
 <h1>Simple CPU example<a class="headerlink" href="#simple-cpu-example" title="Permalink to this heading"></a></h1>
@@ -2144,7 +2161,7 @@ They generally have a <cite>up</cite> Node and a <cite>down</cite> Node.</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~d13fec9d78 2024-02-19
+    Version: master git~abef56fce9 2024-02-20
     </p></div>
     
 
