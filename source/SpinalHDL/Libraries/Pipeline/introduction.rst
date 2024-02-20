@@ -804,6 +804,27 @@ Then you may want to remove the output register stage :
       )
 
 
+One thing about this example is the necessity intermediate val as `addNode`. I mean : 
+
+.. code-block:: scala
+
+      val addNode = nodes(addAt)
+      // sum the r g b values of the color
+      val adder = new addNode.Area {
+        ...
+      }
+
+Unfortunatly, scala doesn't allow to replace `new addNode.Area` with `new nodes(addAt).Area`.
+One workaround is to define a class as : 
+
+.. code-block:: scala
+
+    class NodeArea(at : Int) extends NodeMirror(nodes(at))
+    val adder = new NodeArea(addAt) {
+        ...
+    }
+
+Depending the scale of your pipeline, it can payoff.
 
 Simple CPU example
 ================================================
