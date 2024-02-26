@@ -445,16 +445,18 @@ SpinalUsage:
 Spinal Factory
 --------------
                                                                                                                                                  
-=================================================================================== ============================================================
-BusInterface method                                                                 Description                                                        
-=================================================================================== ============================================================
-``InterruptFactory(regNamePre: String, triggers: Bool*)``                            create RAW/FORCE/MASK/STATUS for pulse event      
-``InterruptFactoryNoForce(regNamePre: String, triggers: Bool*)``                     create RAW/MASK/STATUS for pulse event      
-``InterruptFactory(regNamePre: String, triggers: Bool*)``                            create MASK/STATUS for level_int merge       
-``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         create RAW/FORCE/MASK/STATUS for pulse event at addrOffset 
-``InterruptFactoryNoForceAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``  create RAW/MASK/STATUS for pulse event at addrOffset     
-``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``         create MASK/STATUS for level_int merge at addrOffset      
-=================================================================================== ============================================================
+============================================================================================= ===================================================================
+BusInterface method                                                                           Description                                                        
+============================================================================================= ===================================================================
+``InterruptFactory(regNamePre: String, triggers: Bool*)``                                     create RAW/FORCE/MASK/STATUS for pulse event      
+``InterruptFactoryNoForce(regNamePre: String, triggers: Bool*)``                              create RAW/MASK/STATUS for pulse event      
+``InterruptLevelFactory(regNamePre: String, triggers: Bool*)``                                create MASK/STATUS for level_int merge       
+``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``                  create RAW/FORCE/MASK/STATUS for pulse event at addrOffset 
+``InterruptFactoryNoForceAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``           create RAW/MASK/STATUS for pulse event at addrOffset     
+``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``                  create MASK/STATUS for level_int merge at addrOffset      
+``interrupt_W1SCmask_FactoryAt(addrOffset: BigInt, regNamePre: String, triggers: Bool*)``     creat RAW/FORCE/MASK(SET/CLR)/STATUS for pulse event at addrOffset
+``interruptLevel_W1SCmask_FactoryAt(addrOffset: BigInt, regNamePre: String, levels: Bool*)``  creat RAW/FORCE/MASK(SET/CLR)/STATUS for leveel event at addrOffset
+============================================================================================= ===================================================================
                                
 Example
 -------
