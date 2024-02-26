@@ -163,6 +163,43 @@ For example:
      mapCurrentClockDomain(io.clkB)
    }
 
+By default the ports of the blackbox are considered clock-less, meaning no clock crossing checks will be made on their usage. You can specify ports clock domain by using the ClockDomainTag : 
+
+.. code-block:: scala
+
+    class DemoBlackbox extends BlackBox {
+      val io = new Bundle{
+        val clk, rst = in Bool()
+        val a = in Bool()
+        val b = out Bool()
+      }
+      mapCurrentClockDomain(io.clk, io.rst)
+      ClockDomainTag(this.clockDomain)(
+        io.a,
+        io.b
+      )  
+    }
+
+You can also apply the tag to the whole bundle with : 
+
+.. code-block:: scala
+      val io = new Bundle{
+        val clk, rst = in Bool()
+        val a = in Bool()
+        val b = out Bool()
+      }
+      ClockDomainTag(this.clockDomain)(io)
+
+You can also apply the current clock domain to all the ports using (SpinalHDL 1.10.2): 
+
+.. code-block:: scala
+      val io = new Bundle{
+        val clk, rst = in Bool()
+        val a = in Bool()
+        val b = out Bool()
+      }
+      setIoCd()
+
 io prefix
 ---------
 
