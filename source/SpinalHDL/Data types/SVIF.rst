@@ -81,7 +81,84 @@ Parameter
      tieGeneric(r, width)// or tieParameter
      tieGeneric(g, width)
      tieGeneric(b, width)
+
+     @modport
+     def mst = out(r, g, b)
+
+     @modport
+     def slv = in(r, g, b)
    }
+
+.. code-block:: scala
+
+   case class ColorHandShake(Width: Int) extends SVIF with IMasterSlave {
+     val w = addGeneric("W", Width, default = "8")
+     val valid = Bool()
+     val payload = Color(Width)
+     val ready = Bool()
+     tieIFParameter(payload, "WIDTH", "W") // for generate "  .WIDTH (W)"
+
+     override def asMaster = {
+       out(valid, payload)
+       in(ready)
+     }
+
+     @modport
+     def mst = asMaster
+
+     @modport
+     def slv = asSlave
+   }
+
+this will generate system verilog code as below:
+
+.. code-block:: scala
+
+   interface ColorHandShake #(
+      parameter W = 8
+   ) () ;
+
+      logic           valid ;
+      Color #(
+         .WIDTH (W)
+      ) payload();
+      logic           ready ;
+
+      modport mst (
+         output          valid,
+         Color.slv       payload,
+         input           ready
+      );
+
+      modport slv (
+         input           valid,
+         Color.mst       payload,
+         output          ready
+      );
+
+   endinterface
+
+   interface Color #(
+      parameter WIDTH
+   ) () ;
+
+      logic  [WIDTH-1:0] r ;
+      logic  [WIDTH-1:0] g ;
+      logic  [WIDTH-1:0] b ;
+
+      modport mst (
+         input           r,
+         input           g,
+         input           b
+      );
+
+      modport slv (
+         output          r,
+         output          g,
+         output          b
+      );
+
+   endinterface
 
 Definition Name
 ~~~~~~~~~~~~~~~
