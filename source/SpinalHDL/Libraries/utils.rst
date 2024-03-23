@@ -33,6 +33,9 @@ State less utilities
        | CountOne(x : BitVector)
      - UInt
      - Return the number of bit set in ``x``
+   * - | CountLeadingZeroes(x : Bits)
+     - UInt
+     - Return the number of consecutive zero bits starting from the MSB
    * - | MajorityVote(x : Seq[Bool])
        | MajorityVote(x : BitVector)
      - Bool
