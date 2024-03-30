@@ -6,12 +6,19 @@ Plru
 
 Introduction
 --------------------
-/**
-  * Pseudo least recently used combinatorial logic
-  * io.context.state need to be handled externaly.
-  * When you want to specify a access to a entry, you can use the io.update interface
-  * to get the new state value.
-  */
+Pseudo least recently used combinatorial logic
+io.context.state need to be handled externaly.
+When you want to specify a access to a entry, you can use the io.update interface
+to get the new state value.
+
+Defined as
+
+.. code-block:: scala
+
+   object Plru{
+     def State(entries : Int) = Vec.tabulate(log2Up(entries))(l =>  Bits(1 << l bits))
+   }
+
 
 
 .. code-block:: scala
