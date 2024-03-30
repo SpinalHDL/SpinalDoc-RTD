@@ -20,6 +20,7 @@ Defined as
    }
 
 
+Example usage
 
 .. code-block:: scala
 
