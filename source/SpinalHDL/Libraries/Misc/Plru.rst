@@ -16,14 +16,13 @@ Introduction
 
 .. code-block:: scala
 
-      val PLRU = Payload(Plru.State(wayCount))
-    val plru = new Area {
-        val ram = Mem.fill(nSets)(Plru.State(wayCount))
-        val write = ram.writePort 
-        val fromLoad, fromStore = cloneOf(write)
-        write.valid := fromLoad.valid || fromStore.valid
-        write.payload := fromLoad.valid.mux(fromLoad.payload, fromStore.payload)
-        
-    }
+   val PLRU = Payload(Plru.State(wayCount))
+   val plru = new Area {
+      val ram = Mem.fill(nSets)(Plru.State(wayCount))
+      val write = ram.writePort 
+      val fromLoad, fromStore = cloneOf(write)
+      write.valid := fromLoad.valid || fromStore.valid
+      write.payload := fromLoad.valid.mux(fromLoad.payload, fromStore.payload)  
+   }
 
 
