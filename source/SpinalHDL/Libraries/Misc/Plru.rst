@@ -16,18 +16,14 @@ Introduction
 
 .. code-block:: scala
 
-      class MyPlugin extends FiberPlugin {
-        val logic = during setup new Area {
-          // Here we are executing code in the setup phase
-          awaitBuild()
-          // Here we are executing code in the build phase
-        }
-      }
-
-      class MyPlugin2 extends FiberPlugin {
-        val logic = during build new Area {
-          // Here we are executing code in the build phase
-        }
-      }
+      val PLRU = Payload(Plru.State(wayCount))
+    val plru = new Area {
+        val ram = Mem.fill(nSets)(Plru.State(wayCount))
+        val write = ram.writePort 
+        val fromLoad, fromStore = cloneOf(write)
+        write.valid := fromLoad.valid || fromStore.valid
+        write.payload := fromLoad.valid.mux(fromLoad.payload, fromStore.payload)
+        
+    }
 
 
