@@ -164,3 +164,8 @@ Definition Name
 ~~~~~~~~~~~~~~~
 
 you can use ``setDefinitionName`` to set the definition name. But remember to use it before any clone of this interface
+
+Not Interface
+~~~~~~~~~~~~~
+
+If you have used a certain interface in multiple places, and at one of those locations ``sigA``, you wish to flatten it instead of generating an interface, you can achieve this by calling ``sigA.notSVIF()`` to fully flatten the signal. If the signal has nested interfaces and you only want to expand the outermost layer, you can use ``sigA.notSVIFthisLevel()``.
