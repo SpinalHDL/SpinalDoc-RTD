@@ -61,11 +61,13 @@ Example usage in a cache
 Then you can do
 
 .. code-block:: scala
+
    val replacedWay = plru.io.evict.id
 
 And you can update recently used way
 
 .. code-block:: scala
+
    plru.update.id := refillWay
 
 
