@@ -59,5 +59,5 @@ Example usage in a cache
 
 
 
-plru.io.evict.id tells you the id of the next block to be evicted
-plru.io.update.id lets you update what you recently used
+- plru.io.evict.id tells you the id of the next block to be evicted
+- plru.io.update.id lets you update what you recently used
