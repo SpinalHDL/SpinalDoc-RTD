@@ -58,6 +58,14 @@ Example usage in a cache
       write.payload := fromLoad.valid.mux(fromLoad.payload, fromStore.payload)
    }
 
+Then you can do
+.. code-block:: scala
+   val replacedWay = plru.io.evict.id
+
+And you can update recently used way
+.. code-block:: scala
+   plru.update.id := refillWay
+
 
 
 
