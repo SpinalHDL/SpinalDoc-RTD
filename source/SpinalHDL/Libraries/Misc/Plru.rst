@@ -9,6 +9,8 @@ Introduction
 - Pseudo least recently used combinatorial logic
 - io.context.state need to be handled externaly.
 - When you want to specify a access to a entry, you can use the io.update interface to get the new state value.
+- plru.io.evict.id tells you the id of the next block to be evicted
+- plru.io.update.id lets you update what you recently used
 
 Defined as
 
@@ -58,5 +60,4 @@ Example usage in a cache
 
 
 
-- plru.io.evict.id tells you the id of the next block to be evicted
-- plru.io.update.id lets you update what you recently used
+
