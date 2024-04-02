@@ -12,14 +12,6 @@ Introduction
 - plru.io.evict.id tells you the id of the next block to be evicted
 - plru.io.update.id lets you update what you recently used
 
-Defined as
-
-.. code-block:: scala
-
-   object Plru{
-     def State(entries : Int) = Vec.tabulate(log2Up(entries))(l =>  Bits(1 << l bits))
-   }
-
 
 PLRU Code
 
