@@ -6,10 +6,9 @@ Plru
 
 Introduction
 --------------------
-Pseudo least recently used combinatorial logic
-io.context.state need to be handled externaly.
-When you want to specify a access to a entry, you can use the io.update interface
-to get the new state value.
+- Pseudo least recently used combinatorial logic
+- io.context.state need to be handled externaly.
+- When you want to specify a access to a entry, you can use the io.update interface to get the new state value.
 
 Defined as
 
