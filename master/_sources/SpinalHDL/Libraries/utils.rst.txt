@@ -89,11 +89,23 @@ State full utilities
    * - Delay(that: T, cycleCount: Int)
      - T
      - Return ``that`` delayed by ``cycleCount`` cycles
-   * - History(that: T, length: Int[,when : Bool])
-     - List[T]
+   * - | History (
+       |   that: T, length: Int
+       |   *[*\ , when : Bool\ *][*\ , init : T\ *]*
+       | )
+     - Vec[T]
      - | Return a Vec of ``length`` elements
-       | The first element is ``that``\ , the last one is ``that`` delayed by ``length``\ -1\
+       | The first element is ``that``\ , the last one is ``that`` delayed by ``length`` - 1
        | The internal shift register sample when ``when`` is asserted
+   * - | History (
+       |   that: T, range: Range
+       |   *[*\ , when : Bool\ *][*\ , init : T\ *]*
+       | )
+     - Vec[T]
+     - | Same as ``History(that, length)`` 
+       | but return a Vec of size ``range.length``
+       | where the first element is delayed by ``range.low``
+       | and the last by ``range.high``
    * - BufferCC(input : T)
      - T
      - Return the input signal synchronized with the current clock domain by using 2 flip flop

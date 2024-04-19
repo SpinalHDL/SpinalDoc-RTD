@@ -183,7 +183,8 @@ By default the ports of the blackbox are considered clock-less, meaning no clock
 You can also apply the tag to the whole bundle with : 
 
 .. code-block:: scala
-      val io = new Bundle{
+
+      val io = new Bundle {
         val clk, rst = in Bool()
         val a = in Bool()
         val b = out Bool()
@@ -193,7 +194,8 @@ You can also apply the tag to the whole bundle with :
 You can also apply the current clock domain to all the ports using (SpinalHDL 1.10.2): 
 
 .. code-block:: scala
-      val io = new Bundle{
+
+      val io = new Bundle {
         val clk, rst = in Bool()
         val a = in Bool()
         val b = out Bool()

@@ -1356,16 +1356,42 @@
 <td><p>T</p></td>
 <td><p>返回延迟了 <code class="docutils literal notranslate"><span class="pre">cycleCount</span></code> 周期的 <code class="docutils literal notranslate"><span class="pre">that</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>History(that: T, length: Int[,when : Bool])</p></td>
-<td><p>List[T]</p></td>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">History (</div>
+<div class="line-block">
+<div class="line">that: T, length: Int</div>
+<div class="line"><em>[</em>, when : Bool<em>][</em>, init : T<em>]</em></div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Vec[T]</p></td>
 <td><div class="line-block">
 <div class="line">返回长度为 <code class="docutils literal notranslate"><span class="pre">length</span></code> 的Vec</div>
-<div class="line">其第一个元素是 <code class="docutils literal notranslate"><span class="pre">that</span></code> ，最后一个元素是延迟了 <code class="docutils literal notranslate"><span class="pre">length</span></code>-1的``that``</div>
+<div class="line">The first element is <code class="docutils literal notranslate"><span class="pre">that</span></code>, the last one is <code class="docutils literal notranslate"><span class="pre">that</span></code> delayed by <code class="docutils literal notranslate"><span class="pre">length</span></code> - 1</div>
 <div class="line">内部移位寄存器会在 <code class="docutils literal notranslate"><span class="pre">when</span></code> 有效时采样</div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>BufferCC(input : T)</p></td>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">History (</div>
+<div class="line-block">
+<div class="line">that: T, range: Range</div>
+<div class="line"><em>[</em>, when : Bool<em>][</em>, init : T<em>]</em></div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><p>Vec[T]</p></td>
+<td><div class="line-block">
+<div class="line">Same as <code class="docutils literal notranslate"><span class="pre">History(that,</span> <span class="pre">length)</span></code></div>
+<div class="line">but return a Vec of size <code class="docutils literal notranslate"><span class="pre">range.length</span></code></div>
+<div class="line">where the first element is delayed by <code class="docutils literal notranslate"><span class="pre">range.low</span></code></div>
+<div class="line">and the last by <code class="docutils literal notranslate"><span class="pre">range.high</span></code></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>BufferCC(input : T)</p></td>
 <td><p>T</p></td>
 <td><p>返回利用两个触发器同步到当前时钟域的同步输入信号</p></td>
 </tr>
