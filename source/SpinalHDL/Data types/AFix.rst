@@ -21,16 +21,20 @@ AFix can be created using bit sizes or exponents:
 
 .. code-block:: scala
 
-  AFix.U(12 bits)         // U12.0
-  AFix.UQ(8 bits, 4 bits) // U8.4
-  AFix.U(8 exp, 12 bits)  // U8.4
-  AFix.U(8 exp, -4 exp)   // U8.4
-  AFix.U(8 exp, 4 exp)    // U8.-4
+  AFix.U(12 bits)             // U12.0
+  AFix(QFormat(12, 0, false)) // U12.0
+  AFix.UQ(8 bits, 4 bits)     // U8.4
+  AFix.U(8 exp, 12 bits)      // U8.4
+  AFix.U(8 exp, -4 exp)       // U8.4
+  AFix.U(8 exp, 4 exp)        // U8.-4
+  AFix(QFormat(12, 4, false)) // U8.4
 
-  AFix.S(12 bits)         // S11 + sign
-  AFix.SQ(8 bits, 4 bits) // S8.4 + sign
-  AFix.S(8 exp, 12 bits)  // S8.3 + sign
-  AFix.S(8 exp, -4 exp)   // S8.4 + sign
+  AFix.S(12 bits)             // S11.0 + sign
+  AFix(QFormat(12, 0, true))  // S11.0 + sign
+  AFix.SQ(8 bits, 4 bits)     // S8.4  + sign
+  AFix.S(8 exp, 12 bits)      // S8.3  + sign
+  AFix.S(8 exp, -4 exp)       // S8.4  + sign
+  AFix(QFormat(12, 4, true))  // S7.4  + sign
 
 
 These will have representable ranges for all bits.
