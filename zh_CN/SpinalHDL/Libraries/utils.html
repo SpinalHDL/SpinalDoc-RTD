@@ -1368,7 +1368,7 @@
 <td><p>Vec[T]</p></td>
 <td><div class="line-block">
 <div class="line">返回长度为 <code class="docutils literal notranslate"><span class="pre">length</span></code> 的Vec</div>
-<div class="line">The first element is <code class="docutils literal notranslate"><span class="pre">that</span></code>, the last one is <code class="docutils literal notranslate"><span class="pre">that</span></code> delayed by <code class="docutils literal notranslate"><span class="pre">length</span></code> - 1</div>
+<div class="line">其第一个元素是 <code class="docutils literal notranslate"><span class="pre">that</span></code> ，最后一个元素是延迟了 <code class="docutils literal notranslate"><span class="pre">length</span></code> -1的 <code class="docutils literal notranslate"><span class="pre">that</span></code></div>
 <div class="line">内部移位寄存器会在 <code class="docutils literal notranslate"><span class="pre">when</span></code> 有效时采样</div>
 </div>
 </td>
@@ -1384,10 +1384,10 @@
 </td>
 <td><p>Vec[T]</p></td>
 <td><div class="line-block">
-<div class="line">Same as <code class="docutils literal notranslate"><span class="pre">History(that,</span> <span class="pre">length)</span></code></div>
-<div class="line">but return a Vec of size <code class="docutils literal notranslate"><span class="pre">range.length</span></code></div>
-<div class="line">where the first element is delayed by <code class="docutils literal notranslate"><span class="pre">range.low</span></code></div>
-<div class="line">and the last by <code class="docutils literal notranslate"><span class="pre">range.high</span></code></div>
+<div class="line">和 <code class="docutils literal notranslate"><span class="pre">History(that,</span> <span class="pre">length)</span></code> 相同</div>
+<div class="line">但返回长度为 <code class="docutils literal notranslate"><span class="pre">range.length</span></code> 的Vec</div>
+<div class="line">其中第一个元素延迟了 <code class="docutils literal notranslate"><span class="pre">range.low</span></code> 个周期</div>
+<div class="line">且最后一个是延迟了 <code class="docutils literal notranslate"><span class="pre">range.high</span></code> 个周期的元素</div>
 </div>
 </td>
 </tr>
@@ -1461,13 +1461,13 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Timeout(cycles : BigInt)</p></td>
-<td><p>在 <code class="docutils literal notranslate"><span class="pre">cycles</span></code> 个时钟后标记</p></td>
+<td><p>在 <code class="docutils literal notranslate"><span class="pre">cycles</span></code> 个时钟周期后触发超时（tick）</p></td>
 </tr>
 <tr class="row-odd"><td><p>Timeout(time : TimeNumber)</p></td>
-<td><p>在持续 <code class="docutils literal notranslate"><span class="pre">time</span></code> 时间后标记</p></td>
+<td><p>在持续 <code class="docutils literal notranslate"><span class="pre">time</span></code> 时间后触发超时（tick）</p></td>
 </tr>
 <tr class="row-even"><td><p>Timeout(frequency : HertzNumber)</p></td>
-<td><p>以 <a href="#id1"><span class="problematic" id="id2">``</span></a>frequency``频率进行标记</p></td>
+<td><p>以 <code class="docutils literal notranslate"><span class="pre">frequency</span></code> 频率触发超时信号（tick）</p></td>
 </tr>
 </tbody>
 </table>
@@ -1488,7 +1488,7 @@
 <p>复位控制(ResetCtrl)提供了一些实用工具来管理复位。</p>
 <section id="asyncassertsyncdeassert">
 <h4>asyncAssertSyncDeassert<a class="headerlink" href="#asyncassertsyncdeassert" title="此标题的永久链接"></a></h4>
-<p>您可以使用异步有效同步无效逻辑来筛选异步复位。为此，您可以使用 <code class="docutils literal notranslate"><span class="pre">ResetCtrl.asyncAssertSyncDeassert</span></code> 函数返回筛选后的值。</p>
+<p>您可以使用“异步有效同步无效”的逻辑来构造异步复位。为此，可以使用 <code class="docutils literal notranslate"><span class="pre">ResetCtrl.asyncAssertSyncDeassert</span></code> 函数返回构造的复位信号。</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 17%" />
@@ -1504,11 +1504,11 @@
 <tbody>
 <tr class="row-even"><td><p>input</p></td>
 <td><p>Bool</p></td>
-<td><p>被筛选的信号</p></td>
+<td><p>输入的异步信号，用于触发复位</p></td>
 </tr>
 <tr class="row-odd"><td><p>clockDomain</p></td>
 <td><p>ClockDomain</p></td>
-<td><p>返回将使用所筛选值的时钟域(ClockDomain)</p></td>
+<td><p>返回的新复位信号对齐的时钟域(ClockDomain)</p></td>
 </tr>
 <tr class="row-even"><td><p>inputPolarity</p></td>
 <td><p>Polarity</p></td>
@@ -1524,7 +1524,7 @@
 </tr>
 </tbody>
 </table>
-<p>另外还有一个 <code class="docutils literal notranslate"><span class="pre">ResetCtrl.asyncAssertSyncDeassertDrive</span></code> 版本的工具，它直接使用筛选后的值为 <code class="docutils literal notranslate"><span class="pre">clockDomain</span></code> 的复位赋值。</p>
+<p>另外还有一个 <code class="docutils literal notranslate"><span class="pre">ResetCtrl.asyncAssertSyncDeassertDrive</span></code> 版本的工具，它直接使用新构造的复位信号作为 <code class="docutils literal notranslate"><span class="pre">clockDomain</span></code> 这个时钟域的复位。</p>
 </section>
 </section>
 </section>
@@ -1547,7 +1547,7 @@
 <td><p>Int</p></td>
 <td><div class="line-block">
 <div class="line">以周期为单位返回经过所有节点的最短路径，</div>
-<div class="line">第一个节点到最后一个节点</div>
+<div class="line">从第一个节点到最后一个节点</div>
 </div>
 </td>
 </tr>
