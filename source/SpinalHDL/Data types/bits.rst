@@ -262,7 +262,7 @@ can also be used to select a range of bits to be written.
    * - x(y: Int)
      - Static bit access of y-th bit
      - Bool
-   * - x(x: UInt)
+   * - x(y: UInt)
      - Variable bit access of y-th bit
      - Bool
    * - x(offset: Int, width bits)
