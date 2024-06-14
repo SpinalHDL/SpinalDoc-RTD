@@ -172,9 +172,9 @@ Functions
        | Modify the payload of the `x` stream, while preserving the `valid` and `ready` signals
      - Stream[T]
      - 0
-   * - x.translateBy(drive: (T) => T2)
-     - | Return a Stream with payload calculated by drive function
-       | Modify the payload of the `x` stream by the `drive` function, while preserving the `valid` and `ready` signals
+   * - x.map(translate: (T) => T2)
+     - | Return a Stream with payload calculated by translate function
+       | Modify the payload of the `x` stream, while preserving the `valid` and `ready` signals
      - Stream[T]
      - 0
 
