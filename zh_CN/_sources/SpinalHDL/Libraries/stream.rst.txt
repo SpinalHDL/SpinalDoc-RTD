@@ -167,6 +167,16 @@ Functions
        | When cond is true, transaction are dropped
      - Stream[T]
      - 0
+   * - x.translateWith(that : T2)
+     - | Return a Stream with payload `that`
+       | Modify the payload of the `x` stream, while preserving the `valid` and `ready` signals
+     - Stream[T2]
+     - 0
+   * - x.map(translate: (T) => T2)
+     - | Return a Stream with payload calculated by translate function
+       | Modify the payload of the `x` stream, while preserving the `valid` and `ready` signals
+     - Stream[T2]
+     - 0
 
 
 The following code will create this logic :

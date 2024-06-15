@@ -1215,7 +1215,7 @@
 <section id="specification">
 <h2>规范<a class="headerlink" href="#specification" title="此标题的永久链接"></a></h2>
 <div class="line-block">
-<div class="line">反压数据流接口(Stream)是一个用于承载有效负载的简单握手协议。</div>
+<div class="line">反压流(Stream)是一个用于承载有效负载的简单握手协议。</div>
 <div class="line">例如，它可用于对FIFO推入和弹出数据、向UART控制器发送请求等。</div>
 </div>
 <table class="docutils align-default">
@@ -1440,6 +1440,24 @@
 </div>
 </td>
 <td><p>Stream[T]</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>x.translateWith(that : T2)</p></td>
+<td><div class="line-block">
+<div class="line">返回带有效载荷 <cite>that</cite> 的流</div>
+<div class="line">修改 <cite>x</cite> 流的有效载荷，同时保留 <cite>valid</cite> 和 <cite>ready</cite> 信号</div>
+</div>
+</td>
+<td><p>Stream[T2]</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>x.map(translate: (T) =&gt; T2)</p></td>
+<td><div class="line-block">
+<div class="line">返回一个流，其有效载荷由 <cite>translate</cite> 函数计算</div>
+<div class="line">修改 <cite>x</cite> 流的有效载荷，同时保留 <cite>valid</cite> 和 <cite>ready</cite> 信号</div>
+</div>
+</td>
+<td><p>Stream[T2]</p></td>
 <td><p>0</p></td>
 </tr>
 </tbody>
