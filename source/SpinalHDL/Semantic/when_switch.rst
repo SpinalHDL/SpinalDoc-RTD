@@ -41,7 +41,7 @@ As in VHDL and Verilog, signals can be conditionally assigned when a specified c
 
 
 WhenBuilder
-------
+-----------
 
 Sometimes we need to generate some parameters for the when condition, 
 and the original structure of when else is not very suitable. 
