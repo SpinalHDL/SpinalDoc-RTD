@@ -18,7 +18,7 @@ You can find more documentation about the internal implementation of the ``BusSl
 Functionality
 -------------
 
-| There are many implementations of the ``BusSlaveFactory`` tool : AHB3-lite, APB3, APB4, AvalonMM, AXI-lite 3, AXI4, BMB, Wishbone and PipelinedMemoryBus.
+| There are many implementations of the ``BusSlaveFactory`` tool : AHB3-lite, APB3, APB4, AvalonMM, AXI-lite 3, AXI4, BMB, Wishbone, Tilelink, BRAM bus and PipelinedMemoryBus.
 | Each implementation of that tool take as an argument one instance of the corresponding bus and then offers the following functions to map your hardware into the memory mapping :
 
 .. list-table::
