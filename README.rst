@@ -33,7 +33,7 @@ Create a virtual environment with pipenv (will use the Pipfile for installing th
 
    python3 -m venv .venv
 
-then you can activate the virtual enviroment (in bash) and install the dependencies
+then you can activate the virtual environment (in bash) and install the dependencies
 
 .. code:: shell
 

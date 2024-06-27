@@ -1,9 +1,9 @@
 .. _sinus_rom:
 
-Sinus rom
+Sinus ROM
 =========
 
-Let's imagine that you want to generate a sine wave and also have a filtered version of it (which is completely useless in practical, but let's do it as an example).
+Let's imagine that you want to generate a sine wave and also have a filtered version of it (which is completely useless in practice, but let's do it as an example).
 
 .. list-table::
    :header-rows: 1
