@@ -1,0 +1,193 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018 - 2024, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-02 16:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:3
+msgid "SpinalHDL internal datamodel"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:10
+msgid "Introduction"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:12
+msgid "This page provides documentation on the internal data structure utilized by SpinalHDL for storing and modifying the netlist described by users via the SpinalHDL API."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:15
+msgid "General structure"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:17
+msgid "The following diagrams follow the UML nomenclature :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:19
+msgid "A link with a white arrow mean \"base extend target\""
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:20
+msgid "A link with a black diamond mean \"base contains target\""
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:21
+msgid "A link with a white diamond mean \"base has a reference to target\""
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:22
+msgid "The * symbol mean \"multiple\""
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:24
+msgid "The majority of the data structures are stored using double-linked lists, which facilitate the insertion and removal of elements."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:26
+msgid "There is a diagram of the global data structure :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:31
+msgid "And here more details about the `Statement` class :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:36
+msgid "In general, when an element within the data model utilizes other expressions or statements, that element typically includes functions for iterating over these usages. For example, each Expression is equipped with a *foreachExpression* function."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:38
+msgid "When using these iteration functions, you have the option to remove the current element from the tree."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:40
+msgid "Additionally, as a side note, while the *foreachXXX* functions iterate only one level deep, there are often corresponding *walkXXX* functions that perform recursive iteration. For instance, using *myExpression.walkExpression* on *((a+b)+c)+d* will traverse the entire tree of addition operations."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:42
+msgid "There are also utilities like *myExpression.remapExpressions(Expression => Expression),* which iterate through all the expressions used within *myExpression* and replace them with the one you provide."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:44
+msgid "More generaly, most of the graph checks and transformations done by SpinalHDL are located in <https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala>"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:47
+msgid "Exploring the datamodel"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:49
+msgid "Here is an example that identifies all adders within the netlist without utilizing shortcuts. :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:109
+msgid "Which will produces :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:127
+msgid "Please note that in many cases, shortcuts are available. All the recursive processes mentioned earlier could have been replaced by a single one. :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:141
+msgid "Compilation Phases"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:143
+msgid "Here is the complete list of default phases, arranged in order, that are employed to modify, check, and generate Verilog code from a top-level component. :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:145
+msgid "<https://github.com/SpinalHDL/SpinalHDL/blob/ec8cd9f513566b43cbbdb08d0df4dee1f0fee655/core/src/main/scala/spinal/core/internals/Phase.scala#L2487>"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:147
+msgid "If you, as a user, add a new compilation phase by using *SpinalConfig.addTransformationPhase(new MyPhase())*, this phase will be inserted immediately after the user component elaboration process, which is relatively early in the compilation sequence. During this phase, you can still make use of the complete SpinalHDL user API to introduce elements into the netlist."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:149
+msgid "If you choose to use the SpinalConfig.phasesInserters API, it's essential to exercise caution and ensure that any modifications made to the netlist align with the phases that have already been executed. For instance, if you insert your phase after the *PhaseInferWidth*, you must specify the width of each node you introduce."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:152
+msgid "Modifying a netlist as a user without plugins"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:154
+msgid "There are several user APIs that enable you to make modifications during the user elaboration phase. :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:156
+msgid "mySignal.removeAssignments : Will remove all previous `:=` affecting the given signal"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:157
+msgid "mySignal.removeStatement : Will void the existance of the signal"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:158
+msgid "mySignal.setAsDirectionLess : Will turn a in / out signal into a internal signal"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:159
+msgid "mySignal.setName : Enforce a given name on a signal (there is many other variants)"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:160
+msgid "mySubComponent.mySignal.pull() : Will provide a readable copy of the given signal, even if that signal is somewhere else in the hierarchy"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:161
+msgid "myComponent.rework\\{ myCode \\} : Execute `myCode` in the context of `myComponent`, allowing modifying it with the user API"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:163
+msgid "For example, the following code can be used to modify a top-level component by adding a three-stage shift register to each input and output of the component. This is particularly useful for synthesis testing."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:187
+msgid "You can use the code in the following manner: :"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:193
+msgid "Here is a function that enables you to execute the body code as if the current component's context did not exist. This can be particularly useful for defining new signals without the influence of the current conditional scope (such as when or switch)."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:223
+msgid "This kind of functionality is, for instance, employed in the VexRiscv pipeline to dynamically create components or elements as needed."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:226
+msgid "User space netlist analysis"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:228
+msgid "The SpinalHDL data model is also accessible and can be read during user-time elaboration. Here's an example that can help find the shortest logical path (in terms of clock cycles) to traverse a list of signals. In this specific case, it is being used to analyze the latency of the VexRiscv FPU design."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:242
+msgid "Here you can find the implementation of that LatencyAnalysis tool : <https://github.com/SpinalHDL/SpinalHDL/blob/3b87c898cb94dc08456b4fe2b1e8b145e6c86f63/lib/src/main/scala/spinal/lib/Utils.scala#L620>"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:247
+msgid "Enumerating every ClockDomain in use"
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:249
+msgid "In this case, this is accomplished after the elaboration process by utilizing the SpinalHDL report."
+msgstr ""
+
+#: ../../SpinalHDL/Developers area/spinalhdl_datamodel.rst:285
+msgid "Will print out"
+msgstr ""
