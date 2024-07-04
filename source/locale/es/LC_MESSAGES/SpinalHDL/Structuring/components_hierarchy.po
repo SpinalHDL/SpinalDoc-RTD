@@ -1,0 +1,194 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018 - 2024, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-02 16:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:4
+msgid "Components and hierarchy"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:6
+msgid "Like in VHDL and Verilog, you can define components that can be used to build a design hierarchy. However, in SpinalHDL, you don't need to bind their ports at instantiation:"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``val io = new Bundle { ... }``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "Declaring external ports in a ``Bundle`` called ``io`` is recommended. If you name your bundle ``io``, SpinalHDL will check that all of its elements are defined as inputs or outputs."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:41
+msgid "If it is better to your taste, you can use the ``Module`` syntax instead of ``Component`` (they are the same thing)"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:47
+msgid "Input / output definition"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:49
+msgid "The syntax to define inputs and outputs is as follows:"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:55
+msgid "Syntax"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:56
+msgid "Description"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:57
+msgid "Return"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``in port Bool()``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``out port Bool()``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:60
+msgid "Create an input Bool/output Bool"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:61
+msgid "Bool"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``in Bits/UInt/SInt[(x bits)]``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``out Bits/UInt/SInt[(x bits)]``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``in Bits(3 bits)``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:65
+msgid "Create an input/output of the corresponding type"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:66
+msgid "Bits/UInt/SInt"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``in(T)``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``out(T)``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``out UInt(7 bits)``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:70
+msgid "For all other data types, you may have to add some brackets around it. Sorry, this is a Scala limitation."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:71
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:77
+msgid "T"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``master(T)``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``slave(T)``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:0
+msgid "``master(Bool())``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:75
+msgid "This syntax is provided by the ``spinal.lib`` library (If you annotate your object with the ``slave`` syntax, then import ``spinal.lib.slave`` instead). T must extend ``IMasterSlave``. Some documentation is available :ref:`here <interface_example_apb>`. You may not actually need the brackets, so ``master T`` is fine as well."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:80
+msgid "There are some rules to follow with component interconnection:"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:83
+msgid "Components can only **read** output and input signals of child components."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:84
+msgid "Components can read their own output port values (unlike in VHDL)."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:87
+msgid "If for some reason you need to read signals from far away in the hierarchy (such as for debugging or temporal patches), you can do it by using the value returned by ``some.where.else.theSignal.pull()``"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:91
+msgid "Pruned signals"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:93
+msgid "SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones are removed from the RTL generation."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:96
+msgid "You can collect the list of all the removed ans useless signals via the ``printPruned`` and the ``printPrunedIo`` functions on the generated ``SpinalReport`` object:"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:126
+msgid "Parametrized Hardware (\"Generic\" in VHDL, \"Parameter\" in Verilog)"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:128
+msgid "If you want to parameterize your component, you can give parameters to the constructor of the component as follows:"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:146
+msgid "If you have several parameters, it is a good practice to give a specific configuration class as follows:"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:159
+msgid "You can add functions inside the config, along with requirements on the config attributes:"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:173
+msgid "This parametrization occurs entirely within the SpinalHDL code-generation during elaboration.  This generates non-generic HDL code. The methods described here do not use VHDL generics or Verilog parameters."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:177
+msgid "See also :ref:`Blackbox <blackbox>` for more information around support for that mechanism."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:182
+msgid "Synthesized component names"
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:184
+msgid "Within a module, each component has a name, called a \"partial name\". The \"full\" name is built by joining every component's parent name with \"_\", for example: ``io_clockDomain_reset``. You can use ``setName`` to replace this convention with a custom name. This is especially useful when interfacing with external components. The other methods are called ``getName``, ``setPartialName``, and ``getPartialName`` respectively."
+msgstr ""
+
+#: ../../SpinalHDL/Structuring/components_hierarchy.rst:190
+msgid "When synthesized, each module gets the name of the Scala class defining it. You can override this as well with ``setDefinitionName``."
+msgstr ""
