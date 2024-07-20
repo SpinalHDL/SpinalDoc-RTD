@@ -380,7 +380,7 @@ the extraction operators can also be used to assign a part of a ``UInt`` / ``SIn
    * - x(y: Int)
      - Static bit access of y-th bit
      - Bool
-   * - x(x: UInt)
+   * - x(y: UInt)
      - Variable bit access of y-th bit
      - Bool
    * - x(offset: Int, width bits)
