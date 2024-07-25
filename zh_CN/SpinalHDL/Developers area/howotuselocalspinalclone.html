@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to use a local SpinalHDL clone as project dependency &mdash; SpinalHDL  文档</title>
+  <title>项目中如何使用本地的SpinalHDL克隆作为依赖 &mdash; SpinalHDL  文档</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -1124,14 +1124,14 @@
 <li class="toctree-l3"><a class="reference internal" href="bus_slave_factory_impl.html#conclusion">结论</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">How to use a local SpinalHDL clone as project dependency</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#create-local-git-clone-of-spinalhdl">Create local git clone of SpinalHDL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configure-buildsystem">Configure buildsystem</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#configure-sbt-update-build-sbt">Configure sbt (update <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#configure-mill-update-build-sc">Configure mill (update <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">项目中如何使用本地的SpinalHDL克隆作为依赖</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-local-git-clone-of-spinalhdl">创建本地的SpinalHDL git 克隆</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-buildsystem">配置构建系统</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configure-sbt-update-build-sbt">配置 sbt (更新 <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-mill-update-build-sc">配置 mill (更新 <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#done">Done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#done">完成</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="howtodocument.html">如何修改本文档</a><ul>
@@ -1208,7 +1208,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">开发者专区</a></li>
-      <li class="breadcrumb-item active">How to use a local SpinalHDL clone as project dependency</li>
+      <li class="breadcrumb-item active">项目中如何使用本地的SpinalHDL克隆作为依赖</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/SpinalHDL/SpinalDoc-RTD/blob/master/source/SpinalHDL/Developers area/howotuselocalspinalclone.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
       </li>
@@ -1221,29 +1221,22 @@
 
 
   <section id="how-to-use-a-local-spinalhdl-clone-as-project-dependency">
-<h1>How to use a local SpinalHDL clone as project dependency<a class="headerlink" href="#how-to-use-a-local-spinalhdl-clone-as-project-dependency" title="此标题的永久链接"></a></h1>
-<p>The default way to use SpinalHDL is by using the released version of it as is
-automatically downloaded by sbt or mill. Living on the cutting edge, you might
-want to use the upstream and non released <code class="docutils literal notranslate"><span class="pre">dev</span></code> branch from git directly. Be
-it just because you want to use a new shiny feature or because you want to test
-your own extension to Spinal (please consider upstreaming it by opening a PR)
-within a project.</p>
-<p>As an example of where this is used you can also refer to <a class="reference external" href="https://github.com/SpinalHDL/VexiiRiscv/blob/dev/build.sbt">VexiiRiscv</a>.</p>
+<h1>项目中如何使用本地的SpinalHDL克隆作为依赖<a class="headerlink" href="#how-to-use-a-local-spinalhdl-clone-as-project-dependency" title="此标题的永久链接"></a></h1>
+<p>使用SpinalHDL的默认方式是通过sbt或mill自动下载其发布的版本。如果你想使用最新版本，你可能会要使用git直接从上游获取未发布的“dev”分支。这可能是因为你想要使用一个新功能，或者因为你想要在一个项目中测试你自己的Spinal扩展（请考虑通过打开一个PR来提交它）。</p>
+<p>有关使用的示例，请参阅 <a class="reference external" href="https://github.com/SpinalHDL/VexiiRiscv/blob/dev/build.sbt">VexiiRiscv</a> 。</p>
 <section id="create-local-git-clone-of-spinalhdl">
-<h2>Create local git clone of SpinalHDL<a class="headerlink" href="#create-local-git-clone-of-spinalhdl" title="此标题的永久链接"></a></h2>
+<h2>创建本地的SpinalHDL git 克隆<a class="headerlink" href="#create-local-git-clone-of-spinalhdl" title="此标题的永久链接"></a></h2>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/somewhere
 git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-b<span class="w"> </span>dev<span class="w"> </span>https://github.com/SpinalHDL/SpinalHDL.git
 </pre></div>
 </div>
-<p>In the command above you can replace <code class="docutils literal notranslate"><span class="pre">dev</span></code> by the name of the branch you want
-to checkout. <code class="docutils literal notranslate"><span class="pre">--depth</span> <span class="pre">1</span></code> prevents from downloading the repository history.</p>
+<p>在上面的命令中，可以用要签出的分支名称替换 <code class="docutils literal notranslate"><span class="pre">dev</span></code> 。 <code class="docutils literal notranslate"><span class="pre">--depth</span> <span class="pre">1</span></code> 阻止下载版本库历史。</p>
 </section>
 <section id="configure-buildsystem">
-<h2>Configure buildsystem<a class="headerlink" href="#configure-buildsystem" title="此标题的永久链接"></a></h2>
-<p>Depending on which tool you use, instruct either sbt or mill to load the local
-git folder as dependency:</p>
+<h2>配置构建系统<a class="headerlink" href="#configure-buildsystem" title="此标题的永久链接"></a></h2>
+<p>根据您使用的工具，将本地 git 文件夹作为依赖项加载的 sbt 或 mill 指令：</p>
 <section id="configure-sbt-update-build-sbt">
-<h3>Configure sbt (update <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>)<a class="headerlink" href="#configure-sbt-update-build-sbt" title="此标题的永久链接"></a></h3>
+<h3>配置 sbt (更新 <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code>)<a class="headerlink" href="#configure-sbt-update-build-sbt" title="此标题的永久链接"></a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">ThisBuild</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span><span class="w">              </span><span class="c1">// change as needed</span>
 <span class="nc">ThisBuild</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">scalaVersion</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;2.12.18&quot;</span><span class="w">     </span><span class="c1">// change as needed</span>
 <span class="nc">ThisBuild</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">organization</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;org.example&quot;</span><span class="w"> </span><span class="c1">// change as needed</span>
@@ -1268,7 +1261,7 @@ git folder as dependency:</p>
 </div>
 </section>
 <section id="configure-mill-update-build-sc">
-<h3>Configure mill (update <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>)<a class="headerlink" href="#configure-mill-update-build-sc" title="此标题的永久链接"></a></h3>
+<h3>配置 mill (更新 <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>)<a class="headerlink" href="#configure-mill-update-build-sc" title="此标题的永久链接"></a></h3>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span>import mill._, scalalib._
 
 import $file.^.SpinalHDL.build
@@ -1295,10 +1288,7 @@ object projectname extends RootModule with SbtModule {
 }
 </pre></div>
 </div>
-<p>Note the line <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">$file.^.SpinalHDL.build</span></code>. It is using ammonite REPL
-magic <code class="docutils literal notranslate"><span class="pre">$file</span></code> to look up the <code class="docutils literal notranslate"><span class="pre">build.sc</span></code> of SpinalHDL. (The <code class="docutils literal notranslate"><span class="pre">^</span></code> moves up
-one directory from the current.) This is assuming the following directory
-structure:</p>
+<p>注意 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">$file.^.SpinalHDL.build</span></code> 行。它使用了 ammonite REPL 的魔法 <code class="docutils literal notranslate"><span class="pre">$file</span></code> 来查找 SpinalHDL 的 <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>。(<code class="docutils literal notranslate"><span class="pre">^</span></code> 从当前目录向上移动一个目录。) 假设目录结构如下：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">somewhere</span>
 <span class="o">|-</span><span class="nc">SpinalHDL</span><span class="w">   </span><span class="n">#</span><span class="w"> </span><span class="o">&lt;--</span><span class="w"> </span><span class="n">cloned</span><span class="w"> </span><span class="n">spinal</span><span class="w"> </span><span class="n">git</span>
 <span class="o">|</span><span class="w"> </span><span class="o">|-</span><span class="n">build</span><span class="p">.</span><span class="n">sc</span>
@@ -1309,13 +1299,9 @@ structure:</p>
 </section>
 </section>
 <section id="done">
-<h2>Done<a class="headerlink" href="#done" title="此标题的永久链接"></a></h2>
-<p>Note the addition to <code class="docutils literal notranslate"><span class="pre">scalacOptions</span></code>. Without it, compiling any Spinal project
-might produce countless <code class="docutils literal notranslate"><span class="pre">SCOPE</span> <span class="pre">VIOLATION</span></code> or <code class="docutils literal notranslate"><span class="pre">HIERARCHY</span> <span class="pre">VIOLATION</span></code> errors
-because the <code class="docutils literal notranslate"><span class="pre">idslplugin</span></code> of spinal is not actually invoked.</p>
-<p>After the changes, the next compilation of your project will take a considerable
-amount of time (~2 minutes). This is only for the first compile. After this,
-your project should compile as usual.</p>
+<h2>完成<a class="headerlink" href="#done" title="此标题的永久链接"></a></h2>
+<p>请注意添加到 <code class="docutils literal notranslate"><span class="pre">scalacOptions</span></code> 的内容。如果没有它，编译任何 Spinal 项目都可能产生无数的 <code class="docutils literal notranslate"><span class="pre">SCOPE</span> <span class="pre">VIOLATION</span></code> 或 <code class="docutils literal notranslate"><span class="pre">HIERARCHY</span> <span class="pre">VIOLATION</span></code> 错误，因为 spinal 的 <code class="docutils literal notranslate"><span class="pre">idslplugin</span></code> 实际上并没有被调用。</p>
+<p>更改后，下一次编译项目将花费大量时间（约 2 分钟），但这只是第一次编译。在此之后，项目的编译时间应该和往常一样。</p>
 </section>
 </section>
 
