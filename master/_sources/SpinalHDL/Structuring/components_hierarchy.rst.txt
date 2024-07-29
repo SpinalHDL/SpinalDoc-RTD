@@ -66,7 +66,6 @@ The syntax to define inputs and outputs is as follows:
      - Bits/UInt/SInt
    * - | ``in(T)``
        | ``out(T)``
-       | ``out UInt(7 bits)``
      - For all other data types, you may have to add some brackets around it. Sorry, this is a Scala limitation.
      - T
    * - | ``master(T)``
