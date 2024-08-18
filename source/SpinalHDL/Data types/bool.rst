@@ -13,7 +13,7 @@ generator code.
 
 An important concept and rule-of-thumb to understand is that the Scala
 `Boolean` type is used in places where elaboration-time HDL code-generation
-decision making is occuring in Scala code.  Like any regular program it affects
+decision making is occurring in Scala code.  Like any regular program it affects
 execution of the Scala program that is SpinalHDL at the time the program is
 being run to perform HDL code generation.
 

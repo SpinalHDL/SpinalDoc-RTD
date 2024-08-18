@@ -50,7 +50,7 @@ Scala is able to infer the type automatically. You don't need to specify it if t
 
 .. code-block:: scala
 
-   var number = 0   //The type of 'number' is inferred as an Int during compilation.
+   var number = 0   // The type of 'number' is inferred as an Int during compilation.
 
 However, it's not very common to use ``var`` in Scala. Instead, constant values defined by ``val`` are often used:
 
@@ -152,7 +152,7 @@ Functions named ``apply`` are special because you can call them without having t
    }
 
    val array = new Array()
-   val value = array(4)   //array(4) is interpreted as array.apply(4) and will return 7
+   val value = array(4)   // array(4) is interpreted as array.apply(4) and will return 7
 
 This concept is also applicable for Scala ``object`` (static)
 

@@ -168,7 +168,7 @@ By default the ports of the blackbox are considered clock-less, meaning no clock
 .. code-block:: scala
 
     class DemoBlackbox extends BlackBox {
-      val io = new Bundle{
+      val io = new Bundle {
         val clk, rst = in Bool()
         val a = in Bool()
         val b = out Bool()
@@ -249,13 +249,13 @@ This function takes a no-argument function to be applied during compilation, and
 
      val io = new Bundle {
        val clk = in Bool()
-       val portA = new Bundle{
+       val portA = new Bundle {
          val cs   = in Bool()
          val rwn  = in Bool()
          val dIn  = in Bits(32 bits)
          val dOut = out Bits(32 bits)
        }
-       val portB = new Bundle{
+       val portB = new Bundle {
          val cs   = in Bool()
          val rwn  = in Bool()
          val dIn  = in Bits(32 bits)
@@ -312,15 +312,15 @@ With the function ``addRTLPath()`` you can associate your RTL sources with the 
      // Add all rtl dependencies
      addRTLPath("./rtl/RegisterBank.v")                         // Add a verilog file 
      addRTLPath(s"./rtl/myDesign.vhd")                          // Add a vhdl file 
-     addRTLPath(s"${sys.env("MY_PROJECT")}/myTopLevel.vhd")     // Use an environement variable MY_PROJECT (System.getenv("MY_PROJECT"))
+     addRTLPath(s"${sys.env("MY_PROJECT")}/myTopLevel.vhd")     // Use an environment variable MY_PROJECT (System.getenv("MY_PROJECT"))
    }
 
    ...
 
-   class TopLevel() extends Component{
-     //...
+   class TopLevel() extends Component {
+     // ...
      val bb = new MyBlackBox()
-     //...
+     // ...
    }
 
    val report = SpinalVhdl(new TopLevel)
@@ -333,7 +333,7 @@ If you want to use only ``std_logic_vector`` in your blackbox component, you can
 
 .. code-block:: scala
 
-   class MyBlackBox() extends BlackBox{
+   class MyBlackBox() extends BlackBox {
      val io = new Bundle {
        val clk       = in  Bool()
        val increment = in  Bool()

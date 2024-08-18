@@ -80,7 +80,7 @@ download link for the latest version. You can download/extract oss-cad-suite to 
    curl -fLO <download link>
    tar xzf <file that you downloaded>
 
-To use oss-cad-suite in a shell you need to load it's environment, e.g. via ``souce <path to oss-cad-suite>/environment``.
+To use oss-cad-suite in a shell you need to load it's environment, e.g. via ``source <path to oss-cad-suite>/environment``.
 
 
 Mac OS X Installation

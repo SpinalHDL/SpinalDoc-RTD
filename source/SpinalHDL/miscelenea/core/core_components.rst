@@ -62,7 +62,7 @@ An applied example to define a specific clock domain within the design is as fol
    ...
 
    // Use this domain in an area of the design
-   val coreArea = new ClockingArea(coreClockDomain){
+   val coreArea = new ClockingArea(coreClockDomain) {
      val coreClockedRegister = Reg(UInt(4 bits))
    }
 
@@ -101,7 +101,7 @@ In addition to the constructor parameters given :ref:`here <core_componets_clock
        resetActiveLevel = LOW
      )
      val myClockDomain = ClockDomain(io.clk,io.resetn,config = myClockDomainConfig)
-     val myArea = new ClockingArea(myClockDomain){
+     val myArea = new ClockingArea(myClockDomain) {
        val myReg = Reg(UInt(4 bits)) init(7)
        myReg := myReg + 1
 
@@ -128,7 +128,7 @@ You can define everywhere a clock domain which is driven by the outside. It will
        val result = out UInt (4 bits)
      }
      val myClockDomain = ClockDomain.external("myClockName")
-     val myArea = new ClockingArea(myClockDomain){
+     val myArea = new ClockingArea(myClockDomain) {
        val myReg = Reg(UInt(4 bits)) init(7)
        myReg := myReg + 1
 
@@ -165,7 +165,7 @@ There are multiple assignment operator :
    :header-rows: 1
    :widths: 1 5
 
-   * - Symbole
+   * - Symbol
      - Description
    * - :=
      - | Standard assignment, equivalent to '<=' in VHDL/Verilog
@@ -175,24 +175,24 @@ There are multiple assignment operator :
        | value updated instantly
    * - <>
      - | Automatic connection between 2 signals. Direction is inferred by using signal direction (in/out)
-       | Similar behavioural than :=
+       | Similar behavioral than :=
 
 
 .. code-block:: scala
 
-   //Because of hardware concurrency is always read with the value '1' by b and c
+   // Because of hardware concurrency is always read with the value '1' by b and c
    val a,b,c = UInt(4 bits)
    a := 0
    b := a
-   a := 1  //a := 1 win
+   a := 1  // a := 1 win
    c := a  
 
    var x = UInt(4 bits)
    val y,z = UInt(4 bits)
    x := 0
-   y := x      //y read x with the value 0
+   y := x      // y read x with the value 0
    x \= x + 1
-   z := x      //z read x with the value 1
+   z := x      // z read x with the value 1
 
 SpinalHDL check that bitcount of left and right assignment side match. There is multiple ways to adapt bitcount of BitVector (Bits, UInt, SInt) :
 
@@ -208,13 +208,13 @@ SpinalHDL check that bitcount of left and right assignment side match. There is 
      - Assign x with a resized copy of y, size is manually calculated
 
 
-There are 2 cases where spinal automaticly resize things :
+There are 2 cases where spinal automatically resize things :
 
 .. list-table::
    :header-rows: 1
    :widths: 3 2 1
 
-   * - Assignement
+   * - Assignment
      - Problem
      - SpinalHDL action
    * - myUIntOf_8bit := U(3)
@@ -232,23 +232,23 @@ As VHDL and Verilog, wire and register can be conditionally assigned by using wh
 
 .. code-block:: scala
 
-   when(cond1){
-     //execute when      cond1 is true
-   }.elsewhen(cond2){
-     //execute when (not cond1) and cond2
-   }.otherwise{
-     //execute when (not cond1) and (not cond2)
+   when(cond1) {
+     // execute when      cond1 is true
+   }.elsewhen(cond2) {
+     // execute when (not cond1) and cond2
+   }.otherwise {
+     // execute when (not cond1) and (not cond2)
    }
 
-   switch(x){
-     is(value1){
-       //execute when x === value1
+   switch(x) {
+     is(value1) {
+       // execute when x === value1
      }
-     is(value2){
-       //execute when x === value2
+     is(value2) {
+       // execute when x === value2
      }
-     default{
-       //execute if none of precedent condition meet
+     default {
+       // execute if none of precedent condition meet
      }
    }
 
@@ -259,7 +259,7 @@ You can also define new signals into a when/switch statement. It's useful if you
    val toto,titi = UInt(4 bits)
    val a,b = UInt(4 bits)
 
-   when(cond){
+   when(cond) {
      val tmp = a + b
      toto := tmp
      titi := tmp + 1
@@ -276,22 +276,22 @@ Like in VHDL and Verilog, you can define components that could be used to build 
 .. code-block:: scala
 
    class AdderCell extends Component {
-     //Declaring all in/out in an io Bundle is probably a good practice
+     // Declaring all in/out in an io Bundle is probably a good practice
      val io = new Bundle {
        val a, b, cin = in Bool()
        val sum, cout = out Bool()
      }
-     //Do some logic
+     // Do some logic
      io.sum := io.a ^ io.b ^ io.cin
      io.cout := (io.a & io.b) | (io.a & io.cin) | (io.b & io.cin)
    }
 
    class Adder(width: Int) extends Component {
      ...
-     //Create 2 AdderCell
+     // Create 2 AdderCell
      val cell0 = new AdderCell
      val cell1 = new AdderCell
-     cell1.io.cin := cell0.io.cout //Connect carrys
+     cell1.io.cin := cell0.io.cout // Connect carrys
      ...
      val cellArray = Array.fill(width)(new AdderCell)
      ...
@@ -365,7 +365,7 @@ The ways you can use Scala functions to generate hardware are radically differen
 * You can instantiate register, combinatorial logic and component inside them.
 * You don't have to play with ``process``\ /\ ``@always`` that limit the scope of assignment of signals
 * | Everything work by reference, which allow many manipulation.
-  | For example you can give to a function an bus as argument, then the function can internaly read/write it.
+  | For example you can give to a function an bus as argument, then the function can internally read/write it.
   | You can also return a Component, a Bus, are anything else from scala the scala world.
 
 RGB to gray
@@ -381,7 +381,7 @@ For example if you want to convert a Red/Green/Blue color into a gray one by usi
    // Define a function to multiply a UInt by a scala Float value.
    def coef(value : UInt,by : Float) : UInt = (value * U((255*by).toInt,8 bits) >> 8)
 
-   //Calculate the gray level
+   // Calculate the gray level
    val gray = coef(r,0.3f) +
               coef(g,0.4f) +
               coef(b,0.3f)
@@ -398,7 +398,7 @@ For instance if you define a simple Valid Ready Payload bus, you can then define
      val ready = Bool()
      val payload = Bits(payloadWidth bits)
 
-     //connect that to this
+     // connect that to this
      def <<(that: MyBus) : Unit = {
        this.valid := that.valid
        that.ready := this.ready
@@ -423,21 +423,21 @@ There is a small component and a ``main`` that generate the corresponding VHDL.
    // spinal.core contain all basics (Bool, UInt, Bundle, Reg, Component, ..)
    import spinal.core._
 
-   //A simple component definition
+   // A simple component definition
    class MyTopLevel extends Component {
-     //Define some input/output. Bundle like a VHDL record or a verilog struct.
+     // Define some input/output. Bundle like a VHDL record or a verilog struct.
      val io = new Bundle {
        val a = in Bool()
        val b = in Bool()
        val c = out Bool()
      }
 
-     //Define some asynchronous logic
+     // Define some asynchronous logic
      io.c := io.a & io.b
    }
 
-   //This is the main of the project. It create a instance of MyTopLevel and
-   //call the SpinalHDL library to flush it into a VHDL file.
+   // This is the main of the project. It create a instance of MyTopLevel and
+   // call the SpinalHDL library to flush it into a VHDL file.
    object MyMain {
      def main(args: Array[String]) {
        SpinalVhdl(new MyTopLevel)

@@ -6,7 +6,7 @@ You can add debugging in RTL for simulation, using the following syntax:
 
 .. code-block:: scala
 
-    object Enum extends SpinalEnum{
+    object Enum extends SpinalEnum {
         val MIAOU, RAWRR = newElement()
     }
 

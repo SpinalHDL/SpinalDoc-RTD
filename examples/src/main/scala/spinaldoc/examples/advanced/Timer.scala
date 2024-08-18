@@ -63,7 +63,7 @@ case class ApbTimer() extends Component {
     }
   }
 
-  //Prescaler is very similar to the timer, it mainly integrates a piece of auto reload logic.
+  // Prescaler is very similar to the timer, it mainly integrates a piece of auto reload logic.
   val prescaler = Prescaler(width = 16)
 
   val timerA = Timer(width = 32)

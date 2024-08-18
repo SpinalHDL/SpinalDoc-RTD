@@ -77,6 +77,6 @@ Todo
 
 
 * Documentation
-* Optimise instruction/data caches FMax by moving line hit condition forward into combinatorial paths.
+* Optimize instruction/data caches FMax by moving line hit condition forward into combinatorial paths.
 
 Contact spinalhdl@gmail.com for more information

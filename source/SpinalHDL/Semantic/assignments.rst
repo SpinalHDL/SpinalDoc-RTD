@@ -20,7 +20,7 @@ When muxing (for instance using ``when``, see :doc:`when_switch`.), the last
 valid standard assignment ``:=`` wins. Else, assigning twice to the same assignee
 from the same scope results in an assignment overlap.  SpinalHDL will assume
 this is a unintentional design error by default and halt elaboration with error.
-For special use-cases assignment overlap can be programatically permitted on a case by case basis.
+For special use-cases assignment overlap can be programmatically permitted on a case by case basis.
 (see :doc:`../Design errors/assignment_overlap`).
 
 .. code-block:: scala
@@ -28,8 +28,8 @@ For special use-cases assignment overlap can be programatically permitted on a c
    val a, b, c = UInt(4 bits)
    a := 0
    b := a
-   //a := 1 // this would cause an `assignment overlap` error,
-            // if manually overridden the assignment would take assignment priority
+   // a := 1 // this would cause an `assignment overlap` error,
+             // if manually overridden the assignment would take assignment priority
    c := a
 
    var x = UInt(4 bits)
@@ -179,5 +179,5 @@ If we look at the resulting Verilog, ``b`` is not present. Since it is a copy of
     }
 
 Without ``CombInit``, if ``c`` == false (but not if ``c`` == true), ``a1`` and ``a2`` reference the same signal and the zero assignment is also applied to ``a1``.
-With ``CombInit`` we have a coherent behaviour whatever the ``c`` value.
+With ``CombInit`` we have a coherent behavior whatever the ``c`` value.
 

@@ -145,9 +145,9 @@ Let's define a new VgaCtrl ``Component``\ , which takes as ``RgbConfig`` and ``t
 Horizontal and vertical logic
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The logic that generates horizontal and vertical synchronization signals is quite the same. It kind of resembles ~PWM~. The horizontal one counts up each cycle, while the vertical one use the horizontal syncronization signal as to increment.
+The logic that generates horizontal and vertical synchronization signals is quite the same. It kind of resembles ~PWM~. The horizontal one counts up each cycle, while the vertical one use the horizontal synchronization signal as to increment.
 
-Let's define ``HVArea``\ , which represents one ~PWM~ and then instantiate it two times: one for both horizontal and vertical syncronization.
+Let's define ``HVArea``\ , which represents one ~PWM~ and then instantiate it two times: one for both horizontal and vertical synchronization.
 
 .. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/intermediate/VGA.scala
    :language: scala

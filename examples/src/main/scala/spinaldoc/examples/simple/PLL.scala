@@ -28,13 +28,13 @@ case class TopLevel() extends Component {
     val pll = new PLL
     pll.io.clkIn := io.clk100Mhz
 
-    //Create a new clock domain named 'core'
+    // Create a new clock domain named 'core'
     val coreClockDomain = ClockDomain.internal(
       name = "core",
       frequency = FixedFrequency(200 MHz)  // This frequency specification can be used
     )                                      // by coreClockDomain users to do some calculations
 
-    //Drive clock and reset signals of the coreClockDomain previously created
+    // Drive clock and reset signals of the coreClockDomain previously created
     coreClockDomain.clock := pll.io.clkOut
     coreClockDomain.reset := ResetCtrl.asyncAssertSyncDeassert(
       input = io.aReset || ! pll.io.isLocked,
@@ -42,9 +42,9 @@ case class TopLevel() extends Component {
     )
   }
 
-  //Create a ClockingArea which will be under the effect of the clkCtrl.coreClockDomain
+  // Create a ClockingArea which will be under the effect of the clkCtrl.coreClockDomain
   val core = new ClockingArea(clkCtrl.coreClockDomain) {
-    //Do your stuff which use coreClockDomain here
+    // Do your stuff which use coreClockDomain here
     val counter = Reg(UInt(4 bits)) init 0
     counter := counter + 1
     io.result := counter

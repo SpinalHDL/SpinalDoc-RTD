@@ -111,19 +111,19 @@ case class VgaCtrl(rgbConfig: RgbConfig, timingsWidth: Int = 12) extends Compone
   io.vga.colorEn := colorEn
   io.vga.color := io.pixels.payload
   // end VgaCtrl connections
-  def feedWith(that : Stream[Fragment[Rgb]]): Unit ={
+  def feedWith(that : Stream[Fragment[Rgb]]): Unit = {
     io.pixels << that.toStreamOfFragment
 
     val error = RegInit(False)
-    when(io.error){
+    when(io.error) {
       error := True
     }
-    when(that.isLast){
+    when(that.isLast) {
       error := False
     }
 
     io.softReset := error
-    when(error){
+    when(error) {
       that.ready := True
     }
   }

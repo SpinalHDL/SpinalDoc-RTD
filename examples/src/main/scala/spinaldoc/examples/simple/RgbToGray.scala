@@ -6,7 +6,7 @@ import spinal.lib.CounterFreeRun
 import scala.language.postfixOps
 
 case class RgbToGray() extends Component {
-  val io = new Bundle{
+  val io = new Bundle {
     val clear = in Bool()
     val r,g,b = in UInt(8 bits)
 
@@ -28,7 +28,7 @@ case class RgbToGray() extends Component {
   io.wr := True
   io.data := gray
 
-  when(io.clear){
+  when(io.clear) {
     gray := 0
     address.clear()
     io.wr := False

@@ -68,7 +68,7 @@ For instance:
 .. code-block:: scala
 
    case class Apb3Gpio(gpioWidth : Int) extends Component {
-     val io = new Bundle{
+     val io = new Bundle {
        val gpio = master(TriStateArray(gpioWidth bits))
        val apb  = slave(Apb3(Apb3Gpio.getApb3Config()))
      }

@@ -2,7 +2,7 @@
 AHB-Lite3
 =========
 
-Configuration and instanciation
+Configuration and instantiation
 -------------------------------
 
 First each time you want to create a AHB-Lite3 bus, you will need a configuration object. This configuration object is an ``AhbLite3Config`` and has following arguments :
@@ -29,7 +29,7 @@ There is in short how the AHB-Lite3 bus is defined in the SpinalHDL library :
 
 .. code-block:: scala
 
-   case class AhbLite3(config: AhbLite3Config) extends Bundle with IMasterSlave{
+   case class AhbLite3(config: AhbLite3Config) extends Bundle with IMasterSlave {
      //  Address and control
      val HADDR = UInt(config.addressWidth bits)
      val HSEL = Bool()
@@ -66,8 +66,8 @@ There is a short example of usage :
    val ahbX = AhbLite3(ahbConfig)
    val ahbY = AhbLite3(ahbConfig)
 
-   when(ahbY.HSEL){
-     //...
+   when(ahbY.HSEL) {
+     // ...
    }
 
 Variations

@@ -36,7 +36,7 @@ The main difference between this example and the :ref:`Asynchronous adder <sim_e
          dut.clockDomain.forkStimulus(period = 10)
 
          var resultModel = 0
-         for(idx <- 0 until 100){
+         for(idx <- 0 until 100) {
            dut.io.a #= Random.nextInt(256)
            dut.io.b #= Random.nextInt(256)
            dut.io.c #= Random.nextInt(256)

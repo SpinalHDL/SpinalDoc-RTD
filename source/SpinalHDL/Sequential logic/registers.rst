@@ -136,7 +136,7 @@ If you have a register containing a Bundle, you can use the ``init`` function on
 
 .. code-block:: scala
 
-   case class ValidRGB() extends Bundle{
+   case class ValidRGB() extends Bundle {
      val valid   = Bool()
      val r, g, b = UInt(8 bits)
    }
@@ -200,7 +200,7 @@ In case where the initialization must be deferred since the init value is not kn
    }
 
    class SRConsumer() extends Component {
-      //...
+      // ...
       val sr = ShiftRegister(Flow(UInt(8 bits)), 4, SRConsumer.initIdleFlow[UInt])
    }
 
