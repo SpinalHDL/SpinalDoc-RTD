@@ -95,7 +95,7 @@ Then let the ``JtagTap`` implement this abstract interface:
    :caption: Additions to ``class JtagTap``
    :start-at: override def getTdi
    :end-before: // end class JtagTap
-   :prepend: class JtagTap(val jtag: Jtag, ...) extends Area with JtagTapAccess{
+   :prepend: class JtagTap(val jtag: Jtag, ...) extends Area with JtagTapAccess {
              ...
 
 Base class

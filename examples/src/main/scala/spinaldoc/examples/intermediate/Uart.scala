@@ -41,14 +41,14 @@ object UartStopType extends SpinalEnum(binarySequential) {
 
 // begin internal bundles
 case class UartCtrlFrameConfig(g: UartCtrlGenerics) extends Bundle {
-  val dataLength = UInt(log2Up(g.dataWidthMax) bits) //Bit count = dataLength + 1
+  val dataLength = UInt(log2Up(g.dataWidthMax) bits) // Bit count = dataLength + 1
   val stop       = UartStopType()
   val parity     = UartParityType()
 }
 
 case class UartCtrlConfig(g: UartCtrlGenerics) extends Bundle {
   val frame        = UartCtrlFrameConfig(g)
-  val clockDivider = UInt(g.clockDividerWidth bits) //see UartCtrlGenerics.clockDividerWidth for calculation
+  val clockDivider = UInt(g.clockDividerWidth bits) // see UartCtrlGenerics.clockDividerWidth for calculation
 
   def setClockDivider(baudrate: Double, clkFrequency: HertzNumber = ClockDomain.current.frequency.getValue): Unit = {
     clockDivider := (clkFrequency.toDouble / baudrate / g.rxSamplePerBit).toInt
@@ -105,8 +105,8 @@ class UartCtrlTx(g : UartCtrlGenerics) extends Component {
 
     io.write.ready := False
     switch(state) {
-      is(IDLE){
-        when(io.write.valid && clockDivider.tick){
+      is(IDLE) {
+        when(io.write.valid && clockDivider.tick) {
           state := START
         }
       }
@@ -206,7 +206,7 @@ class UartCtrlRx(g : UartCtrlGenerics) extends Component {
     val parity  = Reg(Bool())
     val shifter = Reg(io.read.payload)
 
-    //Parity calculation
+    // Parity calculation
     when(bitTimer.tick) {
       parity := parity ^ sampler.value
     }
@@ -279,7 +279,7 @@ class UartCtrl(g: UartCtrlGenerics=UartCtrlGenerics()) extends Component {
   val tx = new UartCtrlTx(g)
   val rx = new UartCtrlRx(g)
 
-  //Clock divider used by RX and TX
+  // Clock divider used by RX and TX
   val clockDivider = new Area {
     val counter = Reg(UInt(g.clockDividerWidth bits)) init 0
     val tick = counter === 0
@@ -397,8 +397,8 @@ case class UartRx() extends Component {
   io.read <> uartCtrl.io.read
 }
 
-case class UartCtrlUsageExample() extends Component{
-  val io = new Bundle{
+case class UartCtrlUsageExample() extends Component {
+  val io = new Bundle {
     val uart = master(Uart())
     val switches = in Bits(8 bits)
     val leds = out Bits(8 bits)
@@ -407,15 +407,15 @@ case class UartCtrlUsageExample() extends Component{
   val uartCtrl = new UartCtrl()
   // set config manually to show that this is still OK
   uartCtrl.io.config.setClockDivider(921600)
-  uartCtrl.io.config.frame.dataLength := 7  //8 bits
+  uartCtrl.io.config.frame.dataLength := 7  // 8 bits
   uartCtrl.io.config.frame.parity := UartParityType.NONE
   uartCtrl.io.config.frame.stop := UartStopType.ONE
   uartCtrl.io.uart <> io.uart
 
-  //Assign io.led with a register loaded each time a byte is received
+  // Assign io.led with a register loaded each time a byte is received
   io.leds := uartCtrl.io.read.toReg()
 
-  //Write the value of switch on the uart each 2000 cycles
+  // Write the value of switch on the uart each 2000 cycles
   val write = Stream(Bits(8 bits))
   write.valid := CounterFreeRun(2000).willOverflow
   write.payload := io.switches
@@ -431,7 +431,7 @@ object UartCtrlUsageExample extends App {
 
 case class UartQueued() extends Component {
   val g = UartCtrlGenerics()
-  val io = new Bundle{
+  val io = new Bundle {
     val uart = master(Uart())
     val uartConfig = in(UartCtrlConfig(g))
     val rx = master(Stream(Bits(8 bit)))
@@ -458,7 +458,7 @@ case class UartQueued() extends Component {
 }
 
 case class UartWithHeader() extends Component {
-  val io = new Bundle{
+  val io = new Bundle {
     val uart = master(Uart())
     val switches = in Bits(8 bits)
     val leds = out Bits(8 bits)
@@ -474,7 +474,7 @@ case class UartWithHeader() extends Component {
   )
   io.uart <> uartCtrl.io.uart
 
-  //Assign io.led with a register loaded each time a byte is received
+  // Assign io.led with a register loaded each time a byte is received
   io.leds := uartCtrl.io.read.toReg()
 
   // start with header

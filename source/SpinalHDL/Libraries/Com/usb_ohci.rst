@@ -4,15 +4,15 @@ USB OHCI
 
 Here exists a USB OHCi controller (host) in the SpinalHDL library.
 
-A few bullet points to summarise support:
+A few bullet points to summarize support:
 
 - It follow the `OpenHCI Open Host Controller Interface Specification for USB` specification (OHCI).
 - It is compatible with the upstream linux / uboot OHCI drivers already. (there is also an OHCI driver on tinyUSB)
-- This provides USB host full speed and low speed capabilities (12Mbps and 1.5Mbps)
+- This provides USB host full speed and low speed capabilities (12 Mbps and 1.5 Mbps)
 - Tested on linux and uboot
 - One controller can host multiple ports (up to 16)
 - Bmb memory interface for DMA accesses
-- Bmb memory interace for the configuration
+- Bmb memory interface for the configuration
 - Requires a clock for the internal phy which is a multiple of 12 Mhz at least 48 Mhz
 - The controller frequency is not restricted
 - No external phy required
@@ -79,8 +79,8 @@ Usage
         powerSwitchingMode = true,
         noOverCurrentProtection = true,
         powerOnToPowerGoodTime = 10,
-        dataWidth = 64, //DMA data width, up to 128
-        portsConfig = List.fill(4)(OhciPortParameter()) //4 Ports
+        dataWidth = 64, // DMA data width, up to 128
+        portsConfig = List.fill(4)(OhciPortParameter()) // 4 Ports
       )
 
       SpinalVerilog(new UsbOhciTop(p))

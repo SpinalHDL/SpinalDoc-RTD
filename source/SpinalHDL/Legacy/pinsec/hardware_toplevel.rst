@@ -26,18 +26,18 @@ Defining all IO
 
 .. code-block:: scala
 
-   val io = new Bundle{
-     //Clocks / reset
+   val io = new Bundle {
+     // Clocks / reset
      val asyncReset = in Bool()
      val axiClk     = in Bool()
      val vgaClk     = in Bool()
 
-     //Main components IO
+     // Main components IO
      val jtag       = slave(Jtag())
      val sdram      = master(SdramInterface(IS42x320D.layout))
 
-     //Peripherals IO
-     val gpioA      = master(TriStateArray(32 bits))   //Each pin has an individual output enable control
+     // Peripherals IO
+     val gpioA      = master(TriStateArray(32 bits))   // Each pin has an individual output enable control
      val gpioB      = master(TriStateArray(32 bits))
      val uart       = master(Uart())
      val vga        = master(Vga(RgbConfig(5,6,5)))
@@ -105,23 +105,23 @@ Then we can define a simple reset controller under this clock domain.
      val axiResetUnbuffered  = False
      val coreResetUnbuffered = False
 
-     //Implement an counter to keep the reset axiResetOrder high 64 cycles
+     // Implement an counter to keep the reset axiResetOrder high 64 cycles
      // Also this counter will automaticly do a reset when the system boot.
      val axiResetCounter = Reg(UInt(6 bits)) init(0)
-     when(axiResetCounter =/= U(axiResetCounter.range -> true)){
+     when(axiResetCounter =/= U(axiResetCounter.range -> true)) {
        axiResetCounter := axiResetCounter + 1
        axiResetUnbuffered := True
      }
-     when(BufferCC(io.asyncReset)){
+     when(BufferCC(io.asyncReset)) {
        axiResetCounter := 0
      }
 
-     //When an axiResetOrder happen, the core reset will as well
-     when(axiResetUnbuffered){
+     // When an axiResetOrder happen, the core reset will as well
+     when(axiResetUnbuffered) {
        coreResetUnbuffered := True
      }
 
-     //Create all reset used later in the design
+     // Create all reset used later in the design
      val axiReset  = RegNext(axiResetUnbuffered)
      val coreReset = RegNext(coreResetUnbuffered)
      val vgaReset  = BufferCC(axiResetUnbuffered)
@@ -137,7 +137,7 @@ Now that the reset controller is implemented, we can define clock domain for all
    val axiClockDomain = ClockDomain(
      clock     = io.axiClk,
      reset     = resetCtrl.axiReset,
-     frequency = FixedFrequency(50 MHz) //The frequency information is used by the SDRAM controller
+     frequency = FixedFrequency(50 MHz) // The frequency information is used by the SDRAM controller
    )
 
    val coreClockDomain = ClockDomain(
@@ -159,7 +159,7 @@ Also all the core system of Pinsec will be defined into a ``axi`` clocked area :
 .. code-block:: scala
 
    val axi = new ClockingArea(axiClockDomain) {
-     //Here will come the rest of Pinsec
+     // Here will come the rest of Pinsec
    }
 
 Main components
@@ -196,8 +196,8 @@ The RISCV CPU used in Pinsec as many parametrization possibilities :
        dynamicBranchPredictorCacheSizeLog2 = 7
      )
 
-     //The CPU has a systems of plugin which allow to add new feature into the core.
-     //Those extension are not directly implemented into the core, but are kind of additive logic patch defined in a separated area.
+     // The CPU has a systems of plugin which allow to add new feature into the core.
+     // Those extension are not directly implemented into the core, but are kind of additive logic patch defined in a separated area.
      coreConfig.add(new MulExtension)
      coreConfig.add(new DivExtension)
      coreConfig.add(new BarrelShifterFullExtension)
@@ -205,14 +205,14 @@ The RISCV CPU used in Pinsec as many parametrization possibilities :
      val iCacheConfig = InstructionCacheConfig(
        cacheSize =4096,
        bytePerLine =32,
-       wayCount = 1,  //Can only be one for the moment
+       wayCount = 1,  // Can only be one for the moment
        wrappedMemAccess = true,
        addressWidth = 32,
        cpuDataWidth = 32,
        memDataWidth = 32
      )
 
-     //There is the instantiation of the CPU by using all those construction parameters
+     // There is the instantiation of the CPU by using all those construction parameters
      new RiscvAxi4(
        coreConfig = coreConfig,
        iCacheConfig = iCacheConfig,
@@ -235,7 +235,7 @@ This solution uses less area while being fully interoperable with full AXI4.
    val ram = Axi4SharedOnChipRam(
      dataWidth = 32,
      byteCount = 4 KiB,
-     idWidth = 4     //Specify the AXI4 ID width.
+     idWidth = 4     // Specify the AXI4 ID width.
    )
 
 SDRAM controller
@@ -369,9 +369,9 @@ First we need to define a configuration for our VGA controller :
    val vgaCtrlConfig = Axi4VgaCtrlGenerics(
      axiAddressWidth = 32,
      axiDataWidth    = 32,
-     burstLength     = 8,           //In Axi words
-     frameSizeMax    = 2048*1512*2, //In byte
-     fifoSize        = 512,         //In axi words
+     burstLength     = 8,           // In Axi words
+     frameSizeMax    = 2048*1512*2, // In byte
+     fifoSize        = 512,         // In axi words
      rgbConfig       = RgbConfig(5,6,5),
      vgaClock        = vgaClockDomain
    )
@@ -409,7 +409,7 @@ AXI4 crossbar
 ^^^^^^^^^^^^^
 
 The AXI4 crossbar that interconnect AXI4 masters and slaves together is generated by using an factory.
-The concept of this factory is to create it, then call many function on it to configure it, and finaly call
+The concept of this factory is to create it, then call many function on it to configure it, and finally call
 the ``build`` function to ask the factory to generate the corresponding hardware :
 
 .. code-block:: scala
@@ -451,7 +451,7 @@ Then to reduce combinatorial path length and have a good design FMax, you can as
 
 .. code-block:: scala
 
-   //Pipeline the connection between the crossbar and the apbBridge.io.axi
+   // Pipeline the connection between the crossbar and the apbBridge.io.axi
    axiCrossbar.addPipelining(apbBridge.io.axi,(crossbar,bridge) => {
      crossbar.sharedCmd.halfPipe() >> bridge.sharedCmd
      crossbar.writeData.halfPipe() >> bridge.writeData
@@ -459,7 +459,7 @@ Then to reduce combinatorial path length and have a good design FMax, you can as
      crossbar.readRsp              << bridge.readRsp
    })
 
-   //Pipeline the connection between the crossbar and the sdramCtrl.io.axi
+   // Pipeline the connection between the crossbar and the sdramCtrl.io.axi
    axiCrossbar.addPipelining(sdramCtrl.io.axi,(crossbar,ctrl) => {
      crossbar.sharedCmd.halfPipe()  >>  ctrl.sharedCmd
      crossbar.writeData            >/-> ctrl.writeData
@@ -508,6 +508,6 @@ And finally some connections between components are required like interrupts and
    core.io.interrupt(1) := timerCtrl.io.interrupt
 
    core.io.debugResetIn := resetCtrl.axiReset
-   when(core.io.debugResetOut){
+   when(core.io.debugResetOut) {
      resetCtrl.coreResetUnbuffered := True
    }

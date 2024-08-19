@@ -27,7 +27,7 @@ class JtagFsm(jtag: Jtag) extends Area {
     val state = RegNext(stateNext) randBoot()
 
     stateNext := state.mux(
-    default    -> (jtag.tms ? RESET     | IDLE),           //RESET
+    default    -> (jtag.tms ? RESET     | IDLE),           // RESET
     IDLE       -> (jtag.tms ? DR_SELECT | IDLE),
     IR_SELECT  -> (jtag.tms ? RESET     | IR_CAPTURE),
     IR_CAPTURE -> (jtag.tms ? IR_EXIT1  | IR_SHIFT),

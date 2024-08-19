@@ -4,14 +4,14 @@ USB device
 
 Here exists a USB device controller in the SpinalHDL library.
 
-A few bullet points to summarise support:
+A few bullet points to summarize support:
 
 - Implemented to allow a CPU to configure and manage the endpoints
 - A internal ram which store the endpoints states and transactions descriptors
-- Up to 16 endpoints (for virtualy no price)
-- Support USB host full speed (12Mbps)
+- Up to 16 endpoints (for virtually no price)
+- Support USB host full speed (12 Mbps)
 - Test on linux using its own driver (https://github.com/SpinalHDL/linux/blob/dev/drivers/usb/gadget/udc/spinal_udc.c)
-- Bmb memory interace for the configuration
+- Bmb memory interface for the configuration
 - Require a clock for the internal phy which is a multiple of 12 Mhz at least 48 Mhz
 - The controller frequency is not restricted
 - No external phy required
@@ -50,7 +50,7 @@ Registers
 Note that all registers and memories of the controller are only accessible in 32 bits word access, bytes access isn't supported.
 
 FRAME (0xFF00)
-**********************
+**************
 
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
@@ -60,26 +60,26 @@ FRAME (0xFF00)
 
 
 ADDRESS (0xFF04)
-**********************
+****************
 
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
 +=========================+======+===========+==================================================================+
 | address                 |  WO  | 6-0       | The device will only listen at tokens with the specified address |
-|                         |      |           | This field is automaticaly cleared on usb reset events           |
+|                         |      |           | This field is automatically cleared on usb reset events          |
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | enable                  |  WO  | 8         | Enable the USB address filtering if set                          |
 +-------------------------+------+-----------+------------------------------------------------------------------+
-| trigger                 |  WO  | 9         | Set the enable (see above) on the next EP0 IN tocken completion  |
+| trigger                 |  WO  | 9         | Set the enable (see above) on the next EP0 IN token completion   |
 |                         |      |           | Cleared by the hardware after any EP0 completion                 |
 +-------------------------+------+-----------+------------------------------------------------------------------+
 
 The idea here is to keep the whole register cleared until a USB SET_ADDRESS setup packet is received on EP0.
 At that moment, you can set the address and the trigger field, then provide the IN zero length descriptor to EP0 to 
-finalise the SET_ADDRESS sequance. The controller will then automaticaly turn on the address filtering at the completion of that descriptor.
+finalize the SET_ADDRESS sequence. The controller will then automatically turn on the address filtering at the completion of that descriptor.
 
 INTERRUPT (0xFF08)
-**********************
+******************
 
 Individual bits of this register can be cleared by writing '1' in them.
 Reading this register returns the current interrupt status.
@@ -101,7 +101,7 @@ Reading this register returns the current interrupt status.
 +--------------+-------+-----------+------------------------------------------------------------------+
 
 HALT (0xFF0C)
-**********************
+*************
 
 This register allows placement of a single endpoint into a dormant state in order to ensure atomicity of CPU operations, allowing to do things as read/modify/write on the endpoint registers and descriptors.
 The peripheral will return NAK if the given endpoint is addressed by the usb host while halt is enabled and the endpoint is enabled.
@@ -118,7 +118,7 @@ The peripheral will return NAK if the given endpoint is addressed by the usb hos
 +-------------------------+------+-----------+------------------------------------------------------------------+
 
 CONFIG (0xFF10)
-**********************
+***************
 
 +-------------------------+------+-----------+------------------------------------------------------------------+
 | Name                    | Type | Bits      | Description                                                      |
@@ -133,7 +133,7 @@ CONFIG (0xFF10)
 +-------------------------+------+-----------+------------------------------------------------------------------+
 
 INFO (0xFF20)
-**********************
+*************
 
 +---------------+------+-----------+------------------------------------------------------------------+
 | Name          | Type | Bits      | Description                                                      |
@@ -142,14 +142,14 @@ INFO (0xFF20)
 +---------------+------+-----------+------------------------------------------------------------------+
 
 ENDPOINTS (0x0000 - 0x003F)
-*********************************
+***************************
 
-The endpoints status are stored at the begining of the internal ram over one 32 bits word each.
+The endpoints status are stored at the beginning of the internal ram over one 32 bits word each.
 
 +---------------+------+-----------+------------------------------------------------------------------+
 | Name          | Type | Bits      | Description                                                      |
 +===============+======+===========+==================================================================+
-| enable        |  RW  | 0         | If not set, the endpoint will ignore all the trafic              |
+| enable        |  RW  | 0         | If not set, the endpoint will ignore all the traffic             |
 +---------------+------+-----------+------------------------------------------------------------------+
 | stall         |  RW  | 1         | If set, the endpoint will always return STALL status             |
 +---------------+------+-----------+------------------------------------------------------------------+
@@ -177,7 +177,7 @@ Then the there is a few cases :
 - Either you have at least one descriptor pointed by head, in which case it will execute it and ACK if all was going smooth
 
 SETUP_DATA (0x0040 - 0x0047)
-*********************************
+****************************
 
 When endpoint 0 receives a SETUP transaction, the data of the transaction will be stored in this location. 
 
@@ -217,7 +217,7 @@ They are stored in the internal ram, can be linked together via their linked lis
 
 Note, if the controller receives a frame where the IN/OUT does not match the descriptor IN/OUT, the frame will be ignored.
 
-Also, to initialise a descriptor, the CPU should set the code field to 0xF
+Also, to initialize a descriptor, the CPU should set the code field to 0xF
 
 Usage
 -----
@@ -260,7 +260,7 @@ Usage
     }
 
 
-    object UsbDeviceGen extends App{
+    object UsbDeviceGen extends App {
       SpinalVerilog(new UsbDeviceTop())
     }
 

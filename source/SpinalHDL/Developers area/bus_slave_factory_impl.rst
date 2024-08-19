@@ -109,7 +109,7 @@ Let's describe primitives abstract function :
 
 
 
-   trait BusSlaveFactory  extends Area{
+   trait BusSlaveFactory  extends Area {
 
      def busDataWidth : Int
 
@@ -127,15 +127,15 @@ Let's describe primitives abstract function :
      def nonStopWrite( that : Data,
                        bitOffset : Int = 0) : Unit
 
-     //...
+     // ...
    }
 
 Then let's operate the magic to implement all utile based on them :
 
 .. code-block:: scala
 
-   trait BusSlaveFactory  extends Area{
-     //...
+   trait BusSlaveFactory  extends Are {
+     // ...
      def readAndWrite(that : Data,
                       address: BigInt,
                       bitOffset : Int = 0): Unit = {
@@ -164,7 +164,7 @@ Then let's operate the magic to implement all utile based on them :
                               address: BigInt,
                               bitOffset : Int = 0) : Unit = {
        that.valid := False
-       onWrite(address){
+       onWrite(address) {
          that.valid := True
        }
        nonStopWrite(that.payload,bitOffset)
@@ -194,7 +194,7 @@ Then let's operate the magic to implement all utile based on them :
        val reg = Reg(that)
        reg := reg | that
        read(reg,address,bitOffset)
-       onRead(address){
+       onRead(address) {
          reg := that
        }
      }
@@ -204,7 +204,7 @@ Then let's operate the magic to implement all utile based on them :
                                            validBitOffset : Int,
                                            payloadBitOffset : Int) : Unit = {
        that.ready := False
-       onRead(address){
+       onRead(address) {
          that.ready := True
        }
        read(that.valid  ,address,validBitOffset)
@@ -226,7 +226,7 @@ Then let's operate the magic to implement all utile based on them :
        val wordCount = (widthOf(that) - 1) / busDataWidth + 1
        for (wordId <- (0 until wordCount)) {
          write(
-           that = new DataWrapper{
+           that = new DataWrapper {
              override def getBitsWidth: Int =
                Math.min(busDataWidth, widthOf(that) - wordId * busDataWidth)
 
@@ -280,7 +280,7 @@ Then let's implement the ``BusSlaveFactoryDelayed`` itself :
 
 .. code-block:: scala
 
-   trait BusSlaveFactoryDelayed extends BusSlaveFactory{
+   trait BusSlaveFactoryDelayed extends BusSlaveFactory {
      // elements is an array of all BusSlaveFactoryElement requested
      val elements = ArrayBuffer[BusSlaveFactoryElement]()
 
@@ -320,7 +320,7 @@ Then let's implement the ``BusSlaveFactoryDelayed`` itself :
        elements += BusSlaveFactoryNonStopWrite(that,bitOffset)
      }
 
-     //This is the only thing that should be implement by class that extends BusSlaveFactoryDelayed
+     // This is the only thing that should be implement by class that extends BusSlaveFactoryDelayed
      def build() : Unit
 
      component.addPrePopTask(() => build())
@@ -360,13 +360,13 @@ First let's implement the companion object that provide the compatible AvalonMM 
 
 .. code-block:: scala
 
-   object AvalonMMSlaveFactory{
+   object AvalonMMSlaveFactory {
      def getAvalonConfig( addressWidth : Int,
                           dataWidth : Int) = {
-       AvalonMMConfig.pipelined(   //Create a simple pipelined configuration of the Avalon Bus
+       AvalonMMConfig.pipelined(   // Create a simple pipelined configuration of the Avalon Bus
          addressWidth = addressWidth,
          dataWidth = dataWidth
-       ).copy(                    //Change some parameters of the configuration
+       ).copy(                     // Change some parameters of the configuration
          useByteEnable = false,
          useWaitRequestn = false
        )
@@ -379,7 +379,7 @@ Then, let's implement the AvalonMMSlaveFactory itself.
 
 .. code-block:: scala
 
-   class AvalonMMSlaveFactory(bus : AvalonMM) extends BusSlaveFactoryDelayed{
+   class AvalonMMSlaveFactory(bus : AvalonMM) extends BusSlaveFactoryDelayed {
      assert(bus.c == AvalonMMSlaveFactory.getAvalonConfig(bus.c.addressWidth,bus.c.dataWidth))
 
      val readAtCmd = Flow(Bits(bus.c.dataWidth bits))
@@ -398,10 +398,10 @@ Then, let's implement the AvalonMMSlaveFactory itself.
          case _ =>
        }
 
-       for((address,jobs) <- elementsPerAddress){
-         when(bus.address === address){
-           when(bus.write){
-             for(element <- jobs) element match{
+       for((address,jobs) <- elementsPerAddress) {
+         when(bus.address === address) {
+           when(bus.write) {
+             for(element <- jobs) element match {
                case element : BusSlaveFactoryWrite => {
                  element.that.assignFromBits(bus.writeData(element.bitOffset, element.that.getBitsWidth bits))
                }
@@ -409,8 +409,8 @@ Then, let's implement the AvalonMMSlaveFactory itself.
                case _ =>
              }
            }
-           when(bus.read){
-             for(element <- jobs) element match{
+           when(bus.read) {
+             for(element <- jobs) element match {
                case element : BusSlaveFactoryRead => {
                  readAtCmd.payload(element.bitOffset, element.that.getBitsWidth bits) := element.that.asBits
                }

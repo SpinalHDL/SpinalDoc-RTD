@@ -14,7 +14,7 @@ object Apb3UartCtrl {
 // end object Apb3UartCtrl
 
 case class Apb3UartCtrl(uartCtrlConfig: UartCtrlGenerics, rxFifoDepth: Int) extends Component {
-  val io = new Bundle{
+  val io = new Bundle {
     val bus =  slave(Apb3(Apb3UartCtrl.getApb3Config))
     val uart = master(Uart())
   }

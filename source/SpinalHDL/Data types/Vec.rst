@@ -87,7 +87,7 @@ Comparison
 
    myBool := vec2 === vec1  // Compare all elements
    // is equivalent to:
-   //myBool := vec2(0) === vec1(0) && vec2(1) === vec1(1)
+   // myBool := vec2(0) === vec1(0) && vec2(1) === vec1(1)
 
 Type cast
 ~~~~~~~~~
@@ -147,10 +147,10 @@ Lib helper functions
      - Description
      - Return
    * - x.sCount(condition: T => Bool)
-     - Count the number of occurence matching a given condition in the Vec.
+     - Count the number of occurrence matching a given condition in the Vec.
      - UInt
    * - x.sCount(value: T)
-     - Count the number of occurence of a value in the Vec.
+     - Count the number of occurrence of a value in the Vec.
      - UInt
    * - x.sExists(condition: T => Bool)
      - Check if there is a matching condition in the Vec.

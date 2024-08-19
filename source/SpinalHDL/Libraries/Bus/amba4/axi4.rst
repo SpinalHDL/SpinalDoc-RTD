@@ -3,7 +3,7 @@ Axi4
 
 The AXI4 is a high bandwidth bus defined by ARM.
 
-Configuration and instanciation
+Configuration and instantiation
 -------------------------------
 
 First each time you want to create a AXI4 bus, you will need a configuration object. This configuration object is an ``Axi4Config`` and has following arguments :
@@ -73,7 +73,7 @@ There is in short how the AXI4 bus is defined in the SpinalHDL library :
 
 .. code-block:: scala
 
-   case class Axi4(config: Axi4Config) extends Bundle with IMasterSlave{
+   case class Axi4(config: Axi4Config) extends Bundle with IMasterSlave {
      val aw = Stream(Axi4Aw(config))
      val w  = Stream(Axi4W(config))
      val b  = Stream(Axi4B(config))
@@ -98,8 +98,8 @@ There is a short example of usage :
    val axiX = Axi4(axiConfig)
    val axiY = Axi4(axiConfig)
 
-   when(axiY.aw.valid){
-     //...
+   when(axiY.aw.valid) {
+     // ...
    }
 
 Variations

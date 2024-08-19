@@ -115,7 +115,7 @@ The following operators are available for the ``Bool`` type
 
 
 The BitVector family - (``Bits``, ``UInt``, ``SInt``)
------------------------------------------------------------------
+-----------------------------------------------------
 
 | ``BitVector`` is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviours:
 | ``Bits`` do not convey any sign information whereas the ``UInt`` (unsigned integer) and ``SInt`` (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetic is used.
@@ -207,11 +207,11 @@ You can define a Range values
    val myBool := myUInt === U(7 -> true,(6 downto 0) -> false)
    val myBool := myUInt === U(myUInt.range -> true)
 
-   //For assignment purposes, you can omit the B/U/S, which also alow the use of the [default -> ???] feature
-   myUInt := (default -> true)                       //Assign myUInt with "11111111"
-   myUInt := (myUInt.range -> true)                  //Assign myUInt with "11111111"
-   myUInt := (7 -> true,default -> false)            //Assign myUInt with "10000000"
-   myUInt := ((4 downto 1) -> true,default -> false) //Assign myUInt with "00011110"
+   // For assignment purposes, you can omit the B/U/S, which also alow the use of the [default -> ???] feature
+   myUInt := (default -> true)                       // Assign myUInt with "11111111"
+   myUInt := (myUInt.range -> true)                  // Assign myUInt with "11111111"
+   myUInt := (7 -> true,default -> false)            // Assign myUInt with "10000000"
+   myUInt := ((4 downto 1) -> true,default -> false) // Assign myUInt with "00011110"
 
 Operators
 ^^^^^^^^^
@@ -451,10 +451,10 @@ Vec
 
    val x,y,z = UInt(8 bits)
    val myVecOf_xyz_ref = Vec(x,y,z)
-   for(element <- myVecOf_xyz_ref){
-     element := 0   //Assign x,y,z with the value 0
+   for(element <- myVecOf_xyz_ref) {
+     element := 0   // Assign x,y,z with the value 0
    }
-   myVecOf_xyz_ref(1) := 3    //Assign y with the value 3
+   myVecOf_xyz_ref(1) := 3    // Assign y with the value 3
 
 Bundle
 ------
@@ -491,15 +491,15 @@ Then you can also incorporate a Bundle inside Bundle as deeply as you want:
      val color = RGB(channelWidth)
    }
 
-And finaly instantiate your Bundles inside the hardware :
+And finally instantiate your Bundles inside the hardware :
 
 .. code-block:: scala
 
-   val vgaIn  = VGA(8)         //Create a RGB instance
+   val vgaIn  = VGA(8)        // Create a RGB instance
    val vgaOut = VGA(8)
-   vgaOut := vgaIn            //Assign the whole bundle
-   vgaOut.color.green := 0    //Fix the green to zero
-   val vgaInRgbIsBlack = vgaIn.rgb.isBlack   //Get if the vgaIn rgb is black
+   vgaOut := vgaIn            // Assign the whole bundle
+   vgaOut.color.green := 0    // Fix the green to zero
+   val vgaInRgbIsBlack = vgaIn.rgb.isBlack   // Get if the vgaIn rgb is black
 
 If you want to specify your bundle as an input or an output of a Component, you have to do it by the following way :
 
@@ -507,7 +507,7 @@ If you want to specify your bundle as an input or an output of a Component, you 
 
    class MyComponent extends Component {
      val io = Bundle {
-       val cmd = in(RGB(8))    //Don't forget the bracket around the bundle.
+       val cmd = in(RGB(8))    // Don't forget the bracket around the bundle.
        val rsp = out(RGB(8))
      }
    }
@@ -534,7 +534,7 @@ If you want to define an interface, let's imagine an APB interface, you can also
      val PWRITE     = Bool()
      val PWDATA     = Bits(dataWidth bits)
      val PRDATA     = Bits(dataWidth bits)
-     val PSLVERROR  = if(useSlaveError) Bool() else null   //This wire is created only when useSlaveError is true
+     val PSLVERROR  = if(useSlaveError) Bool() else null   // This wire is created only when useSlaveError is true
    }
 
    // Example of usage :
@@ -554,7 +554,7 @@ Also if one time you need to add another construction parameter, you will only h
                         selWidth : Int,
                         useSlaveError : Boolean)
 
-   class APB(val config: APBConfig) extends Bundle {   //[val] config, make the configuration public
+   class APB(val config: APBConfig) extends Bundle {   // [val] config, make the configuration public
      val PADDR      = UInt(config.addressWidth bits)
      val PSEL       = Bits(config.selWidth bits)
      val PENABLE    = Bool()
@@ -598,7 +598,7 @@ Then at some points, you will probably need to use the APB bus as master or as s
        this
      }
 
-     def asSlave(): this.type = this.asMaster().flip() //Flip reverse all in out configuration.
+     def asSlave(): this.type = this.asMaster().flip() // Flip reverse all in out configuration.
    }
 
    // Example of usage
@@ -623,7 +623,7 @@ An example of an APB bus that implement this IMasterSlave :
 
 .. code-block:: scala
 
-   //You need to import spinal.lib._ to use IMasterSlave
+   // You need to import spinal.lib._ to use IMasterSlave
    import spinal.core._
    import spinal.lib._
 
@@ -640,14 +640,14 @@ An example of an APB bus that implement this IMasterSlave :
      val PWRITE     = Bool()
      val PWDATA     = Bits(dataWidth bits)
      val PRDATA     = Bits(dataWidth bits)
-     val PSLVERROR  = if(useSlaveError) Bool() else null   //This wire is created only when useSlaveError is true
+     val PSLVERROR  = if(useSlaveError) Bool() else null   // This wire is created only when useSlaveError is true
 
      override def asMaster() : Unit = {
        out(PADDR,PSEL,PENABLE,PWRITE,PWDATA)
        in(PREADY,PRDATA)
        if(useSlaveError) in(PSLVERROR)
      }
-     //The asSlave is by default the flipped version of asMaster.
+     // The asSlave is by default the flipped version of asMaster.
    }
 
 Enum
@@ -689,7 +689,7 @@ Instantiate a signal to store the enumeration encoded value and assign it a valu
    val stateNext = UartCtrlTxState() // Or UartCtrlTxState(encoding=encodingOfYouChoice)
    stateNext := UartCtrlTxState.sIdle
 
-   //You can also import the enumeration to have the visibility on its elements
+   // You can also import the enumeration to have the visibility on its elements
    import UartCtrlTxState._
    stateNext := sIdle
 
@@ -758,8 +758,8 @@ An example :
    val cond = in Bool()
    val red = in UInt(4 bits)
    ...
-   val valid = False          //Bool wire which is by default assigned with False
-   val value = U"0100"        //UInt wire of 4 bits which is by default assigned with 4
+   val valid = False          // Bool wire which is by default assigned with False
+   val value = U"0100"        // UInt wire of 4 bits which is by default assigned with 4
    when(cond) {
      valid := True
      value := red

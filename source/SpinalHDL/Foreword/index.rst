@@ -10,7 +10,7 @@ Preliminary notes:
 * For conciseness, let's assume that SystemVerilog is a recent revision of
   Verilog.
 * When reading this, we should not underestimate how much our attachment for our
-  favourite HDL will bias our judgement.
+  favorite HDL will bias our judgement.
 
 
 Why moving away from traditional HDL
@@ -187,7 +187,7 @@ peripherals instantiation and adding the APB3 decoder required to access them.
    val vgaCtrl = Axi4VgaCtrl(vgaCtrlConfig)
 
    // Instantiate an APB3 decoder
-   // - Drived by the apbBridge
+   // - Driven by the apbBridge
    // - Map each peripheral in a memory region
    val apbDecoder = Apb3Decoder(
      master = apbBridge.io.apb,
@@ -262,7 +262,7 @@ on the top of SpinalHDL:
 .. code-block:: scala
 
    // Define a new state machine
-   val fsm = new StateMachine{
+   val fsm = new StateMachine {
      // Define all states
      val stateA, stateB, stateC = new State
 
@@ -272,14 +272,14 @@ on the top of SpinalHDL:
      // Define a register used into the state machine
      val counter = Reg(UInt(8 bits)) init (0)
 
-     // Define the state machine behaviour for each state
+     // Define the state machine behavior for each state
      stateA.whenIsActive (goto(stateB))
 
      stateB.onEntry(counter := 0)
      stateB.onExit(io.result := True)
      stateB.whenIsActive {
        counter := counter + 1
-       when(counter === 4){
+       when(counter === 4) {
          goto(stateC)
        }
      }

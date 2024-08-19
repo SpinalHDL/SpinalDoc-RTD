@@ -1,10 +1,10 @@
 
 tilelink.fabric.Node
-===========================
+====================
 
-tilelink.fabric.Node is an additional layer over the regular tilelink hardware instanciation which handle negociation and parameters propagation at a SoC level.
+tilelink.fabric.Node is an additional layer over the regular tilelink hardware instantiation which handle negotiation and parameters propagation at a SoC level.
 
-It is mostly based on the Fiber API, which allows to create elaboration time fibers (user-space threads), allowing to schedule future parameter propagation / negociation and hardware elaboration.
+It is mostly based on the Fiber API, which allows to create elaboration time fibers (user-space threads), allowing to schedule future parameter propagation / negotiation and hardware elaboration.
 
 A Node can be created in 3 ways : 
 
@@ -21,7 +21,7 @@ Nodes mostly have the following attributes :
 
 You can note that they all are Handles. Handle is a way in SpinalHDL to have share a value between fibers. If a fiber read a Handle while this one has no value yet, it will block the execution of that fiber until another fiber provide a value to the Handle.
 
-There is also a set of attribues like m2s, but reversed (named s2m) which specify the parameters for the transactions initiated by the slave side of the interconnect (ex memory coherency).
+There is also a set of attributes like m2s, but reversed (named s2m) which specify the parameters for the transactions initiated by the slave side of the interconnect (ex memory coherency).
 
 There is two talks which where introducing the tilelink.fabric.Node. Those talk may not exactly follow the actual syntax, they are still follow the concepts : 
 
@@ -29,7 +29,7 @@ There is two talks which where introducing the tilelink.fabric.Node. Those talk 
 - In depth : https://peertube.f-si.org/videos/watch/bcf49c84-d21d-4571-a73e-96d7eb89e907
 
 Example Toplevel
--------------------
+----------------
 
 Here is an example of a simple fictive SoC toplevel :
 
@@ -53,7 +53,7 @@ You can also define intermediate nodes in the interconnect as following :
       ram.up at(0x10000, 0x200) of cpu.down
         
       // Create a peripherals namespace to keep things clean
-      val peripherals = new Area{
+      val peripherals = new Area {
         // Create a intermediate node in the interconnect
         val access = tilelink.fabric.Node()
         access at 0x20000 of cpu.down
@@ -67,7 +67,7 @@ You can also define intermediate nodes in the interconnect as following :
 
 
 Example GpioFiber
-----------------------
+-----------------
 
 GpioFiber is a simple tilelink peripheral which can read / drive a 32 bits tristate array.
 
@@ -126,7 +126,7 @@ RamFiber is the integration layer of a regular tilelink Ram component.
       val up = tilelink.fabric.Node.up()
 
       val thread = Fiber build new Area {
-        // Here the supported parameters are function of what the master would like us to idealy support.
+        // Here the supported parameters are function of what the master would like us to ideally support.
         // The tilelink.Ram support all addressWidth / dataWidth / burst length / get / put accesses
         // but doesn't support atomic / coherency. So we take what is proposed to use and restrict it to 
         // all sorts of get / put request
@@ -136,7 +136,7 @@ RamFiber is the integration layer of a regular tilelink Ram component.
         // Here we infer how many bytes our ram need to be, by looking at the memory mapping of the connected masters
         val bytes = up.ups.map(e => e.mapping.value.highestBound - e.mapping.value.lowerBound + 1).max.toInt
         
-        // Then we finaly generate the regular hardware
+        // Then we finally generate the regular hardware
         val logic = new tilelink.Ram(up.bus.p.node, bytes)
         logic.io.up << up.bus
       }
@@ -174,7 +174,7 @@ CpuFiber is an fictive example of a master integration.
                 tilelink.M2sSource(
                   id = SizeMapping(0, 4),
                   emits = M2sTransfers(
-                    get = tilelink.SizeRange(1, 64), //Meaning the get access can be any power of 2 size in [1, 64]
+                    get = tilelink.SizeRange(1, 64), // Meaning the get access can be any power of 2 size in [1, 64]
                     putFull = tilelink.SizeRange(1, 64)
                   )
                 )
@@ -186,7 +186,7 @@ CpuFiber is an fictive example of a master integration.
         // Lets say the CPU doesn't support any slave initiated requests (memory coherency)
         down.s2m.supported load tilelink.S2mSupport.none()
 
-        // Then we can generate some hardware (nothing usefull in this example)
+        // Then we can generate some hardware (nothing useful in this example)
         down.bus.a.setIdle()
         down.bus.d.ready := True
       }
@@ -199,7 +199,7 @@ To allow a master to identify what memory access it is allowed to do, you can us
 
         val mappings = spinal.lib.system.tag.MemoryConnection.getMemoryTransfers(down)
         // Here we just print the values out in stdout, but instead you can generate some hardware from it.
-        for(mapping <- mappings){
+        for(mapping <- mappings) {
           println(s"- ${mapping.where} -> ${mapping.transfers}")
         }
 
@@ -213,7 +213,7 @@ If you run this in the Cpu's fiber, in the following soc :
       ram.up at(0x10000, 0x200) of cpu.down
         
       // Create a peripherals namespace to keep things clean
-      val peripherals = new Area{
+      val peripherals = new Area {
         // Create a intermediate node in the interconnect
         val access = tilelink.fabric.Node()
         access at 0x20000 of cpu.down
@@ -237,7 +237,7 @@ You will get :
 - "SM" means SizeMapping(address, size)
 - "OT" means OffsetTransformer(offset)
 
-Note that you can also add PMA (Physical Memory Attributes) to nodes and retreives them via this getMemoryTransfers utilities.
+Note that you can also add PMA (Physical Memory Attributes) to nodes and retrieves them via this getMemoryTransfers utilities.
 
 The currently defined PMA are : 
 
@@ -262,9 +262,9 @@ The getMemoryTransfers utility rely on a dedicated SpinalTag :
     trait MemoryConnection extends SpinalTag {
       def up : Nameable with SpinalTagReady // Side toward the masters of the system
       def down : Nameable with SpinalTagReady // Side toward the slaves of the system
-      def mapping : AddressMapping //Specify the memory mapping of the slave from the master address (before transformers are applied)
-      def transformers : List[AddressTransformer]  //List of alteration done to the address on this connection (ex offset, interleaving, ...)
-      def sToM(downs : MemoryTransfers, args : MappedNode) : MemoryTransfers = downs //Convert the slave MemoryTransfers capabilities into the master ones
+      def mapping : AddressMapping // Specify the memory mapping of the slave from the master address (before transformers are applied)
+      def transformers : List[AddressTransformer]  // List of alteration done to the address on this connection (ex offset, interleaving, ...)
+      def sToM(downs : MemoryTransfers, args : MappedNode) : MemoryTransfers = downs // Convert the slave MemoryTransfers capabilities into the master ones
     }
 
 That SpinalTag can be used applied to both ends of a given memory bus connection to keep this connection discoverable at elaboration time, creating a graph of MemoryConnection. One good thing about it is that is is bus agnostic, meaning it isn't tilelink specific.
@@ -277,7 +277,7 @@ The width adapter is a simple example of bridge.
 
 .. code-block:: 
 
-    class WidthAdapterFiber() extends Area{
+    class WidthAdapterFiber() extends Area {
       val up = Node.up()
       val down = Node.down()
 
@@ -290,17 +290,17 @@ The width adapter is a simple example of bridge.
         populate()
       }
 
-      // Fiber in which we will negociate the data width parameters and generate the hardware
-      val logic = Fiber build new Area{
+      // Fiber in which we will negotiate the data width parameters and generate the hardware
+      val logic = Fiber build new Area {
         // First, we propagate downward the parameter proposal, hopping that the downward side will agree
         down.m2s.proposed.load(up.m2s.proposed)
 
-        // Second, we will propagate upward what is actualy supported, but will take care of any dataWidth missmatch
+        // Second, we will propagate upward what is actually supported, but will take care of any dataWidth mismatch
         up.m2s.supported load down.m2s.supported.copy(
           dataWidth = up.m2s.proposed.dataWidth
         )
 
-        // Third, we propagate downward the final bus parameter, but will take care of any dataWidth missmatch
+        // Third, we propagate downward the final bus parameter, but will take care of any dataWidth mismatch
         down.m2s.parameters load up.m2s.parameters.copy(
           dataWidth = down.m2s.supported.dataWidth
         )
@@ -308,7 +308,7 @@ The width adapter is a simple example of bridge.
         // No alteration on s2m parameters
         up.s2m.from(down.s2m)
 
-        // Finaly, we generate the hardware
+        // Finally, we generate the hardware
         val bridge = new tilelink.WidthAdapter(up.bus.p, down.bus.p)
         bridge.io.up << up.bus
         bridge.io.down >> down.bus

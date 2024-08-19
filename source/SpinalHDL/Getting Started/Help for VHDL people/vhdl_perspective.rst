@@ -14,7 +14,7 @@ Here is an example of a component which has 3 inputs (``a``, ``b``, ``c``) and a
 .. code-block:: scala
 
    case class MyComponent(offset: Int) extends Component {
-     val io = new Bundle{
+     val io = new Bundle {
        val a, b, c = in UInt(8 bits)
        val result  = out UInt(8 bits)
      }

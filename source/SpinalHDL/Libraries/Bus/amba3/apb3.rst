@@ -4,7 +4,7 @@ Apb3
 
 The AMBA3-APB bus is commonly used to interface low bandwidth peripherals.
 
-Configuration and instanciation
+Configuration and instantiation
 -------------------------------
 
 First each time you want to create a APB3 bus, you will need a configuration object. This configuration object is an ``Apb3Config`` and has following arguments :
@@ -48,7 +48,7 @@ There is in short how the APB3 bus is defined in the SpinalHDL library :
      val PWDATA     = Bits(config.dataWidth bits)
      val PRDATA     = Bits(config.dataWidth bits)
      val PSLVERROR  = if(config.useSlaveError) Bool() else null
-     //...
+     // ...
    }
 
 There is a short example of usage :
@@ -62,8 +62,8 @@ There is a short example of usage :
    val apbX = Apb3(apbConfig)
    val apbY = Apb3(apbConfig)
 
-   when(apbY.PENABLE){
-     //...
+   when(apbY.PENABLE) {
+     // ...
    }
 
 Functions and operators

@@ -1,8 +1,8 @@
 Clock domains 
-==========================================
+=============
 
 Stimulus API
-----------------------------------
+------------
 
 Below is a list of ``ClockDomain`` stimulation functions:
 
@@ -36,7 +36,7 @@ Below is a list of ``ClockDomain`` stimulation functions:
      - Set the softReset signal to its active level
 
 Wait API
-----------------------------------
+--------
 
 Below is a list of ``ClockDomain`` utilities that you can use to wait for a given event from the domain:
 
@@ -72,7 +72,7 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
 .. _sim_clock_threadless:
 
 Callback API
-----------------------------------
+------------
 
 Below is a list of ``ClockDomain`` utilities that you can use to wait for a given event from the domain:
 
@@ -96,11 +96,10 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
      - Execute the callback code each time the ``ClockDomain`` clock generates a falling edge
    * - ``onSamplingWhile { callback : Boolean }``
      - Same as onSampling, but you can stop it (forever) by letting the callback returning false
-     
 
 
 Default ClockDomain
-----------------------------------
+-------------------
 
 You can access the default ``ClockDomain`` of your toplevel as shown below:
 
@@ -132,7 +131,7 @@ An example of how to wait for a rising edge on the clock:
 
 
 New ClockDomain
---------------------------------
+---------------
 
 If your toplevel defines some clock and reset inputs which aren't directly integrated into their ``ClockDomain``, you can define their corresponding ``ClockDomain`` directly in the testbench:
 
