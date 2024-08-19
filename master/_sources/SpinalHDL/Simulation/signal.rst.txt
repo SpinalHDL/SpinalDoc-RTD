@@ -1,5 +1,5 @@
 Accessing signals of the simulation
-==========================================
+===================================
 
 Read and write signals
 ----------------------

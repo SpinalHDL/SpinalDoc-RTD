@@ -9,7 +9,7 @@ Introduction
 .. note::
    This page only documents the SoC implemented with the first generation of RISC-V CPU created in SpinalHDL.
    This page does not document the VexRiscV CPU, which is the second generation of this SoC (and CPU) is available
-   `here <https://github.com/SpinalHDL/VexRiscv>`__ and offers better perforance/area/features.
+   `here <https://github.com/SpinalHDL/VexRiscv>`__ and offers better performance/area/features.
 
 Introduction
 ------------

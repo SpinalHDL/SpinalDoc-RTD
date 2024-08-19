@@ -45,6 +45,6 @@ To generate VHDL for a given component, you can place the following at the botto
 
    object MyMainObject {
      def main(args: Array[String]) {
-       SpinalVhdl(new TheComponentThatIWantToGenerate(constructionArguments))   //Or SpinalVerilog
+       SpinalVhdl(new TheComponentThatIWantToGenerate(constructionArguments))   // Or SpinalVerilog
      }
    }

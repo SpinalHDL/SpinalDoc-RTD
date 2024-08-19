@@ -115,7 +115,7 @@ When enable signals are used in a block guarded by a conditional block like `whe
 .. code-block:: scala
 
     val rom = Mem(Bits(10 bits), 32)
-    when(cond){
+    when(cond) {
       io.rdata := rom.readSync(io.addr, io.rdEna)
     }
 

@@ -61,7 +61,7 @@ Therefore, we provide a 'whenBuilder' method to achieve this goal
     ctx.when(conds(1)) {
       result := 1
     }
-    if(true){
+    if(true) {
       ctx.when(conds(2)) {
         result := 2
       }
@@ -79,7 +79,7 @@ we can also use like this
       result := i
     }
 
-    ctx.otherwise{
+    ctx.otherwise {
       result := 255
     }
 
@@ -287,7 +287,7 @@ Below is an example of dividing a ``Bits`` of 128 bits into 32 bits:
    val dataWord = sel.muxList(for (index <- 0 until 4)
                               yield (index, data(index*32+32-1 downto index*32)))
 
-   // A shorter way to do the same thing:
+   // A shorter way to do the same thing:
    val dataWord = data.subdivideIn(32 bits)(sel)
 
 Example for ``muxListDc`` selecting bits from a configurable width vector:

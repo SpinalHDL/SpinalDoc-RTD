@@ -114,5 +114,5 @@ From source
    Be sure that your ``PATH`` environnement variable is pointing to the JDK 1.8 and doesn't contain a JRE installation.
 
 .. important::
-   Adding the MSYS2 ``bin`` folders into your windows ``PATH`` could potentialy have some side effects.
+   Adding the MSYS2 ``bin`` folders into your windows ``PATH`` could potentially have some side effects.
    This is why it is safer to add them as the last elements of the ``PATH`` to reduce their priority.

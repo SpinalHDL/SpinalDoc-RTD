@@ -1,7 +1,7 @@
 Projects using SpinalHDL
 ------------------------
 
-Note that the following lists are very incompletes.
+Note that the following lists are very incomplete.
 
 .. _users_repositories:
 

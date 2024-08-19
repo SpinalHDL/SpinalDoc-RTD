@@ -36,7 +36,7 @@ Automatic address allocation
 
 .. image:: /asset/image/regif/reg-auto-allocate.gif
 
-Automatic fileds allocation
+Automatic filed allocation
 
 .. code:: scala
 
@@ -45,9 +45,9 @@ Automatic fileds allocation
   M_REG0.reserved(5 bits)
   val fd1 = M_REG0.field(Bits(3 bit), RW, doc= "fields 0")
   val fd2 = M_REG0.field(Bits(3 bit), RW, doc= "fields 0")
-  //auto reserved 2 bits
+  // auto reserved 2 bits
   val fd3 = M_REG0.fieldAt(pos=16, Bits(4 bit), doc= "fields 3")
-  //auto reserved 12 bits
+  // auto reserved 12 bits
 
 .. image:: /asset/image/regif/field-auto-allocate.gif
 
@@ -159,7 +159,7 @@ Attention, please don't forget to drive it.
 
 .. code:: scala
 
-   val overflow = M_REG0.field(Bits(32 bit), RO, 0, "xx-ip paramete")
+   val overflow = M_REG0.field(Bits(32 bit), RO, 0, "xx-ip parameter")
    val ovfreg = Reg(32 bit)
    overflow := ovfreg
    
@@ -167,9 +167,9 @@ Attention, please don't forget to drive it.
 .. code:: scala
 
    val inc    = in Bool()
-   val couter = M_REG0.field(UInt(8 bit), RO, 0, "counter")
+   val counter = M_REG0.field(UInt(8 bit), RO, 0, "counter")
    val cnt = Counter(100,  inc)
-   couter := cnt
+   counter := cnt
 
       
 **CASE2:** ``ROV`` usage
@@ -201,8 +201,8 @@ In some cases, such registers are not only configured by software, but also set 
      val xxx_set_val = in Bits(32 bit)
    }
 
-   val reg0 = M_REG0.fieldHSRW(io.xxx_set, io.xxx_set_val, 0, "xx-device version")  //0x0000
-   val reg1 = M_REG1.fieldRWHS(io.xxx_set, io.xxx_set_val, 0, "xx-device version")  //0x0004
+   val reg0 = M_REG0.fieldHSRW(io.xxx_set, io.xxx_set_val, 0, "xx-device version")  // 0x0000
+   val reg1 = M_REG1.fieldRWHS(io.xxx_set, io.xxx_set_val, 0, "xx-device version")  // 0x0004
 
 .. code:: verilog
 
@@ -214,14 +214,14 @@ In some cases, such registers are not only configured by software, but also set 
         if(hit_0x0000) begin
            reg0 <= wdata ;
         end
-        if(io.xxx_set) begin      //HW have High priority than SW
+        if(io.xxx_set) begin      // HW have High priority than SW
            reg0 <= io.xxx_set_val ;
         end
 
         if(io.xxx_set) begin
            reg1 <= io.xxx_set_val ;
         end 
-        if(hit_0x0004) begin      //SW have High priority than HW
+        if(hit_0x0004) begin      // SW have High priority than HW
            reg1 <= wdata ;
         end
      end
@@ -251,15 +251,15 @@ example1: clock gate software enable
 
 .. code:: scala
 
-   val M_CG_ENS_SET = busif.newReg(doc="Clock Gate Enables")  //0x0000
-   val M_CG_ENS_CLR = busif.newReg(doc="Clock Gate Enables")  //0x0004
-   val M_CG_ENS_RO  = busif.newReg(doc="Clock Gate Enables")  //0x0008
+   val M_CG_ENS_SET = busif.newReg(doc="Clock Gate Enables")  // x00000
+   val M_CG_ENS_CLR = busif.newReg(doc="Clock Gate Enables")  // 0x0004
+   val M_CG_ENS_RO  = busif.newReg(doc="Clock Gate Enables")  // 0x0008
 
-   val xx_sys_cg_en = M_CG_ENS_SET.field(Bits(4 bit), W1S, 0, "clock gate enalbes, write 1 set" ) 
-                      M_CG_ENS_CLR.parasiteField(xx_sys_cg_en, W1C, 0, "clock gate enalbes, write 1 clear" ) 
+   val xx_sys_cg_en = M_CG_ENS_SET.field(Bits(4 bit), W1S, 0, "clock gate enables, write 1 set" ) 
+                      M_CG_ENS_CLR.parasiteField(xx_sys_cg_en, W1C, 0, "clock gate enables, write 1 clear" ) 
                       M_CG_ENS_RO.parasiteField(xx_sys_cg_en, RO, 0, "clock gate enables, read only"
 
-example2: interrupt raw reg with foce interface for software
+example2: interrupt raw reg with force interface for software
 
 .. code:: scala
 
@@ -306,7 +306,7 @@ Batch create REG-Address and fields register
     val busif = Apb3BusInterface(io.apb, (0x000, 100 Byte), regPre = "AP")
 
     (0 to 9).map { i =>
-      //here use setName give REG uniq name for Docs usage
+      // here use setName give REG uniq name for Docs usage
       val REG = busif.newReg(doc = s"Register${i}").setName(s"REG${i}")
       val real = REG.field(SInt(8 bit), AccessType.RW, 0, "Complex real")
       val imag = REG.field(SInt(8 bit), AccessType.RW, 0, "Complex imag")
@@ -411,7 +411,7 @@ Register   AccessType  Description
 ========== ==========  ======================================================================
 RAW        W1C         int raw register, set by int event, clear when bus write 1  
 FORCE      RW          int force register, for SW debug use 
-MASK       RW          int mask register, 1: off; 0: open; defualt 1 int off 
+MASK       RW          int mask register, 1: off; 0: open; default 1 int off 
 STATUS     RO          int status, Read Only, ``status = raw && ! mask``                 
 ========== ==========  ======================================================================
  
@@ -430,7 +430,7 @@ SYS level interrupt merge
 ========== ==========  ======================================================================
 Register   AccessType  Description                                                           
 ========== ==========  ======================================================================
-MASK       RW          int mask register, 1: off; 0: open; defualt 1 int off 
+MASK       RW          int mask register, 1: off; 0: open; default 1 int off 
 STATUS     RO          int status, RO, ``status = int_level && ! mask``                 
 ========== ==========  ======================================================================
 
@@ -454,8 +454,8 @@ BusInterface method                                                             
 ``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``                  create RAW/FORCE/MASK/STATUS for pulse event at addrOffset 
 ``InterruptFactoryNoForceAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``           create RAW/MASK/STATUS for pulse event at addrOffset     
 ``InterruptFactoryAt(addrOffset: Int, regNamePre: String, triggers: Bool*)``                  create MASK/STATUS for level_int merge at addrOffset      
-``interrupt_W1SCmask_FactoryAt(addrOffset: BigInt, regNamePre: String, triggers: Bool*)``     creat RAW/FORCE/MASK(SET/CLR)/STATUS for pulse event at addrOffset
-``interruptLevel_W1SCmask_FactoryAt(addrOffset: BigInt, regNamePre: String, levels: Bool*)``  creat RAW/FORCE/MASK(SET/CLR)/STATUS for leveel event at addrOffset
+``interrupt_W1SCmask_FactoryAt(addrOffset: BigInt, regNamePre: String, triggers: Bool*)``     create RAW/FORCE/MASK(SET/CLR)/STATUS for pulse event at addrOffset
+``interruptLevel_W1SCmask_FactoryAt(addrOffset: BigInt, regNamePre: String, levels: Bool*)``  create RAW/FORCE/MASK(SET/CLR)/STATUS for level event at addrOffset
 ============================================================================================= ===================================================================
                                
 Example
@@ -478,7 +478,7 @@ Example
 
       def genDoc() = {
         busif.accept(CHeaderGenerator("intrreg","Intr"))
-        busif.accept(HtmlGenerator("intrreg", "Interupt Example"))
+        busif.accept(HtmlGenerator("intrreg", "Interrupt Example"))
         busif.accept(JsonGenerator("intrreg"))
         busif.accept(RalfGenerator("intrreg"))
         busif.accept(SystemRdlGenerator("intrreg", "Intr"))
@@ -513,15 +513,15 @@ In order to facilitate software debugging, the read back value can be configured
 Developers Area
 ===============
 
-You can add your document Type by extending the `BusIfVistor` Trait 
+You can add your document Type by extending the `BusIfVisitor` Trait 
 
 ``case class Latex(fileName : String) extends BusIfVisitor{ ... }``
 
-BusIfVistor give access BusIf.RegInsts to do what you want 
+BusIfVisitor give access BusIf.RegInsts to do what you want 
 
 .. code:: scala
 
-    // lib/src/main/scala/lib/bus/regif/BusIfVistor.scala 
+    // lib/src/main/scala/spinal/lib/bus/regif/BusIfBase.scala
 
     trait BusIfVisitor {
       def begin(busDataWidth : Int) : Unit

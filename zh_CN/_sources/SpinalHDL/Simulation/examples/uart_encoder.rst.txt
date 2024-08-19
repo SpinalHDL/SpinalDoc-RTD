@@ -5,7 +5,7 @@ Uart encoder
 .. code-block:: scala
 
      // Fork a simulation process which will get chars typed into the simulation terminal and transmit them on the simulation uartPin.
-     fork{
+     fork {
        uartPin #= true
        while(true) {
          // System.in is the java equivalent of the C's stdin.

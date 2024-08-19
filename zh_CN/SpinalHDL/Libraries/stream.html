@@ -421,7 +421,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#composite-in-a-function">函数中的复合区（Composite）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#composite-chains">复合区级联链</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#composite-in-a-bundle-s-function">在一个线束（Bundle）的函数中的复合区</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#unamed-signal-handling">未命名信号处理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#unnamed-signal-handling">Unnamed signal handling</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/naming.html#verilog-expression-splitting">Verilog 表达式分割</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/naming.html#verilog-long-expression-splitting">Verilog 长表达式分割</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/naming.html#when-statement-condition">When 语句条件</a></li>
@@ -732,27 +732,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Bus/index.html">总线</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="Bus/amba3/ahblite3.html">AHB-Lite3</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="Bus/amba3/ahblite3.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bus/amba3/ahblite3.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bus/amba3/ahblite3.html#variations">变体</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Bus/amba3/apb3.html">Apb3</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="Bus/amba3/apb3.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bus/amba3/apb3.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bus/amba3/apb3.html#functions-and-operators">函数和运算符</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Bus/amba4/axi4.html">Axi4</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="Bus/amba4/axi4.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bus/amba4/axi4.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bus/amba4/axi4.html#variations">变体</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Bus/amba4/axi4.html#functions-and-operators">函数和运算符</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Bus/avalon/avalonmm.html">AvalonMM</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="Bus/avalon/avalonmm.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bus/avalon/avalonmm.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Bus/tilelink/tilelink.html">Tilelink</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="Bus/tilelink/tilelink.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bus/tilelink/tilelink.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Bus/tilelink/tilelink_fabric.html">tilelink.fabric.Node</a><ul>
@@ -843,7 +843,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#builder">Builder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#retiming-variable-lenth">重定时/可变长度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
 </ul>
 </li>
@@ -1307,7 +1307,7 @@
 <h2>语义<a class="headerlink" href="#semantics" title="此标题的永久链接"></a></h2>
 <p>当手动读取/驱动反压流的信号时，请记住：</p>
 <ul class="simple">
-<li><p>当 <code class="docutils literal notranslate"><span class="pre">valid</span></code> 被置为有效后，它只有在当前负载被使用后才能被置为无效。这意味着 <code class="docutils literal notranslate"><span class="pre">valid</span></code> 只能在从端通过置高 <code class="docutils literal notranslate"><span class="pre">ready</span></code> 完成一次读取后的下一个周期，才可以切换到0。</p></li>
+<li><p>After being asserted, <code class="docutils literal notranslate"><span class="pre">valid</span></code> may only be deasserted once the current payload was acknowledged. This means <code class="docutils literal notranslate"><span class="pre">valid</span></code> can only toggle to 0 the cycle after a the slave did a read by asserting <code class="docutils literal notranslate"><span class="pre">ready</span></code>.</p></li>
 <li><p>相反， <code class="docutils literal notranslate"><span class="pre">ready</span></code> 可以随时改变。</p></li>
 <li><p>传输仅在 <code class="docutils literal notranslate"><span class="pre">valid</span></code> 和 <code class="docutils literal notranslate"><span class="pre">ready</span></code> 均已置高的周期内进行。</p></li>
 <li><p>一个反压流的 <code class="docutils literal notranslate"><span class="pre">valid</span></code> 不能以组合逻辑方式和 <code class="docutils literal notranslate"><span class="pre">ready</span></code> 连接，并且两者之间的任何路径都必须经过寄存器。</p></li>
@@ -1366,7 +1366,7 @@
 </div>
 </td>
 <td><div class="line-block">
-<div class="line">返回由x驱动的Stream反压流</div>
+<div class="line">Return a Stream driven by x</div>
 <div class="line">通过寄存器，切断valid/payload路径</div>
 <div class="line">Cost = (payload width + 1) 触发器</div>
 </div>
@@ -1376,7 +1376,7 @@
 </tr>
 <tr class="row-even"><td><p>x.s2mPipe()</p></td>
 <td><div class="line-block">
-<div class="line">返回由x驱动的Stream反压流</div>
+<div class="line">Return a Stream driven by x</div>
 <div class="line">通过寄存器级断开ready路径</div>
 <div class="line">Cost = payload width * (mux2 + 1 flip flop)</div>
 </div>
@@ -1386,7 +1386,7 @@
 </tr>
 <tr class="row-odd"><td><p>x.halfPipe()</p></td>
 <td><div class="line-block">
-<div class="line">返回由x驱动的Stream反压流</div>
+<div class="line">Return a Stream driven by x</div>
 <div class="line">valid/ready/payload路径通过一些寄存器分割</div>
 <div class="line">成本 = (payload位宽 + 2)个触发器，带宽除以二</div>
 </div>
@@ -1494,7 +1494,7 @@
 <h3>StreamFifo<a class="headerlink" href="#streamfifo" title="此标题的永久链接"></a></h3>
 <p>您可以在每个反压流上调用 .queue(size) 来获取一个缓冲反压流。但您也可以实例化 FIFO 组件本身：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">streamA</span><span class="p">,</span><span class="n">streamB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="c1">//...</span>
+<span class="c1">// ...</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myFifo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamFifo</span><span class="p">(</span>
 <span class="w">  </span><span class="n">dataType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span>
 <span class="w">  </span><span class="n">depth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">128</span>
@@ -1564,7 +1564,7 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">clockA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="o">???</span><span class="p">)</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">clockB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="o">???</span><span class="p">)</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">streamA</span><span class="p">,</span><span class="n">streamB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="c1">//...</span>
+<span class="c1">// ...</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">myFifo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamFifoCC</span><span class="p">(</span>
 <span class="w">  </span><span class="n">dataType</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span>
 <span class="w">  </span><span class="n">depth</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span>
@@ -1647,7 +1647,7 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">clockA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="o">???</span><span class="p">)</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">clockB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="o">???</span><span class="p">)</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">streamA</span><span class="p">,</span><span class="n">streamB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="c1">//...</span>
+<span class="c1">// ...</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">bridge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamCCByToggle</span><span class="p">(</span>
 <span class="w">  </span><span class="n">dataType</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span>
 <span class="w">  </span><span class="n">inputClock</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">clockA</span><span class="p">,</span>
@@ -1766,7 +1766,7 @@
 </tr>
 <tr class="row-even"><td><p>sequentialOrder</p></td>
 <td><div class="line-block">
-<div class="line">可用于按顺序遍历任务</div>
+<div class="line">Could be used to retrieve transaction in a sequential order</div>
 <div class="line">第一个传输应该来自端口 0，然后来自端口 1，…</div>
 </div>
 </td>
@@ -1929,7 +1929,7 @@
 <tr class="row-odd"><td><p>StreamDriver</p></td>
 <td><p>Testbench中主端通过调用函数来应用值（如果可用）以驱动值。如果值可用，则函数必须返回。支持随机的延迟。</p></td>
 </tr>
-<tr class="row-even"><td><p>StreamReadyRandmizer</p></td>
+<tr class="row-even"><td><p>StreamReadyRandomizer</p></td>
 <td><p>随机产生 <code class="docutils literal notranslate"><span class="pre">ready</span></code> 以接收数据，testbench为从端。</p></td>
 </tr>
 <tr class="row-odd"><td><p>ScoreboardInOrder</p></td>

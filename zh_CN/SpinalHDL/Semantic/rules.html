@@ -421,7 +421,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#composite-in-a-function">函数中的复合区（Composite）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#composite-chains">复合区级联链</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#composite-in-a-bundle-s-function">在一个线束（Bundle）的函数中的复合区</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#unamed-signal-handling">未命名信号处理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#unnamed-signal-handling">Unnamed signal handling</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/naming.html#verilog-expression-splitting">Verilog 表达式分割</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/naming.html#verilog-long-expression-splitting">Verilog 长表达式分割</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Structuring/naming.html#when-statement-condition">When 语句条件</a></li>
@@ -732,27 +732,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/Bus/index.html">总线</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba3/ahblite3.html">AHB-Lite3</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba3/ahblite3.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba3/ahblite3.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba3/ahblite3.html#variations">变体</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba3/apb3.html">Apb3</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba3/apb3.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba3/apb3.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba3/apb3.html#functions-and-operators">函数和运算符</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/amba4/axi4.html">Axi4</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba4/axi4.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba4/axi4.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba4/axi4.html#variations">变体</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/amba4/axi4.html#functions-and-operators">函数和运算符</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/avalon/avalonmm.html">AvalonMM</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/avalon/avalonmm.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/avalon/avalonmm.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/tilelink/tilelink.html">Tilelink</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/tilelink/tilelink.html#configuration-and-instanciation">配置和实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Bus/tilelink/tilelink.html#configuration-and-instantiation">Configuration and instantiation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Bus/tilelink/tilelink_fabric.html">tilelink.fabric.Node</a><ul>
@@ -843,7 +843,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-lenth">重定时/可变长度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
 </ul>
 </li>
@@ -1253,9 +1253,14 @@
 <section id="last-valid-assignment-wins">
 <h2>最后有效赋值生效<a class="headerlink" href="#last-valid-assignment-wins" title="此标题的永久链接"></a></h2>
 <p>如果通过使用 SpinalHDL <code class="docutils literal notranslate"><span class="pre">:=</span></code> 运算符对组合信号或寄存器进行多次分配，则可能执行的最后一次赋值生效（因此可以将值设置为该状态的结果）。</p>
-<p>可以说，自上而下的评估计算是根据当时的状态进行的。如果您的上游信号输入是从寄存器驱动的，因此具有同步行为，那么可以说，在每个时钟周期，都会根据当时的新状态重新计算、赋值。</p>
+<p>It could be said that top to bottom evaluation occurs based on the state that
+exists at that time.  If your upstream signal inputs are driven from registers
+and so have synchronous behavior, then it could be said that at each clock
+cycle the assignments are re-evaluated based on the new state at the time.</p>
 <p>在硬件中，赋值语句可能无法在本时钟周期执行的一些原因，可能是由于它被包装在 <code class="docutils literal notranslate"><span class="pre">when(cond)</span></code> 子句中。</p>
-<p>另一个原因，可能是 SpinalHDL 代码从未通过实力细化，因为该功能在 HDL 代码生成期间被参数化并禁用，请参阅下面 <code class="docutils literal notranslate"><span class="pre">paramIsFalse</span></code> 的案例。</p>
+<p>Another reason maybe that the SpinalHDL code never made it through elaboration
+because the feature was parameterized and disabled during HDL code-generation,
+see <code class="docutils literal notranslate"><span class="pre">paramIsFalse</span></code> use below.</p>
 <p>举个例子：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Every clock cycle  evaluation starts here</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">paramIsFalse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>

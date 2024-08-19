@@ -15,7 +15,7 @@ An VGA bus definition is available via the Vga bundle.
      val vSync = Bool()
      val hSync = Bool()
 
-     val colorEn = Bool()  //High when the frame is inside the color area
+     val colorEn = Bool()  // High when the frame is inside the color area
      val color = Rgb(rgbConfig)
 
      override def asMaster() = this.asOutput()

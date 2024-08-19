@@ -89,7 +89,7 @@ There are some rules to follow with component interconnection:
 Pruned signals
 --------------
 
-SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones
+SpinalHDL will generate all the named signals and their dependencies, while all the useless anonymous / zero width ones
 are removed from the RTL generation.
 
 You can collect the list of all the removed ans useless signals via the ``printPruned`` and the ``printPrunedIo``
@@ -114,7 +114,7 @@ functions on the generated ``SpinalReport`` object:
    object Main {
      def main(args: Array[String]) {
        SpinalVhdl(new TopLevel).printPruned()
-       //This will report :
+       // This will report :
        //  [Warning] Unused wire detected : toplevel/unusedSignal : UInt[8 bits]
        //  [Warning] Unused wire detected : toplevel/unusedSignal2 : UInt[8 bits]
      }

@@ -139,7 +139,7 @@ Logic
 
 .. note::
 
-   Notice the difference in behaviour between ``x >> 2`` (result 2 bit narrower than x) and ``x >> U(2)`` (keeping width)
+   Notice the difference in behavior between ``x >> 2`` (result 2 bit narrower than x) and ``x >> U(2)`` (keeping width)
    due to the Scala type of :code:`y`.
 
    In the first case "2" is an ``Int`` (which can be seen as an

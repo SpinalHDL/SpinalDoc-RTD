@@ -144,7 +144,7 @@ State encoding
 ^^^^^^^^^^^^^^
 
 By default the FSM state vector will be encoded using the native encoding of the language/tools the RTL is generated for (Verilog or VHDL).
-This default can be overriden by using the ``setEncoding(...)`` method which either takes a ``SpinalEnumEncoding`` or
+This default can be overridden by using the ``setEncoding(...)`` method which either takes a ``SpinalEnumEncoding`` or
 varargs of type ``(State, BigInt)`` for a custom encoding. 
 
 .. code-block:: scala
@@ -309,7 +309,7 @@ Notes about the entry state
 
 The way the entry state has been defined above makes it so that between the reset and the first clock sampling, the state machine is in a boot state. It is only after the first clock sampling that the defined entry state becomes active. This allows to properly enter the entry state (applying statements in ``onEntry``), and allows nested state machines.
 
-While it is usefull, it is also possible to bypass that feature and directly having a state machine booting into a user state.
+While it is useful, it is also possible to bypass that feature and directly having a state machine booting into a user state.
 
 To do so, use `makeInstantEntry()` instead of defining a ``new State``. This function returns the boot state, active directly after reset.
 
@@ -337,7 +337,7 @@ Example:
 
 .. code-block:: scala
 
-    //  State sequance : BOOT, IDLE, STATE_A, STATE_B, ...
+    //  State sequence : BOOT, IDLE, STATE_A, STATE_B, ...
     val fsm = new StateMachine {
       val IDLE, STATE_A, STATE_B, STATE_C = new State
       setEntry(IDLE)

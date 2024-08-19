@@ -1,6 +1,6 @@
-=======================
+===================
 Formal verification
-=======================
+===================
 
 
 General
@@ -58,9 +58,9 @@ Here is an example of a simple counter and the corresponding formal testbench.
 
     import spinal.core._
     
-    //Here is our DUT
+    // Here is our DUT
     class LimitedCounter extends Component {
-      //The value register will always be between [2:10]
+      // The value register will always be between [2:10]
       val value = Reg(UInt(4 bits)) init(2)
       when(value < 10) {
         value := value + 1
@@ -125,7 +125,7 @@ but you can also use the formal `anyseq`, `anyconst`, `allseq`, `allconst` state
 .. code-block:: scala
 
     class LimitedCounterInc extends Component {
-      //Only increment the value when the inc input is set
+      // Only increment the value when the inc input is set
       val inc = in Bool()
       val value = Reg(UInt(4 bits)) init(2)
       when(inc && value < 10) {
@@ -192,7 +192,7 @@ Here is an example where we want to prevent the value ``1`` from ever being pres
 
         // Allow the write anything but value 1 in the ram
         anyseq(dut.write)
-        clockDomain.withoutReset() { //As the memory write can occur during reset, we need to ensure the assume apply there too
+        clockDomain.withoutReset() { // As the memory write can occur during reset, we need to ensure the assume apply there too
           assume(dut.write.data =/= 1)
         }
 
@@ -223,7 +223,7 @@ If you want to keep your assertion enabled during reset you can do:
 Specifying the initial value of a signal 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For instance, for the reset signal of the current clockdomain (usefull at the top)
+For instance, for the reset signal of the current clockdomain (useful at the top)
 
 .. code-block:: scala
 
@@ -245,12 +245,12 @@ If you have a Mem in your design, and you want to check its content, you can do 
 
     // Manual access
     for(i <- 0 until dut.ram.wordCount) {
-      assumeInitial(dut.ram(i) =/= X) //No occurence of the word X
+      assumeInitial(dut.ram(i) =/= X) // No occurrence of the word X
     }
     
-    assumeInitial(!dut.ram.formalContains(X)) //No occurence of the word X
+    assumeInitial(!dut.ram.formalContains(X)) // No occurrence of the word X
     
-    assumeInitial(dut.ram.formalCount(X) === 1) //only one occurence of the word X
+    assumeInitial(dut.ram.formalCount(X) === 1) // only one occurrence of the word X
     
 
 Specifying assertion in the reset scope
@@ -306,7 +306,7 @@ Formal primitives
       - Returns True when the past value is valid (False on the first cycle). Recommended to be used with each application of ``past``, ``rose``, ``fell``, ``changed`` and ``stable``.
     * - ``pastValidAfterReset()``
       - Bool
-      - Simliar to ``pastValid``, where only difference is that this would take reset into account. Can be understood as ``pastValid & past(!reset)``.
+      - Similar to ``pastValid``, where only difference is that this would take reset into account. Can be understood as ``pastValid & past(!reset)``.
 
 Note that you can use the init statement on past: 
 
@@ -335,4 +335,4 @@ The minimum required assertions internally in a ``Component`` for "prove" can be
 For interfaces implement IMasterSlave
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 There could be functions in name ``formalAssertsMaster``, ``formalAssertsSlave``, ``formalAssumesMaster``, ``formalAssumesSlave`` or ``formalCovers``.
-Master/Slave are target interface type, so that ``formalAssertsMaster`` can be understand as "formal verfication assertions for master interface".
+Master/Slave are target interface type, so that ``formalAssertsMaster`` can be understand as "formal verification assertions for master interface".

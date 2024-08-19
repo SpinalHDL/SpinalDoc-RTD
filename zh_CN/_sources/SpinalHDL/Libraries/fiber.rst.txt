@@ -4,13 +4,13 @@
 .. _fiber:
 
 Fiber framework
-====================
+===============
 
 .. warning::
    This framework is not expected to be used for general RTL generation and targets large system
    design management and code generation. It is currently used as toplevel integration tool in SaxonSoC.
 
-Currently in developpement.
+Currently in development.
 
 The Fiber to run the hardware elaboration in a out of order manner, a bit similarly to Makefile, where you can define rules and dependencies which will then be solved when you run a make command. It is very similar to the Scala Future feature.
 
@@ -18,7 +18,7 @@ Using this framework can complicate simple things but provide some strong featur
 
 - You can define things before even knowing all their requirements, ex :
   instantiating a interruption controller, before knowing how many interrupt signal lines you need
-- Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for further specialisations
+- Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for further specializations
 - Automatic requirement negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus
 
 The framework is mainly composed of : 
@@ -71,20 +71,20 @@ So, the main point of that example is to show that we kind of overcome the seque
 
 
 Handle[T]
---------------------
+---------
 
 Handle[T] are a bit like scala's Future[T], they allow to talk about something before it is even existing, and wait on it.
 
 .. code-block:: scala
     
     val x,y = Handle[Int]
-    val xPlus2 : Handle[Int] = x.produce(x.get + 2) //x.produce can be used to generate a new Handle when x is loaded
-    val xPlus3 : Handle[Int] = x.derivate(_ + 3)    //x.derivate is as x.produce, but also provide the x.get as argument of the lambda function
-    x.load(3) //x will now contain the value 3
+    val xPlus2 : Handle[Int] = x.produce(x.get + 2) // x.produce can be used to generate a new Handle when x is loaded
+    val xPlus3 : Handle[Int] = x.derivate(_ + 3)    // x.derivate is as x.produce, but also provide the x.get as argument of the lambda function
+    x.load(3) // x will now contain the value 3
 
 
 soon(handle)
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
 
 In order to maintain a proper graph of dependencies between tasks and Handle, a task can specify in advance that it will load a given handle. This is very usefull in case of a generation starvation/deadlock for SpinalHDL to report accuratly where is the issue.
 

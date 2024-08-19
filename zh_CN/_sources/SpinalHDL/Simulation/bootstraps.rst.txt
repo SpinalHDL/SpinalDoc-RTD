@@ -162,7 +162,7 @@ The location where the simulation files will be placed is defined by default in 
 - $COMPILED being the name of the toplevel being simulated.
 - The location of the wave file depend the backend used. For verilator it will be in the folder (``$WORKSPACE/$COMPILED/$TEST`` by default). 
 - For the verilator backend, you can override the location of the test folder via the ``SimConfig.setTestPath(path)`` function.
-- You can retrieve the location of the test path durring simulation by calling the currentTestPath() function.
+- You can retrieve the location of the test path during simulation by calling the currentTestPath() function.
 
 
 Running multiple tests on the same hardware

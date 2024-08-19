@@ -1,5 +1,5 @@
 Parametrization
-==================
+===============
 
 There are multiple aspects to parametrization :
 
@@ -28,7 +28,7 @@ IP for those scenarios your project requires.
 
 
 Elaboration time parameters
-------------------------------------------
+---------------------------
 
 You can use the whole Scala syntax to provide elaboration time parameters.
 
@@ -44,7 +44,7 @@ are suited to different parameter management scenarios.
 Here are some examples and ideas of the possibilities:
 
  * Hardwired code and constants (not strictly parameter management at all
-   but serves to hilight the most basic mechanism, a code change, not a
+   but serves to highlight the most basic mechanism, a code change, not a
    parameter data change)
  * Constant values provided from a companion object that are static
    constants in Scala.
@@ -87,7 +87,7 @@ pattern).
 A :ref:`ScopeProperty <scopeproperty>` can also be used for configuration.
 
 Optional hardware
-------------------------------------------
+-----------------
 
 So here there is more possibilities. 
 
@@ -111,10 +111,10 @@ result, otherwise it returns null.
 This may be used in cases to help parameterize the SpinalHDL hardware
 description using an elaboration-time conditional expression.  Causing HDL
 constructs to be emitted or not-emitted in the resulting HDL. The generate
-method can be seen as SpinalHDL syntatic sugar reducing language clutter.
+method can be seen as SpinalHDL syntactic sugar reducing language clutter.
 
 Project SpinalHDL code referencing ``mySignal`` would need to ensure it
-handles the possiblity of null gracefully.  This is usually not a problem
+handles the possibility of null gracefully.  This is usually not a problem
 as those parts of the design can also be omitted dependant on the ``flag``
 value.  Thus the feature of parameterizing this component is demonstrated.
 
@@ -129,7 +129,7 @@ If you want to disable the generation of a chunk of hardware :
 
   case class MyComponent(flag : Boolean) extends Component {
     val myHardware = flag generate new Area {
-      //optional hardware here
+      // optional hardware here
     }
   }
 

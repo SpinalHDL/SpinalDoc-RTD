@@ -1,18 +1,18 @@
 
 SpinalHDL internal datamodel
-===================================
+============================
 
 .. role:: raw-html-m2r(raw)
    :format: html
 
 
 Introduction
-------------------------------------------------
+------------
 
 This page provides documentation on the internal data structure utilized by SpinalHDL for storing and modifying the netlist described by users via the SpinalHDL API.
 
 General structure
-------------------------
+-----------------
 
 The following diagrams follow the UML nomenclature : 
 
@@ -41,24 +41,24 @@ Additionally, as a side note, while the *foreachXXX* functions iterate only one 
 
 There are also utilities like *myExpression.remapExpressions(Expression => Expression),* which iterate through all the expressions used within *myExpression* and replace them with the one you provide.
 
-More generaly, most of the graph checks and transformations done by SpinalHDL are located in <https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala> 
+More generally, most of the graph checks and transformations done by SpinalHDL are located in <https://github.com/SpinalHDL/SpinalHDL/blob/dev/core/src/main/scala/spinal/core/internals/Phase.scala> 
 
 Exploring the datamodel
--------------------------------
+-----------------------
 
 Here is an example that identifies all adders within the netlist without utilizing shortcuts. : 
 
 .. code-block:: scala
 
-    object FindAllAddersManualy {
-      class Toplevel extends Component{
+    object FindAllAddersManually {
+      class Toplevel extends Component {
         val a,b,c = in UInt(8 bits)
         val result = out(a + b + c)
       }
 
       import spinal.core.internals._
 
-      class PrintBaseTypes(message : String) extends Phase{
+      class PrintBaseTypes(message : String) extends Phase {
         override def impl(pc: PhaseContext) = {
           println(message)
 
@@ -94,10 +94,10 @@ Here is an example that identifies all adders within the netlist without utilizi
       def main(args: Array[String]): Unit = {
         val config = SpinalConfig()
 
-        //Add a early phase
+        // Add a early phase
         config.addTransformationPhase(new PrintBaseTypes("Early"))
 
-        //Add a late phase
+        // Add a late phase
         config.phasesInserters += {phases =>
           phases.insert(phases.indexWhere(_.isInstanceOf[PhaseVerilog]), new PrintBaseTypes("Late"))
         }
@@ -130,7 +130,7 @@ Please note that in many cases, shortcuts are available. All the recursive proce
 
     override def impl(pc: PhaseContext) = {
       println(message)
-      pc.walkExpression{
+      pc.walkExpression {
         case op: Operator.BitVector.Add => println(s"Found ${op.left} + ${op.right}")
         case _ =>
       }
@@ -138,7 +138,7 @@ Please note that in many cases, shortcuts are available. All the recursive proce
 
 
 Compilation Phases
--------------------------------
+------------------
 
 Here is the complete list of default phases, arranged in order, that are employed to modify, check, and generate Verilog code from a top-level component. : 
 
@@ -149,12 +149,12 @@ If you, as a user, add a new compilation phase by using *SpinalConfig.addTransfo
 If you choose to use the SpinalConfig.phasesInserters API, it's essential to exercise caution and ensure that any modifications made to the netlist align with the phases that have already been executed. For instance, if you insert your phase after the *PhaseInferWidth*, you must specify the width of each node you introduce.
 
 Modifying a netlist as a user without plugins
---------------------------------------------------------------
+---------------------------------------------
 
 There are several user APIs that enable you to make modifications during the user elaboration phase. :
 
 - mySignal.removeAssignments : Will remove all previous `:=` affecting the given signal
-- mySignal.removeStatement : Will void the existance of the signal
+- mySignal.removeStatement : Will void the existence of the signal
 - mySignal.setAsDirectionLess : Will turn a in / out signal into a internal signal
 - mySignal.setName : Enforce a given name on a signal (there is many other variants)
 - mySubComponent.mySignal.pull() : Will provide a readable copy of the given signal, even if that signal is somewhere else in the hierarchy
@@ -164,18 +164,18 @@ For example, the following code can be used to modify a top-level component by a
 
 .. code-block:: scala
 
-  def ffIo[T <: Component](c : T): T ={
+  def ffIo[T <: Component](c : T): T = {
     def buf1[T <: Data](that : T) = KeepAttribute(RegNext(that)).addAttribute("DONT_TOUCH")
     def buf[T <: Data](that : T) = buf1(buf1(buf1(that)))
-    c.rework{
+    c.rework {
       val ios = c.getAllIo.toList
       ios.foreach{io =>
-        if(io.getName() == "clk"){
-          //Do nothing
-        } else if(io.isInput){
-          io.setAsDirectionLess().allowDirectionLessIo  //allowDirectionLessIo is to disable the io Bundle linting
+        if(io.getName() == "clk") {
+          // Do nothing
+        } else if(io.isInput) {
+          io.setAsDirectionLess().allowDirectionLessIo  // allowDirectionLessIo is to disable the io Bundle linting
           io := buf(in(cloneOf(io).setName(io.getName() + "_wrap")))
-        } else if(io.isOutput){
+        } else if(io.isOutput) {
           io.setAsDirectionLess().allowDirectionLessIo
           out(cloneOf(io).setName(io.getName() + "_wrap")) := buf(io)
         } else ???
@@ -211,12 +211,12 @@ Here is a function that enables you to execute the body code as if the current c
   
   object key
   
-  when(something){
-    if(somehow){
+  when(something) {
+    if(somehow) {
       get(key) := True
     }
   }  
-  when(database(key)){
+  when(database(key)) {
      ...
   }
   
@@ -251,7 +251,7 @@ In this case, this is accomplished after the elaboration process by utilizing th
 .. code-block:: scala
 
 
-    object MyTopLevelVerilog extends App{
+    object MyTopLevelVerilog extends App {
       class MyTopLevel extends Component {
         val cdA = ClockDomain.external("rawrr")
         val regA = cdA(RegNext(False))

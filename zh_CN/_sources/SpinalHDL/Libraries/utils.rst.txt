@@ -163,7 +163,7 @@ The Timeout tool can be used to easily instantiate an hardware timeout.
    :header-rows: 1
    :widths: 1 1
 
-   * - Instanciation syntax
+   * - Instantiation syntax
      - Notes
    * - Timeout(cycles : BigInt)
      - Tick after ``cycles`` clocks
@@ -177,9 +177,9 @@ There is an example of different syntaxes which could be used with the Counter t
 
 .. code-block:: scala
 
-   val timeout = Timeout(10 ms)  //Timeout who tick after 10 ms
-   when(timeout) {               //Check if the timeout has tick
-       timeout.clear()           //Ask the timeout to clear its flag
+   val timeout = Timeout(10 ms)  // Timeout who tick after 10 ms
+   when(timeout) {               // Check if the timeout has tick
+       timeout.clear()           // Ask the timeout to clear its flag
    }
 
 .. note::
@@ -193,7 +193,7 @@ The ResetCtrl provide some utilities to manage resets.
 asyncAssertSyncDeassert
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You can filter an asynchronous reset by using an asynchronously asserted synchronously deaserted logic. To do it you can use the ``ResetCtrl.asyncAssertSyncDeassert`` function which will return you the filtered value.
+You can filter an asynchronous reset by using an asynchronously asserted synchronously deasserted logic. To do it you can use the ``ResetCtrl.asyncAssertSyncDeassert`` function which will return you the filtered value.
 
 .. list-table::
    :header-rows: 1

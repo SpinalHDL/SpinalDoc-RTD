@@ -123,13 +123,13 @@ The register mapping assumes that the bus system is 32 bits wide:
      - len(ticks)
      - 0
      - 0
-     - Each ``ticks`` bool can be actived if the corresponding ``ticksEnable`` bit is high.
+     - Each ``ticks`` bool can be activated if the corresponding ``ticksEnable`` bit is high.
    * - clearsEnable
      - RW
      - len(clears)
      - 0
      - 16
-     - Each ``clears`` bool can be actived if the corresponding ``clearsEnable`` bit is high.
+     - Each ``clears`` bool can be activated if the corresponding ``clearsEnable`` bit is high.
    * - limit
      - RW
      - width

@@ -45,14 +45,14 @@ use of the SpinalHDL ``:=`` operator, the last assignment that may execute wins
 
 It could be said that top to bottom evaluation occurs based on the state that
 exists at that time.  If your upstream signal inputs are driven from registers
-and so have synchronous behaviour, then it could be said that at each clock
+and so have synchronous behavior, then it could be said that at each clock
 cycle the assignments are re-evaluated based on the new state at the time.
 
 Some reasons why an assignment statement may not get to execute in hardware this
 clock cycle, maybe due to it being wrapped in a ``when(cond)`` clause.
 
 Another reason maybe that the SpinalHDL code never made it through elaboration
-because the feature was paramaterized and disabled during HDL code-generation,
+because the feature was parameterized and disabled during HDL code-generation,
 see ``paramIsFalse`` use below.
 
 As an example:

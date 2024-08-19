@@ -1,6 +1,6 @@
 
 Stub
-======
+====
 
 You can empty an Component Hierarchy as stub:
 
@@ -14,7 +14,7 @@ You can empty an Component Hierarchy as stub:
        io.dy <-< io.dx
     }
     class TopLevel extends Component {
-       val dut = new SubSysModule().stub   //instance an SubSysModule as empty stub
+       val dut = new SubSysModule().stub   // instance an SubSysModule as empty stub
     }
    
 It will generate the following Verilog code for example:
@@ -50,7 +50,7 @@ What does `stub` do ?
 
 * first walk all the components and find out clock, then keep clock 
 * then remove all children component
-* then remove all assignment and logic we dont want 
+* then remove all assignment and logic we don't want 
 * tile 0 to output port
 
 

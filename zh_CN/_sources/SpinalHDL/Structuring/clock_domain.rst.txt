@@ -297,7 +297,7 @@ Signal priorities in HDL generation
 
 In the current version, reset and clock enable signals have different priorities. Their order is : ``asyncReset``, ``clockEnable``, ``syncReset`` and ``softReset``.
 
-Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reseted.
+Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reset.
 
 Here is an example:
 
@@ -321,7 +321,7 @@ It will generate VerilogHDL codes like:
     end
   end
 
-If that behaviour is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.
+If that behavior is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.
 
 Context
 ^^^^^^^

@@ -85,7 +85,7 @@ Comparison
 
    myBool := color1 === color2  // Compare all elements of the bundle
    // is equivalent to:
-   //myBool := color1.r === color2.r && color1.g === color2.g && color1.b === color2.b
+   // myBool := color1.r === color2.r && color1.g === color2.g && color1.b === color2.b
 
 Type cast
 ~~~~~~~~~

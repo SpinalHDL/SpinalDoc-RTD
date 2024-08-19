@@ -122,7 +122,7 @@ Also, you can control the wave trace depth by using ``withWaveDepth(depth: Int)`
 Simulation with ``Blackbox``
 ----------------------------
 
-Sometimes, IP vendors will provide you with some design entites in Verilog/VHDL format and you want to integrate them into your SpinalHDL design. 
+Sometimes, IP vendors will provide you with some design entities in Verilog/VHDL format and you want to integrate them into your SpinalHDL design. 
 The integration can done by following two ways:
 
 1. In a ``Blackbox`` definition, use ``addRTLPath(path: String)`` to assign a external Verilog/VHDL file to this blackbox.

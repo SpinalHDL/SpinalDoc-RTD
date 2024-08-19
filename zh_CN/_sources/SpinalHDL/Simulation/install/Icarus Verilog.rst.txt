@@ -18,5 +18,5 @@ Linux
 
 
 Also the openjdk package that corresponds to your Java version has to be installed.
-Refer to `<https://iverilog.fandom.com/wiki/Installation_Guide>`_ for more informations about Windows and installation from source.
+Refer to `<https://iverilog.fandom.com/wiki/Installation_Guide>`_ for more information about Windows and installation from source.
 

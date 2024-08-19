@@ -79,7 +79,7 @@ Semantics
 
 When manually reading/driving the signals of a Stream keep in mind that:
 
-* After being asserted, ``valid`` may only be deasserted once the current payload was acknowleged. This means ``valid`` can only toggle to 0 the cycle after a the slave did a read by asserting ``ready``.
+* After being asserted, ``valid`` may only be deasserted once the current payload was acknowledged. This means ``valid`` can only toggle to 0 the cycle after a the slave did a read by asserting ``ready``.
 * In contrast to that ``ready`` may change at any time. 
 * A transfer is only done on cycles where both ``valid`` and ``ready`` are asserted.
 * ``valid`` of a Stream must not depend on ``ready`` in a combinatorial way and any path between the two must be registered.
@@ -119,19 +119,19 @@ Functions
      - 2
    * - | x.m2sPipe()
        | x.stage()
-     - | Return a Stream drived by x
+     - | Return a Stream driven by x
        | through a register stage that cut valid/payload paths
        | Cost = (payload width + 1) flop flop
      - Stream[T]
      - 1
    * - x.s2mPipe()
-     - | Return a Stream drived by x
+     - | Return a Stream driven by x
        | ready paths is cut by a register stage
        | Cost = payload width * (mux2 + 1 flip flop)
      - Stream[T]
      - 0
    * - x.halfPipe()
-     - | Return a Stream drived by x
+     - | Return a Stream driven by x
        | valid/ready/payload paths are cut by some register
        | Cost = (payload width + 2) flip flop, bandwidth divided by two
      - Stream[T]
@@ -211,7 +211,7 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
 .. code-block:: scala
 
    val streamA,streamB = Stream(Bits(8 bits))
-   //...
+   // ...
    val myFifo = StreamFifo(
      dataType = Bits(8 bits),
      depth    = 128
@@ -265,7 +265,7 @@ You can instantiate the dual clock domain version of the fifo the following way 
    val clockA = ClockDomain(???)
    val clockB = ClockDomain(???)
    val streamA,streamB = Stream(Bits(8 bits))
-   //...
+   // ...
    val myFifo = StreamFifoCC(
      dataType  = Bits(8 bits),
      depth     = 128,
@@ -328,7 +328,7 @@ StreamCCByToggle
    val clockA = ClockDomain(???)
    val clockB = ClockDomain(???)
    val streamA,streamB = Stream(Bits(8 bits))
-   //...
+   // ...
    val bridge = StreamCCByToggle(
      dataType    = Bits(8 bits),
      inputClock  = clockA,
@@ -436,7 +436,7 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
    * - roundRobin
      - Fair round robin arbitration
    * - sequentialOrder
-     - | Could be used to retrieve transaction in a sequancial order
+     - | Could be used to retrieve transaction in a sequential order
        | First transaction should come from port zero, then from port one, ...
 
 
@@ -596,7 +596,7 @@ For simulation master and slave implementations are available:
     - Used for both master and slave sides, calls function with payload if Stream fires.
   * - StreamDriver
     - Testbench master side, drives values by calling function to apply value (if available). Function must return if value was available. Supports random delays.
-  * - StreamReadyRandmizer
+  * - StreamReadyRandomizer
     - Randomizes ``ready`` for reception of data, testbench is the slave side.
   * - ScoreboardInOrder
     - Often used to compare reference/dut data

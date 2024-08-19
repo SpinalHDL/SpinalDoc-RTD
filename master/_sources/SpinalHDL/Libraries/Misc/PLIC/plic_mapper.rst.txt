@@ -33,9 +33,9 @@ Follows the SiFive PLIC mapping (eg. `E31 core complex Manual <https://sifive.cd
 ----------------------------
 This mapping generates a lighter PLIC, at the cost of some missing optional features:
 
-* no reading the intrerrupt's priority
-* no reading the interrupts's pending bit (must use the claim/complete mechanism)
-* no reading the target's threshold
+* not reading the interrupt's priority
+* not reading the interrupt's pending bit (must use the claim/complete mechanism)
+* not reading the target's threshold
 
 The rest of the registers & logic is generated.
 
