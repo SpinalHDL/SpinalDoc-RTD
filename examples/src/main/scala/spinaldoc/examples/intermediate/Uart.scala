@@ -345,7 +345,7 @@ case class UartRxTx() extends Component {
   val uartCtrl = UartCtrl(
     config=UartCtrlInitConfig(
       baudrate = 115200,
-      dataLength = 8,
+      dataLength = 7,
       parity = UartParityType.NONE,
       stop = UartStopType.ONE
     )
@@ -365,7 +365,7 @@ case class UartTx() extends Component {
   val uartCtrl = UartCtrl(
     config=UartCtrlInitConfig(
       baudrate = 115200,
-      dataLength = 8,
+      dataLength = 7,
       parity = UartParityType.NONE,
       stop = UartStopType.ONE
     )
@@ -386,7 +386,7 @@ case class UartRx() extends Component {
   val uartCtrl = UartCtrl(
     config = UartCtrlInitConfig(
       baudrate = 115200,
-      dataLength = 8,
+      dataLength = 7,
       parity = UartParityType.NONE,
       stop = UartStopType.ONE
     ),
@@ -467,7 +467,7 @@ case class UartWithHeader() extends Component {
   val uartCtrl = UartCtrl(
     config=UartCtrlInitConfig(
       baudrate = 115200,
-      dataLength = 8,
+      dataLength = 7,
       parity = UartParityType.NONE,
       stop = UartStopType.ONE
     )
