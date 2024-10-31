@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SpinalHDL \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-19 09:12+0000\n"
+"POT-Creation-Date: 2024-10-31 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -572,7 +572,7 @@ msgid "But that API may change a bit, as it is still fresh."
 msgstr ""
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:489
-msgid "Builder"
+msgid "Builders"
 msgstr ""
 
 #: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:491
@@ -583,98 +583,138 @@ msgstr ""
 msgid "There is also a set of \"all in one\" builders that you can instantiate to help yourself."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:508
-msgid "For instance there is the NodesBuilder class which can be used to create sequentially staged pipelines :"
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:509
+msgid "StagePipeline"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:521
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:511
+msgid "For instance there is the StagePipeline class which serve two purposes : - It ease the creation of simple pipelines which are composed of : Node -> StageLink -> Node -> StageLink -> ... - It extends the pipeline length on the fly"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:515
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:555
+msgid "Here is an example which :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:517
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:557
+msgid "Take the input at stage 0"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:518
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:558
+msgid "Sum the input at stage 1"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:519
+msgid "Square the sum at stage 2"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:520
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:560
+msgid "Provide the result at stage 3"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:551
+msgid "StageCtrlPipeline"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:553
+msgid "Very similar to StagePipeline, but it replace Nodes by StageLink, allowing to handle the arbitration / bypasses on each stages, which is for instance quite usefull for CPU designs."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:559
+msgid "Check the sum value and eventualy drop the transaction at stage 2"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:593
 msgid "Composability"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:523
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:595
 msgid "One good thing about the API is that it easily allows to compose a pipeline with multiple parallel things. What i mean by \"compose\" is that sometime the pipeline you need to design has parallel processing to do."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:525
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:597
 msgid "Imagine you need to do floating point multiplication on 4 pairs of numbers (to later sum them). If those 4 pairs a provided at the same time by a single stream of data, then you don't want 4 different pipelines to multiply them, instead you want to process them all in parallel in the same pipeline."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:527
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:599
 msgid "The example below show a pattern which composes a pipeline with multiple lanes to process them in parallel."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:571
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:643
 msgid "This will produce the following data path (assuming lanesCount = 2), arbitration not being shown :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:578
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:650
 msgid "Retiming / Variable length"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:580
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:652
 msgid "Sometime you want to design a pipeline, but you don't really know where the critical paths will be and what the right balance between stages is. And often you can't rely on the synthesis tool doing a good job with automatic retiming."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:582
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:654
 msgid "So, you kind of need a easy way to move the logic of your pipeline around."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:584
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:656
 msgid "Here is how it can be done with this pipelining API :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:646
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:718
 msgid "If then you generate this component like this :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:659
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:731
 msgid "You will get a 4 stages separated by 3 layer of flip flop doing your processing :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:664
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:736
 msgid "Note the generated hardware verilog is kinda clean (by my standards at least :P) :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:779
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:851
 msgid "Also, you can easily tweak how many stages and where you want the processing to be done, for instance you may want to move the inversion hardware in the same stage as the adder. This can be done the following way :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:793
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:865
 msgid "Then you may want to remove the output register stage :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:807
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:879
 msgid "One thing about this example is the necessity intermediate val as `addNode`. I mean :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:817
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:889
 msgid "Unfortunately, scala doesn't allow to replace `new addNode.Area` with `new nodes(addAt).Area`. One workaround is to define a class as :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:827
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:899
 msgid "Depending the scale of your pipeline, it can payoff."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:830
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:902
 msgid "Simple CPU example"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:832
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:904
 msgid "Here is a simple/stupid 8 bits CPU example with :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:834
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:906
 msgid "3 stages (fetch, decode, execute)"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:835
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:907
 msgid "embedded fetch memory"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:836
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:908
 msgid "add / jump / led /delay instructions"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:907
+#: ../../SpinalHDL/Libraries/Pipeline/introduction.rst:979
 msgid "Here is a simple testbench which implement a loop which will make the led counting up."
 msgstr ""
