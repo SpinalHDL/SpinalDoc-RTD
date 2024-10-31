@@ -485,8 +485,8 @@ You can implement your custom links by implementing the Link base class.
 
 But that API may change a bit, as it is still fresh.
 
-Builder
-=======
+Builders
+========
 
 To generate the hardware of your pipeline, you need to give a list of all the Links used in your pipeline.
 
@@ -505,17 +505,89 @@ To generate the hardware of your pipeline, you need to give a list of all the Li
 
 There is also a set of "all in one" builders that you can instantiate to help yourself. 
 
-For instance there is the NodesBuilder class which can be used to create sequentially staged pipelines : 
+StagePipeline
+-----------------
+
+For instance there is the StagePipeline class which serve two purposes : 
+- It ease the creation of simple pipelines which are composed of : Node -> StageLink -> Node -> StageLink -> ...
+- It extends the pipeline length on the fly
+
+Here is an example which : 
+
+- Take the input at stage 0
+- Sum the input at stage 1
+- Square the sum at stage 2
+- Provide the result at stage 3
 
 .. code-block:: scala
   
-      val builder = new NodesBuilder()
+    // Let's define a few inputs/outputs
+    val a,b = in UInt(8 bits)
+    val result = out(UInt(16 bits))
 
-      // Let's define a few nodes
-      val n0, n1, n2 = new builder.Node
+    // Let's create the pipelining tool.
+    val pip = new StagePipeline
 
-      // Let's connect those nodes by using registers and generate the related hardware
-      builder.genStagedPipeline()
+    // Let's insert a and b into the pipeline at stage 0
+    val A = pip(0).insert(a)
+    val B = pip(0).insert(b)
+
+    // Lets insert the sum of A and B into the stage 1 of our pipeline
+    val SUM = pip(1).insert(pip(1)(A) + pip(1)(B))
+    
+    // Clearly, i don't want to say pip(x)(y) on every pipelined thing.
+    // So instead we can create a pip.Area(x) which will provide a scope which work in stage "x"
+    val onSquare = new pip.Area(2){
+      val VALUE = insert(SUM * SUM)
+    }
+
+    // Lets assign our output result from stage 3
+    result := pip(3)(onSquare.VALUE)
+
+    // Now that everything is specified, we can build the pipeline
+    pip.build()
+
+StageCtrlPipeline
+-------------------
+
+Very similar to StagePipeline, but it replace Nodes by StageLink, allowing to handle the arbitration / bypasses on each stages, which is for instance quite usefull for CPU designs.
+
+Here is an example which : 
+
+- Take the input at stage 0
+- Sum the input at stage 1
+- Check the sum value and eventualy drop the transaction at stage 2
+- Provide the result at stage 3
+
+.. code-block:: scala
+  
+    // Lets define a few inputs/outputs
+    val a,b = in UInt(8 bits)
+    val result = out(UInt(8 bits))
+
+    // Lets create the pipelining tool.
+    val pip = new StageCtrlPipeline
+
+    // Lets insert a and b into the pipeline at stage 0
+    val A = pip.ctrl(0).insert(a)
+    val B = pip.ctrl(0).insert(b)
+
+    // Lets sum A and B it stage 1
+    val onSum = new pip.Ctrl(1){
+      val VALUE = insert(A + B)
+    }
+
+    // Lets check if the sum is bad (> 128) in stage 2 and if that is the case, we drop the transaction.
+    val onTest = new pip.Ctrl(2){
+      val isBad = onSum.VALUE > 128
+      throwWhen(isBad)
+    }
+
+    // Lets assign our output result from stage 3
+    result := pip.ctrl(3)(onSum.VALUE)
+
+    // Now that everything is specified, we can build the pipeline
+    pip.build()
 
 Composability
 =============
