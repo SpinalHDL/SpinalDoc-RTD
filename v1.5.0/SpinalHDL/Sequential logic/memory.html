@@ -1117,17 +1117,17 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <p>Memory ports in SpinalHDL are not inferred, but are explicitly defined. You should not use coding templates like in VHDL/Verilog to help the synthesis tool to infer memory.</p>
 </div>
 <p>Here is a example which infers a simple dual port ram (32 bits * 256):</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span>
-<span class="n">mem</span><span class="p">.</span><span class="n">write</span><span class="p">(</span>
-<span class="w">  </span><span class="n">enable</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeValid</span><span class="p">,</span>
-<span class="w">  </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeAddress</span><span class="p">,</span>
-<span class="w">  </span><span class="n">data</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeData</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span><span class="w"></span>
+<span class="n">mem</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">enable</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeValid</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeAddress</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">data</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeData</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 
-<span class="n">io</span><span class="p">.</span><span class="n">readData</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mem</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span>
-<span class="w">  </span><span class="n">enable</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">readValid</span><span class="p">,</span>
-<span class="w">  </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">readAddress</span>
-<span class="p">)</span>
+<span class="n">io</span><span class="p">.</span><span class="n">readData</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mem</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">enable</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">readValid</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">readAddress</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1240,11 +1240,11 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 <span id="automatic-memory-blackboxing"></span><h2>Automatic blackboxing<a class="headerlink" href="#automatic-blackboxing" title="Permalink to this heading"></a></h2>
 <p>Because it’s impossible to infer all ram kinds by using regular VHDL/Verilog, SpinalHDL integrates an optional automatic blackboxing system. This system looks at all memories present in your RTL netlist and replaces them with blackboxes. Then the generated code will rely on third party IP to provide the memory features, such as the read-during-write policy and mixed-width ports.</p>
 <p>Here is an example of how to enable blackboxing of memories by default:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nc">SpinalConfig</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">addStandardMemBlackboxing</span><span class="p">(</span><span class="n">blackboxAll</span><span class="p">)</span>
-<span class="w">    </span><span class="p">.</span><span class="n">generateVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nc">SpinalConfig</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">addStandardMemBlackboxing</span><span class="p">(</span><span class="n">blackboxAll</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">generateVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>If the standard blackboxing tools don’t do enough for your design, do not hesitate to create a <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues">Github issue</a>. There is also a way to create your own blackboxing tool.</p>
@@ -1289,8 +1289,8 @@ If no enable is specified, it’s automatically inferred from the conditional sc
 </tbody>
 </table>
 <p>To explicitly set a memory to be blackboxed, you can use its <code class="docutils literal notranslate"><span class="pre">generateAsBlackBox</span></code> function.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
-<span class="n">mem</span><span class="p">.</span><span class="n">generateAsBlackBox</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
+<span class="n">mem</span><span class="p">.</span><span class="n">generateAsBlackBox</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can also define your own blackboxing policy by extending the <code class="docutils literal notranslate"><span class="pre">MemBlackboxingPolicy</span></code> class.</p>

@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1229,21 +1233,21 @@
 <li><p>与 scala 隐式变量相比，它与代码库的耦合较小</p></li>
 <li><p>与线程本地变量（ThreadLocal） 相比，它有一些 API 可以收集所有范围属性并稍后将它们恢复到相同状态</p></li>
 </ul>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Xlen</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">ScopeProperty</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Xlen</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">ScopeProperty</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"></span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">ScopePropertyMiaou</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">ScopePropertyMiaou</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 1</span>
-<span class="w">  </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 2</span>
-<span class="w">    </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 3</span>
-<span class="w">      </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="w">      </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 4</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 2</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

@@ -1158,14 +1158,14 @@ In other words, this is a check that no combinational signals are partially assi
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h2>
 <p>The following code:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>will throw:</p>
@@ -1176,15 +1176,15 @@ In other words, this is a check that no combinational signals are partially assi
 </pre></div>
 </div>
 <p>A fix could be:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1192,26 +1192,26 @@ In other words, this is a check that no combinational signals are partially assi
 <h2>Due to mux<a class="headerlink" href="#due-to-mux" title="Permalink to this heading"></a></h2>
 <p>Another reason for a latch being detected is often a non-exhaustive <code class="docutils literal notranslate"><span class="pre">mux</span></code>/<code class="docutils literal notranslate"><span class="pre">muxList</span></code> statement
 with a missing default:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="n">u1</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span>
-<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">False</span><span class="p">,</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="n">u1</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">False</span><span class="p">,</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// case for 1 is missing</span>
-<span class="p">)</span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>which can be fixed by adding the missing case (or a default case):</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
-<span class="n">u1</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span>
-<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">False</span><span class="p">,</span>
-<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">True</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
+<span class="n">u1</span><span class="p">.</span><span class="n">mux</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">False</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>In e.g. width generic code it is often a better solution to use <code class="docutils literal notranslate"><span class="pre">muxListDc</span></code> as this will not
 generate an error for those cases were a default is not needed:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">u1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"></span>
 <span class="c1">// automatically adds default if needed</span>
-<span class="n">u1</span><span class="p">.</span><span class="n">muxListDc</span><span class="p">(</span><span class="nc">Seq</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">True</span><span class="p">))</span>
+<span class="n">u1</span><span class="p">.</span><span class="n">muxListDc</span><span class="p">(</span><span class="nc">Seq</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">True</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

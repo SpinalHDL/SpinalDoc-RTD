@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1229,11 +1233,11 @@
 <section id="example">
 <h2>示例<a class="headerlink" href="#example" title="此标题的永久链接"></a></h2>
 <p>下面的代码：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>会报错：</p>
@@ -1244,12 +1248,12 @@
 </pre></div>
 </div>
 <p>一个可能的修复方法是：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span>
-<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

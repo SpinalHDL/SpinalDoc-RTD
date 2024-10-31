@@ -310,11 +310,11 @@
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h2>
 <p>The following code</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
 <span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">66</span><span class="w"> </span><span class="c1">//Erease the a := 42 :(</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>will throw the following error:</p>
@@ -325,22 +325,22 @@
 </pre></div>
 </div>
 <p>A fix could be:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">something</span><span class="p">){</span>
-<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">66</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">something</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">66</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>But in the case you really want to override the previous assignement (Yes, it could make sense in some cases), you can do the following:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span>
-<span class="w">  </span><span class="n">a</span><span class="p">.</span><span class="n">allowOverride</span>
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">66</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="p">.</span><span class="n">allowOverride</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">66</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

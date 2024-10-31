@@ -1039,20 +1039,20 @@ This difference from traditional event-driven HDL has a big impact:</p>
 </table>
 <p>Here is an example declaring some registers:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"></span>
 
 <span class="c1">// Register that samples reg1 each cycle</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">reg1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">reg1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">// UInt register of 4 bits initialized with 0 when the reset occurs</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;0000&quot;</span><span class="p">)</span>
-<span class="n">reg3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">reg2</span>
-<span class="n">when</span><span class="p">(</span><span class="n">reg2</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">reg3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mh">0xF</span>
-<span class="p">}</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;0000&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">reg3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">reg2</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">reg2</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">reg3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mh">0xF</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">// Register that samples reg3 when cond is True</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNextWhen</span><span class="p">(</span><span class="n">reg3</span><span class="p">,</span><span class="w"> </span><span class="n">cond</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNextWhen</span><span class="p">(</span><span class="n">reg3</span><span class="p">,</span><span class="w"> </span><span class="n">cond</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The code above will infer the following logic:</p>
@@ -1064,13 +1064,13 @@ Just like in combinational assignments, the rule is ‘Last assignment wins’, 
 </div>
 <p>Also, <code class="docutils literal notranslate"><span class="pre">RegNext</span></code> is an abstraction which is built over the <code class="docutils literal notranslate"><span class="pre">Reg</span></code> syntax. The two following sequences of code are strictly equivalent:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Standard way</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span>
-<span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">something</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span><span class="w"></span>
+<span class="n">value</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">something</span><span class="w"></span>
 
 <span class="c1">// Short way</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">something</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1079,16 +1079,16 @@ Just like in combinational assignments, the rule is ‘Last assignment wins’, 
 <p>In addition to the <code class="docutils literal notranslate"><span class="pre">RegInit(value</span> <span class="pre">:</span> <span class="pre">Data)</span></code> syntax which directly creates the register with a reset value,
 you can also set the reset value by calling the <code class="docutils literal notranslate"><span class="pre">init(value</span> <span class="pre">:</span> <span class="pre">Data)</span></code> function on the register.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits initialized with 0 when the reset occurs</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>If you have a register containing a Bundle, you can use the <code class="docutils literal notranslate"><span class="pre">init</span></code> function on each element of the Bundle.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ValidRGB</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ValidRGB</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">ValidRGB</span><span class="p">())</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">ValidRGB</span><span class="p">())</span><span class="w"></span>
 <span class="n">reg</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w">  </span><span class="c1">// Only the valid if that register bundle will have a reset value.</span>
 </pre></div>
 </div>
@@ -1097,7 +1097,7 @@ you can also set the reset value by calling the <code class="docutils literal no
 <h2>Initialization value for simulation purposes<a class="headerlink" href="#initialization-value-for-simulation-purposes" title="Permalink to this heading"></a></h2>
 <p>For registers that don’t need a reset value in RTL, but need an initialization value for simulation (to avoid x-propagation), you can ask for a random initialization value by calling the <code class="docutils literal notranslate"><span class="pre">randBoot()</span></code> function.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// UInt register of 4 bits initialized with a random value</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">randBoot</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">reg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"> </span><span class="n">randBoot</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1253,14 +1257,14 @@ parameter data change)</p></li>
 <p>所有机制都会导致实力细化生成的 HDL 输出发生变化。</p>
 <p>这可以仅仅使用 Scala 编程就完成设计，支持单个常数值到整个 SoC 的所有总线和互连架构描述的参数化。</p>
 <p>这是一个类参数的示例</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">width</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>您还可以使用 Scala 对象（伴随对象模式）中定义的全局变量。</p>
@@ -1270,10 +1274,10 @@ parameter data change)</p></li>
 <h2>可选硬件<a class="headerlink" href="#optional-hardware" title="此标题的永久链接"></a></h2>
 <p>所以这里还有更多的可能性。</p>
 <p id="generate">对于可选信号：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mySignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="p">(</span><span class="nc">Bool</span><span class="p">())</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// equivalent to &quot;val mySignal = if (flag) Bool() else null&quot;</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">generate</span></code> 函数是一种实现具有可选值的表达式机制。如果谓词为 true，generate 将计算给定表达式并返回结果，否则返回 null。</p>
@@ -1288,19 +1292,19 @@ value.  Thus the feature of parameterizing this component is demonstrated.</p>
 <p>您也可以在线束（Bundle）中做相同的事。</p>
 <p>请注意，您还可以使用 scala 选项类（Option）。</p>
 <p>如果你想禁用某个硬件块的生成：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">flag</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// optional hardware here</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>您还可以使用 scala 中的 for 循环：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">myHardware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// hardware here</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>因此，您可以在实例细化时根据需要扩展这些 scala 用法，包括使用整个 scala 集合（List、Set、Map…）来构建一些数据模型，然后以程序方式将它们转换为硬件（例如，迭代这些列表中的元素）。</p>

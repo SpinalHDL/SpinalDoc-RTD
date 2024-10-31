@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1263,17 +1267,17 @@ because the feature was parameterized and disabled during HDL code-generation,
 see <code class="docutils literal notranslate"><span class="pre">paramIsFalse</span></code> use below.</p>
 <p>举个例子：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Every clock cycle  evaluation starts here</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">paramIsFalse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">paramIsFalse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w">           </span><span class="c1">// Define two combinational signals</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w">   </span><span class="c1">// Define a combinational signal</span>
 
-<span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
-<span class="n">when</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">3</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 <span class="k">if</span><span class="p">(</span><span class="n">paramIsFalse</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">          </span><span class="c1">// This assignment should win as it is last, but it was never elaborated</span>
 <span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">4</span><span class="w">               </span><span class="c1">//  into hardware due to the use of if() and it evaluating to false at the time</span>
 <span class="p">}</span><span class="w">                           </span><span class="c1">//  of elaboration.  The three := assignments above are elaborated into hardware.</span>
@@ -1319,56 +1323,56 @@ see <code class="docutils literal notranslate"><span class="pre">paramIsFalse</s
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w">          </span><span class="c1">// Define two combinational signals/wires</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w">  </span><span class="c1">// Define an 8 bit register</span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">inc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="p">}</span>
-<span class="n">when</span><span class="p">(</span><span class="n">clear</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="n">when</span><span class="p">(</span><span class="n">inc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">clear</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w">    </span><span class="c1">// If inc and clear are True, then this  assignment wins</span>
 <span class="p">}</span><span class="w">                 </span><span class="c1">//  (last value assignment wins rule)</span>
 </pre></div>
 </div>
 <p>您可以通过将前面的示例与赋值给 <a href="#id1"><span class="problematic" id="id2">``</span></a>counter``的函数混合来实现完全相同的功能：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">setCounter</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span>
-<span class="p">}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setCounter</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">inc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="n">when</span><span class="p">(</span><span class="n">inc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">setCounter</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="c1">// Set counter with counter + 1</span>
-<span class="p">}</span>
-<span class="n">when</span><span class="p">(</span><span class="n">clear</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">clear</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>您还可以将条件检查集成到函数内：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">setCounterWhen</span><span class="p">(</span><span class="n">cond</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="p">,</span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setCounterWhen</span><span class="p">(</span><span class="n">cond</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="p">,</span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">setCounterWhen</span><span class="p">(</span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w">   </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="n">setCounterWhen</span><span class="p">(</span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clear</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">setCounterWhen</span><span class="p">(</span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w">   </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="n">setCounterWhen</span><span class="p">(</span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clear</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>并指定函数应实现的赋值：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">clear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">setSomethingWhen</span><span class="p">(</span><span class="n">something</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">,</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">something</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setSomethingWhen</span><span class="p">(</span><span class="n">something</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">,</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">something</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">setSomethingWhen</span><span class="p">(</span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="p">,</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w">   </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="n">setSomethingWhen</span><span class="p">(</span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="p">,</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clear</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">setSomethingWhen</span><span class="p">(</span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="p">,</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w">   </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="n">setSomethingWhen</span><span class="p">(</span><span class="n">something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="p">,</span><span class="w"> </span><span class="n">cond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clear</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>前面的所有示例在生成的 RTL 中，从 SpinalHDL 编译器的角度来看都是严格等效的。这是因为 SpinalHDL 只关心 Scala 运行时实例化的对象，它不关心 Scala 语法本身。</p>

@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1358,30 +1362,30 @@
 <p>SpinalHDL 中的存储器端口不是推断的，而是明确定义的。您不应使用 VHDL/Verilog 等编码模板来帮助综合工具推断存储器。</p>
 </div>
 <p>下面是一个推断简单双端口 RAM（32 位 * 256）的示例：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span>
-<span class="n">mem</span><span class="p">.</span><span class="n">write</span><span class="p">(</span>
-<span class="w">  </span><span class="n">enable</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeValid</span><span class="p">,</span>
-<span class="w">  </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeAddress</span><span class="p">,</span>
-<span class="w">  </span><span class="n">data</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeData</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">wordCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span><span class="w"></span>
+<span class="n">mem</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">enable</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeValid</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeAddress</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">data</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">writeData</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 
-<span class="n">io</span><span class="p">.</span><span class="n">readData</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mem</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span>
-<span class="w">  </span><span class="n">enable</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">readValid</span><span class="p">,</span>
-<span class="w">  </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">readAddress</span>
-<span class="p">)</span>
+<span class="n">io</span><span class="p">.</span><span class="n">readData</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mem</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">enable</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">readValid</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">readAddress</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <section id="synchronous-enable-quirk">
 <h2>同步使能注意事项<a class="headerlink" href="#synchronous-enable-quirk" title="此标题的永久链接"></a></h2>
 <p>当使能信号用于由 <cite>when</cite> 等条件块保护的块中时，只会生成用使能信号作为访问条件的电路，也就是说 <cite>when</cite> 条件将被忽略。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">rom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span>
-<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rdata</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">rom</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">rdEna</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">rom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">rdata</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">rom</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">rdEna</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>上面的例子中条件 <cite>cond</cite> 就不详细说明了。最好直接在使能信号中包含条件 <cite>cond</cite>，如下所示。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">rdata</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">rom</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">rdEna</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">cond</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">rdata</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">rom</span><span class="p">.</span><span class="n">readSync</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">rdEna</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">cond</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1494,11 +1498,11 @@
 <span id="automatic-memory-blackboxing"></span><h2>自动黑盒化<a class="headerlink" href="#automatic-blackboxing" title="此标题的永久链接"></a></h2>
 <p>由于使用常规 VHDL/Verilog 不可能推断所有 ram 类型，因此 SpinalHDL 集成了可选的自动黑盒系统。该系统会查看 RTL 网表中存在的所有存储器，并用一个黑盒替换它们。然后生成的代码将依赖第三方IP来提供内存功能，例如写入时读取策略和混合位宽端口。</p>
 <p>这是一个如何缺省使能黑盒化存储器的例子：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nc">SpinalConfig</span><span class="p">()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">addStandardMemBlackboxing</span><span class="p">(</span><span class="n">blackboxAll</span><span class="p">)</span>
-<span class="w">    </span><span class="p">.</span><span class="n">generateVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nc">SpinalConfig</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">addStandardMemBlackboxing</span><span class="p">(</span><span class="n">blackboxAll</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">generateVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>如果标准黑盒工具不足以满足您的设计需求，请毫不犹豫地创建 <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues">Github工单</a>。还有一种方法，可以创建您自己的黑盒工具。</p>
@@ -1543,8 +1547,8 @@
 </tbody>
 </table>
 <p>要显式地将存储器设置为黑盒，您可以使用其 <code class="docutils literal notranslate"><span class="pre">generateAsBlackBox</span></code> 函数。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
-<span class="n">mem</span><span class="p">.</span><span class="n">generateAsBlackBox</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rgbConfig</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
+<span class="n">mem</span><span class="p">.</span><span class="n">generateAsBlackBox</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
 <p>你可以通过继承 <code class="docutils literal notranslate"><span class="pre">MemBlackboxingPolicy</span></code> 类定义你自己的黑盒化策略。</p>
@@ -1670,8 +1674,8 @@
 </ul>
 <p>如果已为您的设备供应商配置了 <code class="docutils literal notranslate"><span class="pre">SpinalConfig#setDevice(Device)</span></code> ，则黑盒化可以插入 HDL 属性。</p>
 <p>生成的 HDL 属性可能如下所示：</p>
-<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="n">ram_style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;distributed&quot;</span><span class="w"> </span><span class="o">*</span><span class="p">)</span>
-<span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="n">ramsyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;no_rw_check&quot;</span><span class="w"> </span><span class="o">*</span><span class="p">)</span>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="n">ram_style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;distributed&quot;</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"></span>
+<span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="n">ramsyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;no_rw_check&quot;</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>SpinalHDL 尝试支持知名供应商和设备提供的许多常见存储器类型，但是这是一个不断变化的领域，并且该领域的项目要求可能非常具体。</p>

@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1255,21 +1259,21 @@
 <h2>Linux安装<a class="headerlink" href="#linux-installation" title="此标题的永久链接"></a></h2>
 <p>在撰写本文时，推荐的 Scala 和 SBT 安装方法是通过 <a class="reference external" href="https://get-coursier.io/docs/cli-installation">Coursier</a>。除了 scala 工具之外，Coursier 还能够安装 Java JDK ，在下面的示例中，我们通过包管理器安装 Java。出于 Scala 版本兼容的考量，我们建议安装 JDK 17 (LTS)。</p>
 <p>对于 Debian 或 Ubuntu，运行：</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-17-jdk-headless<span class="w"> </span>curl<span class="w"> </span>git
-curl<span class="w"> </span>-fL<span class="w"> </span><span class="s2">&quot;https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>cs
-chmod<span class="w"> </span>+x<span class="w"> </span>cs
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install openjdk-17-jdk-headless curl git
+curl -fL <span class="s2">&quot;https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz&quot;</span> <span class="p">|</span> gzip -d &gt; cs
+chmod +x cs
 <span class="c1"># should find the just installed jdk, agree to cs&#39; questions for adding to your PATH</span>
-./cs<span class="w"> </span>setup
-<span class="nb">source</span><span class="w"> </span>~/.profile
+./cs setup
+<span class="nb">source</span> ~/.profile
 </pre></div>
 </div>
 <p>如果您想安装用于仿真和/或形式化证明的工具，我们推荐 <a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build">oss-cad-suite</a>。它包含波形查看器（gtkWave）、verilog仿真器（verilator和iverilog）、VHDL仿真器（GHDL）以及一些其他工具。如果您想自己构建工具，请查看旧版仿真工具 <a class="reference internal" href="../Simulation/install/index.html#sim-backend-install"><span class="std std-ref">安装说明</span></a>。</p>
 <p>首先，我们安装所需的C++工具链并下载oss-cad-suite。要使用它，我们必须为每个我们想要使用它的shell加载oss-cad-suite环境。请注意，oss-cad-suite包含一个可能会干扰系统Python安装的Python 3解释器，如果永久加载（loaded permanently）它。</p>
 <p>前往 oss-cad-suite <a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build/releases/latest">发布页面</a> 获取最新版本的下载链接。您可以将 oss-cad-suite 下载/解压到您选择的文件夹中。 （oss-cad-suite 的最后测试版本是 <cite>2023-10-22</cite>，但最新的版本可能也可以工作）</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>make<span class="w"> </span>gcc<span class="w"> </span>g++<span class="w"> </span>zlib1g-dev
-curl<span class="w"> </span>-fLO<span class="w"> </span>&lt;download<span class="w"> </span>link&gt;
-tar<span class="w"> </span>xzf<span class="w"> </span>&lt;file<span class="w"> </span>that<span class="w"> </span>you<span class="w"> </span>downloaded&gt;
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install make gcc g++ zlib1g-dev
+curl -fLO &lt;download link&gt;
+tar xzf &lt;file that you downloaded&gt;
 </pre></div>
 </div>
 <p>To use oss-cad-suite in a shell you need to load it’s environment, e.g. via <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">&lt;path</span> <span class="pre">to</span> <span class="pre">oss-cad-suite&gt;/environment</span></code>.</p>
@@ -1277,24 +1281,24 @@ tar<span class="w"> </span>xzf<span class="w"> </span>&lt;file<span class="w"> <
 <section id="mac-os-x-installation">
 <h2>Mac OS X 安装<a class="headerlink" href="#mac-os-x-installation" title="此标题的永久链接"></a></h2>
 <p>Mac OS X 上可以使用 homebrew 安装。默认情况下 homebrew 安装 Java 21，但 SpinalHDL 教程 SpinalTemplateSbt 使用 Scala 版本 2.12.16，Java 21 不支持该版本（17 仍然是推荐的 LTS 版本，<a class="reference external" href="https://whichjdk.com/">https://whichjdk.com/</a>）。因此，要安装 Java 1.7 版本，请执行以下操作：</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>openjdk@17
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew install openjdk@17
 </pre></div>
 </div>
 <p>然后，将其添加到您的路径（path）中。</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/homebrew/opt/openjdk@17/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/homebrew/opt/openjdk@17/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>要管理 Java 的多个版本，还必须安装 jenv。</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>jenv
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew install jenv
 </pre></div>
 </div>
 <p>Jenv 将这些行添加到 .bash_profile 中</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.jenv/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
-<span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>jenv<span class="w"> </span>init<span class="w"> </span>-<span class="k">)</span><span class="s2">&quot;</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.jenv/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>jenv init -<span class="k">)</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>接下来你必须安装scala的交互式构建工具sbt。</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>sbt
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew install sbt
 </pre></div>
 </div>
 <p>如果这对您有用，请告诉我们。如果这对您不起作用，您可以在此处阅读有关 Mac o SX 安装的 github 问题。 <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/issues/1216">https://github.com/SpinalHDL/SpinalHDL/issues/1216</a></p>
@@ -1319,19 +1323,19 @@ tar<span class="w"> </span>xzf<span class="w"> </span>&lt;file<span class="w"> <
 <p>SpinalHDL 维护者 <cite>Readon &lt;https://github.com/Readon&gt;</cite> 正在维护一个 MSYS2 分支，默认安装所有需要的官方可用和自定义构建的软件包（也由 Readon 在 <cite>此处 &lt;https://github.com/Readon/ MINGW-SpinalHDL&gt;</cite> 维护) 用于仿真和形式化验证。可以在 <cite>此处 &lt;https://github.com/Readon/msys2-installer&gt;</cite> 找到。如果使用该安装包，则已经安装了下面通过 pacman 安装的软件包，并且可以跳过这些安装步骤。</p>
 <p>目前 verilator 4.228 是已知可以工作的最新版本。</p>
 <p>下载最新的安装程序并使用默认设置安装 MSYS2。安装结束后你应该会得到一个 MSYS2 终端，运行：</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman<span class="w"> </span>-Syuu
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman -Syuu
 <span class="c1"># will (request) close down terminal</span>
 <span class="c1"># open &#39;MSYS2 MINGW64&#39; from start menu</span>
-pacman<span class="w"> </span>-Syuu
-pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>base-devel<span class="w"> </span>mingw-w64-x86_64-toolchain<span class="w"> </span>mingw-w64-x86_64-iverilog<span class="w"> </span>mingw-w64-x86_64-ghdl-llvm<span class="w"> </span>git
-curl<span class="w"> </span>-O<span class="w"> </span>https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
-pacman<span class="w"> </span>-U<span class="w"> </span>mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
+pacman -Syuu
+pacman -S --needed base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-iverilog mingw-w64-x86_64-ghdl-llvm git
+curl -O https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
+pacman -U mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
 </pre></div>
 </div>
 <p>在 MSYS2 MINGW64 终端中，我们需要设置一些环境变量以使 Java/sbt 可用（您可以通过将它们添加到 MSYS2 中的 <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> 来长期保存这些设置）：</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">VERILATOR_ROOT</span><span class="o">=</span>/mingw64/share/verilator/
-<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/c/Program<span class="se">\ </span>Files/Eclipse<span class="se">\ </span>Adoptium/jdk-17.0.8.101-hotspot/bin:<span class="nv">$PATH</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/c/Users/User/AppData/Local/Coursier/data/bin:<span class="nv">$PATH</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">VERILATOR_ROOT</span><span class="o">=</span>/mingw64/share/verilator/
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/c/Program<span class="se">\ </span>Files/Eclipse<span class="se">\ </span>Adoptium/jdk-17.0.8.101-hotspot/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/c/Users/User/AppData/Local/Coursier/data/bin:<span class="nv">$PATH</span>
 </pre></div>
 </div>
 <p>有了这个，您应该能够从 MSYS2 终端运行 sbt/verilator 仿真（通过调用 <code class="docutils literal notranslate"><span class="pre">sbt.bat</span></code> 使用）。</p>
@@ -1339,12 +1343,12 @@ pacman<span class="w"> </span>-U<span class="w"> </span>mingw-w64-x86_64-verilat
 <section id="msys2-for-formal-verification">
 <h3>用 MSYS2 实施形式化验证<a class="headerlink" href="#msys2-for-formal-verification" title="此标题的永久链接"></a></h3>
 <p>除了上面的步骤之外，我们还需要安装yosys、sby、z3和yices。 yosys(可用的yosys-smtbmc) 和 sby 并不使用 MSYS2 官方提供的包（无法使用），而是由 <cite>Readon &lt;https://github.com/Readon&gt;</cite> 提供。如果您使用他们的安装程序，则不需要后面这些步骤（您应该检查是否有更新的软件包可用）。</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman<span class="w"> </span>-S<span class="w"> </span>mingw-w64-x86_64-z3<span class="w"> </span>mingw-w64-x86_64-yices<span class="w"> </span>mingw-w64-x86_64-autotools<span class="w"> </span>mingw-w64-x86_64-python3-pip
-python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>click
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-yosys-0.31-1-any.pkg.tar.zst
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-python-sby-0.31-1-any.pkg.tar.zst
-pacman<span class="w"> </span>-U<span class="w"> </span>*-yosys-*.pkg.tar.*
-pacman<span class="w"> </span>-U<span class="w"> </span>*-python-sby-*.pkg.tar*
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman -S mingw-w64-x86_64-z3 mingw-w64-x86_64-yices mingw-w64-x86_64-autotools mingw-w64-x86_64-python3-pip
+python3 -m pip install click
+curl -OL https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-yosys-0.31-1-any.pkg.tar.zst
+curl -OL https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-python-sby-0.31-1-any.pkg.tar.zst
+pacman -U *-yosys-*.pkg.tar.*
+pacman -U *-python-sby-*.pkg.tar*
 </pre></div>
 </div>
 </section>
@@ -1380,12 +1384,12 @@ pacman<span class="w"> </span>-U<span class="w"> </span>*-python-sby-*.pkg.tar*
 <p>我们为您准备了一个现成的项目：<a class="reference external" href="https://github.com/SpinalHDL/SpinalTemplateSbt">入门</a> 仓库。</p>
 <p>您可以 <a class="reference external" href="https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master">下载</a> 它，或克隆它。</p>
 <p>以下命令将项目克隆到名为 <code class="docutils literal notranslate"><span class="pre">MySpinalProject</span></code> 的新目录中，并初始化新的 <code class="docutils literal notranslate"><span class="pre">git</span></code> 历史记录：</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/SpinalHDL/SpinalTemplateSbt.git<span class="w"> </span>MySpinalProject
-<span class="nb">cd</span><span class="w"> </span>MySpinalProject
-rm<span class="w"> </span>-rf<span class="w"> </span>.git
-git<span class="w"> </span>init
-git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit from template&quot;</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone --depth <span class="m">1</span> https://github.com/SpinalHDL/SpinalTemplateSbt.git MySpinalProject
+<span class="nb">cd</span> MySpinalProject
+rm -rf .git
+git init
+git add .
+git commit -m <span class="s2">&quot;Initial commit from template&quot;</span>
 </pre></div>
 </div>
 <section id="the-directory-structure-of-a-project">

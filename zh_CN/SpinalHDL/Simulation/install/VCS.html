@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1232,11 +1236,11 @@
 <li><p>将 <code class="docutils literal notranslate"><span class="pre">$VCS_HOME/bin</span></code> 和 <code class="docutils literal notranslate"><span class="pre">$VERDI_HOME/bin</span></code> 添加到你的 <code class="docutils literal notranslate"><span class="pre">PATH</span></code> 中。</p></li>
 </ul>
 <p>将以下路径添加到 <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> 变量的前部以启用 PLI 功能。</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/VCS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/IUS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/lib/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/Ius/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/MODELSIM/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/VCS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/IUS/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/lib/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/Ius/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$VERDI_HOME</span>/share/PLI/MODELSIM/LINUX64:<span class="nv">$LD_LIBRARY_PATH</span>
 </pre></div>
 </div>
 <p>如果您遇到 <code class="docutils literal notranslate"><span class="pre">Compilation</span> <span class="pre">of</span> <span class="pre">SharedMemIface.cpp</span> <span class="pre">failed</span></code> 错误，请确保您已正确安装 C++ boost 库。头文件和库文件路径应分别添加到 <code class="docutils literal notranslate"><span class="pre">CPLUS_INCLUDE_PATH</span></code>、 <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code> 和 <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> 中。</p>
@@ -1244,15 +1248,15 @@
 <section id="user-defined-environment-setup">
 <h2>用户定义的环境设置<a class="headerlink" href="#user-defined-environment-setup" title="此标题的永久链接"></a></h2>
 <p>有时需要 VCS 环境设置文件 <cite>synopsys_sim.setup</cite> 来运行 VCS 仿真。此外，您可能希望在 VCS 开始编译之前运行一些脚本或代码来设置环境。您可以通过 <cite>withVCSSimSetup</cite> 来完成此操作。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">simConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span>
-<span class="w">  </span><span class="p">.</span><span class="n">withVCS</span>
-<span class="w">  </span><span class="p">.</span><span class="n">withVCSSimSetup</span><span class="p">(</span>
-<span class="w">    </span><span class="n">setupFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;~/work/myproj/sim/synopsys_sim.setup&quot;</span><span class="p">,</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">simConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">withVCS</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">withVCSSimSetup</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">setupFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;~/work/myproj/sim/synopsys_sim.setup&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="n">beforeAnalysis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// this code block will be run before VCS analysis step.</span>
-<span class="w">      </span><span class="s">&quot;pwd&quot;</span><span class="p">.</span><span class="o">!</span>
-<span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello, VCS&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">)</span>
+<span class="w">      </span><span class="s">&quot;pwd&quot;</span><span class="p">.</span><span class="o">!</span><span class="w"></span>
+<span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello, VCS&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>此方法将您自己的 <cite>synopsys_sim.setup</cite> 文件复制到 <cite>workspacePath</cite> （默认为 <cite>simWorkspace</cite> ）目录下的VCS工作目录，并运行脚本。</p>
@@ -1295,19 +1299,19 @@
 </tbody>
 </table>
 <p>例如，您将 <code class="docutils literal notranslate"><span class="pre">-kdb</span></code> 标志传递给编译步骤和细化步骤，以进行 Verdi 调试，</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">VCSFlags</span><span class="p">(</span>
-<span class="w">    </span><span class="n">compileFlags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="s">&quot;-kdb&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="n">elaborateFlags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="s">&quot;-kdb&quot;</span><span class="p">)</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">VCSFlags</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">compileFlags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="s">&quot;-kdb&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">elaborateFlags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="s">&quot;-kdb&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span>
-<span class="w">  </span><span class="nc">SimConfig</span>
-<span class="w">    </span><span class="p">.</span><span class="n">withVCS</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
-<span class="w">    </span><span class="p">.</span><span class="n">withFSDBWave</span>
-<span class="w">    </span><span class="p">.</span><span class="n">workspacePath</span><span class="p">(</span><span class="s">&quot;tb&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="nc">UIntAdder</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">  </span><span class="nc">SimConfig</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">withVCS</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">withFSDBWave</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">workspacePath</span><span class="p">(</span><span class="s">&quot;tb&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="nc">UIntAdder</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span><span class="w"></span>
 
-<span class="p">...</span>
+<span class="p">...</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

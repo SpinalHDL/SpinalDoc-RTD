@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1223,23 +1227,23 @@
   <section id="a-simple-example">
 <span id="simple-example"></span><h1>一个简单的例子<a class="headerlink" href="#a-simple-example" title="此标题的永久链接"></a></h1>
 <p>以下是来自 <a class="reference external" href="https://github.com/SpinalHDL/SpinalTemplateSbt">入门</a> 仓库的简单硬件描述。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">cond0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">cond1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">flag</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">cond0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">cond1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">flag</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">cond0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">cond0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">flag</span><span class="w">  </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cond1</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">flag</span><span class="w">  </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cond1</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>它在本节中被分成多个块进行解释。</p>
@@ -1247,13 +1251,13 @@
 <h2>Component<a class="headerlink" href="#component" title="此标题的永久链接"></a></h2>
 <p>首先，这里有一个 SpinalHDL <code class="docutils literal notranslate"><span class="pre">Component</span></code> 的结构。</p>
 <p>组件是一段逻辑，可以根据需要多次实例化（粘贴），外部仅可通过输入和输出信号（io）对其访问。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// port definitions go here</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// component logic goes here</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">MyTopLevel</span></code> 是组件的名称。</p>
@@ -1266,10 +1270,10 @@
 <section id="ports">
 <h2>端口<a class="headerlink" href="#ports" title="此标题的永久链接"></a></h2>
 <p>然后，定义端口。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cond0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">cond1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cond0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">cond1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>方向：</p>
@@ -1290,14 +1294,14 @@
 <section id="internal-logic">
 <h2>内部逻辑<a class="headerlink" href="#internal-logic" title="此标题的永久链接"></a></h2>
 <p>最后，还有组件的逻辑：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">cond0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="p">}</span>
+<span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">cond0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">io</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span>
-<span class="n">io</span><span class="p">.</span><span class="n">flag</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cond1</span>
+<span class="n">io</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"></span>
+<span class="n">io</span><span class="p">.</span><span class="n">flag</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">cond1</span><span class="w"></span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">counter</span></code> 是一个包含 8 位无符号整数的寄存器，初始值为 0。更改寄存器状态的赋值仅可在下一个时钟采样后回读。</p>

@@ -840,7 +840,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">Your custom Link</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">Simple CPU example</a></li>
@@ -1284,13 +1288,13 @@ Coursier is able to in addition to the scala tools install a Java JDK to use, in
 example below we install Java from the package manager. We recommend to install JDK 17 (LTS)
 because of compatibility with the used Scala version.</p>
 <p>For Debian or Ubuntu we run:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-17-jdk-headless<span class="w"> </span>curl<span class="w"> </span>git
-curl<span class="w"> </span>-fL<span class="w"> </span><span class="s2">&quot;https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>cs
-chmod<span class="w"> </span>+x<span class="w"> </span>cs
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install openjdk-17-jdk-headless curl git
+curl -fL <span class="s2">&quot;https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz&quot;</span> <span class="p">|</span> gzip -d &gt; cs
+chmod +x cs
 <span class="c1"># should find the just installed jdk, agree to cs&#39; questions for adding to your PATH</span>
-./cs<span class="w"> </span>setup
-<span class="nb">source</span><span class="w"> </span>~/.profile
+./cs setup
+<span class="nb">source</span> ~/.profile
 </pre></div>
 </div>
 <p>If you want to install the tools for simulation and/or formal proofs, we recommend <a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build">oss-cad-suite</a>.
@@ -1302,9 +1306,9 @@ may interfere with the system Python installation if loaded permanently.</p>
 <p>Go to the oss-cad-suite <a class="reference external" href="https://github.com/YosysHQ/oss-cad-suite-build/releases/latest">release page</a> to get the
 download link for the latest version. You can download/extract oss-cad-suite to a folder of your choice.
 (last tested version of oss-cad-suite is <cite>2023-10-22</cite>, but more recent ones will most likely also work)</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>make<span class="w"> </span>gcc<span class="w"> </span>g++<span class="w"> </span>zlib1g-dev
-curl<span class="w"> </span>-fLO<span class="w"> </span>&lt;download<span class="w"> </span>link&gt;
-tar<span class="w"> </span>xzf<span class="w"> </span>&lt;file<span class="w"> </span>that<span class="w"> </span>you<span class="w"> </span>downloaded&gt;
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install make gcc g++ zlib1g-dev
+curl -fLO &lt;download link&gt;
+tar xzf &lt;file that you downloaded&gt;
 </pre></div>
 </div>
 <p>To use oss-cad-suite in a shell you need to load it’s environment, e.g. via <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">&lt;path</span> <span class="pre">to</span> <span class="pre">oss-cad-suite&gt;/environment</span></code>.</p>
@@ -1314,24 +1318,24 @@ tar<span class="w"> </span>xzf<span class="w"> </span>&lt;file<span class="w"> <
 <p>You can use homebrew to install on Mac OS X.  By default homebrew installs Java 21, but the  SpinalHDL tutorial
 SpinalTemplateSbt uses Scala version 2.12.16, which is not supported by Java 21 (17 is still the recommended LTS version,
 <a class="reference external" href="https://whichjdk.com/">https://whichjdk.com/</a>). So to install Java version 1.7 do:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>openjdk@17
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew install openjdk@17
 </pre></div>
 </div>
 <p>And then add this to your path.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/homebrew/opt/openjdk@17/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/homebrew/opt/openjdk@17/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>To manage multiple versions of Java it is also essential to have jenv installed.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>jenv
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew install jenv
 </pre></div>
 </div>
 <p>Jenv added these lines to my .bash_profile</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.jenv/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
-<span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>jenv<span class="w"> </span>init<span class="w"> </span>-<span class="k">)</span><span class="s2">&quot;</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.jenv/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>jenv init -<span class="k">)</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>Next you have to install scala’s interactive build tool sbt.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>sbt
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>brew install sbt
 </pre></div>
 </div>
 <p>If this works for you, please let us know.  If this does not work for you, you can read the github issue about Mac o SX installation here.
@@ -1378,20 +1382,20 @@ installation steps can be skipped.</p>
 <p>Currently verilator 4.228 is latest available version known to work.</p>
 <p>Download the latest installer and install MSYS2 with default settings. You should get a MSYS2 terminal at
 the end of the installation, there run:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman<span class="w"> </span>-Syuu
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman -Syuu
 <span class="c1"># will (request) close down terminal</span>
 <span class="c1"># open &#39;MSYS2 MINGW64&#39; from start menu</span>
-pacman<span class="w"> </span>-Syuu
-pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>base-devel<span class="w"> </span>mingw-w64-x86_64-toolchain<span class="w"> </span>mingw-w64-x86_64-iverilog<span class="w"> </span>mingw-w64-x86_64-ghdl-llvm<span class="w"> </span>git
-curl<span class="w"> </span>-O<span class="w"> </span>https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
-pacman<span class="w"> </span>-U<span class="w"> </span>mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
+pacman -Syuu
+pacman -S --needed base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-iverilog mingw-w64-x86_64-ghdl-llvm git
+curl -O https://repo.msys2.org/mingw/mingw64/mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
+pacman -U mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
 </pre></div>
 </div>
 <p>In a MSYS2 MINGW64 terminal we need to set some environment variables to make Java/sbt available (you can make these
 settings persistent by adding them to <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> in MSYS2):</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">VERILATOR_ROOT</span><span class="o">=</span>/mingw64/share/verilator/
-<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/c/Program<span class="se">\ </span>Files/Eclipse<span class="se">\ </span>Adoptium/jdk-17.0.8.101-hotspot/bin:<span class="nv">$PATH</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/c/Users/User/AppData/Local/Coursier/data/bin:<span class="nv">$PATH</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">VERILATOR_ROOT</span><span class="o">=</span>/mingw64/share/verilator/
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/c/Program<span class="se">\ </span>Files/Eclipse<span class="se">\ </span>Adoptium/jdk-17.0.8.101-hotspot/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/c/Users/User/AppData/Local/Coursier/data/bin:<span class="nv">$PATH</span>
 </pre></div>
 </div>
 <p>With this you should be able to run sbt/verilator simulations from MSYS2 terminals (sbt via calling <code class="docutils literal notranslate"><span class="pre">sbt.bat</span></code>).</p>
@@ -1401,12 +1405,12 @@ settings persistent by adding them to <code class="docutils literal notranslate"
 <p>In addition to the steps above we also need to install yosys, sby, z3 and yices. Both yosys(yosys-smtbmc workable) and sby are
 not available as official MSYS2 packages, but packages are provided by <cite>Readon &lt;https://github.com/Readon&gt;</cite>.
 If you used their installer then these steps are not needed (you should check if there are newer packages available).</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman<span class="w"> </span>-S<span class="w"> </span>mingw-w64-x86_64-z3<span class="w"> </span>mingw-w64-x86_64-yices<span class="w"> </span>mingw-w64-x86_64-autotools<span class="w"> </span>mingw-w64-x86_64-python3-pip
-python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>click
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-yosys-0.31-1-any.pkg.tar.zst
-curl<span class="w"> </span>-OL<span class="w"> </span>https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-python-sby-0.31-1-any.pkg.tar.zst
-pacman<span class="w"> </span>-U<span class="w"> </span>*-yosys-*.pkg.tar.*
-pacman<span class="w"> </span>-U<span class="w"> </span>*-python-sby-*.pkg.tar*
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman -S mingw-w64-x86_64-z3 mingw-w64-x86_64-yices mingw-w64-x86_64-autotools mingw-w64-x86_64-python3-pip
+python3 -m pip install click
+curl -OL https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-yosys-0.31-1-any.pkg.tar.zst
+curl -OL https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-python-sby-0.31-1-any.pkg.tar.zst
+pacman -U *-yosys-*.pkg.tar.*
+pacman -U *-python-sby-*.pkg.tar*
 </pre></div>
 </div>
 </section>
@@ -1452,12 +1456,12 @@ instance using the <a class="reference external" href="https://github.com/Spinal
 <p>You can <a class="reference external" href="https://codeload.github.com/SpinalHDL/SpinalTemplateSbt/zip/master">download</a> it, or clone it.</p>
 <p>The following commands clone the project into a new directory named
 <code class="docutils literal notranslate"><span class="pre">MySpinalProject</span></code> and initialize a fresh <code class="docutils literal notranslate"><span class="pre">git</span></code> history:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/SpinalHDL/SpinalTemplateSbt.git<span class="w"> </span>MySpinalProject
-<span class="nb">cd</span><span class="w"> </span>MySpinalProject
-rm<span class="w"> </span>-rf<span class="w"> </span>.git
-git<span class="w"> </span>init
-git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit from template&quot;</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone --depth <span class="m">1</span> https://github.com/SpinalHDL/SpinalTemplateSbt.git MySpinalProject
+<span class="nb">cd</span> MySpinalProject
+rm -rf .git
+git init
+git add .
+git commit -m <span class="s2">&quot;Initial commit from template&quot;</span>
 </pre></div>
 </div>
 <section id="the-directory-structure-of-a-project">
@@ -1558,7 +1562,7 @@ development environment:</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~fee0edfd28 2024-10-14
+    Version: master git~485f6b3c7d 2024-10-31
     </p></div>
     
 

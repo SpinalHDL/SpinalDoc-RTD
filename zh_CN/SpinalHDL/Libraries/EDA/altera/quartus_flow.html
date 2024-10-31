@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1230,15 +1234,15 @@
 <p>对象 <code class="docutils literal notranslate"><span class="pre">spinal.lib.eda.altera.QuartusFlow</span></code> 可以自动报告单个rtl文件的使用面积和最大频率。</p>
 <section id="example">
 <h3>示例<a class="headerlink" href="#example" title="此标题的永久链接"></a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">report</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">QuartusFlow</span><span class="p">(</span>
-<span class="w">   </span><span class="n">quartusPath</span><span class="o">=</span><span class="s">&quot;/eda/intelFPGA_lite/17.0/quartus/bin/&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="n">workspacePath</span><span class="o">=</span><span class="s">&quot;/home/spinalvm/tmp&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="n">toplevelPath</span><span class="o">=</span><span class="s">&quot;TopLevel.vhd&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="n">family</span><span class="o">=</span><span class="s">&quot;Cyclone V&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="n">device</span><span class="o">=</span><span class="s">&quot;5CSEMA5F31C6&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="n">frequencyTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nc">MHz</span>
-<span class="p">)</span>
-<span class="n">println</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">report</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">QuartusFlow</span><span class="p">(</span><span class="w"></span>
+<span class="w">   </span><span class="n">quartusPath</span><span class="o">=</span><span class="s">&quot;/eda/intelFPGA_lite/17.0/quartus/bin/&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="n">workspacePath</span><span class="o">=</span><span class="s">&quot;/home/spinalvm/tmp&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="n">toplevelPath</span><span class="o">=</span><span class="s">&quot;TopLevel.vhd&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="n">family</span><span class="o">=</span><span class="s">&quot;Cyclone V&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="n">device</span><span class="o">=</span><span class="s">&quot;5CSEMA5F31C6&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="n">frequencyTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nc">MHz</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+<span class="n">println</span><span class="p">(</span><span class="n">report</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>上面的代码将使用 <code class="docutils literal notranslate"><span class="pre">TopLevel.vhd</span></code> 创建一个新的 Quartus 项目。</p>
@@ -1254,8 +1258,8 @@
 <section id="tip">
 <h3>小贴士<a class="headerlink" href="#tip" title="此标题的永久链接"></a></h3>
 <p>为了测试具有太多引脚的组件，请将它们设置为 <code class="docutils literal notranslate"><span class="pre">VIRTUAL_PIN</span></code> 。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">miaou</span><span class="p">:</span><span class="w"> </span><span class="nc">Vec</span><span class="p">[</span><span class="nc">Flow</span><span class="p">[</span><span class="nc">Bool</span><span class="p">]]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="n">master</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">Bool</span><span class="p">())),</span><span class="w"> </span><span class="mi">666</span><span class="p">)</span>
-<span class="n">miaou</span><span class="p">.</span><span class="n">addAttribute</span><span class="p">(</span><span class="s">&quot;altera_attribute&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-name VIRTUAL_PIN ON&quot;</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">miaou</span><span class="p">:</span><span class="w"> </span><span class="nc">Vec</span><span class="p">[</span><span class="nc">Flow</span><span class="p">[</span><span class="nc">Bool</span><span class="p">]]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="n">master</span><span class="p">(</span><span class="nc">Flow</span><span class="p">(</span><span class="nc">Bool</span><span class="p">())),</span><span class="w"> </span><span class="mi">666</span><span class="p">)</span><span class="w"></span>
+<span class="n">miaou</span><span class="p">.</span><span class="n">addAttribute</span><span class="p">(</span><span class="s">&quot;altera_attribute&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-name VIRTUAL_PIN ON&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1266,11 +1270,11 @@
 <section id="id1">
 <h3>示例<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h3>
 <p>指定包含项目文件的路径，例如 <code class="docutils literal notranslate"><span class="pre">.qpf</span></code> 和 <code class="docutils literal notranslate"><span class="pre">.cdf</span></code> 。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">prj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">QuartusProject</span><span class="p">(</span>
-<span class="w">   </span><span class="n">quartusPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;F:/intelFPGA_lite/20.1/quartus/bin64/&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="n">workspacePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;G:/&quot;</span>
-<span class="p">)</span>
-<span class="n">prj</span><span class="p">.</span><span class="n">compile</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">prj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">QuartusProject</span><span class="p">(</span><span class="w"></span>
+<span class="w">   </span><span class="n">quartusPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;F:/intelFPGA_lite/20.1/quartus/bin64/&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="n">workspacePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;G:/&quot;</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+<span class="n">prj</span><span class="p">.</span><span class="n">compile</span><span class="p">()</span><span class="w"></span>
 <span class="n">prj</span><span class="p">.</span><span class="n">program</span><span class="p">()</span><span class="w">  </span><span class="c1">// automatically find Chain Description File of the project</span>
 </pre></div>
 </div>

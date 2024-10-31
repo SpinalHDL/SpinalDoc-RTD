@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1272,18 +1276,18 @@
 <h2>生成RTL<a class="headerlink" href="#generate-the-rtl" title="此标题的永久链接"></a></h2>
 <p>要生成RTL，您有多种方案：</p>
 <p>您可以下载SpinalHDL源代码，然后运行：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sbt</span><span class="w"> </span><span class="s">&quot;project SpinalHDL-lib&quot;</span><span class="w"> </span><span class="s">&quot;run-main spinal.lib.soc.pinsec.Pinsec&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sbt</span><span class="w"> </span><span class="s">&quot;project SpinalHDL-lib&quot;</span><span class="w"> </span><span class="s">&quot;run-main spinal.lib.soc.pinsec.Pinsec&quot;</span><span class="w"></span>
 </pre></div>
 </div>
 <p>或者您可以在自己的SBT项目中创建自己的main，然后运行它：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">soc</span><span class="p">.</span><span class="nn">pinsec</span><span class="p">.</span><span class="n">_</span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">PinsecMain</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Pinsec</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="nc">MHz</span><span class="p">))</span>
-<span class="w">    </span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Pinsec</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="nc">MHz</span><span class="p">))</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">PinsecMain</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Pinsec</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="nc">MHz</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Pinsec</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="nc">MHz</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="admonition note">

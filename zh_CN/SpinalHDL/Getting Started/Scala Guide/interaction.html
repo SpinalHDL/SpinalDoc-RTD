@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1248,28 +1252,28 @@
 <section id="rgb-example">
 <h3>RGB 示例<a class="headerlink" href="#rgb-example" title="此标题的永久链接"></a></h3>
 <p>我们以 Rgb 线束类为例：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">gWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">bWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">rWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">gWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">bWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">gWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">bWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">rWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">gWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">bWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>这里的硬件数据类型是 Scala <code class="docutils literal notranslate"><span class="pre">Rgb</span></code> 类及其 <code class="docutils literal notranslate"><span class="pre">rWidth</span></code>, <code class="docutils literal notranslate"><span class="pre">gWidth</span></code>, 和 <code class="docutils literal notranslate"><span class="pre">bWidth</span></code> 参数的组合。</p>
 <p>这是一个用法示例：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define an Rgb signal</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myRgbSignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myRgbSignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">// Define another Rgb signal of the same data type as the preceding one</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myRgbCloned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">myRgbSignal</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myRgbCloned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">myRgbSignal</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>您还可以使用函数来定义各种类型工厂（typedef）：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define a type factory function</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">myRgbTypeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">myRgbTypeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">// Use that type factory to create an Rgb signal</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myRgbFromTypeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myRgbTypeDef</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myRgbFromTypeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myRgbTypeDef</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1278,21 +1282,21 @@
 <h2>生成的 RTL 中的信号名称<a class="headerlink" href="#names-of-signals-in-the-generated-rtl" title="此标题的永久链接"></a></h2>
 <p>为了命名生成的 RTL 中的信号，SpinalHDL 使用 Java 反射遍历整个组件层次结构，收集存储在类属性内的所有引用，并使用属性名称命名它们。</p>
 <p>这就是函数内定义的每个信号的名称都会丢失的原因：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myFunction</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myFunction</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// You will not retrieve the `temp` signal in the generated RTL</span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">temp</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunction</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;000001&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunction</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;000001&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
 </pre></div>
 </div>
 <p>如果您想在生成的 RTL 中保留内部变量的名称，一种解决方案是使用逻辑区（ <code class="docutils literal notranslate"><span class="pre">Area</span></code>）：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myFunction</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myFunction</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// You will not retrieve the temp signal in the generated RTL</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">myFunctionCall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunction</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;000001&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// Will generate `temp` with `myFunctionCall_temp` as the name</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunctionCall</span><span class="p">.</span><span class="n">temp</span><span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunctionCall</span><span class="p">.</span><span class="n">temp</span><span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1301,46 +1305,46 @@
 <p>例如，如果您编写 Scala for 循环来生成某些硬件，它将生成展开的 VHDL/Verilog 代码。</p>
 <p>另外，如果你想要一个常量，你不应该使用 SpinalHDL 硬件代码，而应该使用 Scala 代码。例如：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// This is wrong, because you can&#39;t use a hardware Bool as construction parameter. (It will cause hierarchy violations.)</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">SubComponent</span><span class="p">(</span><span class="n">activeHigh</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubComponent</span><span class="p">(</span><span class="n">activeHigh</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// ...</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">// This is right, you can use all the Scala world to parameterize your hardware.</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">SubComponent</span><span class="p">(</span><span class="n">activeHigh</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubComponent</span><span class="p">(</span><span class="n">activeHigh</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// ...</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="scala-elaboration-capabilities-if-for-functional-programming">
 <h2>Scala 实例细化能力（if、for、函数式编程）<a class="headerlink" href="#scala-elaboration-capabilities-if-for-functional-programming" title="此标题的永久链接"></a></h2>
 <p>在Scala中，所有的语法都可以用来细化硬件设计。例如，Scala的 <code class="docutils literal notranslate"><span class="pre">if</span></code> 语句可以用于启用或禁用部分硬件的生成。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <span class="k">if</span><span class="p">(</span><span class="n">generateAClearWhenHit42</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// Elaboration test, like an if generate in vhdl</span>
 <span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">42</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">       </span><span class="c1">// Hardware test</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Scala 的 <code class="docutils literal notranslate"><span class="pre">for</span></code> 循环也是如此：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="n">when</span><span class="p">(</span><span class="n">something</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">something</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// Set all bits of value by using a Scala for loop (evaluated during hardware elaboration)</span>
-<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">value</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">value</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>此外，函数式编程技术可用于许多 SpinalHDL 类型：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">valuesAre42</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">values</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">42</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">valuesAreAll42</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">valuesAre42</span><span class="p">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">_</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">valuesAre42</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">values</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">42</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">valuesAreAll42</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">valuesAre42</span><span class="p">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">_</span><span class="p">)</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">valuesAreEqualToTheirIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">values</span><span class="p">.</span><span class="n">zipWithIndex</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">valuesAreEqualToTheirIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">values</span><span class="p">.</span><span class="n">zipWithIndex</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

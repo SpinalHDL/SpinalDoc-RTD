@@ -1157,7 +1157,7 @@
 </div>
 <p><strong>Code Example :</strong></p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">         </span><span class="c1">//b can&#39;t be read at that time, because b isn&#39;t instanciated yet</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p><strong>Issue explanation :</strong></p>
@@ -1173,35 +1173,35 @@
 </pre></div>
 </div>
 <p><strong>Code Example :</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="n">componentX</span><span class="p">.</span><span class="nc">X</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="c1">//This assignment is not legal</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"> </span><span class="c1">//Forgot to specify an in/out direction</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="n">componentX</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="nc">X</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="c1">//This assignment will be detected as not legal</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p><strong>Issue explanation :</strong></p>
@@ -1214,15 +1214,15 @@
 </pre></div>
 </div>
 <p><strong>Code Example :</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentXY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentXY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="nc">X</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="c1">//This assignment is not legal</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p><strong>Issue explanation :</strong></p>
@@ -1235,20 +1235,20 @@
 </pre></div>
 </div>
 <p><strong>Code Example :</strong></p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponentY</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">componentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ComponentX</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="w">  </span><span class="n">componentX</span><span class="p">.</span><span class="nc">X</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">Y</span><span class="w"> </span><span class="c1">//This assignment is not legal</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p><strong>Issue explanation :</strong></p>

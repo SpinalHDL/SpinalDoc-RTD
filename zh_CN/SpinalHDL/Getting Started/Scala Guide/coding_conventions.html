@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1240,77 +1244,77 @@
 <section id="case-class">
 <h3>样例类/类<a class="headerlink" href="#case-class" title="此标题的永久链接"></a></h3>
 <p>所有类名称都应以大写字母开头</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Counter</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Counter</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="companion-object">
 <h3>伴生对象<a class="headerlink" href="#companion-object" title="此标题的永久链接"></a></h3>
 <p><a class="reference external" href="https://docs.scala-lang.org/overviews/scala-book/companion-objects.html">伴随对象</a> 应该以大写字母开头。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]):</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Fifo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]):</span><span class="w"> </span><span class="nc">Stream</span><span class="p">[</span><span class="nc">Bits</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Bits</span><span class="p">):</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span>
-<span class="p">}</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">Bits</span><span class="p">):</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>此规则的一个例外是当伴生对象用作函数时（其中包含了 <code class="docutils literal notranslate"><span class="pre">apply</span></code> 函数），并且这些 <code class="docutils literal notranslate"><span class="pre">apply</span></code> 函数不生成硬件：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">log2</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">log2</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{...}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="function">
 <h3>函数<a class="headerlink" href="#function" title="此标题的永久链接"></a></h3>
 <p>函数应始终以小写字母开头：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sinTable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">).</span><span class="n">map</span><span class="p">(</span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sinValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="nc">PI</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">)</span>
-<span class="w">  </span><span class="nc">S</span><span class="p">((</span><span class="n">sinValue</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">resolutionWidth</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)).</span><span class="n">toInt</span><span class="p">,</span><span class="w"> </span><span class="n">resolutionWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">})</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sinTable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">).</span><span class="n">map</span><span class="p">(</span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sinValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nc">Math</span><span class="p">.</span><span class="nc">PI</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sampleIndex</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sampleCount</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="nc">S</span><span class="p">((</span><span class="n">sinValue</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">resolutionWidth</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)).</span><span class="n">toInt</span><span class="p">,</span><span class="w"> </span><span class="n">resolutionWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">rom</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="n">resolutionWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">initialContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sinTable</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">rom</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nc">Mem</span><span class="p">(</span><span class="nc">SInt</span><span class="p">(</span><span class="n">resolutionWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">initialContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sinTable</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="instances">
 <h3>实例<a class="headerlink" href="#instances" title="此标题的永久链接"></a></h3>
 <p>类的实例应始终以小写字母开头：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">fifo</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="if-when">
 <h3>if / when<a class="headerlink" href="#if-when" title="此标题的永久链接"></a></h3>
 <p>Scala中的 <code class="docutils literal notranslate"><span class="pre">if</span></code> 和 SpinalHDL中的 <code class="docutils literal notranslate"><span class="pre">when</span></code> 通常应按以下方式编写：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span><span class="w"> </span><span class="n">elsewhen</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">elsewhen</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>例外情况可能是：</p>
@@ -1322,17 +1326,17 @@
 <section id="switch">
 <h3>switch<a class="headerlink" href="#switch" title="此标题的永久链接"></a></h3>
 <p>SpinalHDL中的 <code class="docutils literal notranslate"><span class="pre">switch</span></code> 通常应按以下方式编写：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">switch</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">is</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">default</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>如果可以提高代码可读性，可以将 <code class="docutils literal notranslate"><span class="pre">is</span></code>/<code class="docutils literal notranslate"><span class="pre">default</span></code> 语句压缩到一行中。</p>
@@ -1344,21 +1348,21 @@
 <li><p>更容易使用/操作设计的配置</p></li>
 <li><p>更好的可维护性</p></li>
 </ul>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">(</span><span class="n">rWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">gWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">bWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rWidth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">gWidth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bWidth</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">(</span><span class="n">rWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">gWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">bWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rWidth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">gWidth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bWidth</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">gWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">bWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">gWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">bWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>但这不应该适用于所有情况。例如：在 FIFO 中，将 <code class="docutils literal notranslate"><span class="pre">dataType</span></code> 参数与 fifo 的 <code class="docutils literal notranslate"><span class="pre">depth</span></code> 参数分组是没有意义的。因为一般情况下， <code class="docutils literal notranslate"><span class="pre">dataType</span></code> 与设计相关，而 <code class="docutils literal notranslate"><span class="pre">depth</span></code> 则与设计的配置有关。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fifo</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

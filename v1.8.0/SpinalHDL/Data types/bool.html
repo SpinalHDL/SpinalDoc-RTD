@@ -1260,27 +1260,27 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 <span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="n">^</span><span class="w"> </span><span class="n">c</span><span class="w">   </span><span class="c1">// ((NOT a) AND b) XOR c</span>
 
-<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span>
-<span class="w"> </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
+<span class="w"> </span><span class="n">when</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="n">d</span><span class="p">.</span><span class="n">set</span><span class="p">()</span><span class="w">    </span><span class="c1">// equivalent to d := True</span>
-<span class="w"> </span><span class="p">}</span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
 
-<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
 <span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">setWhen</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="w"> </span><span class="c1">// equivalent to when(cond) { d := True }</span>
 
-<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"> </span><span class="n">fallWhen</span><span class="p">(</span><span class="n">ack</span><span class="p">)</span><span class="w"> </span><span class="n">setWhen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"> </span><span class="n">fallWhen</span><span class="p">(</span><span class="n">ack</span><span class="p">)</span><span class="w"> </span><span class="n">setWhen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="w"></span>
 <span class="w"> </span><span class="cm">/** equivalent to</span>
 <span class="cm">  * when(f &amp;&amp; ack) { f := False }</span>
 <span class="cm">  * when(req) { f := True }</span>
 <span class="cm">  * or</span>
 <span class="cm">  * f := req || (f &amp;&amp; !ack)</span>
-<span class="cm">  */</span>
+<span class="cm">  */</span><span class="w"></span>
 
 <span class="c1">// mind the order of assignments!</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"> </span><span class="n">setWhen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="w"> </span><span class="n">fallWhen</span><span class="p">(</span><span class="n">ack</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"> </span><span class="n">setWhen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="w"> </span><span class="n">fallWhen</span><span class="p">(</span><span class="n">ack</span><span class="p">)</span><span class="w"></span>
 <span class="c1">// equivalent to g := ((!g) &amp;&amp; req) || (g &amp;&amp; !ack)</span>
 </pre></div>
 </div>
@@ -1334,21 +1334,21 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">myBool_1</span><span class="p">.</span><span class="n">rise</span><span class="p">(</span><span class="nc">False</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">myBool_1</span><span class="p">.</span><span class="n">rise</span><span class="p">(</span><span class="nc">False</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// do something when a rising edge is detected</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
 
-<span class="kd">val</span><span class="w"> </span><span class="n">edgeBundle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBool_2</span><span class="p">.</span><span class="n">edges</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span>
-<span class="n">when</span><span class="p">(</span><span class="n">edgeBundle</span><span class="p">.</span><span class="n">rise</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">edgeBundle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myBool_2</span><span class="p">.</span><span class="n">edges</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">edgeBundle</span><span class="p">.</span><span class="n">rise</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// do something when a rising edge is detected</span>
-<span class="p">}</span>
-<span class="n">when</span><span class="p">(</span><span class="n">edgeBundle</span><span class="p">.</span><span class="n">fall</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">edgeBundle</span><span class="p">.</span><span class="n">fall</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// do something when a falling edge is detected</span>
-<span class="p">}</span>
-<span class="n">when</span><span class="p">(</span><span class="n">edgeBundle</span><span class="p">.</span><span class="n">toggle</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">edgeBundle</span><span class="p">.</span><span class="n">toggle</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// do something at each edge</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1374,11 +1374,11 @@
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">when</span><span class="p">(</span><span class="n">myBool</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Equivalent to when(myBool === True)</span>
 <span class="w">    </span><span class="c1">// do something when myBool is True</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="n">when</span><span class="p">(</span><span class="o">!</span><span class="n">myBool</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Equivalent to when(myBool === False)</span>
 <span class="w">    </span><span class="c1">// do something when myBool is False</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1415,8 +1415,8 @@
 </tbody>
 </table>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add the carry to an SInt value</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">carry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mySInt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">carry</span><span class="p">.</span><span class="n">asSInt</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">carry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mySInt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">carry</span><span class="p">.</span><span class="n">asSInt</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1436,10 +1436,10 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 
 <span class="c1">// Concatenation of three Bool into a Bits</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">##</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">##</span><span class="w"> </span><span class="n">c</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">##</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">##</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1448,7 +1448,7 @@
 <p>A masked boolean allows don’t care values. They are usually not used on their own but through <a class="reference internal" href="bits.html#maskedliteral"><span class="std std-ref">MaskedLiteral</span></a>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// first argument: boolean value</span>
 <span class="c1">// second argument: do we care ?</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">masked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">MaskedBoolean</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">masked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">MaskedBoolean</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

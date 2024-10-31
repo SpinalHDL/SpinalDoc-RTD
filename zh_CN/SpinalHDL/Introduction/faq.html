@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1256,13 +1260,13 @@
 <section id="how-to-use-an-unreleased-version-of-spinalhdl-but-committed-on-git">
 <h2>如何使用 SpinalHDL 的未发布版本（但在 git 上提交）？<a class="headerlink" href="#how-to-use-an-unreleased-version-of-spinalhdl-but-committed-on-git" title="此标题的永久链接"></a></h2>
 <p>首先，如果您还没有克隆存储库，则需要获取存储库：</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-b<span class="w"> </span>dev<span class="w"> </span>https://github.com/SpinalHDL/SpinalHDL.git
-<span class="nb">cd</span><span class="w"> </span>SpinalHDL
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone --depth <span class="m">1</span> -b dev https://github.com/SpinalHDL/SpinalHDL.git
+<span class="nb">cd</span> SpinalHDL
 </pre></div>
 </div>
 <p>在上面的命令中，可以用要签出的分支名称替换 <code class="docutils literal notranslate"><span class="pre">dev</span></code> 。 <code class="docutils literal notranslate"><span class="pre">--depth</span> <span class="pre">1</span></code> 阻止下载版本库历史。</p>
 <p>然后将获取目录中的代码发布：</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sbt<span class="w"> </span>clean<span class="w"> </span><span class="s1">&#39;++ 2.12.13&#39;</span><span class="w"> </span>publishLocal
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sbt clean <span class="s1">&#39;++ 2.12.13&#39;</span> publishLocal
 </pre></div>
 </div>
 <p>这里 <code class="docutils literal notranslate"><span class="pre">2.12.13</span></code> 是使用的Scala版本。前两个数字必须与您的项目中使用的版本相匹配。您可以在 <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> 和/或 <code class="docutils literal notranslate"><span class="pre">build.sc</span></code> 中找到它：</p>
@@ -1272,9 +1276,9 @@
 </pre></div>
 </div>
 <p>然后在您的项目中，更新 <code class="docutils literal notranslate"><span class="pre">build.sbt</span></code> 或 <code class="docutils literal notranslate"><span class="pre">build.sc</span></code> 中指定的 SpinalHDL 版本：应将其设置为 <code class="docutils literal notranslate"><span class="pre">dev</span></code> 而不是版本号。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">spinalVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.7.3&quot;</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">spinalVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.7.3&quot;</span><span class="w"></span>
 <span class="c1">// becomes</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">spinalVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dev&quot;</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">spinalVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dev&quot;</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="admonition note">

@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1235,29 +1239,29 @@
 <section id="example">
 <h2>示例<a class="headerlink" href="#example" title="此标题的永久链接"></a></h2>
 <p>以UART控制器为例：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AvalonMMUartCtrl</span><span class="p">(...)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">slave</span><span class="p">(</span><span class="nc">AvalonMM</span><span class="p">(</span><span class="nc">AvalonMMUartCtrl</span><span class="p">.</span><span class="n">getAvalonMMConfig</span><span class="p">))</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">uart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Uart</span><span class="p">())</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AvalonMMUartCtrl</span><span class="p">(...)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">slave</span><span class="p">(</span><span class="nc">AvalonMM</span><span class="p">(</span><span class="nc">AvalonMMUartCtrl</span><span class="p">.</span><span class="n">getAvalonMMConfig</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">uart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Uart</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// ...</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>下面的 <code class="docutils literal notranslate"><span class="pre">main</span></code> 将生成Verilog和QSys TCL脚本，其中io.bus将作为AvalonMM总线，io.uart作为导线：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">AvalonMMUartCtrl</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">AvalonMMUartCtrl</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Generate the Verilog</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">toplevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="nc">AvalonMMUartCtrl</span><span class="p">(</span><span class="nc">UartCtrlMemoryMappedConfig</span><span class="p">(...))).</span><span class="n">toplevel</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">toplevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="nc">AvalonMMUartCtrl</span><span class="p">(</span><span class="nc">UartCtrlMemoryMappedConfig</span><span class="p">(...))).</span><span class="n">toplevel</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Add some tags to the avalon bus to specify it&#39;s clock domain (information used by QSysify)</span>
-<span class="w">    </span><span class="n">toplevel</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">bus</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ClockDomainTag</span><span class="p">(</span><span class="n">toplevel</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">))</span>
+<span class="w">    </span><span class="n">toplevel</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">bus</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ClockDomainTag</span><span class="p">(</span><span class="n">toplevel</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">))</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Generate the QSys IP (tcl script)</span>
-<span class="w">    </span><span class="nc">QSysify</span><span class="p">(</span><span class="n">toplevel</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="nc">QSysify</span><span class="p">(</span><span class="n">toplevel</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1266,19 +1270,19 @@
 <p>由于QSys需要一些SpinalHDL硬件规范中未指定的信息，因此应在接口中添加一些标签：</p>
 <section id="avalonmm-apb3">
 <h3>AvalonMM / APB3<a class="headerlink" href="#avalonmm-apb3" title="此标题的永久链接"></a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">bus</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ClockDomainTag</span><span class="p">(</span><span class="n">busClockDomain</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">bus</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ClockDomainTag</span><span class="p">(</span><span class="n">busClockDomain</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="interrupt-input">
 <h3>中断输入<a class="headerlink" href="#interrupt-input" title="此标题的永久链接"></a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">InterruptReceiverTag</span><span class="p">(</span><span class="n">relatedMemoryInterfacei</span><span class="p">,</span><span class="w"> </span><span class="n">interruptClockDomain</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">InterruptReceiverTag</span><span class="p">(</span><span class="n">relatedMemoryInterfacei</span><span class="p">,</span><span class="w"> </span><span class="n">interruptClockDomain</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="reset-output">
 <h3>复位输出<a class="headerlink" href="#reset-output" title="此标题的永久链接"></a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">resetOutput</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ResetEmitterTag</span><span class="p">(</span><span class="n">resetOutputClockDomain</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">resetOutput</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ResetEmitterTag</span><span class="p">(</span><span class="n">resetOutputClockDomain</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

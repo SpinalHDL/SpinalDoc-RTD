@@ -334,16 +334,16 @@
 </ul>
 <p>Normally, this command must generate an output file <code class="docutils literal notranslate"><span class="pre">MyTopLevel.vhd</span></code>, which corresponds to the top level <em>SpinalHDL</em> code defined in <code class="docutils literal notranslate"><span class="pre">src\main\scala\MyCode.scala</span></code>, which corresponds to the <a class="reference internal" href="#example"><span class="std std-ref">most simple SpinalHDL example</span></a></p>
 <p>From a clean Debian distribution you can type followings commands in the shell. It will install java, scala, sbt, download the base project and generate the corresponding VHDL file. Don’t worry if it takes time the first time that you run it.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-8-jdk
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>scala
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb https://dl.bintray.com/sbt/debian /&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/apt/sources.list.d/sbt.list
-sudo<span class="w"> </span>apt-key<span class="w"> </span>adv<span class="w"> </span>--keyserver<span class="w"> </span>hkp://keyserver.ubuntu.com:80<span class="w"> </span>--recv<span class="w"> </span>642AC823
-sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>sbt
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SpinalHDL/SpinalTemplateSbt.git
-<span class="nb">cd</span><span class="w"> </span>SpinalBaseProject/
-sbt<span class="w"> </span>run
-ls<span class="w"> </span>MyTopLevel.vhd
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install openjdk-8-jdk
+sudo apt-get install scala
+<span class="nb">echo</span> <span class="s2">&quot;deb https://dl.bintray.com/sbt/debian /&quot;</span> <span class="p">|</span> sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+sudo apt-get update
+sudo apt-get install sbt
+git clone https://github.com/SpinalHDL/SpinalTemplateSbt.git
+<span class="nb">cd</span> SpinalBaseProject/
+sbt run
+ls MyTopLevel.vhd
 </pre></div>
 </div>
 <section id="sbt-in-a-environnement-isolated-from-internet">
@@ -373,65 +373,65 @@ ls<span class="w"> </span>MyTopLevel.vhd
 <p>The following code generates an <code class="docutils literal notranslate"><span class="pre">and</span></code> gate between two one bit inputs.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
 <span class="w">  </span><span class="cm">/**</span>
 <span class="cm">    * This is the component definition that corresponds to</span>
 <span class="cm">    * the VHDL entity of the component</span>
-<span class="cm">    */</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="cm">    */</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Here we define some asynchronous logic</span>
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="p">{</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// Let&#39;s go</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>As you can see, the first line you have to write in SpinalHDL is <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">spinal.core._</span></code> which indicates that we are using the <em>Spinal</em> components in the file.</p>
 <section id="generated-code">
 <h3>Generated code<a class="headerlink" href="#generated-code" title="Permalink to this heading"></a></h3>
 <p>Once you have successfully compiled your code, the compiler should have emitted the following VHDL code:</p>
-<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">package</span><span class="w"> </span><span class="n">pkg_enum</span><span class="w"> </span><span class="k">is</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="k">end</span><span class="w"> </span><span class="nc">pkg_enum</span><span class="p">;</span>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">package</span><span class="w"> </span><span class="n">pkg_enum</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">pkg_enum</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">package</span><span class="w"> </span><span class="n">pkg_scala2hdl</span><span class="w"> </span><span class="k">is</span>
-<span class="w">  </span><span class="p">...</span>
-<span class="k">end</span><span class="w">  </span><span class="nc">pkg_scala2hdl</span><span class="p">;</span>
+<span class="k">package</span><span class="w"> </span><span class="n">pkg_scala2hdl</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="k">end</span><span class="w">  </span><span class="nc">pkg_scala2hdl</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">library</span><span class="w"> </span><span class="nn">ieee</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">ieee.std_logic_1164.</span><span class="k">all</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">ieee.numeric_std.</span><span class="k">all</span><span class="p">;</span>
+<span class="k">library</span><span class="w"> </span><span class="nn">ieee</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">ieee.std_logic_1164.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">ieee.numeric_std.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">library</span><span class="w"> </span><span class="nn">work</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">work.pkg_scala2hdl.</span><span class="k">all</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">work.</span><span class="k">all</span><span class="p">;</span>
-<span class="k">use</span><span class="w"> </span><span class="nn">work.pkg_enum.</span><span class="k">all</span><span class="p">;</span>
+<span class="k">library</span><span class="w"> </span><span class="nn">work</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">work.pkg_scala2hdl.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">work.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="nn">work.pkg_enum.</span><span class="k">all</span><span class="p">;</span><span class="w"></span>
 
 
-<span class="k">entity</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">is</span>
-<span class="w">  </span><span class="k">port</span><span class="p">(</span>
-<span class="w">    </span><span class="n">io_a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="w">    </span><span class="n">io_b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span>
-<span class="w">    </span><span class="n">io_c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span>
-<span class="w">  </span><span class="p">);</span>
-<span class="k">end</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="p">;</span>
+<span class="k">entity</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">std_logic</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">io_c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">std_logic</span><span class="w"></span>
+<span class="w">  </span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">architecture</span><span class="w"> </span><span class="nc">arch</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">is</span>
+<span class="k">architecture</span><span class="w"> </span><span class="nc">arch</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nc">AND_Gate</span><span class="w"> </span><span class="k">is</span><span class="w"></span>
 
-<span class="k">begin</span>
-<span class="w">  </span><span class="n">io_c</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">io_a</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">io_b</span><span class="p">);</span>
-<span class="k">end</span><span class="w"> </span><span class="nc">arch</span><span class="p">;</span>
+<span class="k">begin</span><span class="w"></span>
+<span class="w">  </span><span class="n">io_c</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">io_a</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">io_b</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"> </span><span class="nc">arch</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

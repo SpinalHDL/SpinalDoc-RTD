@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1265,30 +1269,30 @@
 </tbody>
 </table>
 <p>简而言之，APB3总线在SpinalHDL库中定义方式如下：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PADDR</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSEL</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">selWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PENABLE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PREADY</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWRITE</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWDATA</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PRDATA</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSLVERROR</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">null</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">IMasterSlave</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PADDR</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">addressWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSEL</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">selWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PENABLE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PREADY</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWRITE</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PWDATA</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PRDATA</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">dataWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">PSLVERROR</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">useSlaveError</span><span class="p">)</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">null</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// ...</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>这是一个简单的使用示例：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">apbConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">(</span>
-<span class="w">  </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
-<span class="w">  </span><span class="n">dataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span>
-<span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">apbX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">apbY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">apbConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Config</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">dataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">apbX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">apbY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3</span><span class="p">(</span><span class="n">apbConfig</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">apbY</span><span class="p">.</span><span class="nc">PENABLE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="n">when</span><span class="p">(</span><span class="n">apbY</span><span class="p">.</span><span class="nc">PENABLE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// ...</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1269,9 +1273,9 @@
 <section id="variables">
 <h2>变量<a class="headerlink" href="#variables" title="此标题的永久链接"></a></h2>
 <p>在 Scala 中，您可以使用 var 关键字定义变量：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span>
-<span class="n">number</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
+<span class="n">number</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
 <span class="n">println</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="w"> </span><span class="c1">// 10</span>
 </pre></div>
 </div>
@@ -1280,90 +1284,90 @@
 </pre></div>
 </div>
 <p>然而，在 Scala 中使用 var 并不常见。相反，经常使用由 <code class="docutils literal notranslate"><span class="pre">val</span></code> 定义的常量值：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">two</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">six</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">three</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">two</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">six</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">three</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="functions">
 <h2>函数<a class="headerlink" href="#functions" title="此标题的永久链接"></a></h2>
 <p>例如，如果你想定义一个函数，当两个参数之和大于零时返回 <code class="docutils literal notranslate"><span class="pre">true</span></code> ，你可以这样做：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>然后，要调用该函数，您可以编写：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sumBiggerThanZero</span><span class="p">(</span><span class="mf">2.3f</span><span class="p">,</span><span class="w"> </span><span class="mf">5.4f</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sumBiggerThanZero</span><span class="p">(</span><span class="mf">2.3f</span><span class="p">,</span><span class="w"> </span><span class="mf">5.4f</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>您还可以按名称指定参数，如果您有很多参数，这会很有用：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sumBiggerThanZero</span><span class="p">(</span>
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.3f</span><span class="p">,</span>
-<span class="w">  </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.4f</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">sumBiggerThanZero</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.3f</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.4f</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <section id="return">
 <h3>返回类型<a class="headerlink" href="#return" title="此标题的永久链接"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">return</span></code> 关键字不是必需的。如果没有它，Scala 会将函数的最后一条语句作为返回值。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="return-type-inferation">
 <h3>返回类型推断<a class="headerlink" href="#return-type-inferation" title="此标题的永久链接"></a></h3>
 <p>Scala 能够自动推断返回类型。您不需要指定它：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="curly-braces">
 <h3>大括号<a class="headerlink" href="#curly-braces" title="此标题的永久链接"></a></h3>
 <p>如果您的函数仅包含一条语句，则 Scala 函数不需要大括号：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="function-that-returns-nothing">
 <h3>不返回任何内容的函数<a class="headerlink" href="#function-that-returns-nothing" title="此标题的永久链接"></a></h3>
 <p>如果您希望函数不返回任何内容，则返回类型应设置为 <code class="docutils literal notranslate"><span class="pre">Unit</span></code>。它相当于 C/C++ <code class="docutils literal notranslate"><span class="pre">void</span></code> 类型。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">printer</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;1234&quot;</span><span class="p">)</span>
-<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;5678&quot;</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">printer</span><span class="p">():</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;1234&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;5678&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="argument-default-values">
 <h3>参数默认值<a class="headerlink" href="#argument-default-values" title="此标题的永久链接"></a></h3>
 <p>您可以为函数的每个参数指定默认值：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sumBiggerThanZero</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="apply">
 <h3>Apply函数<a class="headerlink" href="#apply" title="此标题的永久链接"></a></h3>
 <p>名为 <code class="docutils literal notranslate"><span class="pre">apply</span></code> 的函数很特殊，因为您无需输入名称即可调用它们：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Array</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">index</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Array</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">index</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Array</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Array</span><span class="p">()</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w">   </span><span class="c1">// array(4) is interpreted as array.apply(4) and will return 7</span>
 </pre></div>
 </div>
 <p>这个概念也适用于 Scala <a href="#id1"><span class="problematic" id="id2">``</span></a>object``（静态）</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">):</span><span class="w"> </span><span class="nc">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MajorityVote</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="c1">// Will call MajorityVote.apply(4)</span>
 </pre></div>
@@ -1374,70 +1378,70 @@
 <h2>对象（Object）<a class="headerlink" href="#object" title="此标题的永久链接"></a></h2>
 <p>在 Scala 中，没有 <code class="docutils literal notranslate"><span class="pre">static</span></code> 关键字。取而代之的是 <code class="docutils literal notranslate"><span class="pre">object</span></code>。在 <code class="docutils literal notranslate"><span class="pre">object</span></code> 定义中所有内容都是静态的。</p>
 <p>以下示例定义了一个名为 <code class="docutils literal notranslate"><span class="pre">pow2</span></code> 的静态函数，它接受浮点值作为参数并返回浮点值。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MathUtils</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pow2</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">value</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MathUtils</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pow2</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">):</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">value</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>然后你可以这样来调用它：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">MathUtils</span><span class="p">.</span><span class="n">pow2</span><span class="p">(</span><span class="mf">42.0f</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">MathUtils</span><span class="p">.</span><span class="n">pow2</span><span class="p">(</span><span class="mf">42.0f</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="entry-point-main">
 <h2>入口点（main）<a class="headerlink" href="#entry-point-main" title="此标题的永久链接"></a></h2>
 <p>Scala 程序的入口点（主函数）应在对象内部定义为名为 <code class="docutils literal notranslate"><span class="pre">main</span></code> 的函数。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyTopLevelMain</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello world&quot;</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyTopLevelMain</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello world&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="class">
 <h2>类<a class="headerlink" href="#class" title="此标题的永久链接"></a></h2>
 <p>类的语法与Java非常相似。想象一下，您想要定义一个 <code class="docutils literal notranslate"><span class="pre">Color</span></code> 类，它将三个 Float 值 (r,g,b) 作为构造函数的参数：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getGrayLevel</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.3f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.4f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.4f</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getGrayLevel</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.3f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.4f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.4f</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>然后，实例化上一个示例中的类并使用其 <code class="docutils literal notranslate"><span class="pre">getGrayLevel</span></code> 函数：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">grayLevelOfBlue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="p">.</span><span class="n">getGrayLevel</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">grayLevelOfBlue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="p">.</span><span class="n">getGrayLevel</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
 <p>注意，如果你想从外部访问类的构造参数，那么这个参数应该定义为 <code class="docutils literal notranslate"><span class="pre">val</span></code>：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-<span class="p">...</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">redLevelOfBlue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="p">.</span><span class="n">r</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">redLevelOfBlue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blue</span><span class="p">.</span><span class="n">r</span><span class="w"></span>
 </pre></div>
 </div>
 <section id="inheritance">
 <h3>继承<a class="headerlink" href="#inheritance" title="此标题的永久链接"></a></h3>
 <p>举个例子，假设您要定义两个类，<code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Square</span></code>，它们扩展了 <code class="docutils literal notranslate"><span class="pre">Shape</span></code> 类：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Square</span><span class="p">(</span><span class="n">sideLength</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sideLength</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sideLength</span>
-<span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Square</span><span class="p">(</span><span class="n">sideLength</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sideLength</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sideLength</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span>
-<span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="case-class">
 <h3>样例类<a class="headerlink" href="#case-class" title="此标题的永久链接"></a></h3>
 <p>样例类是声明类的另一种方式。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">(</span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="nc">Float</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code> 和 <code class="docutils literal notranslate"><span class="pre">class</span></code> 之间有下面区别：</p>
@@ -1451,26 +1455,26 @@
 <section id="templates-type-parameterization">
 <h2>模板/类型参数化<a class="headerlink" href="#templates-type-parameterization" title="此标题的永久链接"></a></h2>
 <p>想象一下，您想要设计一个类，它是某数据类型的队列，在这种情况下，您需要向该类提供类型参数：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w">  </span><span class="nc">Queue</span><span class="p">[</span><span class="nc">T</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">():</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w">  </span><span class="nc">Queue</span><span class="p">[</span><span class="nc">T</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">():</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>如果你想将 <code class="docutils literal notranslate"><span class="pre">T</span></code> 类型限制为给定类型的子类（例如 <code class="docutils literal notranslate"><span class="pre">Shape</span></code>），你可以使用 <code class="docutils literal notranslate"><span class="pre">&lt;:</span> <span class="pre">Shape</span></code> 语法：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span>
-<span class="p">}</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">getArea</span><span class="p">():</span><span class="w"> </span><span class="nc">Float</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 
-<span class="k">class</span><span class="w">  </span><span class="nc">Queue</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">():</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
-<span class="p">}</span>
+<span class="k">class</span><span class="w">  </span><span class="nc">Queue</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="n">that</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">():</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>对于函数来说也是如此：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">doSomething</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">](</span><span class="n">shape</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">Something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">shape</span><span class="p">.</span><span class="n">getArea</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">doSomething</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">](</span><span class="n">shape</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">Something</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">shape</span><span class="p">.</span><span class="n">getArea</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

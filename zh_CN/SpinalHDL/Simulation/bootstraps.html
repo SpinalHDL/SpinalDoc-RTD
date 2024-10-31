@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1228,34 +1232,34 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// Identity takes n bits in a and gives them back in z</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span><span class="n">n</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span><span class="n">n</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">TestIdentity</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">TestIdentity</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// Use the component with n = 3 bits as &quot;dut&quot; (device under test)</span>
-<span class="w">  </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">  </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// For each number from 3&#39;b000 to 3&#39;b111 included</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">      </span><span class="c1">// Apply input</span>
-<span class="w">      </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">      </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">#=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
 <span class="w">      </span><span class="c1">// Wait for a simulation time unit</span>
-<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="c1">// Read output</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">z</span><span class="p">.</span><span class="n">toInt</span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">z</span><span class="p">.</span><span class="n">toInt</span><span class="w"></span>
 <span class="w">      </span><span class="c1">// Check result</span>
-<span class="w">      </span><span class="n">assert</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s">s&quot;Got </span><span class="si">$</span><span class="n">z</span><span class="s">, expected </span><span class="si">$</span><span class="n">a</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">      </span><span class="n">assert</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s">s&quot;Got </span><span class="si">$</span><span class="n">z</span><span class="s">, expected </span><span class="si">$</span><span class="n">a</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1314,59 +1318,59 @@
 </dd>
 </dl>
 <p>以下测试平台模板将使用以下顶层设计：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-<span class="w">   </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="w"></span>
+<span class="w">   </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>这是一个包含多个仿真配置的模板：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">spinalConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">defaultClockDomainFrequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="nc">MHz</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">spinalConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">defaultClockDomainFrequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="nc">MHz</span><span class="p">))</span><span class="w"></span>
 
-<span class="nc">SimConfig</span>
-<span class="w">  </span><span class="p">.</span><span class="n">withConfig</span><span class="p">(</span><span class="n">spinalConfig</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">withWave</span>
-<span class="w">  </span><span class="p">.</span><span class="n">allOptimisation</span>
-<span class="w">  </span><span class="p">.</span><span class="n">workspacePath</span><span class="p">(</span><span class="s">&quot;~/tmp&quot;</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span>
-<span class="w">  </span><span class="p">.</span><span class="n">doSim</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">    </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nc">SimConfig</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">withConfig</span><span class="p">(</span><span class="n">spinalConfig</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">withWave</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">allOptimisation</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">workspacePath</span><span class="p">(</span><span class="s">&quot;~/tmp&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="n">doSim</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Simulation code here</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>这是一个模板，其中仿真过程在主仿真线程执行完成后结束：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSamplingWhere</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
-<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSamplingWhere</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>这是一个模板，其中仿真过程通过显式调用 <cite>simSuccess()</cite> 结束：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSimUntilVoid</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="w">  </span><span class="n">fork</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSamplingWhere</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
-<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">simSuccess</span><span class="p">()</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSimUntilVoid</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">fork</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSamplingWhere</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">simSuccess</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>注意它是否等同于：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
-<span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="w">  </span><span class="n">fork</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSamplingWhere</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
-<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">simSuccess</span><span class="p">()</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">).</span><span class="n">doSim</span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">fork</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">waitSamplingWhere</span><span class="p">(</span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">simSuccess</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="n">simThread</span><span class="p">.</span><span class="n">suspend</span><span class="p">()</span><span class="w"> </span><span class="c1">// Avoid the &quot;doSim&quot; completion</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>默认情况下，仿真文件应存放在 $WORKSPACE/$COMPILED 指定的目录中。</p>
@@ -1380,15 +1384,15 @@
 </section>
 <section id="running-multiple-tests-on-the-same-hardware">
 <h2>在同一硬件上运行多个测试<a class="headerlink" href="#running-multiple-tests-on-the-same-hardware" title="此标题的永久链接"></a></h2>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">compiled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Dut</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">compiled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Dut</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">compiled</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;testA&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="n">compiled</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;testA&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
 <span class="w">   </span><span class="c1">// Simulation code here</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">compiled</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;testB&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="n">compiled</span><span class="p">.</span><span class="n">doSim</span><span class="p">(</span><span class="s">&quot;testB&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
 <span class="w">   </span><span class="c1">// Simulation code here</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1397,9 +1401,9 @@
 <p>在仿真过程中的任何时刻，您都可以调用 <code class="docutils literal notranslate"><span class="pre">simSuccess</span></code> 或 <code class="docutils literal notranslate"><span class="pre">simFailure</span></code> 来结束它。</p>
 <p>当仿真时间太长时，可能会导致仿真失败，例如，因为测试平台正在等待从未发生的条件。为此，请调用 <code class="docutils literal notranslate"><span class="pre">SimTimeout(maxDuration)</span></code> 函数设置超时时间，其中 <code class="docutils literal notranslate"><span class="pre">maxDuration</span></code> 是仿真应被视为失败的时间（以仿真时间单位表示）。</p>
 <p>例如，要使仿真在持续 1000 个时钟周期后失败：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
-<span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
-<span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">period</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="n">period</span><span class="p">)</span><span class="w"></span>
+<span class="nc">SimTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">period</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1407,8 +1411,8 @@
 <h2>在失败之前捕获给定时间窗内的波形<a class="headerlink" href="#capturing-wave-for-a-given-window-before-failure" title="此标题的永久链接"></a></h2>
 <p>如果您有一个很长时间的仿真，并且您不想捕获所有波形（太多错误，太慢），那么您主要有两种方法可以做到这一点。</p>
 <p>要么您已经知道模拟在哪个 <code class="docutils literal notranslate"><span class="pre">simTime</span></code> 失败，在这种情况下您可以在测试平台中执行以下操作：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">disableSimWave</span><span class="p">()</span>
-<span class="n">delayed</span><span class="p">(</span><span class="n">timeFromWhichIWantToCapture</span><span class="p">)(</span><span class="n">enableSimWave</span><span class="p">())</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">disableSimWave</span><span class="p">()</span><span class="w"></span>
+<span class="n">delayed</span><span class="p">(</span><span class="n">timeFromWhichIWantToCapture</span><span class="p">)(</span><span class="n">enableSimWave</span><span class="p">())</span><span class="w"></span>
 </pre></div>
 </div>
 <p>或者，您可以运行双步锁仿真，其中一个仿真的运行比另一个仿真的运行稍有延迟，一旦领先的模拟出现故障，它将开始记录波形。</p>
@@ -1420,30 +1424,30 @@
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">sim</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">misc</span><span class="p">.</span><span class="nn">test</span><span class="p">.</span><span class="nc">DualSimTracer</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Toplevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="p">}</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Toplevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">Example</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">compiled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withFstWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Toplevel</span><span class="p">())</span>
+<span class="k">object</span><span class="w"> </span><span class="nc">Example</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">compiled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SimConfig</span><span class="p">.</span><span class="n">withFstWave</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Toplevel</span><span class="p">())</span><span class="w"></span>
 
-<span class="w">  </span><span class="nc">DualSimTracer</span><span class="p">(</span><span class="n">compiled</span><span class="p">,</span><span class="w"> </span><span class="n">window</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">){</span><span class="n">dut</span><span class="o">=&gt;</span>
-<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">onSamplings</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span>
+<span class="w">  </span><span class="nc">DualSimTracer</span><span class="p">(</span><span class="n">compiled</span><span class="p">,</span><span class="w"> </span><span class="n">window</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">){</span><span class="n">dut</span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">forkStimulus</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">dut</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">onSamplings</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dut</span><span class="p">.</span><span class="n">counter</span><span class="p">.</span><span class="n">toInt</span><span class="w"></span>
 
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mh">0x1000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="s">f&quot;Value=0x</span><span class="si">$</span><span class="n">value</span><span class="s">%x at </span><span class="si">${</span><span class="n">simTime</span><span class="p">()</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mh">0x1000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="s">f&quot;Value=0x</span><span class="si">$</span><span class="n">value</span><span class="s">%x at </span><span class="si">${</span><span class="n">simTime</span><span class="p">()</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">      </span><span class="c1">// Throw a simulation failure after 64K cycles</span>
-<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0xFFFF</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">simFailure</span><span class="p">()</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0xFFFF</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">simFailure</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>这将生成以下文件结构：</p>

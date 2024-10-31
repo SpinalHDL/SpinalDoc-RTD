@@ -994,22 +994,22 @@
 <img alt="../../../../_images/pinsec_hardware.svg" class="align-center" src="../../../../_images/pinsec_hardware.svg" /></section>
 <section id="defining-all-io">
 <h1>Defining all IO<a class="headerlink" href="#defining-all-io" title="Permalink to this heading"></a></h1>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Clocks / reset</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">asyncReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">axiClk</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vgaClk</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">asyncReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">axiClk</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vgaClk</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Main components IO</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">jtag</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Jtag</span><span class="p">())</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sdram</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">SdramInterface</span><span class="p">(</span><span class="nc">IS42x320D</span><span class="p">.</span><span class="n">layout</span><span class="p">))</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">jtag</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Jtag</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">sdram</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">SdramInterface</span><span class="p">(</span><span class="nc">IS42x320D</span><span class="p">.</span><span class="n">layout</span><span class="p">))</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Peripherals IO</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">gpioA</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">TriStateArray</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w">   </span><span class="c1">//Each pin has it&#39;s individual output enable control</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">gpioB</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">TriStateArray</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">uart</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Uart</span><span class="p">())</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vga</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Vga</span><span class="p">(</span><span class="nc">RgbConfig</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">)))</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">gpioB</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">TriStateArray</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">uart</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Uart</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vga</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Vga</span><span class="p">(</span><span class="nc">RgbConfig</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">)))</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1059,71 +1059,71 @@
 <section id="reset-controller">
 <h2>Reset controller<a class="headerlink" href="#reset-controller" title="Permalink to this heading"></a></h2>
 <p>First we need to define the reset controller clock domain, which has no reset wire, but use the FPGA bitstream loading to setup flipflops.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">resetCtrlClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span>
-<span class="w">  </span><span class="n">clock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">axiClk</span><span class="p">,</span>
-<span class="w">  </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomainConfig</span><span class="p">(</span>
-<span class="w">    </span><span class="n">resetKind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BOOT</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">resetCtrlClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">clock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">axiClk</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomainConfig</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">resetKind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BOOT</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then we can define a simple reset controller under this clock domain.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">resetCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">resetCtrlClockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">axiResetUnbuffered</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">coreResetUnbuffered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">resetCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">resetCtrlClockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">axiResetUnbuffered</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">coreResetUnbuffered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Implement an counter to keep the reset axiResetOrder high 64 cycles</span>
 <span class="w">  </span><span class="c1">// Also this counter will automaticly do a reset when the system boot.</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="n">axiResetCounter</span><span class="p">.</span><span class="n">range</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">)){</span>
-<span class="w">    </span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="n">axiResetUnbuffered</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="nc">BufferCC</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">asyncReset</span><span class="p">)){</span>
-<span class="w">    </span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">=/=</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="n">axiResetCounter</span><span class="p">.</span><span class="n">range</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="p">)){</span><span class="w"></span>
+<span class="w">    </span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">axiResetUnbuffered</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="nc">BufferCC</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">asyncReset</span><span class="p">)){</span><span class="w"></span>
+<span class="w">    </span><span class="n">axiResetCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//When an axiResetOrder happen, the core reset will as well</span>
-<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">axiResetUnbuffered</span><span class="p">){</span>
-<span class="w">    </span><span class="n">coreResetUnbuffered</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">axiResetUnbuffered</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">coreResetUnbuffered</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//Create all reset used later in the design</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">axiReset</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">axiResetUnbuffered</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">coreReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">coreResetUnbuffered</span><span class="p">)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vgaReset</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">BufferCC</span><span class="p">(</span><span class="n">axiResetUnbuffered</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">axiReset</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">axiResetUnbuffered</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">coreReset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">coreResetUnbuffered</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">vgaReset</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">BufferCC</span><span class="p">(</span><span class="n">axiResetUnbuffered</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="systems-clock-domains">
 <h2>Systems clock domains<a class="headerlink" href="#systems-clock-domains" title="Permalink to this heading"></a></h2>
 <p>Now that the reset controller is implemented, we can define clock domain for all part of Briey :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axiClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span>
-<span class="w">  </span><span class="n">clock</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">axiClk</span><span class="p">,</span>
-<span class="w">  </span><span class="n">reset</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">axiReset</span><span class="p">,</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axiClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">clock</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">axiClk</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">reset</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">axiReset</span><span class="p">,</span><span class="w"></span>
 <span class="w">  </span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">FixedFrequency</span><span class="p">(</span><span class="mi">50</span><span class="w"> </span><span class="nc">MHz</span><span class="p">)</span><span class="w"> </span><span class="c1">//The frequency information is used by the SDRAM controller</span>
-<span class="p">)</span>
+<span class="p">)</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span>
-<span class="w">  </span><span class="n">clock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">axiClk</span><span class="p">,</span>
-<span class="w">  </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">coreReset</span>
-<span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">clock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">axiClk</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">coreReset</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">vgaClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span>
-<span class="w">  </span><span class="n">clock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">vgaClk</span><span class="p">,</span>
-<span class="w">  </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">vgaReset</span>
-<span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">vgaClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">clock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">vgaClk</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">vgaReset</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">jtagClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span>
-<span class="w">  </span><span class="n">clock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">jtag</span><span class="p">.</span><span class="n">tck</span>
-<span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">jtagClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">clock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">jtag</span><span class="p">.</span><span class="n">tck</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Also all the core system of Briey will be defined into a <code class="docutils literal notranslate"><span class="pre">axi</span></code> clocked area :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">axiClockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">axiClockDomain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">//Here will come the rest of Briey</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1140,47 +1140,47 @@
 <section id="riscv-cpu">
 <h2>RISCV CPU<a class="headerlink" href="#riscv-cpu" title="Permalink to this heading"></a></h2>
 <p>The RISCV CPU used in Briey as many parametrization possibilities :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">coreConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CoreConfig</span><span class="p">(</span>
-<span class="w">    </span><span class="n">pcWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">    </span><span class="n">addrWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">    </span><span class="n">startAddress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00000000</span><span class="p">,</span>
-<span class="w">    </span><span class="n">regFileReadyKind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sync</span><span class="p">,</span>
-<span class="w">    </span><span class="n">branchPrediction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dynamic</span><span class="p">,</span>
-<span class="w">    </span><span class="n">bypassExecute0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">bypassExecute1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">bypassWriteBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">bypassWriteBackBuffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">collapseBubble</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="n">fastFetchCmdPcCalculation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">dynamicBranchPredictorCacheSizeLog2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
-<span class="w">  </span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coreClockDomain</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">coreConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CoreConfig</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">pcWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">addrWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">startAddress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00000000</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">regFileReadyKind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sync</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">branchPrediction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dynamic</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">bypassExecute0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">bypassExecute1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">bypassWriteBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">bypassWriteBackBuffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">collapseBubble</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">fastFetchCmdPcCalculation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">dynamicBranchPredictorCacheSizeLog2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//The CPU has a systems of plugin which allow to add new feature into the core.</span>
 <span class="w">  </span><span class="c1">//Those extension are not directly implemented into the core, but are kind of additive logic patch defined in a separated area.</span>
-<span class="w">  </span><span class="n">coreConfig</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MulExtension</span><span class="p">)</span>
-<span class="w">  </span><span class="n">coreConfig</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">DivExtension</span><span class="p">)</span>
-<span class="w">  </span><span class="n">coreConfig</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">BarrelShifterFullExtension</span><span class="p">)</span>
+<span class="w">  </span><span class="n">coreConfig</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MulExtension</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">coreConfig</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">DivExtension</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">coreConfig</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">BarrelShifterFullExtension</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">iCacheConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">InstructionCacheConfig</span><span class="p">(</span>
-<span class="w">    </span><span class="n">cacheSize</span><span class="w"> </span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
-<span class="w">    </span><span class="n">bytePerLine</span><span class="w"> </span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">iCacheConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">InstructionCacheConfig</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">cacheSize</span><span class="w"> </span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">bytePerLine</span><span class="w"> </span><span class="o">=</span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="n">wayCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="c1">//Can only be one for the moment</span>
-<span class="w">    </span><span class="n">wrappedMemAccess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">    </span><span class="n">cpuDataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">    </span><span class="n">memDataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span>
-<span class="w">  </span><span class="p">)</span>
+<span class="w">    </span><span class="n">wrappedMemAccess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">cpuDataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">memDataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">//There is the instanciation of the CPU by using all those construction parameters</span>
-<span class="w">  </span><span class="k">new</span><span class="w"> </span><span class="nc">RiscvAxi4</span><span class="p">(</span>
-<span class="w">    </span><span class="n">coreConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coreConfig</span><span class="p">,</span>
-<span class="w">    </span><span class="n">iCacheConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iCacheConfig</span><span class="p">,</span>
-<span class="w">    </span><span class="n">dCacheConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">    </span><span class="n">debug</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">interruptCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">new</span><span class="w"> </span><span class="nc">RiscvAxi4</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">coreConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coreConfig</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">iCacheConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iCacheConfig</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">dCacheConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">debug</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">interruptCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1188,61 +1188,61 @@
 <h2>On chip RAM<a class="headerlink" href="#on-chip-ram" title="Permalink to this heading"></a></h2>
 <p>The instanciation of the AXI4 on chip RAM is very simple.</p>
 <p>In fact it’s not an AXI4 but an Axi4Shared, which mean that a ARW channel replace the AR and AW ones. This solution use less area while being fully interoperable with full AXI4.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4SharedOnChipRam</span><span class="p">(</span>
-<span class="w">  </span><span class="n">dataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">  </span><span class="n">byteCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">,</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4SharedOnChipRam</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">dataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">byteCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">,</span><span class="w"></span>
 <span class="w">  </span><span class="n">idWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w">     </span><span class="c1">//Specify the AXI4 ID width.</span>
-<span class="p">)</span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="sdram-controller">
 <h2>SDRAM controller<a class="headerlink" href="#sdram-controller" title="Permalink to this heading"></a></h2>
 <p>First you need to define the layout and timings of your SDRAM device. On the DE1-SOC, the SDRAM device is an IS42x320D one.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">IS42x320D</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SdramLayout</span><span class="p">(</span>
-<span class="w">    </span><span class="n">bankWidth</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-<span class="w">    </span><span class="n">columnWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">    </span><span class="n">rowWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span>
-<span class="w">    </span><span class="n">dataWidth</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span>
-<span class="w">  </span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">IS42x320D</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SdramLayout</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">bankWidth</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">columnWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">rowWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">dataWidth</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">timingGrade7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SdramTimings</span><span class="p">(</span>
-<span class="w">    </span><span class="n">bootRefreshCount</span><span class="w"> </span><span class="o">=</span><span class="w">   </span><span class="mi">8</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tPOW</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="n">us</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tREF</span><span class="w">             </span><span class="o">=</span><span class="w">  </span><span class="mi">64</span><span class="w"> </span><span class="n">ms</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tRC</span><span class="w">              </span><span class="o">=</span><span class="w">  </span><span class="mi">60</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tRFC</span><span class="w">             </span><span class="o">=</span><span class="w">  </span><span class="mi">60</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tRAS</span><span class="w">             </span><span class="o">=</span><span class="w">  </span><span class="mi">37</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tRP</span><span class="w">              </span><span class="o">=</span><span class="w">  </span><span class="mi">15</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tRCD</span><span class="w">             </span><span class="o">=</span><span class="w">  </span><span class="mi">15</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span>
-<span class="w">    </span><span class="n">cMRD</span><span class="w">             </span><span class="o">=</span><span class="w">   </span><span class="mi">2</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tWR</span><span class="w">              </span><span class="o">=</span><span class="w">  </span><span class="mi">10</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span>
-<span class="w">    </span><span class="n">cWR</span><span class="w">              </span><span class="o">=</span><span class="w">   </span><span class="mi">1</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">timingGrade7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SdramTimings</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">bootRefreshCount</span><span class="w"> </span><span class="o">=</span><span class="w">   </span><span class="mi">8</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tPOW</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="n">us</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tREF</span><span class="w">             </span><span class="o">=</span><span class="w">  </span><span class="mi">64</span><span class="w"> </span><span class="n">ms</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tRC</span><span class="w">              </span><span class="o">=</span><span class="w">  </span><span class="mi">60</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tRFC</span><span class="w">             </span><span class="o">=</span><span class="w">  </span><span class="mi">60</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tRAS</span><span class="w">             </span><span class="o">=</span><span class="w">  </span><span class="mi">37</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tRP</span><span class="w">              </span><span class="o">=</span><span class="w">  </span><span class="mi">15</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tRCD</span><span class="w">             </span><span class="o">=</span><span class="w">  </span><span class="mi">15</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">cMRD</span><span class="w">             </span><span class="o">=</span><span class="w">   </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tWR</span><span class="w">              </span><span class="o">=</span><span class="w">  </span><span class="mi">10</span><span class="w"> </span><span class="n">ns</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">cWR</span><span class="w">              </span><span class="o">=</span><span class="w">   </span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then you can used those definition to parametrize the SDRAM controller instantiation.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">sdramCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4SharedSdramCtrl</span><span class="p">(</span>
-<span class="w">  </span><span class="n">axiDataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">  </span><span class="n">axiIdWidth</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<span class="w">  </span><span class="n">layout</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">IS42x320D</span><span class="p">.</span><span class="n">layout</span><span class="p">,</span>
-<span class="w">  </span><span class="n">timing</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">IS42x320D</span><span class="p">.</span><span class="n">timingGrade7</span><span class="p">,</span>
-<span class="w">  </span><span class="nc">CAS</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">sdramCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4SharedSdramCtrl</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">axiDataWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">axiIdWidth</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">layout</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">IS42x320D</span><span class="p">.</span><span class="n">layout</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">timing</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">IS42x320D</span><span class="p">.</span><span class="n">timingGrade7</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nc">CAS</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="jtag-controller">
 <h2>JTAG controller<a class="headerlink" href="#jtag-controller" title="Permalink to this heading"></a></h2>
 <p>The JTAG controller could be used to access memories and debug the CPU from an PC.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">jtagCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">JtagAxi4SharedDebugger</span><span class="p">(</span><span class="nc">SystemDebuggerConfig</span><span class="p">(</span>
-<span class="w">  </span><span class="n">memAddressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">  </span><span class="n">memDataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">  </span><span class="n">remoteCmdWidth</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">  </span><span class="n">jtagClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jtagClockDomain</span>
-<span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">jtagCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">JtagAxi4SharedDebugger</span><span class="p">(</span><span class="nc">SystemDebuggerConfig</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">memAddressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">memDataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">remoteCmdWidth</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">jtagClockDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jtagClockDomain</span><span class="w"></span>
+<span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1258,13 +1258,13 @@
 </ul>
 <section id="gpio">
 <h2>GPIO<a class="headerlink" href="#gpio" title="Permalink to this heading"></a></h2>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">gpioACtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Gpio</span><span class="p">(</span>
-<span class="w">  </span><span class="n">gpioWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">gpioACtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Gpio</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">gpioWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">gpioBCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Gpio</span><span class="p">(</span>
-<span class="w">  </span><span class="n">gpioWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span>
-<span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">gpioBCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Gpio</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">gpioWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1277,47 +1277,47 @@
 <li><p>Three 16 bits timers</p></li>
 </ul>
 <p>All of them are packed into the BrieyTimerCtrl component.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">timerCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BrieyTimerCtrl</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">timerCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BrieyTimerCtrl</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="uart-controller">
 <h2>UART controller<a class="headerlink" href="#uart-controller" title="Permalink to this heading"></a></h2>
 <p>First we need to define a configuration for our UART controller :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">uartCtrlConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UartCtrlMemoryMappedConfig</span><span class="p">(</span>
-<span class="w">  </span><span class="n">uartCtrlConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UartCtrlGenerics</span><span class="p">(</span>
-<span class="w">    </span><span class="n">dataWidthMax</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
-<span class="w">    </span><span class="n">clockDividerWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<span class="w">    </span><span class="n">preSamplingSize</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">    </span><span class="n">samplingSize</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">    </span><span class="n">postSamplingSize</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">  </span><span class="p">),</span>
-<span class="w">  </span><span class="n">txFifoDepth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span>
-<span class="w">  </span><span class="n">rxFifoDepth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">uartCtrlConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UartCtrlMemoryMappedConfig</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">uartCtrlConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UartCtrlGenerics</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">dataWidthMax</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">clockDividerWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">preSamplingSize</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">samplingSize</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">postSamplingSize</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">  </span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">txFifoDepth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">rxFifoDepth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then we can use it to instantiate the UART controller</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">uartCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3UartCtrl</span><span class="p">(</span><span class="n">uartCtrlConfig</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">uartCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3UartCtrl</span><span class="p">(</span><span class="n">uartCtrlConfig</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="vga-controller">
 <h2>VGA controller<a class="headerlink" href="#vga-controller" title="Permalink to this heading"></a></h2>
 <p>First we need to define a configuration for our VGA controller :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">vgaCtrlConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4VgaCtrlGenerics</span><span class="p">(</span>
-<span class="w">  </span><span class="n">axiAddressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">  </span><span class="n">axiDataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">vgaCtrlConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4VgaCtrlGenerics</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">axiAddressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">axiDataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
 <span class="w">  </span><span class="n">burstLength</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">           </span><span class="c1">//In Axi words</span>
 <span class="w">  </span><span class="n">frameSizeMax</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">2048</span><span class="o">*</span><span class="mi">1512</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="c1">//In byte</span>
 <span class="w">  </span><span class="n">fifoSize</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span><span class="w">         </span><span class="c1">//In axi words</span>
-<span class="w">  </span><span class="n">rgbConfig</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
-<span class="w">  </span><span class="n">vgaClock</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">vgaClockDomain</span>
-<span class="p">)</span>
+<span class="w">  </span><span class="n">rgbConfig</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">RgbConfig</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">vgaClock</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">vgaClockDomain</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then we can use it to instantiate the VGA controller</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">vgaCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4VgaCtrl</span><span class="p">(</span><span class="n">vgaCtrlConfig</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">vgaCtrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4VgaCtrl</span><span class="p">(</span><span class="n">vgaCtrlConfig</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1333,11 +1333,11 @@
 <section id="axi4-to-apb3-bridge">
 <h2>AXI4 to APB3 bridge<a class="headerlink" href="#axi4-to-apb3-bridge" title="Permalink to this heading"></a></h2>
 <p>This bridge will be used to connect low bandwidth peripherals to the AXI crossbar.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">apbBridge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4SharedToApb3Bridge</span><span class="p">(</span>
-<span class="w">  </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<span class="w">  </span><span class="n">dataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span>
-<span class="w">  </span><span class="n">idWidth</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">apbBridge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4SharedToApb3Bridge</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">dataWidth</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">idWidth</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1345,30 +1345,30 @@
 <h2>AXI4 crossbar<a class="headerlink" href="#axi4-crossbar" title="Permalink to this heading"></a></h2>
 <p>The AXI4 crossbar that interconnect AXI4 masters and slaves together  is generated by using an factory.
 The concept of this factory is to create it, then call many function on it to configure it, and finaly call the <code class="docutils literal notranslate"><span class="pre">build</span></code> function to ask the factory to generate the corresponding hardware :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axiCrossbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4CrossbarFactory</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">axiCrossbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Axi4CrossbarFactory</span><span class="p">()</span><span class="w"></span>
 <span class="c1">// Where you will have to call function the the axiCrossbar factory to populate its configuration</span>
-<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">build</span><span class="p">()</span>
+<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">build</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
 <p>First you need to populate slaves interfaces :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//          Slave  -&gt; (base address,  size) ,</span>
 
-<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addSlaves</span><span class="p">(</span>
-<span class="w">  </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w">       </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x00000000</span><span class="nc">L</span><span class="p">,</span><span class="w">   </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">  </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x40000000</span><span class="nc">L</span><span class="p">,</span><span class="w">  </span><span class="mi">64</span><span class="w"> </span><span class="nc">MB</span><span class="p">),</span>
-<span class="w">  </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0xF0000000</span><span class="nc">L</span><span class="p">,</span><span class="w">   </span><span class="mi">1</span><span class="w"> </span><span class="nc">MB</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addSlaves</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w">       </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x00000000</span><span class="nc">L</span><span class="p">,</span><span class="w">   </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x40000000</span><span class="nc">L</span><span class="p">,</span><span class="w">  </span><span class="mi">64</span><span class="w"> </span><span class="nc">MB</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0xF0000000</span><span class="nc">L</span><span class="p">,</span><span class="w">   </span><span class="mi">1</span><span class="w"> </span><span class="nc">MB</span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then you need to populate interconnections between slaves and masters :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//         Master -&gt; List of slaves which are accessible</span>
 
-<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addConnections</span><span class="p">(</span>
-<span class="w">  </span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">i</span><span class="w">       </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">),</span>
-<span class="w">  </span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">d</span><span class="w">       </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">),</span>
-<span class="w">  </span><span class="n">jtagCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">),</span>
-<span class="w">  </span><span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="w">            </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addConnections</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">i</span><span class="w">       </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">d</span><span class="w">       </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">jtagCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">ram</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,</span><span class="w"> </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="w">            </span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then to reduce combinatorial path length and have a good design FMax, you can ask the factory to insert pipelining stages between itself a given master or slave :</p>
@@ -1380,37 +1380,37 @@ The concept of this factory is to create it, then call many function on it to co
 </div>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Pipeline the connection between the crossbar and the apbBridge.io.axi</span>
-<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addPipelining</span><span class="p">(</span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,(</span><span class="n">crossbar</span><span class="p">,</span><span class="n">bridge</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">sharedCmd</span><span class="p">.</span><span class="n">halfPipe</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">bridge</span><span class="p">.</span><span class="n">sharedCmd</span>
-<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">writeData</span><span class="p">.</span><span class="n">halfPipe</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">bridge</span><span class="p">.</span><span class="n">writeData</span>
-<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">writeRsp</span><span class="w">             </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">bridge</span><span class="p">.</span><span class="n">writeRsp</span>
-<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">readRsp</span><span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">bridge</span><span class="p">.</span><span class="n">readRsp</span>
-<span class="p">})</span>
+<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addPipelining</span><span class="p">(</span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,(</span><span class="n">crossbar</span><span class="p">,</span><span class="n">bridge</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">sharedCmd</span><span class="p">.</span><span class="n">halfPipe</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">bridge</span><span class="p">.</span><span class="n">sharedCmd</span><span class="w"></span>
+<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">writeData</span><span class="p">.</span><span class="n">halfPipe</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">bridge</span><span class="p">.</span><span class="n">writeData</span><span class="w"></span>
+<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">writeRsp</span><span class="w">             </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">bridge</span><span class="p">.</span><span class="n">writeRsp</span><span class="w"></span>
+<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">readRsp</span><span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">bridge</span><span class="p">.</span><span class="n">readRsp</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
 
 <span class="c1">//Pipeline the connection between the crossbar and the sdramCtrl.io.axi</span>
-<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addPipelining</span><span class="p">(</span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,(</span><span class="n">crossbar</span><span class="p">,</span><span class="n">ctrl</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">sharedCmd</span><span class="p">.</span><span class="n">halfPipe</span><span class="p">()</span><span class="w">  </span><span class="o">&gt;&gt;</span><span class="w">  </span><span class="n">ctrl</span><span class="p">.</span><span class="n">sharedCmd</span>
-<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">writeData</span><span class="w">            </span><span class="o">&gt;/-&gt;</span><span class="w"> </span><span class="n">ctrl</span><span class="p">.</span><span class="n">writeData</span>
-<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">writeRsp</span><span class="w">              </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="n">ctrl</span><span class="p">.</span><span class="n">writeRsp</span>
-<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">readRsp</span><span class="w">               </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="n">ctrl</span><span class="p">.</span><span class="n">readRsp</span>
-<span class="p">})</span>
+<span class="n">axiCrossbar</span><span class="p">.</span><span class="n">addPipelining</span><span class="p">(</span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">axi</span><span class="p">,(</span><span class="n">crossbar</span><span class="p">,</span><span class="n">ctrl</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">sharedCmd</span><span class="p">.</span><span class="n">halfPipe</span><span class="p">()</span><span class="w">  </span><span class="o">&gt;&gt;</span><span class="w">  </span><span class="n">ctrl</span><span class="p">.</span><span class="n">sharedCmd</span><span class="w"></span>
+<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">writeData</span><span class="w">            </span><span class="o">&gt;/-&gt;</span><span class="w"> </span><span class="n">ctrl</span><span class="p">.</span><span class="n">writeData</span><span class="w"></span>
+<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">writeRsp</span><span class="w">              </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="n">ctrl</span><span class="p">.</span><span class="n">writeRsp</span><span class="w"></span>
+<span class="w">  </span><span class="n">crossbar</span><span class="p">.</span><span class="n">readRsp</span><span class="w">               </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="n">ctrl</span><span class="p">.</span><span class="n">readRsp</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="apb3-decoder">
 <h2>APB3 decoder<a class="headerlink" href="#apb3-decoder" title="Permalink to this heading"></a></h2>
 <p>The interconnection between the APB3 bridge and all peripherals is done via an APB3Decoder :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">apbDecoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Decoder</span><span class="p">(</span>
-<span class="w">  </span><span class="n">master</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">,</span>
-<span class="w">  </span><span class="n">slaves</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span>
-<span class="w">    </span><span class="n">gpioACtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x00000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">gpioBCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x01000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x10000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">timerCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x20000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w">   </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x30000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span>
-<span class="w">    </span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">debugBus</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0xF0000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">)</span>
-<span class="w">  </span><span class="p">)</span>
-<span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">apbDecoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Apb3Decoder</span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">master</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">apbBridge</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">slaves</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">gpioACtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x00000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">gpioBCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x01000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x10000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">timerCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x20000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">apb</span><span class="w">   </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0x30000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">debugBus</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="mh">0xF0000</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">kB</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1418,22 +1418,22 @@ The concept of this factory is to create it, then call many function on it to co
 <section id="misc">
 <h1>Misc<a class="headerlink" href="#misc" title="Permalink to this heading"></a></h1>
 <p>To connect all toplevel IO to components, the following code is required :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">gpioA</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">gpioACtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">gpio</span>
-<span class="n">io</span><span class="p">.</span><span class="n">gpioB</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">gpioBCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">gpio</span>
-<span class="n">io</span><span class="p">.</span><span class="n">jtag</span><span class="w">  </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">jtagCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">jtag</span>
-<span class="n">io</span><span class="p">.</span><span class="n">uart</span><span class="w">  </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">uart</span>
-<span class="n">io</span><span class="p">.</span><span class="n">sdram</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">sdram</span>
-<span class="n">io</span><span class="p">.</span><span class="n">vga</span><span class="w">   </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">vga</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">gpioA</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">gpioACtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">gpio</span><span class="w"></span>
+<span class="n">io</span><span class="p">.</span><span class="n">gpioB</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">gpioBCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">gpio</span><span class="w"></span>
+<span class="n">io</span><span class="p">.</span><span class="n">jtag</span><span class="w">  </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">jtagCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">jtag</span><span class="w"></span>
+<span class="n">io</span><span class="p">.</span><span class="n">uart</span><span class="w">  </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">uart</span><span class="w"></span>
+<span class="n">io</span><span class="p">.</span><span class="n">sdram</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">sdramCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">sdram</span><span class="w"></span>
+<span class="n">io</span><span class="p">.</span><span class="n">vga</span><span class="w">   </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">axi</span><span class="p">.</span><span class="n">vgaCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">vga</span><span class="w"></span>
 </pre></div>
 </div>
 <p>And finally some connections between components are required like interrupts and core debug module resets</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span>
-<span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">timerCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="w"></span>
+<span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">timerCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="w"></span>
 
-<span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">debugResetIn</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">axiReset</span>
-<span class="n">when</span><span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">debugResetOut</span><span class="p">){</span>
-<span class="w">  </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">coreResetUnbuffered</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
-<span class="p">}</span>
+<span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">debugResetIn</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">axiReset</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">debugResetOut</span><span class="p">){</span><span class="w"></span>
+<span class="w">  </span><span class="n">resetCtrl</span><span class="p">.</span><span class="n">coreResetUnbuffered</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

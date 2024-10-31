@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1229,8 +1233,8 @@
 <section id="example">
 <h2>示例<a class="headerlink" href="#example" title="此标题的永久链接"></a></h2>
 <p>例如下面的代码：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">42</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">42</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>会导致如下错误：</p>
@@ -1245,12 +1249,12 @@
 <h2>特殊情况<a class="headerlink" href="#specifying-exceptions" title="此标题的永久链接"></a></h2>
 <p>在某些情况下，由于设计参数化，将值与更大的常量进行比较并获得静态已知的 <code class="docutils literal notranslate"><span class="pre">True/False</span></code> 结果是有意义的。</p>
 <p>您可以选择将与超出范围的常量进行比较的一个实例列入专门的白名单。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">((</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">42</span><span class="p">).</span><span class="n">allowOutOfRangeLiterals</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">((</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">42</span><span class="p">).</span><span class="n">allowOutOfRangeLiterals</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>或者，您可以允许整个设计对超出范围的常量进行比较。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">allowOutOfRangeLiterals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">allowOutOfRangeLiterals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>

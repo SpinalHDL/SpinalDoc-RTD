@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1251,33 +1255,33 @@ from the same scope results in an assignment overlap.  SpinalHDL will assume
 this is a unintentional design error by default and halt elaboration with error.
 For special use-cases assignment overlap can be programmatically permitted on a case by case basis.
 (see <a class="reference internal" href="../Design%20errors/assignment_overlap.html"><span class="doc">赋值覆盖(Assignment overlap)</span></a>).</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
 <span class="c1">// a := 1 // this would cause an `assignment overlap` error,</span>
 <span class="w">          </span><span class="c1">// if manually overridden the assignment would take assignment priority</span>
-<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span>
+<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
 
-<span class="kd">var</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">x</span><span class="w">      </span><span class="c1">// y read x with the value 0</span>
-<span class="n">x</span><span class="w"> </span><span class="o">\=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">x</span><span class="w"> </span><span class="o">\=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <span class="n">z</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">x</span><span class="w">      </span><span class="c1">// z read x with the value 1</span>
 
 <span class="c1">// Automatic connection between two UART interfaces.</span>
-<span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">uart</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">uart</span>
+<span class="n">uartCtrl</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">uart</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">uart</span><span class="w"></span>
 </pre></div>
 </div>
 <p>它还支持线束赋值（将所有位信号转换为适当位宽的 <cite>Bits</cite> 类型的单位总线，然后在赋值表达式中使用更宽的形式）。在赋值表达式的左侧和右侧使用 <code class="docutils literal notranslate"><span class="pre">()</span></code> （Scala 元组语法）将多个信号捆绑在一起。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">12</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">e</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">f</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">SInt</span><span class="p">(</span><span class="mi">2</span><span class="w">  </span><span class="n">bits</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">12</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">e</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">f</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">SInt</span><span class="p">(</span><span class="mi">2</span><span class="w">  </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">()</span><span class="w"></span>
 
-<span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">asBits</span>
+<span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">asBits</span><span class="w"></span>
 <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">).</span><span class="n">asBits</span><span class="w">           </span><span class="c1">// both sides</span>
 <span class="n">g</span><span class="w">         </span><span class="o">:=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">).</span><span class="n">asBits</span><span class="w">  </span><span class="c1">// and on the right hand side</span>
 </pre></div>
@@ -1319,7 +1323,7 @@ For special use-cases assignment overlap can be programmatically permitted on a 
 <p>虽然示例代码片段显示了赋值语句的使用方法，但 resize 系列方法可以像任何普通 Scala 方法一样进行级联。</p>
 <p>在一种情况下，Spinal 会自动调整位宽的大小：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// U(3) creates an UInt of 2 bits, which doesn&#39;t match the left side (8 bits)</span>
-<span class="n">myUIntOf_8bits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">myUIntOf_8bits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">U</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>因为 <code class="docutils literal notranslate"><span class="pre">U(3)</span></code> 是一个“弱”位计数推断信号，SpinalHDL 会自动加宽它。这可以被认为在功能上等同于 <code class="docutils literal notranslate"><span class="pre">U(3,</span> <span class="pre">2</span> <span class="pre">bits).resized</span></code> ，但是请放心，如果场景需要缩小范围，SpinalHDL 将做正确的事情并报告错误。当尝试赋值 <code class="docutils literal notranslate"><span class="pre">myUIntOf_8bits``时，如果字面量需要</span> <span class="pre">9</span> <span class="pre">位（例如</span> <span class="pre">``U(0x100)</span></code>），则会报告错误。</p>
@@ -1331,52 +1335,52 @@ For special use-cases assignment overlap can be programmatically permitted on a 
 <section id="combinit">
 <h2>CombInit<a class="headerlink" href="#combinit" title="此标题的永久链接"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">CombInit</span></code> 可用于复制信号及其当前的组合逻辑赋值。主要用例是能够稍后覆盖复制后信号，而不影响原始信号。</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
-<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// At this point, a and b are evaluated to 2: they reference the same signal</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CombInit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CombInit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
 <span class="c1">// Here c and d are evaluated to 1</span>
-<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// At this point c === 1 and d === 2.</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>如果我们查看生成的 Verilog，会发现``b`` 不存在。由于它是引用的 <code class="docutils literal notranslate"><span class="pre">a</span></code> 的副本，因此这些变量指代相同的 Verilog 信号。</p>
-<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h01</span><span class="p">;</span>
-<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h02</span><span class="p">;</span>
-<span class="w">  </span><span class="k">end</span>
-<span class="k">end</span>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h01</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h02</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="k">assign</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h01</span><span class="p">;</span>
-<span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">  </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
-<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h02</span><span class="p">;</span>
-<span class="w">  </span><span class="k">end</span>
-<span class="k">end</span>
+<span class="k">assign</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h01</span><span class="p">;</span><span class="w"></span>
+<span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">  </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h02</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">CombInit</span></code> 在辅助函数中特别有用，可确保返回值不引用输入。</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// note that condition is an elaboration time constant</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">invertedIf</span><span class="p">(</span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Bits</span><span class="p">,</span><span class="w"> </span><span class="n">condition</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">):</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">~</span><span class="n">b</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nc">CombInit</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">invertedIf</span><span class="p">(</span><span class="n">b</span><span class="p">:</span><span class="w"> </span><span class="nc">Bits</span><span class="p">,</span><span class="w"> </span><span class="n">condition</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">):</span><span class="w"> </span><span class="nc">Bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">~</span><span class="n">b</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nc">CombInit</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">a2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">invertedIf</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">a2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">invertedIf</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="n">a2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="p">}</span>
+<span class="n">when</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">a2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Without <code class="docutils literal notranslate"><span class="pre">CombInit</span></code>, if <code class="docutils literal notranslate"><span class="pre">c</span></code> == false (but not if <code class="docutils literal notranslate"><span class="pre">c</span></code> == true), <code class="docutils literal notranslate"><span class="pre">a1</span></code> and <code class="docutils literal notranslate"><span class="pre">a2</span></code> reference the same signal and the zero assignment is also applied to <code class="docutils literal notranslate"><span class="pre">a1</span></code>.

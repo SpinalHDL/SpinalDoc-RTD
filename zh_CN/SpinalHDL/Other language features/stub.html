@@ -841,7 +841,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">您的自定义链接</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">组合能力（Composability）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">简单的CPU示例</a></li>
@@ -1223,40 +1227,40 @@
   <section id="stub">
 <h1>存根（Stub）<a class="headerlink" href="#stub" title="此标题的永久链接"></a></h1>
 <p>您可以将组件层次结构清空作为一个存根（stub）：</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SubSysModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span>
-<span class="w">   </span><span class="p">}</span>
-<span class="w">   </span><span class="n">io</span><span class="p">.</span><span class="n">dy</span><span class="w"> </span><span class="o">&lt;-&lt;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">dx</span>
-<span class="p">}</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SubSysModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
+<span class="w">   </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="n">io</span><span class="p">.</span><span class="n">dy</span><span class="w"> </span><span class="o">&lt;-&lt;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">dx</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">dut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">SubSysModule</span><span class="p">().</span><span class="n">stub</span><span class="w">   </span><span class="c1">// instance an SubSysModule as empty stub</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>例如，它将生成以下 Verilog 代码：</p>
-<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">module</span><span class="w"> </span><span class="n">SubSysModule</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">io_dx_valid</span><span class="p">,</span>
-<span class="w">  </span><span class="k">output</span><span class="w">              </span><span class="n">io_dx_ready</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">      </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">io_dx_payload</span><span class="p">,</span>
-<span class="w">  </span><span class="k">output</span><span class="w">              </span><span class="n">io_dy_valid</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">io_dy_ready</span><span class="p">,</span>
-<span class="w">  </span><span class="k">output</span><span class="w">     </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">io_dy_payload</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">clk</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">reset</span>
-<span class="p">);</span>
+<div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="k">module</span><span class="w"> </span><span class="n">SubSysModule</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">io_dx_valid</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">output</span><span class="w">              </span><span class="n">io_dx_ready</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">      </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">io_dx_payload</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">output</span><span class="w">              </span><span class="n">io_dy_valid</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">io_dy_ready</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">output</span><span class="w">     </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">io_dy_payload</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">clk</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">input</span><span class="w">               </span><span class="n">reset</span><span class="w"></span>
+<span class="p">);</span><span class="w"></span>
 
 
-<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dx_ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
-<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dy_valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
-<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dy_payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dx_ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dy_valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">io_dy_payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">endmodule</span>
+<span class="k">endmodule</span><span class="w"></span>
 </pre></div>
 </div>
 <p>您还可以清空顶部组件</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Pinsec</span><span class="p">(</span><span class="mi">500</span><span class="w"> </span><span class="nc">MHz</span><span class="p">).</span><span class="n">stub</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Pinsec</span><span class="p">(</span><span class="mi">500</span><span class="w"> </span><span class="nc">MHz</span><span class="p">).</span><span class="n">stub</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p><cite>stub</cite> 有什么作用？</p>

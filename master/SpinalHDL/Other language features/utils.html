@@ -840,7 +840,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#your-custom-link">Your custom Link</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builder">Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#builders">Builders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagepipeline">StagePipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#stagectrlpipeline">StageCtrlPipeline</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">Simple CPU example</a></li>
@@ -1291,14 +1295,14 @@ This version places the first element of the list into the LSB, and the last int
 </ul>
 <p>This seeming difference comes mostly from the convention that <code class="docutils literal notranslate"><span class="pre">Bits</span></code> are written from the hightest index to the lowest index, while
 Lists are written down starting from index 0 to the highest index. <code class="docutils literal notranslate"><span class="pre">Cat</span></code> places index 0 of both conventions at the LSB.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">bit0</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">bit0</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bool</span><span class="p">()</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Cat</span><span class="p">(</span><span class="n">bit2</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit0</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Cat</span><span class="p">(</span><span class="n">bit2</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit0</span><span class="p">)</span><span class="w"></span>
 
 <span class="c1">// is equivalent to</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">signals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">bit0</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit2</span><span class="p">)</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Cat</span><span class="p">(</span><span class="n">signals</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">signals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">List</span><span class="p">(</span><span class="n">bit0</span><span class="p">,</span><span class="w"> </span><span class="n">bit1</span><span class="p">,</span><span class="w"> </span><span class="n">bit2</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Cat</span><span class="p">(</span><span class="n">signals</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1308,15 +1312,15 @@ Lists are written down starting from index 0 to the highest index. <code class="
 <p>You can clone a given hardware data type by using the <code class="docutils literal notranslate"><span class="pre">cloneOf(x)</span></code> function.
 It will return a new instance of the same Scala type and parameters.</p>
 <p>For example:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plusOne</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plusOne</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// Will provide new instance of a UInt with the same width as ``value``</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-<span class="w">  </span><span class="n">temp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">temp</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">temp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">// treePlusOne will become a 8 bits value</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">treePlusOne</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plusOne</span><span class="p">(</span><span class="nc">U</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">treePlusOne</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plusOne</span><span class="p">(</span><span class="nc">U</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 <p>You can get more information about how hardware data types are managed on the <a class="reference internal" href="../Getting%20Started/Scala%20Guide/interaction.html#hardware-type"><span class="std std-ref">Hardware types page</span></a>.</p>
@@ -1325,13 +1329,13 @@ It will return a new instance of the same Scala type and parameters.</p>
 <p>If you use the <code class="docutils literal notranslate"><span class="pre">cloneOf</span></code> function on a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>, this <code class="docutils literal notranslate"><span class="pre">Bundle</span></code> should be a <code class="docutils literal notranslate"><span class="pre">case</span> <span class="pre">class</span></code> or should override the clone function internally.</p>
 </div>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// An example of a regular &#39;class&#39; with &#39;override def clone()&#39; function</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">MyBundle</span><span class="p">(</span><span class="n">ppp</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">ppp</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">   </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">clone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">MyBundle</span><span class="p">(</span><span class="n">ppp</span><span class="p">)</span>
-<span class="w"> </span><span class="p">}</span>
-<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">MyBundle</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">typeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">HardType</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyBundle</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">typeDef</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyBundle</span><span class="p">(</span><span class="n">ppp</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">ppp</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">clone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">MyBundle</span><span class="p">(</span><span class="n">ppp</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">MyBundle</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">typeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">HardType</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyBundle</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
+<span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">typeDef</span><span class="p">()</span><span class="w"></span>
 
 <span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1">// Need clone method, else it errors</span>
 <span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c1">// Is ok</span>
@@ -1346,17 +1350,17 @@ For example if you want to define a FIFO or a shift register, you need a paramet
 <section id="the-old-way">
 <h3>The old way<a class="headerlink" href="#the-old-way" title="Permalink to this heading"></a></h3>
 <p>A good example of the old way to do this is in this definition of a <code class="docutils literal notranslate"><span class="pre">ShiftRegister</span></code> component:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ShiftRegister</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">input</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">cloneOf</span><span class="p">(</span><span class="n">dataType</span><span class="p">))</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="n">cloneOf</span><span class="p">(</span><span class="n">dataType</span><span class="p">))</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ShiftRegister</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">input</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">cloneOf</span><span class="p">(</span><span class="n">dataType</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="n">cloneOf</span><span class="p">(</span><span class="n">dataType</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// ...</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>And here is how you can instantiate the component:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">shiftReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ShiftRegister</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">shiftReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ShiftRegister</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>As you can see, the raw hardware type is directly passed as a construction parameter.
@@ -1366,17 +1370,17 @@ Doing things this way is not super safe as it’s easy to forget to use <code cl
 <section id="the-safe-way">
 <h3>The safe way<a class="headerlink" href="#the-safe-way" title="Permalink to this heading"></a></h3>
 <p>An example of the safe way to pass a data type parameter is as follows:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ShiftRegister</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w"> </span><span class="nc">HardType</span><span class="p">[</span><span class="nc">T</span><span class="p">],</span><span class="w"> </span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">input</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">dataType</span><span class="p">())</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="n">dataType</span><span class="p">())</span>
-<span class="w">  </span><span class="p">}</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ShiftRegister</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">dataType</span><span class="p">:</span><span class="w"> </span><span class="nc">HardType</span><span class="p">[</span><span class="nc">T</span><span class="p">],</span><span class="w"> </span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">input</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">dataType</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="n">dataType</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="c1">// ...</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>And here is how you instantiate the component (exactly the same as before):</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">shiftReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ShiftRegister</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">shiftReg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ShiftRegister</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Notice how the example above uses a <code class="docutils literal notranslate"><span class="pre">HardType</span></code> wrapper around the raw data type <code class="docutils literal notranslate"><span class="pre">T</span></code>, which is a “blueprint” definition of a hardware data type.
@@ -1454,24 +1458,24 @@ This way of doing things is easier to use than the “old way”, because to cre
 </tbody>
 </table>
 <p>Of course, BigInt can also be printed as a string in bytes unit. <code class="docutils literal notranslate"><span class="pre">BigInt(1024).byteUnit</span></code>.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">memSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="w"> </span><span class="nc">MiB</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">memSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="w"> </span><span class="nc">MiB</span><span class="w"></span>
 
-<span class="n">println</span><span class="p">(</span><span class="n">memSize</span><span class="p">)</span>
-<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">536870912</span>
+<span class="n">println</span><span class="p">(</span><span class="n">memSize</span><span class="p">)</span><span class="w"></span>
+<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">536870912</span><span class="w"></span>
 
-<span class="n">println</span><span class="p">(</span><span class="n">memSize</span><span class="p">.</span><span class="n">byteUnit</span><span class="p">)</span>
-<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">512</span><span class="nc">MiB</span>
+<span class="n">println</span><span class="p">(</span><span class="n">memSize</span><span class="p">.</span><span class="n">byteUnit</span><span class="p">)</span><span class="w"></span>
+<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">512</span><span class="nc">MiB</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">dpRamSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="s">&quot;123456789&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">dpRamSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="s">&quot;123456789&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">println</span><span class="p">(</span><span class="n">dpRamSize</span><span class="p">.</span><span class="n">byteUnit</span><span class="p">())</span>
-<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">4</span><span class="nc">GiB</span><span class="o">+</span><span class="mi">564</span><span class="nc">MiB</span><span class="o">+</span><span class="mi">345</span><span class="nc">KiB</span><span class="o">+</span><span class="mi">905</span><span class="nc">Byte</span>
+<span class="n">println</span><span class="p">(</span><span class="n">dpRamSize</span><span class="p">.</span><span class="n">byteUnit</span><span class="p">())</span><span class="w"></span>
+<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">4</span><span class="nc">GiB</span><span class="o">+</span><span class="mi">564</span><span class="nc">MiB</span><span class="o">+</span><span class="mi">345</span><span class="nc">KiB</span><span class="o">+</span><span class="mi">905</span><span class="nc">Byte</span><span class="w"></span>
 
-<span class="n">println</span><span class="p">((</span><span class="mi">32</span><span class="p">.</span><span class="nc">MiB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">12</span><span class="p">.</span><span class="nc">KiB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">223</span><span class="p">).</span><span class="n">byteUnit</span><span class="p">())</span>
-<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">32</span><span class="nc">MiB</span><span class="o">+</span><span class="mi">12</span><span class="nc">KiB</span><span class="o">+</span><span class="mi">223</span><span class="nc">Byte</span>
+<span class="n">println</span><span class="p">((</span><span class="mi">32</span><span class="p">.</span><span class="nc">MiB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">12</span><span class="p">.</span><span class="nc">KiB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">223</span><span class="p">).</span><span class="n">byteUnit</span><span class="p">())</span><span class="w"></span>
+<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">32</span><span class="nc">MiB</span><span class="o">+</span><span class="mi">12</span><span class="nc">KiB</span><span class="o">+</span><span class="mi">223</span><span class="nc">Byte</span><span class="w"></span>
 
-<span class="n">println</span><span class="p">((</span><span class="mi">32</span><span class="p">.</span><span class="nc">MiB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">12</span><span class="p">.</span><span class="nc">KiB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">223</span><span class="p">).</span><span class="n">byteUnit</span><span class="p">(</span><span class="n">ceil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">))</span>
-<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">33</span><span class="o">~</span><span class="nc">MiB</span>
+<span class="n">println</span><span class="p">((</span><span class="mi">32</span><span class="p">.</span><span class="nc">MiB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">12</span><span class="p">.</span><span class="nc">KiB</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">223</span><span class="p">).</span><span class="n">byteUnit</span><span class="p">(</span><span class="n">ceil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">))</span><span class="w"></span>
+<span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">33</span><span class="o">~</span><span class="nc">MiB</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -1506,7 +1510,7 @@ This way of doing things is easier to use than the “old way”, because to cre
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~fee0edfd28 2024-10-14
+    Version: master git~485f6b3c7d 2024-10-31
     </p></div>
     
 
