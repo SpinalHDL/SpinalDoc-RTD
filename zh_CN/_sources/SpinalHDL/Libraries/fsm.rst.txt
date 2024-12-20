@@ -347,3 +347,17 @@ Example:
       STATE_B.whenIsActive(goto(STATE_C))
       STATE_C.whenIsActive(goto(STATE_B))
     }
+
+Notes about using state value
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In cases that users want to retrieve the state value for purpose, where state value could be accessed by `stateReg`.
+However, the `stateReg` is not initialized during elaboration of state machine, so any access of `stateReg` directly could cause error.
+Use the `postBuild` method as below can solve this problem.
+
+.. code-block:: scala
+
+    //  After or inside the fsm's definition.    
+    fsm.postBuild{
+      io.status := fsm.stateReg.asBits //io.status is the signal user want to assigned to.
+    }

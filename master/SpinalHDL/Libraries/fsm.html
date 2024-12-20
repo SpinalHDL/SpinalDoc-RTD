@@ -684,6 +684,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#statefsm">StateFsm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#stateparallelfsm">StateParallelFsm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#notes-about-the-entry-state">Notes about the entry state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#notes-about-using-state-value">Notes about using state value</a></li>
 </ul>
 </li>
 </ul>
@@ -1571,6 +1572,18 @@ designer must ensure that only valid transitions are done if needed.</p>
 </pre></div>
 </div>
 </section>
+<section id="notes-about-using-state-value">
+<h3>Notes about using state value<a class="headerlink" href="#notes-about-using-state-value" title="Permalink to this heading"></a></h3>
+<p>In cases that users want to retrieve the state value for purpose, where state value could be accessed by <cite>stateReg</cite>.
+However, the <cite>stateReg</cite> is not initialized during elaboration of state machine, so any access of <cite>stateReg</cite> directly could cause error.
+Use the <cite>postBuild</cite> method as below can solve this problem.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//  After or inside the fsm&#39;s definition.</span>
+<span class="n">fsm</span><span class="p">.</span><span class="n">postBuild</span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">fsm</span><span class="p">.</span><span class="n">stateReg</span><span class="p">.</span><span class="n">asBits</span><span class="w"> </span><span class="c1">//io.status is the signal user want to assigned to.</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
@@ -1603,7 +1616,7 @@ designer must ensure that only valid transitions are done if needed.</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~8b5f9b63a9 2024-12-10
+    Version: master git~39440ae975 2024-12-20
     </p></div>
     
 
