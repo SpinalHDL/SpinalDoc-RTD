@@ -66,7 +66,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'en'
+language = os.getenv('SPHINX_LANGUAGE', 'en')
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -223,8 +223,9 @@ html_context = {
     'github_version': os.getenv('GITHUB_REF_NAME', 'master'), # Version
     'conf_py_path': '/source/', # Path in the checkout to the docs root
 
-    'current_language': 'en',
-    'languages': [["zh_CN", "/SpinalDoc-RTD/zh_CN"]],
+    'current_language': language,
+    'languages': [["en", "."], 
+                  ["zh_CN", "zh_CN"]],
     'sphinx_latest_version': os.getenv('sphinx_latest_version', None)
 }
 
