@@ -237,7 +237,11 @@ linkcheck_anchors=False
 tls_verify = False # disable since Intel urls don't verify on github infra
 
 # Whitelist pattern for tags (set to None to ignore all tags)
-smv_tag_whitelist = r'^.*$'
+version_whitelist = {
+    'en': r'^.*$',
+    'zh_CN': None
+}
+smv_tag_whitelist = version_whitelist[language]
 
 # The branch called "latest" is not a real branch/tag, it is aliased by the document
 #  build process to the most recent stable release.
