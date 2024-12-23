@@ -685,7 +685,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../fsm.html#statefsm">StateFsm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../fsm.html#stateparallelfsm">StateParallelFsm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../fsm.html#notes-about-the-entry-state">关于入口状态的注释</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../fsm.html#notes-about-using-state-value">Notes about using state value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../fsm.html#notes-about-using-state-value">使用状态值的注意事项</a></li>
 </ul>
 </li>
 </ul>
@@ -848,7 +848,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#composability">组合能力（Composability）</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#retiming-variable-length">Retiming / Variable length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#retiming-variable-length">重定时/可变长度</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#simple-cpu-example">简单的CPU示例</a></li>
 </ul>
 </li>
@@ -1232,7 +1232,7 @@
 <ul class="simple">
 <li><p>您不必预先准备好整个流水系统中所需的所有信号元素。您可以根据设计需要，以更特别的方式创建和使用可分级的信号，而无需重构所有中间阶段来处理信号</p></li>
 <li><p>流水线的信号可以利用SpinalHDL的强大参数化能力，并且如果设计构建中不需要特定的参数化特征，则可以进行优化/移除，而不需要以显著的方式修改流水系统设计或项目代码库。</p></li>
-<li><p>Manual retiming is much easier, as you don’t have to handle the registers / arbitration manually</p></li>
+<li><p>手动时序调整要容易得多，因为您不需要手动处理寄存器/仲裁器</p></li>
 <li><p>它会自行管理仲裁器</p></li>
 </ul>
 <p>API由4个主要部分组成：</p>
@@ -1360,7 +1360,7 @@
 </section>
 <section id="payload">
 <h1>Payload<a class="headerlink" href="#payload" title="此标题的永久链接"></a></h1>
-<p>Payload objects are used to refer to data which can go through the pipeline. Technically speaking, Payload is a HardType which has a name and is used as a “key” to retrieve the signals in a certain pipeline stage.</p>
+<p>Payload对象用于引用可以通过流水线的数据。从技术上讲，Payload是一个HardType，它有一个名字，并被用作在流水线某个级中检索信号的“键”。</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">PC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">PC_PLUS_4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
@@ -1396,7 +1396,7 @@
 </tr>
 <tr class="row-odd"><td><p>node.ready</p></td>
 <td><p>RW</p></td>
-<td><p>Is the signal which specifies if the node’s transaction can proceed downstream. It is driven by the downstream to create backpressure. The signal has no meaning when there is no transaction (node.valid being deasserted)</p></td>
+<td><p>表示节点中的事务是否可以向下游传递的信号。它由下游驱动以创建反压。当没有事务（node.valid被置0）时，该信号无意义</p></td>
 </tr>
 <tr class="row-even"><td><p>node.cancel</p></td>
 <td><p>RW</p></td>
@@ -1416,7 +1416,7 @@
 </tr>
 <tr class="row-even"><td><p>node.isFiring</p></td>
 <td><p>RO</p></td>
-<td><p>True when the node transaction is successfully moving further (valid &amp;&amp; ready &amp;&amp; !cancel). Useful to commit state changes.</p></td>
+<td><p>当节点事务成功继续传递时为True（valid &amp;&amp; ready &amp;&amp; !cancel）。提交状态更改时非常有用。</p></td>
 </tr>
 <tr class="row-odd"><td><p>node.isMoving</p></td>
 <td><p>RO</p></td>
@@ -1429,8 +1429,7 @@
 </tbody>
 </table>
 <p>请注意，node.valid/node.ready信号遵循与 <a class="reference internal" href="../stream.html"><span class="doc">Stream</span></a> 中相同的规范。</p>
-<p>The Node controls (valid/ready/cancel) and status (isValid, isReady, isCancel, isFiring, …) signals are created on demand.
-So for instance you can create pipeline with no backpressure by never referring to the ready signal. That’s why it is important to use status signals when you want to read the status of something and only use control signals when you to drive something.</p>
+<p>Node的控制信号（valid/ready/cancel）和状态信号（isValid、isReady、isCancel、isFiring等）是按需创建的。因此，当您想要读取某事物的状态时，使用状态信号很重要，只有当您想要驱动某事物时才使用控制信号。</p>
 <p>以下是节点上可能出现的仲裁情况列表。valid/ready/cancel定义了我们所处的状态，而isFiring/isMoving是这些状态的结果：</p>
 <table class="docutils align-default">
 <thead>
@@ -1507,7 +1506,7 @@ So for instance you can create pipeline with no backpressure by never referring 
 <span class="n">when</span><span class="p">(</span><span class="n">n1</span><span class="p">(</span><span class="nc">SOMETHING</span><span class="p">)</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mh">0xFFAA</span><span class="p">){</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>While you can manually drive/read the arbitration/data of the first/last stage of your pipeline, there is a few utilities to connect its boundaries.</p>
+<p>您不仅可以手动方式来驱动/读取流水线的第一/最后一级的仲裁信号/数据，也有一些实用工具可以连接这些边界上的级。</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 50%" />
@@ -1577,7 +1576,7 @@ So for instance you can create pipeline with no backpressure by never referring 
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>There is also an API which allows you to create new Area which provide the whole API of a given node instance (including implicit conversion) without import :</p>
+<p>还有一个API，它允许你创建新的Area，这个Area无需导入就可提供给定节点实例的全部API（包括隐式转换）：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">n1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Node</span><span class="p">()</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">VALUE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
@@ -1607,7 +1606,7 @@ So for instance you can create pipeline with no backpressure by never referring 
 </section>
 <section id="s2mlink">
 <h2>S2mLink<a class="headerlink" href="#s2mlink" title="此标题的永久链接"></a></h2>
-<p>This connect two nodes using registers on the ready signal, which can be useful to improve backpressure combinatorial timings.</p>
+<p>这使用ready信号上的寄存器连接两个节点，这对于改进反压组合时序非常有用。</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">c01</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">S2mLink</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span><span class="w"> </span><span class="n">n1</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1683,7 +1682,7 @@ So for instance you can create pipeline with no backpressure by never referring 
 <td><p>与 Link.down.insert(Data) 相同</p></td>
 </tr>
 <tr class="row-odd"><td><p>link.bypass(Payload)</p></td>
-<td><p>Allows to conditionally override a Payload value between link.up -&gt; link.down. This can be used to fix data hazard in CPU pipelines for instance.</p></td>
+<td><p>允许在 link.up -&gt; link.down 之间有条件地覆盖 Payload 值。例如，这可用于修复 CPU 流水线中的数据冲突。</p></td>
 </tr>
 </tbody>
 </table>
@@ -1744,18 +1743,16 @@ So for instance you can create pipeline with no backpressure by never referring 
 <span class="nc">Builder</span><span class="p">(</span><span class="n">s01</span><span class="p">,</span><span class="w"> </span><span class="n">s12</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>There is also a set of “all in one” builders that you can instantiate to help yourself.</p>
+<p>此外，还有一套 “一体化 “的构建工具，您可以利用它来帮助你自己。</p>
 <section id="stagepipeline">
 <h2>StagePipeline<a class="headerlink" href="#stagepipeline" title="此标题的永久链接"></a></h2>
-<p>For instance there is the StagePipeline class which serve two purposes :
-- It ease the creation of simple pipelines which are composed of : Node -&gt; StageLink -&gt; Node -&gt; StageLink -&gt; …
-- It extends the pipeline length on the fly</p>
-<p>Here is an example which :</p>
+<p>例如，StagePipeline 类有两个作用： - 它便于创建简单的流水线，这些流水线由后面部分组成：Node -&gt; StageLink -&gt; Node -&gt; StageLink -&gt; … - 它可以动态地扩展流水线长度</p>
+<p>以下是一个例子：</p>
 <ul class="simple">
-<li><p>Take the input at stage 0</p></li>
-<li><p>Sum the input at stage 1</p></li>
-<li><p>Square the sum at stage 2</p></li>
-<li><p>Provide the result at stage 3</p></li>
+<li><p>获取第 0 级输入</p></li>
+<li><p>对第 1 级输入求和</p></li>
+<li><p>对第 2 级输入求平方和</p></li>
+<li><p>在第 3 级提供结果</p></li>
 </ul>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Let&#39;s define a few inputs/outputs</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
@@ -1787,13 +1784,13 @@ So for instance you can create pipeline with no backpressure by never referring 
 </section>
 <section id="stagectrlpipeline">
 <h2>StageCtrlPipeline<a class="headerlink" href="#stagectrlpipeline" title="此标题的永久链接"></a></h2>
-<p>Very similar to StagePipeline, but it replace Nodes by StageLink, allowing to handle the arbitration / bypasses on each stages, which is for instance quite usefull for CPU designs.</p>
-<p>Here is an example which :</p>
+<p>与 StagePipeline 非常相似，但它用 StageLink 代替了 Nodes，允许在每个阶段上处理仲裁/旁路，这在 CPU 设计中非常有用。</p>
+<p>以下是一个例子：</p>
 <ul class="simple">
-<li><p>Take the input at stage 0</p></li>
-<li><p>Sum the input at stage 1</p></li>
-<li><p>Check the sum value and eventualy drop the transaction at stage 2</p></li>
-<li><p>Provide the result at stage 3</p></li>
+<li><p>获取第 0 级输入</p></li>
+<li><p>对第 1 级输入求和</p></li>
+<li><p>检查总和值，最终在第2级放弃该次传输</p></li>
+<li><p>在第 3 级提供结果</p></li>
 </ul>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Lets define a few inputs/outputs</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
@@ -1871,11 +1868,11 @@ So for instance you can create pipeline with no backpressure by never referring 
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>This will produce the following data path (assuming lanesCount = 2), arbitration not being shown :</p>
+<p>这将产生以下数据路径（假设 lanesCount = 2），这里没有给出仲裁：</p>
 <a class="reference internal image-reference" href="../../../_images/composable_lanes.png"><img alt="../../../_images/composable_lanes.png" src="../../../_images/composable_lanes.png" style="width: 406.0px; height: 630.0px;" /></a>
 </section>
 <section id="retiming-variable-length">
-<h1>Retiming / Variable length<a class="headerlink" href="#retiming-variable-length" title="此标题的永久链接"></a></h1>
+<h1>重定时/可变长度<a class="headerlink" href="#retiming-variable-length" title="此标题的永久链接"></a></h1>
 <p>有时，你想设计一个流水线，但你并不真正知道关键路径在哪里，也不知道各阶段之间如何平衡。而且通常情况下，你无法依赖综合工具做好自动重定时工作。</p>
 <p>因此，你需要一种简单的方法来构建流水线逻辑。</p>
 <p>下面介绍如何使用此流水线 API：</p>
@@ -2092,8 +2089,7 @@ So for instance you can create pipeline with no backpressure by never referring 
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Unfortunately, scala doesn’t allow to replace <cite>new addNode.Area</cite> with <cite>new nodes(addAt).Area</cite>.
-One workaround is to define a class as :</p>
+<p>遗憾的是，scala 不允许用 <cite>new nodes(addAt).Area</cite> 替换 <cite>new addNode.Area</cite>。一种变通方法是将其定义为一个类，比如：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">NodeArea</span><span class="p">(</span><span class="n">at</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">NodeMirror</span><span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">at</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">adder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">NodeArea</span><span class="p">(</span><span class="n">addAt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="p">...</span><span class="w"></span>
