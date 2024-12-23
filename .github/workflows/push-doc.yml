@@ -55,6 +55,17 @@ jobs:
           </head>
         </html>
         EOF
+        sudo tee docs/html/zh_CN/index.html << EOF
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Redirecting to ${sphinx_extra_version}</title>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=./${sphinx_extra_version}/index.html">
+            <link rel="canonical" href="${sphinx_html_baseurl}index.html">
+          </head>
+        </html>
+        EOF
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4
       with:
