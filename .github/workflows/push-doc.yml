@@ -37,7 +37,7 @@ jobs:
         tags: spinaldoc-pdf
         file: pdf.Dockerfile
     - name: Build zh-cn translated doc
-      run: docker run --rm -u $(id -u $USER):$(id -g $USER) -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf sphinx-build -b html -D language=zh_CN ./source/ docs/html/zh_CN
+      run: docker run --rm -u $(id -u $USER):$(id -g $USER) -v $PWD:/docs -e SPHINX_LANGUAGE=zh_CN -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf sphinx-multiversion ./source/ docs/html/zh_CN
     - name: Build multiversioned doc
       run: docker run --rm -u $(id -u $USER):$(id -g $USER) -v $PWD:/docs -e sphinx_html_baseurl -e sphinx_github_url spinaldoc-pdf sphinx-multiversion source docs/html
     - name: Add .nojekill
@@ -45,6 +45,17 @@ jobs:
     - name: Add redirection to master
       run: |
         sudo tee docs/html/index.html << EOF
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Redirecting to ${sphinx_extra_version}</title>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=./${sphinx_extra_version}/index.html">
+            <link rel="canonical" href="${sphinx_html_baseurl}index.html">
+          </head>
+        </html>
+        EOF
+        sudo tee docs/html/zh_CN/index.html << EOF
         <!DOCTYPE html>
         <html>
           <head>

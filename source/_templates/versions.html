@@ -9,11 +9,14 @@
     {%- if True %}
     <dl>
        <dt>Languages</dt>
-       <dd class="rtd-current-item">
-         <a href="#">en</a>
-       </dd>
        {% for the_language, url in languages %}
-       <dd><a href="{{ url }}/index.html">{{ the_language }}</a></dd>
+          {% if the_language == current_language %}
+            <dd class="rtd-current-item"><a href="#">{{ the_language }}</a></dd>
+          {% elif current_language == "en" %}
+            <dd><a href="../{{ the_language }}/index.html">{{ the_language }}</a></dd>
+          {% else %}
+            <dd><a href="../../{{ url }}/index.html">{{ the_language }}</a></dd>
+          {% endif %}
        {% endfor %}
     </dl>
     {%- endif %}
