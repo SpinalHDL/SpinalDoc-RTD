@@ -80,6 +80,78 @@ Parametrization from Scala
      - String
      - Current directory
      - Directory where files are generated.
+   * - ``oneFilePerComponent``
+     - Boolean
+     - false
+     - Instead of generating one big VHDL/Verilog file, every component will get its own VHDL/Verilog file.
+   * - ``netlistFileName``
+     - String
+     - ToplevelClassName.(vhd|v)
+     - Allow to change the name of the generated VHDL/Verilog.
+   * - ``globalPrefix``
+     - String
+     - ""
+     - Will add the given prefix in the front of every global symboles in the VHDL/Verilog (components/modules/enums). This allows to avoid naming conflict between multiple generated file.
+   * - ``privateNamespace``
+     - Boolean
+     - false
+     - Every generated Component/Modules names will get prefixed with the toplevel Component/Module name (excepted for the toplevel). This allows to avoid naming conflict between multiple generated file.
+   * - ``formalAsserts``
+     - Boolean
+     - false
+     - Enable the generation of the formal assertions in the VHDL/Verilog.
+   * - ``anonymSignalPrefix``
+     - String
+     - "zz\_"
+     - Set the prefix added to unnamed signals.
+   * - ``inlineRom``
+     - Boolean
+     - false
+     - Configure the Verilog backend to incorporate the ROM values initialization in the verilog itself instead of an bin file.
+   * - ``caseRom``
+     - Boolean
+     - false
+     - Generate the ROM as a big switch case.
+   * - ``mergeAsyncProcess``
+     - Boolean
+     - false
+     - Will merge process/always blocks for combinatorial signal which share at least one conditional assignement (if/switch statment)
+   * - ``mergeSyncProcess``
+     - Boolean
+     - true
+     - Will merge process/always blocks for flipflops which use the same clock domain (if/switch statment)
+   * - ``genLineComments``
+     - Boolean
+     - false
+     - For each hardware assignement in the generated VHDL/Verilog code, will attach a comment which specifies in which scala file, at which line, the assignement happend. Ex : a = 1'b1; // @ MyDesign.scala l1135
+   * - ``noAssert``
+     - Boolean
+     - false
+     - Remove all the asserts from the generated code
+   * - ``headerWithDate``
+     - Boolean
+     - false
+     - Add the date at which the VHDL/Verilog was generated in its header.
+   * - ``headerWithRepoHash``
+     - Boolean
+     - true
+     - Add the current directory git hash in the generated VHDL/Verilog header.
+   * - ``dontCareGenAsZero``
+     - Boolean
+     - false
+     - Replace mySignal.assignDontCare() by mySignal := 0
+   * - ``obfuscateNames``
+     - Boolean
+     - false
+     - Will obfuscate the generated components and signal names.
+   * - ``rtlHeader``
+     - String
+     - disabled
+     - Allow to manualy specify the VHDL/Verilog file header
+   * - ``withTimescale``
+     - Boolean
+     - True
+     - Enable the addition of the timescale in the generated Verilog 
 
 
 And this is the syntax to specify them:
