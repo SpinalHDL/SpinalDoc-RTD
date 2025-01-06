@@ -1332,6 +1332,96 @@
 <td><p>当前目录</p></td>
 <td><p>生成文件的目录。</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">oneFilePerComponent</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Instead of generating one big VHDL/Verilog file, every component will get its own VHDL/Verilog file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">netlistFileName</span></code></p></td>
+<td><p>String</p></td>
+<td><p>ToplevelClassName.(vhd|v)</p></td>
+<td><p>Allow to change the name of the generated VHDL/Verilog.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">globalPrefix</span></code></p></td>
+<td><p>String</p></td>
+<td><p>“”</p></td>
+<td><p>Will add the given prefix in the front of every global symboles in the VHDL/Verilog (components/modules/enums). This allows to avoid naming conflict between multiple generated file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">privateNamespace</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Every generated Component/Modules names will get prefixed with the toplevel Component/Module name (excepted for the toplevel). This allows to avoid naming conflict between multiple generated file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">formalAsserts</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Enable the generation of the formal assertions in the VHDL/Verilog.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">anonymSignalPrefix</span></code></p></td>
+<td><p>String</p></td>
+<td><p>“zz_”</p></td>
+<td><p>Set the prefix added to unnamed signals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">inlineRom</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Configure the Verilog backend to incorporate the ROM values initialization in the verilog itself instead of an bin file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">caseRom</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Generate the ROM as a big switch case.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mergeAsyncProcess</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Will merge process/always blocks for combinatorial signal which share at least one conditional assignement (if/switch statment)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mergeSyncProcess</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>true</p></td>
+<td><p>Will merge process/always blocks for flipflops which use the same clock domain (if/switch statment)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">genLineComments</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>For each hardware assignement in the generated VHDL/Verilog code, will attach a comment which specifies in which scala file, at which line, the assignement happend. Ex : a = 1’b1; // &#64; MyDesign.scala l1135</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">noAssert</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Remove all the asserts from the generated code</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">headerWithDate</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Add the date at which the VHDL/Verilog was generated in its header.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">headerWithRepoHash</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>true</p></td>
+<td><p>Add the current directory git hash in the generated VHDL/Verilog header.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dontCareGenAsZero</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Replace mySignal.assignDontCare() by mySignal := 0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">obfuscateNames</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>false</p></td>
+<td><p>Will obfuscate the generated components and signal names.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rtlHeader</span></code></p></td>
+<td><p>String</p></td>
+<td><p>disabled</p></td>
+<td><p>Allow to manualy specify the VHDL/Verilog file header</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">withTimescale</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>True</p></td>
+<td><p>Enable the addition of the timescale in the generated Verilog</p></td>
+</tr>
 </tbody>
 </table>
 <p>这是设置它们的语法：</p>
@@ -1576,7 +1666,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2018 - 2024, SpinalHDL.</p>
+    <p>&#169; 版权所有 2018 - 2025, SpinalHDL.</p>
   </div>
 
   利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
@@ -1587,7 +1677,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~d0ec7f9772 2024-12-24
+    Version: master git~2e2051c7dd 2025-01-06
     </p></div>
     
 
