@@ -6,7 +6,7 @@ Bool
 Description
 ^^^^^^^^^^^
 
-The ``Bool`` type corresponds to a boolean value (True or False) or a single bit/wire
+The ``Bool`` type corresponds to a boolean value (True or False) or a single bit/signal
 used in a hardware design.  While named similarly it should not be confused with
 Scala `Boolean` type which does not describe hardware but truth values in the Scala
 generator code.
@@ -35,7 +35,7 @@ assignment operator `:=` dictates if it is a source (provides state) or sink
 (captures state) for a given assignment.
 
 Multiple uses of the assignment operator are allowed, such that it is normal
-for a signal wire to act as a source (provides a value to drive HDL state) to be
+for a signal to act as a source (provides a value to drive HDL state) to be
 able to connect and drive multiple inputs of other HDL constructs.  When a Bool
 instance used as a source the order the assignment statements appear or are
 executed in Scala does not matter, unlike when it is used as a sink

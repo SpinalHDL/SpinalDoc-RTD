@@ -33,7 +33,7 @@ you don't need to bind their ports at instantiation:
    }
 
 .. tip::
-   | ``val io = new Bundle { ... }``
+   | ``val io = new Bundle { ... }``
    | Declaring external ports in a ``Bundle`` called ``io`` is recommended. If you name your bundle ``io``, SpinalHDL
      will check that all of its elements are defined as inputs or outputs.
    
@@ -115,8 +115,8 @@ functions on the generated ``SpinalReport`` object:
      def main(args: Array[String]) {
        SpinalVhdl(new TopLevel).printPruned()
        // This will report :
-       //  [Warning] Unused wire detected : toplevel/unusedSignal : UInt[8 bits]
-       //  [Warning] Unused wire detected : toplevel/unusedSignal2 : UInt[8 bits]
+       //  [Warning] Unused signal detected : toplevel/unusedSignal : UInt[8 bits]
+       //  [Warning] Unused signal detected : toplevel/unusedSignal2 : UInt[8 bits]
      }
    }
 

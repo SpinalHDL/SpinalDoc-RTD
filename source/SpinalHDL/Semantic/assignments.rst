@@ -146,7 +146,7 @@ CombInit
     }
 
 
-If we look at the resulting Verilog, ``b`` is not present. Since it is a copy of ``a`` by reference, these variables designate the same Verilog wire.
+If we look at the resulting Verilog, ``b`` is not present. Since it is a copy of ``a`` by reference, these variables designate the same Verilog ``wire``.
 
 .. code-block:: verilog
 

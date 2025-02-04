@@ -74,7 +74,7 @@ Here is an example of a simple counter and the corresponding formal testbench.
       // Here we run a formal verification which will explore the state space up to 15 cycles to find an assertion failure
       FormalConfig.withBMC(15).doVerify(new Component {
         // Instantiate our LimitedCounter DUT as a FormalDut, which ensure that all the outputs of the dut are:
-        // - directly and indirectly driven (no latch / no floating wire)
+        // - directly and indirectly driven (no latch / no floating signal)
         // - allows the current toplevel to read every signal across the hierarchy
         val dut = FormalDut(new LimitedCounter())
 

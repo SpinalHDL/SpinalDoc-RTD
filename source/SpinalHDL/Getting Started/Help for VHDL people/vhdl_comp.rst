@@ -79,7 +79,7 @@ In SpinalHDL these kinds of things are explicit. Registers are defined as regist
 Clock domains
 -------------
 
-In VHDL, every time you want to define a bunch of registers, you need the carry the clock and the reset wire to them. In addition, you have to hardcode everywhere how those clock and reset signals should be used (clock edge, reset polarity, reset nature (async, sync)).
+In VHDL, every time you want to define a bunch of registers, you need the carry the clock and the reset signal to them. In addition, you have to hardcode everywhere how those clock and reset signals should be used (clock edge, reset polarity, reset nature (async, sync)).
 
 In SpinalHDL you can define a ``ClockDomain``, and then define the area of your hardware that uses it.
 

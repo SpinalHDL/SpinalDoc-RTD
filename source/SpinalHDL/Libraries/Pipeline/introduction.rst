@@ -348,13 +348,12 @@ They generally have a `up` Node and a `down` Node.
 DirectLink
 ----------
 
-Very simple, it connect two nodes with wires only. Here is an example : 
+Very simple, it connect two nodes with signals only. Here is an example : 
 
 
 .. code-block:: scala
     
     val c01 = DirectLink(n0, n1)
-
 
 
 StageLink
