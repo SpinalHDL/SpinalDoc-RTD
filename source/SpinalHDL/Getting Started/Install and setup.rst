@@ -146,7 +146,7 @@ This is sufficient for generating hardware. For simulation continue with either 
 In case you want to build the tools yourself have a look at the legacy simulation tool :ref:`installation instructions <sim backend install>`.
 
 .. note::
-   An All-in-One solution offered by SpinalHDL maintainer `Readon <https://github.com/Readon>` is available to install and run SpinalHDL with Verilator simulation and formal verification via SymbiYosys.
+   An All-in-One solution offered by SpinalHDL maintainer `Readon <https://github.com/Readon>`_ is available to install and run SpinalHDL with Verilator simulation and formal verification via SymbiYosys.
    Download `it <https://github.com/Readon/msys2-installer/releases>`__ and install the environment anywhere on your disk.
    Start the build environment by clicking on the MSYS2-MINGW64 icon in the Start menu and use the MSYS2 default console. 
    An alternative is to use the Windows Terminal or a Tabby-like application and use the startup command ``%MSYS2_ROOT%\msys2_shell.cmd -defterm -here -no-start -mingw64``, where the ``%MSYS2_ROOT%`` is the location of the msys2 installation.
@@ -157,12 +157,12 @@ In case you want to build the tools yourself have a look at the legacy simulatio
 MSYS2 verilator for simulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-We recommend to install compiler/verilator through `MSYS2 <https://www.msys2.org>`.
+We recommend to install compiler/verilator through `MSYS2 <https://www.msys2.org>`_.
 Other methods of installing gcc/make/shell (e.g. chocolatey, scoop, etc.) may also work but are untested.
 
-SpinalHDL maintainer `Readon <https://github.com/Readon>` is maintaining a MSYS2 fork that default
-installs all needed officially available and custom built packages (also maintained by Readon `here <https://github.com/Readon/MINGW-SpinalHDL>`) 
-for simulation and formal verification. It can be found `here <https://github.com/Readon/msys2-installer>`.
+SpinalHDL maintainer `Readon <https://github.com/Readon>`_ is maintaining a MSYS2 fork that default
+installs all needed officially available and custom built packages (also maintained by Readon `here <https://github.com/Readon/MINGW-SpinalHDL>`__) 
+for simulation and formal verification. It can be found `here <https://github.com/Readon/msys2-installer>`__.
 If used then the packages installed below via ``pacman`` are already installed and those
 installation steps can be skipped.
 
@@ -196,7 +196,7 @@ MSYS2 for formal verification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In addition to the steps above we also need to install yosys, sby, z3 and yices. Both yosys(yosys-smtbmc workable) and sby are
-not available as official MSYS2 packages, but packages are provided by `Readon <https://github.com/Readon>`.
+not available as official MSYS2 packages, but packages are provided by `Readon <https://github.com/Readon>`_.
 If you used their installer then these steps are not needed (you should check if there are newer packages available).
 
 .. code-block:: sh
