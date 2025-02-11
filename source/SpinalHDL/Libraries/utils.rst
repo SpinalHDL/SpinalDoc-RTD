@@ -108,7 +108,7 @@ State full utilities
        | and the last by ``range.high``
    * - BufferCC(input : T)
      - T
-     - Return the input signal synchronized with the current clock domain by using 2 flip flop
+     - Return the input signal synchronized with the current clock domain by using 2 flip-flops
 
 
 Counter

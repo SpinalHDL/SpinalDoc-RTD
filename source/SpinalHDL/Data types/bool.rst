@@ -175,8 +175,8 @@ Edge detection
 All edge detection functions will instantiate an additional register via :ref:`RegNext <regnext>`
 to get a delayed value of the ``Bool`` in question.
 
-This feature does not reconfigure a D-type Flip-Flop to use an alternative CLK
-source, it uses two D-type Flip-Flop in series chain (with both CLK pins inheriting
+This feature does not reconfigure a D-type flip-flop to use an alternative CLK
+source, it uses two D-type flip-flop in series chain (with both CLK pins inheriting
 the default ClockDomain).  It has combinational logic to perform edge detection
 based on the output Q states.
 
