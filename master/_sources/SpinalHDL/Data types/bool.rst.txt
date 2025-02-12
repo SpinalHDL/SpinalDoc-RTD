@@ -6,7 +6,7 @@ Bool
 Description
 ^^^^^^^^^^^
 
-The ``Bool`` type corresponds to a boolean value (True or False) or a single bit/wire
+The ``Bool`` type corresponds to a boolean value (True or False) or a single bit/signal
 used in a hardware design.  While named similarly it should not be confused with
 Scala `Boolean` type which does not describe hardware but truth values in the Scala
 generator code.
@@ -35,7 +35,7 @@ assignment operator `:=` dictates if it is a source (provides state) or sink
 (captures state) for a given assignment.
 
 Multiple uses of the assignment operator are allowed, such that it is normal
-for a signal wire to act as a source (provides a value to drive HDL state) to be
+for a signal to act as a source (provides a value to drive HDL state) to be
 able to connect and drive multiple inputs of other HDL constructs.  When a Bool
 instance used as a source the order the assignment statements appear or are
 executed in Scala does not matter, unlike when it is used as a sink
@@ -175,8 +175,8 @@ Edge detection
 All edge detection functions will instantiate an additional register via :ref:`RegNext <regnext>`
 to get a delayed value of the ``Bool`` in question.
 
-This feature does not reconfigure a D-type Flip-Flop to use an alternative CLK
-source, it uses two D-type Flip-Flop in series chain (with both CLK pins inheriting
+This feature does not reconfigure a D-type flip-flop to use an alternative CLK
+source, it uses two D-type flip-flop in series chain (with both CLK pins inheriting
 the default ClockDomain).  It has combinational logic to perform edge detection
 based on the output Q states.
 

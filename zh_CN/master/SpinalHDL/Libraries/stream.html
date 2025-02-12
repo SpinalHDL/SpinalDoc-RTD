@@ -474,7 +474,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#reset-value">复位值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">用于仿真目的的初始化值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#register-vectors">寄存器组</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-wire-into-a-register">将线缆/信号转换为寄存器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-signal-into-a-register">Transforming a signal into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM存储器</a><ul>
@@ -1389,7 +1389,7 @@
 <td><div class="line-block">
 <div class="line">Return a Stream driven by x</div>
 <div class="line">通过寄存器，切断valid/payload路径</div>
-<div class="line">Cost = (payload width + 1) 触发器</div>
+<div class="line">Cost = (payload width + 1) flip-flops</div>
 </div>
 </td>
 <td><p>Stream[T]</p></td>
@@ -1399,7 +1399,7 @@
 <td><div class="line-block">
 <div class="line">Return a Stream driven by x</div>
 <div class="line">通过寄存器级断开ready路径</div>
-<div class="line">Cost = payload width * (mux2 + 1 flip flop)</div>
+<div class="line">Cost = payload width * (mux2 + 1 flip-flops)</div>
 </div>
 </td>
 <td><p>Stream[T]</p></td>
@@ -1409,7 +1409,7 @@
 <td><div class="line-block">
 <div class="line">Return a Stream driven by x</div>
 <div class="line">valid/ready/payload路径通过一些寄存器分割</div>
-<div class="line">成本 = (payload位宽 + 2)个触发器，带宽除以二</div>
+<div class="line">Cost = (payload width + 2) flip-flops, bandwidth divided by two</div>
 </div>
 </td>
 <td><p>Stream[T]</p></td>
@@ -1850,7 +1850,11 @@
 </section>
 <section id="streamfork">
 <h3>StreamFork<a class="headerlink" href="#streamfork" title="此标题的永久链接"></a></h3>
-<p>StreamFork会将每个传入数据克隆到其所有输出流。如果synchronous为true，则所有输出流将始终一起触发，这意味着直到所有输出流准备就绪前该流将都将暂停。如果synchronous为false，那么一次可能只有一个输出流准备就绪，但需要一个额外的触发器（每个输出1位）。直到所有输出流都处理完每个项目前，输入流将阻塞。</p>
+<p>A StreamFork will clone each incoming data to all its output streams. If synchronous is true,
+all output streams will always fire together, which means that the stream will halt until all output streams are ready.
+If synchronous is false, output streams may be ready one at a time,
+at the cost of an additional flip-flop (1 bit per output). The input stream will block until
+all output streams have processed each item regardlessly.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="p">(</span><span class="n">outputstream1</span><span class="p">,</span><span class="w"> </span><span class="n">outputstream2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamFork2</span><span class="p">(</span><span class="n">inputStream</span><span class="p">,</span><span class="w"> </span><span class="n">synchronous</span><span class="o">=</span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
 </pre></div>
@@ -2027,7 +2031,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~3f8df944dc 2025-01-06
+    Version: master (HEAD) git~a1c27b31a8 2025-02-12
     </p></div>
     
 

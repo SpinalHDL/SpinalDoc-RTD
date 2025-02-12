@@ -474,7 +474,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#reset-value">复位值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">用于仿真目的的初始化值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#register-vectors">寄存器组</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-wire-into-a-register">将线缆/信号转换为寄存器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-signal-into-a-register">Transforming a signal into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM存储器</a><ul>
@@ -1332,12 +1332,22 @@ tar xzf &lt;file that you downloaded&gt;
 <p>这足以生成硬件。对于仿真，请继续选择以下任一选项。如果您想自己构建仿真工具，请查看旧版仿真工具 <a class="reference internal" href="../Simulation/install/index.html#sim-backend-install"><span class="std std-ref">安装说明</span></a>。</p>
 <div class="admonition note">
 <p class="admonition-title">备注</p>
-<p>SpinalHDL 维护者 <cite>Readon &lt;https://github.com/Readon&gt;</cite> 提供的一体化解决方案可用于安装和运行 SpinalHDL，并通过 Verilator 仿真、通过 SymbiYosys 进行形式化验证。下载 <a class="reference external" href="https://github.com/Readon/msys2-installer/releases">安装程序</a> 并将该环境安装在磁盘上的任何位置。单击“开始”菜单中的 MSYS2-MINGW64 图标启动构建环境，并使用 MSYS2 默认控制台。另一种方法是使用“Windows Terminal”或类似 Tabby 的应用程序，并使用启动命令 <code class="docutils literal notranslate"><span class="pre">%MSYS2_ROOT%\msys2_shell.cmd</span> <span class="pre">-defterm</span> <span class="pre">-here</span> <span class="pre">-no-start</span> <span class="pre">-mingw64</span></code>，其中 <code class="docutils literal notranslate"><span class="pre">%MSYS2_ROOT%</span></code> 是 msys2 安装的位置。值得注意的是，如果要离线使用，要仔细选择项目所依赖的库，否则需要手动下载安装包。有关更多详细信息，请参阅对应仓库的自述文件。</p>
+<p>An All-in-One solution offered by SpinalHDL maintainer <a class="reference external" href="https://github.com/Readon">Readon</a> is available to install and run SpinalHDL with Verilator simulation and formal verification via SymbiYosys.
+Download <a class="reference external" href="https://github.com/Readon/msys2-installer/releases">it</a> and install the environment anywhere on your disk.
+Start the build environment by clicking on the MSYS2-MINGW64 icon in the Start menu and use the MSYS2 default console.
+An alternative is to use the Windows Terminal or a Tabby-like application and use the startup command <code class="docutils literal notranslate"><span class="pre">%MSYS2_ROOT%\msys2_shell.cmd</span> <span class="pre">-defterm</span> <span class="pre">-here</span> <span class="pre">-no-start</span> <span class="pre">-mingw64</span></code>, where the <code class="docutils literal notranslate"><span class="pre">%MSYS2_ROOT%</span></code> is the location of the msys2 installation.
+It is worth noting that if you want to use it offline, you should carefully select the libraries that the project depends on, otherwise you will need to download the packages manually.
+See the README for the repos for more details.</p>
 </div>
 <section id="msys2-verilator-for-simulation">
 <h3>用于仿真的 MSYS2 verilator工具<a class="headerlink" href="#msys2-verilator-for-simulation" title="此标题的永久链接"></a></h3>
-<p>我们建议通过 <cite>MSYS2 &lt;https://www.msys2.org&gt;</cite> 安装编译器/仿真器。其他安装 gcc/make/shell 的方法（例如 Chocolatey、scoop 等）也可能有效，但未经测试。</p>
-<p>SpinalHDL 维护者 <cite>Readon &lt;https://github.com/Readon&gt;</cite> 正在维护一个 MSYS2 分支，默认安装所有需要的官方可用和自定义构建的软件包（也由 Readon 在 <cite>此处 &lt;https://github.com/Readon/ MINGW-SpinalHDL&gt;</cite> 维护) 用于仿真和形式化验证。可以在 <cite>此处 &lt;https://github.com/Readon/msys2-installer&gt;</cite> 找到。如果使用该安装包，则已经安装了下面通过 pacman 安装的软件包，并且可以跳过这些安装步骤。</p>
+<p>We recommend to install compiler/verilator through <a class="reference external" href="https://www.msys2.org">MSYS2</a>.
+Other methods of installing gcc/make/shell (e.g. chocolatey, scoop, etc.) may also work but are untested.</p>
+<p>SpinalHDL maintainer <a class="reference external" href="https://github.com/Readon">Readon</a> is maintaining a MSYS2 fork that default
+installs all needed officially available and custom built packages (also maintained by Readon <a class="reference external" href="https://github.com/Readon/MINGW-SpinalHDL">here</a>)
+for simulation and formal verification. It can be found <a class="reference external" href="https://github.com/Readon/msys2-installer">here</a>.
+If used then the packages installed below via <code class="docutils literal notranslate"><span class="pre">pacman</span></code> are already installed and those
+installation steps can be skipped.</p>
 <p>目前 verilator 4.228 是已知可以工作的最新版本。</p>
 <p>下载最新的安装程序并使用默认设置安装 MSYS2。安装结束后你应该会得到一个 MSYS2 终端，运行：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman -Syuu
@@ -1359,7 +1369,9 @@ pacman -U mingw-w64-x86_64-verilator-4.228-1-any.pkg.tar.zst
 </section>
 <section id="msys2-for-formal-verification">
 <h3>用 MSYS2 实施形式化验证<a class="headerlink" href="#msys2-for-formal-verification" title="此标题的永久链接"></a></h3>
-<p>除了上面的步骤之外，我们还需要安装yosys、sby、z3和yices。 yosys(可用的yosys-smtbmc) 和 sby 并不使用 MSYS2 官方提供的包（无法使用），而是由 <cite>Readon &lt;https://github.com/Readon&gt;</cite> 提供。如果您使用他们的安装程序，则不需要后面这些步骤（您应该检查是否有更新的软件包可用）。</p>
+<p>In addition to the steps above we also need to install yosys, sby, z3 and yices. Both yosys(yosys-smtbmc workable) and sby are
+not available as official MSYS2 packages, but packages are provided by <a class="reference external" href="https://github.com/Readon">Readon</a>.
+If you used their installer then these steps are not needed (you should check if there are newer packages available).</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pacman -S mingw-w64-x86_64-z3 mingw-w64-x86_64-yices mingw-w64-x86_64-autotools mingw-w64-x86_64-python3-pip
 python3 -m pip install click
 curl -OL https://github.com/Readon/MINGW-SpinalHDL/releases/download/v0.4.9/mingw-w64-x86_64-yosys-0.31-1-any.pkg.tar.zst
@@ -1497,7 +1509,7 @@ git commit -m <span class="s2">&quot;Initial commit from template&quot;</span>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~3f8df944dc 2025-01-06
+    Version: master (HEAD) git~a1c27b31a8 2025-02-12
     </p></div>
     
 

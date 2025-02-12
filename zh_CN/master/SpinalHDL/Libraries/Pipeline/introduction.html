@@ -474,7 +474,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#reset-value">复位值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">用于仿真目的的初始化值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#register-vectors">寄存器组</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#transforming-a-wire-into-a-register">将线缆/信号转换为寄存器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Sequential%20logic/registers.html#transforming-a-signal-into-a-register">Transforming a signal into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Sequential%20logic/memory.html">RAM/ROM存储器</a><ul>
@@ -1244,7 +1244,7 @@
 
   <section id="introduction">
 <h1>简介<a class="headerlink" href="#introduction" title="此标题的永久链接"></a></h1>
-<p>spinal.lib.misc.pipeline提供了一套流水线API。相对于手动流水线它的主要优点是：</p>
+<p><code class="docutils literal notranslate"><span class="pre">spinal.lib.misc.pipeline</span></code> provides a pipelining API. The main advantages over manual pipelining are :</p>
 <ul class="simple">
 <li><p>您不必预先准备好整个流水系统中所需的所有信号元素。您可以根据设计需要，以更特别的方式创建和使用可分级的信号，而无需重构所有中间阶段来处理信号</p></li>
 <li><p>流水线的信号可以利用SpinalHDL的强大参数化能力，并且如果设计构建中不需要特定的参数化特征，则可以进行优化/移除，而不需要以显著的方式修改流水系统设计或项目代码库。</p></li>
@@ -1253,12 +1253,14 @@
 </ul>
 <p>API由4个主要部分组成：</p>
 <ul class="simple">
-<li><p>Node：表示管道中的层</p></li>
-<li><p>Link：允许节点相互连接</p></li>
-<li><p>Builder：生成整个管道所需的硬件</p></li>
-<li><p>Payload：用于获取流水线的节点上的硬件信号</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Node</span></code> : which represents a layer in the pipeline</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Link</span></code> : which allows to connect nodes to each other</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Builder</span></code> : which will generate the hardware required for a whole pipeline</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Payload</span></code> : which are used to retrieve hardware signals on nodes along the pipeline</p></li>
 </ul>
-<p>重要的是，Payload不是硬件数据/信号实例，而是用于检索流水线在节点中数据/信号的关键，并且流水线构建器随后将在节点之间的每次给定Payload出现时自动互连/流水线。</p>
+<p>It is important to understand that <code class="docutils literal notranslate"><span class="pre">Payload</span></code> isn’t a hardware data/signal instance,
+but a key to retrieve a data/signal on nodes along the pipeline, and that the pipeline builder
+will then automatically interconnect/pipeline every occurrence of a given <code class="docutils literal notranslate"><span class="pre">Payload</span></code> between nodes.</p>
 <p>以下是一个用于阐述的例子：</p>
 <a class="reference internal image-reference" href="../../../_images/intro_pip.png"><img alt="../../../_images/intro_pip.png" src="../../../_images/intro_pip.png" style="width: 251.99999999999997px; height: 331.79999999999995px;" /></a>
 <p>以下是关于此API的视频：</p>
@@ -1376,7 +1378,9 @@
 </section>
 <section id="payload">
 <h1>Payload<a class="headerlink" href="#payload" title="此标题的永久链接"></a></h1>
-<p>Payload对象用于引用可以通过流水线的数据。从技术上讲，Payload是一个HardType，它有一个名字，并被用作在流水线某个级中检索信号的“键”。</p>
+<p><code class="docutils literal notranslate"><span class="pre">Payload</span></code> objects are used to refer to data which can go through the pipeline.
+Technically speaking, <code class="docutils literal notranslate"><span class="pre">Payload</span></code> is a <code class="docutils literal notranslate"><span class="pre">HardType</span></code> which has a name and is used as a “key” to retrieve
+the signals in a certain pipeline stage.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">PC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">PC_PLUS_4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
@@ -1387,11 +1391,13 @@
 <span class="n">n1</span><span class="p">(</span><span class="nc">PC_PLUS_4</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">n1</span><span class="p">(</span><span class="nc">PC</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
 </pre></div>
 </div>
-<p>请注意，我习惯于使用大写对Payload实例命名。这是为了让它非常明确，这不是一个硬件信号，更像是一个“键/类型”访问的东西。</p>
+<p>Note that I got used to name the <code class="docutils literal notranslate"><span class="pre">Payload</span></code> instances using uppercase. This is to make it very explicit
+that the thing isn’t a hardware signal, but are more like a “key/type” to access things.</p>
 </section>
 <section id="node">
 <h1>Node<a class="headerlink" href="#node" title="此标题的永久链接"></a></h1>
-<p>Node主要托管有效/就绪仲裁信号，以及所有通过它的硬件信号所需的Payload。</p>
+<p><code class="docutils literal notranslate"><span class="pre">Node</span></code> mostly hosts the valid/ready arbitration signals, and the hardware signals required for all
+the <code class="docutils literal notranslate"><span class="pre">Payload</span></code> values going through it.</p>
 <p>您可以通过以下方式访问其仲裁器：</p>
 <table class="docutils align-default">
 <colgroup>
@@ -1406,47 +1412,51 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>node.valid</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.valid</span></code></p></td>
 <td><p>RW</p></td>
 <td><p>指定节点上是否存在事务的信号。它是由上游逻辑驱动的。一旦置为1，则它必须且仅能在valid和ready同时置位或node.cancel为高的周期后解除置位。valid不依赖于ready。</p></td>
 </tr>
-<tr class="row-odd"><td><p>node.ready</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node.ready</span></code></p></td>
 <td><p>RW</p></td>
 <td><p>表示节点中的事务是否可以向下游传递的信号。它由下游驱动以创建反压。当没有事务（node.valid被置0）时，该信号无意义</p></td>
 </tr>
-<tr class="row-even"><td><p>node.cancel</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.cancel</span></code></p></td>
 <td><p>RW</p></td>
 <td><p>指定节点的事务是否正在从流水线中取消的信号。它由下游驱动。当没有事务时（node.valid被置0），该信号没有意义</p></td>
 </tr>
-<tr class="row-odd"><td><p>node.isValid</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node.isValid</span></code></p></td>
 <td><p>RO</p></td>
-<td><p>node.valid的只读访问器</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">node.valid</span></code>’s read only accessor</p></td>
 </tr>
-<tr class="row-even"><td><p>node.isReady</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.isReady</span></code></p></td>
 <td><p>RO</p></td>
-<td><p>node.ready的只读访问器</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">node.ready</span></code>’s read only accessor</p></td>
 </tr>
-<tr class="row-odd"><td><p>node.isCancel</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node.isCancel</span></code></p></td>
 <td><p>RO</p></td>
-<td><p>node.cancel的只读访问器</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">node.cancel</span></code>’s read only accessor</p></td>
 </tr>
-<tr class="row-even"><td><p>node.isFiring</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.isFiring</span></code></p></td>
 <td><p>RO</p></td>
 <td><p>当节点事务成功继续传递时为True（valid &amp;&amp; ready &amp;&amp; !cancel）。提交状态更改时非常有用。</p></td>
 </tr>
-<tr class="row-odd"><td><p>node.isMoving</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node.isMoving</span></code></p></td>
 <td><p>RO</p></td>
-<td><p>当节点事务将不再存在于节点上时（从下一周期开始）为True，要么是因为下游准备好接收事务，要么是因为事务已从流水线中取消。（valid &amp;&amp; (ready || cancel)）用于“复位”(reset)状态。</p></td>
+<td><p>True when the node transaction will not be present anymore on the node (starting from the next cycle),
+either because downstream is ready to take the transaction,
+or because the transaction is canceled from the pipeline. (<code class="docutils literal notranslate"><span class="pre">valid</span> <span class="pre">&amp;&amp;</span> <span class="pre">(ready</span> <span class="pre">||</span> <span class="pre">cancel)</span></code>). Useful to “reset” states.</p></td>
 </tr>
-<tr class="row-even"><td><p>node.isCanceling</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.isCanceling</span></code></p></td>
 <td><p>RO</p></td>
 <td><p>当节点事务正在被取消时为True。这意味着在将来的周期中它不会出现在流水线中的任何地方。</p></td>
 </tr>
 </tbody>
 </table>
-<p>请注意，node.valid/node.ready信号遵循与 <a class="reference internal" href="../stream.html"><span class="doc">Stream</span></a> 中相同的规范。</p>
-<p>Node的控制信号（valid/ready/cancel）和状态信号（isValid、isReady、isCancel、isFiring等）是按需创建的。因此，当您想要读取某事物的状态时，使用状态信号很重要，只有当您想要驱动某事物时才使用控制信号。</p>
-<p>以下是节点上可能出现的仲裁情况列表。valid/ready/cancel定义了我们所处的状态，而isFiring/isMoving是这些状态的结果：</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">node.valid</span></code>/<code class="docutils literal notranslate"><span class="pre">node.ready</span></code> signals follows the same conventions than the <a class="reference internal" href="../stream.html"><span class="doc">Stream</span></a>’s ones .</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Node</span></code> controls (<code class="docutils literal notranslate"><span class="pre">valid</span></code>/<code class="docutils literal notranslate"><span class="pre">ready</span></code>/<code class="docutils literal notranslate"><span class="pre">cancel</span></code>) and status (<code class="docutils literal notranslate"><span class="pre">isValid</span></code>, <code class="docutils literal notranslate"><span class="pre">isReady</span></code>, <code class="docutils literal notranslate"><span class="pre">isCancel</span></code>, <code class="docutils literal notranslate"><span class="pre">isFiring</span></code>, …) signals are created on demand.
+So for instance you can create pipeline with no backpressure by never referring to the ready signal. That’s why it is important to use status signals
+when you want to read the status of something and only use control signals when you to drive something.</p>
+<p>Here is a list of arbitration cases you can have on a node. <code class="docutils literal notranslate"><span class="pre">valid</span></code>/<code class="docutils literal notranslate"><span class="pre">ready</span></code>/<code class="docutils literal notranslate"><span class="pre">cancel</span></code> define the state we are in, while <code class="docutils literal notranslate"><span class="pre">isFiring</span></code>/<code class="docutils literal notranslate"><span class="pre">isMoving</span></code> result of those :</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>valid</p></th>
@@ -1501,13 +1511,13 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>node(Payload)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node(Payload)</span></code></p></td>
 <td><p>返回对应的硬件信号</p></td>
 </tr>
-<tr class="row-odd"><td><p>node(Payload, Any)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node(Payload,</span> <span class="pre">Any)</span></code></p></td>
 <td><p>与上述相同，但包括一个用作“次要键”的第二个参数。这有助于构建多通道硬件。例如，当您有一个多发射CPU流水线时，您可以使用通道Int id作为次要键</p></td>
 </tr>
-<tr class="row-even"><td><p>node.insert(Data)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.insert(Data)</span></code></p></td>
 <td><p>返回一个新的Payload实例，该实例连接到给定的Data硬件信号</p></td>
 </tr>
 </tbody>
@@ -1534,29 +1544,29 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>node.arbitrateFrom(Stream[T]])</p></td>
-<td><p>由反压流驱动节点仲裁。</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.arbitrateFrom(Stream[T]])</span></code></p></td>
+<td><p>Drive a node arbitration from a <code class="docutils literal notranslate"><span class="pre">Stream</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p>node.arbitrateFrom(Flow[T]])</p></td>
-<td><p>由数据流驱动节点仲裁。</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node.arbitrateFrom(Flow[T]])</span></code></p></td>
+<td><p>Drive a node arbitration from a <code class="docutils literal notranslate"><span class="pre">Flow</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p>node.arbitrateTo(Stream[T]])</p></td>
-<td><p>由节点驱动反压流仲裁。</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.arbitrateTo(Stream[T]])</span></code></p></td>
+<td><p>Drive a <code class="docutils literal notranslate"><span class="pre">Stream</span></code> arbitration from the node.</p></td>
 </tr>
-<tr class="row-odd"><td><p>node.arbitrateTo(Flow[T]])</p></td>
-<td><p>由节点驱动数据流仲裁。</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node.arbitrateTo(Flow[T]])</span></code></p></td>
+<td><p>Drive a <code class="docutils literal notranslate"><span class="pre">Flow</span></code> arbitration from the node.</p></td>
 </tr>
-<tr class="row-even"><td><p>node.driveFrom(Stream[T]])((Node, T) =&gt; Unit)</p></td>
-<td><p>由反压流驱动节点。提供的lambda函数可以用于连接数据</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.driveFrom(Stream[T]])((Node,</span> <span class="pre">T)</span> <span class="pre">=&gt;</span> <span class="pre">Unit)</span></code></p></td>
+<td><p>Drive a node from a stream. The provided lambda function can be use to connect the data.</p></td>
 </tr>
-<tr class="row-odd"><td><p>node.driveFrom(Flow[T]])((Node, T) =&gt; Unit)</p></td>
-<td><p>与上述类似，但适用于Flow</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node.driveFrom(Flow[T]])((Node,</span> <span class="pre">T)</span> <span class="pre">=&gt;</span> <span class="pre">Unit)</span></code></p></td>
+<td><p>Same as above but for <code class="docutils literal notranslate"><span class="pre">Flow</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p>node.driveTo(Stream[T]])((T, Node) =&gt; Unit)</p></td>
-<td><p>由节点驱动反压流。提供的lambda函数可以用于连接数据</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node.driveTo(Stream[T]])((T,</span> <span class="pre">Node)</span> <span class="pre">=&gt;</span> <span class="pre">Unit)</span></code></p></td>
+<td><p>Drive a stream from the node. The provided lambda function can be use to connect the data.</p></td>
 </tr>
-<tr class="row-odd"><td><p>node.driveTo(Flow[T]])((T, Node) =&gt; Unit)</p></td>
-<td><p>与上述类似，但适用于Flow</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node.driveTo(Flow[T]])((T,</span> <span class="pre">Node)</span> <span class="pre">=&gt;</span> <span class="pre">Unit)</span></code></p></td>
+<td><p>Same as above but for <code class="docutils literal notranslate"><span class="pre">Flow</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1575,10 +1585,12 @@
 <span class="n">n2</span><span class="p">.</span><span class="n">driveTo</span><span class="p">(</span><span class="n">down</span><span class="p">)((</span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">self</span><span class="p">(</span><span class="nc">OUT</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
-<p>为了减少冗长，在Payload与其数据表示之间有一组隐式转换，可在Node下使用：</p>
+<p>In order to reduce verbosity, there is a set of implicit conversions between <code class="docutils literal notranslate"><span class="pre">Payload</span></code> toward their data representation
+which can be used when you are in the context of a <code class="docutils literal notranslate"><span class="pre">Node</span></code> :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">VALUE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">n1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Node</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">PLUS_ONE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="nc">VALUE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c1">// VALUE is implicitly converted into its n1(VALUE) representation</span>
+<span class="w">    </span><span class="c1">// VALUE is implicitly converted into its n1(VALUE) representation</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">PLUS_ONE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="nc">VALUE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1592,7 +1604,8 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>还有一个API，它允许你创建新的Area，这个Area无需导入就可提供给定节点实例的全部API（包括隐式转换）：</p>
+<p>There is also an API which allows you to create new <code class="docutils literal notranslate"><span class="pre">Area</span></code> which provide the whole API of a given node instance
+(including implicit conversion) without import :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">n1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Node</span><span class="p">()</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">VALUE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Payload</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
@@ -1605,31 +1618,34 @@
 </section>
 <section id="links">
 <h1>Links<a class="headerlink" href="#links" title="此标题的永久链接"></a></h1>
-<p>目前已经实现了一些不同的Links（但您也可以创建自己的自定义Links）。Links的思想是以各种方式将两个节点连接在一起，它们通常有一个 <cite>up</cite> 节点和一个 <cite>down</cite> 节点。</p>
+<p>There is few different <code class="docutils literal notranslate"><span class="pre">Link</span></code> already implemented (but you could also create your own custom one).
+The idea of links is to connect two nodes together in various ways.
+They generally have a <code class="docutils literal notranslate"><span class="pre">up</span></code> Node and a <code class="docutils literal notranslate"><span class="pre">down</span></code> <code class="docutils literal notranslate"><span class="pre">Node</span></code>.</p>
 <section id="directlink">
 <h2>DirectLink<a class="headerlink" href="#directlink" title="此标题的永久链接"></a></h2>
-<p>非常简单，它只使用导线连接两个节点。以下是一个示例：</p>
+<p>Very simple, it connect two nodes with signals only. Here is an example :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">c01</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DirectLink</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span><span class="w"> </span><span class="n">n1</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="stagelink">
 <h2>StageLink<a class="headerlink" href="#stagelink" title="此标题的永久链接"></a></h2>
-<p>这使用data/valid信号上的寄存器和ready信号上的一些仲裁连接了两个节点。</p>
+<p>This connect two nodes using registers on the <code class="docutils literal notranslate"><span class="pre">data</span></code>/<code class="docutils literal notranslate"><span class="pre">valid</span></code> signals and some arbitration on the <code class="docutils literal notranslate"><span class="pre">ready</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">c01</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StageLink</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span><span class="w"> </span><span class="n">n1</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="s2mlink">
 <h2>S2mLink<a class="headerlink" href="#s2mlink" title="此标题的永久链接"></a></h2>
-<p>这使用ready信号上的寄存器连接两个节点，这对于改进反压组合时序非常有用。</p>
+<p>This connect two nodes using registers on the <code class="docutils literal notranslate"><span class="pre">ready</span></code> signal, which can be useful to improve backpressure combinatorial timings.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">c01</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">S2mLink</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span><span class="w"> </span><span class="n">n1</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="ctrllink">
 <h2>CtrlLink<a class="headerlink" href="#ctrllink" title="此标题的永久链接"></a></h2>
-<p>这是一种特殊的 Link，用于连接两个节点，具有可选的流量控制/旁路逻辑。它的应用程序接口应该足够灵活，可以用它来实现 CPU 流水级。</p>
+<p>This is a kind of special <code class="docutils literal notranslate"><span class="pre">Link</span></code>, as it connects two nodes with optional flow control / bypass logic. Its API
+should be flexible enough to implement a CPU stage with it.</p>
 <p>以下是其流量控制 API（Bool 参数启用了相关功能）：</p>
 <table class="docutils align-default">
 <colgroup>
@@ -1642,41 +1658,43 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>haltWhen(Bool)</p></td>
-<td><p>允许阻止当前传输事务（清除 up.ready down.valid）</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">haltWhen(Bool)</span></code></p></td>
+<td><p>Allows to block the current transaction (clear <code class="docutils literal notranslate"><span class="pre">up.ready</span></code> and <code class="docutils literal notranslate"><span class="pre">down.valid</span></code>)</p></td>
 </tr>
-<tr class="row-odd"><td><p>throwWhen(Bool)</p></td>
-<td><p>允许从流水线中取消当前事务（清除 down.valid，使事务驱动逻辑忘记其当前状态）</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">throwWhen(Bool)</span></code></p></td>
+<td><p>Allows to cancel the current transaction from the pipeline (clear <code class="docutils literal notranslate"><span class="pre">down.valid</span></code> and make the transaction driver forget its current state)</p></td>
 </tr>
-<tr class="row-even"><td><p>forgetOneWhen(Bool)</p></td>
-<td><p>允许请求上游节点忘记其当前事务（但不会清除 down.valid）</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forgetOneWhen(Bool)</span></code></p></td>
+<td><p>Allows to request the upstream to forget its current transaction (but doesn’t clear the <code class="docutils literal notranslate"><span class="pre">down.valid</span></code>)</p></td>
 </tr>
-<tr class="row-odd"><td><p>ignoreReadyWhen(Bool)</p></td>
-<td><p>允许忽略下游节点ready（设置 up.ready 为1）</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ignoreReadyWhen(Bool)</span></code></p></td>
+<td><p>Allows to ignore the downstream ready (set <code class="docutils literal notranslate"><span class="pre">up.ready</span></code>)</p></td>
 </tr>
-<tr class="row-even"><td><p>duplicateWhen(Bool)</p></td>
-<td><p>允许复制当前传输事务（清零 up.ready）</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">duplicateWhen(Bool)</span></code></p></td>
+<td><p>Allows to duplicate the current transaction (clear <code class="docutils literal notranslate"><span class="pre">up.ready</span></code>)</p></td>
 </tr>
-<tr class="row-odd"><td><p>terminateWhen(Bool)</p></td>
-<td><p>允许下游节点隐藏当前传输事务（清零 down.valid）</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">terminateWhen(Bool)</span></code></p></td>
+<td><p>Allows to hide the current transaction from downstream (clear <code class="docutils literal notranslate"><span class="pre">down.valid</span></code>)</p></td>
 </tr>
 </tbody>
 </table>
-<p>还要注意的是，如果要在条件作用域（例如在 when 语句中）进行通信流控制，可以调用以下函数 ：</p>
+<p>Also note that if you want to do flow control in a conditional scope (ex in a <code class="docutils literal notranslate"><span class="pre">when</span></code> statement), you can
+call the following functions :</p>
 <ul class="simple">
-<li><p>haltIt(), duplicateIt(), terminateIt(), forgetOneNow(), ignoreReadyNow(), throwIt()</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">haltIt()</span></code>, <code class="docutils literal notranslate"><span class="pre">duplicateIt()</span></code>, <code class="docutils literal notranslate"><span class="pre">terminateIt()</span></code>, <code class="docutils literal notranslate"><span class="pre">forgetOneNow()</span></code>, <code class="docutils literal notranslate"><span class="pre">ignoreReadyNow()</span></code>, <code class="docutils literal notranslate"><span class="pre">throwIt()</span></code></p></li>
 </ul>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">c01</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CtrlLink</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span><span class="w"> </span><span class="n">n1</span><span class="p">)</span><span class="w"></span>
 
 <span class="n">c01</span><span class="p">.</span><span class="n">haltWhen</span><span class="p">(</span><span class="n">something</span><span class="p">)</span><span class="w"> </span><span class="c1">// Explicit halt request</span>
 
 <span class="n">when</span><span class="p">(</span><span class="n">somethingElse</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">c01</span><span class="p">.</span><span class="n">haltIt</span><span class="p">()</span><span class="w"> </span><span class="c1">// Conditional scope sensitive halt request, same as c01.haltWhen(somethingElse)</span>
+<span class="w">    </span><span class="c1">// Conditional scope sensitive halt request, same as c01.haltWhen(somethingElse)</span>
+<span class="w">    </span><span class="n">c01</span><span class="p">.</span><span class="n">haltIt</span><span class="p">()</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>您可以使用 node.up / node.down 查看哪些节点连接到了链接。</p>
-<p>CtrlLink 还提供了访问Payload的 API：</p>
+<p>You can retrieve which nodes are connected to the <code class="docutils literal notranslate"><span class="pre">Link</span></code> using <code class="docutils literal notranslate"><span class="pre">node.up</span></code> / <code class="docutils literal notranslate"><span class="pre">node.down</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">CtrlLink</span></code> also provide an API to access <code class="docutils literal notranslate"><span class="pre">Payload</span></code> :</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 29%" />
@@ -1688,17 +1706,17 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>link(Payload)</p></td>
-<td><p>与 Link.down(Payload) 相同</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">link(Payload)</span></code></p></td>
+<td><p>Same as <code class="docutils literal notranslate"><span class="pre">Link.down(Payload)</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>link(Payload, Any)</p></td>
-<td><p>与 Link.down(Payload, Any) 相同</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">link(Payload,</span> <span class="pre">Any)</span></code></p></td>
+<td><p>Same as <code class="docutils literal notranslate"><span class="pre">Link.down(Payload,</span> <span class="pre">Any)</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>link.insert(Data)</p></td>
-<td><p>与 Link.down.insert(Data) 相同</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">link.insert(Data)</span></code></p></td>
+<td><p>Same as <code class="docutils literal notranslate"><span class="pre">Link.down.insert(Data)</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>link.bypass(Payload)</p></td>
-<td><p>允许在 link.up -&gt; link.down 之间有条件地覆盖 Payload 值。例如，这可用于修复 CPU 流水线中的数据冲突。</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">link.bypass(Payload)</span></code></p></td>
+<td><p>Allows to conditionally override a <code class="docutils literal notranslate"><span class="pre">Payload</span></code> value between <code class="docutils literal notranslate"><span class="pre">link.up</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">link.down</span></code>. This can be used to fix data hazard in CPU pipelines for instance.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1717,7 +1735,7 @@
 <span class="c1">// c01(DATA) and below will get the hazard patch</span>
 </pre></div>
 </div>
-<p>请注意，如果创建的 CtrlLink 不带节点参数，它将在内部创建自己的节点。</p>
+<p>Note that if you create a <code class="docutils literal notranslate"><span class="pre">CtrlLink</span></code> without node arguments, it will create its own nodes internally.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">decode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CtrlLink</span><span class="p">()</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">execute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">CtrlLink</span><span class="p">()</span><span class="w"></span>
 
@@ -1727,11 +1745,11 @@
 </section>
 <section id="other-links">
 <h2>其他链接<a class="headerlink" href="#other-links" title="此标题的永久链接"></a></h2>
-<p>此外，还实现了 JoinLink / ForkLink。</p>
+<p>There is also a <code class="docutils literal notranslate"><span class="pre">JoinLink</span></code> / <code class="docutils literal notranslate"><span class="pre">ForkLink</span></code> implemented.</p>
 </section>
 <section id="your-custom-link">
 <h2>您的自定义链接<a class="headerlink" href="#your-custom-link" title="此标题的永久链接"></a></h2>
-<p>您可以通过实现 Link 基类来实现自定义链接。</p>
+<p>You can implement your custom links by implementing the <code class="docutils literal notranslate"><span class="pre">Link</span></code> base class.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span><span class="w"> </span><span class="nc">Link</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">ups</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Seq</span><span class="p">[</span><span class="nc">Node</span><span class="p">]</span><span class="w"></span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">downs</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Seq</span><span class="p">[</span><span class="nc">Node</span><span class="p">]</span><span class="w"></span>
@@ -1747,7 +1765,7 @@
 </section>
 <section id="builders">
 <h1>Builders<a class="headerlink" href="#builders" title="此标题的永久链接"></a></h1>
-<p>要生成流水线硬件，您需要提供流水线中使用的所有链接列表。</p>
+<p>To generate the hardware of your pipeline, you need to give a list of all the links used in your pipeline.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Let&#39;s define 3 Nodes for our pipeline</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">n0</span><span class="p">,</span><span class="w"> </span><span class="n">n1</span><span class="p">,</span><span class="w"> </span><span class="n">n2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Node</span><span class="p">()</span><span class="w"></span>
 
@@ -1762,7 +1780,9 @@
 <p>此外，还有一套 “一体化 “的构建工具，您可以利用它来帮助你自己。</p>
 <section id="stagepipeline">
 <h2>StagePipeline<a class="headerlink" href="#stagepipeline" title="此标题的永久链接"></a></h2>
-<p>例如，StagePipeline 类有两个作用： - 它便于创建简单的流水线，这些流水线由后面部分组成：Node -&gt; StageLink -&gt; Node -&gt; StageLink -&gt; … - 它可以动态地扩展流水线长度</p>
+<p>For instance there is the <code class="docutils literal notranslate"><span class="pre">StagePipeline</span></code> class which serve two purposes :
+- It ease the creation of simple pipelines which are composed of : <code class="docutils literal notranslate"><span class="pre">Node</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">StageLink</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Node</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">StageLink</span></code> -&gt; …
+- It extends the pipeline length on the fly</p>
 <p>以下是一个例子：</p>
 <ul class="simple">
 <li><p>获取第 0 级输入</p></li>
@@ -1800,40 +1820,41 @@
 </section>
 <section id="stagectrlpipeline">
 <h2>StageCtrlPipeline<a class="headerlink" href="#stagectrlpipeline" title="此标题的永久链接"></a></h2>
-<p>与 StagePipeline 非常相似，但它用 StageLink 代替了 Nodes，允许在每个阶段上处理仲裁/旁路，这在 CPU 设计中非常有用。</p>
+<p>Very similar to <code class="docutils literal notranslate"><span class="pre">StagePipeline</span></code>, but it replace Nodes by <code class="docutils literal notranslate"><span class="pre">CtrlLink</span></code>, allowing to handle
+the arbitration / bypasses on each stages, which is for instance quite useful for CPU designs.</p>
 <p>以下是一个例子：</p>
 <ul class="simple">
 <li><p>获取第 0 级输入</p></li>
 <li><p>对第 1 级输入求和</p></li>
-<li><p>检查总和值，最终在第2级放弃该次传输</p></li>
+<li><p>Check the sum value and eventually drop the transaction at stage 2</p></li>
 <li><p>在第 3 级提供结果</p></li>
 </ul>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Lets define a few inputs/outputs</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Let&#39;s define a few inputs/outputs.</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 
-<span class="c1">// Lets create the pipelining tool.</span>
+<span class="c1">// Let&#39;s create the pipelining tool.</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">pip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">StageCtrlPipeline</span><span class="w"></span>
 
-<span class="c1">// Lets insert a and b into the pipeline at stage 0</span>
+<span class="c1">// Let&#39;s insert a and b into the pipeline at stage 0.</span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pip</span><span class="p">.</span><span class="n">ctrl</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="nc">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pip</span><span class="p">.</span><span class="n">ctrl</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">insert</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"></span>
 
-<span class="c1">// Lets sum A and B it stage 1</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">onSum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">pip</span><span class="p">.</span><span class="nc">Ctrl</span><span class="p">(</span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
+<span class="c1">// Let&#39;s sum A and B at stage 1.</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">onSum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">pip</span><span class="p">.</span><span class="nc">Ctrl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">VALUE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="nc">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nc">B</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="c1">// Lets check if the sum is bad (&gt; 128) in stage 2 and if that is the case, we drop the transaction.</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">onTest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">pip</span><span class="p">.</span><span class="nc">Ctrl</span><span class="p">(</span><span class="mi">2</span><span class="p">){</span><span class="w"></span>
+<span class="c1">// Let&#39;s check if the sum is bad (&gt; 128) in stage 2 and if that is the case, we drop the transaction.</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">onTest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">pip</span><span class="p">.</span><span class="nc">Ctrl</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">isBad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onSum</span><span class="p">.</span><span class="nc">VALUE</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">128</span><span class="w"></span>
 <span class="w">  </span><span class="n">throwWhen</span><span class="p">(</span><span class="n">isBad</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="c1">// Lets assign our output result from stage 3</span>
+<span class="c1">// Let&#39;s assign our output result from stage 3.</span>
 <span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">pip</span><span class="p">.</span><span class="n">ctrl</span><span class="p">(</span><span class="mi">3</span><span class="p">)(</span><span class="n">onSum</span><span class="p">.</span><span class="nc">VALUE</span><span class="p">)</span><span class="w"></span>
 
-<span class="c1">// Now that everything is specified, we can build the pipeline</span>
+<span class="c1">// Now that everything is specified, we can build the pipeline.</span>
 <span class="n">pip</span><span class="p">.</span><span class="n">build</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1841,11 +1862,15 @@
 </section>
 <section id="composability">
 <h1>组合能力（Composability）<a class="headerlink" href="#composability" title="此标题的永久链接"></a></h1>
-<p>该API的一个优点是，它可以轻松地将多个并行事物组成一个流水线。这里的 “组成 “是指有时你设计的流水线需要进行并行处理。</p>
-<p>试想一下，如果您需要对 4 对数字进行浮点乘法运算（稍后求和）。并且这 4 对数字是由一个数据流同时提供的，那么就不需要 4 条不同的流水线来进行乘法运算，而需要在同一条流水线上并行处理。</p>
+<p>One good thing about the API is that it easily allows to compose a pipeline with multiple parallel things.
+What it means by “compose” is that sometime the pipeline you need to design has parallel processing to do.</p>
+<p>Imagine you need to do floating point multiplication on 4 pairs of numbers (to later sum them).
+If those 4 pairs are provided at the same time by a single stream of data, then you don’t want 4 different pipelines
+to multiply them, instead you want to process them all in parallel in the same pipeline.</p>
 <p>下面的示例展示了一种模式，它将多个通道组成一个流水线，来并行处理它们。</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// This area allows to take a input value and do +1 +1 +1 over 3 stages.</span>
-<span class="c1">// I know that&#39;s useless, but let&#39;s pretend that instead it does a multiplication between two numbers over 3 stages (for FMax reasons)</span>
+<span class="c1">// I know that&#39;s useless, but let&#39;s pretend that instead it does a multiplication</span>
+<span class="c1">// between two numbers over 3 stages (for FMax reasons).</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Plus3</span><span class="p">(</span><span class="nc">INPUT</span><span class="p">:</span><span class="w"> </span><span class="nc">Payload</span><span class="p">[</span><span class="nc">UInt</span><span class="p">],</span><span class="w"> </span><span class="n">stage1</span><span class="p">:</span><span class="w"> </span><span class="nc">Node</span><span class="p">,</span><span class="w"> </span><span class="n">stage2</span><span class="p">:</span><span class="w"> </span><span class="nc">Node</span><span class="p">,</span><span class="w"> </span><span class="n">stage3</span><span class="p">:</span><span class="w"> </span><span class="nc">Node</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">ONE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stage1</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">stage1</span><span class="p">(</span><span class="nc">INPUT</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nc">TWO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stage2</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">stage2</span><span class="p">(</span><span class="nc">ONE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
@@ -1854,7 +1879,7 @@
 
 <span class="c1">// Let&#39;s define a component which takes a stream as input,</span>
 <span class="c1">// which carries &#39;lanesCount&#39; values that we want to process in parallel</span>
-<span class="c1">// and put the result on an output stream</span>
+<span class="c1">// and put the result on an output stream.</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">(</span><span class="n">lanesCount</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="n">lanesCount</span><span class="p">)(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
@@ -1884,7 +1909,7 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>这将产生以下数据路径（假设 lanesCount = 2），这里没有给出仲裁：</p>
+<p>This will produce the following data path (assuming <code class="docutils literal notranslate"><span class="pre">lanesCount</span> <span class="pre">=</span> <span class="pre">2</span></code>), arbitration not being shown :</p>
 <a class="reference internal image-reference" href="../../../_images/composable_lanes.png"><img alt="../../../_images/composable_lanes.png" src="../../../_images/composable_lanes.png" style="width: 406.0px; height: 630.0px;" /></a>
 </section>
 <section id="retiming-variable-length">
@@ -1894,7 +1919,7 @@
 <p>下面介绍如何使用此流水线 API：</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// Define a component which will take a input stream of RGB value</span>
 <span class="c1">// Process (~(R + G + B)) * 0xEE</span>
-<span class="c1">// And provide that result into an output stream</span>
+<span class="c1">// And provide that result into an output stream.</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">RgbToSomething</span><span class="p">(</span><span class="n">addAt</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
 <span class="w">                     </span><span class="n">invAt</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
 <span class="w">                     </span><span class="n">mulAt</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"></span>
@@ -1905,44 +1930,44 @@
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">down</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="w"> </span><span class="nc">Stream</span><span class="w"> </span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">// Let&#39;s define the Nodes for our pipeline</span>
+<span class="w">  </span><span class="c1">// Let&#39;s define the Nodes for our pipeline.</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">nodes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Array</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="n">resultAt</span><span class="o">+</span><span class="mi">1</span><span class="p">)(</span><span class="nc">Node</span><span class="p">())</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">// Let&#39;s specify which node will be used for what part of the pipeline</span>
+<span class="w">  </span><span class="c1">// Let&#39;s specify which node will be used for what part of the pipeline.</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">insertNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">addNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes</span><span class="p">(</span><span class="n">addAt</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">invNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes</span><span class="p">(</span><span class="n">invAt</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">mulNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes</span><span class="p">(</span><span class="n">mulAt</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">resultNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes</span><span class="p">(</span><span class="n">resultAt</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">// Define the hardware which will feed the io.up stream into the pipeline</span>
+<span class="w">  </span><span class="c1">// Define the hardware which will feed the io.up stream into the pipeline.</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">inserter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">insertNode</span><span class="p">.</span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">arbitrateFrom</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">up</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">RGB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">up</span><span class="p">.</span><span class="n">payload</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">// sum the r g b values of the color</span>
+<span class="w">  </span><span class="c1">// Sum the r g b values of the color.</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">adder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">addNode</span><span class="p">.</span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">SUM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">inserter</span><span class="p">.</span><span class="nc">RGB</span><span class="p">.</span><span class="n">r</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">inserter</span><span class="p">.</span><span class="nc">RGB</span><span class="p">.</span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">inserter</span><span class="p">.</span><span class="nc">RGB</span><span class="p">.</span><span class="n">b</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">// flip all the bit of the RGB sum</span>
+<span class="w">  </span><span class="c1">// Flip all the bit of the RGB sum.</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">inverter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">invNode</span><span class="p">.</span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">INV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="o">~</span><span class="n">adder</span><span class="p">.</span><span class="nc">SUM</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">// multiply the inverted bits with 0xEE</span>
+<span class="w">  </span><span class="c1">// Multiply the inverted bits with 0xEE.</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">multiplier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">mulNode</span><span class="p">.</span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nc">MUL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">inverter</span><span class="p">.</span><span class="nc">INV</span><span class="o">*</span><span class="mh">0xEE</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">// Connect the end of the pipeline to the io.down stream</span>
+<span class="w">  </span><span class="c1">// Connect the end of the pipeline to the io.down stream.</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">resulter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">resultNode</span><span class="p">.</span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">arbitrateTo</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">down</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">io</span><span class="p">.</span><span class="n">down</span><span class="p">.</span><span class="n">payload</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">multiplier</span><span class="p">.</span><span class="nc">MUL</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="c1">// Let&#39;s connect those nodes sequentially by using simples registers</span>
+<span class="w">  </span><span class="c1">// Let&#39;s connect those nodes sequentially by using simples registers.</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">links</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">resultAt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="nc">StageLink</span><span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">nodes</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1">// Let&#39;s ask the builder to generate all the required hardware</span>
@@ -1961,7 +1986,7 @@
 <span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>您将获得由 3 层寄存器（flip flop）分隔的 4 个处理阶段：</p>
+<p>You will get 4 stages separated by 3 layers of flip-flops doing your processing :</p>
 <a class="reference internal image-reference" href="../../../_images/rgbToSomething.png"><img alt="../../../_images/rgbToSomething.png" src="../../../_images/rgbToSomething.png" style="width: 114.8px; height: 392.0px;" /></a>
 <p>请注意，生成的硬件 verilog 还算干净（至少按我的标准来说是这样 :P）：</p>
 <div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="c1">// Generator : SpinalHDL dev    git head : 1259510dd72697a4f2c388ad22b269d4d2600df7</span>
@@ -2075,7 +2100,8 @@
 <span class="k">endmodule</span><span class="w"></span>
 </pre></div>
 </div>
-<p>此外，您还可以轻松调整处理的级数和位置，例如，您可能希望将翻转的硬件逻辑移到与加法器相同级上。具体方法如下：</p>
+<p>Also, you can easily tweak how many stages and where you want the processing to be done, for instance
+you may want to move the inversion hardware to the same stage as the adder. This can be done the following way :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="w"></span>
 <span class="w">  </span><span class="k">new</span><span class="w"> </span><span class="nc">RgbToSomething</span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="n">addAt</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
@@ -2086,7 +2112,7 @@
 <span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>那么您可能需要移除输出寄存器级：</p>
+<p>When you may want to remove the output register stage :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="w"></span>
 <span class="w">  </span><span class="k">new</span><span class="w"> </span><span class="nc">RgbToSomething</span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="n">addAt</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
@@ -2097,7 +2123,7 @@
 <span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>这个示例的一个特点是，中间值必须是 <cite>addNode</cite>。例如：</p>
+<p>One thing about this example is the necessity intermediate val as <code class="docutils literal notranslate"><span class="pre">addNode</span></code>. I mean :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">addNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes</span><span class="p">(</span><span class="n">addAt</span><span class="p">)</span><span class="w"></span>
 <span class="c1">// sum the r g b values of the color</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">adder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">addNode</span><span class="p">.</span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -2240,7 +2266,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~3f8df944dc 2025-01-06
+    Version: master (HEAD) git~a1c27b31a8 2025-02-12
     </p></div>
     
 

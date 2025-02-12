@@ -44,8 +44,8 @@ WhenBuilder
 -----------
 
 Sometimes we need to generate some parameters for the when condition, 
-and the original structure of when else is not very suitable. 
-Therefore, we provide a 'whenBuilder' method to achieve this goal
+and the original structure of ``when``/``otherwise`` is not very suitable. 
+Therefore, we provide a 'whenBuilder' method to achieve this goal:
 
 .. code-block:: scala
 
@@ -70,8 +70,8 @@ Therefore, we provide a 'whenBuilder' method to achieve this goal
       result := 3
     }
 
-Compared to the when/elsewhen/otherwise approach, it might be more convenient for parameterization. 
-we can also use like this
+Compared to the ``when``/``elsewhen``/``otherwise`` approach, it might be more convenient for parameterization. 
+we can also use like this:
 
 .. code-block:: scala
 

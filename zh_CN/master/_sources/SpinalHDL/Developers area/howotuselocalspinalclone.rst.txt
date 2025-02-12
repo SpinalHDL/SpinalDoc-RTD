@@ -61,8 +61,9 @@ Configure mill (update ``build.sc``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: scala
-
-   import mill._, scalalib._
+   
+   import mill._
+   import scalalib._
 
    import $file.^.SpinalHDL.build
    import ^.SpinalHDL.build.{core => spinalCore}

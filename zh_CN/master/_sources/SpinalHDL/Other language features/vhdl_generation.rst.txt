@@ -119,11 +119,11 @@ Parametrization from Scala
    * - ``mergeSyncProcess``
      - Boolean
      - true
-     - Will merge process/always blocks for flipflops which use the same clock domain (if/switch statment)
+     - Will merge process/always blocks for flip-flops which use the same clock domain (if/switch statment)
    * - ``genLineComments``
      - Boolean
      - false
-     - For each hardware assignement in the generated VHDL/Verilog code, will attach a comment which specifies in which scala file, at which line, the assignement happend. Ex : a = 1'b1; // @ MyDesign.scala l1135
+     - For each hardware assignment in the generated VHDL/Verilog code, will attach a comment which specifies in which scala file, at which line, the assignement happend. Ex : a = 1'b1; // @ MyDesign.scala l1135
    * - ``noAssert``
      - Boolean
      - false

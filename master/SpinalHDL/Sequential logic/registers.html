@@ -473,7 +473,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#reset-value">Reset value</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#initialization-value-for-simulation-purposes">Initialization value for simulation purposes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#register-vectors">Register vectors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transforming-a-wire-into-a-register">Transforming a wire into a register</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transforming-a-signal-into-a-register">Transforming a signal into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="memory.html">RAM/ROM Memory</a><ul>
@@ -1246,7 +1246,7 @@
 <p>In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.
 This difference from traditional event-driven HDL has a big impact:</p>
 <ul class="simple">
-<li><p>You can assign registers and wires in the same scope, meaning the code doesn’t need to be split between process/always blocks</p></li>
+<li><p>You can assign registers and signals in the same scope, meaning the code doesn’t need to be split between process/always blocks</p></li>
 <li><p>It make things much more flexible (see <a class="reference internal" href="../Structuring/function.html#function"><span class="std std-ref">Functions</span></a>)</p></li>
 </ul>
 <p>Clocks and resets are handled separately, see the <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock domain</span></a> chapter for details.</p>
@@ -1382,7 +1382,7 @@ you can also set the reset value by calling the <code class="docutils literal no
 </section>
 <section id="register-vectors">
 <h2>Register vectors<a class="headerlink" href="#register-vectors" title="Permalink to this heading"></a></h2>
-<p>As for wires, it is possible to define a vector of registers with <code class="docutils literal notranslate"><span class="pre">Vec</span></code>.</p>
+<p>As for signals, it is possible to define a vector of registers with <code class="docutils literal notranslate"><span class="pre">Vec</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">vecReg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">vecReg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">8</span><span class="p">)(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bool</span><span class="p">()))</span><span class="w"></span>
 </pre></div>
@@ -1424,10 +1424,10 @@ you can also set the reset value by calling the <code class="docutils literal no
 </pre></div>
 </div>
 </section>
-<section id="transforming-a-wire-into-a-register">
-<h2>Transforming a wire into a register<a class="headerlink" href="#transforming-a-wire-into-a-register" title="Permalink to this heading"></a></h2>
-<p>Sometimes it is useful to transform an existing wire into a register. For
-instance, when you are using a Bundle, if you want some outputs of the bundle to
+<section id="transforming-a-signal-into-a-register">
+<h2>Transforming a signal into a register<a class="headerlink" href="#transforming-a-signal-into-a-register" title="Permalink to this heading"></a></h2>
+<p>Sometimes it is useful to transform an existing signal into a register. For
+instance, when you are using a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>, if you want some outputs of the bundle to
 be registers, you might prefer to write <code class="docutils literal notranslate"><span class="pre">io.myBundle.PORT</span> <span class="pre">:=</span> <span class="pre">newValue</span></code> without
 declaring registers with <code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">PORT</span> <span class="pre">=</span> <span class="pre">Reg(...)</span></code> and connecting their output to
 the port with <code class="docutils literal notranslate"><span class="pre">io.myBundle.PORT</span> <span class="pre">:=</span> <span class="pre">PORT</span></code>. To do this, you just need to use
@@ -1447,9 +1447,9 @@ the port with <code class="docutils literal notranslate"><span class="pre">io.my
 <p>Notice in the code above that you can also specify an initialization value.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The register is created in the clock domain of the wire, and does not depend
+<p>The register is created in the clock domain of the signal, and does not depend
 on the place where <code class="docutils literal notranslate"><span class="pre">.setAsReg()</span></code> is used.</p>
-<p>In the example above, the wire is defined in the <code class="docutils literal notranslate"><span class="pre">io</span></code> Bundle, in the same
+<p>In the example above, the signal is defined in the <code class="docutils literal notranslate"><span class="pre">io</span></code> Bundle, in the same
 clock domain as the component. Even if <code class="docutils literal notranslate"><span class="pre">io.apb.PADDR.setAsReg()</span></code> was
 written in a <code class="docutils literal notranslate"><span class="pre">ClockingArea</span></code> with a different clock domain, the register
 would use the clock domain of the component and not the one of the
@@ -1487,7 +1487,7 @@ would use the clock domain of the component and not the one of the
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~3f8df944dc 2025-01-06
+    Version: master (HEAD) git~a1c27b31a8 2025-02-12
     </p></div>
     
 

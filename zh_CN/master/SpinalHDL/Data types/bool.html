@@ -474,7 +474,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#reset-value">复位值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">用于仿真目的的初始化值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#register-vectors">寄存器组</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-wire-into-a-register">将线缆/信号转换为寄存器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-signal-into-a-register">Transforming a signal into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM存储器</a><ul>
@@ -1245,7 +1245,10 @@
 <span id="id1"></span><h1>Bool<a class="headerlink" href="#bool" title="此标题的永久链接"></a></h1>
 <section id="description">
 <h2>描述<a class="headerlink" href="#description" title="此标题的永久链接"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">Bool</span></code> 类型对应于硬件设计中使用的布尔值（True 或 False）或单个位/线。虽然名称类似，但不应与 Scala <cite>Boolean</cite> 类型混淆，后者不描述硬件，而是描述 Scala 生成器代码中的真值。</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Bool</span></code> type corresponds to a boolean value (True or False) or a single bit/signal
+used in a hardware design.  While named similarly it should not be confused with
+Scala <cite>Boolean</cite> type which does not describe hardware but truth values in the Scala
+generator code.</p>
 <p>An important concept and rule-of-thumb to understand is that the Scala
 <cite>Boolean</cite> type is used in places where elaboration-time HDL code-generation
 decision making is occurring in Scala code.  Like any regular program it affects
@@ -1255,7 +1258,12 @@ being run to perform HDL code generation.</p>
 <p>在您的设计中可能需要这样做，例如从 Scala 向硬件设计中传递一个值（该值可能作为参数化常量输入），您可以使用构造函数 <cite>Bool(value: Boolean)</cite> 将其类型转换为 <cite>Bool</cite> 。</p>
 <p>同样，SpinalHDL <cite>Bool</cite> 的值在代码生成时无法看到，所有可以看到和操作的都是有关 <cite>wire</cite> 的 HDL 构造以及它如何路由（通过模块/组件）、驱动（源）并连接（汇据点）。</p>
 <p>赋值运算符 <cite>:=</cite> 的信号方向由 SpinalHDL 管理。在赋值运算符 <cite>:=</cite> 左侧或右侧使用 <cite>Bool</cite> 实例指示它是给定赋值的源（提供状态）还是接收器（捕获状态）。</p>
-<p>允许多次使用赋值运算符，因此信号线作为源（提供值以驱动 HDL 状态）连接并驱动其他 HDL 结构的多个输入是很正常的。 当 Bool 实例用作源时，赋值语句在 Scala 中出现或执行的顺序并不重要，而当它用作汇（捕获状态）时则不同。</p>
+<p>Multiple uses of the assignment operator are allowed, such that it is normal
+for a signal to act as a source (provides a value to drive HDL state) to be
+able to connect and drive multiple inputs of other HDL constructs.  When a Bool
+instance used as a source the order the assignment statements appear or are
+executed in Scala does not matter, unlike when it is used as a sink
+(captures state).</p>
 <p>当多个赋值操作符驱动 Bool（Bool 位于赋值表达式的左侧）时，最后一个赋值语句将赢得胜利；并开始生效。 最后一个将在 Scala 代码中最后执行。 此事会影响 SpinalHDL Scala 代码的布局和排序，以确保在硬件设计中获得正确的优先顺序，以便在硬件中为 Bool 赋值新状态。</p>
 <p>将 Scala/SpinalHDL <cite>Bool</cite> 实例作为对 net-list 中 HDL <cite>net</cite> 的引用，可能有助于理解这一概念。 其中，赋值 <cite>:=</cite> 操作符将 HDL 结构加入到同一个网中。</p>
 </section>
@@ -1397,7 +1405,10 @@ being run to perform HDL code generation.</p>
 <section id="edge-detection">
 <h3>边缘检测<a class="headerlink" href="#edge-detection" title="此标题的永久链接"></a></h3>
 <p>所有边缘检测函数都将通过 <a class="reference internal" href="../Sequential%20logic/registers.html#regnext"><span class="std std-ref">RegNext</span></a> 实例化一个附加寄存器，以获取相关 <code class="docutils literal notranslate"><span class="pre">Bool</span></code> 的延迟值（一拍）。</p>
-<p>此功能不会重新配置 D 型触发器以使用其他 CLK 时钟，它使用串联链中的两个 D 型触发器（两个 CLK 引脚都继承默认的 ClockDomain）。它具有组合逻辑，可根据输出 Q 状态进行边缘检测。</p>
+<p>This feature does not reconfigure a D-type flip-flop to use an alternative CLK
+source, it uses two D-type flip-flop in series chain (with both CLK pins inheriting
+the default ClockDomain).  It has combinational logic to perform edge detection
+based on the output Q states.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 25%" />
@@ -1603,7 +1614,7 @@ being run to perform HDL code generation.</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~3f8df944dc 2025-01-06
+    Version: master (HEAD) git~a1c27b31a8 2025-02-12
     </p></div>
     
 

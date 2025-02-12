@@ -474,7 +474,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#reset-value">复位值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#initialization-value-for-simulation-purposes">用于仿真目的的初始化值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#register-vectors">寄存器组</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-wire-into-a-register">将线缆/信号转换为寄存器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Sequential%20logic/registers.html#transforming-a-signal-into-a-register">Transforming a signal into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Sequential%20logic/memory.html">RAM/ROM存储器</a><ul>
@@ -1283,30 +1283,31 @@ git clone --depth <span class="m">1</span> -b dev https://github.com/SpinalHDL/S
 </section>
 <section id="configure-mill-update-build-sc">
 <h3>配置 mill (更新 <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>)<a class="headerlink" href="#configure-mill-update-build-sc" title="此标题的永久链接"></a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span>import mill._, scalalib._
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">mill</span><span class="p">.</span><span class="n">_</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">scalalib</span><span class="p">.</span><span class="n">_</span>
 
-import $file.^.SpinalHDL.build
-import ^.SpinalHDL.build.{core =&gt; spinalCore}
-import ^.SpinalHDL.build.{lib =&gt; spinalLib}
-import ^.SpinalHDL.build.{idslplugin =&gt; spinalIdslplugin}
+<span class="k">import</span><span class="w"> </span><span class="nn">$file</span><span class="p">.</span><span class="nn">^</span><span class="p">.</span><span class="nc">SpinalHDL</span><span class="p">.</span><span class="n">build</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">^</span><span class="p">.</span><span class="nc">SpinalHDL</span><span class="p">.</span><span class="nn">build</span><span class="p">.{</span><span class="n">core</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">spinalCore</span><span class="p">}</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">^</span><span class="p">.</span><span class="nc">SpinalHDL</span><span class="p">.</span><span class="nn">build</span><span class="p">.{</span><span class="n">lib</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">spinalLib</span><span class="p">}</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">^</span><span class="p">.</span><span class="nc">SpinalHDL</span><span class="p">.</span><span class="nn">build</span><span class="p">.{</span><span class="n">idslplugin</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">spinalIdslplugin</span><span class="p">}</span>
 
-val spinalVers = &quot;1.10.2a&quot;
-val scalaVers = &quot;2.12.18&quot;
+<span class="kd">val</span><span class="w"> </span><span class="n">spinalVers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.10.2a&quot;</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">scalaVers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.12.18&quot;</span><span class="w"></span>
 
-object projectname extends RootModule with SbtModule {
-   def scalaVersion = scalaVers
-   def sources = T.sources(
-      this.millSourcePath / &quot;hw&quot; / &quot;spinal&quot;
-   )
+<span class="k">object</span><span class="w"> </span><span class="nc">projectname</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">RootModule</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">SbtModule</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="k">def</span><span class="w"> </span><span class="nf">scalaVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scalaVers</span><span class="w"></span>
+<span class="w">   </span><span class="k">def</span><span class="w"> </span><span class="nf">sources</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">T</span><span class="p">.</span><span class="n">sources</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="bp">this</span><span class="p">.</span><span class="n">millSourcePath</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;hw&quot;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">&quot;spinal&quot;</span><span class="w"></span>
+<span class="w">   </span><span class="p">)</span><span class="w"></span>
 
-   def idslplugin = spinalIdslplugin(scalaVers)
-   def moduleDeps = Seq(
-      spinalCore(scalaVers),
-      spinalLib(scalaVers),
-      idslplugin
-   )
-   def scalacOptions = super.scalacOptions() ++ idslplugin.pluginOptions()
-}
+<span class="w">   </span><span class="k">def</span><span class="w"> </span><span class="nf">idslplugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spinalIdslplugin</span><span class="p">(</span><span class="n">scalaVers</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">def</span><span class="w"> </span><span class="nf">moduleDeps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="n">spinalCore</span><span class="p">(</span><span class="n">scalaVers</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="n">spinalLib</span><span class="p">(</span><span class="n">scalaVers</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="n">idslplugin</span><span class="w"></span>
+<span class="w">   </span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="k">def</span><span class="w"> </span><span class="nf">scalacOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">super</span><span class="p">.</span><span class="n">scalacOptions</span><span class="p">()</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="n">idslplugin</span><span class="p">.</span><span class="n">pluginOptions</span><span class="p">()</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>注意 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">$file.^.SpinalHDL.build</span></code> 行。它使用了 ammonite REPL 的魔法 <code class="docutils literal notranslate"><span class="pre">$file</span></code> 来查找 SpinalHDL 的 <code class="docutils literal notranslate"><span class="pre">build.sc</span></code>。(<code class="docutils literal notranslate"><span class="pre">^</span></code> 从当前目录向上移动一个目录。) 假设目录结构如下：</p>
@@ -1355,7 +1356,7 @@ object projectname extends RootModule with SbtModule {
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~3f8df944dc 2025-01-06
+    Version: master (HEAD) git~a1c27b31a8 2025-02-12
     </p></div>
     
 

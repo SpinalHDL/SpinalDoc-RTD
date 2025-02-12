@@ -474,7 +474,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#reset-value">复位值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#initialization-value-for-simulation-purposes">用于仿真目的的初始化值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#register-vectors">寄存器组</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transforming-a-wire-into-a-register">将线缆/信号转换为寄存器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transforming-a-signal-into-a-register">Transforming a signal into a register</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="memory.html">RAM/ROM存储器</a><ul>
@@ -1246,7 +1246,7 @@
 <p>在 SpinalHDL 中创建寄存器与在 VHDL 或 Verilog 中创建寄存器有很大不同。</p>
 <p>在 Spinal 中，没有 process/always 块。寄存器在声明时明确定义。这种与传统的事件驱动 HDL 的区别具有很大的影响：</p>
 <ul class="simple">
-<li><p>您可以在同一范围内赋值寄存器和连线，这意味着代码不需要在 process/always 块之间拆分</p></li>
+<li><p>You can assign registers and signals in the same scope, meaning the code doesn’t need to be split between process/always blocks</p></li>
 <li><p>它使事情变得更加灵活（参见 <a class="reference internal" href="../Structuring/function.html#function"><span class="std std-ref">Functions</span></a>）</p></li>
 </ul>
 <p>时钟和复位是分开处理的，有关详细信息，请参阅 <cite>时钟域 &lt;clock_domain&gt;</cite> 章节。</p>
@@ -1376,7 +1376,7 @@
 </section>
 <section id="register-vectors">
 <h2>寄存器组<a class="headerlink" href="#register-vectors" title="此标题的永久链接"></a></h2>
-<p>至于连线，可以使用 <code class="docutils literal notranslate"><span class="pre">Vec</span></code> 定义寄存器组。</p>
+<p>As for signals, it is possible to define a vector of registers with <code class="docutils literal notranslate"><span class="pre">Vec</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">vecReg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">vecReg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">8</span><span class="p">)(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bool</span><span class="p">()))</span><span class="w"></span>
 </pre></div>
@@ -1418,9 +1418,14 @@
 </pre></div>
 </div>
 </section>
-<section id="transforming-a-wire-into-a-register">
-<h2>将线缆/信号转换为寄存器<a class="headerlink" href="#transforming-a-wire-into-a-register" title="此标题的永久链接"></a></h2>
-<p>有时将现有的连线转换为寄存器很有用。例如，当您使用线束（Bundle）时，如果您希望线束的某些输出成为寄存器，您可能更愿意编写 <code class="docutils literal notranslate"><span class="pre">io.myBundle.PORT</span> <span class="pre">:=</span> <span class="pre">newValue</span></code> 而不用 <code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">PORT</span> <span class="pre">=</span> <span class="pre">Reg(</span> <span class="pre">...)</span></code> 并将其输出连接到带有 <code class="docutils literal notranslate"><span class="pre">io.myBundle.PORT</span> <span class="pre">:=</span> <span class="pre">PORT</span></code> 的端口。为此，您只需在要实例化为寄存器的端口上使用 <code class="docutils literal notranslate"><span class="pre">.setAsReg()</span></code>：</p>
+<section id="transforming-a-signal-into-a-register">
+<h2>Transforming a signal into a register<a class="headerlink" href="#transforming-a-signal-into-a-register" title="此标题的永久链接"></a></h2>
+<p>Sometimes it is useful to transform an existing signal into a register. For
+instance, when you are using a <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>, if you want some outputs of the bundle to
+be registers, you might prefer to write <code class="docutils literal notranslate"><span class="pre">io.myBundle.PORT</span> <span class="pre">:=</span> <span class="pre">newValue</span></code> without
+declaring registers with <code class="docutils literal notranslate"><span class="pre">val</span> <span class="pre">PORT</span> <span class="pre">=</span> <span class="pre">Reg(...)</span></code> and connecting their output to
+the port with <code class="docutils literal notranslate"><span class="pre">io.myBundle.PORT</span> <span class="pre">:=</span> <span class="pre">PORT</span></code>. To do this, you just need to use
+<code class="docutils literal notranslate"><span class="pre">.setAsReg()</span></code> on the ports you want to control as registers:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">apb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Apb3</span><span class="p">(</span><span class="n">apb3Config</span><span class="p">))</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -1436,8 +1441,13 @@
 <p>请注意，在上面的代码中，您还可以指定初始化值。</p>
 <div class="admonition note">
 <p class="admonition-title">备注</p>
-<p>该寄存器是在线路/信号的时钟域中创建的，并且不依赖于使用 <code class="docutils literal notranslate"><span class="pre">.setAsReg()</span></code> 的位置。</p>
-<p>在上面的示例中，线路在 <code class="docutils literal notranslate"><span class="pre">io</span></code> 线束中定义，与组件位于同一时钟域中。即使 <code class="docutils literal notranslate"><span class="pre">io.apb.PADDR.setAsReg()</span></code> 这条代码写在具有不同时钟域的 <code class="docutils literal notranslate"><span class="pre">ClockingArea</span></code> 中，寄存器也将使用组件的时钟域，而不是 <code class="docutils literal notranslate"><span class="pre">ClockingArea</span></code> 的时钟域。</p>
+<p>The register is created in the clock domain of the signal, and does not depend
+on the place where <code class="docutils literal notranslate"><span class="pre">.setAsReg()</span></code> is used.</p>
+<p>In the example above, the signal is defined in the <code class="docutils literal notranslate"><span class="pre">io</span></code> Bundle, in the same
+clock domain as the component. Even if <code class="docutils literal notranslate"><span class="pre">io.apb.PADDR.setAsReg()</span></code> was
+written in a <code class="docutils literal notranslate"><span class="pre">ClockingArea</span></code> with a different clock domain, the register
+would use the clock domain of the component and not the one of the
+<code class="docutils literal notranslate"><span class="pre">ClockingArea</span></code>.</p>
 </div>
 </section>
 </section>
@@ -1471,7 +1481,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~3f8df944dc 2025-01-06
+    Version: master (HEAD) git~a1c27b31a8 2025-02-12
     </p></div>
     
 

@@ -75,8 +75,8 @@ Directions:
 
 Types:
 
-* ``cond0``, ``cond1`` and ``flag`` are 1 bit each (as 3 individual wires)
-* ``state`` is an 8-bit unsigned integer (a bus of 8 wires representing an
+* ``cond0``, ``cond1`` and ``flag`` are 1 bit each (as 3 individual signals)
+* ``state`` is an 8-bit unsigned integer (a bus of 8 signals representing an
   unsigned integer)
 
 .. note::

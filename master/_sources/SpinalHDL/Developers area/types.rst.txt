@@ -534,7 +534,7 @@ If you want to define an interface, let's imagine an APB interface, you can also
      val PWRITE     = Bool()
      val PWDATA     = Bits(dataWidth bits)
      val PRDATA     = Bits(dataWidth bits)
-     val PSLVERROR  = if(useSlaveError) Bool() else null   // This wire is created only when useSlaveError is true
+     val PSLVERROR  = if(useSlaveError) Bool() else null   // This signal is created only when useSlaveError is true
    }
 
    // Example of usage :
@@ -640,7 +640,7 @@ An example of an APB bus that implement this IMasterSlave :
      val PWRITE     = Bool()
      val PWDATA     = Bits(dataWidth bits)
      val PRDATA     = Bits(dataWidth bits)
-     val PSLVERROR  = if(useSlaveError) Bool() else null   // This wire is created only when useSlaveError is true
+     val PSLVERROR  = if(useSlaveError) Bool() else null   // This signal is created only when useSlaveError is true
 
      override def asMaster() : Unit = {
        out(PADDR,PSEL,PENABLE,PWRITE,PWDATA)
@@ -745,7 +745,7 @@ Literals as signal declaration
 Literals are generally use as a constant value. But you can also use them to do two things in a single one :
 
 
-* Define a wire which is assigned with a constant value
+* Define a signal which is assigned with a constant value
 * Setup inferred type: UInt(4 bits)
 * Clock cycles where `cond =/= True` will result in the constant being reinstated
 * Clock cycles where `cond === True` will result in the signal having the
@@ -758,8 +758,8 @@ An example :
    val cond = in Bool()
    val red = in UInt(4 bits)
    ...
-   val valid = False          // Bool wire which is by default assigned with False
-   val value = U"0100"        // UInt wire of 4 bits which is by default assigned with 4
+   val valid = False          // Bool signal which is by default assigned with False
+   val value = U"0100"        // UInt signal of 4 bits which is by default assigned with 4
    when(cond) {
      valid := True
      value := red

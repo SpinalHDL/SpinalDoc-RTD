@@ -2,7 +2,7 @@
 Introduction
 ============
 
-spinal.lib.misc.pipeline provides a pipelining API. The main advantages over manual pipelining are : 
+``spinal.lib.misc.pipeline`` provides a pipelining API. The main advantages over manual pipelining are : 
 
 - You don't have to predefine all the signal elements needed for the entire staged system upfront. You can create and consume stagable signals in a more ad hoc fashion as your design requires - without needing to refactor all the intervening stages to know about the signal
 - Signals of the pipeline can utilize the powerful parametrization capabilities of SpinalHDL and be subject to optimization/removal if a specific design build does not require a particular parametrized feature, without any need to modify the staging system design or project code base in a significant way.
@@ -11,12 +11,14 @@ spinal.lib.misc.pipeline provides a pipelining API. The main advantages over man
 
 The API is composed of 4 main things : 
 
-- Node : which represents a layer in the pipeline
-- Link : which allows to connect nodes to each other
-- Builder : which will generate the hardware required for a whole pipeline
-- Payload : which are used to retrieve hardware signals on nodes along the pipeline
+- ``Node`` : which represents a layer in the pipeline
+- ``Link`` : which allows to connect nodes to each other
+- ``Builder`` : which will generate the hardware required for a whole pipeline
+- ``Payload`` : which are used to retrieve hardware signals on nodes along the pipeline
 
-It is important to understand that Payload isn't a hardware data/signal instance, but a key to retrieve a data/signal on nodes along the pipeline, and that the pipeline builder will then automatically interconnect/pipeline every occurrence of a given Payload between nodes.
+It is important to understand that ``Payload`` isn't a hardware data/signal instance,
+but a key to retrieve a data/signal on nodes along the pipeline, and that the pipeline builder
+will then automatically interconnect/pipeline every occurrence of a given ``Payload`` between nodes.
 
 Here is an example to illustrate : 
 
@@ -147,7 +149,9 @@ Here is the same example but using more of the API :
 Payload
 =======
 
-Payload objects are used to refer to data which can go through the pipeline. Technically speaking, Payload is a HardType which has a name and is used as a "key" to retrieve the signals in a certain pipeline stage.
+``Payload`` objects are used to refer to data which can go through the pipeline. 
+Technically speaking, ``Payload`` is a ``HardType`` which has a name and is used as a "key" to retrieve
+the signals in a certain pipeline stage.
 
 .. code-block:: scala
     
@@ -160,12 +164,14 @@ Payload objects are used to refer to data which can go through the pipeline. Tec
     n0(PC) := 0x42
     n1(PC_PLUS_4) := n1(PC) + 4
 
-Note that I got used to name the Payload instances using uppercase. This is to make it very explicit that the thing isn't a hardware signal, but are more like a "key/type" to access things.
+Note that I got used to name the ``Payload`` instances using uppercase. This is to make it very explicit
+that the thing isn't a hardware signal, but are more like a "key/type" to access things.
 
 Node
 ====
 
-Node mostly hosts the valid/ready arbitration signals, and the hardware signals required for all the Payload values going through it.
+``Node`` mostly hosts the valid/ready arbitration signals, and the hardware signals required for all
+the ``Payload`` values going through it.
 
 You can access its arbitration via :
 
@@ -177,42 +183,43 @@ You can access its arbitration via :
    * - API
      - Access
      - Description
-   * - node.valid
+   * - ``node.valid``
      - RW
      - Is the signal which specifies if a transaction is present on the node. It is driven by the upstream. Once asserted, it must only be de-asserted the cycle after which either both valid and ready or node.cancel are high. valid must not depend on ready.
-   * - node.ready
+   * - ``node.ready``
      - RW
      - Is the signal which specifies if the node's transaction can proceed downstream. It is driven by the downstream to create backpressure. The signal has no meaning when there is no transaction (node.valid being deasserted)
-   * - node.cancel
+   * - ``node.cancel``
      - RW
      - Is the signal which specifies if the node's transaction in being canceled from the pipeline. It is driven by the downstream. The signal has no meaning when there is no transaction (node.valid being deasserted)
-   * - node.isValid
+   * - ``node.isValid``
      - RO
-     - node.valid's read only accessor
-   * - node.isReady
+     - ``node.valid``'s read only accessor
+   * - ``node.isReady``
      - RO
-     - node.ready's read only accessor
-   * - node.isCancel
+     - ``node.ready``'s read only accessor
+   * - ``node.isCancel``
      - RO
-     - node.cancel's read only accessor
-   * - node.isFiring
+     - ``node.cancel``'s read only accessor
+   * - ``node.isFiring``
      - RO
      - True when the node transaction is successfully moving further (valid && ready && !cancel). Useful to commit state changes.
-   * - node.isMoving
+   * - ``node.isMoving``
      - RO
      - True when the node transaction will not be present anymore on the node (starting from the next cycle),
        either because downstream is ready to take the transaction,
-       or because the transaction is canceled from the pipeline. (valid && (ready || cancel)). Useful to "reset" states.
-   * - node.isCanceling
+       or because the transaction is canceled from the pipeline. (``valid && (ready || cancel)``). Useful to "reset" states.
+   * - ``node.isCanceling``
      - RO
      - True when the node transaction is being canceled. Meaning that it will not appear anywhere in the pipeline in future cycles.
 
-Note that the node.valid/node.ready signals follows the same conventions than the :doc:`../stream`'s ones .
+Note that the ``node.valid``/``node.ready`` signals follows the same conventions than the :doc:`../stream`'s ones .
 
-The Node controls (valid/ready/cancel) and status (isValid, isReady, isCancel, isFiring, ...) signals are created on demand.
-So for instance you can create pipeline with no backpressure by never referring to the ready signal. That's why it is important to use status signals when you want to read the status of something and only use control signals when you to drive something.
+The ``Node`` controls (``valid``/``ready``/``cancel``) and status (``isValid``, ``isReady``, ``isCancel``, ``isFiring``, ...) signals are created on demand.
+So for instance you can create pipeline with no backpressure by never referring to the ready signal. That's why it is important to use status signals
+when you want to read the status of something and only use control signals when you to drive something.
 
-Here is a list of arbitration cases you can have on a node. valid/ready/cancel define the state we are in, while isFiring/isMoving result of those :
+Here is a list of arbitration cases you can have on a node. ``valid``/``ready``/``cancel`` define the state we are in, while ``isFiring``/``isMoving`` result of those :
 
 +-------+-------+-----------+------------------------------+----------+----------+
 | valid | ready | cancel    | Description                  | isFiring | isMoving |
@@ -237,11 +244,11 @@ You can access signals referenced by a Payload via:
 
    * - API
      - Description
-   * - node(Payload)
+   * - ``node(Payload)``
      - Return the corresponding hardware signal
-   * - node(Payload, Any)
+   * - ``node(Payload, Any)``
      - Same as above, but include a second argument which is used as a "secondary key". This eases the construction of multi-lane hardware. For instance, when you have a multi issue CPU pipeline, you can use the lane Int id as secondary key
-   * - node.insert(Data)
+   * - ``node.insert(Data)``
      - Return a new Payload instance which is connected to the given Data hardware signal
 
 
@@ -267,22 +274,22 @@ While you can manually drive/read the arbitration/data of the first/last stage o
 
    * - API
      - Description
-   * - node.arbitrateFrom(Stream[T]])
-     - Drive a node arbitration from a stream.
-   * - node.arbitrateFrom(Flow[T]])
-     - Drive a node arbitration from the Flow. 
-   * - node.arbitrateTo(Stream[T]])
-     - Drive a stream arbitration from the node. 
-   * - node.arbitrateTo(Flow[T]])
-     - Drive a Flow arbitration from the node. 
-   * - node.driveFrom(Stream[T]])((Node, T) => Unit)
-     - Drive a node from a stream. The provided lambda function can be use to connect the data
-   * - node.driveFrom(Flow[T]])((Node, T) => Unit)
-     - Same as above but for Flow
-   * - node.driveTo(Stream[T]])((T, Node) => Unit)
-     - Drive a stream from the node. The provided lambda function can be use to connect the data
-   * - node.driveTo(Flow[T]])((T, Node) => Unit)
-     - Same as above but for Flow
+   * - ``node.arbitrateFrom(Stream[T]])``
+     - Drive a node arbitration from a ``Stream``.
+   * - ``node.arbitrateFrom(Flow[T]])``
+     - Drive a node arbitration from a ``Flow``. 
+   * - ``node.arbitrateTo(Stream[T]])``
+     - Drive a ``Stream`` arbitration from the node. 
+   * - ``node.arbitrateTo(Flow[T]])``
+     - Drive a ``Flow`` arbitration from the node. 
+   * - ``node.driveFrom(Stream[T]])((Node, T) => Unit)``
+     - Drive a node from a stream. The provided lambda function can be use to connect the data.
+   * - ``node.driveFrom(Flow[T]])((Node, T) => Unit)``
+     - Same as above but for ``Flow``.
+   * - ``node.driveTo(Stream[T]])((T, Node) => Unit)``
+     - Drive a stream from the node. The provided lambda function can be use to connect the data.
+   * - ``node.driveTo(Flow[T]])((T, Node) => Unit)``
+     - Same as above but for ``Flow``.
 
 
 .. code-block:: scala
@@ -302,13 +309,15 @@ While you can manually drive/read the arbitration/data of the first/last stage o
     n2.driveTo(down)((payload, self) => payload := self(OUT))
 
 
-In order to reduce verbosity, there is a set of implicit conversions between Payload toward their data representation which can be used when you are in the context of a Node : 
+In order to reduce verbosity, there is a set of implicit conversions between ``Payload`` toward their data representation
+which can be used when you are in the context of a ``Node`` : 
 
 .. code-block:: scala
 
     val VALUE = Payload(UInt(16 bits))
     val n1 = new Node {
-        val PLUS_ONE = insert(VALUE + 1) // VALUE is implicitly converted into its n1(VALUE) representation
+        // VALUE is implicitly converted into its n1(VALUE) representation
+        val PLUS_ONE = insert(VALUE + 1) 
     }
 
 You can also use those implicit conversions by importing them : 
@@ -324,7 +333,8 @@ You can also use those implicit conversions by importing them :
     }
 
 
-There is also an API which allows you to create new Area which provide the whole API of a given node instance (including implicit conversion) without import : 
+There is also an API which allows you to create new ``Area`` which provide the whole API of a given node instance
+(including implicit conversion) without import : 
 
 .. code-block:: scala
 
@@ -341,14 +351,14 @@ Such feature is very useful when you have parametrizable pipeline locations for 
 Links
 =====
 
-There is few different Links already implemented (but you could also create your own custom one).
-The idea of Links is to connect two nodes together in various ways.
-They generally have a `up` Node and a `down` Node.
+There is few different ``Link`` already implemented (but you could also create your own custom one).
+The idea of links is to connect two nodes together in various ways.
+They generally have a ``up`` Node and a ``down`` ``Node``.
 
 DirectLink
 ----------
 
-Very simple, it connect two nodes with wires only. Here is an example : 
+Very simple, it connect two nodes with signals only. Here is an example : 
 
 
 .. code-block:: scala
@@ -356,11 +366,10 @@ Very simple, it connect two nodes with wires only. Here is an example :
     val c01 = DirectLink(n0, n1)
 
 
-
 StageLink
 ---------
 
-This connect two nodes using registers on the data / valid signals and some arbitration on the ready.
+This connect two nodes using registers on the ``data``/``valid`` signals and some arbitration on the ``ready``.
 
 .. code-block:: scala
     
@@ -370,7 +379,7 @@ This connect two nodes using registers on the data / valid signals and some arbi
 S2mLink
 -------
 
-This connect two nodes using registers on the ready signal, which can be useful to improve backpressure combinatorial timings.
+This connect two nodes using registers on the ``ready`` signal, which can be useful to improve backpressure combinatorial timings.
 
 .. code-block:: scala
     
@@ -379,7 +388,8 @@ This connect two nodes using registers on the ready signal, which can be useful 
 CtrlLink
 --------
 
-This is kind of a special Link, as connect two nodes with optional flow control / bypass logic. Its API should be flexible enough to implement a CPU stage with it.
+This is a kind of special ``Link``, as it connects two nodes with optional flow control / bypass logic. Its API
+should be flexible enough to implement a CPU stage with it.
 
 Here is its flow control API (The Bool arguments enable the features) :
 
@@ -389,22 +399,23 @@ Here is its flow control API (The Bool arguments enable the features) :
 
    * - API
      - Description
-   * - haltWhen(Bool)
-     - Allows to block the current transaction (clear up.ready down.valid)
-   * - throwWhen(Bool)
-     - Allows to cancel the current transaction from the pipeline (clear down.valid and make the transaction driver forget its current state)
-   * - forgetOneWhen(Bool)
-     - Allows to request the upstream to forget its current transaction  (but doesn't clear the down.valid)
-   * - ignoreReadyWhen(Bool)
-     - Allows to ignore the downstream ready (set up.ready)
-   * - duplicateWhen(Bool)
-     - Allows to duplicate the current transaction (clear up.ready)
-   * - terminateWhen(Bool)
-     - Allows to hide the current transaction from downstream (clear down.valid)
+   * - ``haltWhen(Bool)``
+     - Allows to block the current transaction (clear ``up.ready`` and ``down.valid``)
+   * - ``throwWhen(Bool)``
+     - Allows to cancel the current transaction from the pipeline (clear ``down.valid`` and make the transaction driver forget its current state)
+   * - ``forgetOneWhen(Bool)``
+     - Allows to request the upstream to forget its current transaction (but doesn't clear the ``down.valid``)
+   * - ``ignoreReadyWhen(Bool)``
+     - Allows to ignore the downstream ready (set ``up.ready``)
+   * - ``duplicateWhen(Bool)``
+     - Allows to duplicate the current transaction (clear ``up.ready``)
+   * - ``terminateWhen(Bool)``
+     - Allows to hide the current transaction from downstream (clear ``down.valid``)
 
-Also note that if you want to do flow control in a conditional scope (ex in a when statement), you can call the following functions :
+Also note that if you want to do flow control in a conditional scope (ex in a ``when`` statement), you can
+call the following functions :
 
-- haltIt(), duplicateIt(), terminateIt(), forgetOneNow(), ignoreReadyNow(), throwIt()
+- ``haltIt()``, ``duplicateIt()``, ``terminateIt()``, ``forgetOneNow()``, ``ignoreReadyNow()``, ``throwIt()``
 
 .. code-block:: scala
     
@@ -413,12 +424,13 @@ Also note that if you want to do flow control in a conditional scope (ex in a wh
     c01.haltWhen(something) // Explicit halt request
 
     when(somethingElse) {
-        c01.haltIt() // Conditional scope sensitive halt request, same as c01.haltWhen(somethingElse)
+        // Conditional scope sensitive halt request, same as c01.haltWhen(somethingElse)
+        c01.haltIt() 
     }
 
-You can retrieve which nodes are connected to the Link using node.up / node.down.
+You can retrieve which nodes are connected to the ``Link`` using ``node.up`` / ``node.down``.
 
-The CtrlLink also provide an API to access Payload :
+The ``CtrlLink`` also provide an API to access ``Payload`` :
 
 .. list-table::
    :header-rows: 1
@@ -426,14 +438,14 @@ The CtrlLink also provide an API to access Payload :
 
    * - API
      - Description
-   * - link(Payload)
-     - Same as Link.down(Payload)
-   * - link(Payload, Any)
-     - Same as Link.down(Payload, Any)
-   * - link.insert(Data)
-     - Same as Link.down.insert(Data)
-   * - link.bypass(Payload)
-     - Allows to conditionally override a Payload value between link.up -> link.down. This can be used to fix data hazard in CPU pipelines for instance.
+   * - ``link(Payload)``
+     - Same as ``Link.down(Payload)``
+   * - ``link(Payload, Any)``
+     - Same as ``Link.down(Payload, Any)``
+   * - ``link.insert(Data)``
+     - Same as ``Link.down.insert(Data)``
+   * - ``link.bypass(Payload)``
+     - Allows to conditionally override a ``Payload`` value between ``link.up`` -> ``link.down``. This can be used to fix data hazard in CPU pipelines for instance.
 
 
 .. code-block:: scala
@@ -452,7 +464,7 @@ The CtrlLink also provide an API to access Payload :
     
     // c01(DATA) and below will get the hazard patch
 
-Note that if you create a CtrlLink without node arguments, it will create its own nodes internally.
+Note that if you create a ``CtrlLink`` without node arguments, it will create its own nodes internally.
 
 .. code-block:: scala
 
@@ -465,12 +477,12 @@ Note that if you create a CtrlLink without node arguments, it will create its ow
 Other Links
 -----------
 
-There is also a JoinLink / ForkLink implemented.
+There is also a ``JoinLink`` / ``ForkLink`` implemented.
 
 Your custom Link
 ----------------
 
-You can implement your custom links by implementing the Link base class.
+You can implement your custom links by implementing the ``Link`` base class.
 
 .. code-block:: scala
 
@@ -488,7 +500,7 @@ But that API may change a bit, as it is still fresh.
 Builders
 ========
 
-To generate the hardware of your pipeline, you need to give a list of all the Links used in your pipeline.
+To generate the hardware of your pipeline, you need to give a list of all the links used in your pipeline.
 
 
 .. code-block:: scala
@@ -506,10 +518,10 @@ To generate the hardware of your pipeline, you need to give a list of all the Li
 There is also a set of "all in one" builders that you can instantiate to help yourself. 
 
 StagePipeline
------------------
+-------------
 
-For instance there is the StagePipeline class which serve two purposes : 
-- It ease the creation of simple pipelines which are composed of : Node -> StageLink -> Node -> StageLink -> ...
+For instance there is the ``StagePipeline`` class which serve two purposes : 
+- It ease the creation of simple pipelines which are composed of : ``Node`` -> ``StageLink`` -> ``Node`` -> ``StageLink`` -> ...
 - It extends the pipeline length on the fly
 
 Here is an example which : 
@@ -548,53 +560,57 @@ Here is an example which :
     pip.build()
 
 StageCtrlPipeline
--------------------
+-----------------
 
-Very similar to StagePipeline, but it replace Nodes by StageLink, allowing to handle the arbitration / bypasses on each stages, which is for instance quite usefull for CPU designs.
+Very similar to ``StagePipeline``, but it replace Nodes by ``CtrlLink``, allowing to handle
+the arbitration / bypasses on each stages, which is for instance quite useful for CPU designs.
 
 Here is an example which : 
 
 - Take the input at stage 0
 - Sum the input at stage 1
-- Check the sum value and eventualy drop the transaction at stage 2
+- Check the sum value and eventually drop the transaction at stage 2
 - Provide the result at stage 3
 
 .. code-block:: scala
   
-    // Lets define a few inputs/outputs
+    // Let's define a few inputs/outputs.
     val a,b = in UInt(8 bits)
     val result = out(UInt(8 bits))
 
-    // Lets create the pipelining tool.
+    // Let's create the pipelining tool.
     val pip = new StageCtrlPipeline
 
-    // Lets insert a and b into the pipeline at stage 0
+    // Let's insert a and b into the pipeline at stage 0.
     val A = pip.ctrl(0).insert(a)
     val B = pip.ctrl(0).insert(b)
 
-    // Lets sum A and B it stage 1
-    val onSum = new pip.Ctrl(1){
+    // Let's sum A and B at stage 1.
+    val onSum = new pip.Ctrl(1) {
       val VALUE = insert(A + B)
     }
 
-    // Lets check if the sum is bad (> 128) in stage 2 and if that is the case, we drop the transaction.
-    val onTest = new pip.Ctrl(2){
+    // Let's check if the sum is bad (> 128) in stage 2 and if that is the case, we drop the transaction.
+    val onTest = new pip.Ctrl(2) {
       val isBad = onSum.VALUE > 128
       throwWhen(isBad)
     }
 
-    // Lets assign our output result from stage 3
+    // Let's assign our output result from stage 3.
     result := pip.ctrl(3)(onSum.VALUE)
 
-    // Now that everything is specified, we can build the pipeline
+    // Now that everything is specified, we can build the pipeline.
     pip.build()
 
 Composability
 =============
 
-One good thing about the API is that it easily allows to compose a pipeline with multiple parallel things. What i mean by "compose" is that sometime the pipeline you need to design has parallel processing to do. 
+One good thing about the API is that it easily allows to compose a pipeline with multiple parallel things. 
+What it means by "compose" is that sometime the pipeline you need to design has parallel processing to do. 
 
-Imagine you need to do floating point multiplication on 4 pairs of numbers (to later sum them). If those 4 pairs a provided at the same time by a single stream of data, then you don't want 4 different pipelines to multiply them, instead you want to process them all in parallel in the same pipeline.
+Imagine you need to do floating point multiplication on 4 pairs of numbers (to later sum them).
+If those 4 pairs are provided at the same time by a single stream of data, then you don't want 4 different pipelines
+to multiply them, instead you want to process them all in parallel in the same pipeline.
 
 The example below show a pattern which composes a pipeline with multiple lanes to process them in parallel.
 
@@ -602,7 +618,8 @@ The example below show a pattern which composes a pipeline with multiple lanes t
 .. code-block:: scala
 
     // This area allows to take a input value and do +1 +1 +1 over 3 stages.
-    // I know that's useless, but let's pretend that instead it does a multiplication between two numbers over 3 stages (for FMax reasons)
+    // I know that's useless, but let's pretend that instead it does a multiplication
+    // between two numbers over 3 stages (for FMax reasons).
     class Plus3(INPUT: Payload[UInt], stage1: Node, stage2: Node, stage3: Node) extends Area {
       val ONE = stage1.insert(stage1(INPUT) + 1)
       val TWO = stage2.insert(stage2(ONE) + 1)
@@ -611,7 +628,7 @@ The example below show a pattern which composes a pipeline with multiple lanes t
 
     // Let's define a component which takes a stream as input, 
     // which carries 'lanesCount' values that we want to process in parallel
-    // and put the result on an output stream
+    // and put the result on an output stream.
     class TopLevel(lanesCount : Int) extends Component {
       val io = new Bundle {
         val up = slave Stream(Vec.fill(lanesCount)(UInt(16 bits))) 
@@ -640,7 +657,7 @@ The example below show a pattern which composes a pipeline with multiple lanes t
       Builder(s01, s12)
     }
 
-This will produce the following data path (assuming lanesCount = 2), arbitration not being shown :
+This will produce the following data path (assuming ``lanesCount = 2``), arbitration not being shown :
 
 .. image:: /asset/image/pipeline/composable_lanes.png
    :scale: 70 %
@@ -649,7 +666,9 @@ This will produce the following data path (assuming lanesCount = 2), arbitration
 Retiming / Variable length
 ==========================
 
-Sometime you want to design a pipeline, but you don't really know where the critical paths will be and what the right balance between stages is. And often you can't rely on the synthesis tool doing a good job with automatic retiming.
+Sometime you want to design a pipeline, but you don't really know where the critical paths will be
+and what the right balance between stages is. And often you can't rely on the synthesis tool doing
+a good job with automatic retiming.
 
 So, you kind of need a easy way to move the logic of your pipeline around.
 
@@ -660,7 +679,7 @@ Here is how it can be done with this pipelining API :
     
     // Define a component which will take a input stream of RGB value
     // Process (~(R + G + B)) * 0xEE
-    // And provide that result into an output stream
+    // And provide that result into an output stream.
     class RgbToSomething(addAt : Int,
                          invAt : Int,
                          mulAt : Int,
@@ -671,44 +690,44 @@ Here is how it can be done with this pipelining API :
         val down = master Stream (UInt(16 bits))
       }
 
-      // Let's define the Nodes for our pipeline
+      // Let's define the Nodes for our pipeline.
       val nodes = Array.fill(resultAt+1)(Node())
 
-      // Let's specify which node will be used for what part of the pipeline
+      // Let's specify which node will be used for what part of the pipeline.
       val insertNode = nodes(0)
       val addNode = nodes(addAt)
       val invNode = nodes(invAt)
       val mulNode = nodes(mulAt)
       val resultNode = nodes(resultAt)
 
-      // Define the hardware which will feed the io.up stream into the pipeline
+      // Define the hardware which will feed the io.up stream into the pipeline.
       val inserter = new insertNode.Area {
         arbitrateFrom(io.up)
         val RGB = insert(io.up.payload)
       }
 
-      // sum the r g b values of the color
+      // Sum the r g b values of the color.
       val adder = new addNode.Area {
         val SUM = insert(inserter.RGB.r + inserter.RGB.g + inserter.RGB.b)
       }
 
-      // flip all the bit of the RGB sum
+      // Flip all the bit of the RGB sum.
       val inverter = new invNode.Area {
         val INV = insert(~adder.SUM)
       }
 
-      // multiply the inverted bits with 0xEE
+      // Multiply the inverted bits with 0xEE.
       val multiplier = new mulNode.Area {
         val MUL = insert(inverter.INV*0xEE)
       }
 
-      // Connect the end of the pipeline to the io.down stream
+      // Connect the end of the pipeline to the io.down stream.
       val resulter = new resultNode.Area {
         arbitrateTo(io.down)
         io.down.payload := multiplier.MUL
       }
 
-      // Let's connect those nodes sequentially by using simples registers
+      // Let's connect those nodes sequentially by using simples registers.
       val links = for (i <- 0 to resultAt - 1) yield StageLink(nodes(i), nodes(i + 1))
 
       // Let's ask the builder to generate all the required hardware
@@ -728,7 +747,7 @@ If then you generate this component like this :
         )
       )
 
-You will get a 4 stages separated by 3 layer of flip flop doing your processing : 
+You will get 4 stages separated by 3 layers of flip-flops doing your processing : 
 
 .. image:: /asset/image/pipeline/rgbToSomething.png
    :scale: 70 %
@@ -848,7 +867,8 @@ Note the generated hardware verilog is kinda clean (by my standards at least :P)
     endmodule
 
 
-Also, you can easily tweak how many stages and where you want the processing to be done, for instance you may want to move the inversion hardware in the same stage as the adder. This can be done the following way : 
+Also, you can easily tweak how many stages and where you want the processing to be done, for instance
+you may want to move the inversion hardware to the same stage as the adder. This can be done the following way : 
 
 
 .. code-block:: scala
@@ -862,7 +882,7 @@ Also, you can easily tweak how many stages and where you want the processing to 
         )
       )
 
-Then you may want to remove the output register stage : 
+When you may want to remove the output register stage : 
 
 .. code-block:: scala
     
@@ -876,7 +896,7 @@ Then you may want to remove the output register stage :
       )
 
 
-One thing about this example is the necessity intermediate val as `addNode`. I mean : 
+One thing about this example is the necessity intermediate val as ``addNode``. I mean : 
 
 .. code-block:: scala
 

@@ -108,7 +108,7 @@ State full utilities
        | and the last by ``range.high``
    * - BufferCC(input : T)
      - T
-     - Return the input signal synchronized with the current clock domain by using 2 flip flop
+     - Return the input signal synchronized with the current clock domain by using 2 flip-flops
 
 
 Counter
@@ -131,7 +131,7 @@ The Counter tool can be used to easily instantiate a hardware counter.
    * - ``Counter(bitCount: BitCount[, inc : Bool])``
      - Starts at zero and ends at ``(1 << bitCount) - 1``
 
-A counter can be controlled by methods, and wires can be read:
+A counter can be controlled by methods, and signals can be read:
 
 .. code-block:: scala
 
@@ -139,7 +139,7 @@ A counter can be controlled by methods, and wires can be read:
    // Methods
    counter.clear()               // Resets the counter
    counter.increment()           // Increments the counter
-   // Wires
+   // Signals
    counter.value                 // Current value
    counter.valueNext             // Next value
    counter.willOverflow          // True if the counter overflows this cycle

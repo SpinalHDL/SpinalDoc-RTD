@@ -86,7 +86,7 @@ Which will finally give 5 ClockDomain (clock/reset couple) :
 Reset controller
 ^^^^^^^^^^^^^^^^
 
-First we need to define the reset controller clock domain, which has no reset wire, but use the FPGA bitstream loading to setup flipflops.
+First we need to define the reset controller clock domain, which has no reset signal, but use the FPGA bitstream loading to setup flip-flops.
 
 .. code-block:: scala
 

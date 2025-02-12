@@ -121,19 +121,19 @@ Functions
        | x.stage()
      - | Return a Stream driven by x
        | through a register stage that cut valid/payload paths
-       | Cost = (payload width + 1) flop flop
+       | Cost = (payload width + 1) flip-flops
      - Stream[T]
      - 1
    * - x.s2mPipe()
      - | Return a Stream driven by x
        | ready paths is cut by a register stage
-       | Cost = payload width * (mux2 + 1 flip flop)
+       | Cost = payload width * (mux2 + 1 flip-flops)
      - Stream[T]
      - 0
    * - x.halfPipe()
      - | Return a Stream driven by x
        | valid/ready/payload paths are cut by some register
-       | Cost = (payload width + 2) flip flop, bandwidth divided by two
+       | Cost = (payload width + 2) flip-flops, bandwidth divided by two
      - Stream[T]
      - 1
    * - | x << y
@@ -483,7 +483,7 @@ StreamFork
 A StreamFork will clone each incoming data to all its output streams. If synchronous is true,
 all output streams will always fire together, which means that the stream will halt until all output streams are ready. 
 If synchronous is false, output streams may be ready one at a time,
-at the cost of an additional flip flop (1 bit per output). The input stream will block until
+at the cost of an additional flip-flop (1 bit per output). The input stream will block until
 all output streams have processed each item regardlessly.
 
 
