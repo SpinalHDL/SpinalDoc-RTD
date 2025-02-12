@@ -119,7 +119,7 @@ By default, a ClockDomain is applied to the whole design. The configuration of t
 External clock
 ^^^^^^^^^^^^^^
 
-You can define everywhere a clock domain which is driven by the outside. It will then automatically add clock and reset wire from the top level inputs to all synchronous elements.
+You can define everywhere a clock domain which is driven by the outside. It will then automatically add clock and reset signal from the top level inputs to all synchronous elements.
 
 .. code-block:: scala
 
@@ -228,7 +228,7 @@ There are 2 cases where spinal automatically resize things :
 When / Switch
 -------------
 
-As VHDL and Verilog, wire and register can be conditionally assigned by using when and switch syntaxes
+As VHDL and Verilog, signals and registers can be conditionally assigned by using when and switch syntaxes
 
 .. code-block:: scala
 

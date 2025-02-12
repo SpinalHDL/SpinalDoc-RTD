@@ -114,7 +114,7 @@ Instantiating a ``BlackBox`` is just like instantiating a ``Component``:
 Clock and reset mapping
 -----------------------
 
-In your blackbox definition you have to explicitly define clock and reset wires. To map signals of a ``ClockDomain`` to corresponding inputs of the blackbox you can use the ``mapClockDomain`` or ``mapCurrentClockDomain`` function. ``mapClockDomain`` has the following parameters:
+In your blackbox definition you have to explicitly define clock and reset signals. To map signals of a ``ClockDomain`` to corresponding inputs of the blackbox you can use the ``mapClockDomain`` or ``mapCurrentClockDomain`` function. ``mapClockDomain`` has the following parameters:
 
 .. list-table::
    :header-rows: 1
