@@ -40,7 +40,7 @@ You will also need a recent version of Verilator installed :
 .. code-block:: sh
 
    sudo apt-get install git make autoconf g++ flex bison  # First time prerequisites
-   git clone http://git.veripool.org/git/verilator   # Only first time
+   git clone https://github.com/verilator/verilator.git   # Only first time
    unsetenv VERILATOR_ROOT  # For csh; ignore error if on bash
    unset VERILATOR_ROOT  # For bash
    cd verilator
@@ -94,7 +94,7 @@ From source
                       git flex\
                       mingw-w64-x86_64-cmake
 
-   git clone http://git.veripool.org/git/verilator  
+   git clone https://github.com/verilator/verilator.git
    unset VERILATOR_ROOT
    cd verilator
    git pull        
