@@ -293,7 +293,7 @@ Shown below are the VHDL definitions of the standard blackboxes used in SpinalHD
        wrMaskEnable : boolean;
        rdAddressWidth : integer;
        rdDataWidth : integer;
-       rdEnEnable : boolean
+       rdLatency : integer -- Cycles between the rd_en and the actual value on rd_data ports. It will be set to 1, unless the you added the MemReadBufferPhase to the SpinalConfig and the ram can merge a register on the read data path.
      );
      port(
        wr_clk : in std_logic;
@@ -304,6 +304,7 @@ Shown below are the VHDL definitions of the standard blackboxes used in SpinalHD
        rd_clk : in std_logic;
        rd_en : in std_logic;
        rd_addr : in unsigned;
+       rd_dataEn : in std_logic; -- Only used if rdLatency > 1, drive the enable of rd_data flip flops
        rd_data : out std_logic_vector
      );
    end component;

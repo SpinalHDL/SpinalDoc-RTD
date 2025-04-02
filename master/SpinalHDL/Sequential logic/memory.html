@@ -1614,7 +1614,7 @@ Prefer to include the condition <cite>cond</cite> in the enable signal directly 
     <span class="n">wrMaskEnable</span> <span class="p">:</span> <span class="kt">boolean</span><span class="p">;</span>
     <span class="n">rdAddressWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
     <span class="n">rdDataWidth</span> <span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
-    <span class="n">rdEnEnable</span> <span class="p">:</span> <span class="kt">boolean</span>
+    <span class="n">rdLatency</span> <span class="p">:</span> <span class="kt">integer</span> <span class="c1">-- Cycles between the rd_en and the actual value on rd_data ports. It will be set to 1, unless the you added the MemReadBufferPhase to the SpinalConfig and the ram can merge a register on the read data path.</span>
   <span class="p">);</span>
   <span class="n">port</span><span class="p">(</span>
     <span class="n">wr_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
@@ -1625,6 +1625,7 @@ Prefer to include the condition <cite>cond</cite> in the enable signal directly 
     <span class="n">rd_clk</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
     <span class="n">rd_en</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span>
     <span class="n">rd_addr</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">unsigned</span><span class="p">;</span>
+    <span class="n">rd_dataEn</span> <span class="p">:</span> <span class="ow">in</span> <span class="n">std_logic</span><span class="p">;</span> <span class="c1">-- Only used if rdLatency &gt; 1, drive the enable of rd_data flip flops</span>
     <span class="n">rd_data</span> <span class="p">:</span> <span class="kr">out</span> <span class="n">std_logic_vector</span>
   <span class="p">);</span>
 <span class="kr">end</span> <span class="nf">component</span><span class="p">;</span>
@@ -1740,7 +1741,7 @@ mechanism.</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master (HEAD) git~b972678329 2025-04-01
+    Version: master (HEAD) git~3faab9cfdf 2025-04-01
     </p></div>
     
 
