@@ -4,7 +4,7 @@ Introduction
 
 ``spinal.lib.misc.pipeline`` provides a pipelining API. The main advantages over manual pipelining are : 
 
-- You don't have to predefine all the signal elements needed for the entire staged system upfront. You can create and consume stagable signals in a more ad hoc fashion as your design requires - without needing to refactor all the intervening stages to know about the signal
+- You don't have to predefine all the signal elements needed for the entire staged system upfront. You can create and consume stageable signals in a more ad hoc fashion as your design requires - without needing to refactor all the intervening stages to know about the signal
 - Signals of the pipeline can utilize the powerful parametrization capabilities of SpinalHDL and be subject to optimization/removal if a specific design build does not require a particular parametrized feature, without any need to modify the staging system design or project code base in a significant way.
 - Manual retiming is much easier, as you don't have to handle the registers / arbitration manually
 - Manage the arbitration by itself
@@ -122,27 +122,28 @@ Here is the same example but using more of the API :
         val down = master Stream(VALUE)
       }
       
-      // NodesBuilder will be used to register all the nodes created, connect them via stages and generate the hardware
+      // NodesBuilder will be used to register all the nodes created, connect them via stages and
+      // generate the hardware.
       val builder = new NodesBuilder()
 
-      // Let's define a Node which connect from io.up
+      // Let's define a Node which connect from io.up .
       val n0 = new builder.Node {
         arbitrateFrom(io.up)
         VALUE := io.up.payload
       }
 
-      // Let's define a Node which do some processing
+      // Let's define a Node which do some processing.
       val n1 = new builder.Node {
         val RESULT = insert(VALUE + 0x1200)
       }
 
-      //  Let's define a Node which connect to io.down
+      //  Let's define a Node which connect to io.down.
       val n2 = new builder.Node {
         arbitrateTo(io.down)
         io.down.payload := n1.RESULT
       }
 
-      // Let's connect those nodes by using registers stages and generate the related hardware
+      // Let's connect those nodes by using registers stages and generate the related hardware.
       builder.genStagedPipeline()
     }
 
@@ -213,13 +214,17 @@ You can access its arbitration via :
      - RO
      - True when the node transaction is being canceled. Meaning that it will not appear anywhere in the pipeline in future cycles.
 
-Note that the ``node.valid``/``node.ready`` signals follows the same conventions than the :doc:`../stream`'s ones .
+Note that the ``node.valid``/``node.ready`` signals follows the same conventions than 
+the :doc:`../stream`'s ones .
 
-The ``Node`` controls (``valid``/``ready``/``cancel``) and status (``isValid``, ``isReady``, ``isCancel``, ``isFiring``, ...) signals are created on demand.
-So for instance you can create pipeline with no backpressure by never referring to the ready signal. That's why it is important to use status signals
-when you want to read the status of something and only use control signals when you to drive something.
+The ``Node`` controls (``valid``/``ready``/``cancel``) and status (``isValid``, ``isReady``, 
+``isCancel``, ``isFiring``, ...) signals are created on demand. So for instance you can create
+pipelines with no backpressure by never referring to the ready signal. That's why it is important
+to use status signals when you want to read the status of something and only use control signals
+when you want to drive something.
 
-Here is a list of arbitration cases you can have on a node. ``valid``/``ready``/``cancel`` define the state we are in, while ``isFiring``/``isMoving`` result of those :
+Here is a list of arbitration cases you can have on a node. ``valid``/``ready``/``cancel`` define
+the state we are in, while ``isFiring``/``isMoving`` result of those :
 
 +-------+-------+-----------+------------------------------+----------+----------+
 | valid | ready | cancel    | Description                  | isFiring | isMoving |
@@ -590,7 +595,8 @@ Here is an example which :
       val VALUE = insert(A + B)
     }
 
-    // Let's check if the sum is bad (> 128) in stage 2 and if that is the case, we drop the transaction.
+    // Let's check if the sum is bad (> 128) in stage 2 and if that is the case,
+    // we drop the transaction.
     val onTest = new pip.Ctrl(2) {
       val isBad = onSum.VALUE > 128
       throwWhen(isBad)
