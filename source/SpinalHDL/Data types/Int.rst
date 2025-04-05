@@ -558,35 +558,52 @@ Lower bit operations
 
 About Rounding: https://en.wikipedia.org/wiki/Rounding
 
-================ ================= ============= ======================== ====================== ===========
- SpinalHDL-Name   Wikipedia-Name    API           Mathematic Algorithm     return(align=false)    Supported
-================ ================= ============= ======================== ====================== ===========
- FLOOR            RoundDown         floor         floor(x)                  w(x)-n   bits         Yes
- FLOORTOZERO      RoundToZero       floorToZero   sign*floor(abs(x))        w(x)-n   bits         Yes
- CEIL             RoundUp           ceil          ceil(x)                   w(x)-n+1 bits         Yes
- CEILTOINF        RoundToInf        ceilToInf     sign*ceil(abs(x))         w(x)-n+1 bits         Yes
- ROUNDUP          RoundHalfUp       roundUp       floor(x+0.5)              w(x)-n+1 bits         Yes
- ROUNDDOWN        RoundHalfDown     roundDown     ceil(x-0.5)               w(x)-n+1 bits         Yes
- ROUNDTOZERO      RoundHalfToZero   roundToZero   sign*ceil(abs(x)-0.5)     w(x)-n+1 bits         Yes
- ROUNDTOINF       RoundHalfToInf    roundToInf    sign*floor(abs(x)+0.5)    w(x)-n+1 bits         Yes
- ROUNDTOEVEN      RoundHalfToEven   roundToEven                                                   No
- ROUNDTOODD       RoundHalfToOdd    roundToOdd                                                    No
-================ ================= ============= ======================== ====================== ===========
++-------------+-----------------+-------------+------------------------+----------------+----------+
+|| Spinal HDL || Wikipedia      || API        || Mathematic            || return        || Sup-    |
+|| name       || name           ||            || Algorithm             || (align=false) || port    |
++=============+=================+=============+========================+================+==========+
+| FLOOR       | RoundDown       | floor       | floor(x)               | w(x)-n bits    | Yes      |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| FLOORTOZERO | RoundToZero     | floorToZero | sign*floor(abs(x))     | w(x)-n bits    | Yes      |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| CEIL        | RoundUp         | ceil        | ceil(x)                | w(x)-n+1 bits  | Yes      |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| CEILTOINF   | RoundToInf      | ceilToInf   | sign*ceil(abs(x))      | w(x)-n+1 bits  | Yes      |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| ROUNDUP     | RoundHalfUp     | roundUp     | floor(x+0.5)           | w(x)-n+1 bits  | Yes      |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| ROUNDDOWN   | RoundHalfDown   | roundDown   | ceil(x-0.5)            | w(x)-n+1 bits  | Yes      |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| ROUNDTOZERO | RoundHalfToZero | roundToZero | sign*ceil(abs(x)-0.5)  | w(x)-n+1 bits  | Yes      |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| ROUNDTOINF  | RoundHalfToInf  | roundToInf  | sign*floor(abs(x)+0.5) | w(x)-n+1 bits  | Yes      |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| ROUNDTOEVEN | RoundHalfToEven | roundToEven |                        |                | No       |
++-------------+-----------------+-------------+------------------------+----------------+----------+
+| ROUNDTOODD  | RoundHalfToOdd  | roundToOdd  |                        |                | No       |
++-------------+-----------------+-------------+------------------------+----------------+----------+
 
 .. note::
-   The **RoundToEven** and **RoundToOdd** modes are very special, and are used in some big data statistical fields with high accuracy concerns, SpinalHDL doesn't support them yet.
+   The **RoundToEven** and **RoundToOdd** modes are very special, and are used in some big data statistical fields
+   with high accuracy concerns, SpinalHDL doesn't support them yet.
 
-You will find `ROUNDUP`, `ROUNDDOWN`, `ROUNDTOZERO`, `ROUNDTOINF`, `ROUNDTOEVEN`, `ROUNTOODD` are very close in behavior, `ROUNDTOINF` is the most common. The behavior of rounding in different programming languages may be different.
+You will find ``ROUNDUP``, ``ROUNDDOWN``, ``ROUNDTOZERO``, ``ROUNDTOINF``, ``ROUNDTOEVEN``, ``ROUNTOODD`` are very close in behavior,
+``ROUNDTOINF`` is the most common. The behavior of rounding in different programming languages may be different.
 
-====================== =================== ========================================================= ====================
- Programming language  default-RoundType   Example                                                   comments
-====================== =================== ========================================================= ====================
- Matlab                 ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
- python2                ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
- python3                ROUNDTOEVEN         round(1.5)=round(2.5)=2;  round(-1.5)=round(-2.5)=-2      close to Even
- Scala.math             ROUNDTOUP           round(1.5)=2,round(2.5)=3;round(-1.5)=-1,round(-2.5)=-2   always to +Infinity
- SpinalHDL              ROUNDTOINF          round(1.5)=2,round(2.5)=3;round(-1.5)=-2,round(-2.5)=-3   round to ±Infinity
-====================== =================== ========================================================= ====================
+============= =================== ================================================= ====================
+ language     default-RoundType   example                                           comments
+============= =================== ================================================= ====================
+ Matlab        ROUNDTOINF          | ``round(1.5) == 2``, ``round(2.5) == 3``        round to ±Infinity
+                                   | ``round(-1.5) == -2``, ``round(-2.5) == -3``       
+ python2       ROUNDTOINF          | ``round(1.5) == 2``, ``round(2.5) == 3``        round to ±Infinity
+                                   | ``round(-1.5) == -2``, ``round(-2.5) == -3``           
+ python3       ROUNDTOEVEN         | ``round(1.5) == round(2.5) == 2``               close to Even
+                                   | ``round(-1.5) == round(-2.5) == -2``           
+ Scala.math    ROUNDTOUP           | ``round(1.5) == 2``, ``round(2.5) == 3``        always to +Infinity
+                                   | ``round(-1.5) == -1``, ``round(-2.5) == -2``           
+ SpinalHDL     ROUNDTOINF          | ``round(1.5) == 2``, ``round(2.5) == 3``        round to ±Infinity
+                                   | ``round(-1.5) == -2``, ``round(-2.5) == -3``
+============= =================== ================================================= ====================
 
 .. note::
    In SpinalHDL `ROUNDTOINF` is the default RoundType (``round = roundToInf``)
