@@ -343,25 +343,25 @@ To cast a ``Bool``, a ``Bits``, or an ``SInt`` into a ``UInt``, you can use ``U(
    val mySInt = S(myBits)
 
    // UInt to SInt conversion
-   val UInt_30 = U(30, 8 bit)
+   val uInt_30 = U(30, 8 bit)
 
-   val SInt_30 = UInt_30.intoSInt
-   assert(SInt_30 === S(30, 9 bit))
+   val sInt_30 = uint_30.intoSInt
+   assert(sInt_30 === S(30, 9 bit))
 
-   mySInt := UInt_30.twoComplement(booleanDoInvert)
+   mySInt := uInt_30.twoComplement(booleanDoInvert)
        // if booleanDoInvert is True then we get S(-30, 9 bit)
        // otherwise we get S(30, 9 bit)
 
    // absolute values
-   val SInt_n_4 = S(-3, 3 bit)
-   val abs_en = SInt_n_3.abs(booleanDoAbs)
+   val sInt_n_4 = S(-3, 3 bit)
+   val abs_en = sInt_n_3.abs(booleanDoAbs)
        // if booleanDoAbs is True we get U(3, 3 bit)
        // otherwise we get U"3'b101" or U(5, 3 bit) (raw bit pattern of -3)
 
-   val SInt_n_128 = S(-128, 8 bit)
-   val abs = SInt_n_128.abs
+   val sInt_n_128 = S(-128, 8 bit)
+   val abs = sInt_n_128.abs
    assert(abs === U(128, 8 bit))
-   val sym_abs = SInt_n_128.absWithSym
+   val sym_abs = sInt_n_128.absWithSym
    assert(sym_abs === U(127, 7 bit))
 
 Bit extraction
@@ -593,23 +593,23 @@ You will find `ROUNDUP`, `ROUNDDOWN`, `ROUNDTOZERO`, `ROUNDTOINF`, `ROUNDTOEVEN`
 
 .. code-block:: scala
 
-   val A  = SInt(16 bits)
-   val B  = A.roundToInf(6 bits)         // default 'align = false' with carry, got 11 bit
-   val B  = A.roundToInf(6 bits, align = true) // sat 1 carry bit, got 10 bit
-   val B  = A.floor(6 bits)              // return 10 bit
-   val B  = A.floorToZero(6 bits)        // return 10 bit
-   val B  = A.ceil(6 bits)               // ceil with carry so return 11 bit
-   val B  = A.ceil(6 bits, align = true) // ceil with carry then sat 1 bit return 10 bit
-   val B  = A.ceilToInf(6 bits)
-   val B  = A.roundUp(6 bits)
-   val B  = A.roundDown(6 bits)
-   val B  = A.roundToInf(6 bits)
-   val B  = A.roundToZero(6 bits)
-   val B  = A.round(6 bits)              // SpinalHDL uses roundToInf as the default rounding mode
+   val a  = SInt(16 bits)
+   val b  = a.roundToInf(6 bits)         // default 'align = false' with carry, got 11 bit
+   val b  = a.roundToInf(6 bits, align = true) // sat 1 carry bit, got 10 bit
+   val b  = a.floor(6 bits)              // return 10 bit
+   val b  = a.floorToZero(6 bits)        // return 10 bit
+   val b  = a.ceil(6 bits)               // ceil with carry so return 11 bit
+   val b  = a.ceil(6 bits, align = true) // ceil with carry then sat 1 bit return 10 bit
+   val b  = a.ceilToInf(6 bits)
+   val b  = a.roundUp(6 bits)
+   val b  = a.roundDown(6 bits)
+   val b  = a.roundToInf(6 bits)
+   val b  = a.roundToZero(6 bits)
+   val b  = a.round(6 bits)              // SpinalHDL uses roundToInf as the default rounding mode
 
-   val B0 = A.roundToInf(6 bits, align = true)         //  ---+
+   val b0 = a.roundToInf(6 bits, align = true)         //  ---+
                                                        //     |--> equal
-   val B1 = A.roundToInf(6 bits, align = false).sat(1) //  ---+
+   val b1 = a.roundToInf(6 bits, align = false).sat(1) //  ---+
 
 .. note::
    Only ``floor`` and ``floorToZero`` work without the ``align`` option; they do not need a carry bit. Other rounding operations default to using a carry bit.
@@ -651,13 +651,13 @@ Symmetric is only valid for ``SInt``.
 
 .. code-block:: scala
 
-   val A  = SInt(8 bits)
-   val B  = A.sat(3 bits)      // return 5 bits with saturated highest 3 bits
-   val B  = A.sat(3)           // equal to sat(3 bits)
-   val B  = A.trim(3 bits)     // return 5 bits with the highest 3 bits discarded
-   val B  = A.trim(3 bits)     // return 5 bits with the highest 3 bits discarded
-   val C  = A.symmetry         // return 8 bits and symmetry as (-128~127 to -127~127)
-   val C  = A.sat(3).symmetry  // return 5 bits and symmetry as (-16~15 to -15~15)
+   val a  = SInt(8 bits)
+   val b  = a.sat(3 bits)      // return 5 bits with saturated highest 3 bits
+   val b  = a.sat(3)           // equal to sat(3 bits)
+   val b  = a.trim(3 bits)     // return 5 bits with the highest 3 bits discarded
+   val b  = a.trim(3 bits)     // return 5 bits with the highest 3 bits discarded
+   val c  = a.symmetry         // return 8 bits and symmetry as (-128~127 to -127~127)
+   val c  = a.sat(3).symmetry  // return 5 bits and symmetry as (-16~15 to -15~15)
 
 fixTo function
 ^^^^^^^^^^^^^^
@@ -678,13 +678,13 @@ Factory Fix function with Auto Saturation:
 
 .. code-block:: scala
 
-   val A  = SInt(16 bits)
-   val B  = A.fixTo(10 downto 3) // default RoundType.ROUNDTOINF, sym = false
-   val B  = A.fixTo( 8 downto 0, RoundType.ROUNDUP)
-   val B  = A.fixTo( 9 downto 3, RoundType.CEIL,       sym = false)
-   val B  = A.fixTo(16 downto 1, RoundType.ROUNDTOINF, sym = true )
-   val B  = A.fixTo(10 downto 3, RoundType.FLOOR) // floor 3 bit, sat 5 bit @ highest
-   val B  = A.fixTo(20 downto 3, RoundType.FLOOR) // floor 3 bit, expand 2 bit @ highest
+   val a  = SInt(16 bits)
+   val b  = a.fixTo(10 downto 3) // default RoundType.ROUNDTOINF, sym = false
+   val b  = a.fixTo( 8 downto 0, RoundType.ROUNDUP)
+   val b  = a.fixTo( 9 downto 3, RoundType.CEIL,       sym = false)
+   val b  = a.fixTo(16 downto 1, RoundType.ROUNDTOINF, sym = true )
+   val b  = a.fixTo(10 downto 3, RoundType.FLOOR) // floor 3 bit, sat 5 bit @ highest
+   val b  = a.fixTo(20 downto 3, RoundType.FLOOR) // floor 3 bit, expand 2 bit @ highest
 
 
 .. _saturation: https://en.wikipedia.org/wiki/Saturation_arithmetic
