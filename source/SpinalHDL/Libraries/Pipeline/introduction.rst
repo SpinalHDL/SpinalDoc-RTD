@@ -186,13 +186,13 @@ You can access its arbitration via :
      - Description
    * - ``node.valid``
      - RW
-     - Is the signal which specifies if a transaction is present on the node. It is driven by the upstream. Once asserted, it must only be de-asserted the cycle after which either both valid and ready or node.cancel are high. valid must not depend on ready.
+     - Is the signal which specifies if a transaction is present on the node. It is driven by the upstream. Once asserted, it must only be de-asserted the cycle after which either both ``valid`` and ``ready`` or ``node.cancel`` are high. ``valid`` must not depend on ``ready``.
    * - ``node.ready``
      - RW
-     - Is the signal which specifies if the node's transaction can proceed downstream. It is driven by the downstream to create backpressure. The signal has no meaning when there is no transaction (node.valid being deasserted)
+     - Is the signal which specifies if the node's transaction can proceed downstream. It is driven by the downstream to create backpressure. The signal has no meaning when there is no transaction (``node.valid`` being deasserted).
    * - ``node.cancel``
      - RW
-     - Is the signal which specifies if the node's transaction in being canceled from the pipeline. It is driven by the downstream. The signal has no meaning when there is no transaction (node.valid being deasserted)
+     - Is the signal which specifies if the node's transaction in being canceled from the pipeline. It is driven by the downstream. The signal has no meaning when there is no transaction (``node.valid`` being deasserted)
    * - ``node.isValid``
      - RO
      - ``node.valid``'s read only accessor
@@ -204,15 +204,15 @@ You can access its arbitration via :
      - ``node.cancel``'s read only accessor
    * - ``node.isFiring``
      - RO
-     - True when the node transaction is successfully moving further (valid && ready && !cancel). Useful to commit state changes.
+     - ``True`` when the node transaction is successfully moving further (``valid && ready && !cancel``). Useful to commit state changes.
    * - ``node.isMoving``
      - RO
-     - True when the node transaction will not be present anymore on the node (starting from the next cycle),
+     - ``True`` when the node transaction will not be present anymore on the node (starting from the next cycle),
        either because downstream is ready to take the transaction,
-       or because the transaction is canceled from the pipeline. (``valid && (ready || cancel)``). Useful to "reset" states.
+       or because the transaction is canceled from the pipeline (``valid && (ready || cancel)``). Useful to "reset" states.
    * - ``node.isCanceling``
      - RO
-     - True when the node transaction is being canceled. Meaning that it will not appear anywhere in the pipeline in future cycles.
+     - True when the node transaction is being cleaned up. Meaning that it will not appear anywhere in the pipeline in future cycles. It is equivalent to ``isValid && isCancel``.
 
 Note that the ``node.valid``/``node.ready`` signals follows the same conventions than 
 the :doc:`../stream`'s ones .
