@@ -227,15 +227,23 @@ There are multiple policies that you can use to select which memory you want to 
      - Description
    * - ``blackboxAll``
      - | Blackbox all memory.
-       | Throw an error on unblackboxable memory
+       | Throw an error on unblackboxable memory.
    * - ``blackboxAllWhatsYouCan``
-     - Blackbox all memory that is blackboxable
+     - Blackbox every memory that is replaceable.
    * - ``blackboxRequestedAndUninferable``
      - | Blackbox memory specified by the user and memory that is known to be uninferable (mixed-width, ...).
-       | Throw an error on unblackboxable memory
+       | Throw an error on unblackboxable memory.
    * - ``blackboxOnlyIfRequested``
-     - | Blackbox memory specified by the user
-       | Throw an error on unblackboxable memory
+     - | Blackbox memory specified by the user.
+       | Throw an error on unblackboxable memory.
+   * - ``blackboxByteEnables``
+     - | Blackbox every memory which use write port with byte mask.
+       | Useful because synthesis tool don't support an unified way to infer byte mask in verilog/VHDL.
+       | Throw an error on unblackboxable memory.
+   * - ``blackboxOnlyIfRequested``
+     - | Blackbox memory specified by the user.
+       | Throw an error on unblackboxable memory.
+       
 
 
 To explicitly set a memory to be blackboxed, you can use its ``generateAsBlackBox`` function.
