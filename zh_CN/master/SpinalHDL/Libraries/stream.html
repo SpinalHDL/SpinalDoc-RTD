@@ -1376,12 +1376,17 @@
 <td><p>Bool</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>x.queue(size:Int)</p></td>
+<tr class="row-even"><td><p>x.isFree</p></td>
+<td><p>Return True when the bus isn’t stuck with a transaction (!isStall)</p></td>
+<td><p>Bool</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>x.queue(size:Int)</p></td>
 <td><p>返回一个通过FIFO连接到x的Stream</p></td>
 <td><p>Stream[T]</p></td>
 <td><p>2</p></td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-even"><td><div class="line-block">
 <div class="line">x.m2sPipe()</div>
 <div class="line">x.stage()</div>
 </div>
@@ -1395,7 +1400,7 @@
 <td><p>Stream[T]</p></td>
 <td><p>1</p></td>
 </tr>
-<tr class="row-even"><td><p>x.s2mPipe()</p></td>
+<tr class="row-odd"><td><p>x.s2mPipe()</p></td>
 <td><div class="line-block">
 <div class="line">Return a Stream driven by x</div>
 <div class="line">通过寄存器级断开ready路径</div>
@@ -1405,7 +1410,7 @@
 <td><p>Stream[T]</p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.halfPipe()</p></td>
+<tr class="row-even"><td><p>x.halfPipe()</p></td>
 <td><div class="line-block">
 <div class="line">Return a Stream driven by x</div>
 <div class="line">valid/ready/payload路径通过一些寄存器分割</div>
@@ -1415,7 +1420,7 @@
 <td><p>Stream[T]</p></td>
 <td><p>1</p></td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-odd"><td><div class="line-block">
 <div class="line">x &lt;&lt; y</div>
 <div class="line">y &gt;&gt; x</div>
 </div>
@@ -1424,7 +1429,7 @@
 <td></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-even"><td><div class="line-block">
 <div class="line">x &lt;-&lt; y</div>
 <div class="line">y &gt;-&gt; x</div>
 </div>
@@ -1433,7 +1438,7 @@
 <td></td>
 <td><p>1</p></td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-odd"><td><div class="line-block">
 <div class="line">x &lt;/&lt; y</div>
 <div class="line">y &gt;/&gt; x</div>
 </div>
@@ -1442,7 +1447,7 @@
 <td></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><div class="line-block">
+<tr class="row-even"><td><div class="line-block">
 <div class="line">x &lt;-/&lt; y</div>
 <div class="line">y &gt;/-&gt; x</div>
 </div>
@@ -1455,7 +1460,7 @@
 <td></td>
 <td><p>1</p></td>
 </tr>
-<tr class="row-even"><td><p>x.haltWhen(cond : Bool)</p></td>
+<tr class="row-odd"><td><p>x.haltWhen(cond : Bool)</p></td>
 <td><div class="line-block">
 <div class="line">返回连接到x的反压流</div>
 <div class="line">cond为true时暂停</div>
@@ -1464,7 +1469,7 @@
 <td><p>Stream[T]</p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.throwWhen(cond : Bool)</p></td>
+<tr class="row-even"><td><p>x.throwWhen(cond : Bool)</p></td>
 <td><div class="line-block">
 <div class="line">返回连接到x的反压流</div>
 <div class="line">当cond为true时，传输数据将被抛弃</div>
@@ -1473,7 +1478,7 @@
 <td><p>Stream[T]</p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-even"><td><p>x.translateWith(that : T2)</p></td>
+<tr class="row-odd"><td><p>x.translateWith(that : T2)</p></td>
 <td><div class="line-block">
 <div class="line">返回带有效载荷 <cite>that</cite> 的流</div>
 <div class="line">修改 <cite>x</cite> 流的有效载荷，同时保留 <cite>valid</cite> 和 <cite>ready</cite> 信号</div>
@@ -1482,7 +1487,7 @@
 <td><p>Stream[T2]</p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>x.map(translate: (T) =&gt; T2)</p></td>
+<tr class="row-even"><td><p>x.map(translate: (T) =&gt; T2)</p></td>
 <td><div class="line-block">
 <div class="line">返回一个流，其有效载荷由 <cite>translate</cite> 函数计算</div>
 <div class="line">修改 <cite>x</cite> 流的有效载荷，同时保留 <cite>valid</cite> 和 <cite>ready</cite> 信号</div>
@@ -1524,6 +1529,7 @@
 <span class="n">myFifo</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">pop</span><span class="w">  </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">streamB</span><span class="w"></span>
 </pre></div>
 </div>
+<p>Mandatory parameters:</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 25%" />
@@ -1531,7 +1537,7 @@
 <col style="width: 50%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>参数名称</p></th>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
 <th class="head"><p>类型</p></th>
 <th class="head"><p>描述</p></th>
 </tr>
@@ -1543,7 +1549,43 @@
 </tr>
 <tr class="row-odd"><td><p>depth</p></td>
 <td><p>Int</p></td>
-<td><p>用于存储数据的存储器的大小</p></td>
+<td><p>Number of element stored in the fifo, Note that if <code class="docutils literal notranslate"><span class="pre">withAsyncRead==false</span></code>, then one extra transaction can be stored.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Optional parameters:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>描述</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>withAsyncRead</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Read the memory using asynchronous read port (ex distributed ram). If false, add 1 cycle latency.</p></td>
+</tr>
+<tr class="row-odd"><td><p>withBypass</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Bypass the push port to the pop port when the fifo is empty.If false, add  1 cycle latency. Only available if <code class="docutils literal notranslate"><span class="pre">withAsyncRead</span> <span class="pre">==</span> <span class="pre">true</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>forFMax</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Tune the design to get the maximal clock frequency.</p></td>
+</tr>
+<tr class="row-odd"><td><p>useVec</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Use an <code class="docutils literal notranslate"><span class="pre">Vec</span></code> of register instead of a Mem to store the content</p></td>
+</tr>
+<tr class="row-even"><td><p>initPayload</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>A <code class="docutils literal notranslate"><span class="pre">=&gt;</span> <span class="pre">Option[T]</span></code> function that return a value to init the  <code class="docutils literal notranslate"><span class="pre">Vec</span></code> register, only meaningful when <code class="docutils literal notranslate"><span class="pre">useVec</span> <span class="pre">==</span> <span class="pre">true</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1762,10 +1804,10 @@
 <h3>StreamArbiter（反压流仲裁器）<a class="headerlink" href="#streamarbiter" title="此标题的永久链接"></a></h3>
 <p>当您有多个Stream反压流并且您想要仲裁它们以驱动单个反压流时，您可以使用 StreamArbiterFactory。</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">streamA</span><span class="p">,</span><span class="w"> </span><span class="n">streamB</span><span class="p">,</span><span class="w"> </span><span class="n">streamC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">arbitredABC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamArbiterFactory</span><span class="p">.</span><span class="n">roundRobin</span><span class="p">.</span><span class="n">onArgs</span><span class="p">(</span><span class="n">streamA</span><span class="p">,</span><span class="w"> </span><span class="n">streamB</span><span class="p">,</span><span class="w"> </span><span class="n">streamC</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">arbiteredABC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamArbiterFactory</span><span class="p">.</span><span class="n">roundRobin</span><span class="p">.</span><span class="n">onArgs</span><span class="p">(</span><span class="n">streamA</span><span class="p">,</span><span class="w"> </span><span class="n">streamB</span><span class="p">,</span><span class="w"> </span><span class="n">streamC</span><span class="p">)</span><span class="w"></span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">streamD</span><span class="p">,</span><span class="w"> </span><span class="n">streamE</span><span class="p">,</span><span class="w"> </span><span class="n">streamF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">arbitredDEF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamArbiterFactory</span><span class="p">.</span><span class="n">lowerFirst</span><span class="p">.</span><span class="n">noLock</span><span class="p">.</span><span class="n">onArgs</span><span class="p">(</span><span class="n">streamD</span><span class="p">,</span><span class="w"> </span><span class="n">streamE</span><span class="p">,</span><span class="w"> </span><span class="n">streamF</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">arbiteredDEF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamArbiterFactory</span><span class="p">.</span><span class="n">lowerFirst</span><span class="p">.</span><span class="n">noLock</span><span class="p">.</span><span class="n">onArgs</span><span class="p">(</span><span class="n">streamD</span><span class="p">,</span><span class="w"> </span><span class="n">streamE</span><span class="p">,</span><span class="w"> </span><span class="n">streamF</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <table class="docutils align-default">
@@ -1856,7 +1898,7 @@ If synchronous is false, output streams may be ready one at a time,
 at the cost of an additional flip-flop (1 bit per output). The input stream will block until
 all output streams have processed each item regardlessly.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">inputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="p">(</span><span class="n">outputstream1</span><span class="p">,</span><span class="w"> </span><span class="n">outputstream2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamFork2</span><span class="p">(</span><span class="n">inputStream</span><span class="p">,</span><span class="w"> </span><span class="n">synchronous</span><span class="o">=</span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="p">(</span><span class="n">outputStream1</span><span class="p">,</span><span class="w"> </span><span class="n">outputStream2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamFork2</span><span class="p">(</span><span class="n">inputStream</span><span class="p">,</span><span class="w"> </span><span class="n">synchronous</span><span class="o">=</span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>或者</p>
@@ -1907,12 +1949,17 @@ all output streams have processed each item regardlessly.</p>
 <span class="kd">val</span><span class="w"> </span><span class="n">extender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StreamTransactionExtender</span><span class="p">(</span><span class="n">inputStream</span><span class="p">,</span><span class="w"> </span><span class="n">outputStream</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="c1">// id, is the 0-based index of total output transfers so far in the current input transaction.</span>
 <span class="w">   </span><span class="c1">// last, is the last transfer indication, same as the last signal for extender.</span>
-<span class="w">   </span><span class="c1">// the returned payload is allowed to be modified only based on id and last signals, other translation should be done outside of this.</span>
+<span class="w">   </span><span class="c1">// the returned payload is allowed to be modified only based on id and last signals, other</span>
+<span class="w">   </span><span class="c1">// translation should be done outside of this.</span>
 <span class="w">    </span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">payload</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>该 <code class="docutils literal notranslate"><span class="pre">extender</span></code> 提供了多种状态信号，例如 <code class="docutils literal notranslate"><span class="pre">working</span></code> 、 <code class="docutils literal notranslate"><span class="pre">last</span></code> 、<code class="docutils literal notranslate"><span class="pre">done</span></code> ，其中 <code class="docutils literal notranslate"><span class="pre">working</span></code> 表示有一个输入传输已接受并正在进行中， <code class="docutils literal notranslate"><span class="pre">last</span></code> 表示最后一个输出传输已准备好并等待完成，<code class="docutils literal notranslate"><span class="pre">done</span></code> 变为有效表示最后一个输出传输正在触发，并使当前输入传输任务处理完成且准备好启动另一个传输。</p>
+<p>This <code class="docutils literal notranslate"><span class="pre">extender</span></code> provides several status signals, such as <code class="docutils literal notranslate"><span class="pre">working</span></code>, <code class="docutils literal notranslate"><span class="pre">last</span></code>, <code class="docutils literal notranslate"><span class="pre">done</span></code> where
+<code class="docutils literal notranslate"><span class="pre">working</span></code> means there is one input transfer accepted and in-progress, <code class="docutils literal notranslate"><span class="pre">last</span></code> indicates the last
+output transfer is prepared and waiting to complete, <code class="docutils literal notranslate"><span class="pre">done</span></code> become valid represents the last
+output transfer is firing and making the current input transaction process complete and ready to
+start another transaction.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -2031,7 +2078,7 @@ all output streams have processed each item regardlessly.</p>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master (HEAD) git~98064d657e 2025-04-02
+    Version: master (HEAD) git~385db84804 2025-05-01
     </p></div>
     
 

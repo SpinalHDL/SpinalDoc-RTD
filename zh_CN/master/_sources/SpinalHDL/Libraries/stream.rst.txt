@@ -113,6 +113,10 @@ Functions
      - Return True when a transaction is stall on the bus (valid && ! ready)
      - Bool
      - 
+   * - x.isFree
+     - Return True when the bus isn't stuck with a transaction (!isStall)
+     - Bool
+     -
    * - x.queue(size:Int)
      - Return a Stream connected to x through a FIFO
      - Stream[T]
@@ -219,11 +223,14 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
    myFifo.io.push << streamA
    myFifo.io.pop  >> streamB
 
+
+Mandatory parameters:
+
 .. list-table::
    :header-rows: 1
    :widths: 1 1 2
 
-   * - parameter name
+   * - Name
      - Type
      - Description
    * - dataType
@@ -231,8 +238,32 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
      - Payload data type
    * - depth
      - Int
-     - Size of the memory used to store elements
+     - Number of element stored in the fifo, Note that if ``withAsyncRead==false``, then one extra transaction can be stored.
+    
+Optional parameters:
 
+.. list-table::
+   :header-rows: 1
+   :widths: 1 1 2
+
+   * - Name
+     - Default
+     - Description
+   * - withAsyncRead
+     - ``false``
+     - Read the memory using asynchronous read port (ex distributed ram). If false, add 1 cycle latency.
+   * - withBypass
+     - ``false``
+     - Bypass the push port to the pop port when the fifo is empty.If false, add  1 cycle latency. Only available if ``withAsyncRead == true``.
+   * - forFMax
+     - ``false``
+     - Tune the design to get the maximal clock frequency.
+   * - useVec
+     - ``false``
+     - Use an ``Vec`` of register instead of a Mem to store the content
+   * - initPayload
+     - ``None``
+     - A ``=> Option[T]`` function that return a value to init the  ``Vec`` register, only meaningful when ``useVec == true``
 
 .. list-table::
    :header-rows: 1
@@ -420,10 +451,10 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
 .. code-block:: scala
 
    val streamA, streamB, streamC = Stream(Bits(8 bits))
-   val arbitredABC = StreamArbiterFactory.roundRobin.onArgs(streamA, streamB, streamC)
+   val arbiteredABC = StreamArbiterFactory.roundRobin.onArgs(streamA, streamB, streamC)
 
    val streamD, streamE, streamF = Stream(Bits(8 bits))
-   val arbitredDEF = StreamArbiterFactory.lowerFirst.noLock.onArgs(streamD, streamE, streamF)
+   val arbiteredDEF = StreamArbiterFactory.lowerFirst.noLock.onArgs(streamD, streamE, streamF)
 
 .. list-table::
    :header-rows: 1
@@ -490,7 +521,7 @@ all output streams have processed each item regardlessly.
 .. code-block:: scala
 
    val inputStream = Stream(Bits(8 bits))
-   val (outputstream1, outputstream2) = StreamFork2(inputStream, synchronous=false)
+   val (outputStream1, outputStream2) = StreamFork2(inputStream, synchronous=false)
 
 or
 
@@ -558,11 +589,16 @@ The ``count`` is captured and registered each time inputStream fires for an indi
    val extender = StreamTransactionExtender(inputStream, outputStream, count) {
       // id, is the 0-based index of total output transfers so far in the current input transaction.
       // last, is the last transfer indication, same as the last signal for extender.
-      // the returned payload is allowed to be modified only based on id and last signals, other translation should be done outside of this.
+      // the returned payload is allowed to be modified only based on id and last signals, other
+      // translation should be done outside of this.
        (id, payload, last) => payload
    }
 
-This ``extender`` provides several status signals, such as ``working``, ``last``, ``done`` where ``working`` means there is one input transfer accepted and in-progress, ``last`` indicates the last output transfer is prepared and waiting to complete, ``done`` become valid represents the last output transfer is fireing and making the current input transaction process complete and ready to start another transaction.
+This ``extender`` provides several status signals, such as ``working``, ``last``, ``done`` where
+``working`` means there is one input transfer accepted and in-progress, ``last`` indicates the last
+output transfer is prepared and waiting to complete, ``done`` become valid represents the last
+output transfer is firing and making the current input transaction process complete and ready to
+start another transaction.
 
 .. wavedrom::
 

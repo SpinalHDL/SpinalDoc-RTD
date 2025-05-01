@@ -1245,28 +1245,36 @@
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This framework is not expected to be used for general RTL generation and targets large system
-design management and code generation. It is currently used as toplevel integration tool in SaxonSoC.</p>
+design management and code generation. It is currently used as toplevel integration tool in
+SaxonSoC and VexiiRiscv.</p>
 </div>
 <p>Currently in development.</p>
-<p>The Fiber to run the hardware elaboration in a out of order manner, a bit similarly to Makefile, where you can define rules and dependencies which will then be solved when you run a make command. It is very similar to the Scala Future feature.</p>
+<p>Fiber is a framework to run the hardware elaboration in an out of order manner, a bit similarly to
+Makefile, where you can define rules and dependencies which will then be solved when you run a make
+command. It is very similar to the Scala Future feature.</p>
 <p>Using this framework can complicate simple things but provide some strong features for complex cases :</p>
 <ul class="simple">
-<li><p>You can define things before even knowing all their requirements, ex :
-instantiating a interruption controller, before knowing how many interrupt signal lines you need</p></li>
-<li><p>Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for further specializations</p></li>
-<li><p>Automatic requirement negotiation between multiple agents in a decentralized way, ex : between masters and slaves of a memory bus</p></li>
+<li><p>You can define things before even knowing all their requirements, for example :
+instantiating an interruption controller, before knowing how many interrupt signal lines you need</p></li>
+<li><p>Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for
+further specializations</p></li>
+<li><p>Automatic requirement negotiation between multiple agents in a decentralized way, for example :
+between masters and slaves of a memory bus</p></li>
 </ul>
 <p>The framework is mainly composed of :</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Handle[T]</span></code>, which can be used later to store a value of type <code class="docutils literal notranslate"><span class="pre">T</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">handle.load</span></code> which allow to set the value of a handle (will reschedule all tasks waiting on it)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">handle.get</span></code>, which return the value of the given handle. Will block the task execution if that handle isn’t loaded yet</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Handle{</span> <span class="pre">/*code*/</span> <span class="pre">}</span></code>, which fork a new task which will execute the given code. The result of that code will be loaded into the Handle</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">soon(handle)</span></code>, which allows the current task to announce that it will load <code class="docutils literal notranslate"><span class="pre">handle</span></code> with a value (used for scheduling)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">handle.load</span></code>, which allow to set the value of a handle (will reschedule all tasks waiting on it)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">handle.get</span></code>, which return the value of the given handle. Will block the task execution if that
+handle isn’t loaded yet</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Handle{</span> <span class="pre">/*code*/</span> <span class="pre">}</span></code>, which fork a new task which will execute the given code. The result of
+that code will be loaded into the Handle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">soon(handle)</span></code>, which allows the current task to announce that it will load <code class="docutils literal notranslate"><span class="pre">handle</span></code> with
+a value (used for scheduling)</p></li>
 </ul>
 <section id="simple-dummy-example">
 <h2>Simple dummy example<a class="headerlink" href="#simple-dummy-example" title="Permalink to this heading"></a></h2>
-<p>There is a simple example :</p>
+<p>Here is a simple example :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">fiber</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// Create two empty Handles</span>
@@ -1297,20 +1305,29 @@ instantiating a interruption controller, before knowing how many interrupt signa
 <li><p>printer task print its stuff</p></li>
 <li><p>everything done</p></li>
 </ul>
-<p>So, the main point of that example is to show that we kind of overcome the sequential execution of things, as a and b are loaded after the definition of the calculator.</p>
+<p>So, the main point of that example is to show that we kind of overcome the sequential execution of
+things, as a and b are loaded after the definition of the calculator.</p>
 </section>
 <section id="handle-t">
 <h2>Handle[T]<a class="headerlink" href="#handle-t" title="Permalink to this heading"></a></h2>
-<p>Handle[T] are a bit like scala’s Future[T], they allow to talk about something before it is even existing, and wait on it.</p>
+<p>Handle[T] are a bit like scala’s Future[T], they allow to talk about something before it is even
+existing, and wait on it.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">xPlus2</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c1">// x.produce can be used to generate a new Handle when x is loaded</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">xPlus3</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">derivate</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">    </span><span class="c1">// x.derivate is as x.produce, but also provide the x.get as argument of the lambda function</span>
+
+<span class="c1">// x.produce can be used to generate a new Handle when x is loaded</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">xPlus2</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+
+<span class="c1">// x.derivate is as x.produce, but also provide the x.get as argument of the lambda function</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">xPlus3</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">derivate</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+
 <span class="n">x</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="c1">// x will now contain the value 3</span>
 </pre></div>
 </div>
 <section id="soon-handle">
 <h3>soon(handle)<a class="headerlink" href="#soon-handle" title="Permalink to this heading"></a></h3>
-<p>In order to maintain a proper graph of dependencies between tasks and Handle, a task can specify in advance that it will load a given handle. This is very usefull in case of a generation starvation/deadlock for SpinalHDL to report accuratly where is the issue.</p>
+<p>In order to maintain a proper graph of dependencies between tasks and Handle, a task can specify
+in advance that it will load a given handle. This is very useful in case of a generation
+starvation/deadlock for SpinalHDL to report accurately where is the issue.</p>
 </section>
 </section>
 </section>
@@ -1344,7 +1361,7 @@ instantiating a interruption controller, before knowing how many interrupt signa
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master (HEAD) git~98064d657e 2025-04-02
+    Version: master (HEAD) git~385db84804 2025-05-01
     </p></div>
     
 

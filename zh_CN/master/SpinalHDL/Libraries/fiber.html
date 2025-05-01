@@ -1245,27 +1245,34 @@
 <span id="fiber"></span><h1>纤程框架<a class="headerlink" href="#fiber-framework" title="此标题的永久链接"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">警告</p>
-<p>该框架设计目标不是用于一般 RTL 生成，而是针对大型系统设计管理和代码生成。它目前在 SaxonSoC 中用作顶级集成工具。</p>
+<p>This framework is not expected to be used for general RTL generation and targets large system
+design management and code generation. It is currently used as toplevel integration tool in
+SaxonSoC and VexiiRiscv.</p>
 </div>
 <p>Currently in development.</p>
-<p>纤程(Fiber)以乱序的方式运行硬件生成，有点类似于Makefile，您可以在其中定义规则和依赖关系，然后在运行make命令时解决这些依赖关系。这与Scala Future功能非常相似。</p>
+<p>Fiber is a framework to run the hardware elaboration in an out of order manner, a bit similarly to
+Makefile, where you can define rules and dependencies which will then be solved when you run a make
+command. It is very similar to the Scala Future feature.</p>
 <p>使用这个框架可能会使简单的事情复杂化，但为复杂的情况提供了一些强大的功能：</p>
 <ul class="simple">
-<li><p>您甚至可以在知道所有要求之前就定义事物，例如：在知道需要多少中断信号线之前实例化中断控制器</p></li>
-<li><p>Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for further specializations</p></li>
-<li><p>以分散方式在多个代理之间自动进行需求协商，例如：内存总线的主设备和从设备之间</p></li>
+<li><p>You can define things before even knowing all their requirements, for example :
+instantiating an interruption controller, before knowing how many interrupt signal lines you need</p></li>
+<li><p>Abstract/lazy/partial SoC architecture definition allowing the creation of SoC template for
+further specializations</p></li>
+<li><p>Automatic requirement negotiation between multiple agents in a decentralized way, for example :
+between masters and slaves of a memory bus</p></li>
 </ul>
 <p>该框架主要由以下部分组成：</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Handle[T]</span></code>，稍后可用于存储 <code class="docutils literal notranslate"><span class="pre">T</span></code> 类型的值。</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">handle.load</span></code> 允许设置句柄的值（将启动等待它的所有任务）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">handle.load</span></code>, which allow to set the value of a handle (will reschedule all tasks waiting on it)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">handle.get</span></code>，返回给定句柄的值。如果尚未加载该句柄，将阻止任务执行进入等待</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Handle{</span> <span class="pre">/*code*/</span> <span class="pre">}</span></code>，它派生一个新任务来执行给定的代码。该代码的结果将被加载到句柄中</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">soon(handle)</span></code>，允许当前任务宣称它将加载 一个 <code class="docutils literal notranslate"><span class="pre">handle</span></code> 句柄（用于调度）</p></li>
 </ul>
 <section id="simple-dummy-example">
 <h2>简单的示例<a class="headerlink" href="#simple-dummy-example" title="此标题的永久链接"></a></h2>
-<p>这是一个简单的例子：</p>
+<p>Here is a simple example :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">fiber</span><span class="p">.</span><span class="n">_</span>
 
 <span class="c1">// Create two empty Handles</span>
@@ -1302,14 +1309,21 @@
 <h2>Handle[T]<a class="headerlink" href="#handle-t" title="此标题的永久链接"></a></h2>
 <p>Handle[T]有点像scala的Future[T]，它们允许在某个对象存在之前就谈及它，并等待它。</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">xPlus2</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c1">// x.produce can be used to generate a new Handle when x is loaded</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">xPlus3</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">derivate</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">    </span><span class="c1">// x.derivate is as x.produce, but also provide the x.get as argument of the lambda function</span>
+
+<span class="c1">// x.produce can be used to generate a new Handle when x is loaded</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">xPlus2</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">get</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+
+<span class="c1">// x.derivate is as x.produce, but also provide the x.get as argument of the lambda function</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">xPlus3</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Handle</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">derivate</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+
 <span class="n">x</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="c1">// x will now contain the value 3</span>
 </pre></div>
 </div>
 <section id="soon-handle">
 <h3>soon(handle)<a class="headerlink" href="#soon-handle" title="此标题的永久链接"></a></h3>
-<p>为了维护任务和句柄之间正确的依赖关系图，任务可以预先指明它将加载给定的句柄。在生成饥饿(starvation)/死锁的情况下非常有用，以便SpinalHDL准确报告问题所在。</p>
+<p>In order to maintain a proper graph of dependencies between tasks and Handle, a task can specify
+in advance that it will load a given handle. This is very useful in case of a generation
+starvation/deadlock for SpinalHDL to report accurately where is the issue.</p>
 </section>
 </section>
 </section>
@@ -1343,7 +1357,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master (HEAD) git~98064d657e 2025-04-02
+    Version: master (HEAD) git~385db84804 2025-05-01
     </p></div>
     
 
