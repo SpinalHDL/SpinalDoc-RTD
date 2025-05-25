@@ -1,3 +1,4 @@
+
 Report
 ======
 
@@ -29,7 +30,6 @@ Since SpinalHDL 1.4.4, the following syntax is also supported:
 
     report(L"miaou $a $b $c $d")
 
-    
 You can display the current simulation time using the `REPORT_TIME` object:
 
 .. code-block:: scala
