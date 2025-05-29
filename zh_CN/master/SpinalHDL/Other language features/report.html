@@ -1265,7 +1265,7 @@
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">report</span><span class="p">(</span><span class="nc">L</span><span class="s">&quot;miaou $a $b $c $d&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>可以使用 REPORT_TIME 对象显示当前仿真时间</p>
+<p>You can display the current simulation time using the <cite>REPORT_TIME</cite> object:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">report</span><span class="p">(</span><span class="nc">L</span><span class="s">&quot;miaou $REPORT_TIME&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1273,6 +1273,60 @@
 <div class="highlight-verilog notranslate"><div class="highlight"><pre><span></span><span class="nb">$display</span><span class="p">(</span><span class="s">&quot;NOTE miaou %t&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">$time</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
+<p><strong>Automatic Handling of Scala Primitive Types (SpinalHDL ^1.12.2)</strong></p>
+<p>You can embed Scala primitive types (e.g., <cite>Int</cite>, <cite>Boolean</cite>, <cite>Float</cite>, <cite>BigInt</cite>, <cite>BigDecimal</cite>, <cite>Char</cite>, <cite>Byte</cite>, <cite>Short</cite>, <cite>Long</cite>) within <cite>L””</cite> interpolated strings without explicit <cite>.toString()</cite> calls.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">myInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myFloat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14f</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myBigInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="mh">0xABCD</span><span class="p">)</span><span class="w"></span>
+<span class="n">report</span><span class="p">(</span><span class="nc">L</span><span class="s">&quot;My values: int=$myInt, bool=$myBool, float=$myFloat, bigInt=$myBigInt&quot;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">cacheConfig</span><span class="p">.</span><span class="n">fetchWordsPerFetchGroup</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">report</span><span class="p">(</span><span class="nc">L</span><span class="s">&quot;AdvICache: sCompareTags - Instruction ${i}: ${io.cpu.rsp.payload.instructions(i)}&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>Structured Reporting for Complex Data Types (like Bundles) (SpinalHDL ^1.12.2)</strong></p>
+<p>For <cite>Bundle`s or other complex data structures, you can define a `Formattable</cite> trait and implement a <cite>format()</cite> method returning <cite>Seq[Any]</cite> to define a structured, nested representation. This allows for clean, one-line reporting of entire complex objects.</p>
+<p>First, define a <cite>Formattable</cite> trait and implement it in your Bundles:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">trait</span><span class="w"> </span><span class="nc">Formattable</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">():</span><span class="w"> </span><span class="nc">Seq</span><span class="p">[</span><span class="nc">Any</span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">DataPayload</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">Formattable</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">checksum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">():</span><span class="w"> </span><span class="nc">Seq</span><span class="p">[</span><span class="nc">Any</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="nc">L</span><span class="s">&quot;DataPayload(value=0x${value}, checksum=0x${checksum})&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">PacketHeader</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nc">Formattable</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">packetLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">packetType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DataPayload</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="k">override</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">():</span><span class="w"> </span><span class="nc">Seq</span><span class="p">[</span><span class="nc">Any</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="nc">L</span><span class="s">&quot;PacketHeader(&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nc">L</span><span class="s">&quot;packetLength=0x${packetLength},&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nc">L</span><span class="s">&quot; packetType=0x${packetType},&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nc">L</span><span class="s">&quot; payload=${payload.format},&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Nested format call</span>
+<span class="w">    </span><span class="nc">L</span><span class="s">&quot;)&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">).</span><span class="n">flatten</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then, you can report the entire structure:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">PacketHeader</span><span class="p">()</span><span class="w"> </span><span class="c1">// Assume io is an instance of PacketHeader</span>
+<span class="w">  </span><span class="c1">// ... some logic ...</span>
+<span class="w">  </span><span class="n">report</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">format</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This will produce a compact, readable output like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>PacketHeader(packetLength=0x0c, packetType=0x1, payload=DataPayload(value=0x5678, checksum=0x78))</p>
 </section>
 
     <script type="text/javascript">
@@ -1304,7 +1358,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master (HEAD) git~79efc98d61 2025-05-01
+    Version: master (HEAD) git~8d2a6517fb 2025-05-29
     </p></div>
     
 
