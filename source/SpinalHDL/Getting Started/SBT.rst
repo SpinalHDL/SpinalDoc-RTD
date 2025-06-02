@@ -24,7 +24,7 @@ fetch dependencies so it can take time the first time:
 
 .. code-block::
 
-   compile
+   Test/compile
 
 Actually you never need to just ``compile`` as it is done automatically when
 needed. The first build time will take a few moments longer compared to future builds
