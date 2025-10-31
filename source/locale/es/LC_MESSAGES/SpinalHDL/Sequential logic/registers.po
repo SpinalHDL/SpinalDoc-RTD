@@ -1,0 +1,165 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018 - 2024, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-02 16:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:4
+msgid "Registers"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:6
+msgid "Creating registers in SpinalHDL is very different than in VHDL or Verilog."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:8
+msgid "In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration. This difference from traditional event-driven HDL has a big impact:"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:11
+msgid "You can assign registers and wires in the same scope, meaning the code doesn't need to be split between process/always blocks"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:12
+msgid "It make things much more flexible (see :ref:`Functions <function>`)"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:14
+msgid "Clocks and resets are handled separately, see the :ref:`Clock domain <clock_domain>` chapter for details."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:17
+msgid "Instantiation"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:19
+msgid "There are 4 ways to instantiate a register:"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:25
+msgid "Syntax"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:26
+msgid "Description"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:27
+msgid "``Reg(type : Data)``"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:28
+msgid "Register of the given type"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:29
+msgid "``RegInit(resetValue : Data)``"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:30
+msgid "Register loaded with the given ``resetValue`` when a reset occurs"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:31
+msgid "``RegNext(nextValue : Data)``"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:32
+msgid "Register that samples the given ``nextValue`` each cycle"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:33
+msgid "``RegNextWhen(nextValue : Data, cond : Bool)``"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:34
+msgid "Register that samples the given ``nextValue`` when a condition occurs"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:36
+msgid "Here is an example declaring some registers:"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:56
+msgid "The code above will infer the following logic:"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:62
+msgid "The ``reg3`` example above shows how you can assign the value of a ``RegInit`` register. It's possible to use the same syntax to assign to the other register types as well (``Reg``, ``RegNext``, ``RegNextWhen``). Just like in combinational assignments, the rule is 'Last assignment wins', but if no assignment is done, the register keeps its value. If the Reg is declared in a design and does not have suitable assignment and consumption it is likely to be pruned (removed from design) at some point by EDA flows after being deemed unnecessary."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:70
+msgid "Also, ``RegNext`` is an abstraction which is built over the ``Reg`` syntax. The two following sequences of code are strictly equivalent:"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:84
+msgid "It is possible to have multiple options at the same time in other ways and so slightly more advanced compositions built on top of the basic understand of the above:"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:125
+msgid "Reset value"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:127
+msgid "In addition to the ``RegInit(value : Data)`` syntax which directly creates the register with a reset value, you can also set the reset value by calling the ``init(value : Data)`` function on the register."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:135
+msgid "If you have a register containing a Bundle, you can use the ``init`` function on each element of the Bundle."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:148
+msgid "Initialization value for simulation purposes"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:150
+msgid "For registers that don't need a reset value in RTL, but need an initialization value for simulation (to avoid x-propagation), you can ask for a random initialization value by calling the ``randBoot()`` function."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:158
+msgid "Register vectors"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:160
+msgid "As for wires, it is possible to define a vector of registers with ``Vec``."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:167
+msgid "Initialization can be done with the ``init`` method as usual, which can be combined with the ``foreach`` iteration on the registers."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:175
+msgid "In case where the initialization must be deferred since the init value is not known, use a function as in the example below."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:208
+msgid "Transforming a wire into a register"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:210
+msgid "Sometimes it is useful to transform an existing wire into a register. For instance, when you are using a Bundle, if you want some outputs of the bundle to be registers, you might prefer to write ``io.myBundle.PORT := newValue`` without declaring registers with ``val PORT = Reg(...)`` and connecting their output to the port with ``io.myBundle.PORT := PORT``. To do this, you just need to use ``.setAsReg()`` on the ports you want to control as registers:"
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:230
+msgid "Notice in the code above that you can also specify an initialization value."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:234
+msgid "The register is created in the clock domain of the wire, and does not depend on the place where ``.setAsReg()`` is used."
+msgstr ""
+
+#: ../../SpinalHDL/Sequential logic/registers.rst:237
+msgid "In the example above, the wire is defined in the ``io`` Bundle, in the same clock domain as the component. Even if ``io.apb.PADDR.setAsReg()`` was written in a ``ClockingArea`` with a different clock domain, the register would use the clock domain of the component and not the one of the ``ClockingArea``."
+msgstr ""

@@ -1,0 +1,169 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018 - 2024, SpinalHDL
+# This file is distributed under the same license as the SpinalHDL package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SpinalHDL\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-02 16:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:3
+msgid "tilelink.fabric.Node"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:5
+msgid "tilelink.fabric.Node is an additional layer over the regular tilelink hardware instanciation which handle negociation and parameters propagation at a SoC level."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:7
+msgid "It is mostly based on the Fiber API, which allows to create elaboration time fibers (user-space threads), allowing to schedule future parameter propagation / negociation and hardware elaboration."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:9
+msgid "A Node can be created in 3 ways :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:11
+msgid "tilelink.fabric.Node.down() : To create a node which can connect downward (toward slaves), so it would be used in a CPU / DMA / bridges agents"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:12
+msgid "tilelink.fabric.Node() : To create an intermediate nodes"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:13
+msgid "tilelink.fabric.Node.up() : To create a node which can connect upward (toward masters), so it would be used in peripherals / memories / bridges agents"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:15
+msgid "Nodes mostly have the following attributes :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:17
+msgid "bus : Handle[tilelink.Bus]; the hardware instance of the bus"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:18
+msgid "m2s.proposed : Handle[tilelink.M2sSupport]; The set of features which is proposed by the upward connections"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:19
+msgid "m2s.supported : Handle[tilelink.M2sSupport] : The set of feature supported by the downward connections"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:20
+msgid "m2s.parameter : Handle[tilelink.M2sParameter] : The final bus parameter"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:22
+msgid "You can note that they all are Handles. Handle is a way in SpinalHDL to have share a value between fibers. If a fiber read a Handle while this one has no value yet, it will block the execution of that fiber until another fiber provide a value to the Handle."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:24
+msgid "There is also a set of attribues like m2s, but reversed (named s2m) which specify the parameters for the transactions initiated by the slave side of the interconnect (ex memory coherency)."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:26
+msgid "There is two talks which where introducing the tilelink.fabric.Node. Those talk may not exactly follow the actual syntax, they are still follow the concepts :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:28
+msgid "Introduction : https://youtu.be/hVi9xOGuuek"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:29
+msgid "In depth : https://peertube.f-si.org/videos/watch/bcf49c84-d21d-4571-a73e-96d7eb89e907"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:32
+msgid "Example Toplevel"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:34
+msgid "Here is an example of a simple fictive SoC toplevel :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:46
+msgid "You can also define intermediate nodes in the interconnect as following :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:70
+msgid "Example GpioFiber"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:72
+msgid "GpioFiber is a simple tilelink peripheral which can read / drive a 32 bits tristate array."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:116
+msgid "Example RamFiber"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:118
+msgid "RamFiber is the integration layer of a regular tilelink Ram component."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:146
+msgid "Example CpuFiber"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:148
+msgid "CpuFiber is an fictive example of a master integration."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:195
+msgid "One particularity of Tilelink, is that it assumes a master will not emit requests to a unmapped memory space. To allow a master to identify what memory access it is allowed to do, you can use the spinal.lib.system.tag.MemoryConnection.getMemoryTransfers tool as following :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:206
+msgid "If you run this in the Cpu's fiber, in the following soc :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:228
+msgid "You will get :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:236
+msgid "\"through=\" specify the chain of address transformations done to reach the target."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:237
+msgid "\"SM\" means SizeMapping(address, size)"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:238
+msgid "\"OT\" means OffsetTransformer(offset)"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:240
+msgid "Note that you can also add PMA (Physical Memory Attributes) to nodes and retreives them via this getMemoryTransfers utilities."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:242
+msgid "The currently defined PMA are :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:258
+msgid "The getMemoryTransfers utility rely on a dedicated SpinalTag :"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:270
+msgid "That SpinalTag can be used applied to both ends of a given memory bus connection to keep this connection discoverable at elaboration time, creating a graph of MemoryConnection. One good thing about it is that is is bus agnostic, meaning it isn't tilelink specific."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:274
+msgid "Example WidthAdapter"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Bus/tilelink/tilelink_fabric.rst:276
+msgid "The width adapter is a simple example of bridge."
+msgstr ""

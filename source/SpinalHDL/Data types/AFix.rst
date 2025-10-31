@@ -21,16 +21,20 @@ AFix can be created using bit sizes or exponents:
 
 .. code-block:: scala
 
-  AFix.U(12 bits)         // U12.0
-  AFix.UQ(8 bits, 4 bits) // U8.4
-  AFix.U(8 exp, 12 bits)  // U8.4
-  AFix.U(8 exp, -4 exp)   // U8.4
-  AFix.U(8 exp, 4 exp)    // U8.-4
+  AFix.U(12 bits)             // U12.0
+  AFix(QFormat(12, 0, false)) // U12.0
+  AFix.UQ(8 bits, 4 bits)     // U8.4
+  AFix.U(8 exp, 12 bits)      // U8.4
+  AFix.U(8 exp, -4 exp)       // U8.4
+  AFix.U(8 exp, 4 exp)        // U8.-4
+  AFix(QFormat(12, 4, false)) // U8.4
 
-  AFix.S(12 bits)         // S11 + sign
-  AFix.SQ(8 bits, 4 bits) // S8.4 + sign
-  AFix.S(8 exp, 12 bits)  // S8.3 + sign
-  AFix.S(8 exp, -4 exp)   // S8.4 + sign
+  AFix.S(12 bits)             // S11.0 + sign
+  AFix(QFormat(12, 0, true))  // S11.0 + sign
+  AFix.SQ(8 bits, 4 bits)     // S8.4  + sign
+  AFix.S(8 exp, 12 bits)      // S8.3  + sign
+  AFix.S(8 exp, -4 exp)       // S8.4  + sign
+  AFix(QFormat(12, 4, true))  // S7.4  + sign
 
 
 These will have representable ranges for all bits.
@@ -39,9 +43,9 @@ For example:
 
 ``AFix.U(12 bits)`` will have a range of 0 to 4095.
 
-``AFix.SQ(8 bits, 4 bits)`` will have a range of -4096 (-256) to 4095 (255.9375)
+``AFix.SQ(8 bits, 4 bits)`` will have a range of -256 (internaly -4096*2^-4) to 255.9375 (internaly 4095*2^-4)
 
-``AFix.U(8 exp, 4 exp)`` will have a range of 0 to 256
+``AFix.U(8 exp, 4 exp)`` will have a range of 0 to 240 (internaly 15*2^4)
 
 
 Custom range ``AFix`` values can be created be directly instantiating the class.

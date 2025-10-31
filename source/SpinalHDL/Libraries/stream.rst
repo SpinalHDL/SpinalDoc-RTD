@@ -79,7 +79,7 @@ Semantics
 
 When manually reading/driving the signals of a Stream keep in mind that:
 
-* After being asserted, ``valid`` may only be deasserted once the current payload was acknowleged. This means ``valid`` can only toggle to 0 the cycle after a the slave did a read by asserting ``ready``.
+* After being asserted, ``valid`` may only be deasserted once the current payload was acknowledged. This means ``valid`` can only toggle to 0 the cycle after a the slave did a read by asserting ``ready``.
 * In contrast to that ``ready`` may change at any time. 
 * A transfer is only done on cycles where both ``valid`` and ``ready`` are asserted.
 * ``valid`` of a Stream must not depend on ``ready`` in a combinatorial way and any path between the two must be registered.
@@ -113,27 +113,31 @@ Functions
      - Return True when a transaction is stall on the bus (valid && ! ready)
      - Bool
      - 
+   * - x.isFree
+     - Return True when the bus isn't stuck with a transaction (!isStall)
+     - Bool
+     -
    * - x.queue(size:Int)
      - Return a Stream connected to x through a FIFO
      - Stream[T]
      - 2
    * - | x.m2sPipe()
        | x.stage()
-     - | Return a Stream drived by x
+     - | Return a Stream driven by x
        | through a register stage that cut valid/payload paths
-       | Cost = (payload width + 1) flop flop
+       | Cost = (payload width + 1) flip-flops
      - Stream[T]
      - 1
    * - x.s2mPipe()
-     - | Return a Stream drived by x
+     - | Return a Stream driven by x
        | ready paths is cut by a register stage
-       | Cost = payload width * (mux2 + 1 flip flop)
+       | Cost = payload width * (mux2 + 1 flip-flops)
      - Stream[T]
      - 0
    * - x.halfPipe()
-     - | Return a Stream drived by x
+     - | Return a Stream driven by x
        | valid/ready/payload paths are cut by some register
-       | Cost = (payload width + 2) flip flop, bandwidth divided by two
+       | Cost = (payload width + 2) flip-flops, bandwidth divided by two
      - Stream[T]
      - 1
    * - | x << y
@@ -166,6 +170,16 @@ Functions
      - | Return a Stream connected to x
        | When cond is true, transaction are dropped
      - Stream[T]
+     - 0
+   * - x.translateWith(that : T2)
+     - | Return a Stream with payload `that`
+       | Modify the payload of the `x` stream, while preserving the `valid` and `ready` signals
+     - Stream[T2]
+     - 0
+   * - x.map(translate: (T) => T2)
+     - | Return a Stream with payload calculated by translate function
+       | Modify the payload of the `x` stream, while preserving the `valid` and `ready` signals
+     - Stream[T2]
      - 0
 
 
@@ -201,7 +215,7 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
 .. code-block:: scala
 
    val streamA,streamB = Stream(Bits(8 bits))
-   //...
+   // ...
    val myFifo = StreamFifo(
      dataType = Bits(8 bits),
      depth    = 128
@@ -209,11 +223,14 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
    myFifo.io.push << streamA
    myFifo.io.pop  >> streamB
 
+
+Mandatory parameters:
+
 .. list-table::
    :header-rows: 1
    :widths: 1 1 2
 
-   * - parameter name
+   * - Name
      - Type
      - Description
    * - dataType
@@ -221,8 +238,32 @@ On each stream you can call the .queue(size) to get a buffered stream. But you c
      - Payload data type
    * - depth
      - Int
-     - Size of the memory used to store elements
+     - Number of element stored in the fifo, Note that if ``withAsyncRead==false``, then one extra transaction can be stored.
+    
+Optional parameters:
 
+.. list-table::
+   :header-rows: 1
+   :widths: 1 1 2
+
+   * - Name
+     - Default
+     - Description
+   * - withAsyncRead
+     - ``false``
+     - Read the memory using asynchronous read port (ex distributed ram). If false, add 1 cycle latency.
+   * - withBypass
+     - ``false``
+     - Bypass the push port to the pop port when the fifo is empty.If false, add  1 cycle latency. Only available if ``withAsyncRead == true``.
+   * - forFMax
+     - ``false``
+     - Tune the design to get the maximal clock frequency.
+   * - useVec
+     - ``false``
+     - Use an ``Vec`` of register instead of a Mem to store the content
+   * - initPayload
+     - ``None``
+     - A ``=> Option[T]`` function that return a value to init the  ``Vec`` register, only meaningful when ``useVec == true``
 
 .. list-table::
    :header-rows: 1
@@ -255,7 +296,7 @@ You can instantiate the dual clock domain version of the fifo the following way 
    val clockA = ClockDomain(???)
    val clockB = ClockDomain(???)
    val streamA,streamB = Stream(Bits(8 bits))
-   //...
+   // ...
    val myFifo = StreamFifoCC(
      dataType  = Bits(8 bits),
      depth     = 128,
@@ -318,7 +359,7 @@ StreamCCByToggle
    val clockA = ClockDomain(???)
    val clockB = ClockDomain(???)
    val streamA,streamB = Stream(Bits(8 bits))
-   //...
+   // ...
    val bridge = StreamCCByToggle(
      dataType    = Bits(8 bits),
      inputClock  = clockA,
@@ -410,10 +451,10 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
 .. code-block:: scala
 
    val streamA, streamB, streamC = Stream(Bits(8 bits))
-   val arbitredABC = StreamArbiterFactory.roundRobin.onArgs(streamA, streamB, streamC)
+   val arbiteredABC = StreamArbiterFactory.roundRobin.onArgs(streamA, streamB, streamC)
 
    val streamD, streamE, streamF = Stream(Bits(8 bits))
-   val arbitredDEF = StreamArbiterFactory.lowerFirst.noLock.onArgs(streamD, streamE, streamF)
+   val arbiteredDEF = StreamArbiterFactory.lowerFirst.noLock.onArgs(streamD, streamE, streamF)
 
 .. list-table::
    :header-rows: 1
@@ -426,7 +467,7 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
    * - roundRobin
      - Fair round robin arbitration
    * - sequentialOrder
-     - | Could be used to retrieve transaction in a sequancial order
+     - | Could be used to retrieve transaction in a sequential order
        | First transaction should come from port zero, then from port one, ...
 
 
@@ -473,14 +514,14 @@ StreamFork
 A StreamFork will clone each incoming data to all its output streams. If synchronous is true,
 all output streams will always fire together, which means that the stream will halt until all output streams are ready. 
 If synchronous is false, output streams may be ready one at a time,
-at the cost of an additional flip flop (1 bit per output). The input stream will block until
+at the cost of an additional flip-flop (1 bit per output). The input stream will block until
 all output streams have processed each item regardlessly.
 
 
 .. code-block:: scala
 
    val inputStream = Stream(Bits(8 bits))
-   val (outputstream1, outputstream2) = StreamFork2(inputStream, synchronous=false)
+   val (outputStream1, outputStream2) = StreamFork2(inputStream, synchronous=false)
 
 or
 
@@ -548,11 +589,16 @@ The ``count`` is captured and registered each time inputStream fires for an indi
    val extender = StreamTransactionExtender(inputStream, outputStream, count) {
       // id, is the 0-based index of total output transfers so far in the current input transaction.
       // last, is the last transfer indication, same as the last signal for extender.
-      // the returned payload is allowed to be modified only based on id and last signals, other translation should be done outside of this.
+      // the returned payload is allowed to be modified only based on id and last signals, other
+      // translation should be done outside of this.
        (id, payload, last) => payload
    }
 
-This ``extender`` provides several status signals, such as ``working``, ``last``, ``done`` where ``working`` means there is one input transfer accepted and in-progress, ``last`` indicates the last output transfer is prepared and waiting to complete, ``done`` become valid represents the last output transfer is fireing and making the current input transaction process complete and ready to start another transaction.
+This ``extender`` provides several status signals, such as ``working``, ``last``, ``done`` where
+``working`` means there is one input transfer accepted and in-progress, ``last`` indicates the last
+output transfer is prepared and waiting to complete, ``done`` become valid represents the last
+output transfer is firing and making the current input transaction process complete and ready to
+start another transaction.
 
 .. wavedrom::
 
@@ -586,7 +632,7 @@ For simulation master and slave implementations are available:
     - Used for both master and slave sides, calls function with payload if Stream fires.
   * - StreamDriver
     - Testbench master side, drives values by calling function to apply value (if available). Function must return if value was available. Supports random delays.
-  * - StreamReadyRandmizer
+  * - StreamReadyRandomizer
     - Randomizes ``ready`` for reception of data, testbench is the slave side.
   * - ScoreboardInOrder
     - Often used to compare reference/dut data

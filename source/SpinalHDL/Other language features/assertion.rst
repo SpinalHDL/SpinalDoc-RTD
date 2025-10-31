@@ -2,7 +2,7 @@
 Assertions
 ==========
 
-In addition to Scala run-time assertions, you can add hardware assertions using the following syntax:
+In addition to Scala run-time assertions `assert(condition : Boolean, message : String)`, you can add hardware assertions using the following syntax:
 
 ``assert(assertion : Bool, message : String = null, severity: AssertNodeSeverity = Error)``
 
@@ -43,3 +43,7 @@ One practical example could be to check that the ``valid`` signal of a handshake
        severity  = ERROR
      )
    }
+
+.. note::
+   Scala run time assertions `assert(condition : Boolean, message : String)` do not provide support for a severity level, and if triggered, will always stop the current elaboration/simulation.
+   

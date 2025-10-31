@@ -1,4 +1,4 @@
-FROM sphinxdoc/sphinx-latexpdf
+FROM sphinxdoc/sphinx-latexpdf:5.3.0
 
 WORKDIR /docs
 

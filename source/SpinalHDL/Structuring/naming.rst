@@ -1,10 +1,10 @@
 Preserving names
-==================
+================
 
 This page will describe how SpinalHDL propagate names from the scala code to the generated hardware. Knowing them should enable you to preserve those names as much as possible to generate understandable netlists.
 
 Nameable base class
-------------------------------------------
+-------------------
 
 All the things which can be named in SpinalHDL extends the Nameable base class which.
 
@@ -38,10 +38,10 @@ Will generation :
       wire                rawrr_wuff;
     endmodule
 
-In general, you don't realy need to access that API, unless you want to do tricky stuff for debug reasons or for elaboration purposes.
+In general, you don't really need to access that API, unless you want to do tricky stuff for debug reasons or for elaboration purposes.
 
 Name extraction from Scala
-------------------------------------------
+--------------------------
 
 First, since version 1.4.0, SpinalHDL use a scala compiler plugin which can provide a call back each time a new val is defined during the construction of an class.
 
@@ -49,7 +49,7 @@ There is a example showing more or less how SpinalHDL itself is implemented :
 
 .. code-block:: scala
 
-    //spinal.idslplugin.ValCallback is the Scala compiler plugin feature which will provide the callbacks
+    // spinal.idslplugin.ValCallback is the Scala compiler plugin feature which will provide the callbacks
     class Component extends spinal.idslplugin.ValCallback {
       override def valCallback[T](ref: T, name: String) : T = {
         println(s"Got $ref named $name") // Here we just print what we got as a demo.
@@ -106,13 +106,13 @@ Will generate :
       output     [7:0]    toto
     );
       // Note that the tmp signal defined in scala was "shortcuted" by SpinalHDL,
-      //  as it was unamed and technicaly "shortcutable"
+      //  as it was unnamed and technically "shortcutable"
       assign toto = 8'h20;
     endmodule
 
 
 Area in a Component
---------------------
+-------------------
 
 One important aspect in the naming system is that you can define new namespaces inside components and manipulate
 
@@ -142,7 +142,7 @@ Will generate
     endmodule
 
 Area in a function
---------------------
+------------------
 
 You can also define function which will create new Area which will provide a namespace for all its content :
 
@@ -183,7 +183,7 @@ Added in SpinalHDL 1.5.0, Composite which allow you to create a scope which will
 .. code-block:: scala
 
   class MyComponent extends Component {
-    // Basicaly, a Composite is an Area that use its construction parameter as namespace prefix
+    // Basically, a Composite is an Area that use its construction parameter as namespace prefix
     def isZero(value: UInt) = new Composite(value) {
       val comparator = value === 0
     }.comparator  // Note we don't return the Composite,
@@ -210,7 +210,7 @@ Will generate :
     endmodule
 
 Composite chains
-----------------------------
+----------------
 
 You can also chain composites :
 
@@ -249,10 +249,10 @@ Will generate :
     endmodule
 
 Composite in a Bundle's function
-------------------------------------
+--------------------------------
 
 
-This behaviour can be very useful when implementing Bundle utilities. For instance in the spinal.lib.Stream class is defined the following :
+This behavior can be very useful when implementing Bundle utilities. For instance in the spinal.lib.Stream class is defined the following :
 
 .. code-block:: scala
 
@@ -359,19 +359,19 @@ Will generate
     endmodule
 
 
-Unamed signal handling
-----------------------------------------
+Unnamed signal handling
+-----------------------
 
-Since 1.5.0, for signal which end up without name, SpinalHDL will find a signal which is driven by that unamed signal and propagate its name. This can produce useful results as long you don't have too large island of unamed stuff.
+Since 1.5.0, for signal which end up without name, SpinalHDL will find a signal which is driven by that unnamed signal and propagate its name. This can produce useful results as long you don't have too large island of unnamed stuff.
 
-The name attributed to such unamed signal is : _zz_ + drivenSignal.getName()
+The name attributed to such unnamed signal is : _zz_ + drivenSignal.getName()
 
 Note that this naming pattern is also used by the generation backend when they need to breakup some specific expressions or long chain of expression into multiple signals.
 
 Verilog expression splitting
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There is an instance of expressions (ex : the + operator) that SpinalHDL need to express in dedicated signals to match the behaviour with the Scala API :
+There is an instance of expressions (ex : the + operator) that SpinalHDL need to express in dedicated signals to match the behavior with the Scala API :
 
 .. code-block:: scala
 
@@ -401,9 +401,9 @@ Will generate
     endmodule
 
 Verilog long expression splitting
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There is a instance of how a very long expression chain will be splited up by SpinalHDL :
+There is a instance of how a very long expression chain will be split up by SpinalHDL :
 
 .. code-block:: scala
 
@@ -445,13 +445,13 @@ Will generate
     endmodule
 
 When statement condition
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The `when(cond) { }` statements condition are generated into separated signals named `when_` + fileName + line. A similar thing will also be done for switch statements.
 
 .. code-block:: scala
 
-  //In file Test.scala
+  // In file Test.scala
   class MyComponent extends Component {
     val value = in UInt(8 bits)
     val isZero = out(Bool())
@@ -497,7 +497,7 @@ Will generate
 
 
 In last resort
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 In last resort, if a signal has no name (anonymous signal), SpinalHDL will seek for a named signal which is driven by the anonymous signal, and use it as a name postfix :
 

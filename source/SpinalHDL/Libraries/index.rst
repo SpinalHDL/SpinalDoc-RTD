@@ -11,7 +11,7 @@ The spinal.lib package goals are :
 * Provide some bus definition (Avalon, AMBA, ..)
 * Provide some methodology (Stream, Flow, Fragment)
 * Provide some example to get the spirit of spinal
-* Provide some tools and facilities (latency analyser, QSys converter, ...)
+* Provide some tools and facilities (latency analyzer, QSys converter, ...)
 
 To use features introduced in followings chapter you need, in most of cases, to ``import spinal.lib._`` in your sources.
 

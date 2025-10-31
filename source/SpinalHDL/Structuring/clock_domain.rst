@@ -40,23 +40,25 @@ This definition takes five parameters:
      - Description
      - Default
    * - ``clock``
-     - Clock signal that defines the domain
+     - Clock signal that defines the domain.
      - 
    * - ``reset``
-     - Reset signal. If a register exists which needs a reset and the clock domain doesn't provide one, an error message will be displayed
+     - Reset signal. If a register exists which needs a reset and the clock domain doesn't provide one,
+       an error message will be displayed.
      - null
    * - ``softReset``
-     - Reset which infers an additional synchronous reset
+     - Reset which infers an additional synchronous reset.
      - null
    * - ``clockEnable``
-     - The goal of this signal is to disable the clock on the whole clock domain without having to manually implement that on each synchronous element
+     - The goal of this signal is to disable the clock on the whole clock domain without having to manually 
+       implement that on each synchronous element
      - null
    * - ``frequency``
      - Allows you to specify the frequency of the given clock domain and later read it in your design.
-       This parameter does not generate and PLL or other hardware to control the frequency
+       This parameter does not generate a PLL or more hardware to control the frequency.
      - UnknownFrequency
    * - ``config``
-     - Specify the polarity of signals and the nature of the reset
+     - Specify the polarity of signals and the nature of the reset.
      - Current config
 
 
@@ -297,7 +299,7 @@ Signal priorities in HDL generation
 
 In the current version, reset and clock enable signals have different priorities. Their order is : ``asyncReset``, ``clockEnable``, ``syncReset`` and ``softReset``.
 
-Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reseted.
+Please be careful that clockEnable has a higher priority than syncReset. If you do a sync reset when the clockEnable is disabled (especially at the beginning of a simulation), the gated registers will not be reset.
 
 Here is an example:
 
@@ -321,7 +323,7 @@ It will generate VerilogHDL codes like:
     end
   end
 
-If that behaviour is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.
+If that behavior is problematic, one workaround is to use a when statement as a clock enable instead of using the ClockDomain.enable feature. This is open for future improvements.
 
 Context
 ^^^^^^^
@@ -516,8 +518,8 @@ A ``SlowArea`` is used to create a new clock domain area which is slower than th
 BootReset
 ^^^^^^^^^
 
-`clockDomain.withBootReset()` could specify register's resetKind as BOOT.
-`clockDomain.withSyncReset()` could specify register's resetKind as SYNC (sync-reset).
+``clockDomain.withBootReset()`` could specify register's resetKind as ``BOOT``.
+``clockDomain.withSyncReset()`` could specify register's resetKind as ``SYNC`` (sync-reset).
 
 .. code-block:: scala 
 

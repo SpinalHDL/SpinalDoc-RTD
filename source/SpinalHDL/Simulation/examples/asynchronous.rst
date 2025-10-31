@@ -32,7 +32,7 @@ The test bench performs the following steps 100 times:
      def main(args: Array[String]): Unit = {
        SimConfig.withWave.compile(new Dut).doSim{ dut =>
          var idx = 0
-         while(idx < 100){
+         while(idx < 100) {
            val a, b, c = Random.nextInt(256)
            dut.io.a #= a
            dut.io.b #= b

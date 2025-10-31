@@ -89,14 +89,26 @@ State full utilities
    * - Delay(that: T, cycleCount: Int)
      - T
      - Return ``that`` delayed by ``cycleCount`` cycles
-   * - History(that: T, length: Int[,when : Bool])
-     - List[T]
+   * - | History (
+       |   that: T, length: Int
+       |   *[*\ , when : Bool\ *][*\ , init : T\ *]*
+       | )
+     - Vec[T]
      - | Return a Vec of ``length`` elements
-       | The first element is ``that``\ , the last one is ``that`` delayed by ``length``\ -1\
+       | The first element is ``that``\ , the last one is ``that`` delayed by ``length`` - 1
        | The internal shift register sample when ``when`` is asserted
+   * - | History (
+       |   that: T, range: Range
+       |   *[*\ , when : Bool\ *][*\ , init : T\ *]*
+       | )
+     - Vec[T]
+     - | Same as ``History(that, length)`` 
+       | but return a Vec of size ``range.length``
+       | where the first element is delayed by ``range.low``
+       | and the last by ``range.high``
    * - BufferCC(input : T)
      - T
-     - Return the input signal synchronized with the current clock domain by using 2 flip flop
+     - Return the input signal synchronized with the current clock domain by using 2 flip-flops
 
 
 Counter
@@ -119,7 +131,7 @@ The Counter tool can be used to easily instantiate a hardware counter.
    * - ``Counter(bitCount: BitCount[, inc : Bool])``
      - Starts at zero and ends at ``(1 << bitCount) - 1``
 
-A counter can be controlled by methods, and wires can be read:
+A counter can be controlled by methods, and signals can be read:
 
 .. code-block:: scala
 
@@ -127,7 +139,7 @@ A counter can be controlled by methods, and wires can be read:
    // Methods
    counter.clear()               // Resets the counter
    counter.increment()           // Increments the counter
-   // Wires
+   // Signals
    counter.value                 // Current value
    counter.valueNext             // Next value
    counter.willOverflow          // True if the counter overflows this cycle
@@ -151,7 +163,7 @@ The Timeout tool can be used to easily instantiate an hardware timeout.
    :header-rows: 1
    :widths: 1 1
 
-   * - Instanciation syntax
+   * - Instantiation syntax
      - Notes
    * - Timeout(cycles : BigInt)
      - Tick after ``cycles`` clocks
@@ -165,9 +177,9 @@ There is an example of different syntaxes which could be used with the Counter t
 
 .. code-block:: scala
 
-   val timeout = Timeout(10 ms)  //Timeout who tick after 10 ms
-   when(timeout) {               //Check if the timeout has tick
-       timeout.clear()           //Ask the timeout to clear its flag
+   val timeout = Timeout(10 ms)  // Timeout who tick after 10 ms
+   when(timeout) {               // Check if the timeout has tick
+       timeout.clear()           // Ask the timeout to clear its flag
    }
 
 .. note::
@@ -181,7 +193,7 @@ The ResetCtrl provide some utilities to manage resets.
 asyncAssertSyncDeassert
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You can filter an asynchronous reset by using an asynchronously asserted synchronously deaserted logic. To do it you can use the ``ResetCtrl.asyncAssertSyncDeassert`` function which will return you the filtered value.
+You can filter an asynchronous reset by using an asynchronously asserted synchronously deasserted logic. To do it you can use the ``ResetCtrl.asyncAssertSyncDeassert`` function which will return you the filtered value.
 
 .. list-table::
    :header-rows: 1

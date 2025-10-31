@@ -19,7 +19,7 @@ In addition to the base types, Spinal has support under development for:
 * :ref:`Floating-point <Floating>` numbers (experimental support)
 
 
-Additionaly, if you want to assign a don't care value to some hardware, for instance, to provide a default value, you can use the assignDontCare API to do so. 
+Additionally, if you want to assign a don't care value to some hardware, for instance, to provide a default value, you can use the assignDontCare API to do so. 
 
 
 .. code-block:: scala

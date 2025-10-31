@@ -2,17 +2,17 @@
    :format: html
 
 Plugin
-==========================
+======
 
 Introduction
---------------------
+------------
 
 For some design, instead of implementing your Component's hardware directly in it, 
 you may instead want to compose its hardware by using some sorts of Plugins. This can provide a few key features : 
 
 - You can extend the features of your component by adding new plugins in its parameters. For instance adding Floating point support in a CPU.
 - You can swap various implementations of the same functionality just by using another set of plugins. For instance one implementation of a CPU multiplier may fit well on some FPGA, while others may fit well on ASIC.
-- It avoid the very very very large hand written toplevel syndrom where everything has to be connected manualy. Instead plugins can discover their neighborhood by looking/using the software interface of other plugins.
+- It avoid the very very very large hand written toplevel syndrome where everything has to be connected manually. Instead plugins can discover their neighborhood by looking/using the software interface of other plugins.
 
 VexRiscv and NaxRiscv projects are an example of this. Their are CPUs which have a mostly empty toplevel, 
 and their hardware parts are injected using plugins. For instance : 
@@ -24,7 +24,7 @@ and their hardware parts are injected using plugins. For instance :
 - IntAluPlugin
 - ...
 
-And those plugins will then negociate/propagate/interconnect to each others via their pool of services.
+And those plugins will then negotiate/propagate/interconnect to each others via their pool of services.
 
 While VexRiscv use a strict synchronous 2 phase system (setup/build callback), NaxRiscv uses a more flexible approach which uses the spinal.core.fiber API to fork elaboration threads which can interlock each others in order to ensure a workable elaboration ordering.
 
@@ -35,8 +35,8 @@ Execution order
 
 The main idea is that you have multiple 2 executions phases : 
 
-- Setup phase, in which plugins can lock/retain each others. The idea is not to start negociation / elaboration yet.
-- Build phase, in which plugins can negociation / elaboration hardware.
+- Setup phase, in which plugins can lock/retain each others. The idea is not to start negotiation / elaboration yet.
+- Build phase, in which plugins can negotiation / elaboration hardware.
 
 The build phase will not start before all FiberPlugin are done with their setup phase.
 
@@ -58,7 +58,7 @@ The build phase will not start before all FiberPlugin are done with their setup 
 
 
 Simple example
---------------------
+--------------
 
 Here is a simple dummy example with a SubComponent which will be composed using 2 plugins :
 
@@ -82,7 +82,7 @@ Here is a simple dummy example with a SubComponent which will be composed using 
 
       // Let's define a plugin which will make the StatePlugin's register increment
       class DriverPlugin extends FiberPlugin {
-        // We define how to get the instance of StatePlugin.logic from the PluginHost. It is a lazy val, because we can't evaluate it until the plugin is binded to its host.
+        // We define how to get the instance of StatePlugin.logic from the PluginHost. It is a lazy val, because we can't evaluate it until the plugin is bound to its host.
         lazy val sp = host[StatePlugin].logic.get
 
         val logic = during build new Area {
@@ -110,8 +110,8 @@ Such TopLevel would generate the following Verilog code :
 
 
       SubComponent sub (
-        .clk   (clk  ), //i
-        .reset (reset)  //i
+        .clk   (clk  ), // i
+        .reset (reset)  // i
       );
 
     endmodule
@@ -121,10 +121,10 @@ Such TopLevel would generate the following Verilog code :
       input  wire          reset
     );
 
-      reg        [31:0]   StatePlugin_logic_signal; //Created by StatePlugin
+      reg        [31:0]   StatePlugin_logic_signal; // Created by StatePlugin
 
       always @(posedge clk) begin
-        StatePlugin_logic_signal <= (StatePlugin_logic_signal + 32'h00000001); //incremented by DriverPlugin
+        StatePlugin_logic_signal <= (StatePlugin_logic_signal + 32'h00000001); // incremented by DriverPlugin
       end
     endmodule
 
@@ -200,7 +200,7 @@ the SetupPlugin uses the DriverPlugin.retain/release functions.
       new DriverPlugin(),
       new StatePlugin(),
       new SetupPlugin(),
-      new SetupPlugin() //Let's add a second SetupPlugin, because we can
+      new SetupPlugin() // Let's add a second SetupPlugin, because we can
     )
   }
 
@@ -215,8 +215,8 @@ Here is the generated verilog
 
 
       SubComponent sub (
-        .clk   (clk  ), //i
-        .reset (reset)  //i
+        .clk   (clk  ), // i
+        .reset (reset)  // i
       );
 
     endmodule
@@ -235,6 +235,6 @@ Here is the generated verilog
 
 Clearly, those examples are overkilled for what they do, the idea in general is more about : 
 
-- Negociate / create interfaces between plugins (ex jump / flush ports)
+- Negotiate / create interfaces between plugins (ex jump / flush ports)
 - Schedule the elaboration (ex decode / dispatch specification)
 - Provide a distributed framework which can scale up (minimal hardcoding)

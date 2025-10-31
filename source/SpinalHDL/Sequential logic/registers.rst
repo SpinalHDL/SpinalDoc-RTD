@@ -8,7 +8,7 @@ Creating registers in SpinalHDL is very different than in VHDL or Verilog.
 In Spinal, there are no process/always blocks. Registers are explicitly defined at declaration.
 This difference from traditional event-driven HDL has a big impact:
 
-* You can assign registers and wires in the same scope, meaning the code doesn't need to be split between process/always blocks
+* You can assign registers and signals in the same scope, meaning the code doesn't need to be split between process/always blocks
 * It make things much more flexible (see :ref:`Functions <function>`)
 
 Clocks and resets are handled separately, see the :ref:`Clock domain <clock_domain>` chapter for details.
@@ -136,7 +136,7 @@ If you have a register containing a Bundle, you can use the ``init`` function on
 
 .. code-block:: scala
 
-   case class ValidRGB() extends Bundle{
+   case class ValidRGB() extends Bundle {
      val valid   = Bool()
      val r, g, b = UInt(8 bits)
    }
@@ -157,7 +157,7 @@ For registers that don't need a reset value in RTL, but need an initialization v
 Register vectors
 ----------------
 
-As for wires, it is possible to define a vector of registers with ``Vec``.
+As for signals, it is possible to define a vector of registers with ``Vec``.
 
 .. code-block:: scala
    
@@ -200,15 +200,15 @@ In case where the initialization must be deferred since the init value is not kn
    }
 
    class SRConsumer() extends Component {
-      //...
+      // ...
       val sr = ShiftRegister(Flow(UInt(8 bits)), 4, SRConsumer.initIdleFlow[UInt])
    }
 
-Transforming a wire into a register
------------------------------------
+Transforming a signal into a register
+-------------------------------------
 
-Sometimes it is useful to transform an existing wire into a register. For
-instance, when you are using a Bundle, if you want some outputs of the bundle to
+Sometimes it is useful to transform an existing signal into a register. For
+instance, when you are using a ``Bundle``, if you want some outputs of the bundle to
 be registers, you might prefer to write ``io.myBundle.PORT := newValue`` without
 declaring registers with ``val PORT = Reg(...)`` and connecting their output to
 the port with ``io.myBundle.PORT := PORT``. To do this, you just need to use
@@ -231,10 +231,10 @@ Notice in the code above that you can also specify an initialization value.
 
 .. note::
 
-   The register is created in the clock domain of the wire, and does not depend
+   The register is created in the clock domain of the signal, and does not depend
    on the place where ``.setAsReg()`` is used.
 
-   In the example above, the wire is defined in the ``io`` Bundle, in the same
+   In the example above, the signal is defined in the ``io`` Bundle, in the same
    clock domain as the component. Even if ``io.apb.PADDR.setAsReg()`` was
    written in a ``ClockingArea`` with a different clock domain, the register
    would use the clock domain of the component and not the one of the

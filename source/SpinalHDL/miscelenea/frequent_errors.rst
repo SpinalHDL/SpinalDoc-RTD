@@ -21,7 +21,7 @@ Exception in thread "main" java.lang.NullPointerException
 
 .. code-block:: scala
 
-   val a = b + 1         //b can't be read at that time, because b isn't instantiated yet
+   val a = b + 1         // b can't be read at that time, because b isn't instantiated yet
    val b = UInt(4 bits)
 
 **Issue explanation :**
@@ -46,40 +46,40 @@ Signal X can't be assigned by Y
 
 .. code-block:: scala
 
-   class ComponentX extends Component{
+   class ComponentX extends Component {
      ...
      val X = Bool()
      ...
    }
 
-   class ComponentY extends Component{
+   class ComponentY extends Component {
      ...
      val componentX = new ComponentX
      val Y = Bool()
-     componentX.X := Y //This assignment is not legal
+     componentX.X := Y // This assignment is not legal
      ...
    }
 
 .. code-block:: scala
 
-   class ComponentX extends Component{
-     val io = new Bundle{
-       val X = Bool() //Forgot to specify an in/out direction
+   class ComponentX extends Component {
+     val io = new Bundle {
+       val X = Bool() // Forgot to specify an in/out direction
      }
      ...
    }
 
-   class ComponentY extends Component{
+   class ComponentY extends Component {
      ...
      val componentX = new ComponentX
      val Y = Bool()
-     componentX.io.X := Y //This assignment will be detected as not legal
+     componentX.io.X := Y // This assignment will be detected as not legal
      ...
    }
 
 **Issue explanation :**
 
-You can only assign input signals of subcomponents, else there is an hierarchy violation. If this issue happend, you probably forgot to specify the X signal's direction.
+You can only assign input signals of subcomponents, else there is an hierarchy violation. If this issue happened, you probably forgot to specify the X signal's direction.
 
 Input signal X can't be assigned by Y
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -94,19 +94,19 @@ Input signal X can't be assigned by Y
 
 .. code-block:: scala
 
-   class ComponentXY extends Component{
-     val io = new Bundle{
+   class ComponentXY extends Component {
+     val io = new Bundle {
        val X = in Bool()
      }
      ...
      val Y = Bool()
-     io.X := Y //This assignment is not legal
+     io.X := Y // This assignment is not legal
      ...
    }
 
 **Issue explanation :**
 
-You can only assign an input signals from the parent component, else there is an hierarchy violation. If this issue happend, you probably mixed signals direction declaration.
+You can only assign an input signals from the parent component, else there is an hierarchy violation. If this issue happened, you probably mixed signals direction declaration.
 
 Output signal X can't be assigned by Y
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -121,21 +121,21 @@ Output signal X can't be assigned by Y
 
 .. code-block:: scala
 
-   class ComponentX extends Component{
-     val io = new Bundle{
+   class ComponentX extends Component {
+     val io = new Bundle {
        val X = out Bool()
      }
      ...
    }
 
-   class ComponentY extends Component{
+   class ComponentY extends Component {
      ...
      val componentX = new ComponentX
      val Y = Bool()
-     componentX.X := Y //This assignment is not legal
+     componentX.X := Y // This assignment is not legal
      ...
    }
 
 **Issue explanation :**
 
-You can only assign output signals of a component from the inside of it, else there is an hierarchy violation. If this issue happend, you probably mixed signals direction declaration.
+You can only assign output signals of a component from the inside of it, else there is an hierarchy violation. If this issue happened, you probably mixed signals direction declaration.

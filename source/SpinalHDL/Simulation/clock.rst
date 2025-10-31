@@ -1,8 +1,8 @@
 Clock domains 
-==========================================
+=============
 
 Stimulus API
-----------------------------------
+------------
 
 Below is a list of ``ClockDomain`` stimulation functions:
 
@@ -36,7 +36,7 @@ Below is a list of ``ClockDomain`` stimulation functions:
      - Set the softReset signal to its active level
 
 Wait API
-----------------------------------
+--------
 
 Below is a list of ``ClockDomain`` utilities that you can use to wait for a given event from the domain:
 
@@ -54,17 +54,21 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
      - Same as ``waitRisingEdge`` but for the falling edge
    * - ``waitActiveEdge([cyclesCount])``
      - Same as ``waitRisingEdge`` but for the edge level specified by the ``ClockDomainConfig``
+   * - ``waitInactiveEdge([cyclesCount])``
+     - Same as ``waitFallingEdge`` but for the edge level specified by the ``ClockDomainConfig``
    * - ``waitRisingEdgeWhere(condition)``
      - Same as ``waitRisingEdge``, but to exit, the boolean ``condition`` must be true when the rising edge occurs
    * - ``waitFallingEdgeWhere(condition)``
      - Same as ``waitRisingEdgeWhere``, but for the falling edge
    * - ``waitActiveEdgeWhere(condition)``
      - Same as ``waitRisingEdgeWhere``, but for the edge level specified by the ``ClockDomainConfig``
+   * - ``waitInactiveEdgeWhere(condition)``
+     - Same as ``waitFallingEdgeWhere``, but for the edge level specified by the ``ClockDomainConfig``
    * - ``waitSamplingWhere(condition) : Boolean``
-     - Wait until a clockdomain sampled and the given condition is true        
+     - Wait until a clockdomain sampled and the given condition is true
    * - ``waitSamplingWhere(timeout)(condition) : Boolean``
      - Same as waitSamplingWhere defined above, but will never block more than timeout cycles. Return true if the exit condition came from the timeout
-     
+
 
 .. warning::
    All the functionality of the wait API can only be called directly from inside a thread, and not from a callback executed via the Callback API.
@@ -72,7 +76,7 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
 .. _sim_clock_threadless:
 
 Callback API
-----------------------------------
+------------
 
 Below is a list of ``ClockDomain`` utilities that you can use to wait for a given event from the domain:
 
@@ -96,11 +100,10 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
      - Execute the callback code each time the ``ClockDomain`` clock generates a falling edge
    * - ``onSamplingWhile { callback : Boolean }``
      - Same as onSampling, but you can stop it (forever) by letting the callback returning false
-     
 
 
 Default ClockDomain
-----------------------------------
+-------------------
 
 You can access the default ``ClockDomain`` of your toplevel as shown below:
 
@@ -132,7 +135,7 @@ An example of how to wait for a rising edge on the clock:
 
 
 New ClockDomain
---------------------------------
+---------------
 
 If your toplevel defines some clock and reset inputs which aren't directly integrated into their ``ClockDomain``, you can define their corresponding ``ClockDomain`` directly in the testbench:
 

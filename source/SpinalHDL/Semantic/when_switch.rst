@@ -39,6 +39,61 @@ As in VHDL and Verilog, signals can be conditionally assigned when a specified c
                 // Execute when (not cond1) and (not cond2)
             }
 
+
+WhenBuilder
+-----------
+
+Sometimes we need to generate some parameters for the when condition, 
+and the original structure of ``when``/``otherwise`` is not very suitable. 
+Therefore, we provide a 'whenBuilder' method to achieve this goal:
+
+.. code-block:: scala
+
+    import spinal.lib._
+
+    val conds = Bits(8 bits)
+    val result = UInt(8 bits)
+
+    val ctx = WhenBuilder()
+    ctx.when(conds(0)) {
+      result := 0
+    }
+    ctx.when(conds(1)) {
+      result := 1
+    }
+    if(true) {
+      ctx.when(conds(2)) {
+        result := 2
+      }
+    }
+    ctx.when(conds(3)) {
+      result := 3
+    }
+
+Compared to the ``when``/``elsewhen``/``otherwise`` approach, it might be more convenient for parameterization. 
+we can also use like this:
+
+.. code-block:: scala
+
+    for(i <- 5 to 7) ctx.when(conds(i)) {
+      result := i
+    }
+
+    ctx.otherwise {
+      result := 255
+    }
+
+    switch(addr) {
+      for (i <- addressElements ) {
+        is(i) {
+          rdata :=  buffer(i)
+        }
+      }
+    }
+
+This way, we can parameterize priority circuits similar to how we use 'foreach' inside 'switch()', and generate code in a more intuitive if-else format.
+
+
 Switch
 ------
 
@@ -232,7 +287,7 @@ Below is an example of dividing a ``Bits`` of 128 bits into 32 bits:
    val dataWord = sel.muxList(for (index <- 0 until 4)
                               yield (index, data(index*32+32-1 downto index*32)))
 
-   // A shorter way to do the same thing:
+   // A shorter way to do the same thing:
    val dataWord = data.subdivideIn(32 bits)(sel)
 
 Example for ``muxListDc`` selecting bits from a configurable width vector:

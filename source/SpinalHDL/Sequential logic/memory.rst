@@ -115,7 +115,7 @@ When enable signals are used in a block guarded by a conditional block like `whe
 .. code-block:: scala
 
     val rom = Mem(Bits(10 bits), 32)
-    when(cond){
+    when(cond) {
       io.rdata := rom.readSync(io.addr, io.rdEna)
     }
 
@@ -227,15 +227,23 @@ There are multiple policies that you can use to select which memory you want to 
      - Description
    * - ``blackboxAll``
      - | Blackbox all memory.
-       | Throw an error on unblackboxable memory
+       | Throw an error on unblackboxable memory.
    * - ``blackboxAllWhatsYouCan``
-     - Blackbox all memory that is blackboxable
+     - Blackbox every memory that is replaceable.
    * - ``blackboxRequestedAndUninferable``
      - | Blackbox memory specified by the user and memory that is known to be uninferable (mixed-width, ...).
-       | Throw an error on unblackboxable memory
+       | Throw an error on unblackboxable memory.
    * - ``blackboxOnlyIfRequested``
-     - | Blackbox memory specified by the user
-       | Throw an error on unblackboxable memory
+     - | Blackbox memory specified by the user.
+       | Throw an error on unblackboxable memory.
+   * - ``blackboxByteEnables``
+     - | Blackbox every memory which use write port with byte mask.
+       | Useful because synthesis tool don't support an unified way to infer byte mask in verilog/VHDL.
+       | Throw an error on unblackboxable memory.
+   * - ``blackboxOnlyIfRequested``
+     - | Blackbox memory specified by the user.
+       | Throw an error on unblackboxable memory.
+       
 
 
 To explicitly set a memory to be blackboxed, you can use its ``generateAsBlackBox`` function.
@@ -293,7 +301,7 @@ Shown below are the VHDL definitions of the standard blackboxes used in SpinalHD
        wrMaskEnable : boolean;
        rdAddressWidth : integer;
        rdDataWidth : integer;
-       rdEnEnable : boolean
+       rdLatency : integer -- Cycles between the rd_en and the actual value on rd_data ports. It will be set to 1, unless the you added the MemReadBufferPhase to the SpinalConfig and the ram can merge a register on the read data path.
      );
      port(
        wr_clk : in std_logic;
@@ -304,6 +312,7 @@ Shown below are the VHDL definitions of the standard blackboxes used in SpinalHD
        rd_clk : in std_logic;
        rd_en : in std_logic;
        rd_addr : in unsigned;
+       rd_dataEn : in std_logic; -- Only used if rdLatency > 1, drive the enable of rd_data flip flops
        rd_data : out std_logic_vector
      );
    end component;

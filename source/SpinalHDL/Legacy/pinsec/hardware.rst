@@ -75,7 +75,7 @@ Or you can create your own main into your own SBT project and then run it :
 
    import spinal.lib.soc.pinsec._
 
-   object PinsecMain{
+   object PinsecMain {
      def main(args: Array[String]) {
        SpinalVhdl(new Pinsec(100 MHz))
        SpinalVerilog(new Pinsec(100 MHz))

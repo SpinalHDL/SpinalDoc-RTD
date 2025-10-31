@@ -50,17 +50,14 @@ Functions
      - Flow[T]
      - 
    * - x.m2sPipe()
-     - | Return a Flow drived by x
+     - | Return a Flow driven by x
        | through a register stage that cut valid/payload paths
      - Flow[T]
      - 1
-     -
    * - x.stage()
-     - | Equivalent to x.m2sPipe()
-       | 
+     - Equivalent to x.m2sPipe() 
      - Flow[T]
      - 1
-     -
    * - | x << y
        | y >> x
      - Connect y to x

@@ -33,7 +33,7 @@ you don't need to bind their ports at instantiation:
    }
 
 .. tip::
-   | ``val io = new Bundle { ... }``
+   | ``val io = new Bundle { ... }``
    | Declaring external ports in a ``Bundle`` called ``io`` is recommended. If you name your bundle ``io``, SpinalHDL
      will check that all of its elements are defined as inputs or outputs.
    
@@ -66,7 +66,6 @@ The syntax to define inputs and outputs is as follows:
      - Bits/UInt/SInt
    * - | ``in(T)``
        | ``out(T)``
-       | ``out UInt(7 bits)``
      - For all other data types, you may have to add some brackets around it. Sorry, this is a Scala limitation.
      - T
    * - | ``master(T)``
@@ -90,7 +89,7 @@ There are some rules to follow with component interconnection:
 Pruned signals
 --------------
 
-SpinalHDL will generate all the named signals and their depedencies, while all the useless anonymous / zero width ones
+SpinalHDL will generate all the named signals and their dependencies, while all the useless anonymous / zero width ones
 are removed from the RTL generation.
 
 You can collect the list of all the removed ans useless signals via the ``printPruned`` and the ``printPrunedIo``
@@ -115,9 +114,9 @@ functions on the generated ``SpinalReport`` object:
    object Main {
      def main(args: Array[String]) {
        SpinalVhdl(new TopLevel).printPruned()
-       //This will report :
-       //  [Warning] Unused wire detected : toplevel/unusedSignal : UInt[8 bits]
-       //  [Warning] Unused wire detected : toplevel/unusedSignal2 : UInt[8 bits]
+       // This will report :
+       //  [Warning] Unused signal detected : toplevel/unusedSignal : UInt[8 bits]
+       //  [Warning] Unused signal detected : toplevel/unusedSignal2 : UInt[8 bits]
      }
    }
 
