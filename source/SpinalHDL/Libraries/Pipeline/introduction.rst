@@ -1025,4 +1025,20 @@ Here is a simple testbench which implement a loop which will make the led counti
   }
 
 
+Note 
+======
+When building a pipeline, only ``node(0).valid`` or ``node(n).ready`` (where ``n`` is the last stage in the pipeline) may be driven by user logic. It is possible for the builder to optimise away ``node.ready`` or ``node.valid`` signals if they are not used. To guarantee ``node.ready`` or ``node.valid`` signal creation (important if you use ``CtrlLink()`` or any other link where you want flow control) ``node(0).valid`` must be driven manually. 
 
+.. code-block:: scala
+
+   n0.valid := io.up.valid 
+   // or
+   n0.valid := True/False
+  
+   //Example with CtrlLink()
+   case class inputStage(stage: CtrlLink) extends Area {
+      stage.up.valid := True
+   }
+
+
+This is sufficient to ensure halting and ``CtrlLink`` behaviour works as intended (``node.valid`` or ``node.ready`` signals are not optimised away).
