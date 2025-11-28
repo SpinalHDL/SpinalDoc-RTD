@@ -28,7 +28,8 @@ The syntax to declare a vector is as follows:
      - | Create a vector where indexes point to the provided elements. 
        | Does not create new hardware signals.
        | This constructor supports mixed element width.
-
+   * - Vec.fill(n1, n2, ...)(type: Data)
+     - Create a multi-dimensional vector. Supports up to 5 dimensions
 
 Examples
 ~~~~~~~~
@@ -52,10 +53,25 @@ Examples
    }
 
    // Map on vector
-   myVecOfMixedUInt.map(_ := 0) // Assign all elements with value 0
+   myVecOfMixedUInt.map(_ := 0) // Assign all elements with value 0
 
    // Assign 3 to the first element of the vector
    myVecOf_xyz_ref(1) := 3
+
+   // Create a 2D vector (3x4 matrix)
+   val my2DVec = Vec.fill(3, 4)(UInt(8 bits))
+   my2DVec(0)(0) := 10  // Access row 0, column 0
+   my2DVec(1)(2) := 20  // Access row 1, column 2
+
+   // Create a 3D vector (2x3x4)
+   val my3DVec = Vec.fill(2, 3, 4)(SInt(16 bits))
+   my3DVec(0)(1)(2) := -5
+
+   // Iterate on a 2D vector
+   for(i <- 0 until 3; j <- 0 until 4) {
+     my2DVec(i)(j) := 0  // Initialize all elements to 0
+   }
+
 
 Operators
 ^^^^^^^^^
