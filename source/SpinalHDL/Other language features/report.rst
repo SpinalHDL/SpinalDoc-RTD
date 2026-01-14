@@ -104,4 +104,6 @@ Then, you can report the entire structure:
 This will produce a compact, readable output like:
 
 .. code-block:: text
-PacketHeader(packetLength=0x0c, packetType=0x1, payload=DataPayload(value=0x5678, checksum=0x78))
+
+    PacketHeader(packetLength=0x0c, packetType=0x1, payload=DataPayload(value=0x5678, checksum=0x78))
+

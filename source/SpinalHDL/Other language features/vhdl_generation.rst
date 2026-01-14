@@ -152,6 +152,10 @@ Parametrization from Scala
      - Boolean
      - True
      - Enable the addition of the timescale in the generated Verilog 
+   * - ``normalizeComponentClockDomainName``
+     - Boolean
+     - False
+     - When enabled, in each component, the pulled clockdomain's signals of the implicit clockdomain will be named clk/reset/enable instead of their original name.
 
 
 And this is the syntax to specify them:
