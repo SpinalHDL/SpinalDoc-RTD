@@ -45,7 +45,7 @@ will result in:
 Including Scala Source Location
 -------------------------------
 
-After 1.13.0, You can optionally include the Scala call-site location (file and line) in the report output, which allows most IDEs to jump to the source when clicking the log line.
+After 1.13.0, you can optionally include the Scala call-site location (file and line) in the report output, which allows most IDEs to jump to the source when clicking the log line.
 
 There are two ways to enable it:
 
@@ -58,6 +58,25 @@ There are two ways to enable it:
     SpinalConfig(reportIncludeSourceLocation = true).generateVerilog(new TopLevel)
 
 Example generated output (Verilog):
+
+.. code-block:: verilog
+
+    $display("NOTE(path/to/MyTopLevel.scala:123) HELLO");
+
+You can customize the location prefix format globally using `SpinalConfig.reportSourceLocationFormat`, with the following placeholders:
+
+- `$SEVERITY` (NOTE/WARNING/ERROR/FAILURE)
+- `$FILE` (Scala file path)
+- `$LINE`
+
+Example (IDE-friendly clickable output):
+
+.. code-block:: scala
+
+    SpinalConfig(
+      reportIncludeSourceLocation = true,
+      reportSourceLocationFormat = "$FILE:$LINE: $SEVERITY "
+    ).generateVerilog(new TopLevel)
 
 .. code-block:: verilog
 
