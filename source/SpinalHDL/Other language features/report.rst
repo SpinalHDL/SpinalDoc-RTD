@@ -42,6 +42,46 @@ will result in:
 
     $display("NOTE miaou %t", $time);
 
+Including Scala Source Location
+-------------------------------
+
+After 1.13.0, you can optionally include the Scala call-site location (file and line) in the report output, which allows most IDEs to jump to the source when clicking the log line.
+
+There are two ways to enable it:
+
+.. code-block:: scala
+
+    // Per-call
+    report("HELLO", includeSourceLocation = true)
+
+    // Globally (for all `report(...)` calls in this elaboration)
+    SpinalConfig(reportIncludeSourceLocation = true).generateVerilog(new TopLevel)
+
+Example generated output (Verilog):
+
+.. code-block:: verilog
+
+    $display("NOTE(path/to/MyTopLevel.scala:123) HELLO");
+
+You can customize the location prefix format globally using `SpinalConfig.reportSourceLocationFormat`, with the following placeholders:
+
+- `$SEVERITY` (NOTE/WARNING/ERROR/FAILURE)
+- `$FILE` (Scala file path)
+- `$LINE`
+
+Example (IDE-friendly clickable output):
+
+.. code-block:: scala
+
+    SpinalConfig(
+      reportIncludeSourceLocation = true,
+      reportSourceLocationFormat = "$FILE:$LINE: $SEVERITY "
+    ).generateVerilog(new TopLevel)
+
+.. code-block:: verilog
+
+    $display("path/to/MyTopLevel.scala:123: NOTE HELLO");
+
 **Automatic Handling of Scala Primitive Types (SpinalHDL ^1.12.2)**
 
 You can embed Scala primitive types (e.g., `Int`, `Boolean`, `Float`, `BigInt`, `BigDecimal`, `Char`, `Byte`, `Short`, `Long`) within `L""` interpolated strings without explicit `.toString()` calls.
@@ -106,4 +146,3 @@ This will produce a compact, readable output like:
 .. code-block:: text
 
     PacketHeader(packetLength=0x0c, packetType=0x1, payload=DataPayload(value=0x5678, checksum=0x78))
-
