@@ -53,7 +53,7 @@ Automatic filed allocation
 
 conflict detection
 
-.. code:: scala
+   .. code:: scala
 
   val M_REG1  = busif.newReg(doc="REG1")
   val r1fd0 = M_REG1.field(Bits(16 bits), RW, doc="fields 1")
