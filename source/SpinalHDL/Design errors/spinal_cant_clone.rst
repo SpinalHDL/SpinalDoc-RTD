@@ -69,7 +69,7 @@ The following code:
       val someAddress = RegNext(io.inputAddress) // -> ERROR *****************************
   }
 
-raises an exeption:
+raises an exception:
 
 .. code-block:: text
 

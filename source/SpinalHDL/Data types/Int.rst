@@ -38,8 +38,8 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
 
 .. code-block:: scala
 
-   val myUInt = UInt(8 bit)
-   myUInt := U(2, 8 bit)
+   val myUInt = UInt(8 bits)
+   myUInt := U(2, 8 bits)
    myUInt := U(2)
    myUInt := U"0000_0101"  // Base per default is binary => 5
    myUInt := U"h1A"        // Base could be x (base 16)
@@ -52,7 +52,7 @@ The syntax to declare an integer is as follows:  (everything between [] is optio
 
    val myBool = Bool()
    myBool := myUInt === U(7 -> true, (6 downto 0) -> false)
-   myBool := myUInt === U(8 bit, 7 -> true, default -> false)
+   myBool := myUInt === U(8 bits, 7 -> true, default -> false)
    myBool := myUInt === U(myUInt.range -> true)
 
    // For assignment purposes, you can omit the U/S

@@ -26,7 +26,12 @@ Exception in thread "main" java.lang.NullPointerException
 
 **Issue explanation :**
 
-SpinalHDL is not a language, it is an Scala library, which mean, it obey to the same rules than the Scala general purpose programming language. When you run your SpinalHDL hardware description to generate the corresponding VHDL/Verilog RTL, your SpinalHDL hardware description will be executed as a Scala programm, and b will be a ``null`` reference until the programm execution come to that line, and it's why you can't use it before.
+SpinalHDL is not a language, it is an Scala library, which mean, it obey to the 
+same rules than the Scala general purpose programming language. When you run your
+SpinalHDL hardware description to generate the corresponding VHDL/Verilog RTL,
+your SpinalHDL hardware description will be executed as a Scala program, and b 
+will be a ``null`` reference until the program execution comes to that line,
+and it's why you can't use it before.
 
 Hierarchy violation
 -------------------

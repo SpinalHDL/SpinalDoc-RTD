@@ -4,7 +4,8 @@ Uart encoder
 
 .. code-block:: scala
 
-     // Fork a simulation process which will get chars typed into the simulation terminal and transmit them on the simulation uartPin.
+     // Fork a simulation process which will get chars typed into the simulation
+     // terminal and transmit them on the simulation uartPin.
      fork {
        uartPin #= true
        while(true) {
@@ -22,7 +23,8 @@ Uart encoder
            uartPin #= true
            sleep(baudPeriod)
          } else {
-           sleep(baudPeriod * 10) // Sleep a little while to avoid polling System.in too often.
+           // Sleep a little while to avoid polling System.in too often.
+           sleep(baudPeriod * 10) 
          }
        }
      }

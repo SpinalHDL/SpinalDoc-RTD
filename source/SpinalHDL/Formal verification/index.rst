@@ -68,12 +68,15 @@ Here is an example of a simple counter and the corresponding formal testbench.
     }
 
     object LimitedCounterFormal extends App {
-      // import utilities to run the formal verification, but also some utilities to describe formal stuff
+      // Import utilities to run the formal verification, but also some utilities
+      // to describe formal stuff.
       import spinal.core.formal._
 
-      // Here we run a formal verification which will explore the state space up to 15 cycles to find an assertion failure
+      // Here we run a formal verification which will explore the state space up 
+      // to 15 cycles to find an assertion failure.
       FormalConfig.withBMC(15).doVerify(new Component {
-        // Instantiate our LimitedCounter DUT as a FormalDut, which ensure that all the outputs of the dut are:
+        // Instantiate our LimitedCounter DUT as a FormalDut, which ensure that 
+        // all the outputs of the dut are:
         // - directly and indirectly driven (no latch / no floating signal)
         // - allows the current toplevel to read every signal across the hierarchy
         val dut = FormalDut(new LimitedCounter())
@@ -100,7 +103,8 @@ If you want you can embed formal statements directly into the DUT:
         value := value + 1
       }
 
-      // That code block will not be in the SpinalVerilog netlist by default. (would need to enable SpinalConfig().includeFormal. ...
+      // That code block will not be in the SpinalVerilog netlist by default. 
+      //(would need to enable SpinalConfig().includeFormal. ...
       GenerationFlags.formal {
         assert(value >= 2)
         assert(value <= 10)
@@ -159,7 +163,8 @@ For instance we can check that the value is counting up (if not already at 10):
     assumeInitial(ClockDomain.current.isResetActive)
 
     // Check that the value is incrementing.
-    // hasPast is used to ensure that the past(dut.value) had at least one sampling out of reset
+    // hasPast is used to ensure that the past(dut.value) had at least one 
+    // sampling out of reset.
     when(pastValid() && past(dut.value) =/= 10) {
       assert(dut.value === past(dut.value) + 1)
     }
@@ -192,7 +197,10 @@ Here is an example where we want to prevent the value ``1`` from ever being pres
 
         // Allow the write anything but value 1 in the ram
         anyseq(dut.write)
-        clockDomain.withoutReset() { // As the memory write can occur during reset, we need to ensure the assume apply there too
+
+        // As the memory write can occur during reset, we need to ensure the
+        // assume apply there too.
+        clockDomain.withoutReset() { 
           assume(dut.write.data =/= 1)
         }
 
@@ -223,7 +231,7 @@ If you want to keep your assertion enabled during reset you can do:
 Specifying the initial value of a signal 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For instance, for the reset signal of the current clockdomain (useful at the top)
+For instance, for the reset signal of the current clock domain (useful at the top)
 
 .. code-block:: scala
 
@@ -237,7 +245,7 @@ Specifying a initial assumption
     assumeInitial(clockDomain.isResetActive)
     
 Memory content (Mem)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 If you have a Mem in your design, and you want to check its content, you can do it the following ways : 
 

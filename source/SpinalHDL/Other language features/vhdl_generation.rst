@@ -5,7 +5,7 @@ VHDL and Verilog generation
 ===========================
 
 Generate VHDL and Verilog from a SpinalHDL Component
------------------------------------------------------
+----------------------------------------------------
 
 To generate the VHDL from a SpinalHDL component you just need to call ``SpinalVhdl(new YourComponent)`` in a Scala ``main``.
 
@@ -28,7 +28,8 @@ Generating Verilog is exactly the same, but with ``SpinalVerilog`` in place of `
      io.c := io.a & io.b
    }
 
-   // This is the main function that generates the VHDL and the Verilog corresponding to MyTopLevel.
+   // This is the main function that generates the VHDL and the Verilog
+   // corresponding to MyTopLevel.
    object MyMain {
      def main(args: Array[String]) {
        SpinalVhdl(new MyTopLevel)
@@ -91,7 +92,7 @@ Parametrization from Scala
    * - ``globalPrefix``
      - String
      - ""
-     - Will add the given prefix in the front of every global symboles in the VHDL/Verilog (components/modules/enums). This allows to avoid naming conflict between multiple generated file.
+     - Will add the given prefix in the front of every global symbols in the VHDL/Verilog (components/modules/enums). This allows to avoid naming conflict between multiple generated file.
    * - ``privateNamespace``
      - Boolean
      - false
@@ -115,15 +116,15 @@ Parametrization from Scala
    * - ``mergeAsyncProcess``
      - Boolean
      - false
-     - Will merge process/always blocks for combinatorial signal which share at least one conditional assignement (if/switch statment)
+     - Will merge process/always blocks for combinatorial signal which share at least one conditional assignment (if/switch statement)
    * - ``mergeSyncProcess``
      - Boolean
      - true
-     - Will merge process/always blocks for flip-flops which use the same clock domain (if/switch statment)
+     - Will merge process/always blocks for flip-flops which use the same clock domain (if/switch statement)
    * - ``genLineComments``
      - Boolean
      - false
-     - For each hardware assignment in the generated VHDL/Verilog code, will attach a comment which specifies in which scala file, at which line, the assignement happend. Ex : a = 1'b1; // @ MyDesign.scala l1135
+     - For each hardware assignment in the generated VHDL/Verilog code, will attach a comment which specifies in which scala file, at which line, the assignment happened. Ex : a = 1'b1; // @ MyDesign.scala l1135
    * - ``noAssert``
      - Boolean
      - false
@@ -147,7 +148,7 @@ Parametrization from Scala
    * - ``rtlHeader``
      - String
      - disabled
-     - Allow to manualy specify the VHDL/Verilog file header
+     - Allow to manually specify the VHDL/Verilog file header
    * - ``withTimescale``
      - Boolean
      - True

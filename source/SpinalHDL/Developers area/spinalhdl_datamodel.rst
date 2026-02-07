@@ -79,7 +79,8 @@ Here is an example that identifies all adders within the netlist without utilizi
 
           def recExpression(e: Expression): Unit = {
             e match {
-              case op: Operator.BitVector.Add => println(s"Found ${op.left} + ${op.right}")
+              case op: Operator.BitVector.Add => println(s"Found ${op.left} 
+                                                          + ${op.right}")
               case _ =>
             }
             e.foreachExpression(recExpression)
@@ -99,7 +100,8 @@ Here is an example that identifies all adders within the netlist without utilizi
 
         // Add a late phase
         config.phasesInserters += {phases =>
-          phases.insert(phases.indexWhere(_.isInstanceOf[PhaseVerilog]), new PrintBaseTypes("Late"))
+          phases.insert(phases.indexWhere(_.isInstanceOf[PhaseVerilog]),
+                                            new PrintBaseTypes("Late"))
         }
         config.generateVerilog(new Toplevel())
       }
@@ -165,7 +167,8 @@ For example, the following code can be used to modify a top-level component by a
 .. code-block:: scala
 
   def ffIo[T <: Component](c : T): T = {
-    def buf1[T <: Data](that : T) = KeepAttribute(RegNext(that)).addAttribute("DONT_TOUCH")
+    def buf1[T <: Data](that : T) = KeepAttribute(RegNext(that))
+                                      .addAttribute("DONT_TOUCH")
     def buf[T <: Data](that : T) = buf1(buf1(buf1(that)))
     c.rework {
       val ios = c.getAllIo.toList
@@ -173,7 +176,8 @@ For example, the following code can be used to modify a top-level component by a
         if(io.getName() == "clk") {
           // Do nothing
         } else if(io.isInput) {
-          io.setAsDirectionLess().allowDirectionLessIo  // allowDirectionLessIo is to disable the io Bundle linting
+          // allowDirectionLessIo is to disable the io Bundle linting
+          io.setAsDirectionLess().allowDirectionLessIo  
           io := buf(in(cloneOf(io).setName(io.getName() + "_wrap")))
         } else if(io.isOutput) {
           io.setAsDirectionLess().allowDirectionLessIo
@@ -190,23 +194,34 @@ You can use the code in the following manner: :
 
   SpinalVerilog(ffIo(new MyToplevel))
   
-Here is a function that enables you to execute the body code as if the current component's context did not exist. This can be particularly useful for defining new signals without the influence of the current conditional scope (such as when or switch).
+Here is a function that enables you to execute the body code as if the current
+component's context did not exist. This can be particularly useful for defining
+new signals without the influence of the current conditional scope (such as 
+`when` or `switch`).
 
 .. code-block:: scala
   
-  def atBeginingOfCurrentComponent[T](body : => T) : T = {
-    val body = Component.current.dslBody  // Get the head of the current component symbols tree (AST in other words)
-    val ctx = body.push()                 // Now all access to the SpinalHDL API will be append to it (instead of the current context)
-    val swapContext = body.swap()         // Empty the symbol tree (but keep a reference to the old content)
-    val ret = that                        // Execute the block of code (will be added to the recently empty body)
-    ctx.restore()                         // Restore the original context in which this function was called
-    swapContext.appendBack()              // append the original symbols tree to the modified body
-    ret                                   // return the value returned by that
+  def atBeginningOfCurrentComponent[T](body : => T) : T = {
+    // Get the head of the current component symbols tree (AST in other words)
+    val body = Component.current.dslBody
+    // Now all access to the SpinalHDL API will be append to it (instead of the
+    // current context)
+    val ctx = body.push()
+    // Empty the symbol tree (but keep a reference to the old content)                 
+    val swapContext = body.swap()
+    // Execute the block of code (will be added to the recently empty body)         
+    val ret = that
+    // Restore the original context in which this function was called
+    ctx.restore()           
+    // append the original symbols tree to the modified body              
+    swapContext.appendBack()
+    // return the value returned by that
+    ret  
   }
   
   val database = mutable.HashMap[Any, Bool]()
   def get(key : Any) : Bool = {
-    database.getOrElseUpdate(key, atBeginingOfCurrentComponent(False)
+    database.getOrElseUpdate(key, atBeginningOfCurrentComponent(False))
   }
   
   object key
@@ -223,7 +238,7 @@ Here is a function that enables you to execute the body code as if the current c
 This kind of functionality is, for instance, employed in the VexRiscv pipeline to dynamically create components or elements as needed.  
   
 User space netlist analysis
---------------------------------------------------------------
+---------------------------
 
 The SpinalHDL data model is also accessible and can be read during user-time elaboration. Here's an example that can help find the shortest logical path (in terms of clock cycles) to traverse a list of signals. In this specific case, it is being used to analyze the latency of the VexRiscv FPU design.
 
@@ -244,7 +259,7 @@ Here you can find the implementation of that LatencyAnalysis tool :
 
 
 Enumerating every ClockDomain in use
-----------------------------------------------------
+------------------------------------
 
 In this case, this is accomplished after the elaboration process by utilizing the SpinalHDL report.
 

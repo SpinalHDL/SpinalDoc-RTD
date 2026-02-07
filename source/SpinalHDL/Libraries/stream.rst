@@ -587,10 +587,11 @@ The ``count`` is captured and registered each time inputStream fires for an indi
    val outputStream = Stream(Bits(8 bits))
    val count = UInt(3 bits)
    val extender = StreamTransactionExtender(inputStream, outputStream, count) {
-      // id, is the 0-based index of total output transfers so far in the current input transaction.
+      // id, is the 0-based index of total output transfers so far in the current
+      // input transaction.
       // last, is the last transfer indication, same as the last signal for extender.
-      // the returned payload is allowed to be modified only based on id and last signals, other
-      // translation should be done outside of this.
+      // the returned payload is allowed to be modified only based on id and last
+      // signals, other translation should be done outside of this.
        (id, payload, last) => payload
    }
 
@@ -663,7 +664,7 @@ For simulation master and slave implementations are available:
         scoreboard.pushRef(payload.toInt)
       }
 
-      // randmize ready on the output and add popped data to scoreboard
+      // randomize ready on the output and add popped data to scoreboard
       StreamReadyRandomizer(dut.io.pop, dut.clockDomain)
       StreamMonitor(dut.io.pop, dut.clockDomain) { payload =>
         scoreboard.pushDut(payload.toInt)

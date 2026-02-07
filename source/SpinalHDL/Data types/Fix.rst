@@ -271,13 +271,16 @@ Misc
    * - Name
      - Return
      - Description
+   * - x.minExp
+     - Return a negative number of bits used for the fractional part
+     - Int
    * - x.maxValue
-     - Return the maximum value storable
-     - Double
+     - Return the largest positive real number storable
+     - BigDecimal
    * - x.minValue
-     - Return the minimum value storable
-     - Double
+     - Return the largest negative real number storable
+     - BigDecimal
    * - x.resolution
-     - x.amplitude * y.amplitude
-     - Double
+     - Return the smallest positive real number storable
+     - BigDecimal
 
