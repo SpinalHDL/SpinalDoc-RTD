@@ -192,8 +192,6 @@ The syntax for command line arguments is:
            Select the VHDL mode
      --verilog
            Select the Verilog mode
-     -d | --debug
-           Enter in debug mode directly
      -o <value> | --targetDirectory <value>
            Set the target directory
 
