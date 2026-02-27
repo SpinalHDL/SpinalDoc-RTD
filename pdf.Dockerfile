@@ -15,7 +15,7 @@ RUN apt-get update \
 
 RUN git config --global safe.directory '*'
 
-RUN npm i wavedrom-cli -g
+RUN npm i wavedrom-cli@2.8.1 -g
 
 # source /docs/bin/setup_env.sh
 ENV PATH="$PATH:/docs/bin"
