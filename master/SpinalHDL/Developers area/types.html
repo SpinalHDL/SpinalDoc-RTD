@@ -169,10 +169,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/interaction.html#scala-elaboration-capabilities-if-for-functional-programming">Scala elaboration capabilities (if, for, functional programming)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#id1">Scala guide</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#introduction">Introduction</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Getting%20Started/Help%20for%20VHDL%20people/index.html">Help for VHDL people</a><ul>
@@ -374,6 +370,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html#areaobject">AreaObject</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#rgb-to-gray">RGB to gray</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#valid-ready-payload-bus">Valid Ready Payload bus</a></li>
@@ -545,6 +542,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/out_of_range_constant.html#specifying-exceptions">Specifying exceptions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html">Partially assigned register</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#how-to-fix-it">How to fix it</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html">Register defined as component input</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#example">Example</a></li>
@@ -586,7 +589,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#cat">Cat</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#cloning-hardware-datatypes">Cloning hardware datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#cloning-hardware-data-types">Cloning hardware data types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#passing-a-datatype-as-construction-parameter">Passing a datatype as construction parameter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#the-old-way">The old way</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#the-safe-way">The safe way</a></li>
@@ -598,7 +601,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/stub.html">Stub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/assertion.html">Assertions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/report.html">Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/report.html">Report</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/report.html#including-scala-source-location">Including Scala Source Location</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/scope_property.html">ScopeProperty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/analog_inout.html">Analog and inout</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/analog_inout.html#introduction">Introduction</a></li>
@@ -848,6 +854,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">Simple CPU example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#note">Note</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/Misc/index.html">Misc</a><ul>
@@ -1375,7 +1382,7 @@
 <section id="the-bitvector-family-bits-uint-sint">
 <h2>The BitVector family - (<code class="docutils literal notranslate"><span class="pre">Bits</span></code>, <code class="docutils literal notranslate"><span class="pre">UInt</span></code>, <code class="docutils literal notranslate"><span class="pre">SInt</span></code>)<a class="headerlink" href="#the-bitvector-family-bits-uint-sint" title="Permalink to this heading"></a></h2>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">BitVector</span></code> is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviours:</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">BitVector</span></code> is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviors:</div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">Bits</span></code> do not convey any sign information whereas the <code class="docutils literal notranslate"><span class="pre">UInt</span></code> (unsigned integer) and <code class="docutils literal notranslate"><span class="pre">SInt</span></code> (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetic is used.</div>
 </div>
 <section id="declaration-syntax">
@@ -2018,7 +2025,7 @@ It give you the ability to setup a master or a slave interface in a smoother way
 <td></td>
 <td><p>Use the VHDL enumeration system, this is the default encoding</p></td>
 </tr>
-<tr class="row-odd"><td><p>binarySequancial</p></td>
+<tr class="row-odd"><td><p>binarySequential</p></td>
 <td><p>log2Up(stateCount)</p></td>
 <td><p>Use Bits to store states in declaration order (value from 0 to n-1)</p></td>
 </tr>
@@ -2166,7 +2173,7 @@ result of type Bool</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018 - 2025, SpinalHDL.</p>
+    <p>&#169; Copyright 2018 - 2026, SpinalHDL.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -2177,7 +2184,7 @@ result of type Bool</p></li>
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~4cdfdf7a60 2025-05-29
+    Version: master git~84744c440d 2026-02-27
     </p></div>
     
 

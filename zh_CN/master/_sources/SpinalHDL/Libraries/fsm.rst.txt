@@ -323,7 +323,7 @@ Example:
 
 .. code-block:: scala
 
-    // State sequance: IDLE, STATE_A, STATE_B, ...
+    // State sequence: IDLE, STATE_A, STATE_B, ...
     val fsm = new StateMachine {
       // IDLE is named BOOT in simulation
       val IDLE = makeInstantEntry()

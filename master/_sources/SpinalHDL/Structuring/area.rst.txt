@@ -42,3 +42,16 @@ For this kind of case you can use an ``Area`` to define a group of signals/logic
 
 .. note::
    \ :ref:`ClockingArea <clock_domain>` is a special kind of ``Area`` that allows you to define chunks of hardware which use a given ``ClockDomain``\
+
+
+AreaObject
+==========
+
+This is a special kind of Area which is used to provide names to non-hardware thing. This is for instance used to provide names to pipelining keys : 
+
+.. code-block:: scala
+
+    object Fetch extends AreaObject {
+      val PC = Payload(UInt(64 bits))// PC.getName() will give Fetch_PC
+    }
+

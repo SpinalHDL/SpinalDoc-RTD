@@ -170,10 +170,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/interaction.html#scala-elaboration-capabilities-if-for-functional-programming">Scala elaboration capabilities (if, for, functional programming)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#id1">Scala guide</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#introduction">Introduction</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Getting%20Started/Help%20for%20VHDL%20people/index.html">Help for VHDL people</a><ul>
@@ -375,6 +371,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html#areaobject">AreaObject</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#rgb-to-gray">RGB to gray</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#valid-ready-payload-bus">Valid Ready Payload bus</a></li>
@@ -546,6 +543,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/out_of_range_constant.html#specifying-exceptions">Specifying exceptions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html">Partially assigned register</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#how-to-fix-it">How to fix it</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html">Register defined as component input</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#example">Example</a></li>
@@ -587,7 +590,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#cat">Cat</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#cloning-hardware-datatypes">Cloning hardware datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#cloning-hardware-data-types">Cloning hardware data types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#passing-a-datatype-as-construction-parameter">Passing a datatype as construction parameter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#the-old-way">The old way</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#the-safe-way">The safe way</a></li>
@@ -599,7 +602,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/stub.html">Stub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/assertion.html">Assertions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/report.html">Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/report.html">Report</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/report.html#including-scala-source-location">Including Scala Source Location</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/scope_property.html">ScopeProperty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/analog_inout.html">Analog and inout</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/analog_inout.html#introduction">Introduction</a></li>
@@ -849,6 +855,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">Simple CPU example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#note">Note</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/Misc/index.html">Misc</a><ul>
@@ -1270,8 +1277,8 @@
 <p>These will have representable ranges for all bits.</p>
 <p>For example:</p>
 <p><code class="docutils literal notranslate"><span class="pre">AFix.U(12</span> <span class="pre">bits)</span></code> will have a range of 0 to 4095.</p>
-<p><code class="docutils literal notranslate"><span class="pre">AFix.SQ(8</span> <span class="pre">bits,</span> <span class="pre">4</span> <span class="pre">bits)</span></code> will have a range of -256 (internaly -4096*2^-4) to 255.9375 (internaly 4095*2^-4)</p>
-<p><code class="docutils literal notranslate"><span class="pre">AFix.U(8</span> <span class="pre">exp,</span> <span class="pre">4</span> <span class="pre">exp)</span></code> will have a range of 0 to 240 (internaly 15*2^4)</p>
+<p><code class="docutils literal notranslate"><span class="pre">AFix.SQ(8</span> <span class="pre">bits,</span> <span class="pre">4</span> <span class="pre">bits)</span></code> will have a range of -256 (internally -4096*2^-4) to 255.9375 (internally 4095*2^-4)</p>
+<p><code class="docutils literal notranslate"><span class="pre">AFix.U(8</span> <span class="pre">exp,</span> <span class="pre">4</span> <span class="pre">exp)</span></code> will have a range of 0 to 240 (internally 15*2^4)</p>
 <p>Custom range <code class="docutils literal notranslate"><span class="pre">AFix</span></code> values can be created be directly instantiating the class.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AFix</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="n">maxValue</span><span class="p">:</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">minValue</span><span class="p">:</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">exp</span><span class="p">:</span><span class="w"> </span><span class="nc">ExpNumber</span><span class="p">)</span><span class="w"></span>
 
@@ -1417,7 +1424,7 @@ an <code class="docutils literal notranslate"><span class="pre">AFix</span></cod
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018 - 2025, SpinalHDL.</p>
+    <p>&#169; Copyright 2018 - 2026, SpinalHDL.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1428,7 +1435,7 @@ an <code class="docutils literal notranslate"><span class="pre">AFix</span></cod
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~4cdfdf7a60 2025-05-29
+    Version: master git~84744c440d 2026-02-27
     </p></div>
     
 

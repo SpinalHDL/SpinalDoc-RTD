@@ -170,10 +170,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/interaction.html#scala-elaboration-capabilities-if-for-functional-programming">Scala elaboration capabilities (if, for, functional programming)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#id1">Scala guide</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#introduction">Introduction</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Getting%20Started/Help%20for%20VHDL%20people/index.html">Help for VHDL people</a><ul>
@@ -375,6 +371,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html#areaobject">AreaObject</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#rgb-to-gray">RGB to gray</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#valid-ready-payload-bus">Valid Ready Payload bus</a></li>
@@ -546,6 +543,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/out_of_range_constant.html#specifying-exceptions">Specifying exceptions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html">Partially assigned register</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#how-to-fix-it">How to fix it</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html">Register defined as component input</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#example">Example</a></li>
@@ -587,7 +590,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cat">Cat</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#cloning-hardware-datatypes">Cloning hardware datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cloning-hardware-data-types">Cloning hardware data types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#passing-a-datatype-as-construction-parameter">Passing a datatype as construction parameter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#the-old-way">The old way</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#the-safe-way">The safe way</a></li>
@@ -599,7 +602,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="stub.html">Stub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="assertion.html">Assertions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="report.html">Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="report.html">Report</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="report.html#including-scala-source-location">Including Scala Source Location</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="scope_property.html">ScopeProperty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analog_inout.html">Analog and inout</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="analog_inout.html#introduction">Introduction</a></li>
@@ -849,6 +855,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">Simple CPU example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#note">Note</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/Misc/index.html">Misc</a><ul>
@@ -1280,7 +1287,7 @@
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Cat(x:</span> <span class="pre">Iterable[Data])</span></code></p></td>
 <td><p>Bits</p></td>
-<td><p>Conactenate arguments, from LSB to MSB, see <a class="reference internal" href="#cat">Cat</a></p></td>
+<td><p>Concatenate arguments, from LSB to MSB, see <a class="reference internal" href="#cat">Cat</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -1308,8 +1315,8 @@ Lists are written down starting from index 0 to the highest index. <code class="
 </div>
 </section>
 </section>
-<section id="cloning-hardware-datatypes">
-<h2>Cloning hardware datatypes<a class="headerlink" href="#cloning-hardware-datatypes" title="Permalink to this heading"></a></h2>
+<section id="cloning-hardware-data-types">
+<h2>Cloning hardware data types<a class="headerlink" href="#cloning-hardware-data-types" title="Permalink to this heading"></a></h2>
 <p>You can clone a given hardware data type by using the <code class="docutils literal notranslate"><span class="pre">cloneOf(x)</span></code> function.
 It will return a new instance of the same Scala type and parameters.</p>
 <p>For example:</p>
@@ -1500,7 +1507,7 @@ This way of doing things is easier to use than the “old way”, because to cre
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018 - 2025, SpinalHDL.</p>
+    <p>&#169; Copyright 2018 - 2026, SpinalHDL.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1511,7 +1518,7 @@ This way of doing things is easier to use than the “old way”, because to cre
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~4cdfdf7a60 2025-05-29
+    Version: master git~84744c440d 2026-02-27
     </p></div>
     
 

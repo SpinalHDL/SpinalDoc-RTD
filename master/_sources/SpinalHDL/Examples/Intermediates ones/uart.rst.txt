@@ -170,14 +170,15 @@ Let's define the skeleton of ``UartCtrlTx``\ :
      }
 
      // Provide one clockDivider.tick each rxSamplePerBit pulses of io.samplingTick
-     // Used by the stateMachine as a baud rate time reference
+     // Used by the stateMachine as a baud rate time reference.
      val clockDivider = new Area {
        val counter = Reg(UInt(log2Up(rxSamplePerBit) bits)) init(0)
        val tick = False
        ..
      }
 
-     // Count up each clockDivider.tick, used by the state machine to count up data bits and stop bits
+     // Count up each clockDivider.tick, used by the state machine to count up
+     // data bits and stop bits.
      val tickCounter = new Area {
        val value = Reg(UInt(Math.max(dataWidthMax, 2) bits))
        def reset() = value := 0
@@ -257,10 +258,13 @@ Let's define the skeleton of the UartCtrlRx :
      // Implement the rxd sampling with a majority vote over samplingSize bits
      // Provide a new sampler.value each time sampler.tick is high
      val sampler = new Area {
-       val syncroniser = BufferCC(io.rxd)
-       val samples     = History(that=syncroniser,when=io.samplingTick,length=samplingSize)
-       val value       = RegNext(MajorityVote(samples))
-       val tick        = RegNext(io.samplingTick)
+       val synchronizer = BufferCC(io.rxd)
+       val samples      = History(
+         that=synchronizer, 
+         when=io.samplingTick, 
+         length=samplingSize)
+       val value        = RegNext(MajorityVote(samples))
+       val tick         = RegNext(io.samplingTick)
      }
 
      // Provide a bitTimer.tick each rxSamplePerBit
@@ -272,7 +276,8 @@ Let's define the skeleton of the UartCtrlRx :
        ...
      }
 
-     // Provide bitCounter.value that count up each bitTimer.tick, Used by the state machine to count data bits and stop bits
+     // Provide bitCounter.value that count up each bitTimer.tick, Used by
+     // the state machine to count data bits and stop bits.
      // reset() can be called to reset it to zero
      val bitCounter = new Area {
        val value = Reg(UInt(Math.max(dataWidthMax, 2) bits))
@@ -322,7 +327,7 @@ manually like all other components, which one would do if a runtime-configurable
 
 
 Simple usage 
------------------------
+------------
 
 To synthesize a ``UartCtrl`` as ``115200-N-8-1``:
 

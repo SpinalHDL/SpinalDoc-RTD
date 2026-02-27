@@ -170,10 +170,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/interaction.html#scala-elaboration-capabilities-if-for-functional-programming">Scala elaboration capabilities (if, for, functional programming)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#id1">Scala guide</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#introduction">Introduction</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Getting%20Started/Help%20for%20VHDL%20people/index.html">Help for VHDL people</a><ul>
@@ -375,6 +371,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html#areaobject">AreaObject</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#rgb-to-gray">RGB to gray</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#valid-ready-payload-bus">Valid Ready Payload bus</a></li>
@@ -546,6 +543,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/out_of_range_constant.html#specifying-exceptions">Specifying exceptions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html">Partially assigned register</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#how-to-fix-it">How to fix it</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html">Register defined as component input</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#example">Example</a></li>
@@ -587,7 +590,7 @@
 <li class="toctree-l4"><a class="reference internal" href="utils.html#cat">Cat</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="utils.html#cloning-hardware-datatypes">Cloning hardware datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#cloning-hardware-data-types">Cloning hardware data types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html#passing-a-datatype-as-construction-parameter">Passing a datatype as construction parameter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="utils.html#the-old-way">The old way</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html#the-safe-way">The safe way</a></li>
@@ -599,7 +602,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="stub.html">Stub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="assertion.html">Assertions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="report.html">Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="report.html">Report</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="report.html#including-scala-source-location">Including Scala Source Location</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="scope_property.html">ScopeProperty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analog_inout.html">Analog and inout</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="analog_inout.html#introduction">Introduction</a></li>
@@ -849,6 +855,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">Simple CPU example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#note">Note</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/Misc/index.html">Misc</a><ul>
@@ -1261,7 +1268,8 @@
 <span class="w">  </span><span class="n">io</span><span class="p">.</span><span class="n">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="n">&amp;</span><span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">b</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="c1">// This is the main function that generates the VHDL and the Verilog corresponding to MyTopLevel.</span>
+<span class="c1">// This is the main function that generates the VHDL and the Verilog</span>
+<span class="c1">// corresponding to MyTopLevel.</span>
 <span class="k">object</span><span class="w"> </span><span class="nc">MyMain</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="nc">SpinalVhdl</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyTopLevel</span><span class="p">)</span><span class="w"></span>
@@ -1345,7 +1353,7 @@ This backend successfully passes the same regression tests as the VHDL one (RISC
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">globalPrefix</span></code></p></td>
 <td><p>String</p></td>
 <td><p>“”</p></td>
-<td><p>Will add the given prefix in the front of every global symboles in the VHDL/Verilog (components/modules/enums). This allows to avoid naming conflict between multiple generated file.</p></td>
+<td><p>Will add the given prefix in the front of every global symbols in the VHDL/Verilog (components/modules/enums). This allows to avoid naming conflict between multiple generated file.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">privateNamespace</span></code></p></td>
 <td><p>Boolean</p></td>
@@ -1375,17 +1383,17 @@ This backend successfully passes the same regression tests as the VHDL one (RISC
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mergeAsyncProcess</span></code></p></td>
 <td><p>Boolean</p></td>
 <td><p>false</p></td>
-<td><p>Will merge process/always blocks for combinatorial signal which share at least one conditional assignement (if/switch statment)</p></td>
+<td><p>Will merge process/always blocks for combinatorial signal which share at least one conditional assignment (if/switch statement)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mergeSyncProcess</span></code></p></td>
 <td><p>Boolean</p></td>
 <td><p>true</p></td>
-<td><p>Will merge process/always blocks for flip-flops which use the same clock domain (if/switch statment)</p></td>
+<td><p>Will merge process/always blocks for flip-flops which use the same clock domain (if/switch statement)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">genLineComments</span></code></p></td>
 <td><p>Boolean</p></td>
 <td><p>false</p></td>
-<td><p>For each hardware assignment in the generated VHDL/Verilog code, will attach a comment which specifies in which scala file, at which line, the assignement happend. Ex : a = 1’b1; // &#64; MyDesign.scala l1135</p></td>
+<td><p>For each hardware assignment in the generated VHDL/Verilog code, will attach a comment which specifies in which scala file, at which line, the assignment happened. Ex : a = 1’b1; // &#64; MyDesign.scala l1135</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">noAssert</span></code></p></td>
 <td><p>Boolean</p></td>
@@ -1415,12 +1423,17 @@ This backend successfully passes the same regression tests as the VHDL one (RISC
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rtlHeader</span></code></p></td>
 <td><p>String</p></td>
 <td><p>disabled</p></td>
-<td><p>Allow to manualy specify the VHDL/Verilog file header</p></td>
+<td><p>Allow to manually specify the VHDL/Verilog file header</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">withTimescale</span></code></p></td>
 <td><p>Boolean</p></td>
 <td><p>True</p></td>
 <td><p>Enable the addition of the timescale in the generated Verilog</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">normalizeComponentClockDomainName</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>False</p></td>
+<td><p>When enabled, in each component, the pulled clockdomain’s signals of the implicit clockdomain will be named clk/reset/enable instead of their original name.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1666,7 +1679,7 @@ This backend successfully passes the same regression tests as the VHDL one (RISC
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018 - 2025, SpinalHDL.</p>
+    <p>&#169; Copyright 2018 - 2026, SpinalHDL.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1677,7 +1690,7 @@ This backend successfully passes the same regression tests as the VHDL one (RISC
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~4cdfdf7a60 2025-05-29
+    Version: master git~84744c440d 2026-02-27
     </p></div>
     
 

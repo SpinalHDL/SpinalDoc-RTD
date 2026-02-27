@@ -117,7 +117,7 @@ The following operators are available for the ``Bool`` type
 The BitVector family - (``Bits``, ``UInt``, ``SInt``)
 -----------------------------------------------------
 
-| ``BitVector`` is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviours:
+| ``BitVector`` is a family of types for storing multiple bits of information in a single value. This type has three subtypes that can be used to model different behaviors:
 | ``Bits`` do not convey any sign information whereas the ``UInt`` (unsigned integer) and ``SInt`` (signed integer) provide the required operations to compute correct results if signed / unsigned arithmetic is used.
 
 Declaration syntax
@@ -665,7 +665,7 @@ SpinalHDL supports enumeration with some encodings :
    * - native
      - 
      - Use the VHDL enumeration system, this is the default encoding
-   * - binarySequancial
+   * - binarySequential
      - log2Up(stateCount)
      - Use Bits to store states in declaration order (value from 0 to n-1)
    * - binaryOneHot

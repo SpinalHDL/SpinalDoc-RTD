@@ -32,7 +32,7 @@ Many tools and utilities are present in :ref:`spinal.lib <lib_introduction>` but
      - Concatenate all arguments, from MSB to LSB, see `Cat`_
    * - ``Cat(x: Iterable[Data])``
      - Bits
-     - Conactenate arguments, from LSB to MSB, see `Cat`_
+     - Concatenate arguments, from LSB to MSB, see `Cat`_
 
 .. _Cat:
 
@@ -61,8 +61,8 @@ Lists are written down starting from index 0 to the highest index. ``Cat`` place
    val signals = List(bit0, bit1, bit2)
    val second = Cat(signals)
 
-Cloning hardware datatypes
---------------------------
+Cloning hardware data types
+---------------------------
 
 You can clone a given hardware data type by using the ``cloneOf(x)`` function.
 It will return a new instance of the same Scala type and parameters.

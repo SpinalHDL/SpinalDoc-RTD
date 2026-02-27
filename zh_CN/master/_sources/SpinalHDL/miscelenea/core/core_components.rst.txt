@@ -33,7 +33,7 @@ In *Spinal*\ , clock and reset signals can be combined to create a **clock domai
 Clock domain application work like a stack, which mean, if you are in a given clock domain, you can still apply another clock domain locally.
 
 
-.. _core_componets_clock_constructor:
+.. _core_components_clock_constructor:
 
 Clock domain syntax
 ^^^^^^^^^^^^^^^^^^^
@@ -69,7 +69,8 @@ An applied example to define a specific clock domain within the design is as fol
 Clock configuration
 ^^^^^^^^^^^^^^^^^^^
 
-In addition to the constructor parameters given :ref:`here <core_componets_clock_constructor>` , the following elements of each clock domain are configurable via a ``ClockDomainConfig`` class :
+In addition to the constructor parameters given :ref:`here <core_components_clock_constructor>` , 
+the following elements of each clock domain are configurable via a ``ClockDomainConfig`` class :
 
 .. list-table::
    :header-rows: 1

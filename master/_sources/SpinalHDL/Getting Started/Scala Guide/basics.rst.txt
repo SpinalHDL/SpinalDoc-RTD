@@ -97,8 +97,8 @@ The ``return`` keyword is not necessary. In absence of it, Scala takes the last 
      (a + b) > 0
    }
 
-Return type inferation
-^^^^^^^^^^^^^^^^^^^^^^
+Return type inference
+^^^^^^^^^^^^^^^^^^^^^
 
 Scala is able to automatically infer the return type. You don't need to specify it:
 

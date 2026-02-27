@@ -170,10 +170,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/interaction.html#scala-elaboration-capabilities-if-for-functional-programming">Scala elaboration capabilities (if, for, functional programming)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#id1">Scala guide</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#introduction">Introduction</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Getting%20Started/Help%20for%20VHDL%20people/index.html">Help for VHDL people</a><ul>
@@ -375,6 +371,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html#areaobject">AreaObject</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#rgb-to-gray">RGB to gray</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#valid-ready-payload-bus">Valid Ready Payload bus</a></li>
@@ -546,6 +543,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/out_of_range_constant.html#specifying-exceptions">Specifying exceptions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html">Partially assigned register</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#how-to-fix-it">How to fix it</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html">Register defined as component input</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#example">Example</a></li>
@@ -587,7 +590,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#cat">Cat</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#cloning-hardware-datatypes">Cloning hardware datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#cloning-hardware-data-types">Cloning hardware data types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#passing-a-datatype-as-construction-parameter">Passing a datatype as construction parameter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#the-old-way">The old way</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#the-safe-way">The safe way</a></li>
@@ -599,7 +602,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/stub.html">Stub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/assertion.html">Assertions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/report.html">Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/report.html">Report</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/report.html#including-scala-source-location">Including Scala Source Location</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/scope_property.html">ScopeProperty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/analog_inout.html">Analog and inout</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/analog_inout.html#introduction">Introduction</a></li>
@@ -849,6 +855,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#simple-cpu-example">Simple CPU example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Pipeline/introduction.html#note">Note</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Misc/index.html">Misc</a><ul>
@@ -1272,7 +1279,7 @@
 </pre></div>
 </div>
 <img alt="../../_images/reg-auto-allocate.gif" src="../../_images/reg-auto-allocate.gif" />
-<p>Automatic filed allocation</p>
+<p>Automatic field allocation</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">M_REG0</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">newReg</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;REG1&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="kd">val</span><span class="w"> </span><span class="n">fd0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG0</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bit</span><span class="p">),</span><span class="w"> </span><span class="nc">RW</span><span class="p">,</span><span class="w"> </span><span class="n">doc</span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fields 0&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="nc">M_REG0</span><span class="p">.</span><span class="n">reserved</span><span class="p">(</span><span class="mi">5</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
@@ -1285,18 +1292,24 @@
 </div>
 <img alt="../../_images/field-auto-allocate.gif" src="../../_images/field-auto-allocate.gif" />
 <p>conflict detection</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">M_REG1</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">newReg</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;REG1&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">r1fd0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG1</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="nc">RW</span><span class="p">,</span><span class="w"> </span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;fields 1&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">r1fd2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG1</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">18</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="nc">RW</span><span class="p">,</span><span class="w"> </span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;fields 1&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="n">cause</span><span class="w"> </span><span class="nc">Exception</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="nc">M_REG1</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">busif</span><span class="p">.</span><span class="n">newReg</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;REG1&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">r1fd0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG1</span><span class="p">.</span><span class="n">field</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="nc">RW</span><span class="p">,</span><span class="w"> </span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;fields 1&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">r1fd2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">M_REG1</span><span class="p">.</span><span class="n">fieldAt</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="w"> </span><span class="nc">RW</span><span class="p">,</span><span class="w"> </span><span class="n">doc</span><span class="o">=</span><span class="s">&quot;fields 1&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">...</span><span class="w"></span>
-<span class="n">cause</span><span class="w"> </span><span class="nc">Exception</span><span class="w"></span>
-</pre></div>
-</div>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<p>val M_REG1  = busif.newReg(doc=”REG1”)
+val r1fd0 = M_REG1.field(Bits(16 bits), RW, doc=”fields 1”)
+val r1fd2 = M_REG1.field(Bits(18 bits), RW, doc=”fields 1”)</p>
+<blockquote>
+<div><p>…</p>
+</div></blockquote>
+<p>cause Exception
+val M_REG1  = busif.newReg(doc=”REG1”)
+val r1fd0 = M_REG1.field(Bits(16 bits), RW, doc=”fields 1”)
+val r1fd2 = M_REG1.fieldAt(pos=10, Bits(2 bits), RW, doc=”fields 1”)</p>
+<blockquote>
+<div><p>…</p>
+</div></blockquote>
+<p>cause Exception</p>
+</div></blockquote>
 </section>
 <section id="access-types">
 <h2>28 Access Types<a class="headerlink" href="#access-types" title="Permalink to this heading"></a></h2>
@@ -1881,7 +1894,7 @@ In order to facilitate software debugging, the read back value can be configured
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018 - 2025, SpinalHDL.</p>
+    <p>&#169; Copyright 2018 - 2026, SpinalHDL.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1892,7 +1905,7 @@ In order to facilitate software debugging, the read back value can be configured
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~4cdfdf7a60 2025-05-29
+    Version: master git~84744c440d 2026-02-27
     </p></div>
     
 

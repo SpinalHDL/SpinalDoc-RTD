@@ -43,9 +43,9 @@ For example:
 
 ``AFix.U(12 bits)`` will have a range of 0 to 4095.
 
-``AFix.SQ(8 bits, 4 bits)`` will have a range of -256 (internaly -4096*2^-4) to 255.9375 (internaly 4095*2^-4)
+``AFix.SQ(8 bits, 4 bits)`` will have a range of -256 (internally -4096*2^-4) to 255.9375 (internally 4095*2^-4)
 
-``AFix.U(8 exp, 4 exp)`` will have a range of 0 to 240 (internaly 15*2^4)
+``AFix.U(8 exp, 4 exp)`` will have a range of 0 to 240 (internally 15*2^4)
 
 
 Custom range ``AFix`` values can be created be directly instantiating the class.

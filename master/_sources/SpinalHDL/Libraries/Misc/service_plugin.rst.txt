@@ -31,14 +31,14 @@ While VexRiscv use a strict synchronous 2 phase system (setup/build callback), N
 The Plugin API provide a NaxRiscv like system to define composable components using plugins.
 
 Execution order
---------------------
+---------------
 
 The main idea is that you have multiple 2 executions phases : 
 
 - Setup phase, in which plugins can lock/retain each others. The idea is not to start negotiation / elaboration yet.
 - Build phase, in which plugins can negotiation / elaboration hardware.
 
-The build phase will not start before all FiberPlugin are done with their setup phase.
+The build phase will not start before all ``FiberPlugin`` are done with their setup phase.
 
 .. code-block:: scala
 
@@ -67,14 +67,15 @@ Here is a simple dummy example with a SubComponent which will be composed using 
       import spinal.core._
       import spinal.lib.misc.plugin._
 
-      // Let's define a Component with a PluginHost instance
+      // Let's define a Component with a PluginHost instance.
       class SubComponent extends Component {
         val host = new PluginHost()
       }
 
-      // Let's define a plugin which create a register
+      // Let's define a plugin which create a register.
       class StatePlugin extends FiberPlugin {
-        // during build new Area { body } will run the body of code in the Fiber build phase, in the context of the PluginHost
+        // `during build new Area { body }` will run the body of code in the Fiber
+        // build phase, in the context of the PluginHost.
         val logic = during build new Area {
           val signal = Reg(UInt(32 bits))
         }
@@ -82,7 +83,9 @@ Here is a simple dummy example with a SubComponent which will be composed using 
 
       // Let's define a plugin which will make the StatePlugin's register increment
       class DriverPlugin extends FiberPlugin {
-        // We define how to get the instance of StatePlugin.logic from the PluginHost. It is a lazy val, because we can't evaluate it until the plugin is bound to its host.
+        // We define how to get the instance of StatePlugin.logic from the PluginHost.
+        // It is a lazy val, because we can't evaluate it until the plugin is bound
+        // to its host.
         lazy val sp = host[StatePlugin].logic.get
 
         val logic = during build new Area {
@@ -124,22 +127,24 @@ Such TopLevel would generate the following Verilog code :
       reg        [31:0]   StatePlugin_logic_signal; // Created by StatePlugin
 
       always @(posedge clk) begin
-        StatePlugin_logic_signal <= (StatePlugin_logic_signal + 32'h00000001); // incremented by DriverPlugin
+        // incremented by DriverPlugin
+        StatePlugin_logic_signal <= (StatePlugin_logic_signal + 32'h00000001); 
       end
     endmodule
 
-Note each "during build" fork an elaboration thread, the DriverPlugin.logic thread execution will be blocked on the "sp" evaluation until the StatePlugin.logic execution is done.
+Note each ``during build`` fork an elaboration thread, the ``DriverPlugin.logic`` thread execution
+will be blocked on the "sp" evaluation until the ``StatePlugin.logic`` execution is done.
 
 
 Interlocking / Ordering
-----------------------------------------
+-----------------------
 
-Plugins can interlock each others using Retainer instances.
-Each plugin instance has a built in lock which can be controlled using retain/release functions.
+Plugins can interlock each others using ``Retainer`` instances.
+Each plugin instance has a built in lock which can be controlled using ``retain``/``release`` functions.
 
-Here is an example based on the above `Simple example` but that time, the DriverPlugin will increment the StatePlugin.logic.signal
-by an amount set by other plugins (SetupPlugin in our case). And to ensure that the DriverPlugin doesn't generate the hardware too early, 
-the SetupPlugin uses the DriverPlugin.retain/release functions.
+Here is an example based on the above `Simple example` but that time, the ``DriverPlugin`` will increment ``the StatePlugin.logic.signal``
+by an amount set by other plugins (``SetupPlugin`` in our case). And to ensure that the ``DriverPlugin`` doesn't generate the hardware too early, 
+the ``SetupPlugin`` uses the ``DriverPlugin.retain``/``release`` functions.
 
 .. code-block:: scala
 
@@ -158,23 +163,26 @@ the SetupPlugin uses the DriverPlugin.retain/release functions.
   }
 
   class DriverPlugin extends FiberPlugin {
-    // incrementBy will be set by others plugin at elaboration time
+    // incrementBy will be set by others plugin at elaboration time.
     var incrementBy = 0
-    // retainer allows other plugins to create locks, on which this plugin will wait before using incrementBy
+    // Retainer allows other plugins to create locks, on which this plugin will
+    // wait before using incrementBy.
     val retainer = Retainer()
 
     val logic = during build new Area {
       val sp = host[StatePlugin].logic.get
       retainer.await()
 
-      // Generate the incrementer hardware
+      // Generate the incrementer hardware.
       sp.signal := sp.signal + incrementBy
     }
   }
 
-  // Let's define a plugin which will modify the DriverPlugin.incrementBy variable because letting it elaborate its hardware
+  // Let's define a plugin which will modify the DriverPlugin.incrementBy variable
+  // because letting it elaborate its hardware.
   class SetupPlugin extends FiberPlugin {
-    // during setup { body } will spawn the body of code in the Fiber setup phase (it is before the Fiber build phase)
+    // `during setup { body }` will spawn the body of code in the Fiber setup 
+    // phase (it is before the Fiber build phase).
     val logic = during setup new Area {
       // *** Setup phase code ***
       val dp = host[DriverPlugin]
@@ -229,7 +237,8 @@ Here is the generated verilog
       reg        [31:0]   StatePlugin_logic_signal;
 
       always @(posedge clk) begin
-        StatePlugin_logic_signal <= (StatePlugin_logic_signal + 32'h00000002); // + 2 as we have two SetupPlugin
+        // + 2 as we have two SetupPlugin      
+        StatePlugin_logic_signal <= (StatePlugin_logic_signal + 32'h00000002);
       end
     endmodule
 

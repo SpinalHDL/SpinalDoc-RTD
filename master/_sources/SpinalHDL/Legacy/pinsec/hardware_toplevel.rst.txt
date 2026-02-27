@@ -106,7 +106,7 @@ Then we can define a simple reset controller under this clock domain.
      val coreResetUnbuffered = False
 
      // Implement an counter to keep the reset axiResetOrder high 64 cycles
-     // Also this counter will automaticly do a reset when the system boot.
+     // Also this counter will automatically do a reset when the system boot.
      val axiResetCounter = Reg(UInt(6 bits)) init(0)
      when(axiResetCounter =/= U(axiResetCounter.range -> true)) {
        axiResetCounter := axiResetCounter + 1

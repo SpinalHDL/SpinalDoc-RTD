@@ -170,10 +170,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/interaction.html#scala-elaboration-capabilities-if-for-functional-programming">Scala elaboration capabilities (if, for, functional programming)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#id1">Scala guide</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Getting%20Started/Scala%20Guide/index.html#introduction">Introduction</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Getting%20Started/Help%20for%20VHDL%20people/index.html">Help for VHDL people</a><ul>
@@ -375,6 +371,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html">Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/area.html#areaobject">AreaObject</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/function.html">Function</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#rgb-to-gray">RGB to gray</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/function.html#valid-ready-payload-bus">Valid Ready Payload bus</a></li>
@@ -546,6 +543,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/out_of_range_constant.html#specifying-exceptions">Specifying exceptions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html">Partially assigned register</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design%20errors/partially_assigned_register.html#how-to-fix-it">How to fix it</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html">Register defined as component input</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/register_defined_as_component_input.html#example">Example</a></li>
@@ -587,7 +590,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#cat">Cat</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#cloning-hardware-datatypes">Cloning hardware datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#cloning-hardware-data-types">Cloning hardware data types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/utils.html#passing-a-datatype-as-construction-parameter">Passing a datatype as construction parameter</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#the-old-way">The old way</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../Other%20language%20features/utils.html#the-safe-way">The safe way</a></li>
@@ -599,7 +602,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/stub.html">Stub</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/assertion.html">Assertions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/report.html">Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/report.html">Report</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/report.html#including-scala-source-location">Including Scala Source Location</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/scope_property.html">ScopeProperty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Other%20language%20features/analog_inout.html">Analog and inout</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Other%20language%20features/analog_inout.html#introduction">Introduction</a></li>
@@ -849,6 +855,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#composability">Composability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#retiming-variable-length">Retiming / Variable length</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#simple-cpu-example">Simple CPU example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries/Pipeline/introduction.html#note">Note</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Libraries/Misc/index.html">Misc</a><ul>
@@ -1298,7 +1305,8 @@
 
 <span class="w">      </span><span class="k">def</span><span class="w"> </span><span class="nf">recExpression</span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="nc">Expression</span><span class="p">):</span><span class="w"> </span><span class="nc">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">e</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">          </span><span class="k">case</span><span class="w"> </span><span class="n">op</span><span class="p">:</span><span class="w"> </span><span class="nc">Operator</span><span class="p">.</span><span class="nc">BitVector</span><span class="p">.</span><span class="nc">Add</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">println</span><span class="p">(</span><span class="s">s&quot;Found </span><span class="si">${</span><span class="n">op</span><span class="p">.</span><span class="n">left</span><span class="si">}</span><span class="s"> + </span><span class="si">${</span><span class="n">op</span><span class="p">.</span><span class="n">right</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="k">case</span><span class="w"> </span><span class="n">op</span><span class="p">:</span><span class="w"> </span><span class="nc">Operator</span><span class="p">.</span><span class="nc">BitVector</span><span class="p">.</span><span class="nc">Add</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">println</span><span class="p">(</span><span class="s">s&quot;Found </span><span class="si">${</span><span class="n">op</span><span class="p">.</span><span class="n">left</span><span class="si">}</span><span class="s"></span>
+<span class="s">                                                      + </span><span class="si">${</span><span class="n">op</span><span class="p">.</span><span class="n">right</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="w">          </span><span class="k">case</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
 <span class="w">        </span><span class="p">}</span><span class="w"></span>
 <span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="n">foreachExpression</span><span class="p">(</span><span class="n">recExpression</span><span class="p">)</span><span class="w"></span>
@@ -1318,7 +1326,8 @@
 
 <span class="w">    </span><span class="c1">// Add a late phase</span>
 <span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">phasesInserters</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">{</span><span class="n">phases</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
-<span class="w">      </span><span class="n">phases</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">phases</span><span class="p">.</span><span class="n">indexWhere</span><span class="p">(</span><span class="n">_</span><span class="p">.</span><span class="k">isInstanceOf</span><span class="p">[</span><span class="nc">PhaseVerilog</span><span class="p">]),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">PrintBaseTypes</span><span class="p">(</span><span class="s">&quot;Late&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="n">phases</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">phases</span><span class="p">.</span><span class="n">indexWhere</span><span class="p">(</span><span class="n">_</span><span class="p">.</span><span class="k">isInstanceOf</span><span class="p">[</span><span class="nc">PhaseVerilog</span><span class="p">]),</span><span class="w"></span>
+<span class="w">                                        </span><span class="k">new</span><span class="w"> </span><span class="nc">PrintBaseTypes</span><span class="p">(</span><span class="s">&quot;Late&quot;</span><span class="p">))</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">generateVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">Toplevel</span><span class="p">())</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
@@ -1372,7 +1381,8 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 </ul>
 <p>For example, the following code can be used to modify a top-level component by adding a three-stage shift register to each input and output of the component. This is particularly useful for synthesis testing.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ffIo</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Component</span><span class="p">](</span><span class="n">c</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">):</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">buf1</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">that</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">KeepAttribute</span><span class="p">(</span><span class="nc">RegNext</span><span class="p">(</span><span class="n">that</span><span class="p">)).</span><span class="n">addAttribute</span><span class="p">(</span><span class="s">&quot;DONT_TOUCH&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">buf1</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">that</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">KeepAttribute</span><span class="p">(</span><span class="nc">RegNext</span><span class="p">(</span><span class="n">that</span><span class="p">))</span><span class="w"></span>
+<span class="w">                                    </span><span class="p">.</span><span class="n">addAttribute</span><span class="p">(</span><span class="s">&quot;DONT_TOUCH&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">buf</span><span class="p">[</span><span class="nc">T</span><span class="w"> </span><span class="o">&lt;:</span><span class="w"> </span><span class="nc">Data</span><span class="p">](</span><span class="n">that</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buf1</span><span class="p">(</span><span class="n">buf1</span><span class="p">(</span><span class="n">buf1</span><span class="p">(</span><span class="n">that</span><span class="p">)))</span><span class="w"></span>
 <span class="w">  </span><span class="n">c</span><span class="p">.</span><span class="n">rework</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">ios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">getAllIo</span><span class="p">.</span><span class="n">toList</span><span class="w"></span>
@@ -1380,7 +1390,8 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">getName</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;clk&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="c1">// Do nothing</span>
 <span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">isInput</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">io</span><span class="p">.</span><span class="n">setAsDirectionLess</span><span class="p">().</span><span class="n">allowDirectionLessIo</span><span class="w">  </span><span class="c1">// allowDirectionLessIo is to disable the io Bundle linting</span>
+<span class="w">        </span><span class="c1">// allowDirectionLessIo is to disable the io Bundle linting</span>
+<span class="w">        </span><span class="n">io</span><span class="p">.</span><span class="n">setAsDirectionLess</span><span class="p">().</span><span class="n">allowDirectionLessIo</span><span class="w"></span>
 <span class="w">        </span><span class="n">io</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">buf</span><span class="p">(</span><span class="n">in</span><span class="p">(</span><span class="n">cloneOf</span><span class="p">(</span><span class="n">io</span><span class="p">).</span><span class="n">setName</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">getName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;_wrap&quot;</span><span class="p">)))</span><span class="w"></span>
 <span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">isOutput</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">io</span><span class="p">.</span><span class="n">setAsDirectionLess</span><span class="p">().</span><span class="n">allowDirectionLessIo</span><span class="w"></span>
@@ -1396,20 +1407,31 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="n">ffIo</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">MyToplevel</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Here is a function that enables you to execute the body code as if the current component’s context did not exist. This can be particularly useful for defining new signals without the influence of the current conditional scope (such as when or switch).</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">atBeginingOfCurrentComponent</span><span class="p">[</span><span class="nc">T</span><span class="p">](</span><span class="n">body</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Component</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">dslBody</span><span class="w">  </span><span class="c1">// Get the head of the current component symbols tree (AST in other words)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body</span><span class="p">.</span><span class="n">push</span><span class="p">()</span><span class="w">                 </span><span class="c1">// Now all access to the SpinalHDL API will be append to it (instead of the current context)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">swapContext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body</span><span class="p">.</span><span class="n">swap</span><span class="p">()</span><span class="w">         </span><span class="c1">// Empty the symbol tree (but keep a reference to the old content)</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">that</span><span class="w">                        </span><span class="c1">// Execute the block of code (will be added to the recently empty body)</span>
-<span class="w">  </span><span class="n">ctx</span><span class="p">.</span><span class="n">restore</span><span class="p">()</span><span class="w">                         </span><span class="c1">// Restore the original context in which this function was called</span>
-<span class="w">  </span><span class="n">swapContext</span><span class="p">.</span><span class="n">appendBack</span><span class="p">()</span><span class="w">              </span><span class="c1">// append the original symbols tree to the modified body</span>
-<span class="w">  </span><span class="n">ret</span><span class="w">                                   </span><span class="c1">// return the value returned by that</span>
+<p>Here is a function that enables you to execute the body code as if the current
+component’s context did not exist. This can be particularly useful for defining
+new signals without the influence of the current conditional scope (such as
+<cite>when</cite> or <cite>switch</cite>).</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">atBeginningOfCurrentComponent</span><span class="p">[</span><span class="nc">T</span><span class="p">](</span><span class="n">body</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Get the head of the current component symbols tree (AST in other words)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Component</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">dslBody</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Now all access to the SpinalHDL API will be append to it (instead of the</span>
+<span class="w">  </span><span class="c1">// current context)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body</span><span class="p">.</span><span class="n">push</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Empty the symbol tree (but keep a reference to the old content)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">swapContext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body</span><span class="p">.</span><span class="n">swap</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Execute the block of code (will be added to the recently empty body)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">that</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Restore the original context in which this function was called</span>
+<span class="w">  </span><span class="n">ctx</span><span class="p">.</span><span class="n">restore</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// append the original symbols tree to the modified body</span>
+<span class="w">  </span><span class="n">swapContext</span><span class="p">.</span><span class="n">appendBack</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// return the value returned by that</span>
+<span class="w">  </span><span class="n">ret</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">database</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mutable</span><span class="p">.</span><span class="nc">HashMap</span><span class="p">[</span><span class="nc">Any</span><span class="p">,</span><span class="w"> </span><span class="nc">Bool</span><span class="p">]()</span><span class="w"></span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Any</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">database</span><span class="p">.</span><span class="n">getOrElseUpdate</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">atBeginingOfCurrentComponent</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">database</span><span class="p">.</span><span class="n">getOrElseUpdate</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">atBeginningOfCurrentComponent</span><span class="p">(</span><span class="nc">False</span><span class="p">))</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="k">object</span><span class="w"> </span><span class="nc">key</span><span class="w"></span>
@@ -1504,7 +1526,7 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018 - 2025, SpinalHDL.</p>
+    <p>&#169; Copyright 2018 - 2026, SpinalHDL.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
@@ -1515,7 +1537,7 @@ Found (toplevel/a : in UInt[8 bits]) + (toplevel/b : in UInt[8 bits])
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~4cdfdf7a60 2025-05-29
+    Version: master git~84744c440d 2026-02-27
     </p></div>
     
 
