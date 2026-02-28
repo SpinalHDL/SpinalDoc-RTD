@@ -575,18 +575,19 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
      outputCount = 3
    )
 
-StreamPipe
-^^^^^^^^^^
+pipelined
+^^^^^^^^^
 
-``StreamPipe`` is a trait that defines a single ``apply(stream)`` method returning a pipelined version of the stream.
-``object StreamPipe`` provides named singleton instances that act as pipeline-style selectors.
-The primary usage is to pass a ``StreamPipe`` value to ``stream.pipelined()`` or to any utility function that accepts one.
+``stream.pipelined(...)`` returns a registered version of ``stream``, cutting combinatorial paths to help timing closure.
+It has two call styles:
+
+**Using a** ``StreamPipe`` **constant** (``StreamPipe`` is a trait; ``object StreamPipe`` provides the named instances):
 
 .. list-table::
    :header-rows: 1
    :widths: 2 5
 
-   * - Instance
+   * - ``StreamPipe`` value
      - Description
    * - ``StreamPipe.NONE``
      - No registering; equivalent to ``stream.combStage()``
@@ -599,17 +600,47 @@ The primary usage is to pass a ``StreamPipe`` value to ``stream.pipelined()`` or
    * - ``StreamPipe.HALF``
      - Cuts all paths using one register stage that halves bandwidth (``halfPipe``)
 
+**Using boolean flags** ``pipelined(m2s, s2m, halfRate)``\:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 1 1 1 4
+
+   * - ``m2s``
+     - ``s2m``
+     - ``halfRate``
+     - Equivalent ``StreamPipe``
+   * - ``false``
+     - ``false``
+     - ``false``
+     - ``StreamPipe.NONE``
+   * - ``true``
+     - ``false``
+     - ``false``
+     - ``StreamPipe.M2S``
+   * - ``false``
+     - ``true``
+     - ``false``
+     - ``StreamPipe.S2M``
+   * - ``true``
+     - ``true``
+     - ``false``
+     - ``StreamPipe.FULL``
+   * - ``false``
+     - ``false``
+     - ``true``
+     - ``StreamPipe.HALF``
+
 .. code-block:: scala
 
    val source = Stream(Bits(8 bits))
    val sink   = Stream(Bits(8 bits))
 
-   // Pass as a pipeline-style selector
+   // Using a StreamPipe constant
    sink << source.pipelined(StreamPipe.FULL)
 
-   // Or call the instance directly — each StreamPipe instance is callable
-   val pipe: StreamPipe = StreamPipe.M2S
-   sink << pipe(source)
+   // Using boolean flags (equivalent to StreamPipe.FULL)
+   sink << source.pipelined(m2s = true, s2m = true)
 
 StreamTransactionExtender
 ^^^^^^^^^^^^^^^^^^^^^^^^^
