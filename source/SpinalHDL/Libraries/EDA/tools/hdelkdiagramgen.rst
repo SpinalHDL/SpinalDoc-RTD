@@ -2,17 +2,27 @@
 HDElkDiagramGen
 ===============
 
-``HDElkDiagramGen`` is a tool that generates an interactive block diagram of a SpinalHDL design in an HTML file.
+``HDElkDiagramGen`` is a tool from the `SpinalSchemaGen <https://github.com/SpinalHDL/SpinalSchemaGen>`_ library that generates an interactive block diagram of a SpinalHDL design as an HTML file.
 After running elaboration, pass the ``SpinalReport`` returned by ``SpinalVerilog`` or ``SpinalVHDL`` to generate the diagram.
 Open the resulting HTML file in any modern web browser to explore the hierarchy.
 
 .. code-block:: scala
 
-   import spinal.lib.tools.HDElkDiagramGen
+   import spinal.schema.elk.HDElkDiagramGen
 
    HDElkDiagramGen(SpinalVerilog(new MyToplevel))
 
 This will create a file named ``MyToplevel.html`` in the current working directory.
+
+Setup
+-----
+
+``HDElkDiagramGen`` lives in the separate ``spinalhdl-schema-gen`` library.
+Add the following dependency to your ``build.sbt``:
+
+.. code-block:: scala
+
+   libraryDependencies += "com.github.spinalhdl" %% "spinalhdl-schema-gen" % "0.0.4"
 
 Usage
 -----
@@ -21,7 +31,7 @@ The tool accepts the ``SpinalReport`` produced by ``SpinalVerilog`` or ``SpinalV
 
 .. code-block:: scala
 
-   import spinal.lib.tools.HDElkDiagramGen
+   import spinal.schema.elk.HDElkDiagramGen
 
    // With Verilog output
    HDElkDiagramGen(SpinalVerilog(new MyToplevel))
