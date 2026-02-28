@@ -1,0 +1,8 @@
+==================
+Intermediates ones
+==================
+
+.. toctree::
+   :glob:
+
+   *

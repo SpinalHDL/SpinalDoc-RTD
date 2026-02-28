@@ -1,0 +1,10 @@
+======
+pinsec
+======
+
+.. toctree::
+   :glob:
+
+   introduction
+   *
+
