@@ -32,6 +32,7 @@ To use features introduced in followings chapter you need, in most of cases, to 
    fiber
    binarySystem
    regIf
+   packed_bundle
    Bus/index
    Com/index
    IO/index

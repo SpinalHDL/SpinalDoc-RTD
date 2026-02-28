@@ -575,6 +575,121 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
      outputCount = 3
    )
 
+StreamPipe
+^^^^^^^^^^
+
+``StreamPipe`` provides predefined stream pipeline stage styles that can be used to cut long combinatorial paths.
+You can apply them by calling the corresponding method on a ``Stream`` or by passing a ``StreamPipe`` value to functions that accept one.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 2 5
+
+   * - Value
+     - Description
+   * - ``StreamPipe.NONE``
+     - No registering; connects the stream with a combinatorial stage (``combStage``)
+   * - ``StreamPipe.M2S``
+     - Cuts the ``valid`` and ``payload`` paths with a register stage (``m2sPipe``)
+   * - ``StreamPipe.S2M``
+     - Cuts the ``ready`` path with a register stage (``s2mPipe``)
+   * - ``StreamPipe.FULL``
+     - Cuts ``valid``, ``ready``, and ``payload`` paths with register stages (``s2mPipe`` + ``m2sPipe``)
+   * - ``StreamPipe.HALF``
+     - Cuts all paths using a single register stage that halves bandwidth (``halfPipe``)
+
+.. code-block:: scala
+
+   val source = Stream(Bits(8 bits))
+   val sink   = Stream(Bits(8 bits))
+
+   // Apply a full pipeline stage
+   sink << source.pipelined(StreamPipe.FULL)
+
+   // Or pass it as a parameter to utilities that accept StreamPipe
+   val pipeType: StreamPipe = StreamPipe.M2S
+   sink << pipeType(source)
+
+StreamAccessibleFifo
+^^^^^^^^^^^^^^^^^^^^
+
+``StreamAccessibleFifo`` is a FIFO where all stored elements are accessible at any time through the ``io.states`` ports in addition to the normal ``push``/``pop`` stream interface.
+This is useful when logic needs to inspect the entire contents of the queue without consuming elements.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 2 2 5
+
+   * - Signal
+     - Type
+     - Description
+   * - ``io.push``
+     - slave Stream[T]
+     - Input stream; pushes data into the FIFO
+   * - ``io.pop``
+     - master Stream[T]
+     - Output stream; pops data from the FIFO
+   * - ``io.states``
+     - Vec(master Flow[T], length)
+     - Read-only view of each slot in the FIFO
+
+.. code-block:: scala
+
+   val input  = Stream(Bits(8 bits))
+   val output = Stream(Bits(8 bits))
+
+   // Instantiate a StreamAccessibleFifo with 4 slots
+   val fifo = StreamAccessibleFifo(input, output, length = 4)
+
+   // Access the first slot's data without consuming it
+   when(fifo.io.states(0).valid) {
+     val firstElement = fifo.io.states(0).payload
+   }
+
+StreamShiftChain
+^^^^^^^^^^^^^^^^
+
+``StreamShiftChain`` is a shift-register chain of ``length`` registered stream stages.
+Each stage is a ``m2sPipe`` of the previous one.
+The ``io.states`` ports expose all intermediate stages as ``Flow``\s so that any stage can be inspected.
+An optional ``io.clear`` input can flush all stages simultaneously.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 2 2 5
+
+   * - Signal
+     - Type
+     - Description
+   * - ``io.push``
+     - slave Stream[T]
+     - Input stream; enters the first stage of the chain
+   * - ``io.pop``
+     - master Stream[T]
+     - Output stream; exits the last stage of the chain
+   * - ``io.states``
+     - Vec(master Flow[T], length)
+     - Read-only view of each registered stage in the chain
+   * - ``io.clear``
+     - in Bool (default False)
+     - When asserted, flushes all pipeline stages
+
+.. code-block:: scala
+
+   val input  = Stream(Bits(8 bits))
+   val output = Stream(Bits(8 bits))
+
+   // Create a 3-stage shift chain
+   val chain = StreamShiftChain(input, output, length = 3)
+
+   // Read the second stage value without consuming it
+   when(chain.io.states(1).valid) {
+     val stage1Data = chain.io.states(1).payload
+   }
+
+   // Flush all stages
+   chain.io.clear := flushCondition
+
 StreamTransactionExtender
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 

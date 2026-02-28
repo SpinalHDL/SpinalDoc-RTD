@@ -90,4 +90,54 @@ Functionality
      - | Instantiate an internal register which at each cycle do :
        | reg := reg | that
        | Then when a read occur, the register is cleared. This register is readable at ``address`` and placed at ``bitOffset`` in the word
+   * - setOnSet(that,address,bitOffset)
+     - T
+     - | Set bits of ``that`` when the corresponding write bit is ``1``.
+       | Writing a ``1`` to a bit position sets that bit; writing ``0`` has no effect.
+   * - clearOnSet(that,address,bitOffset)
+     - T
+     - | Clear bits of ``that`` when the corresponding write bit is ``1``.
+       | Writing a ``1`` to a bit position clears that bit; writing ``0`` has no effect.
+   * - readAndSetOnSet(that,address,bitOffset)
+     - T
+     - Map ``that`` as readable at ``address`` and apply the ``setOnSet`` behaviour on write
+   * - readAndClearOnSet(that,address,bitOffset)
+     - T
+     - Map ``that`` as readable at ``address`` and apply the ``clearOnSet`` behaviour on write
+   * - createReadAndSetOnSet(dataType,address,bitOffset)
+     - T
+     - Create a register of ``dataType``, make it readable at ``address``, and apply the ``setOnSet`` behaviour on write
+   * - createReadAndClearOnSet(dataType,address,bitOffset)
+     - T
+     - Create a register of ``dataType``, make it readable at ``address``, and apply the ``clearOnSet`` behaviour on write
+   * - createReadMultiWord(that,address)
+     - T
+     - | Create a register initialised from ``that``, and map it as a multi-word read starting at ``address``.
+       | Extends across consecutive addresses when ``that`` is wider than one bus word.
+   * - createWriteMultiWord(that,address)
+     - T
+     - | Create a register initialised from ``that``, and map it as a multi-word write starting at ``address``.
+       | Extends across consecutive addresses when ``that`` is wider than one bus word.
+   * - createWriteAndReadMultiWord(that,address)
+     - T
+     - | Create a register initialised from ``that``, and map it as both readable and writable across multiple words starting at ``address``.
+   * - multiCycleRead(address,cycles)
+     - Unit
+     - | Insert a read latency of ``cycles`` bus clock cycles for accesses to ``address``.
+       | Useful when the read data requires more than one cycle to become available (e.g. synchronous RAM reads).
+   * - readSyncMemWordAligned(mem,addressOffset,bitOffset,memOffset)
+     - Mem[T]
+     - | Memory-map a synchronous-read ``Mem`` at ``addressOffset`` for word-aligned bus access.
+       | Each bus word corresponds to one memory word. Automatically inserts a 2-cycle read latency.
+   * - readSyncMemMultiWord(mem,addressOffset,memOffset)
+     - Mem[T]
+     - | Memory-map a synchronous-read ``Mem`` at ``addressOffset`` when each memory element spans multiple bus words.
+       | Automatically inserts a 2-cycle read latency.
+   * - writeMemWordAligned(mem,addressOffset,bitOffset,memOffset)
+     - Mem[T]
+     - Memory-map a ``Mem`` for word-aligned bus write access at ``addressOffset``. Supports byte-enable masks when available.
+   * - writeMemMultiWord(mem,addressOffset)
+     - Mem[T]
+     - | Memory-map a ``Mem`` at ``addressOffset`` for write access when each memory element spans multiple bus words.
+       | The memory element width must be a multiple of the bus data width.
 
