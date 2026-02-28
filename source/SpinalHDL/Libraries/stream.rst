@@ -181,6 +181,15 @@ Functions
        | Modify the payload of the `x` stream, while preserving the `valid` and `ready` signals
      - Stream[T2]
      - 0
+   * - | x.pipelined(pipe: StreamPipe)
+       | x.pipelined(m2s, s2m, halfRate)
+     - | Return a registered version of x cutting combinatorial paths.
+       | ``StreamPipe`` constants: ``NONE`` (no reg), ``M2S`` (cut valid/payload),
+       | ``S2M`` (cut ready), ``FULL`` (cut all), ``HALF`` (cut all, half bandwidth).
+       | Boolean flags: ``m2s`` cuts valid/payload; ``s2m`` cuts ready;
+       | ``halfRate`` cuts all paths at half bandwidth (exclusive with the others).
+     - Stream[T]
+     - varies
 
 
 The following code will create this logic :
@@ -575,72 +584,6 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
      outputCount = 3
    )
 
-pipelined
-^^^^^^^^^
-
-``stream.pipelined(...)`` returns a registered version of ``stream``, cutting combinatorial paths to help timing closure.
-It has two call styles:
-
-**Using a** ``StreamPipe`` **constant** (``StreamPipe`` is a trait; ``object StreamPipe`` provides the named instances):
-
-.. list-table::
-   :header-rows: 1
-   :widths: 2 5
-
-   * - ``StreamPipe`` value
-     - Description
-   * - ``StreamPipe.NONE``
-     - No registering; equivalent to ``stream.combStage()``
-   * - ``StreamPipe.M2S``
-     - Cuts the ``valid`` and ``payload`` paths through a register (``m2sPipe``)
-   * - ``StreamPipe.S2M``
-     - Cuts the ``ready`` path through a register (``s2mPipe``)
-   * - ``StreamPipe.FULL``
-     - Cuts ``valid``, ``ready``, and ``payload`` paths through registers (``s2mPipe`` + ``m2sPipe``)
-   * - ``StreamPipe.HALF``
-     - Cuts all paths using one register stage that halves bandwidth (``halfPipe``)
-
-**Using boolean flags** ``pipelined(m2s, s2m, halfRate)``\:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 1 1 1 4
-
-   * - ``m2s``
-     - ``s2m``
-     - ``halfRate``
-     - Equivalent ``StreamPipe``
-   * - ``false``
-     - ``false``
-     - ``false``
-     - ``StreamPipe.NONE``
-   * - ``true``
-     - ``false``
-     - ``false``
-     - ``StreamPipe.M2S``
-   * - ``false``
-     - ``true``
-     - ``false``
-     - ``StreamPipe.S2M``
-   * - ``true``
-     - ``true``
-     - ``false``
-     - ``StreamPipe.FULL``
-   * - ``false``
-     - ``false``
-     - ``true``
-     - ``StreamPipe.HALF``
-
-.. code-block:: scala
-
-   val source = Stream(Bits(8 bits))
-   val sink   = Stream(Bits(8 bits))
-
-   // Using a StreamPipe constant
-   sink << source.pipelined(StreamPipe.FULL)
-
-   // Using boolean flags (equivalent to StreamPipe.FULL)
-   sink << source.pipelined(m2s = true, s2m = true)
 
 StreamTransactionExtender
 ^^^^^^^^^^^^^^^^^^^^^^^^^
