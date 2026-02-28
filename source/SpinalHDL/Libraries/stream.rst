@@ -578,37 +578,38 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
 StreamPipe
 ^^^^^^^^^^
 
-``StreamPipe`` provides predefined stream pipeline stage styles that can be used to cut long combinatorial paths.
-You can apply them by calling the corresponding method on a ``Stream`` or by passing a ``StreamPipe`` value to functions that accept one.
+``StreamPipe`` is a trait that defines a single ``apply(stream)`` method returning a pipelined version of the stream.
+``object StreamPipe`` provides named singleton instances that act as pipeline-style selectors.
+The primary usage is to pass a ``StreamPipe`` value to ``stream.pipelined()`` or to any utility function that accepts one.
 
 .. list-table::
    :header-rows: 1
    :widths: 2 5
 
-   * - Value
+   * - Instance
      - Description
    * - ``StreamPipe.NONE``
-     - No registering; connects the stream with a combinatorial stage (``combStage``)
+     - No registering; equivalent to ``stream.combStage()``
    * - ``StreamPipe.M2S``
-     - Cuts the ``valid`` and ``payload`` paths with a register stage (``m2sPipe``)
+     - Cuts the ``valid`` and ``payload`` paths through a register (``m2sPipe``)
    * - ``StreamPipe.S2M``
-     - Cuts the ``ready`` path with a register stage (``s2mPipe``)
+     - Cuts the ``ready`` path through a register (``s2mPipe``)
    * - ``StreamPipe.FULL``
-     - Cuts ``valid``, ``ready``, and ``payload`` paths with register stages (``s2mPipe`` + ``m2sPipe``)
+     - Cuts ``valid``, ``ready``, and ``payload`` paths through registers (``s2mPipe`` + ``m2sPipe``)
    * - ``StreamPipe.HALF``
-     - Cuts all paths using a single register stage that halves bandwidth (``halfPipe``)
+     - Cuts all paths using one register stage that halves bandwidth (``halfPipe``)
 
 .. code-block:: scala
 
    val source = Stream(Bits(8 bits))
    val sink   = Stream(Bits(8 bits))
 
-   // Apply a full pipeline stage
+   // Pass as a pipeline-style selector
    sink << source.pipelined(StreamPipe.FULL)
 
-   // Or pass it as a parameter to utilities that accept StreamPipe
-   val pipeType: StreamPipe = StreamPipe.M2S
-   sink << pipeType(source)
+   // Or call the instance directly — each StreamPipe instance is callable
+   val pipe: StreamPipe = StreamPipe.M2S
+   sink << pipe(source)
 
 StreamTransactionExtender
 ^^^^^^^^^^^^^^^^^^^^^^^^^
