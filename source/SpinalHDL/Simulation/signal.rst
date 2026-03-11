@@ -159,3 +159,48 @@ And can write to memory like so:
 
 Care has to be taken that due to event ordering in simulation e.g. the read depicted above has to be delayed
 to when the value is actually available in the memory.
+
+Watching uninitialized input signals
+--------------------------------------
+
+During simulation it can be easy to forget to drive (assign) one or more input signals of the DUT, which
+may lead to incorrect simulation results without any obvious error message. SpinalHDL provides an API to
+register input signals as "watched" and then check after reset whether all of them have been assigned.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 3 5
+
+   * - Syntax
+     - Description
+   * - ``addInputsAssignmentWatch(dut)``
+     - Register all input signals of the given ``Module`` as watched
+   * - ``addWatchedSignals(signals)``
+     - Register an explicit ``Seq[BaseType]`` of signals as watched
+   * - ``checkInputsAssignmentAfterReset(cd, stopOnFail)``
+     - After each sampling of ``ClockDomain`` ``cd``, emit a warning for every watched signal that
+       has not yet been assigned. If ``stopOnFail`` is ``true``, the simulation is terminated with
+       ``simFailure`` when any unassigned signal is detected (default: ``false``)
+   * - ``checkWatchedSignalAssigned()``
+     - Immediately returns the names of all watched signals that have not been assigned yet
+
+.. code-block:: scala
+
+   import spinal.core._
+   import spinal.core.sim._
+
+   SimConfig.compile(new MyTopLevel).doSim { dut =>
+     // Mark every input port of the DUT as watched
+     addInputsAssignmentWatch(dut)
+
+     dut.clockDomain.forkStimulus(10)
+
+     // After each clock sample, warn about (and optionally fail on) undriven inputs
+     checkInputsAssignmentAfterReset(dut.clockDomain, stopOnFail = false)
+
+     // Drive all inputs – if this line is commented out, a warning will be printed
+     dut.io.enable #= false
+
+     dut.clockDomain.waitSampling(100)
+     simSuccess()
+   }
