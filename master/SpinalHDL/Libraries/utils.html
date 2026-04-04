@@ -641,6 +641,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#resetctrl">ResetCtrl</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#logic-simplification-utilities">Logic simplification utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#masked"><cite>Masked</cite></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#decodingspec"><cite>DecodingSpec</cite></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#special-utilities">Special utilities</a></li>
 </ul>
 </li>
@@ -1569,6 +1574,56 @@
 </section>
 </section>
 </section>
+<section id="logic-simplification-utilities">
+<h2>Logic simplification utilities<a class="headerlink" href="#logic-simplification-utilities" title="Permalink to this heading"></a></h2>
+<p><cite>DecodingSpec</cite> with <cite>Masked</cite> provide a minimal Boolean simplification and decode-table
+utility using the <a class="reference external" href="https://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm">Quine–McCluskey algorithm</a>.</p>
+<p>Provides masked pattern matching, Quine–McCluskey style logic reduction,
+and a high-level decode-table builder.</p>
+<section id="masked">
+<h3><cite>Masked</cite><a class="headerlink" href="#masked" title="Permalink to this heading"></a></h3>
+<p>Represents a bit pattern with care (significant) and don’t-care bits.
+- <cite>value</cite> = bit values
+- <cite>care</cite> = which bits must match (1 = match, 0 = don’t care)</p>
+<p>Example:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="nc">Masked</span><span class="p">(</span><span class="mi">0010</span><span class="p">),</span><span class="w"></span>
+<span class="nc">Masked</span><span class="p">(</span><span class="mi">11</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"></span>
+<span class="nc">Masked</span><span class="p">(</span><span class="mi">1</span><span class="o">--</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>e.g RISC-V instructions:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nc">ADD</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">M</span><span class="s">&quot;0000000----------000-----0110011&quot;</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="nc">ADDI</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nc">M</span><span class="s">&quot;-----------------000-----0010011&quot;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Used to define instruction encodings for decode tables.</p>
+</section>
+<section id="decodingspec">
+<h3><cite>DecodingSpec</cite><a class="headerlink" href="#decodingspec" title="Permalink to this heading"></a></h3>
+<p>High-level builder for decode tables using <cite>Masked</cite> patterns.</p>
+<dl class="simple">
+<dt>Methods:</dt><dd><ul class="simple">
+<li><p><cite>addNeeds(key : Masked, value : Masked)</cite></p></li>
+<li><p><cite>addNeeds(keys : Seq[Masked], value : Masked)</cite></p></li>
+<li><p><cite>build(sel, coverAll)</cite></p></li>
+<li><p><cite>setDefault(value : Masked)</cite></p></li>
+</ul>
+</dd>
+</dl>
+<p>This generate simplified decode logic.</p>
+<p>Example:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">spec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">DecodingSpec</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
+<span class="n">spec</span><span class="p">.</span><span class="n">setDefault</span><span class="p">(</span><span class="nc">Masked</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;0011&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="n">spec</span><span class="p">.</span><span class="n">addNeeds</span><span class="p">(</span><span class="nc">Masked</span><span class="p">(</span><span class="nc">B</span><span class="s">&quot;000&quot;</span><span class="p">),</span><span class="w"> </span><span class="nc">Masked</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;1000&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="n">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">spec</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span><span class="w"> </span><span class="n">allPatterns</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Generates minimized combinational decode logic.</p>
+<p>The practical use is to define bit patterns as <cite>Masked</cite> and feed them into
+<cite>DecodingSpec</cite> to build compact decode logic (e.g., RISC-V). The output hardware
+is then minimized (fewer LUTs / simpler gates).</p>
+</section>
+</section>
 <section id="special-utilities">
 <h2>Special utilities<a class="headerlink" href="#special-utilities" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
@@ -1626,7 +1681,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~33ca98ec74 2026-04-04
+    Version: master git~181a130eac 2026-04-04
     </p></div>
     
 
