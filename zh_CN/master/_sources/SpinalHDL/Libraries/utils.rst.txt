@@ -123,13 +123,15 @@ The Counter tool can be used to easily instantiate a hardware counter.
    * - Instantiation syntax
      - Notes
    * - ``Counter(start: BigInt, end: BigInt[, inc : Bool])``
-     - 
+     -
    * - ``Counter(range : Range[, inc : Bool])``
      - Compatible with the  ``x to y`` ``x until y`` syntaxes
    * - ``Counter(stateCount: BigInt[, inc : Bool])``
      - Starts at zero and ends at ``stateCount - 1``
    * - ``Counter(bitCount: BitCount[, inc : Bool])``
      - Starts at zero and ends at ``(1 << bitCount) - 1``
+   * - ``Counter(time: TimeNumber[, inc : Bool])``
+     - Starts at zero and ends after ``time`` clocks
 
 A counter can be controlled by methods, and signals can be read:
 
