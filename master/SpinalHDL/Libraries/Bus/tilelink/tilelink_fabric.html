@@ -1275,12 +1275,12 @@
 <section id="example-toplevel">
 <h2>Example Toplevel<a class="headerlink" href="#example-toplevel" title="Permalink to this heading"></a></h2>
 <p>Here is an example of a simple fictive SoC toplevel :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">CpuFiber</span><span class="p">()</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">CpuFiber</span><span class="p">(</span><span class="n">bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x200</span><span class="p">)</span><span class="w"></span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">RamFiber</span><span class="p">()</span><span class="w"></span>
 
 <span class="c1">// Map the ram at [0x10000-0x101FF], the ram will infer its own size from it.</span>
-<span class="n">ram</span><span class="p">.</span><span class="n">up</span><span class="w"> </span><span class="n">at</span><span class="p">(</span><span class="mh">0x10000</span><span class="p">,</span><span class="w"> </span><span class="mh">0x200</span><span class="p">)</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">cpu</span><span class="p">.</span><span class="n">down</span><span class="w"></span>
+<span class="n">ram</span><span class="p">.</span><span class="n">up</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mh">0x10000</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">cpu</span><span class="p">.</span><span class="n">down</span><span class="w"></span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">gpio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">GpioFiber</span><span class="p">()</span><span class="w"></span>
 
@@ -1291,8 +1291,8 @@
 <p>You can also define intermediate nodes in the interconnect as following :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">cpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">CpuFiber</span><span class="p">()</span><span class="w"></span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">RamFiber</span><span class="p">()</span><span class="w"></span>
-<span class="n">ram</span><span class="p">.</span><span class="n">up</span><span class="w"> </span><span class="n">at</span><span class="p">(</span><span class="mh">0x10000</span><span class="p">,</span><span class="w"> </span><span class="mh">0x200</span><span class="p">)</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">cpu</span><span class="p">.</span><span class="n">down</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">RamFiber</span><span class="p">(</span><span class="n">bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x200</span><span class="p">)</span><span class="w"></span>
+<span class="n">ram</span><span class="p">.</span><span class="n">up</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mh">0x10000</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">cpu</span><span class="p">.</span><span class="n">down</span><span class="w"></span>
 
 <span class="c1">// Create a peripherals namespace to keep things clean.</span>
 <span class="kd">val</span><span class="w"> </span><span class="n">peripherals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1357,27 +1357,22 @@
 <section id="example-ramfiber">
 <h2>Example RamFiber<a class="headerlink" href="#example-ramfiber" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">RamFiber</span></code> is the integration layer of a regular tilelink Ram component.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">bus</span><span class="p">.</span><span class="n">tilelink</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nn">fiber</span><span class="p">.</span><span class="nc">Fiber</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">RamFiber</span><span class="p">()</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tilelink</span><span class="p">.</span><span class="n">fabric</span><span class="p">.</span><span class="nc">Node</span><span class="p">.</span><span class="n">up</span><span class="p">()</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">RamFiber</span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Node</span><span class="p">.</span><span class="n">up</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">thread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Fiber</span><span class="w"> </span><span class="n">build</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// Here the supported parameters are function of what the master would like us to</span>
-<span class="w">    </span><span class="c1">// ideally support. The tilelink.Ram support all addressWidth / dataWidth /</span>
-<span class="w">    </span><span class="c1">// burst length / get / put accesses but doesn&#39;t support atomic / coherency.</span>
-<span class="w">    </span><span class="c1">// So we take what is proposed to use and restrict it to all sorts of</span>
-<span class="w">    </span><span class="c1">// get / put request.</span>
-<span class="w">    </span><span class="n">up</span><span class="p">.</span><span class="n">m2s</span><span class="p">.</span><span class="n">supported</span><span class="w"> </span><span class="n">load</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">m2s</span><span class="p">.</span><span class="n">proposed</span><span class="p">.</span><span class="n">intersect</span><span class="p">(</span><span class="nc">M2sTransfers</span><span class="p">.</span><span class="n">allGetPut</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// Here the supported parameters are function of what the master would</span>
+<span class="w">    </span><span class="c1">// like us to ideally support.</span>
+<span class="w">    </span><span class="c1">// The tilelink.Ram support all addressWidth / dataWidth / burst length</span>
+<span class="w">    </span><span class="c1">// get / put accesses but doesn&#39;t support atomic / coherency. So we</span>
+<span class="w">    </span><span class="c1">// take what is proposed to use and restrict it to all sorts of get / put</span>
+<span class="w">    </span><span class="c1">// request.</span>
+<span class="w">    </span><span class="n">up</span><span class="p">.</span><span class="n">m2s</span><span class="p">.</span><span class="n">supported</span><span class="w"> </span><span class="n">load</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">m2s</span><span class="p">.</span><span class="n">proposed</span><span class="p">.</span><span class="n">intersect</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="nc">M2sTransfers</span><span class="p">.</span><span class="n">allGetPut</span><span class="p">).</span><span class="n">copy</span><span class="p">(</span><span class="n">addressWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log2Up</span><span class="p">(</span><span class="n">bytes</span><span class="p">))</span><span class="w"></span>
 <span class="w">    </span><span class="n">up</span><span class="p">.</span><span class="n">s2m</span><span class="p">.</span><span class="n">none</span><span class="p">()</span><span class="w"></span>
 
-<span class="w">    </span><span class="c1">// Here we infer how many bytes our ram need to be, by looking at the memory</span>
-<span class="w">    </span><span class="c1">// mapping of the connected masters.</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">ups</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="w"></span>
-<span class="w">      </span><span class="n">e</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">mapping</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="n">highestBound</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">mapping</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="n">lowerBound</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="n">max</span><span class="p">.</span><span class="n">toInt</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Then we finally generate the regular hardware</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">logic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">tilelink</span><span class="p">.</span><span class="nc">Ram</span><span class="p">(</span><span class="n">up</span><span class="p">.</span><span class="n">bus</span><span class="p">.</span><span class="n">p</span><span class="p">.</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">bytes</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// Then we finally generate the regular hardware.</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">logic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Ram</span><span class="p">(</span><span class="n">up</span><span class="p">.</span><span class="n">bus</span><span class="p">.</span><span class="n">p</span><span class="p">.</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">toInt</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">logic</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">up</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">bus</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -1495,14 +1490,14 @@ To allow a master to identify what memory access it is allowed to do, you can us
   <span class="o">//</span> <span class="n">Side</span> <span class="n">toward</span> <span class="n">the</span> <span class="n">slaves</span> <span class="n">of</span> <span class="n">the</span> <span class="n">system</span>
   <span class="k">def</span> <span class="nf">down</span> <span class="p">:</span> <span class="n">Nameable</span> <span class="k">with</span> <span class="n">SpinalTagReady</span>
 
-  <span class="o">//</span> <span class="n">Specify</span> <span class="n">the</span> <span class="n">memory</span> <span class="n">mapping</span> <span class="n">of</span> <span class="n">the</span> <span class="n">slave</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">master</span> <span class="n">address</span> <span class="p">(</span><span class="n">before</span> <span class="n">transformers</span> <span class="n">are</span> <span class="n">applied</span><span class="p">)</span>
-  <span class="k">def</span> <span class="nf">mapping</span> <span class="p">:</span> <span class="n">AddressMapping</span>
-
   <span class="o">//</span> <span class="n">List</span> <span class="n">of</span> <span class="n">alteration</span> <span class="n">done</span> <span class="n">to</span> <span class="n">the</span> <span class="n">address</span> <span class="n">on</span> <span class="n">this</span> <span class="n">connection</span> <span class="p">(</span><span class="n">ex</span> <span class="n">offset</span><span class="p">,</span> <span class="n">interleaving</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
   <span class="k">def</span> <span class="nf">transformers</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AddressTransformer</span><span class="p">]</span>
 
   <span class="o">//</span> <span class="n">Convert</span> <span class="n">the</span> <span class="n">slave</span> <span class="n">MemoryTransfers</span> <span class="n">capabilities</span> <span class="n">into</span> <span class="n">the</span> <span class="n">master</span> <span class="n">ones</span>
   <span class="k">def</span> <span class="nf">sToM</span><span class="p">(</span><span class="n">downs</span> <span class="p">:</span> <span class="n">MemoryTransfers</span><span class="p">,</span> <span class="n">args</span> <span class="p">:</span> <span class="n">MappedNode</span><span class="p">)</span> <span class="p">:</span> <span class="n">MemoryTransfers</span> <span class="o">=</span> <span class="n">downs</span>
+
+  <span class="o">//</span> <span class="n">Convert</span> <span class="n">the</span> <span class="n">slave</span> <span class="n">MemoryMapping</span> <span class="n">capabilities</span> <span class="n">into</span> <span class="n">the</span> <span class="n">master</span> <span class="n">ones</span>
+  <span class="k">def</span> <span class="nf">sToM</span><span class="p">(</span><span class="n">down</span> <span class="p">:</span> <span class="n">AddressMapping</span><span class="p">)</span> <span class="p">:</span> <span class="n">AddressMapping</span> <span class="o">=</span> <span class="n">down</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1517,10 +1512,9 @@ To allow a master to identify what memory access it is allowed to do, you can us
 
   <span class="o">//</span> <span class="n">Populate</span> <span class="n">the</span> <span class="n">MemoryConnection</span> <span class="n">graph</span><span class="o">.</span>
   <span class="n">new</span> <span class="n">MemoryConnection</span> <span class="p">{</span>
-    <span class="n">override</span> <span class="k">def</span> <span class="nf">up</span> <span class="o">=</span> <span class="n">up</span>
-    <span class="n">override</span> <span class="k">def</span> <span class="nf">down</span> <span class="o">=</span> <span class="n">down</span>
+    <span class="n">override</span> <span class="k">def</span> <span class="nf">up</span> <span class="o">=</span> <span class="n">WidthAdapterFiber</span><span class="o">.</span><span class="n">this</span><span class="o">.</span><span class="n">up</span>
+    <span class="n">override</span> <span class="k">def</span> <span class="nf">down</span> <span class="o">=</span> <span class="n">WidthAdapterFiber</span><span class="o">.</span><span class="n">this</span><span class="o">.</span><span class="n">down</span>
     <span class="n">override</span> <span class="k">def</span> <span class="nf">transformers</span> <span class="o">=</span> <span class="n">Nil</span>
-    <span class="n">override</span> <span class="k">def</span> <span class="nf">mapping</span> <span class="o">=</span> <span class="n">SizeMapping</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">WidthAdapterFiber</span><span class="o">.</span><span class="n">this</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">m2s</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">addressWidth</span><span class="p">)</span>
     <span class="n">populate</span><span class="p">()</span>
   <span class="p">}</span>
 
@@ -1583,7 +1577,7 @@ To allow a master to identify what memory access it is allowed to do, you can us
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~c5452ecde4 2026-04-04
+    Version: master git~33ca98ec74 2026-04-04
     </p></div>
     
 

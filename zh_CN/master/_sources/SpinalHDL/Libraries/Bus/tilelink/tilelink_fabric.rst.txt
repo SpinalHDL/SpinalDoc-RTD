@@ -35,12 +35,12 @@ Here is an example of a simple fictive SoC toplevel :
 
 .. code-block:: scala
 
-      val cpu = new CpuFiber()
+      val cpu = new CpuFiber(bytes = 0x200)
 
       val ram = new RamFiber()
       
       // Map the ram at [0x10000-0x101FF], the ram will infer its own size from it.
-      ram.up at(0x10000, 0x200) of cpu.down 
+      ram.up at 0x10000 of cpu.down 
 
       val gpio = new GpioFiber()
 
@@ -53,8 +53,8 @@ You can also define intermediate nodes in the interconnect as following :
 
       val cpu = new CpuFiber()
 
-      val ram = new RamFiber()
-      ram.up at(0x10000, 0x200) of cpu.down
+      val ram = new RamFiber(bytes = 0x200)
+      ram.up at 0x10000 of cpu.down
         
       // Create a peripherals namespace to keep things clean.
       val peripherals = new Area {
@@ -125,27 +125,22 @@ Example RamFiber
 
 .. code-block:: scala
 
-    import spinal.lib.bus.tilelink
-    import spinal.core.fiber.Fiber
-    class RamFiber() extends Area {
-      val up = tilelink.fabric.Node.up()
+    class RamFiber(var bytes : BigInt) extends Area {
+      val up = Node.up()
 
       val thread = Fiber build new Area {
-        // Here the supported parameters are function of what the master would like us to 
-        // ideally support. The tilelink.Ram support all addressWidth / dataWidth / 
-        // burst length / get / put accesses but doesn't support atomic / coherency.
-        // So we take what is proposed to use and restrict it to all sorts of 
-        // get / put request.
-        up.m2s.supported load up.m2s.proposed.intersect(M2sTransfers.allGetPut)
+        // Here the supported parameters are function of what the master would 
+        // like us to ideally support.
+        // The tilelink.Ram support all addressWidth / dataWidth / burst length 
+        // get / put accesses but doesn't support atomic / coherency. So we 
+        // take what is proposed to use and restrict it to all sorts of get / put
+        // request.
+        up.m2s.supported load up.m2s.proposed.intersect(
+          M2sTransfers.allGetPut).copy(addressWidth = log2Up(bytes))
         up.s2m.none()
 
-        // Here we infer how many bytes our ram need to be, by looking at the memory
-        // mapping of the connected masters.
-        val bytes = up.ups.map(
-          e => e.mapping.value.highestBound - e.mapping.value.lowerBound + 1).max.toInt
-        
-        // Then we finally generate the regular hardware
-        val logic = new tilelink.Ram(up.bus.p.node, bytes)
+        // Then we finally generate the regular hardware.
+        val logic = new Ram(up.bus.p.node, bytes toInt)
         logic.io.up << up.bus
       }
     }
@@ -275,16 +270,16 @@ The getMemoryTransfers utility rely on a dedicated SpinalTag :
       def up : Nameable with SpinalTagReady
 
       // Side toward the slaves of the system
-      def down : Nameable with SpinalTagReady 
-      
-      // Specify the memory mapping of the slave from the master address (before transformers are applied)
-      def mapping : AddressMapping 
-      
+      def down : Nameable with SpinalTagReady
+
       // List of alteration done to the address on this connection (ex offset, interleaving, ...)
-      def transformers : List[AddressTransformer]  
+      def transformers : List[AddressTransformer]
 
       // Convert the slave MemoryTransfers capabilities into the master ones
       def sToM(downs : MemoryTransfers, args : MappedNode) : MemoryTransfers = downs 
+
+      // Convert the slave MemoryMapping capabilities into the master ones
+      def sToM(down : AddressMapping) : AddressMapping = down 
     }
 
 That SpinalTag can be used applied to both ends of a given memory bus connection to keep this connection discoverable at elaboration time, creating a graph of MemoryConnection. One good thing about it is that is is bus agnostic, meaning it isn't tilelink specific.
@@ -303,10 +298,9 @@ The width adapter is a simple example of bridge.
 
       // Populate the MemoryConnection graph.
       new MemoryConnection {
-        override def up = up
-        override def down = down
+        override def up = WidthAdapterFiber.this.up
+        override def down = WidthAdapterFiber.this.down
         override def transformers = Nil
-        override def mapping = SizeMapping(0, BigInt(1) << WidthAdapterFiber.this.up.m2s.parameters.addressWidth)
         populate()
       }
 
