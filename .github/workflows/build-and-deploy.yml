@@ -61,7 +61,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0   ## all branches all tags
 
@@ -278,7 +278,7 @@ jobs:
         cat $GITHUB_ENV
 
     - name: Setup python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: 3.12
 
@@ -309,7 +309,7 @@ jobs:
 
         pip install -r requirements.txt
 
-    - uses: ammaraskar/sphinx-problem-matcher@master
+    - uses: ammaraskar/sphinx-problem-matcher@v1
 
     - name: make linkcheck - check links
       if: ${{ env.SKIP_LINKCHECK != 'true' }}
@@ -521,14 +521,14 @@ jobs:
         sha1sum dist/gh-pages.tar.gz
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: sphinx-docs
         path: dist/gh-pages.tar.gz
 
     - name: Upload github-pages
       if: ${{ env.DEPLOY_ENV_TEST == 'true' || env.DEPLOY_ENV_LIVE == 'true' }}
-      uses: actions/upload-pages-artifact@main
+      uses: actions/upload-pages-artifact@v5
       with:
         name: github-pages
         path: dist/gh-pages
@@ -573,7 +573,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         if: ${{ env.DEPLOY_ENV_TEST == 'true' || env.DEPLOY_ENV_LIVE == 'true' }}
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v5
 
       - name: Summary
         run: |
