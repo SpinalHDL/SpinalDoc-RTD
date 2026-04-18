@@ -1270,7 +1270,18 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forkStimulus(period)</span></code></p></td>
-<td><p>分裂一个仿真进程以生成时钟域激励（时钟、复位、softReset、clockEnable 信号）</p></td>
+<td><p>Fork a simulation process to generate the ClockDomain stimulus (clock,
+reset, softReset, clockEnable signals). The reset duration is 16 clock periods.
+The <code class="docutils literal notranslate"><span class="pre">period</span></code> is given as a number of simulation time units. An odd
+<code class="docutils literal notranslate"><span class="pre">period</span></code> will be truncated by one to have a symmetrical clock.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forkStimulus(period,</span> <span class="pre">sleepDuration</span> <span class="pre">[,</span> <span class="pre">resetCycles])</span></code></p></td>
+<td><p>Similar to <code class="docutils literal notranslate"><span class="pre">forkStimulus(period)</span></code> but wait <code class="docutils literal notranslate"><span class="pre">sleepDuration</span></code> clock cycles
+after the reset is done and allows to specify <code class="docutils literal notranslate"><span class="pre">resetCycles</span></code> (default 16 cycles)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forkStimulus()</span></code></p></td>
+<td><p>Similar to <code class="docutils literal notranslate"><span class="pre">forkStimulus(period)</span></code> but the period is computed from the
+<code class="docutils literal notranslate"><span class="pre">frequency</span></code> field of the clock domain</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forkSimSpeedPrinter(printPeriod)</span></code></p></td>
 <td><p>分裂一个仿真进程，该进程将定期打印每秒实时千周期的仿真速度。 <code class="docutils literal notranslate"><span class="pre">printPeriod</span></code> 是实时计数的秒数</p></td>
@@ -1461,7 +1472,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~181a130eac 2026-04-04
+    Version: master git~4d96e53d8e 2026-04-18
     </p></div>
     
 
