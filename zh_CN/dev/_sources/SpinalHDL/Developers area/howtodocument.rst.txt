@@ -6,7 +6,7 @@ I opted to create a structure that resample the various section of the documenta
 this is not strictly necessary, but for clarity sake, highly encourage.
 
 This documentation uses a recursive index tree: every folder have a special ``index.rst`` files
-that tell sphinx witch file, and in what order put it in the documentation tree.
+that tell sphinx which file, and in what order to put it in the documentation tree.
 
 Title convention
 ----------------

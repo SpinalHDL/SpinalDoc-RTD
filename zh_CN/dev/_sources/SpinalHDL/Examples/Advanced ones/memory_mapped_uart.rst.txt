@@ -1,6 +1,3 @@
-.. role:: raw-html-m2r(raw)
-   :format: html
-
 .. _memory_mapped_uart:
 
 Memory mapped UART
@@ -62,56 +59,20 @@ For this implementation, the Apb3SlaveFactory tool will be used. It allows you t
 
 First, we just need to define the ``Apb3Config`` that will be used for the controller. It is defined in a Scala object as a function to be able to get it from everywhere.
 
-.. code-block:: scala
-
-   object Apb3UartCtrl{
-     def getApb3Config = Apb3Config(
-       addressWidth = 4,
-       dataWidth    = 32
-     )
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/advanced/MemoryMappedUart.scala
+   :language: scala
+   :start-at: object Apb3UartCtrl
+   :end-before: // end object Apb3UartCtrl
 
 Then we can define a ``Apb3UartCtrl`` component which instantiates a ``UartCtrl`` and creates the memory mapping logic between it and the APB3 bus:
 
 .. image:: /asset/picture/memory_mapped_uart.svg
    :align: center
 
-.. code-block:: scala
-
-   class Apb3UartCtrl(uartCtrlConfig : UartCtrlGenerics, rxFifoDepth : Int) extends Component{
-     val io = new Bundle{
-       val bus =  slave(Apb3(Apb3UartCtrl.getApb3Config))
-       val uart = master(Uart())
-     }
-
-     // Instanciate an simple uart controller
-     val uartCtrl = new UartCtrl(uartCtrlConfig)
-     io.uart <> uartCtrl.io.uart
-
-     // Create an instance of the Apb3SlaveFactory that will then be used as a slave factory drived by io.bus
-     val busCtrl = Apb3SlaveFactory(io.bus)
-
-     // Ask the busCtrl to create a readable/writable register at the address 0
-     // and drive uartCtrl.io.config.clockDivider with this register
-     busCtrl.driveAndRead(uartCtrl.io.config.clockDivider,address = 0)
-
-     // Do the same thing than above but for uartCtrl.io.config.frame at the address 4
-     busCtrl.driveAndRead(uartCtrl.io.config.frame,address = 4)
-
-     // Ask the busCtrl to create a writable Flow[Bits] (valid/payload) at the address 8.
-     // Then convert it into a stream and connect it to the uartCtrl.io.write by using an register stage (>->)
-     busCtrl.createAndDriveFlow(Bits(uartCtrlConfig.dataWidthMax bits),address = 8).toStream >-> uartCtrl.io.write
-
-     // To avoid losing writes commands between the Flow to Stream transformation just above,
-     // make the occupancy of the uartCtrl.io.write readable at address 8
-     busCtrl.read(uartCtrl.io.write.valid,address = 8)
-
-     // Take uartCtrl.io.read, convert it into a Stream, then connect it to the input of a FIFO of 64 elements
-     // Then make the output of the FIFO readable at the address 12 by using a non blocking protocol
-     // (Bit 7 downto 0 => read data <br> Bit 31 => read data valid )
-     busCtrl.readStreamNonBlocking(uartCtrl.io.read.toStream.queue(rxFifoDepth),
-                                   address = 12, validBitOffset = 31, payloadBitOffset = 0)
-   }
+.. literalinclude:: /../examples/src/main/scala/spinaldoc/examples/advanced/MemoryMappedUart.scala
+   :language: scala
+   :start-at: case class Apb3UartCtrl(
+   :end-before: // end case class Apb3UartCtrl
 
 .. important::
    | Yes, that's all it takes. It's also synthesizable. 

@@ -1,7 +1,7 @@
 .. _sim_sensitive_api:
 
 Sensitive API
-==========================================
+=============
 
 You can register callback functions to be called on each delta-cycle of the simulation:
 

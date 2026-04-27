@@ -1,6 +1,6 @@
 
 Width mismatch
-===============
+==============
 
 Introduction
 ------------

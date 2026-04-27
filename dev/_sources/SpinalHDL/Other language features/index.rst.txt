@@ -2,24 +2,6 @@
 Other language features
 =======================
 
-.. toctree::
-   :hidden:
-
-   utils
-   stub
-   assertion
-   report
-   scope_property
-   analog_inout
-   vhdl_generation
-
-
-Introduction
-============
-
-Introduction
-------------
-
 The core of the language defines the syntax for many features:
 
 * Types / Literals
@@ -36,3 +18,14 @@ It's one of the major advantages of SpinalHDL over other commonly used HDLs, bec
 One good example of this is the :ref:`SpinalHDL lib <lib_introduction>` which adds many utilities, tools, buses, and methodologies.
 
 To use features introduced in the following chapter you need to ``import spinal.core._`` in your sources.
+
+.. toctree::
+   :hidden:
+
+   utils
+   stub
+   assertion
+   report
+   scope_property
+   analog_inout
+   vhdl_generation

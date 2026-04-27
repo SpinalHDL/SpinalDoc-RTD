@@ -9,11 +9,11 @@ You can use an Rgb bundle to model colors in hardware. This Rgb bundle take as p
 
 .. code-block:: scala
 
-   case class RgbConfig(rWidth : Int,gWidth : Int,bWidth : Int){
+   case class RgbConfig(rWidth : Int,gWidth : Int,bWidth : Int) {
      def getWidth = rWidth + gWidth + bWidth
    }
 
-   case class Rgb(c: RgbConfig) extends Bundle{
+   case class Rgb(c: RgbConfig) extends Bundle {
      val r = UInt(c.rWidth bits)
      val g = UInt(c.gWidth bits)
      val b = UInt(c.bWidth bits)

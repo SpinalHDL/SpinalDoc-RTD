@@ -1,11 +1,12 @@
 
-Io bundle
+IO bundle
 =========
 
 Introduction
 ------------
 
 SpinalHDL will check that each ``io`` bundle contains only in/out/inout signals.
+Other kinds of signals are called directionless signals.
 
 Example
 -------
@@ -35,7 +36,7 @@ A fix could be:
 
    class TopLevel extends Component {
      val io = new Bundle {
-       val a = in UInt(8 bits)
+       val a = in UInt(8 bits)  // provide 'in' direction declaration
      }
    }
 

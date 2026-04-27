@@ -2,9 +2,6 @@
 UART
 ====
 
-Introduction
-------------
-
 The UART protocol could be used, for instance, to emit and receive RS232 / RS485 frames.
 
 There is an example of an 8 bits frame, with no parity and one stop bit :

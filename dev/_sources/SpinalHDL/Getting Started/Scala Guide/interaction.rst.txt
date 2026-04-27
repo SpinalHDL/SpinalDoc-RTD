@@ -32,7 +32,14 @@ Hardware data types in SpinalHDL are the combination of two things:
 * An instance of a given Scala type
 * The configuration of that instance
 
-For example ``Bits(8 bits)`` is the combination of the Scala type ``Bits`` and its ``8 bits`` configuration (as a construction parameter).
+For example ``Bits(8 bits)`` is the combination of the Scala type ``Bits`` and its ``8 bits`` configuration (as a construction parameter). 
+
+.. note:
+
+   The ``8 bits`` expression is converted by Scala into ``BitCount(8)`` and the BitCount object passed as the
+   constructor argument, this a kind of syntactic sugar provided by Scala that
+   enhances type-safety by being more expressive.  This would be an example of
+   why SpinalHDL might look like a whole new language.
 
 RGB example
 ^^^^^^^^^^^

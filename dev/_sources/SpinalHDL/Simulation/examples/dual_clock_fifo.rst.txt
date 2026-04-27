@@ -17,7 +17,6 @@ The FIFO pop thread handles checking the the :abbr:`DUT (Device Under Test)`'s o
 
 .. code-block:: scala
 
-   import spinal.sim._
    import spinal.core._
    import spinal.core.sim._
 

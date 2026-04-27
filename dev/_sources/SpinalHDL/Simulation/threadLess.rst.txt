@@ -1,5 +1,5 @@
 Thread-less API
-==========================================
+===============
 
 There are some functions that you can use to avoid the need for threading, but which still allow you to control the flow of simulation time.
 

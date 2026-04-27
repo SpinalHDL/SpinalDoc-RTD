@@ -6,3 +6,4 @@ Misc
    :glob:
 
    */*
+   service_plugin

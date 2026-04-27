@@ -46,15 +46,19 @@ The following enumeration encodings are supported:
    * - Encoding
      - Bit width
      - Description
-   * - native
+   * - ``native``
      - 
      - Use the VHDL enumeration system, this is the default encoding
-   * - binarySequential
-     - log2Up(stateCount)
+   * - ``binarySequential``
+     - ``log2Up(stateCount)``
      - Use Bits to store states in declaration order (value from 0 to n-1)
-   * - binaryOneHot
+   * - ``binaryOneHot``
      - stateCount
-     - Use Bits to store state. Each bit corresponds to one state
+     - Use Bits to store state. Each bit corresponds to one state, only one
+       bit is set at a time in the hardware encoded state representation.
+   * - ``graySequential``
+     - ``log2Up(stateCount)``
+     - Encode index (numbers as if using ``binarySequential``) as binary gray code.
 
 Custom encodings can be performed in two different ways: static or dynamic.
 
@@ -187,10 +191,10 @@ Type cast
    * - x.asBits
      - Binary cast to Bits
      - Bits(w(x) bits)
-   * - x.asUInt
+   * - x.asBits.asUInt
      - Binary cast to UInt
      - UInt(w(x) bits)
-   * - x.asSInt
+   * - x.asBits.asSInt
      - Binary cast to SInt
      - SInt(w(x) bits)
    * - e.assignFromBits(bits)

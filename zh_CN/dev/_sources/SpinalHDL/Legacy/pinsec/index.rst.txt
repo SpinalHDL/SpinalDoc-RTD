@@ -5,5 +5,6 @@ pinsec
 .. toctree::
    :glob:
 
+   introduction
    *
 

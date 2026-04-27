@@ -103,15 +103,15 @@ Scala ``if`` and SpinalHDL ``when`` should normally be written in the following 
 
    when(cond) {
      ...
-   }.elseWhen(cond) {
+   } elsewhen(cond) {
      ...
-   }.otherwise {
+   } otherwise {
      ...
    }
 
 Exceptions could be:
 
-* It's fine to omit the dot before ``otherwise``.
+* It's fine to include a dot before the keyword like methods ``.elsewhen`` and ``.otherwise``.
 * It's fine to compress an ``if``\ /\ ``when`` statement onto a single line if it makes the code more readable.
 
 switch

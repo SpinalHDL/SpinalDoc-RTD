@@ -30,10 +30,11 @@ The following code:
 
    class TopLevel extends Component {
      val io = new Bundle {
+       // This is an 'in' signal of the current component 'Toplevel'
        val a = in UInt(8 bits)
      }
      val tmp = U"x42"
-     io.a := tmp
+     io.a := tmp  // ERROR: attempting to assign to an input of current component
    }
 
 will throw:
@@ -54,5 +55,5 @@ A fix could be :
        val a = out UInt(8 bits) // changed from in to out
      }
      val tmp = U"x42"
-     io.a := tmp
+     io.a := tmp  // now we are assigning to an output
    }
