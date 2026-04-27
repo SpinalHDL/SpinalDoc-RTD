@@ -1,14 +1,14 @@
 .. _SVIF:
 
 SVIF
-======
+====
 
 Description
 ^^^^^^^^^^^
 
-The ``SVIF`` type specifically targets system Verilog designs.This type extends from ``Bundle``.When generating Verilog or VHDL, the behavior of this type is exactly the same as that of ``Bundle``.However, when generating System Verilog and enabling the ``svInterface`` option in SpinalConfig, this type will be generated as an Interface.
+The ``SVIF`` type specifically targets system Verilog designs. This type extends from ``Bundle``. When generating Verilog or VHDL, the behavior of this type is exactly the same as that of ``Bundle``. However, when generating System Verilog and enabling the ``svInterface`` option in SpinalConfig, this type will be generated as an ``Interface``.
 
-This type is still an experimental feature
+This type is still an experimental feature.
 
 Declaration
 ^^^^^^^^^^^
@@ -76,9 +76,9 @@ Parameter
 .. code-block:: scala
 
    case class Color(channelWidth: Int) extends SVIF {
-     val width = addGeneric("WIDTH", channelWidth)// or addParameter
+     val width = addGeneric("WIDTH", channelWidth) // or addParameter
      val r, g, b = UInt(channelWidth bits)
-     tieGeneric(r, width)// or tieParameter
+     tieGeneric(r, width) // or tieParameter
      tieGeneric(g, width)
      tieGeneric(b, width)
 
@@ -110,7 +110,7 @@ Parameter
      def slv = asSlave
    }
 
-this will generate system verilog code as below:
+This will generate system verilog code as below:
 
 .. code-block:: scala
 
@@ -163,9 +163,9 @@ this will generate system verilog code as below:
 Definition Name
 ~~~~~~~~~~~~~~~
 
-you can use ``setDefinitionName`` to set the definition name. But remember to use it before any clone of this interface
+You can use ``setDefinitionName`` to set the definition name. But remember to use it before any clone of this interface.
 
 Not Interface
 ~~~~~~~~~~~~~
 
-If you have used a certain interface in multiple places, and at one of those locations ``sigA``, you wish to flatten it instead of generating an interface, you can achieve this by calling ``sigA.notSVIF()`` to fully flatten the signal. If the signal has nested interfaces and you only want to expand the outermost layer, you can use ``sigA.notSVIFthisLevel()``.
+If you have used a certain interface in multiple places, and at one of those locations ``mySignal``, you wish to flatten it instead of generating an interface, you can achieve this by calling ``mySignal.notSVIF()`` to fully flatten the signal. If the signal has nested interfaces and you only want to expand the outermost layer, you can use ``mySignal.notSVIFthisLevel()``.
