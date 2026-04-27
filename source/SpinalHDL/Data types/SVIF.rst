@@ -163,7 +163,7 @@ this will generate system verilog code as below:
 Definition Name
 ~~~~~~~~~~~~~~~
 
-you can use ``setDefinitionName`` to set the definition name. But remember to use it before any clone of this interface
+You can use ``setDefinitionName`` to set the definition name. But remember to use it before any clone of this interface.
 
 Not Interface
 ~~~~~~~~~~~~~
