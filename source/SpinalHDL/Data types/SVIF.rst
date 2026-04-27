@@ -8,7 +8,7 @@ Description
 
 The ``SVIF`` type specifically targets system Verilog designs. This type extends from ``Bundle``. When generating Verilog or VHDL, the behavior of this type is exactly the same as that of ``Bundle``. However, when generating System Verilog and enabling the ``svInterface`` option in SpinalConfig, this type will be generated as an ``Interface``.
 
-This type is still an experimental feature
+This type is still an experimental feature.
 
 Declaration
 ^^^^^^^^^^^
