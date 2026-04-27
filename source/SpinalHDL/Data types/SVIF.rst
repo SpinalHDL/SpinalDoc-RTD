@@ -110,7 +110,7 @@ Parameter
      def slv = asSlave
    }
 
-this will generate system verilog code as below:
+This will generate system verilog code as below:
 
 .. code-block:: scala
 
