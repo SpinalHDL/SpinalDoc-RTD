@@ -78,7 +78,7 @@ Parameter
    case class Color(channelWidth: Int) extends SVIF {
      val width = addGeneric("WIDTH", channelWidth) // or addParameter
      val r, g, b = UInt(channelWidth bits)
-     tieGeneric(r, width)// or tieParameter
+     tieGeneric(r, width) // or tieParameter
      tieGeneric(g, width)
      tieGeneric(b, width)
 
