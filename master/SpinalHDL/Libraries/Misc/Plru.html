@@ -31,6 +31,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Simulation" href="../../Simulation/index.html" />
+    <link rel="prev" title="Plugin" href="service_plugin.html" />
      
     <!-- source/_templates/layout.html -->
     
@@ -71,7 +73,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../Foreword/index.html">Foreword</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../Foreword/index.html#why-moving-away-from-traditional-hdl">Why moving away from traditional HDL</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../Foreword/index.html#vhdl-verilog-aren-t-hardware-description-languages">VHDL/Verilog aren’t Hardware Description Languages</a></li>
@@ -630,7 +632,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Libraries</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Libraries</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../utils.html">Utils</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../utils.html#state-less-utilities">State less utilities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utils.html#state-full-utilities">State full utilities</a><ul>
@@ -861,7 +863,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Pipeline/introduction.html#note">Note</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="index.html">Misc</a><ul>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Misc</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="PLIC/plic_mapper.html">Plic Mapper</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="PLIC/plic_mapper.html#plicmapper-apply"><code class="docutils literal notranslate"><span class="pre">PlicMapper.apply</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="PLIC/plic_mapper.html#plicmapping-sifive"><code class="docutils literal notranslate"><span class="pre">PlicMapping.sifive</span></code></a></li>
@@ -873,6 +875,10 @@
 <li class="toctree-l4"><a class="reference internal" href="service_plugin.html#execution-order">Execution order</a></li>
 <li class="toctree-l4"><a class="reference internal" href="service_plugin.html#simple-example">Simple example</a></li>
 <li class="toctree-l4"><a class="reference internal" href="service_plugin.html#interlocking-ordering">Interlocking / Ordering</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Plru</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
 </ul>
 </li>
 </ul>
@@ -1221,6 +1227,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Libraries</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Misc</a></li>
       <li class="breadcrumb-item active">Plru</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/SpinalHDL/SpinalDoc-RTD/blob/master/source/SpinalHDL/Libraries/Misc/Plru.rst" class="fa fa-github"> Edit on GitHub</a>
@@ -1253,35 +1261,43 @@
 <h1>Plru<a class="headerlink" href="#plru" title="Permalink to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Pseudo-LRU">Pseudo Least Recently Used</a>
+algorithm can be used for example in cache to select efficiently a line
+for eviction.</p>
+<p>It is used for example <a class="reference external" href="https://github.com/SpinalHDL/VexiiRiscv/blob/3cff1cc2411ca97e6ee9ef64414ef274d30371e1/src/main/scala/vexiiriscv/execute/lsu/LsuL1Plugin.scala#L830">in the VexiiRiscV core</a>
+or in <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/78f29dc66110fc099a777992b6daa2f803ab445e/lib/src/main/scala/spinal/lib/bus/tilelink/coherent/Cache.scala#L1026">spinal.lib.bus.tilelink.coherent.Cache</a>.</p>
 <ul class="simple">
-<li><p>Pseudo least recently used combinatorial logic</p></li>
-<li><p>io.context.state need to be handled externally.</p></li>
-<li><p>When you want to specify a access to a entry, you can use the io.update interface to get the new state value.</p></li>
-<li><p>plru.io.evict.id tells you the id of the next block to be evicted</p></li>
-<li><p>plru.io.update.id lets you update what you recently used</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">io.context.state</span></code> need to be handled externally.</p></li>
+<li><p>When you want to specify a access to a entry, you can use the <code class="docutils literal notranslate"><span class="pre">io.update</span></code>
+interface to get the new state value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plru.io.evict.id</span></code> tells you the id of the next block to be evicted</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plru.io.update.id</span></code> lets you update what you recently used</p></li>
 </ul>
-<p>PLRU Code</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//user -&gt; plru, specify the current state</span>
+<p>PLRU Code:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// user -&gt; plru, specify the current state</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Plru</span><span class="p">.</span><span class="nc">State</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//user -&gt; plru, allow to specify prefered entries to remove. each bit set mean : &quot;i would prefer that way to not to be selected by PLRU&quot;</span>
+<span class="w">    </span><span class="c1">// user -&gt; plru, allow to specify preferred entries to remove. Each bit</span>
+<span class="w">    </span><span class="c1">// set mean : &quot;i would prefer that way to not to be selected by PLRU&quot;</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">valids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">withEntriesValid</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">entries</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">evict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">//PLRU -&gt; user, Tells you the least recently used entry for the given context provided above</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">evict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// PLRU -&gt; user, Tells you the least recently used entry for the</span>
+<span class="w">    </span><span class="c1">// given context provided above</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// user -&gt; PLRU specify which entry the user want to mark as most recently used</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// user -&gt; PLRU specify which entry the user want to mark as</span>
+<span class="w">    </span><span class="c1">// most recently used</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="c1">// PLRU -&gt; user specfy what should then be the new value of the PLRU status</span>
+<span class="w">    </span><span class="c1">// PLRU -&gt; user specfy what should then be the new value of the PLRU status</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Plru</span><span class="p">.</span><span class="nc">State</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Example usage in a cache</p>
+<p>Example usage in a cache:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">plru</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="c1">// Define a Mem, to track the state of each set</span>
 <span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="n">nSets</span><span class="p">)(</span><span class="nc">Plru</span><span class="p">.</span><span class="nc">State</span><span class="p">(</span><span class="n">wayCount</span><span class="p">))</span><span class="w"></span>
@@ -1292,11 +1308,11 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Get the ID of the way to evict from</p>
+<p>Get the ID of the way to evict from:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">replacedWay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plru</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">evict</span><span class="p">.</span><span class="n">id</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Update recently used way</p>
+<p>Update recently used way:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">plru</span><span class="p">.</span><span class="n">update</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">refillWay</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1313,7 +1329,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="service_plugin.html" class="btn btn-neutral float-left" title="Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../Simulation/index.html" class="btn btn-neutral float-right" title="Simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
@@ -1329,7 +1348,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~a93fe20115 2026-04-27
+    Version: master git~b83dea3c2b 2026-05-04
     </p></div>
     
 
