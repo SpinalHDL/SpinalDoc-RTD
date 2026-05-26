@@ -187,7 +187,7 @@ new way:
 
 .. code:: scala
    
-   M_REG0.field(Bits(32 bit), ROV, BigInt("F000A801", 16), "xx-device version")(Symbol("Version"))
+   M_REG0.field(Bits(32 bit), ROV, BigInt("F000A801", 16), "xx-device version")(SymbolName("Version"))
 
    
 
