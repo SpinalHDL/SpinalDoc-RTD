@@ -482,8 +482,8 @@ When you have multiple Streams and you want to arbitrate them to drive a single 
    * - transactionLock
      - The port selection is locked until the transaction on the selected port is consumed.
    * - fragmentLock
-     - | Could be used to arbitrate Stream[Flow[T]].
-       | In this mode, the port selection is locked until the selected port finish is burst (last=True).
+     - | Could be used to arbitrate Stream[Fragment[T]].
+       | In this mode, the port selection is locked until the selected port finish its burst (last=True).
 
 
 .. list-table::
