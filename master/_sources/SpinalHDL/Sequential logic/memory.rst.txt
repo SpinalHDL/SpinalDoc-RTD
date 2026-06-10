@@ -379,7 +379,7 @@ There are currently 4 kinds of technologies possible:
 * ``distributedLut``
 * ``registerFile``
 
-Blackboxing can insert HDL attributes if ``SpinalConfig#setDevice(Device)``
+Blackboxing can insert HDL attributes if ``SpinalConfig#device``
 has been configured for your device-vendor.
 
 The resulting HDL attributes might look like:
