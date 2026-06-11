@@ -1,44 +1,49 @@
-.. _SVIF:
+.. _interfacing_with_sv:
 
-SVIF
-====
+Interfacing with System Verilog
+===============================
 
 Description
 ^^^^^^^^^^^
 
-The ``SVIF`` type specifically targets system Verilog designs. This type extends from ``Bundle``. When generating Verilog or VHDL, the behavior of this type is exactly the same as that of ``Bundle``. However, when generating System Verilog and enabling the ``svInterface`` option in SpinalConfig, this type will be generated as an ``Interface``.
+The ``Interface`` type specifically targets System Verilog designs. This type extends 
+from ``Bundle``. When generating Verilog or VHDL, the behavior of this type is 
+exactly the same as that of ``Bundle``. However, when generating System Verilog 
+and enabling the ``svInterface`` option in ``SpinalConfig``, this type will be 
+generated as an ``Interface``.
 
 This type is still an experimental feature.
 
 Declaration
 ^^^^^^^^^^^
 
-The syntax to declare a SVIF is as follows:
+The syntax to declare a ``Interface`` is as follows:
 
 .. code-block:: scala
 
-   case class myBundle extends SVIF {
+   case class myBundle extends Interface {
      val bundleItem0 = AnyType
      val bundleItem1 = AnyType
      val bundleItemN = AnyType
    }
 
-For example, a SVIF holding a color could be defined as:
+For example, a ``Interface`` holding a color could be defined as:
 
 .. code-block:: scala
 
-   case class Color(channelWidth: Int) extends SVIF {
+   case class Color(channelWidth: Int) extends Interface {
      val r, g, b = UInt(channelWidth bits)
    }
 
 modport
 ~~~~~~~
 
-``modport`` can be implemented through add annotations above functions, with the function name serving as the modport name.
+``modport`` can be implemented through add annotations above functions, 
+with the function name serving as the modport name.
 
 .. code-block:: scala
 
-   case class Color(channelWidth: Int) extends SVIF {
+   case class Color(channelWidth: Int) extends Interface {
      val r, g, b = UInt(channelWidth bits)
 
      @modport
@@ -56,7 +61,7 @@ with ``IMasterSlave``：
 
 .. code-block:: scala
 
-   case class Color(channelWidth: Int) extends SVIF with IMasterSlave {
+   case class Color(channelWidth: Int) extends Interface with IMasterSlave {
      val r, g, b = UInt(channelWidth bits)
 
      override def asMaster = {
@@ -75,7 +80,7 @@ Parameter
 
 .. code-block:: scala
 
-   case class Color(channelWidth: Int) extends SVIF {
+   case class Color(channelWidth: Int) extends Interface {
      val width = addGeneric("WIDTH", channelWidth) // or addParameter
      val r, g, b = UInt(channelWidth bits)
      tieGeneric(r, width) // or tieParameter
@@ -91,7 +96,7 @@ Parameter
 
 .. code-block:: scala
 
-   case class ColorHandShake(Width: Int) extends SVIF with IMasterSlave {
+   case class ColorHandShake(Width: Int) extends Interface with IMasterSlave {
      val w = addGeneric("W", Width, default = "8")
      val valid = Bool()
      val payload = Color(Width)
@@ -163,9 +168,14 @@ This will generate system verilog code as below:
 Definition Name
 ~~~~~~~~~~~~~~~
 
-You can use ``setDefinitionName`` to set the definition name. But remember to use it before any clone of this interface.
+You can use ``setDefinitionName`` to set the definition name. But remember to use
+it before any clone of this interface.
 
 Not Interface
 ~~~~~~~~~~~~~
 
-If you have used a certain interface in multiple places, and at one of those locations ``mySignal``, you wish to flatten it instead of generating an interface, you can achieve this by calling ``mySignal.notSVIF()`` to fully flatten the signal. If the signal has nested interfaces and you only want to expand the outermost layer, you can use ``mySignal.notSVIFthisLevel()``.
+If you have used a certain interface in multiple places, and at one of those 
+locations ``mySignal``, you wish to flatten it instead of generating an interface,
+you can achieve this by calling ``mySignal.notSVIF()`` to fully flatten the signal.
+If the signal has nested interfaces and you only want to expand the outermost layer,
+you can use ``mySignal.notSVIFthisLevel()``.
