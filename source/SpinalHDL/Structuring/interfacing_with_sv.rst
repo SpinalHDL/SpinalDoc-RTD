@@ -117,7 +117,7 @@ Parameter
 
 This will generate system verilog code as below:
 
-.. code-block:: scala
+.. code-block:: verilog
 
    interface ColorHandShake #(
       parameter W = 8
