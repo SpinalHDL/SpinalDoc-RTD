@@ -1,33 +1,32 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ScopeProperty &mdash; SpinalHDL  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/gh-fork-ribbon.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/spinaldoc.css" type="text/css" />
-    <link rel="shortcut icon" href="../../_static/logo3_32x32.png"/>
-    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Other language features/scope_property.html" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/theme_overrides.css?v=3729525a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/gh-fork-ribbon.css?v=c61cab7a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/spinaldoc.css?v=a536fa62" />
+
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-        <script src="../../_static/dialog.js"></script>
+    <link rel="shortcut icon" href="../../_static/logo3_32x32.png"/>
+    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Other%20language%20features/scope_property.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+      <script src="../../_static/dialog.js?v=1334b092"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -1253,7 +1252,7 @@
 
 
   <section id="scopeproperty">
-<span id="id1"></span><h1>ScopeProperty<a class="headerlink" href="#scopeproperty" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>ScopeProperty<a class="headerlink" href="#scopeproperty" title="Link to this heading"></a></h1>
 <p>A scope property is a thing which can store values locally to the current thread. Its API can be used to set/get that value, but also to apply modification to the value for a portion of the execution in a stack manner.</p>
 <p>In other words it is a alternative to global variable, scala implicit, ThreadLocal.</p>
 <ul class="simple">
@@ -1261,21 +1260,21 @@
 <li><p>To compare with scala implicit, it is less intrusive in the code base</p></li>
 <li><p>To compare with ThreadLocal, it has some API to collect all ScopeProperty and restore them in the same state later on</p></li>
 </ul>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Xlen</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">ScopeProperty</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">Xlen</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">ScopeProperty</span><span class="p">[</span><span class="nc">Int</span><span class="p">]</span>
 
-<span class="k">object</span><span class="w"> </span><span class="nc">ScopePropertyMiaou</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">object</span><span class="w"> </span><span class="nc">ScopePropertyMiaou</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 1</span>
-<span class="w">  </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 2</span>
-<span class="w">    </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nc">Xlen</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 3</span>
-<span class="w">      </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nc">Xlen</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 4</span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="nc">Xlen</span><span class="p">.</span><span class="n">get</span><span class="p">)</span><span class="w"> </span><span class="c1">// 2</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -1309,7 +1308,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: dev git~a176ba1419 2026-04-23
+    Version: dev git~b090638ecd 2026-07-13
     </p></div>
     
 
@@ -1351,12 +1350,6 @@
       <dt>Branches</dt>
       <dd><a href="scope_property.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Other language features/scope_property.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-dev.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-dev-SingleHTML.zip">SingleHTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-dev.pdf">PDF</a></dd>
     </dl>
   </div>
 </div><script>

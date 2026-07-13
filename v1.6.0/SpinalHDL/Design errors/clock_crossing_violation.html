@@ -1,33 +1,32 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Clock crossing violation &mdash; SpinalHDL  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/gh-fork-ribbon.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/spinaldoc.css" type="text/css" />
-    <link rel="shortcut icon" href="../../_static/logo3_32x32.png"/>
-    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Design errors/clock_crossing_violation.html" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/theme_overrides.css?v=3729525a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/gh-fork-ribbon.css?v=c61cab7a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/spinaldoc.css?v=a536fa62" />
+
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-        <script src="../../_static/dialog.js"></script>
+    <link rel="shortcut icon" href="../../_static/logo3_32x32.png"/>
+    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Design%20errors/clock_crossing_violation.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+      <script src="../../_static/dialog.js?v=1334b092"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -997,24 +996,24 @@
 
 
   <section id="clock-crossing-violation">
-<h1>Clock crossing violation<a class="headerlink" href="#clock-crossing-violation" title="Permalink to this heading"></a></h1>
+<h1>Clock crossing violation<a class="headerlink" href="#clock-crossing-violation" title="Link to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
 <p>SpinalHDL will check that every register of your design only depends (through combinational logic paths) on registers which use the same or a synchronous clock domain.</p>
 </section>
 <section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h2>
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
 <p>The following code:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkB&quot;</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkB&quot;</span><span class="p">)</span>
 
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkA</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w">   </span><span class="c1">// PlayDev.scala:834</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkB</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w">   </span><span class="c1">// PlayDev.scala:835</span>
 
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regA</span><span class="w">                </span><span class="c1">// PlayDev.scala:838</span>
-<span class="w">  </span><span class="n">regB</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">regB</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>will throw:</p>
@@ -1038,68 +1037,68 @@
 </ul>
 </div></blockquote>
 <section id="crossclockdomain-tag">
-<span id="id1"></span><h3>crossClockDomain tag<a class="headerlink" href="#crossclockdomain-tag" title="Permalink to this heading"></a></h3>
+<span id="id1"></span><h3>crossClockDomain tag<a class="headerlink" href="#crossclockdomain-tag" title="Link to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">crossClockDomain</span></code> tag can be used to communicate “It’s alright, don’t panic about this specific clock crossing” to the SpinalHDL compiler.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkB&quot;</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkB&quot;</span><span class="p">)</span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkA</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkB</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))).</span><span class="n">addTag</span><span class="p">(</span><span class="n">crossClockDomain</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkA</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkB</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))).</span><span class="n">addTag</span><span class="p">(</span><span class="n">crossClockDomain</span><span class="p">)</span>
 
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regA</span><span class="w"></span>
-<span class="w">  </span><span class="n">regB</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regA</span>
+<span class="w">  </span><span class="n">regB</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
 <section id="setsyncronouswith">
-<span id="setsynchronouswith"></span><h3>setSyncronousWith<a class="headerlink" href="#setsyncronouswith" title="Permalink to this heading"></a></h3>
+<span id="setsynchronouswith"></span><h3>setSyncronousWith<a class="headerlink" href="#setsyncronouswith" title="Link to this heading"></a></h3>
 <p>You can also specify that two clock domains are synchronous together by using the <code class="docutils literal notranslate"><span class="pre">setSynchronousWith</span></code> method of one of the <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> objects.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkB&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">clkB</span><span class="p">.</span><span class="n">setSyncronousWith</span><span class="p">(</span><span class="n">clkA</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkA&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">clkB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomain</span><span class="p">.</span><span class="n">external</span><span class="p">(</span><span class="s">&quot;clkB&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="n">clkB</span><span class="p">.</span><span class="n">setSyncronousWith</span><span class="p">(</span><span class="n">clkA</span><span class="p">)</span>
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkA</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkB</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkA</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">regB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clkB</span><span class="p">(</span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">)))</span>
 
 
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regA</span><span class="w"></span>
-<span class="w">  </span><span class="n">regB</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">regA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regA</span>
+<span class="w">  </span><span class="n">regB</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tmp</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
 <section id="buffercc">
-<span id="id2"></span><h3>BufferCC<a class="headerlink" href="#buffercc" title="Permalink to this heading"></a></h3>
+<span id="id2"></span><h3>BufferCC<a class="headerlink" href="#buffercc" title="Link to this heading"></a></h3>
 <p>When exchanging single-bit signals (such as <code class="docutils literal notranslate"><span class="pre">Bool</span></code> types), or Gray-coded values, you can use <code class="docutils literal notranslate"><span class="pre">BufferCC</span></code> to safely cross different <code class="docutils literal notranslate"><span class="pre">ClockDomain</span></code> regions.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Do not use <code class="docutils literal notranslate"><span class="pre">BufferCC</span></code> with multi-bit signals, as there is a risk of corrupted reads on the receiving side if the clocks are asynchronous.
 See the <a class="reference internal" href="../Structuring/clock_domain.html#clock-domain"><span class="std std-ref">Clock Domains</span></a> page for more details.</p>
 </div>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AsyncFifo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">popToPushGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">pushToPopGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AsyncFifo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">popToPushGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">pushToPopGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">pushCC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">pushClock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">pushPtr</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Counter</span><span class="p">(</span><span class="n">depth</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">pushPtrGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">toGray</span><span class="p">(</span><span class="n">pushPtr</span><span class="p">.</span><span class="n">valueNext</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">popPtrGray</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">BufferCC</span><span class="p">(</span><span class="n">popToPushGray</span><span class="p">,</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">full</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">isFull</span><span class="p">(</span><span class="n">pushPtrGray</span><span class="p">,</span><span class="w"> </span><span class="n">popPtrGray</span><span class="p">)</span><span class="w"></span>
-<span class="w">     </span><span class="p">...</span><span class="w"></span>
-<span class="w">   </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">pushCC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">pushClock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">pushPtr</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nc">Counter</span><span class="p">(</span><span class="n">depth</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">pushPtrGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">toGray</span><span class="p">(</span><span class="n">pushPtr</span><span class="p">.</span><span class="n">valueNext</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">popPtrGray</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">BufferCC</span><span class="p">(</span><span class="n">popToPushGray</span><span class="p">,</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">full</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">isFull</span><span class="p">(</span><span class="n">pushPtrGray</span><span class="p">,</span><span class="w"> </span><span class="n">popPtrGray</span><span class="p">)</span>
+<span class="w">     </span><span class="p">...</span>
+<span class="w">   </span><span class="p">}</span>
 
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">popCC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">popClock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">popPtr</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nc">Counter</span><span class="p">(</span><span class="n">depth</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">popPtrGray</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">toGray</span><span class="p">(</span><span class="n">popPtr</span><span class="p">.</span><span class="n">valueNext</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">pushPtrGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BufferCC</span><span class="p">(</span><span class="n">pushToPopGray</span><span class="p">,</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span><span class="w"></span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">empty</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">isEmpty</span><span class="p">(</span><span class="n">popPtrGray</span><span class="p">,</span><span class="w"> </span><span class="n">pushPtrGray</span><span class="p">)</span><span class="w"></span>
-<span class="w">     </span><span class="p">...</span><span class="w"></span>
-<span class="w">   </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">popCC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">ClockingArea</span><span class="p">(</span><span class="n">popClock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">popPtr</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nc">Counter</span><span class="p">(</span><span class="n">depth</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">popPtrGray</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nc">RegNext</span><span class="p">(</span><span class="n">toGray</span><span class="p">(</span><span class="n">popPtr</span><span class="p">.</span><span class="n">valueNext</span><span class="p">))</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">pushPtrGray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">BufferCC</span><span class="p">(</span><span class="n">pushToPopGray</span><span class="p">,</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ptrWidth</span><span class="w"> </span><span class="n">bit</span><span class="p">))</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="n">empty</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">isEmpty</span><span class="p">(</span><span class="n">popPtrGray</span><span class="p">,</span><span class="w"> </span><span class="n">pushPtrGray</span><span class="p">)</span>
+<span class="w">     </span><span class="p">...</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -1177,12 +1176,6 @@ See the <a class="reference internal" href="../Structuring/clock_domain.html#clo
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Design errors/clock_crossing_violation.html">dev</a></dd>
       <dd><a href="../../../master/SpinalHDL/Design errors/clock_crossing_violation.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.6.0.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.6.0-SingleHTML.zip">SingleHTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.6.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div><script>

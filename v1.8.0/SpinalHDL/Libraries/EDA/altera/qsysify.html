@@ -1,33 +1,32 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QSysify &mdash; SpinalHDL  documentation</title>
-      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/gh-fork-ribbon.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/spinaldoc.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/theme_overrides.css?v=3729525a" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/gh-fork-ribbon.css?v=c61cab7a" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/spinaldoc.css?v=a536fa62" />
+
+  
     <link rel="shortcut icon" href="../../../../_static/logo3_32x32.png"/>
     <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Libraries/EDA/altera/qsysify.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/underscore.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../../_static/clipboard.min.js"></script>
-        <script src="../../../../_static/copybutton.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-        <script src="../../../../_static/dialog.js"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+      <script src="../../../../_static/dialog.js?v=1334b092"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -1150,9 +1149,9 @@
 
 
   <section id="qsysify">
-<h1>QSysify<a class="headerlink" href="#qsysify" title="Permalink to this heading"></a></h1>
+<h1>QSysify<a class="headerlink" href="#qsysify" title="Link to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
 <p>QSysify is a tool which is able to generate a QSys IP (tcl script) from a SpinalHDL component by analysing its IO definition. It currently implement the following interfaces features :</p>
 <ul class="simple">
 <li><p>Master/Slave AvalonMM</p></li>
@@ -1164,58 +1163,58 @@
 </ul>
 </section>
 <section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h2>
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
 <p>In the case of a UART controller :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AvalonMMUartCtrl</span><span class="p">(...)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">slave</span><span class="p">(</span><span class="nc">AvalonMM</span><span class="p">(</span><span class="nc">AvalonMMUartCtrl</span><span class="p">.</span><span class="n">getAvalonMMConfig</span><span class="p">))</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">uart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Uart</span><span class="p">())</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AvalonMMUartCtrl</span><span class="p">(...)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">bus</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">slave</span><span class="p">(</span><span class="nc">AvalonMM</span><span class="p">(</span><span class="nc">AvalonMMUartCtrl</span><span class="p">.</span><span class="n">getAvalonMMConfig</span><span class="p">))</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">uart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">master</span><span class="p">(</span><span class="nc">Uart</span><span class="p">())</span>
+<span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="c1">//...</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>The following  <code class="docutils literal notranslate"><span class="pre">main</span></code> will generate the Verilog and the QSys TCL script with io.bus as an AvalonMM and io.uart as a conduit :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">AvalonMMUartCtrl</span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">AvalonMMUartCtrl</span><span class="p">{</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">//Generate the Verilog</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">toplevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="nc">AvalonMMUartCtrl</span><span class="p">(</span><span class="nc">UartCtrlMemoryMappedConfig</span><span class="p">(...))).</span><span class="n">toplevel</span><span class="w"></span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">toplevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalVerilog</span><span class="p">(</span><span class="nc">AvalonMMUartCtrl</span><span class="p">(</span><span class="nc">UartCtrlMemoryMappedConfig</span><span class="p">(...))).</span><span class="n">toplevel</span>
 
 <span class="w">    </span><span class="c1">//Add some tags to the avalon bus to specify it&#39;s clock domain (information used by QSysify)</span>
-<span class="w">    </span><span class="n">toplevel</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">bus</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ClockDomainTag</span><span class="p">(</span><span class="n">toplevel</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">toplevel</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">bus</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ClockDomainTag</span><span class="p">(</span><span class="n">toplevel</span><span class="p">.</span><span class="n">clockDomain</span><span class="p">))</span>
 
 <span class="w">    </span><span class="c1">//Generate the QSys IP (tcl script)</span>
-<span class="w">    </span><span class="nc">QSysify</span><span class="p">(</span><span class="n">toplevel</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="nc">QSysify</span><span class="p">(</span><span class="n">toplevel</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
 <section id="tags">
-<h2>tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h2>
+<h2>tags<a class="headerlink" href="#tags" title="Link to this heading"></a></h2>
 <p>Because QSys require some information that are not specified in the SpinalHDL hardware specification, some tags should be added to interface:</p>
 <section id="avalonmm-apb3">
-<h3>AvalonMM / APB3<a class="headerlink" href="#avalonmm-apb3" title="Permalink to this heading"></a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">bus</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ClockDomainTag</span><span class="p">(</span><span class="n">busClockDomain</span><span class="p">))</span><span class="w"></span>
+<h3>AvalonMM / APB3<a class="headerlink" href="#avalonmm-apb3" title="Link to this heading"></a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">bus</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ClockDomainTag</span><span class="p">(</span><span class="n">busClockDomain</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
 <section id="interrupt-input">
-<h3>Interrupt input<a class="headerlink" href="#interrupt-input" title="Permalink to this heading"></a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">InterruptReceiverTag</span><span class="p">(</span><span class="n">relatedMemoryInterfacei</span><span class="p">,</span><span class="w"> </span><span class="n">interruptClockDomain</span><span class="p">))</span><span class="w"></span>
+<h3>Interrupt input<a class="headerlink" href="#interrupt-input" title="Link to this heading"></a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">interrupt</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">InterruptReceiverTag</span><span class="p">(</span><span class="n">relatedMemoryInterfacei</span><span class="p">,</span><span class="w"> </span><span class="n">interruptClockDomain</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
 <section id="reset-output">
-<h3>Reset output<a class="headerlink" href="#reset-output" title="Permalink to this heading"></a></h3>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">resetOutput</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ResetEmitterTag</span><span class="p">(</span><span class="n">resetOutputClockDomain</span><span class="p">))</span><span class="w"></span>
+<h3>Reset output<a class="headerlink" href="#reset-output" title="Link to this heading"></a></h3>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">io</span><span class="p">.</span><span class="n">resetOutput</span><span class="w"> </span><span class="n">addTag</span><span class="p">(</span><span class="nc">ResetEmitterTag</span><span class="p">(</span><span class="n">resetOutputClockDomain</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="adding-new-interface-support">
-<h2>Adding new interface support<a class="headerlink" href="#adding-new-interface-support" title="Permalink to this heading"></a></h2>
+<h2>Adding new interface support<a class="headerlink" href="#adding-new-interface-support" title="Link to this heading"></a></h2>
 <p>Basically, the QSysify tool can be setup with a list of interface <code class="docutils literal notranslate"><span class="pre">emitter</span></code> <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/764193013f84cfe4f82d7d1f1739c4561ef65860/lib/src/main/scala/spinal/lib/eda/altera/QSys.scala#L12">(as you can see here)</a></p>
 <p>You can create your own emitter by creating a new class extending <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/764193013f84cfe4f82d7d1f1739c4561ef65860/lib/src/main/scala/spinal/lib/eda/altera/QSys.scala#L24">QSysifyInterfaceEmiter</a></p>
 </section>
@@ -1292,12 +1291,6 @@
       <dt>Branches</dt>
       <dd><a href="../../../../../dev/SpinalHDL/Libraries/EDA/altera/qsysify.html">dev</a></dd>
       <dd><a href="../../../../../master/SpinalHDL/Libraries/EDA/altera/qsysify.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../../../artefacts/SpinalHDL_docs-v1.8.0.">HTML</a></dd>
-      <dd><a href="../../../../artefacts/SpinalHDL_docs-v1.8.0-SingleHTML.zip">SingleHTML</a></dd>
-      <dd><a href="../../../../artefacts/SpinalHDL_docs-v1.8.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div><script>

@@ -1,33 +1,32 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Formal &mdash; SpinalHDL  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/gh-fork-ribbon.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/spinaldoc.css" type="text/css" />
-    <link rel="shortcut icon" href="../../_static/logo3_32x32.png"/>
-    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Other language features/formal.html" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/theme_overrides.css?v=3729525a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/gh-fork-ribbon.css?v=c61cab7a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/spinaldoc.css?v=a536fa62" />
+
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-        <script src="../../_static/dialog.js"></script>
+    <link rel="shortcut icon" href="../../_static/logo3_32x32.png"/>
+    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Other%20language%20features/formal.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+      <script src="../../_static/dialog.js?v=1334b092"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -988,56 +987,56 @@
 
 
   <section id="formal">
-<h1>Formal<a class="headerlink" href="#formal" title="Permalink to this heading"></a></h1>
+<h1>Formal<a class="headerlink" href="#formal" title="Link to this heading"></a></h1>
 <section id="general">
-<h2>General<a class="headerlink" href="#general" title="Permalink to this heading"></a></h2>
+<h2>General<a class="headerlink" href="#general" title="Link to this heading"></a></h2>
 <p>There is limited support for SystemVerilog Assertions (SVA).</p>
 <p>You can add formal statements (assume, assert, etc.) in the <code class="docutils literal notranslate"><span class="pre">Component</span></code> definition, like in the example below:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TopLevel</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="nc">Bool</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">RegInit</span><span class="p">(</span><span class="nc">False</span><span class="p">)</span>
 
-<span class="w"> </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span><span class="w"></span>
-<span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">valid</span><span class="w"></span>
+<span class="w"> </span><span class="n">when</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">valid</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">False</span>
+<span class="w"> </span><span class="p">}</span>
+<span class="w"> </span><span class="n">io</span><span class="p">.</span><span class="n">valid</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">valid</span>
 <span class="w"> </span><span class="c1">// some logic</span>
 
 <span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nc">GenerationFlags</span><span class="p">.</span><span class="n">_</span>
 <span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="nc">Formal</span><span class="p">.</span><span class="n">_</span>
 
-<span class="w"> </span><span class="nc">GenerationFlags</span><span class="p">.</span><span class="n">formal</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="n">when</span><span class="p">(</span><span class="n">initstate</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="n">assume</span><span class="p">(</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">isResetActive</span><span class="p">)</span><span class="w"></span>
-<span class="w">     </span><span class="n">assume</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">False</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="p">}.</span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">valid</span><span class="p">.</span><span class="n">fall</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="p">))</span><span class="w"></span>
-<span class="w">   </span><span class="p">}</span><span class="w"></span>
-<span class="w"> </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="nc">GenerationFlags</span><span class="p">.</span><span class="n">formal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">when</span><span class="p">(</span><span class="n">initstate</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">assume</span><span class="p">(</span><span class="n">clockDomain</span><span class="p">.</span><span class="n">isResetActive</span><span class="p">)</span>
+<span class="w">     </span><span class="n">assume</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nc">False</span><span class="p">)</span>
+<span class="w">   </span><span class="p">}.</span><span class="n">otherwise</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">valid</span><span class="p">.</span><span class="n">fall</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">io</span><span class="p">.</span><span class="n">ready</span><span class="p">))</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>To generate a design which includes the formal statements you can use <code class="docutils literal notranslate"><span class="pre">includeFormal</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyToplevelSystemVerilogWithFormal</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">defaultConfigForClockDomains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomainConfig</span><span class="p">(</span><span class="n">resetKind</span><span class="o">=</span><span class="nc">SYNC</span><span class="p">,</span><span class="w"> </span><span class="n">resetActiveLevel</span><span class="o">=</span><span class="nc">HIGH</span><span class="p">))</span><span class="w"></span>
-<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">includeFormal</span><span class="p">.</span><span class="n">generateSystemVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">())</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span><span class="w"> </span><span class="nc">MyToplevelSystemVerilogWithFormal</span><span class="w"> </span><span class="p">{</span>
+<span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">Array</span><span class="p">[</span><span class="nc">String</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">SpinalConfig</span><span class="p">(</span><span class="n">defaultConfigForClockDomains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">ClockDomainConfig</span><span class="p">(</span><span class="n">resetKind</span><span class="o">=</span><span class="nc">SYNC</span><span class="p">,</span><span class="w"> </span><span class="n">resetActiveLevel</span><span class="o">=</span><span class="nc">HIGH</span><span class="p">))</span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">includeFormal</span><span class="p">.</span><span class="n">generateSystemVerilog</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="nc">TopLevel</span><span class="p">())</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
 <section id="supported-features">
-<h2>Supported features<a class="headerlink" href="#supported-features" title="Permalink to this heading"></a></h2>
+<h2>Supported features<a class="headerlink" href="#supported-features" title="Link to this heading"></a></h2>
 <blockquote>
 <div><table class="docutils align-default">
 <colgroup>
-<col style="width: 43%" />
-<col style="width: 14%" />
-<col style="width: 43%" />
+<col style="width: 42.9%" />
+<col style="width: 14.3%" />
+<col style="width: 42.9%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Syntax</p></th>
@@ -1087,7 +1086,7 @@
 </div></blockquote>
 </section>
 <section id="limitations">
-<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading"></a></h2>
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h2>
 <p>No support for unclocked assertions.
 Everything that is described in <code class="docutils literal notranslate"><span class="pre">GenerationFlags.formal</span></code> will be generated in a clocked process.</p>
 </section>
@@ -1164,12 +1163,6 @@ Everything that is described in <code class="docutils literal notranslate"><span
       <dt>Branches</dt>
       <dd><a href="../../../dev/index.html">dev</a></dd>
       <dd><a href="../../../master/index.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0-SingleHTML.zip">SingleHTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-v1.5.0.pdf">PDF</a></dd>
     </dl>
   </div>
 </div><script>

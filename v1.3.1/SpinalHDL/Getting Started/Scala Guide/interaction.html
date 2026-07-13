@@ -1,33 +1,32 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Interaction &mdash; SpinalHDL  documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/gh-fork-ribbon.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/spinaldoc.css" type="text/css" />
-    <link rel="shortcut icon" href="../../../_static/logo3_32x32.png"/>
-    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Getting Started/Scala Guide/interaction.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/theme_overrides.css?v=3729525a" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/gh-fork-ribbon.css?v=c61cab7a" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/spinaldoc.css?v=a536fa62" />
+
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-        <script src="../../../_static/dialog.js"></script>
+    <link rel="shortcut icon" href="../../../_static/logo3_32x32.png"/>
+    <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Getting%20Started/Scala%20Guide/interaction.html" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+      <script src="../../../_static/dialog.js?v=1334b092"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -302,23 +301,23 @@
 
 
   <section id="interaction">
-<h1>Interaction<a class="headerlink" href="#interaction" title="Permalink to this heading"></a></h1>
+<h1>Interaction<a class="headerlink" href="#interaction" title="Link to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
 <p>In fact, SpinalHDL is not an language, it’s regular Scala library. It could seem strange at the first look, but this is a very powerful combination.</p>
 <p>You can use the whole Scala world to help you in the description of your hardware via the SpinalHDL library, but to do that properly, it’s great to understand how SpinalHDL interact with Scala.</p>
 </section>
 <section id="how-spinalhdl-work-behind-the-api">
-<h2>How SpinalHDL work behind the API<a class="headerlink" href="#how-spinalhdl-work-behind-the-api" title="Permalink to this heading"></a></h2>
+<h2>How SpinalHDL work behind the API<a class="headerlink" href="#how-spinalhdl-work-behind-the-api" title="Link to this heading"></a></h2>
 <p>Basically, when you execute your SpinalHDL hardware description, each time you use an SpinalHDL function, operator, classes, it will build into your PC memory an graph that represent the netlist of your design.</p>
 <p>Then, when the elaboration is done (Instantiation of your toplevel Component classes), SpinalHDL will do some passes on the graph that was constructed and if everything is fine, it will flush it into a VHDL or in a Verilog file.</p>
 </section>
 <section id="everything-is-reference">
-<h2>Everything is reference<a class="headerlink" href="#everything-is-reference" title="Permalink to this heading"></a></h2>
+<h2>Everything is reference<a class="headerlink" href="#everything-is-reference" title="Link to this heading"></a></h2>
 <p>For example, if you define a Scala function which take as parameter a Bits, when you call it, the Bits argument will be passed as a reference. As consequence of that, if you assign that argument inside the function, it will assign it as if you have done it outside the function.</p>
 </section>
 <section id="hardware-types">
-<span id="hardware-type"></span><h2>Hardware types<a class="headerlink" href="#hardware-types" title="Permalink to this heading"></a></h2>
+<span id="hardware-type"></span><h2>Hardware types<a class="headerlink" href="#hardware-types" title="Link to this heading"></a></h2>
 <p>Hardware data types in SpinalHDL are the combination of two things :</p>
 <ul class="simple">
 <li><p>An instance of a given Scala type</p></li>
@@ -326,101 +325,101 @@
 </ul>
 <p>For example <code class="docutils literal notranslate"><span class="pre">Bits(8</span> <span class="pre">bits)</span></code> is the combination of the Scala type Bits and its 8 bits configuration (as construction parameter).</p>
 <section id="rgb-example">
-<h3>RGB example<a class="headerlink" href="#rgb-example" title="Permalink to this heading"></a></h3>
+<h3>RGB example<a class="headerlink" href="#rgb-example" title="Link to this heading"></a></h3>
 <p>Let’s take an Rgb bundle class as example :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">gWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">bWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">rWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">gWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">bWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="n">rWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">gWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">,</span><span class="w"> </span><span class="n">bWidth</span><span class="p">:</span><span class="w"> </span><span class="nc">Int</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">rWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">gWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">bWidth</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>It appear that the hardware data type is the combination of the Scala Rgb classes and its rWidth, gWidth, bWidth parameterization.</p>
 <p>There is some example of usage :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define a Rgb signal</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myRgbSignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myRgbSignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
 
 <span class="c1">//Define another Rgb signal of the same data type as the precedent one</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myRgbCloned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">myRgbSignal</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myRgbCloned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cloneOf</span><span class="p">(</span><span class="n">myRgbSignal</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can also use functions to define kind of type factory (typedef) :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//Define a type factory function</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">myRgbTypeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="k">def</span><span class="w"> </span><span class="nf">myRgbTypeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Rgb</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
 
 <span class="c1">//Use that type factory to create a Rgb signal</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">myRgbFromTypeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myRgbTypeDef</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">myRgbFromTypeDef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myRgbTypeDef</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="names-of-signals-in-the-generated-rtl">
-<h2>Names of signals in the generated RTL<a class="headerlink" href="#names-of-signals-in-the-generated-rtl" title="Permalink to this heading"></a></h2>
+<h2>Names of signals in the generated RTL<a class="headerlink" href="#names-of-signals-in-the-generated-rtl" title="Link to this heading"></a></h2>
 <p>To name signals in the generated RTL, SpinalHDL use Java reflections to walk through all your component hierarchy in order to collect all references stored into class attributes and name them with their attribute name.</p>
 <p>It’s why, if you define a function, all signal’s names inside the function are lost :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myFunction</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">){</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myFunction</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">){</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">//You will not retrieve the `temp` signal in the generated RTL</span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">temp</span>
+<span class="p">}</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunction</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;000001&quot;</span><span class="p">)</span><span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunction</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;000001&quot;</span><span class="p">)</span><span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span>
 </pre></div>
 </div>
 <p>One solution if you want to keep function’s internal variable’s names in the generated RTL, is to use Area :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myFunction</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">myFunction</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="nc">UInt</span><span class="p">)</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">//You will not retrieve the temp signal in the generated RTL</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 
 <span class="kd">val</span><span class="w"> </span><span class="n">myFunctionCall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunction</span><span class="p">(</span><span class="nc">U</span><span class="s">&quot;000001&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">//Will generate `temp` with `myFunctionCall_temp` as name</span>
-<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunctionCall</span><span class="p">.</span><span class="n">temp</span><span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFunctionCall</span><span class="p">.</span><span class="n">temp</span><span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span>
 </pre></div>
 </div>
 </section>
 <section id="scala-is-for-elaboration-spinalhdl-for-hardware-description">
-<h2>Scala is for elaboration, SpinalHDL for hardware description<a class="headerlink" href="#scala-is-for-elaboration-spinalhdl-for-hardware-description" title="Permalink to this heading"></a></h2>
+<h2>Scala is for elaboration, SpinalHDL for hardware description<a class="headerlink" href="#scala-is-for-elaboration-spinalhdl-for-hardware-description" title="Link to this heading"></a></h2>
 <p>For example, if you write a scala for loop to generate some hardware, it will generate the unrooled result in VHDL/Verilog.</p>
 <p>Also, you want a constant, you should not use SpinalHDL Hardware literals but the scala ones. For example :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">//This is wrong, because you can&#39;t use an hardware Bool as construction parameter, which will do hierarchy violations.</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">SubComponent</span><span class="p">(</span><span class="n">activeHigh</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubComponent</span><span class="p">(</span><span class="n">activeHigh</span><span class="p">:</span><span class="w"> </span><span class="nc">Bool</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">//...</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 
 <span class="c1">//This is right, you can use all the scala world to parameterize your hardware.</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">SubComponent</span><span class="p">(</span><span class="n">activeHigh</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubComponent</span><span class="p">(</span><span class="n">activeHigh</span><span class="p">:</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">)</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nc">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">//...</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
 <section id="scala-elaboration-capabilities-if-for-functional-programming">
-<h2>Scala elaboration capabilities (if, for, functional programming)<a class="headerlink" href="#scala-elaboration-capabilities-if-for-functional-programming" title="Permalink to this heading"></a></h2>
+<h2>Scala elaboration capabilities (if, for, functional programming)<a class="headerlink" href="#scala-elaboration-capabilities-if-for-functional-programming" title="Link to this heading"></a></h2>
 <p>All the scala syntax could be used to elaborate the hardware, as instance a scala if statement could be used to enable or disable the generation of a given hardware :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
-<span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">UInt</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="k">if</span><span class="p">(</span><span class="n">generateAClearWhenHit42</span><span class="p">){</span><span class="w">  </span><span class="c1">//Elaboration test, like an if generate in vhdl</span>
 <span class="w">  </span><span class="n">when</span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">42</span><span class="p">){</span><span class="w">       </span><span class="c1">//Hardware test</span>
-<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>The same is true for scala for loops :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span><span class="w"></span>
-<span class="n">when</span><span class="p">(</span><span class="n">something</span><span class="p">){</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Reg</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">))</span>
+<span class="n">when</span><span class="p">(</span><span class="n">something</span><span class="p">){</span>
 <span class="w">  </span><span class="c1">//Set all bits of value by using a scala for loop (evaluated during the hardware elaboration)</span>
-<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">7</span><span class="p">){</span><span class="w"></span>
-<span class="w">    </span><span class="n">value</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">7</span><span class="p">){</span>
+<span class="w">    </span><span class="n">value</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nc">True</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Also, all the functionnal programming stuff of SpinalHDL can be used :</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Vec</span><span class="p">(</span><span class="nc">Bits</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">bits</span><span class="p">),</span><span class="mi">4</span><span class="p">)</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">valuesAre42</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">vecOfBits</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">42</span><span class="p">)</span><span class="w"></span>
-<span class="kd">val</span><span class="w"> </span><span class="n">valuesAreAll42</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">valuesAre42</span><span class="p">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">_</span><span class="p">)</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">valuesAre42</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">vecOfBits</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mi">42</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">valuesAreAll42</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">valuesAre42</span><span class="p">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">_</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">_</span><span class="p">)</span>
 
-<span class="kd">val</span><span class="w"> </span><span class="n">valuesAreEqualsToTheirIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vecOfBits</span><span class="p">.</span><span class="n">zipWithIndex</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">i</span><span class="p">}</span><span class="w"></span>
+<span class="kd">val</span><span class="w"> </span><span class="n">valuesAreEqualsToTheirIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vecOfBits</span><span class="p">.</span><span class="n">zipWithIndex</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="n">i</span><span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -497,12 +496,6 @@
       <dt>Branches</dt>
       <dd><a href="../../../../dev/SpinalHDL/Getting Started/Scala Guide/interaction.html">dev</a></dd>
       <dd><a href="../../../../master/SpinalHDL/Getting Started/Scala Guide/interaction.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.3.1.">HTML</a></dd>
-      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.3.1-SingleHTML.zip">SingleHTML</a></dd>
-      <dd><a href="../../../artefacts/SpinalHDL_docs-v1.3.1.pdf">PDF</a></dd>
     </dl>
   </div>
 </div><script>

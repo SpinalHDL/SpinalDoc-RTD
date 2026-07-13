@@ -1,34 +1,33 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" >
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>仿真器的具体细节 &mdash; SpinalHDL  文档</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/gh-fork-ribbon.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/spinaldoc.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/theme_overrides.css?v=3729525a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/gh-fork-ribbon.css?v=c61cab7a" />
+      <link rel="stylesheet" type="text/css" href="../../_static/spinaldoc.css?v=a536fa62" />
+
+  
     <link rel="shortcut icon" href="../../_static/logo3_32x32.png"/>
     <link rel="canonical" href="https://spinalhdl.github.io/SpinalDoc-RTD/master/SpinalHDL/Simulation/simulator_specifics.html" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
-        <script src="../../_static/translations.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-        <script src="../../_static/dialog.js"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
+      <script src="../../_static/dialog.js?v=1334b092"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜索" href="../../search.html" />
@@ -410,6 +409,17 @@
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/blackbox.html#vhdl-no-numeric-type">VHDL - 无数值类型</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Structuring/interfacing_with_sv.html">Interfacing with System Verilog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Structuring/interfacing_with_sv.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Structuring/interfacing_with_sv.html#declaration">Declaration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Structuring/interfacing_with_sv.html#modport">modport</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Structuring/interfacing_with_sv.html#parameter">Parameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Structuring/interfacing_with_sv.html#definition-name">Definition Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Structuring/interfacing_with_sv.html#not-interface">Not Interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../Structuring/naming.html">保留名称的方法</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#nameable-base-class">Nameable 基类</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Structuring/naming.html#name-extraction-from-scala">从 Scala 中提取名称</a></li>
@@ -560,7 +570,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/scope_violation.html#example">示例</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html">Spinal无法克隆类(Spinal can’t clone class)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html">Spinal无法克隆类(Spinal can't clone class)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#introduction">简介</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example-1">例子1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Design%20errors/spinal_cant_clone.html#example-2">例子2</a></li>
@@ -1101,9 +1111,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../miscelenea/frequent_errors.html">常见错误</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../miscelenea/frequent_errors.html#exception-in-thread-main-java-lang-nullpointerexception">“main”线程中异常 java.lang.NullPointerException</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../miscelenea/frequent_errors.html#hierarchy-violation">层次违例(Hierarchy violation)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../miscelenea/frequent_errors.html#signal-x-can-t-be-assigned-by-y">Signal X can’t be assigned by Y</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../miscelenea/frequent_errors.html#input-signal-x-can-t-be-assigned-by-y">Input signal X can’t be assigned by Y</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../miscelenea/frequent_errors.html#output-signal-x-can-t-be-assigned-by-y">Output signal X can’t be assigned by Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../miscelenea/frequent_errors.html#signal-x-can-t-be-assigned-by-y">Signal X can't be assigned by Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../miscelenea/frequent_errors.html#input-signal-x-can-t-be-assigned-by-y">Input signal X can't be assigned by Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../miscelenea/frequent_errors.html#output-signal-x-can-t-be-assigned-by-y">Output signal X can't be assigned by Y</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../miscelenea/core/core_components.html"><code class="docutils literal notranslate"><span class="pre">spinal.core</span></code> 组件</a><ul>
@@ -1258,9 +1268,9 @@
 
 
   <section id="simulator-specific-details">
-<h1>仿真器的具体细节<a class="headerlink" href="#simulator-specific-details" title="此标题的永久链接"></a></h1>
+<h1>仿真器的具体细节<a class="headerlink" href="#simulator-specific-details" title="Link to this heading"></a></h1>
 <section id="how-spinalhdl-simulates-the-hardware-with-verilator-backend">
-<h2>SpinalHDL 如何使用 Verilator 后端进行硬件仿真<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-verilator-backend" title="此标题的永久链接"></a></h2>
+<h2>SpinalHDL 如何使用 Verilator 后端进行硬件仿真<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-verilator-backend" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>SpinalHDL 在后台生成 DUT 的 Verilog 等效硬件模型，然后使用 Verilator 将其转换为 C++ 的周期精确模型。</p></li>
 <li><p>C++ 模型被编译为共享对象 (.so)，该对象通过 JNI-FFI 绑定到 Scala。</p></li>
@@ -1278,7 +1288,7 @@
 </ul>
 </section>
 <section id="how-spinalhdl-simulates-the-hardware-with-ghdl-icarus-verilog-backend">
-<h2>SpinalHDL 如何使用 GHDL/Icarus Verilog 后端进行硬件仿真<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-ghdl-icarus-verilog-backend" title="此标题的永久链接"></a></h2>
+<h2>SpinalHDL 如何使用 GHDL/Icarus Verilog 后端进行硬件仿真<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-ghdl-icarus-verilog-backend" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>根据所选仿真器，SpinalHDL 生成 DUT 的 Verilog 或 VHDL 硬件模型。</p></li>
 <li><p>HDL 模型加载到仿真器中。</p></li>
@@ -1298,7 +1308,7 @@
 <p>最后，由于原生 Verilator API 相当粗糙，SpinalHDL 通过提供单线程和多线程仿真 API 对其进行抽象，以帮助用户构建测试平台实现。</p>
 </section>
 <section id="how-spinalhdl-simulates-the-hardware-with-synopsys-vcs-backend">
-<h2>SpinalHDL 如何使用 Synopsys VCS 后端进行硬件仿真<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-synopsys-vcs-backend" title="此标题的永久链接"></a></h2>
+<h2>SpinalHDL 如何使用 Synopsys VCS 后端进行硬件仿真<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-synopsys-vcs-backend" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>SpinalHDL 生成 DUT 的 Verilog/VHDL（取决于您的选择）硬件模型。</p></li>
 <li><p>HDL 模型加载到仿真器中。</p></li>
@@ -1318,7 +1328,7 @@
 <p>在使用 VCS 作为仿真后台之前，请确保您已将系统环境检查为 <a class="reference internal" href="install/VCS.html#vcs-env"><span class="std std-ref">VCS 环境</span></a>。</p>
 </section>
 <section id="how-spinalhdl-simulates-the-hardware-with-xilinx-xsim-backend">
-<h2>SpinalHDL 如何使用 Xilinx XSim 后端进行硬件仿真<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-xilinx-xsim-backend" title="此标题的永久链接"></a></h2>
+<h2>SpinalHDL 如何使用 Xilinx XSim 后端进行硬件仿真<a class="headerlink" href="#how-spinalhdl-simulates-the-hardware-with-xilinx-xsim-backend" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>SpinalHDL 生成 DUT 的 Verilog/VHDL（取决于您的选择）硬件模型。</p></li>
 <li><p>HDL 模型加载到仿真器中。</p></li>
@@ -1336,7 +1346,7 @@
 <p>在使用 XSim 作为仿真后台之前，请确保您已完成以下步骤。 1. 定义 VIVADO_HOME 环境变量以指定 vivado 所在的位置。例如， <cite>export VIVADO_HOME=/d/Xilinx/Vivado/2022.1</cite> （在 MSYS2 下）。 2.确保两个vivado路径在PATH内。对于 Windows MSYS2 用户，运行 shell 命令，如 <cite>export PATH=$PATH:$VIVADO_HOME/bin:$VIVADO_HOME/lib/win64.o</cite> 。对于 Linux 用户，只需用 <cite>source</cite> 执行位于 <cite>VIVADO_HOME</cite> 的 settings64.sh 文件。</p>
 </section>
 <section id="performance">
-<h2>性能<a class="headerlink" href="#performance" title="此标题的永久链接"></a></h2>
+<h2>性能<a class="headerlink" href="#performance" title="Link to this heading"></a></h2>
 <p>当需要高性能仿真时，应使用Verilator作为后台。在像 <a class="reference external" href="https://github.com/SpinalHDL/VexRiscv">Murax</a> 这样的小型 SoC 上，英特尔® 酷睿™ i7-4720HQ 能够每秒模拟 120 万个时钟周期。然而，当 DUT 很简单并且需要仿真最多几千个时钟周期时，使用 GHDL 或 Icarus Verilog 可以产生更好的结果，因为它们的仿真负载开销较低。</p>
 </section>
 </section>
@@ -1359,7 +1369,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2018 - 2026, SpinalHDL.</p>
+    <p>&#169; 版权所有 2018 - 2026, SpinalHDL。</p>
   </div>
 
   利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
@@ -1370,7 +1380,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: master git~937baebfb0 2026-06-10
+    Version: master git~e6ee08c021 2026-06-26
     </p></div>
     
 
@@ -1404,12 +1414,6 @@
       <dt>Branches</dt>
       <dd><a href="../../../dev/SpinalHDL/Simulation/simulator_specifics.html">dev</a></dd>
       <dd><a href="simulator_specifics.html">master</a></dd>
-    </dl>
-    <dl>
-      <dt>Downloads</dt>
-      <dd><a href="../../artefacts/SpinalHDL_docs-master.">HTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-master-SingleHTML.zip">SingleHTML</a></dd>
-      <dd><a href="../../artefacts/SpinalHDL_docs-master.pdf">PDF</a></dd>
     </dl>
   </div>
 </div><script>

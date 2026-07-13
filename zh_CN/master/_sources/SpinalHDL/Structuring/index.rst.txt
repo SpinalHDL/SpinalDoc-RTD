@@ -8,6 +8,7 @@ The chapters below explain:
 - alternatives to components to group hardware
 - handling of clock/reset domains
 - instantiation of existing VHDL and Verilog IP
+- interfacing with System Verilog
 - how names are assigned in SpinalHDL, and how naming can be influenced
 
 .. toctree::
@@ -18,6 +19,7 @@ The chapters below explain:
    function
    clock_domain
    blackbox
+   interfacing_with_sv
    naming
    parametrization
 
