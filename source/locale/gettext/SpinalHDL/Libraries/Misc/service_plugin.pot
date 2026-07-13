@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SpinalHDL \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-11 09:50+0000\n"
+"POT-Creation-Date: 2026-06-10 17:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,122 +28,126 @@ msgstr ""
 msgid "For some design, instead of implementing your Component's hardware directly in it, you may instead want to compose its hardware by using some sorts of Plugins. This can provide a few key features :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:13
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:14
 msgid "You can extend the features of your component by adding new plugins in its parameters. For instance adding Floating point support in a CPU."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:14
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:16
 msgid "You can swap various implementations of the same functionality just by using another set of plugins. For instance one implementation of a CPU multiplier may fit well on some FPGA, while others may fit well on ASIC."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:15
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:19
 msgid "It avoid the very very very large hand written toplevel syndrome where everything has to be connected manually. Instead plugins can discover their neighborhood by looking/using the software interface of other plugins."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:17
-msgid "VexRiscv and NaxRiscv projects are an example of this. Their are CPUs which have a mostly empty toplevel, and their hardware parts are injected using plugins. For instance :"
-msgstr ""
-
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:20
-msgid "PcPlugin"
-msgstr ""
-
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:21
-msgid "FetchPlugin"
-msgstr ""
-
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:22
-msgid "DecoderPlugin"
-msgstr ""
-
 #: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:23
-msgid "RegFilePlugin"
-msgstr ""
-
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:24
-msgid "IntAluPlugin"
-msgstr ""
-
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:25
-msgid "..."
+msgid "VexRiscv and NaxRiscv are projects that use their own implementation of this concept. Their are CPUs which have a mostly empty toplevel, and their hardware parts are injected using plugins. For instance :"
 msgstr ""
 
 #: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:27
-msgid "And those plugins will then negotiate/propagate/interconnect to each others via their pool of services."
+msgid "PcPlugin"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:28
+msgid "FetchPlugin"
 msgstr ""
 
 #: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:29
-msgid "While VexRiscv use a strict synchronous 2 phase system (setup/build callback), NaxRiscv uses a more flexible approach which uses the spinal.core.fiber API to fork elaboration threads which can interlock each others in order to ensure a workable elaboration ordering."
+msgid "DecoderPlugin"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:30
+msgid "RegFilePlugin"
 msgstr ""
 
 #: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:31
-msgid "The Plugin API provide a NaxRiscv like system to define composable components using plugins."
+msgid "IntAluPlugin"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:32
+msgid "..."
 msgstr ""
 
 #: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:34
+msgid "And those plugins will then negotiate/propagate/interconnect to each others via their pool of services."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:37
+msgid "While VexRiscv use a strict synchronous 2 phase system (setup/build callback), NaxRiscv uses a more flexible approach which uses the :ref:`spinal.core.fiber API <fiber>` to fork elaboration threads which can interlock each others in order to ensure a workable elaboration ordering."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:42
+msgid "The ``spinal.lib.misc.plugin`` API provide a NaxRiscv like system to define composable components using plugins. It is used for example in VexiiRiscv."
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:46
 msgid "Execution order"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:36
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:48
 msgid "The main idea is that you have multiple 2 executions phases :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:38
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:50
 msgid "Setup phase, in which plugins can lock/retain each others. The idea is not to start negotiation / elaboration yet."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:39
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:52
 msgid "Build phase, in which plugins can negotiation / elaboration hardware."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:41
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:54
 msgid "The build phase will not start before all ``FiberPlugin`` are done with their setup phase."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:61
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:74
 msgid "Simple example"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:63
-msgid "Here is a simple dummy example with a SubComponent which will be composed using 2 plugins :"
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:76
+msgid "Here is a simple dummy example with a ``SubComponent`` which will be composed using 2 plugins :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:105
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:118
 msgid "Such TopLevel would generate the following Verilog code :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:135
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:148
 msgid "Note each ``during build`` fork an elaboration thread, the ``DriverPlugin.logic`` thread execution will be blocked on the \"sp\" evaluation until the ``StatePlugin.logic`` execution is done."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:140
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:153
 msgid "Interlocking / Ordering"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:142
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:155
 msgid "Plugins can interlock each others using ``Retainer`` instances. Each plugin instance has a built in lock which can be controlled using ``retain``/``release`` functions."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:145
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:158
 msgid "Here is an example based on the above `Simple example` but that time, the ``DriverPlugin`` will increment ``the StatePlugin.logic.signal`` by an amount set by other plugins (``SetupPlugin`` in our case). And to ensure that the ``DriverPlugin`` doesn't generate the hardware too early, the ``SetupPlugin`` uses the ``DriverPlugin.retain``/``release`` functions."
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:215
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:228
 msgid "Here is the generated verilog"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:245
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:258
 msgid "Clearly, those examples are overkilled for what they do, the idea in general is more about :"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:247
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:260
 msgid "Negotiate / create interfaces between plugins (ex jump / flush ports)"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:248
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:261
 msgid "Schedule the elaboration (ex decode / dispatch specification)"
 msgstr ""
 
-#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:249
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:262
 msgid "Provide a distributed framework which can scale up (minimal hardcoding)"
+msgstr ""
+
+#: ../../SpinalHDL/Libraries/Misc/service_plugin.rst:264
+msgid "More information can be found `in the documentation of VexiiRiscv <https://spinalhdl.github.io/VexiiRiscv-RTD/master/VexiiRiscv/Framework/index.html#plugin-fiber-retainer>`_."
 msgstr ""
