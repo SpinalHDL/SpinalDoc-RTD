@@ -64,7 +64,7 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
    * - ``waitActiveEdge([cyclesCount])``
      - Same as ``waitRisingEdge`` but for the edge level specified by the ``ClockDomainConfig``
    * - ``waitInactiveEdge([cyclesCount])``
-     - Same as ``waitFallingEdge`` but for the edge level specified by the ``ClockDomainConfig``
+     - Same as ``waitActiveEdge`` but for the opposite edge level that specified by the ``ClockDomainConfig``
    * - ``waitRisingEdgeWhere(condition)``
      - Same as ``waitRisingEdge``, but to exit, the boolean ``condition`` must be true when the rising edge occurs
    * - ``waitFallingEdgeWhere(condition)``
@@ -72,9 +72,9 @@ Below is a list of ``ClockDomain`` utilities that you can use to wait for a give
    * - ``waitActiveEdgeWhere(condition)``
      - Same as ``waitRisingEdgeWhere``, but for the edge level specified by the ``ClockDomainConfig``
    * - ``waitInactiveEdgeWhere(condition)``
-     - Same as ``waitFallingEdgeWhere``, but for the edge level specified by the ``ClockDomainConfig``
+     - Same as ``waitActiveEdgeWhere``, but for the opposite edge level that specified by the ``ClockDomainConfig``
    * - ``waitSamplingWhere(condition) : Boolean``
-     - Wait until a clockdomain sampled and the given condition is true
+     - Wait until a clock domain sampled and the given condition is true
    * - ``waitSamplingWhere(timeout)(condition) : Boolean``
      - Same as waitSamplingWhere defined above, but will never block more than timeout cycles. Return true if the exit condition came from the timeout
 
