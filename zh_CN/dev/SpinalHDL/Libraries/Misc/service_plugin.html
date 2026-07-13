@@ -31,7 +31,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../../genindex.html" />
     <link rel="search" title="搜索" href="../../../search.html" />
-    <link rel="next" title="仿真" href="../../Simulation/index.html" />
+    <link rel="next" title="伪最近最少使用逻辑（Plru）" href="Plru.html" />
     <link rel="prev" title="Plic映射器" href="PLIC/plic_mapper.html" />
      
     <!-- source/_templates/layout.html -->
@@ -407,6 +407,17 @@
 <li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#rename-all-io-of-a-blackbox">重命名黑盒中的所有io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#add-rtl-source">添加 RTL 源</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#vhdl-no-numeric-type">VHDL - 无数值类型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html">Interfacing with System Verilog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#declaration">Declaration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#modport">modport</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#parameter">Parameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#definition-name">Definition Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#not-interface">Not Interface</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../Structuring/naming.html">保留名称的方法</a><ul>
@@ -877,6 +888,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#interlocking-ordering">联锁/排序</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="Plru.html">伪最近最少使用逻辑（Plru）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Plru.html#introduction">简介</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1261,9 +1276,13 @@
 <ul class="simple">
 <li><p>您可以通过在组件的参数中添加新的插件来扩展组件的功能。例如，在CPU中添加浮点支持。</p></li>
 <li><p>您可以通过使用另一组插件来轻松切换相同功能的各种实现。例如，某个CPU乘法器的实现可能在某些FPGA上表现良好，而其他实现可能在ASIC上表现良好。</p></li>
-<li><p>It avoid the very very very large hand written toplevel syndrome where everything has to be connected manually. Instead plugins can discover their neighborhood by looking/using the software interface of other plugins.</p></li>
+<li><p>It avoid the very very very large hand written toplevel syndrome where everything
+has to be connected manually. Instead plugins can discover their neighborhood
+by looking/using the software interface of other plugins.</p></li>
 </ul>
-<p>VexRiscv和NaxRiscv项目就是这方面的例子。它们是具有大部分是空白的顶层的CPU，其硬件部分通过插件注入。例如：</p>
+<p>VexRiscv and NaxRiscv are projects that use their own implementation of this concept.
+Their are CPUs which have a mostly empty toplevel, and their hardware parts
+are injected using plugins. For instance :</p>
 <ul class="simple">
 <li><p>PcPlugin</p></li>
 <li><p>FetchPlugin</p></li>
@@ -1272,15 +1291,21 @@
 <li><p>IntAluPlugin</p></li>
 <li><p>...</p></li>
 </ul>
-<p>And those plugins will then negotiate/propagate/interconnect to each others via their pool of services.</p>
-<p>虽然VexRiscv使用严格的同步二阶段系统（设置(setup)/构建(build)回调(callback)），但NaxRiscv采用了一种更灵活的方法，使用spinal.core.fiber API来分叉实例化线程，这些线程可以联锁，以确保可行的实例化顺序。</p>
-<p>插件API(Plugin API)提供了一个类似NaxRiscv的系统来定义使用插件的可组合组件。</p>
+<p>And those plugins will then negotiate/propagate/interconnect to each others via
+their pool of services.</p>
+<p>While VexRiscv use a strict synchronous 2 phase system (setup/build callback),
+NaxRiscv uses a more flexible approach which uses the <a class="reference internal" href="../fiber.html#fiber"><span class="std std-ref">spinal.core.fiber API</span></a>
+to fork elaboration threads which can interlock each others in order to ensure
+a workable elaboration ordering.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">spinal.lib.misc.plugin</span></code> API provide a NaxRiscv like system to define
+composable components using plugins. It is used for example in VexiiRiscv.</p>
 </section>
 <section id="execution-order">
 <h2>执行顺序<a class="headerlink" href="#execution-order" title="Link to this heading"></a></h2>
 <p>主要思想是您有多个2执行环节：</p>
 <ul class="simple">
-<li><p>Setup phase, in which plugins can lock/retain each others. The idea is not to start negotiation / elaboration yet.</p></li>
+<li><p>Setup phase, in which plugins can lock/retain each others. The idea is not
+to start negotiation / elaboration yet.</p></li>
 <li><p>Build phase, in which plugins can negotiation / elaboration hardware.</p></li>
 </ul>
 <p>The build phase will not start before all <code class="docutils literal notranslate"><span class="pre">FiberPlugin</span></code> are done with their setup phase.</p>
@@ -1302,7 +1327,7 @@
 </section>
 <section id="simple-example">
 <h2>简单示例<a class="headerlink" href="#simple-example" title="Link to this heading"></a></h2>
-<p>这是一个简单的虚设示例，其中包含一个将使用两个插件组合的SubComponent：</p>
+<p>Here is a simple dummy example with a <code class="docutils literal notranslate"><span class="pre">SubComponent</span></code> which will be composed using 2 plugins :</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">core</span><span class="p">.</span><span class="n">_</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">spinal</span><span class="p">.</span><span class="nn">lib</span><span class="p">.</span><span class="nn">misc</span><span class="p">.</span><span class="nn">plugin</span><span class="p">.</span><span class="n">_</span>
 
@@ -1479,6 +1504,7 @@ the <code class="docutils literal notranslate"><span class="pre">SetupPlugin</sp
 <li><p>安排实例化（例如解码/调度规范）</p></li>
 <li><p>提供一个可扩展的分布式框架（最小硬编码）</p></li>
 </ul>
+<p>More information can be found <a class="reference external" href="https://spinalhdl.github.io/VexiiRiscv-RTD/master/VexiiRiscv/Framework/index.html#plugin-fiber-retainer">in the documentation of VexiiRiscv</a>.</p>
 </section>
 </section>
 
@@ -1494,7 +1520,7 @@ the <code class="docutils literal notranslate"><span class="pre">SetupPlugin</sp
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
         <a href="PLIC/plic_mapper.html" class="btn btn-neutral float-left" title="Plic映射器" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../../Simulation/index.html" class="btn btn-neutral float-right" title="仿真" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Plru.html" class="btn btn-neutral float-right" title="伪最近最少使用逻辑（Plru）" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
@@ -1511,7 +1537,7 @@ the <code class="docutils literal notranslate"><span class="pre">SetupPlugin</sp
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: dev git~b090638ecd 2026-07-13
+    Version: dev git~0e17a63348 2026-07-13
     </p></div>
     
 

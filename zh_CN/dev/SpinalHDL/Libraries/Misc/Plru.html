@@ -31,6 +31,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../../genindex.html" />
     <link rel="search" title="搜索" href="../../../search.html" />
+    <link rel="next" title="仿真" href="../../Simulation/index.html" />
+    <link rel="prev" title="插件" href="service_plugin.html" />
      
     <!-- source/_templates/layout.html -->
     
@@ -71,7 +73,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../Foreword/index.html">前言</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../Foreword/index.html#why-moving-away-from-traditional-hdl">为什么要放弃传统的 HDL</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../Foreword/index.html#vhdl-verilog-aren-t-hardware-description-languages">VHDL/Verilog 不是硬件描述语言</a></li>
@@ -407,6 +409,17 @@
 <li class="toctree-l3"><a class="reference internal" href="../../Structuring/blackbox.html#vhdl-no-numeric-type">VHDL - 无数值类型</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html">Interfacing with System Verilog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#description">Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#declaration">Declaration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#modport">modport</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#parameter">Parameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#definition-name">Definition Name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Structuring/interfacing_with_sv.html#not-interface">Not Interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../Structuring/naming.html">保留名称的方法</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#nameable-base-class">Nameable 基类</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../Structuring/naming.html#name-extraction-from-scala">从 Scala 中提取名称</a></li>
@@ -630,7 +643,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">模块库</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">模块库</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../utils.html">实用工具</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../utils.html#state-less-utilities">免状态工具</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utils.html#state-full-utilities">全状态工具</a><ul>
@@ -861,7 +874,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Pipeline/introduction.html#note">Note</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="index.html">杂项</a><ul>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">杂项</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="PLIC/plic_mapper.html">Plic映射器</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="PLIC/plic_mapper.html#plicmapper-apply"><code class="docutils literal notranslate"><span class="pre">PlicMapper.apply</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="PLIC/plic_mapper.html#plicmapping-sifive"><code class="docutils literal notranslate"><span class="pre">PlicMapping.sifive</span></code></a></li>
@@ -873,6 +886,10 @@
 <li class="toctree-l4"><a class="reference internal" href="service_plugin.html#execution-order">执行顺序</a></li>
 <li class="toctree-l4"><a class="reference internal" href="service_plugin.html#simple-example">简单示例</a></li>
 <li class="toctree-l4"><a class="reference internal" href="service_plugin.html#interlocking-ordering">联锁/排序</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">伪最近最少使用逻辑（Plru）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">简介</a></li>
 </ul>
 </li>
 </ul>
@@ -1221,6 +1238,8 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">模块库</a></li>
+          <li class="breadcrumb-item"><a href="index.html">杂项</a></li>
       <li class="breadcrumb-item active">伪最近最少使用逻辑（Plru）</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/SpinalHDL/SpinalDoc-RTD/blob/master/source/SpinalHDL/Libraries/Misc/Plru.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
@@ -1253,35 +1272,43 @@
 <h1>伪最近最少使用逻辑（Plru）<a class="headerlink" href="#plru" title="Link to this heading"></a></h1>
 <section id="introduction">
 <h2>简介<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Pseudo-LRU">Pseudo Least Recently Used</a>
+algorithm can be used for example in cache to select efficiently a line
+for eviction.</p>
+<p>It is used for example <a class="reference external" href="https://github.com/SpinalHDL/VexiiRiscv/blob/3cff1cc2411ca97e6ee9ef64414ef274d30371e1/src/main/scala/vexiiriscv/execute/lsu/LsuL1Plugin.scala#L830">in the VexiiRiscV core</a>
+or in <a class="reference external" href="https://github.com/SpinalHDL/SpinalHDL/blob/78f29dc66110fc099a777992b6daa2f803ab445e/lib/src/main/scala/spinal/lib/bus/tilelink/coherent/Cache.scala#L1026">spinal.lib.bus.tilelink.coherent.Cache</a>.</p>
 <ul class="simple">
-<li><p>伪最近最少使用组合逻辑</p></li>
-<li><p>io.context.state 需由外部逻辑处理。</p></li>
-<li><p>当需要指定对某表项的访问时，可通过 io.update 接口获取新的状态值。</p></li>
-<li><p>plru.io.evict.id 指示下一个将被淘汰的块 ID</p></li>
-<li><p>plru.io.update.id 用于更新最近使用的表项</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">io.context.state</span></code> need to be handled externally.</p></li>
+<li><p>When you want to specify a access to a entry, you can use the <code class="docutils literal notranslate"><span class="pre">io.update</span></code>
+interface to get the new state value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plru.io.evict.id</span></code> tells you the id of the next block to be evicted</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plru.io.update.id</span></code> lets you update what you recently used</p></li>
 </ul>
-<p>伪LRU 代码</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="c1">//user -&gt; plru, specify the current state</span>
+<p>PLRU Code:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="n">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// user -&gt; plru, specify the current state</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Plru</span><span class="p">.</span><span class="nc">State</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
-<span class="w">    </span><span class="c1">//user -&gt; plru, allow to specify prefered entries to remove. each bit set mean : &quot;i would prefer that way to not to be selected by PLRU&quot;</span>
+<span class="w">    </span><span class="c1">// user -&gt; plru, allow to specify preferred entries to remove. Each bit</span>
+<span class="w">    </span><span class="c1">// set mean : &quot;i would prefer that way to not to be selected by PLRU&quot;</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">valids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">withEntriesValid</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="nc">Bits</span><span class="p">(</span><span class="n">entries</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">evict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="c1">//PLRU -&gt; user, Tells you the least recently used entry for the given context provided above</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">evict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// PLRU -&gt; user, Tells you the least recently used entry for the</span>
+<span class="w">    </span><span class="c1">// given context provided above</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// user -&gt; PLRU specify which entry the user want to mark as most recently used</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="n">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Bundle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// user -&gt; PLRU specify which entry the user want to mark as</span>
+<span class="w">    </span><span class="c1">// most recently used</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">UInt</span><span class="p">(</span><span class="n">log2Up</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span><span class="w"> </span><span class="n">bits</span><span class="p">)</span>
-<span class="w">   </span><span class="c1">// PLRU -&gt; user specfy what should then be the new value of the PLRU status</span>
+<span class="w">    </span><span class="c1">// PLRU -&gt; user specfy what should then be the new value of the PLRU status</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Plru</span><span class="p">.</span><span class="nc">State</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>缓存中使用示例</p>
+<p>Example usage in a cache:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">plru</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nc">Area</span><span class="w"> </span><span class="p">{</span>
 <span class="w">   </span><span class="c1">// Define a Mem, to track the state of each set</span>
 <span class="w">   </span><span class="kd">val</span><span class="w"> </span><span class="n">ram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Mem</span><span class="p">.</span><span class="n">fill</span><span class="p">(</span><span class="n">nSets</span><span class="p">)(</span><span class="nc">Plru</span><span class="p">.</span><span class="nc">State</span><span class="p">(</span><span class="n">wayCount</span><span class="p">))</span>
@@ -1292,11 +1319,11 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>获取待淘汰路（way）的ID</p>
+<p>Get the ID of the way to evict from:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">replacedWay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plru</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">evict</span><span class="p">.</span><span class="n">id</span>
 </pre></div>
 </div>
-<p>更新最近使用的路</p>
+<p>Update recently used way:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">plru</span><span class="p">.</span><span class="n">update</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">refillWay</span>
 </pre></div>
 </div>
@@ -1313,7 +1340,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="service_plugin.html" class="btn btn-neutral float-left" title="插件" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../../Simulation/index.html" class="btn btn-neutral float-right" title="仿真" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
@@ -1329,7 +1359,7 @@
     <!-- source/_templates/footer.html -->
     
     <div class="doc-footer-current-version"><p>
-    Version: dev git~b090638ecd 2026-07-13
+    Version: dev git~0e17a63348 2026-07-13
     </p></div>
     
 
