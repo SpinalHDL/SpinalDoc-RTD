@@ -1,4 +1,4 @@
-FROM sphinxdoc/sphinx-latexpdf:5.3.0
+FROM sphinxdoc/sphinx-latexpdf:8.2.3
 
 WORKDIR /docs
 
@@ -15,7 +15,7 @@ RUN apt-get update \
 
 RUN git config --global safe.directory '*'
 
-RUN npm i wavedrom-cli@2.8.1 -g
+RUN npm i wavedrom-cli@3.2.0 -g
 
 # source /docs/bin/setup_env.sh
 ENV PATH="$PATH:/docs/bin"

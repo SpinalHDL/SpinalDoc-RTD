@@ -13,20 +13,20 @@ on:
 
 jobs:
   pots:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
     - name: "setup python"
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
-        python-version: 3.9
+        python-version: 3.12
     - name: "install dependencies"
       run: |
         apt-get update -y && apt-get install -y git gettext sphinx-intl
         pip install -r requirements.txt
-    - uses: ammaraskar/sphinx-problem-matcher@master
+    - uses: ammaraskar/sphinx-problem-matcher@v1
     - name: "update pot"
       run: |
         source bin/setup_env.sh
@@ -44,7 +44,7 @@ jobs:
         commit_author: GiHub Action Bot <action@github.com>
         file_pattern: 'source/locale/*.pot source/locale/*.po'
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: ad-m/github-push-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}

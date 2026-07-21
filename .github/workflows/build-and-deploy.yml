@@ -51,7 +51,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     # The purpose of these outputs is to allow the separate 'deploy' job to pickup the same values
     outputs:
@@ -61,7 +61,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0   ## all branches all tags
 
@@ -277,18 +277,15 @@ jobs:
         echo "### $GITHUB_ENV:"
         cat $GITHUB_ENV
 
-    - name: Setup python 3.9
-      uses: actions/setup-python@v4
+    - name: Setup python
+      uses: actions/setup-python@v6
       with:
-        python-version: 3.9
+        python-version: 3.12
 
     - name: Install dependencies
       run: |
         # FIXME use the same docker container, that already has all the trimmings
-        # https://hub.docker.com/r/sphinxdoc/sphinx-latexpdf/tags 5.3.0
-        # Hmm... it does not look like the docker is being updated anymore, stuck at version 5.3.0
-        # this is the version we use today but tomorrow it looks like we are going to have to
-        #  manually install like this anyway.
+        # https://hub.docker.com/r/sphinxdoc/sphinx-latexpdf/tags 8.2.3
         export DEBIAN_FRONTEND=noninteractive
         sudo apt-get update -y || true
 
@@ -309,7 +306,7 @@ jobs:
 
         pip install -r requirements.txt
 
-    - uses: ammaraskar/sphinx-problem-matcher@master
+    - uses: ammaraskar/sphinx-problem-matcher@v1
 
     - name: make linkcheck - check links
       if: ${{ env.SKIP_LINKCHECK != 'true' }}
@@ -521,14 +518,14 @@ jobs:
         sha1sum dist/gh-pages.tar.gz
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: sphinx-docs
         path: dist/gh-pages.tar.gz
 
     - name: Upload github-pages
       if: ${{ env.DEPLOY_ENV_TEST == 'true' || env.DEPLOY_ENV_LIVE == 'true' }}
-      uses: actions/upload-pages-artifact@main
+      uses: actions/upload-pages-artifact@v4
       with:
         name: github-pages
         path: dist/gh-pages
@@ -568,12 +565,12 @@ jobs:
       DEPLOY_ENV_LIVE: ${{ needs.build.outputs.DEPLOY_ENV_LIVE }}
       DEPLOY: ${{ needs.build.outputs.deploy }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         if: ${{ env.DEPLOY_ENV_TEST == 'true' || env.DEPLOY_ENV_LIVE == 'true' }}
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v5
 
       - name: Summary
         run: |
