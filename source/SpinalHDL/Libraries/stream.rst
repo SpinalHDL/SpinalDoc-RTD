@@ -181,6 +181,15 @@ Functions
        | Modify the payload of the `x` stream, while preserving the `valid` and `ready` signals
      - Stream[T2]
      - 0
+   * - | x.pipelined(pipe: StreamPipe)
+       | x.pipelined(m2s, s2m, halfRate)
+     - | Return a registered version of x cutting combinatorial paths.
+       | ``StreamPipe`` constants: ``NONE`` (no reg), ``M2S`` (cut valid/payload),
+       | ``S2M`` (cut ready), ``FULL`` (cut all), ``HALF`` (cut all, half bandwidth).
+       | Boolean flags: ``m2s`` cuts valid/payload; ``s2m`` cuts ready;
+       | ``halfRate`` cuts all paths at half bandwidth (exclusive with the others).
+     - Stream[T]
+     - varies
 
 
 The following code will create this logic :
@@ -574,6 +583,7 @@ This util take its input stream and routes it to ``outputCount`` stream in a seq
      input = inputStream,
      outputCount = 3
    )
+
 
 StreamTransactionExtender
 ^^^^^^^^^^^^^^^^^^^^^^^^^

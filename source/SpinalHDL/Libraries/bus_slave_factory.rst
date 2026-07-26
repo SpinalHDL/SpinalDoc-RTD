@@ -90,4 +90,9 @@ Functionality
      - | Instantiate an internal register which at each cycle do :
        | reg := reg | that
        | Then when a read occur, the register is cleared. This register is readable at ``address`` and placed at ``bitOffset`` in the word
+   * - setOnSet(that,address,bitOffset)
+     - T
+     - | Set bits of ``that`` when the corresponding write bit is ``1``.
+       | Writing a ``1`` to a bit position sets that bit; writing ``0`` has no effect.
+
 
