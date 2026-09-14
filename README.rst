@@ -22,25 +22,30 @@ How to build this documentation
 With venv
 ---------
 
-Requirements (system)
+Requirements (system):
 
 * make
 * git
 
-Create a virtual environment with pipenv (will use the Pipfile for installing the necessary packages)
+Create a virtual environment with pipenv (will use the Pipfile for installing
+the necessary packages):
 
 .. code:: shell
 
    python3 -m venv .venv
 
-then you can activate the virtual environment (in bash) and install the dependencies
+Then you can activate the virtual environment (in bash) and install the dependencies:
 
 .. code:: shell
 
    source .venv/bin/activate
    pip install -r requirements.txt
 
-and then you can use ``make`` the usual way
+Configure the build environment (PATH and version variables):
+.. code:: shell
+   source $PWD/bin/setup_env.sh
+
+and then you can use ``make`` the usual way:
 
 .. code:: shell
 
@@ -49,9 +54,9 @@ and then you can use ``make`` the usual way
    make latexpdf # for latex (will require latexpdf installed)
    make          # list all the available output format
 
-all the outputs will be in docs folder (for html: docs/html)
+All the outputs will be in docs folder (for html: docs/html).
 
-The Chinese version can be built by
+The Chinese version can be built by:
 
 .. code:: shell
 
@@ -112,7 +117,7 @@ Requirements (Python 3):
 * sphinxcontrib-wavedrom
 * sphinx-multiversion
 
-After installing the requirements you can run
+After installing the requirements you can run:
 
 .. code:: shell
 
@@ -121,10 +126,10 @@ After installing the requirements you can run
    make latexpdf # for latex (will require latexpdf installed)
    make          # list all the available output format
 
-you can create build multiple version of the doc via
+you can create build multiple version of the doc via:
 
 .. code:: shell
 
    sphinx-multiversion source docs/html
 
-in the docs/html there will be a folder with the builded doc for each branch and tag
+in the docs/html there will be a folder with the builded doc for each branch and tag.
