@@ -34,6 +34,8 @@ Each interface signal of the toplevel can be read and written from Scala:
      - Assign a hardware ``SpinalEnumCraft`` from a Scala ``SpinalEnumElement``
    * - ``Data.randomize()``
      - Assign a random value to a SpinalHDL value.
+   * - ``Data.simSetAll()``
+     - Set all bits to true like ``setAll()`` during elaboration. For ``clearAll()`` use ``#= 0``
 
 
 .. code-block:: scala

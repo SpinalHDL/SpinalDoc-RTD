@@ -5,7 +5,8 @@ The AIA library provides building blocks for integrating the RISC-V Advanced
 Interrupt Architecture into SpinalHDL systems. The implementation is split into
 two groups:
 
-* APLIC components, used for wired interrupt collection, direct interrupt delivery, MSI delivery, child-domain delegation, and TileLink/Fiber integration.
+* APLIC components, used for wired interrupt collection, direct interrupt delivery, 
+  MSI delivery, child-domain delegation, and TileLink/Fiber integration.
 * IMSIC-related components, used for interrupt-file modeling and memory-write trigger decoding.
 
 APLIC
@@ -122,10 +123,11 @@ The ``APlicMsiParam`` has the following parameters:
      - 0
      - ``lhxw`` value of ``msiaddrcfg`` register
 
-For detailed description of ``hhxs``/``lhxs``/``hhxw``/``lhxw``, see section ``Addresses and data for outgoing MSIs`` of standard AIA document.
+For detailed description of ``hhxs``/``lhxs``/``hhxw``/``lhxw``, see section 
+``Addresses and data for outgoing MSIs`` of standard AIA document.
 
 Pre-defined configuration
-**************************
+*************************
 .. list-table::
    :widths: 3 7
 
@@ -139,9 +141,10 @@ Pre-defined configuration
      - Full configuration, with tested signal (``iforce``) enabled
 
 Integration
-~~~~~~~~~~~~~~
+~~~~~~~~~~~
 
-The ``TilelinkAPlicFiber`` and ``TilelinkAPlicMsiSender`` is provided for CPU integration. It can be used as the following:
+The ``TilelinkAPlicFiber`` and ``TilelinkAPlicMsiSender`` is provided for CPU 
+integration. It can be used as the following:
 
 .. code-block:: scala
 
@@ -177,20 +180,25 @@ Child domains are handled through the cascaded interrupt-controller fiber
 interface. The parent APLIC collects child source IDs and creates
 ``APlicChildInfo`` entries during fiber elaboration.
 
-Note: VexiiRiscv provides a system-level reference integration for APLIC. It can be used as a reference.
+Note: VexiiRiscv provides a system-level reference integration for APLIC. It
+can be used as a reference.
 
 IMSIC
 -----
 
 IMSIC file
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~
 
-There are two helper class for IMSIC file implementation. In almost all the cases, the ``ImsicFileRam`` should be used as it provided optimized resource usage and performance. The ``ImsicFile`` should only be used in cases where performance is critical and resource consumption is extremely abundant.
+There are two helper class for IMSIC file implementation. In almost all the
+cases, the ``ImsicFileRam`` should be used as it provided optimized resource
+usage and performance. The ``ImsicFile`` should only be used in cases where
+performance is critical and resource consumption is extremely abundant.
 
 ``ImsicFileRam``
 ****************
 
-``ImsicFileRam`` provides a RAM-backed variant with one or more access ports. This file is constructed by ``ImsicFileParameters``, its parameters is:
+``ImsicFileRam`` provides a RAM-backed variant with one or more access ports.
+This file is constructed by ``ImsicFileParameters``, its parameters is:
 
 .. list-table::
    :header-rows: 1
@@ -216,7 +224,7 @@ There are two helper class for IMSIC file implementation. In almost all the case
      - The number of access ports, default is 2 (1 for CSR and 1 for bus)
 
 ``ImsicFile``
-****************
+*************
 
 .. list-table::
    :header-rows: 1
