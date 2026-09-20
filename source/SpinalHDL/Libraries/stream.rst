@@ -616,7 +616,107 @@ start another transaction.
 
 .. note::
 
-   If only count for output stream is required then use ``StreamTransactionCounter`` instead. 
+   If only count for output stream is required then use ``StreamTransactionCounter`` instead.
+
+StreamShiftChain
+^^^^^^^^^^^^^^^^
+
+``StreamShiftChain`` creates a chain of pipeline stages through which stream transactions flow one stage at a time. All intermediate stages are observable through the ``io.states`` port. It can be used as a shift-register-based delay line for a stream with arbitrary-length visibility into pending transactions.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 1 1 2
+
+   * - Parameter
+     - Type
+     - Description
+   * - dataType
+     - T
+     - Payload data type
+   * - length
+     - Int
+     - Number of stages in the chain
+
+.. list-table::
+   :header-rows: 1
+   :widths: 1 4 5
+
+   * - io name
+     - Type
+     - Description
+   * - push
+     - Stream[T]
+     - Used to push elements into the chain
+   * - pop
+     - Stream[T]
+     - Used to pop elements from the end of the chain
+   * - states
+     - Vec(Flow[T], length)
+     - Observe the payload and validity of each stage in the chain
+   * - clear
+     - Bool
+     - When high, flushes the pipeline (resets all stages to invalid)
+
+.. code-block:: scala
+
+   // Using the class directly
+   val chain = new StreamShiftChain(UInt(8 bits), 4)
+   chain.io.push << inputStream
+   outputStream << chain.io.pop
+   val stageN = chain.io.states(n)
+   chain.io.clear := someCondition
+
+   // Using the companion object
+   val inputStream, outputStream = Stream(UInt(8 bits))
+   val chain = StreamShiftChain(inputStream, outputStream, length = 4)
+
+StreamAccessibleFifo
+^^^^^^^^^^^^^^^^^^^^
+
+``StreamAccessibleFifo`` is a FIFO where all stored elements are simultaneously observable through the ``io.states`` port (a ``Vec`` of ``Flow``). Unlike a standard FIFO, pushed transactions are routed directly to the first empty slot, and all occupied slots are visible at all times. When an element is popped from ``pop``, the remaining elements shift toward the output.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 1 1 2
+
+   * - Parameter
+     - Type
+     - Description
+   * - dataType
+     - T
+     - Payload data type
+   * - length
+     - Int
+     - Number of elements the FIFO can hold
+
+.. list-table::
+   :header-rows: 1
+   :widths: 1 4 5
+
+   * - io name
+     - Type
+     - Description
+   * - push
+     - Stream[T]
+     - Used to push elements
+   * - pop
+     - Stream[T]
+     - Used to pop elements
+   * - states
+     - Vec(Flow[T], length)
+     - Observe the payload and validity of each slot in the FIFO
+
+.. code-block:: scala
+
+   // Using the class directly
+   val fifo = new StreamAccessibleFifo(UInt(8 bits), 4)
+   fifo.io.push << inputStream
+   outputStream << fifo.io.pop
+   val elementAtStage0 = fifo.io.states(0)
+
+   // Using the companion object
+   val inputStream, outputStream = Stream(UInt(8 bits))
+   val fifo = StreamAccessibleFifo(inputStream, outputStream, length = 4)
 
 Simulation support
 ------------------
