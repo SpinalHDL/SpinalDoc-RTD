@@ -116,7 +116,7 @@ VHDL records, Verilog struct are broken (SystemVerilog is good on this, if you c
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can't use them to define an interface, because you can't define their
-internal signal directions. Even worst, you can't give them construction
+internal signal directions. Even worse, you can't give them construction
 parameters! So, define your RGB record/struct once, and hope you never have to
 use it with bigger/smaller color channels...
 
