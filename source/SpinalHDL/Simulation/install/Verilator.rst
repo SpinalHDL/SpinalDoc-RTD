@@ -75,8 +75,9 @@ From the MinGW package manager
    # Close the MSYS2 shell once you're asked to
    pacman -Syuu
    pacman -S --needed base-devel mingw-w64-x86_64-toolchain \
-                      git flex\
-                      mingw-w64-x86_64-cmake
+                      git flex \
+                      mingw-w64-x86_64-cmake \
+                      mingw-w64-x86_64-autotools help2man
 
    pacman -U http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-verilator-4.032-1-any.pkg.tar.xz
    
@@ -91,8 +92,9 @@ From source
    # Close the MSYS2 shell once you're asked to
    pacman -Syuu
    pacman -S --needed base-devel mingw-w64-x86_64-toolchain \
-                      git flex\
-                      mingw-w64-x86_64-cmake
+                      git flex \
+                      mingw-w64-x86_64-cmake \
+                      mingw-w64-x86_64-autotools help2man
 
    git clone https://github.com/verilator/verilator.git
    unset VERILATOR_ROOT
