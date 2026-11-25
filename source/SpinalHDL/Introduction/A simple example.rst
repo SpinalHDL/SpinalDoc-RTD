@@ -107,6 +107,16 @@ after the next clock sampling.
 
 .. note::
 
+   REVIEWME We introduce the notion of the clock here but fail to explain
+   how that is conveyed / exists in the example.  I think that is an important point
+   to understand early on in the learning process.
+   The below note does not really explain the concept of time, it is
+   more important for a new user to translate the Scala code into HDL execution with
+   understanding the clock and time relation to the code, than it is to know there
+   are 2 hidden signals around somewhere.
+
+.. note::
+
    Because of the presence of a register, two implicit signals are added to the
    component for the clock and the reset. See :ref:`Reg` and :ref:`clock_domain`
    for more information.
